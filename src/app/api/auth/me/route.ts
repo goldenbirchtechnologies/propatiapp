@@ -34,12 +34,12 @@ export async function GET() {
       agentAreas: user.agentAreas,
       isActive: user.isActive,
       isBanned: user.isBanned,
-      organizations: user.orgMemberships.map((om) => ({
-        id: om.organization.id,
-        name: om.organization.name,
+      organizations: user.orgMemberships.map((om: { org: { id: string; name: string; planTier: string }; role: string; status: string }) => ({
+        id: om.org.id,
+        name: om.org.name,
         role: om.role,
         status: om.status,
-        planTier: om.organization.planTier,
+        planTier: om.org.planTier,
       })),
     },
   });

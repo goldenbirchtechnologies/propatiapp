@@ -225,3 +225,155 @@ export function useOrganizationPermissions(org: Organization | undefined, member
     canAssignTickets: isOwner || isManager || isMaintenance,
   };
 }
+
+// ============================================================================
+// SUBSCRIPTION HOOKS (Phase F)
+// ============================================================================
+
+/**
+ * Get organization subscription details
+ */
+export function useOrganizationSubscription(orgId: string, enabled = true) {
+  return useQuery({
+    queryKey: [...organizationsKeys.detail(orgId), 'subscription'],
+    queryFn: async () => {
+      const res = await fetch(`/api/orgs/${orgId}/subscription`);
+      if (!res.ok) throw new Error('Failed to fetch subscription');
+      const data = await res.json();
+      return data.data;
+    },
+    enabled: enabled && !!orgId,
+    staleTime: 60 * 1000,
+  });
+}
+
+/**
+ * Subscribe an organization to a plan (Phase F)
+ */
+export function useSubscribeOrganization() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ orgId, plan, paymentMethod }: { orgId: string; plan: string; paymentMethod?: string }) => {
+      const res = await fetch(`/api/orgs/${orgId}/subscription`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan, paymentMethod }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to subscribe');
+      }
+      return res.json();
+    },
+    onSuccess: (_, { orgId }) => {
+      queryClient.invalidateQueries({ queryKey: [...organizationsKeys.detail(orgId), 'subscription'] });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.detail(orgId) });
+    },
+  });
+}
+
+/**
+ * Get team members for an organization
+ */
+export function useTeamMembers(orgId: string, enabled = true) {
+  return useQuery({
+    queryKey: [...organizationsKeys.detail(orgId), 'team'],
+    queryFn: async () => {
+      const res = await fetch(`/api/orgs/${orgId}/members`);
+      if (!res.ok) throw new Error('Failed to fetch team members');
+      const data = await res.json();
+      return data.data || [];
+    },
+    enabled: enabled && !!orgId,
+    staleTime: 60 * 1000,
+  });
+}
+
+/**
+ * Invite a team member to the organization
+ */
+export function useInviteTeamMember() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ orgId, email, role }: { orgId: string; email: string; role: string }) => {
+      const res = await fetch(`/api/orgs/${orgId}/members`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to invite member');
+      }
+      return res.json();
+    },
+    onSuccess: (_, { orgId }) => {
+      queryClient.invalidateQueries({ queryKey: [...organizationsKeys.detail(orgId), 'team'] });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.members(orgId) });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.detail(orgId) });
+    },
+  });
+}
+
+/**
+ * Update a team member's role or status
+ */
+export function useUpdateTeamMember() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      orgId,
+      memberId,
+      role,
+      status
+    }: {
+      orgId: string;
+      memberId: string;
+      role?: string;
+      status?: string;
+    }) => {
+      const res = await fetch(`/api/orgs/${orgId}/members/${memberId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role, status }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to update member');
+      }
+      return res.json();
+    },
+    onSuccess: (_, { orgId }) => {
+      queryClient.invalidateQueries({ queryKey: [...organizationsKeys.detail(orgId), 'team'] });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.members(orgId) });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.detail(orgId) });
+    },
+  });
+}
+
+/**
+ * Remove a team member from the organization
+ */
+export function useRemoveTeamMember() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ orgId, memberId }: { orgId: string; memberId: string }) => {
+      const res = await fetch(`/api/orgs/${orgId}/members/${memberId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to remove member');
+      }
+    },
+    onSuccess: (_, { orgId }) => {
+      queryClient.invalidateQueries({ queryKey: [...organizationsKeys.detail(orgId), 'team'] });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.members(orgId) });
+      queryClient.invalidateQueries({ queryKey: organizationsKeys.detail(orgId) });
+    },
+  });
+}

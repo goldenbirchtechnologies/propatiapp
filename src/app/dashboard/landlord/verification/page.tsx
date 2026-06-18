@@ -5,7 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { useState } from 'react';
+import { Building2 as BuildingIcon, ShieldCheck as ShieldCheckIcon, Clock as ClockIcon, Plus as PlusIcon, Check as CheckIcon, X as XIcon, Loader as LoaderIcon, ArrowRight as ArrowRightIcon } from 'lucide-react';
 
 export default async function LandlordVerificationPage() {
   const { userId } = await auth();
@@ -16,7 +16,7 @@ export default async function LandlordVerificationPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'LANDLORD') {
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
 
@@ -247,28 +247,3 @@ function VerificationCard({ listing }: { listing: any }) {
   );
 }
 
-// Icons
-function BuildingIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/></svg>;
-}
-function ShieldCheckIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 15 9"/></svg>;
-}
-function ClockIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
-}
-function PlusIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
-}
-function CheckIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>;
-}
-function XIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
-}
-function LoaderIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/></svg>;
-}
-function ArrowRightIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
-}

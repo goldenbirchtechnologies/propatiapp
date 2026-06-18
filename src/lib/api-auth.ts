@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
-import { Role } from '@prisma/client';
+import { UserRole as Role } from '@prisma/client';
 
 export interface AuthenticatedRequest extends NextRequest {
   user: {
@@ -65,11 +65,11 @@ export function requireRole(allowedRoles: Role[]) {
   };
 }
 
-export const requireAdmin = requireRole(['ADMIN']);
-export const requireAgent = requireRole(['AGENT', 'ADMIN']);
-export const requireEstateManager = requireRole(['ESTATE_MANAGER', 'ADMIN']);
-export const requireLandlord = requireRole(['LANDLORD', 'ADMIN']);
-export const requireTenant = requireRole(['TENANT', 'ADMIN']);
+export const requireAdmin = requireRole(['admin']);
+export const requireAgent = requireRole(['agent', 'admin']);
+export const requireEstateManager = requireRole(['estate_manager', 'admin']);
+export const requireLandlord = requireRole(['landlord', 'admin']);
+export const requireTenant = requireRole(['tenant', 'admin']);
 
 // Helper to create standardized API responses
 export function successResponse<T>(data: T, message?: string) {

@@ -15,7 +15,7 @@ export default async function TenantPaymentsPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'TENANT') {
+  if (!user || user.role !== 'tenant') {
     redirect('/dashboard');
   }
 

@@ -19,7 +19,7 @@ export default async function LandlordDashboardPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'LANDLORD') {
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
 
@@ -31,12 +31,12 @@ export default async function LandlordDashboardPage() {
     pendingPayments,
   ] = await Promise.all([
     prisma.listing.count({ where: { ownerId: user.id } }),
-    prisma.listing.count({ where: { ownerId: user.id, status: 'ACTIVE' } }),
+    prisma.listing.count({ where: { ownerId: user.id, status: 'active' } }),
     prisma.transaction.aggregate({
-      where: { payeeId: user.id, status: 'RELEASED' },
+      where: { payeeId: user.id, status: 'released' },
       _sum: { amount: true },
     }),
-    prisma.transaction.count({ where: { payeeId: user.id, status: 'IN_ESCROW' } }),
+    prisma.transaction.count({ where: { payeeId: user.id, status: 'in_escrow' } }),
   ]);
 
   const stats = [

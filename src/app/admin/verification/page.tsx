@@ -15,7 +15,7 @@ export default async function AdminVerificationPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'ADMIN') {
+  if (!user || user.role !== 'admin') {
     redirect('/dashboard');
   }
 

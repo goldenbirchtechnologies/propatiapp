@@ -14,7 +14,7 @@ export default async function LandlordProfilePage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'LANDLORD') {
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
 

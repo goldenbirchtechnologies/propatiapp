@@ -1,6 +1,7 @@
 import { prisma } from './prisma';
-import { VerificationLayerStatus, VerificationOverallStatus } from '@prisma/client';
+import { VerificationLayerStatus, VerificationOverallStatus, VerificationTier } from '@prisma/client';
 import { sendEmail, emailTemplates } from './email';
+import { getVerificationTierFromProgress } from './verification-helpers';
 
 export type VerificationLayer = 1 | 2 | 3 | 4 | 5;
 export type LayerAction = 'submit' | 'approve' | 'reject' | 'confirm' | 'schedule' | 'complete';
@@ -165,7 +166,7 @@ export class VerificationService {
     }
   }
 
-  static async submitLayer2(listingId: string, idType: 'nin' | 'bvn', userId: string) {
+  static async submitLayer2(listingId: string, idType: string, userId: string) {
     const verification = await prisma.verification.findUnique({
       where: { listingId },
     });
@@ -394,10 +395,82 @@ export class VerificationService {
     return prisma.verification.findMany({
       where: status ? { overallStatus: status } : { overallStatus: 'in_progress' },
       include: {
-        listing: { select: { id: true, title: true, area: true, ownerId: true } },
+        listing: { select: { id: true, title: true, area: true, ownerId: true, agentId: true } },
         owner: { select: { id: true, fullName: true, email: true } },
       },
       orderBy: { currentLayer: 'asc' },
+    });
+  }
+
+  /**
+   * Update listing verification tier based on verification status
+   */
+  static async updateListingTier(listingId: string): Promise<void> {
+    const verification = await prisma.verification.findUnique({
+      where: { listingId },
+    });
+
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    const tier = getVerificationTierFromProgress(verification);
+
+    await prisma.listing.update({
+      where: { id: listingId },
+      data: { verificationTier: tier },
+    });
+  }
+
+  /**
+   * Create initial verification record for a listing
+   */
+  static async createVerification(listingId: string, ownerId: string) {
+    // Check if verification already exists
+    const existing = await prisma.verification.findUnique({
+      where: { listingId },
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    return prisma.verification.create({
+      data: {
+        listingId,
+        ownerId,
+        overallStatus: 'not_started',
+        currentLayer: 1,
+        l1Status: 'pending',
+        l2Status: 'pending',
+        l3Status: 'pending',
+        l4Status: 'pending',
+        l5Status: 'pending',
+      },
+    });
+  }
+
+  /**
+   * Get verifications for a specific user
+   */
+  static async getUserVerifications(userId: string, status?: VerificationOverallStatus) {
+    return prisma.verification.findMany({
+      where: {
+        ownerId: userId,
+        ...(status && { overallStatus: status }),
+      },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            area: true,
+            verificationTier: true,
+            status: true,
+          },
+        },
+      },
+      orderBy: { updatedAt: 'desc' },
     });
   }
 

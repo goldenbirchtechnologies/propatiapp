@@ -155,7 +155,7 @@ export function useScreening(screeningId: string, enabled = true) {
   return useQuery({
     queryKey: screeningsKeys.detail(screeningId),
     queryFn: () => apiEndpoints.screenings.getAll({ limit: 1 }).then(
-      res => res.data.find(s => s.id === screeningId)
+      res => (res.data ?? []).find((s: any) => s.id === screeningId)
     ).then(s => {
       if (!s) throw new Error('Screening not found');
       return s;

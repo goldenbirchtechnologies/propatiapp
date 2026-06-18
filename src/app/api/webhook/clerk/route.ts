@@ -1,8 +1,9 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
+import type { UserJSON, DeletedObjectJSON } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
-import { Role, AgentTier } from '@prisma/client';
+import { UserRole as Role, AgentTier } from '@prisma/client';
 
 export async function POST(req: Request) {
   // Get the headers
@@ -56,13 +57,13 @@ export async function POST(req: Request) {
   try {
     switch (eventType) {
       case 'user.created':
-        await handleUserCreated(evt.data);
+        await handleUserCreated(evt.data as UserJSON);
         break;
       case 'user.updated':
-        await handleUserUpdated(evt.data);
+        await handleUserUpdated(evt.data as UserJSON);
         break;
       case 'user.deleted':
-        await handleUserDeleted(evt.data);
+        await handleUserDeleted(evt.data as DeletedObjectJSON);
         break;
       case 'session.created':
       case 'session.ended':
@@ -79,7 +80,7 @@ export async function POST(req: Request) {
   }
 }
 
-async function handleUserCreated(data: Record<string, unknown>) {
+async function handleUserCreated(data: UserJSON) {
   const {
     id: clerkId,
     email_addresses,
@@ -88,15 +89,13 @@ async function handleUserCreated(data: Record<string, unknown>) {
     image_url,
     phone_numbers,
     public_metadata,
-    private_metadata,
-    unsafe_metadata,
     created_at,
     updated_at,
   } = data;
 
   // Get primary email
-  const primaryEmail = email_addresses?.[0]?.email_address as string;
-  const primaryPhone = phone_numbers?.[0]?.phone_number as string | undefined;
+  const primaryEmail = email_addresses?.[0]?.email_address;
+  const primaryPhone = phone_numbers?.[0]?.phone_number ?? undefined;
 
   if (!primaryEmail) {
     console.error('No primary email for user:', clerkId);
@@ -104,17 +103,16 @@ async function handleUserCreated(data: Record<string, unknown>) {
   }
 
   // Extract role from metadata (set during Clerk onboarding or via admin)
-  const role = (public_metadata?.role as Role) || 'TENANT';
+  const meta = public_metadata as Record<string, unknown> | null ?? {};
+  const role = (meta.role as Role) || 'tenant';
 
-  // Extract other metadata
-  const ninVerified = public_metadata?.ninVerified as boolean || false;
-  const phoneVerified = public_metadata?.phoneVerified as boolean || false;
-  const idVerified = public_metadata?.idVerified as boolean || false;
-  const profileCompleted = public_metadata?.profileCompleted as boolean || false;
-  const agentTier = (public_metadata?.agentTier as AgentTier) || 'STANDARD';
-  const agentApproved = public_metadata?.agentApproved as boolean || false;
+  const ninVerified = (meta.ninVerified as boolean) || false;
+  const phoneVerified = (meta.phoneVerified as boolean) || false;
+  const idVerified = (meta.idVerified as boolean) || false;
+  const profileCompleted = (meta.profileCompleted as boolean) || false;
+  const agentTier = (meta.agentTier as AgentTier) || 'standard';
+  const agentApproved = (meta.agentApproved as boolean) || false;
 
-  // Create user in Prisma
   await prisma.user.create({
     data: {
       clerkId: clerkId as string,
@@ -123,7 +121,6 @@ async function handleUserCreated(data: Record<string, unknown>) {
       fullName: `${first_name || ''} ${last_name || ''}`.trim() || primaryEmail,
       avatarUrl: image_url as string | null,
       role,
-      password: '', // Clerk handles authentication
       ninVerified,
       phoneVerified,
       idVerified,
@@ -140,7 +137,7 @@ async function handleUserCreated(data: Record<string, unknown>) {
   console.log(`Created user in Prisma: ${clerkId} (${primaryEmail})`);
 }
 
-async function handleUserUpdated(data: Record<string, unknown>) {
+async function handleUserUpdated(data: UserJSON) {
   const {
     id: clerkId,
     email_addresses,
@@ -153,26 +150,24 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   } = data;
 
   // Get primary email
-  const primaryEmail = email_addresses?.[0]?.email_address as string;
-  const primaryPhone = phone_numbers?.[0]?.phone_number as string | undefined;
+  const primaryEmail = email_addresses?.[0]?.email_address;
+  const primaryPhone = phone_numbers?.[0]?.phone_number ?? undefined;
 
   if (!primaryEmail) {
     console.error('No primary email for user:', clerkId);
     return;
   }
 
-  // Extract role from metadata
-  const role = (public_metadata?.role as Role) || 'TENANT';
+  const meta = public_metadata as Record<string, unknown> | null ?? {};
+  const role = (meta.role as Role) || 'tenant';
 
-  // Extract other metadata
-  const ninVerified = public_metadata?.ninVerified as boolean || false;
-  const phoneVerified = public_metadata?.phoneVerified as boolean || false;
-  const idVerified = public_metadata?.idVerified as boolean || false;
-  const profileCompleted = public_metadata?.profileCompleted as boolean || false;
-  const agentTier = (public_metadata?.agentTier as AgentTier) || 'STANDARD';
-  const agentApproved = public_metadata?.agentApproved as boolean || false;
+  const ninVerified = (meta.ninVerified as boolean) || false;
+  const phoneVerified = (meta.phoneVerified as boolean) || false;
+  const idVerified = (meta.idVerified as boolean) || false;
+  const profileCompleted = (meta.profileCompleted as boolean) || false;
+  const agentTier = (meta.agentTier as AgentTier) || 'standard';
+  const agentApproved = (meta.agentApproved as boolean) || false;
 
-  // Update user in Prisma
   await prisma.user.upsert({
     where: { clerkId: clerkId as string },
     update: {
@@ -196,7 +191,6 @@ async function handleUserUpdated(data: Record<string, unknown>) {
       fullName: `${first_name || ''} ${last_name || ''}`.trim() || primaryEmail,
       avatarUrl: image_url as string | null,
       role,
-      password: '',
       ninVerified,
       phoneVerified,
       idVerified,
@@ -213,7 +207,7 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   console.log(`Updated user in Prisma: ${clerkId} (${primaryEmail})`);
 }
 
-async function handleUserDeleted(data: Record<string, unknown>) {
+async function handleUserDeleted(data: DeletedObjectJSON) {
   const { id: clerkId } = data;
 
   // Soft delete - mark as inactive and banned

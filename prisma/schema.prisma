@@ -9,8 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ===========================================================================
@@ -128,7 +129,7 @@ enum ConversationStatus {
 enum MessageAttachmentType {
   image
   document
-  voice
+  video
 }
 
 enum NotificationType {
@@ -250,6 +251,19 @@ enum AgentTier {
   probation
 }
 
+enum UnitStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  UNAVAILABLE
+}
+
+enum UnitOccupancy {
+  VACANT
+  OCCUPIED
+  NOTICE_GIVEN
+}
+
 // ===========================================================================
 // CORE AUTHENTICATION (4 tables)
 // ===========================================================================
@@ -259,7 +273,7 @@ model User {
   clerkId               String    @unique @map("clerk_id")
   email                 String    @unique
   phone                 String?   @unique
-  password              String    // bcrypt cost 12 (legacy, Clerk handles auth now)
+  password              String?   // legacy field — Clerk handles auth, never write to this
   role                  UserRole
   fullName              String    @map("full_name")
   avatarUrl             String?   @map("avatar_url")
@@ -299,6 +313,9 @@ model User {
   agentBio              String?   @map("agent_bio")
   agentAreas            Json?     @map("agent_areas")
 
+  // Notification Preferences
+  notificationPreferences Json?   @default("{\"email\":true,\"sms\":true,\"whatsapp\":false,\"inapp\":true,\"types\":{\"verification\":true,\"agreement\":true,\"payment\":true,\"message\":true,\"rent_due\":true,\"maintenance\":true,\"screening\":true,\"system\":true}}") @map("notification_preferences")
+
   // Timestamps
   createdAt             DateTime  @default(now()) @map("created_at")
   updatedAt             DateTime  @updatedAt @map("updated_at")
@@ -336,6 +353,8 @@ model User {
   savedListings         SavedListing[] @relation("UserSavedListings")
   flaggedListings       ListingFlag[]  @relation("FlaggedByUser")
   maintenanceTickets    MaintenanceTicket[] @relation("MaintenanceTenant")
+  currentlyRentingUnits Unit[]       @relation("UnitCurrentTenant")
+  adminAuditLogs        AdminAuditLog[] @relation("AdminAuditLogs")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -427,6 +446,7 @@ model Listing {
   maintenanceTickets   MaintenanceTicket[]
   orgListings          OrgListing[]
   disputes             Dispute[]
+  units                Unit[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([status], map: "idx_listings_status")
@@ -517,8 +537,30 @@ model Verification {
   owner             User                     @relation("VerificationOwner", fields: [ownerId], references: [id])
   reviewer          User?                    @relation("VerificationReviewer", fields: [reviewedBy], references: [id])
   l4Agent           User?                    @relation("InspectionAgent", fields: [l4AgentId], references: [id])
+  documents         VerificationDocument[]
 
   @@map("verifications")
+}
+
+model VerificationDocument {
+  id               String      @id @default(cuid()) @map("id") // 'vdoc_' + 12 chars
+  verificationId   String      @map("verification_id")
+  listingId        String      @map("listing_id")
+  documentType     String      @map("document_type") // 'ownership', 'id', 'photos', 'utility'
+  url              String
+  publicId         String      @map("public_id") // Cloudinary public_id
+  fileName         String?     @map("file_name")
+  fileSize         Int?        @map("file_size") // bytes
+  mimeType         String?     @map("mime_type")
+  uploadedAt       DateTime    @default(now()) @map("uploaded_at")
+  deletedAt        DateTime?   @map("deleted_at") // Soft delete
+
+  verification     Verification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+
+  @@index([verificationId], map: "idx_verification_docs_verification")
+  @@index([listingId], map: "idx_verification_docs_listing")
+  @@index([documentType], map: "idx_verification_docs_type")
+  @@map("verification_documents")
 }
 
 // ===========================================================================
@@ -706,6 +748,7 @@ model Organisation {
   listings            OrgListing[]
   maintenanceTickets  MaintenanceTicket[]
   subscription        OrgSubscription?
+  units               Unit[]
 
   @@map("organisations")
 }
@@ -838,4 +881,75 @@ model EmailLog {
   userId    String?      @map("user_id")
 
   @@map("email_log")
+}
+
+model AdminAuditLog {
+  id            String   @id @default(cuid()) @map("id") // 'aud_' + 12 chars
+  adminId       String   @map("admin_id")
+  admin         User     @relation("AdminAuditLogs", fields: [adminId], references: [id])
+
+  action        String   // approve_verification, reject_verification, suspend_user, etc.
+  targetType    String   @map("target_type") // verification, listing, user, etc.
+  targetId      String   @map("target_id")
+
+  details       Json?
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([adminId], map: "idx_audit_logs_admin")
+  @@index([targetType, targetId], map: "idx_audit_logs_target")
+  @@index([createdAt], map: "idx_audit_logs_created")
+  @@map("admin_audit_logs")
+}
+
+// ===========================================================================
+// UNITS — Estate Manager Portfolio (1 table)
+// ===========================================================================
+
+model Unit {
+  id                String        @id @default(cuid()) @map("id") // 'unt_' + 12 chars
+  organizationId    String        @map("organization_id")
+  organization      Organisation  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  // Location
+  listingId         String?       @map("listing_id")
+  listing           Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  buildingName      String?       @map("building_name")
+  unitNumber        String        @map("unit_number")
+
+  // Details
+  type              PropertyType
+  bedrooms          Int
+  bathrooms         Int
+  sizeSqm           Decimal?      @db.Decimal(10, 2) @map("size_sqm")
+
+  // Financial
+  rent              Decimal       @db.Decimal(10, 2)
+  cautionDeposit    Decimal?      @db.Decimal(10, 2) @map("caution_deposit")
+  serviceCharge     Decimal?      @db.Decimal(10, 2) @map("service_charge")
+
+  // Status
+  status            UnitStatus    @default(AVAILABLE)
+  occupancy         UnitOccupancy @default(VACANT)
+
+  // Tenant
+  currentTenantId   String?       @map("current_tenant_id")
+  currentTenant     User?         @relation("UnitCurrentTenant", fields: [currentTenantId], references: [id], onDelete: SetNull)
+  leaseStartDate    DateTime?     @map("lease_start_date")
+  leaseEndDate      DateTime?     @map("lease_end_date")
+
+  // Maintenance
+  lastMaintenanceDate DateTime?   @map("last_maintenance_date")
+  nextMaintenanceDate DateTime?   @map("next_maintenance_date")
+
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId], map: "idx_units_org")
+  @@index([status], map: "idx_units_status")
+  @@index([occupancy], map: "idx_units_occupancy")
+  @@unique([organizationId, buildingName, unitNumber])
+  @@map("units")
 }

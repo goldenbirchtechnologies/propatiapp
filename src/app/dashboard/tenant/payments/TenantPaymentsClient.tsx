@@ -20,11 +20,11 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
   const [authorizationUrl, setAuthorizationUrl] = useState<string | null>(null);
 
   const { data: user } = useCurrentUser();
-  const { data: transactionsData, isLoading: transactionsLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 });
+  const { data: transactionsData, isLoading: transactionsLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as any;
   const { data: wallet } = useWallet();
   const initiatePaymentMutation = useInitiatePayment();
 
-  const transactions = transactionsData?.pages.flatMap(page => page.data || []) || [];
+  const transactions = transactionsData?.pages.flatMap((page: any) => page.data || []) || [];
 
   const handlePayRent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         amount: Number(amount) * 100, // Convert to kobo
         type: 'rent',
         metadata: { userId },
-      });
+      } as any);
       setReference(result.reference);
       setAuthorizationUrl(result.authorizationUrl);
       // In a real app, redirect to Paystack checkout
@@ -70,7 +70,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             <Button variant="outline" size="sm">
               <Download className="w-4 h-4 mr-2" /> Withdraw
             </Button>
-            <Button variant="primary" size="sm">
+            <Button variant="default" size="sm">
               <CreditCard className="w-4 h-4 mr-2" /> Fund Wallet
             </Button>
           </div>
@@ -176,7 +176,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               <CreditCard className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
               <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No transactions yet</h3>
               <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Your payment history will appear here.</p>
-              <Button variant="primary"><CreditCard className="w-4 h-4 mr-2" /> Make a Payment</Button>
+              <Button variant="default"><CreditCard className="w-4 h-4 mr-2" /> Make a Payment</Button>
             </div>
           ) : (
             <table className="w-full">
@@ -191,7 +191,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((tx) => (
+                {transactions.map((tx: any) => (
                   <TransactionRow key={tx.id} transaction={tx} />
                 ))}
               </tbody>

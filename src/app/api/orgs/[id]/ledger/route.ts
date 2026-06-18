@@ -48,6 +48,10 @@ export async function GET(
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     const listingId = searchParams.get('listingId');
+    const unitId = searchParams.get('unitId');
+    const month = searchParams.get('month');
+    const year = searchParams.get('year');
+    const exportFormat = searchParams.get('export');
 
     const skip = (page - 1) * limit;
     const take = limit;
@@ -78,9 +82,24 @@ export async function GET(
     if (listingId) where.listingId = listingId;
 
     if (startDate || endDate) {
-      where.createdAt = {};
-      if (startDate) where.createdAt.gte = new Date(startDate);
-      if (endDate) where.createdAt.lte = new Date(endDate);
+      const dateFilter: { gte?: Date; lte?: Date } = {};
+      if (startDate) dateFilter.gte = new Date(startDate);
+      if (endDate) dateFilter.lte = new Date(endDate);
+      where.createdAt = dateFilter;
+    }
+
+    // Filter by month/year if provided
+    if (month || year) {
+      const currentYear = year ? parseInt(year) : new Date().getFullYear();
+      const currentMonth = month ? parseInt(month) : new Date().getMonth() + 1;
+
+      const startOfMonth = new Date(currentYear, currentMonth - 1, 1);
+      const endOfMonth = new Date(currentYear, currentMonth, 0, 23, 59, 59, 999);
+
+      where.createdAt = {
+        gte: startOfMonth,
+        lte: endOfMonth,
+      };
     }
 
     const [transactions, total, summaries] = await Promise.all([
@@ -94,7 +113,7 @@ export async function GET(
           payer: { select: { id: true, fullName: true, email: true } },
           payee: { select: { id: true, fullName: true, email: true } },
           agent: { select: { id: true, fullName: true, email: true } },
-          agreement: { select: { id: true, type: true, status: true } },
+          agreements: { select: { id: true, type: true, status: true }, take: 1 },
         },
       }),
       prisma.transaction.count({ where }),
@@ -137,9 +156,75 @@ export async function GET(
       return acc;
     }, {} as Record<string, unknown>);
 
+    // Get unit-based rent ledger if requested
+    let unitRentData = null;
+    if (unitId || exportFormat === 'csv') {
+      const units = await prisma.unit.findMany({
+        where: {
+          organizationId: id,
+          ...(unitId ? { id: unitId } : {}),
+        },
+        select: {
+          id: true,
+          unitNumber: true,
+          buildingName: true,
+          rent: true,
+          status: true,
+          occupancy: true,
+          currentTenant: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+              phone: true,
+            },
+          },
+        },
+      });
+
+      unitRentData = units.map(unit => ({
+        unitId: unit.id,
+        unitNumber: unit.unitNumber,
+        buildingName: unit.buildingName,
+        rent: Number(unit.rent),
+        status: unit.status,
+        occupancy: unit.occupancy,
+        tenant: unit.currentTenant,
+      }));
+    }
+
+    // Handle CSV export
+    if (exportFormat === 'csv') {
+      const csvRows = [
+        ['Unit Number', 'Building', 'Tenant Name', 'Tenant Email', 'Rent Amount', 'Status', 'Occupancy'].join(','),
+      ];
+
+      if (unitRentData) {
+        unitRentData.forEach(unit => {
+          csvRows.push([
+            unit.unitNumber,
+            unit.buildingName || '',
+            unit.tenant?.fullName || 'N/A',
+            unit.tenant?.email || 'N/A',
+            unit.rent.toString(),
+            unit.status,
+            unit.occupancy,
+          ].join(','));
+        });
+      }
+
+      return new NextResponse(csvRows.join('\n'), {
+        headers: {
+          'Content-Type': 'text/csv',
+          'Content-Disposition': `attachment; filename="rent-ledger-${id}-${new Date().toISOString().split('T')[0]}.csv"`,
+        },
+      });
+    }
+
     return NextResponse.json({
       success: true,
       data: transactions,
+      unitRentData,
       pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
       summary: { totalIncome, totalExpenses, netAmount, byType, byStatus },
     });

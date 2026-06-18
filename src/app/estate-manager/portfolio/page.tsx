@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { PrismaClient } from '@prisma/client';
+import { Building2, Home, Users, DollarSign } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const prisma = new PrismaClient();
 
@@ -23,10 +25,10 @@ export default async function EstateManagerPortfolioPage() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Properties" value="24" icon="Building2" change="+2 this month" />
-        <StatCard title="Total Units" value="156" icon="Home" change="+8 this month" />
-        <StatCard title="Occupancy Rate" value="87%" icon="Users" trend="up" />
-        <StatCard title="Monthly Revenue" value="₦12.4M" icon="DollarSign" change="+12% vs last month" />
+        <StatCard title="Total Properties" value="24" icon={Building2} change="+2 this month" />
+        <StatCard title="Total Units" value="156" icon={Home} change="+8 this month" />
+        <StatCard title="Occupancy Rate" value="87%" icon={Users} trend="up" />
+        <StatCard title="Monthly Revenue" value="₦12.4M" icon={DollarSign} change="+12% vs last month" />
       </div>
 
       {/* Filters & Table */}
@@ -105,16 +107,15 @@ const mockProperties = [
   { id: '5', name: 'Adeniyi Jones Plaza', address: '12 Adeniyi Jones, Ikeja', area: 'Ikeja', type: 'Commercial', totalUnits: 8, occupiedUnits: 6, monthlyRent: 1800000, status: 'vacant' },
 ];
 
-function StatCard({ title, value, icon: Icon, change, trend }: { 
-  title: string; 
-  value: string; 
+interface StatCardProps {
+  title: string;
+  value: string;
   icon: React.ComponentType<{ className?: string }>;
-  change?: string; 
+  change?: string;
   trend?: 'up' | 'down';
-}) {
-  const icons = { Building2: (props: any) => <Building2 {...props} />, Home: (props: any) => <Home {...props} />, Users: (props: any) => <Users {...props} />, DollarSign: (props: any) => <DollarSign {...props} /> };
-  const Comp = icons[Icon as keyof typeof icons] || Building2;
-  
+}
+
+function StatCard({ title, value, icon: Icon, change, trend }: StatCardProps) {
   return (
     <div className="card p-4">
       <div className="flex items-center justify-between">
@@ -123,7 +124,7 @@ function StatCard({ title, value, icon: Icon, change, trend }: {
           <p className="text-2xl font-bold text-foreground">{value}</p>
         </div>
         <div className="p-3 bg-primary/10 rounded-lg text-primary">
-          <Comp className="h-6 w-6" />
+          <Icon className="h-6 w-6" />
         </div>
       </div>
       {change && (
@@ -136,5 +137,3 @@ function StatCard({ title, value, icon: Icon, change, trend }: {
     </div>
   );
 }
-
-import { Building2, Home, Users, DollarSign } from 'lucide-react';

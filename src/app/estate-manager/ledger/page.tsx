@@ -147,7 +147,7 @@ function RentScheduleTable({ schedule, searchQuery, setSearchQuery, monthFilter 
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-1">
-                      {item.status !== 'paid' && <Button variant="primary" size="sm">Collect</Button>}
+                      {item.status !== 'paid' && <Button variant="default" size="sm">Collect</Button>}
                       <Button variant="ghost" size="icon" title="View Details"><Eye className="w-4 h-4" /></Button>
                       {item.receipt && <Button variant="ghost" size="icon" title="View Receipt"><FileText className="w-4 h-4" /></Button>}
                     </div>

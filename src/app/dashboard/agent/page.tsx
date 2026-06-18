@@ -13,7 +13,7 @@ export default async function AgentDashboardPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'AGENT') {
+  if (!user || user.role !== 'agent') {
     redirect('/dashboard');
   }
 
@@ -93,18 +93,21 @@ function PipelineColumn({
   title,
   count,
   color,
+  colorVar,
   items,
 }: {
   title: string;
   count: number;
-  color: string;
+  color?: string;
+  colorVar?: string;
   items: string[];
 }) {
+  const resolvedColor = color || colorVar || 'var(--accent)';
   return (
     <div className="card" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-      <div className="card-head" style={{ background: `linear-gradient(135deg, ${color}22, ${color}11)` }}>
-        <h3 className="font-heading font-bold" style={{ color }}>{title}</h3>
-        <span className="text-xl font-bold" style={{ color }}>{count}</span>
+      <div className="card-head" style={{ background: `linear-gradient(135deg, ${resolvedColor}22, ${resolvedColor}11)` }}>
+        <h3 className="font-heading font-bold" style={{ color: resolvedColor }}>{title}</h3>
+        <span className="text-xl font-bold" style={{ color: resolvedColor }}>{count}</span>
       </div>
       <div className="card-body p-4 space-y-3">
         {items.map((item, i) => (

@@ -33,9 +33,10 @@ export function useListings(filters: Omit<ListingsFilters, 'page'> = {}) {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      // lastPage has structure: { listings: Listing[], pagination: {...} }
-      const pagination = (lastPage as unknown as { pagination: { page: number; totalPages: number; hasNext: boolean } }).pagination;
-      return pagination.hasNext ? pagination.page + 1 : undefined;
+      // lastPage has structure: { listings: Listing[], pagination: { page, totalPages, total, limit } }
+      const pagination = (lastPage as unknown as { pagination: { page: number; totalPages: number; total: number; limit: number } }).pagination;
+      const hasNext = pagination.page < pagination.totalPages;
+      return hasNext ? pagination.page + 1 : undefined;
     },
     staleTime: 60 * 1000, // 1 minute
     gcTime: 5 * 60 * 1000, // 5 minutes (formerly cacheTime)
@@ -112,6 +113,24 @@ export function useUpdateListing() {
       
       // Update cached listing
       queryClient.setQueryData(listingsKeys.detail(id), updatedListing);
+    },
+  });
+}
+
+/**
+ * Mutation for updating listing status (draft/active/suspended)
+ */
+export function useUpdateListingStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      apiEndpoints.listings.update(id, { status } as UpdateListingInput),
+    onSuccess: (_, { id }) => {
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: listingsKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: listingsKeys.myListings() });
+      queryClient.invalidateQueries({ queryKey: listingsKeys.detail(id) });
     },
   });
 }

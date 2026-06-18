@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
         lastLogin: true,
         orgMemberships: {
           include: {
-            organization: {
+            org: {
               select: {
                 id: true,
                 name: true,

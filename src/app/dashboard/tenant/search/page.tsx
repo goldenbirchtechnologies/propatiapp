@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
-import { Building, MapPin, Home, Waves, Users, Search, Filter, ChevronDown, Heart, Tag } from 'lucide-react';
+import { Building, MapPin, Home, Waves, Users, Search, Filter, ChevronDown, Heart, Tag, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 const purposes = [
@@ -261,6 +261,3 @@ function ListingCardSkeleton() {
   );
 }
 
-function Loader2() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>;
-}

@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import { NotificationsBell } from '@/components/notifications/notifications-bell';
 
-interface NavItem {
+export interface NavItem {
   label: string;
   href: string;
   icon?: React.ReactNode;
@@ -129,13 +130,14 @@ export function DashboardShell({
           <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>
             <span>v1.0.0</span>
             <span style={{ flex: 1 }} />
-            <SignOutButton
-              signOutUrl="/"
-              className="btn btn-ghost text-sm w-full justify-center"
-              style={{ padding: 'var(--space-sm) var(--space-md)' }}
-            >
-              {!sidebarCollapsed && 'Sign Out'}
-              {sidebarCollapsed && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>}
+            <SignOutButton>
+              <button
+                className="btn btn-ghost text-sm w-full justify-center"
+                style={{ padding: 'var(--space-sm) var(--space-md)' }}
+              >
+                {!sidebarCollapsed && 'Sign Out'}
+                {sidebarCollapsed && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>}
+              </button>
             </SignOutButton>
           </div>
         </div>
@@ -183,14 +185,8 @@ export function DashboardShell({
           <div className="flex-1" />
 
           <div className="flex items-center gap-3">
-            {/* Notifications bell */}
-            <button className="relative p-2 rounded-lg" style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }} aria-label="Notifications">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">3</span>
-            </button>
+            {/* Notifications Bell */}
+            <NotificationsBell position="right" userRole={userRole} />
 
             {/* User Button */}
             <UserButton
@@ -216,12 +212,13 @@ export function DashboardShell({
 }
 
 interface CollapsibleNavItemProps {
-  item: NavItem & { children: NavItem[] };
+  item: NavItem;
   isActive: boolean;
   sidebarCollapsed: boolean;
 }
 
 function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: CollapsibleNavItemProps) {
+  if (!item.children || item.children.length === 0) return null;
   const [expanded, setExpanded] = useState(isActive);
 
   if (sidebarCollapsed) {

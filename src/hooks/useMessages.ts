@@ -75,18 +75,14 @@ export function useSendMessage(conversationId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Omit<SendMessageInput, 'conversationId'>) => 
+    mutationFn: (data: Omit<SendMessageInput, 'conversationId'>) =>
       apiEndpoints.messages.sendMessage({ ...data, conversationId }),
     onMutate: async (newMessage) => {
       // Cancel any outgoing refetches to avoid overwriting optimistic update
-      await queryClient.cancelQueries({ queryKey: messagesKeys.messages({ conversationId, limit: 50 }) });
+      await queryClient.cancelQueries({ queryKey: messagesKeys.conversation(conversationId) });
 
       // Snapshot the previous value
-      const previousMessages = queryClient.getQueryData([
-        'messages',
-        'messages',
-        { conversationId, limit: 50 },
-      ]);
+      const previousData = queryClient.getQueryData(messagesKeys.conversation(conversationId));
 
       // Optimistically update the cache
       const optimisticMessage: Message = {
@@ -102,16 +98,22 @@ export function useSendMessage(conversationId: string) {
           id: 'current-user',
           fullName: 'You',
           avatarUrl: null,
+          role: 'tenant',
         },
       };
 
+      // Update the conversation query (which includes messages)
       queryClient.setQueryData(
-        ['messages', 'messages', { conversationId, limit: 50 }],
-        (old: { data: Message[]; pagination: unknown } | undefined) => {
-          if (!old) return { data: [optimisticMessage], pagination: old?.pagination };
+        messagesKeys.conversation(conversationId),
+        (old: { data: any } | undefined) => {
+          if (!old?.data) return old;
           return {
             ...old,
-            data: [...old.data, optimisticMessage],
+            data: {
+              ...old.data,
+              messages: [...(old.data.messages || []), optimisticMessage],
+              lastMessageAt: optimisticMessage.createdAt,
+            },
           };
         }
       );
@@ -123,12 +125,12 @@ export function useSendMessage(conversationId: string) {
           if (!old) return old;
           return {
             ...old,
-            data: old.data.map(conv => 
-              conv.id === conversationId 
-                ? { 
-                    ...conv, 
+            data: old.data.map(conv =>
+              conv.id === conversationId
+                ? {
+                    ...conv,
+                    lastMessage: newMessage.content.substring(0, 200),
                     lastMessageAt: optimisticMessage.createdAt,
-                    // Could add lastMessagePreview here
                   }
                 : conv
             ),
@@ -136,35 +138,40 @@ export function useSendMessage(conversationId: string) {
         }
       );
 
-      return { previousMessages };
+      return { previousData };
     },
     onError: (err, newMessage, context) => {
       // Rollback on error
-      if (context?.previousMessages) {
+      if (context?.previousData) {
         queryClient.setQueryData(
-          ['messages', 'messages', { conversationId, limit: 50 }],
-          context.previousMessages
+          messagesKeys.conversation(conversationId),
+          context.previousData
         );
       }
-      // Could show toast error here
     },
-    onSuccess: (serverMessage) => {
+    onSuccess: (response) => {
+      const serverMessage = response?.data;
+      if (!serverMessage) return;
+
       // Replace optimistic message with server message
       queryClient.setQueryData(
-        ['messages', 'messages', { conversationId, limit: 50 }],
-        (old: { data: Message[]; pagination: unknown } | undefined) => {
-          if (!old) return old;
+        messagesKeys.conversation(conversationId),
+        (old: { data: any } | undefined) => {
+          if (!old?.data) return old;
           return {
             ...old,
-            data: old.data.map(msg => 
-              msg.id.startsWith('temp-') && msg.content === serverMessage.content
-                ? serverMessage
-                : msg
-            ),
+            data: {
+              ...old.data,
+              messages: (old.data.messages || []).map((msg: Message) =>
+                msg.id.startsWith('temp-') && msg.content === serverMessage.content
+                  ? serverMessage
+                  : msg
+              ),
+            },
           };
         }
       );
-      
+
       // Update conversation in list
       queryClient.setQueriesData(
         { queryKey: messagesKeys.conversations() },
@@ -172,9 +179,13 @@ export function useSendMessage(conversationId: string) {
           if (!old) return old;
           return {
             ...old,
-            data: old.data.map(conv => 
-              conv.id === conversationId 
-                ? { ...conv, lastMessageAt: serverMessage.createdAt }
+            data: old.data.map(conv =>
+              conv.id === conversationId
+                ? {
+                    ...conv,
+                    lastMessage: serverMessage.content.substring(0, 200),
+                    lastMessageAt: serverMessage.createdAt,
+                  }
                 : conv
             ),
           };
@@ -182,10 +193,12 @@ export function useSendMessage(conversationId: string) {
       );
     },
     onSettled: () => {
-      // Refetch to ensure consistency (optional, can be removed for performance)
-      queryClient.invalidateQueries({ 
-        queryKey: messagesKeys.messages({ conversationId, limit: 50 }),
-        exact: false 
+      // Refetch to ensure consistency
+      queryClient.invalidateQueries({
+        queryKey: messagesKeys.conversation(conversationId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: messagesKeys.conversations(),
       });
     },
   });
@@ -268,7 +281,7 @@ export function useReceiveMessage() {
           ...old,
           data: old.data.map(conv => 
             conv.id === message.conversationId 
-              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: (conv.unreadCount || 0) + 1 }
+              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: ((conv as any).unreadCount || 0) + 1 }
               : conv
           ),
         };

@@ -96,7 +96,7 @@ export async function GET(
       agreement.landlordId === user.id ||
       agreement.tenantId === user.id ||
       agreement.agentId === user.id ||
-      user.role === 'ADMIN';
+      user.role === 'admin';
 
     if (!isParticipant) {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });

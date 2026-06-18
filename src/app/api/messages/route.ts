@@ -11,12 +11,57 @@ export async function GET(request: NextRequest) {
 
   try {
     const searchParams = request.nextUrl.searchParams;
+    const conversationId = searchParams.get('conversationId');
+
+    // If no conversationId, return list of conversations
+    if (!conversationId) {
+      const page = parseInt(searchParams.get('page') || '1');
+      const limit = parseInt(searchParams.get('limit') || '50');
+      const skip = (page - 1) * limit;
+
+      const where = {
+        OR: [
+          { landlordId: user.id },
+          { tenantId: user.id },
+        ],
+      };
+
+      const [conversations, total] = await Promise.all([
+        prisma.conversation.findMany({
+          where,
+          orderBy: { lastMessageAt: 'desc' },
+          skip,
+          take: limit,
+          include: {
+            landlord: { select: { id: true, fullName: true, avatarUrl: true } },
+            tenant: { select: { id: true, fullName: true, avatarUrl: true } },
+            listing: {
+              select: {
+                id: true,
+                title: true,
+                images: { where: { isCover: true }, take: 1 },
+              },
+            },
+          },
+        }),
+        prisma.conversation.count({ where }),
+      ]);
+
+      return NextResponse.json({
+        success: true,
+        data: conversations,
+        pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
+      });
+    }
+
+    // If conversationId provided, return messages for that conversation
     const params = Object.fromEntries(searchParams.entries());
-    const { page, limit, sort, order, conversationId, since } = messageFilterSchema
+    const { page, limit, sort, order, since } = messageFilterSchema
       .extend({
         page: z.coerce.number().int().positive().default(1),
         limit: z.coerce.number().int().positive().max(100).default(50),
       })
+      .omit({ conversationId: true })
       .parse(params);
 
     // Verify user has access to this conversation
@@ -29,7 +74,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     }
 
-    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'ADMIN') {
+    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
@@ -120,12 +165,12 @@ export async function POST(request: NextRequest) {
         select: { id: true, role: true, fullName: true },
       });
 
-      if (!tenant || tenant.role !== 'TENANT') {
+      if (!tenant || tenant.role !== 'tenant') {
         return NextResponse.json({ error: 'Invalid tenant' }, { status: 400 });
       }
 
       // Check if conversation already exists
-      const existing = await prisma.conversation.findUnique({
+      const existing = validated.listingId ? await prisma.conversation.findUnique({
         where: {
           landlordId_tenantId_listingId: {
             landlordId: listing.ownerId,
@@ -133,7 +178,7 @@ export async function POST(request: NextRequest) {
             listingId: validated.listingId,
           },
         },
-      });
+      }) : null;
 
       if (existing) {
         return NextResponse.json({ success: true, data: existing });
@@ -179,7 +224,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
       }
 
-      if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'ADMIN') {
+      if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'admin') {
         return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
       }
 

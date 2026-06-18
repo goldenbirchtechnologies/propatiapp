@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
     // Build where clause based on user role
     const where: Record<string, unknown> = {};
 
-    if (user.role === 'LANDLORD') {
+    if (user.role === 'landlord') {
       where.landlordId = user.id;
-    } else if (user.role === 'TENANT') {
+    } else if (user.role === 'tenant') {
       where.tenantId = user.id;
-    } else if (user.role === 'AGENT') {
+    } else if (user.role === 'agent') {
       where.agentId = user.id;
-    } else if (user.role !== 'ADMIN') {
+    } else if (user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const authResult = await withAuth(request, ['LANDLORD', 'AGENT', 'ADMIN']);
+  const authResult = await withAuth(request, ['landlord', 'agent', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
@@ -98,13 +98,13 @@ export async function POST(request: NextRequest) {
 
     // Landlord must own the listing, agent must be assigned, admin can do anything
     if (
-      user.role === 'LANDLORD' && listing.ownerId !== user.id
+      user.role === 'landlord' && listing.ownerId !== user.id
     ) {
       return NextResponse.json({ error: 'FORBIDDEN: Not the listing owner' }, { status: 403 });
     }
 
     if (
-      user.role === 'AGENT' && listing.agentId !== user.id
+      user.role === 'agent' && listing.agentId !== user.id
     ) {
       return NextResponse.json({ error: 'FORBIDDEN: Not the assigned agent' }, { status: 403 });
     }
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
       select: { id: true, role: true },
     });
 
-    if (!tenant || tenant.role !== 'TENANT') {
+    if (!tenant || tenant.role !== 'tenant') {
       return NextResponse.json({ error: 'Invalid tenant' }, { status: 400 });
     }
 
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
         where: { id: validated.agentId },
         select: { id: true, role: true, agentApproved: true },
       });
-      if (!agent || agent.role !== 'AGENT' || !agent.agentApproved) {
+      if (!agent || agent.role !== 'agent' || !agent.agentApproved) {
         return NextResponse.json({ error: 'Invalid or unapproved agent' }, { status: 400 });
       }
     }
@@ -133,8 +133,8 @@ export async function POST(request: NextRequest) {
     const agreement = await prisma.agreement.create({
       data: {
         ...validated,
-        landlordId: user.role === 'LANDLORD' ? user.id : listing.ownerId,
-        agentId: validated.agentId ?? (user.role === 'AGENT' ? user.id : listing.agentId) ?? null,
+        landlordId: user.role === 'landlord' ? user.id : listing.ownerId,
+        agentId: validated.agentId ?? (user.role === 'agent' ? user.id : listing.agentId) ?? null,
         status: 'draft',
       },
       include: {

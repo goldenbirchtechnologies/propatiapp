@@ -1,11 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import './styles/globals.css';
-import { ClerkProvider } from '@clerk/nextjs';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import '@/styles/globals.css';
+import { Providers } from '@/components/providers';
 import { Toaster } from '@/components/ui/toaster';
-import { useState } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -71,47 +68,24 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-function getQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000, // 1 minute
-        refetchOnWindowFocus: false,
-        retry: 1,
-      },
-    },
-  });
-}
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [queryClient] = useState(getQueryClient);
-
   return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
-      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
-      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
-      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
-      signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}
-    >
-      <QueryClientProvider client={queryClient}>
-        <html lang="en" className={`${inter.variable} antialiased`} suppressHydrationWarning>
-          <head>
-            <link rel="preconnect" href="https://res.cloudinary.com" />
-            <link rel="preconnect" href="https://api.paystack.co" />
-            <link rel="preconnect" href="https://api.ng.termii.com" />
-          </head>
-          <body className="bg-background text-foreground min-h-screen flex flex-col">
-            {children}
-            <Toaster />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </body>
-        </html>
-      </QueryClientProvider>
-    </ClerkProvider>
+    <html lang="en" className={`${inter.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://api.paystack.co" />
+        <link rel="preconnect" href="https://api.ng.termii.com" />
+      </head>
+      <body className="bg-background text-foreground min-h-screen flex flex-col">
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
+      </body>
+    </html>
   );
 }

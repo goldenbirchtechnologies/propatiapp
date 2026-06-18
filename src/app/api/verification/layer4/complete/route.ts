@@ -9,7 +9,7 @@ const completeInspectionSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  const authResult = await withAuth(request, ['AGENT', 'ADMIN']);
+  const authResult = await withAuth(request, ['agent', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 

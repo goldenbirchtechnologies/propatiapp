@@ -1,0 +1,140 @@
+{
+  "listings": [
+    {
+      "id": "lst_abc123xyz456",
+      "ownerId": "usr_def789ghi012",
+      "agentId": null,
+      "title": "Luxury 3-Bedroom Apartment in Lekki Phase 1",
+      "description": "Modern and spacious 3-bedroom apartment with stunning views of the Atlantic Ocean. Fully furnished with high-end appliances, 24/7 security, and access to swimming pool and gym facilities.",
+      "listingType": "rent",
+      "propertyType": "apartment",
+      "address": "15 Admiralty Way, Lekki Phase 1",
+      "area": "Lekki Phase 1",
+      "state": "Lagos",
+      "price": "2500000",
+      "priceFormatted": "₦2,500,000",
+      "pricePeriod": "year",
+      "cautionDeposit": "2500000",
+      "serviceCharge": "500000",
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "toilets": 4,
+      "sizeSqm": "150.00",
+      "floorLevel": 5,
+      "furnished": true,
+      "parkingSpaces": 2,
+      "amenities": [
+        "24/7 Security",
+        "Swimming Pool",
+        "Gym",
+        "Parking",
+        "Generator",
+        "Air Conditioning",
+        "Internet"
+      ],
+      "availableFrom": "2026-07-01T00:00:00.000Z",
+      "minimumStay": 12,
+      "status": "active",
+      "verificationTier": "verified",
+      "isFeatured": true,
+      "viewsCount": 245,
+      "createdAt": "2026-06-10T08:30:00.000Z",
+      "updatedAt": "2026-06-15T14:20:00.000Z",
+      "coverImage": "https://res.cloudinary.com/propati/image/upload/v1234567890/listings/lst_abc123xyz456/cover.jpg",
+      "owner": {
+        "id": "usr_def789ghi012",
+        "fullName": "Chinedu Okonkwo",
+        "avatarUrl": "https://res.cloudinary.com/propati/image/upload/v1234567890/avatars/usr_def789ghi012.jpg",
+        "phoneVerified": true
+      },
+      "agent": null,
+      "verification": {
+        "overallStatus": "in_progress",
+        "currentLayer": 3
+      },
+      "images": [
+        {
+          "id": "img_xyz789abc123",
+          "listingId": "lst_abc123xyz456",
+          "url": "https://res.cloudinary.com/propati/image/upload/v1234567890/listings/lst_abc123xyz456/cover.jpg",
+          "publicId": "propati/listings/lst_abc123xyz456/cover",
+          "isCover": true,
+          "sortOrder": 0,
+          "createdAt": "2026-06-10T08:35:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "lst_mno456pqr789",
+      "ownerId": "usr_stu012vwx345",
+      "agentId": "usr_yza678bcd901",
+      "title": "Affordable 2-Bedroom Flat in Ikeja",
+      "description": "Well-maintained 2-bedroom flat in a serene environment. Close to shopping malls, schools, and public transportation. Perfect for small families or young professionals.",
+      "listingType": "rent",
+      "propertyType": "apartment",
+      "address": "42 Allen Avenue, Ikeja",
+      "area": "Ikeja",
+      "state": "Lagos",
+      "price": "800000",
+      "priceFormatted": "₦800,000",
+      "pricePeriod": "year",
+      "cautionDeposit": "800000",
+      "serviceCharge": "150000",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "toilets": 2,
+      "sizeSqm": "85.00",
+      "floorLevel": 2,
+      "furnished": false,
+      "parkingSpaces": 1,
+      "amenities": [
+        "Security",
+        "Parking",
+        "Water Supply",
+        "DSTV Connection"
+      ],
+      "availableFrom": "2026-07-15T00:00:00.000Z",
+      "minimumStay": 12,
+      "status": "active",
+      "verificationTier": "basic",
+      "isFeatured": false,
+      "viewsCount": 87,
+      "createdAt": "2026-06-12T10:15:00.000Z",
+      "updatedAt": "2026-06-12T10:15:00.000Z",
+      "coverImage": "https://res.cloudinary.com/propati/image/upload/v1234567890/listings/lst_mno456pqr789/cover.jpg",
+      "owner": {
+        "id": "usr_stu012vwx345",
+        "fullName": "Amaka Nwosu",
+        "avatarUrl": null,
+        "phoneVerified": true
+      },
+      "agent": {
+        "id": "usr_yza678bcd901",
+        "fullName": "Tunde Bakare",
+        "avatarUrl": "https://res.cloudinary.com/propati/image/upload/v1234567890/avatars/usr_yza678bcd901.jpg",
+        "agentTier": "senior"
+      },
+      "verification": {
+        "overallStatus": "not_started",
+        "currentLayer": 1
+      },
+      "images": [
+        {
+          "id": "img_def456ghi789",
+          "listingId": "lst_mno456pqr789",
+          "url": "https://res.cloudinary.com/propati/image/upload/v1234567890/listings/lst_mno456pqr789/cover.jpg",
+          "publicId": "propati/listings/lst_mno456pqr789/cover",
+          "isCover": true,
+          "sortOrder": 0,
+          "createdAt": "2026-06-12T10:20:00.000Z"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 2,
+    "total": 10,
+    "totalPages": 5
+  }
+}

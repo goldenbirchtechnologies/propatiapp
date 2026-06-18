@@ -30,12 +30,12 @@ export async function POST(
     }
 
     // Only payer or admin can verify
-    if (transaction.payerId !== user.id && user.role !== 'ADMIN') {
+    if (transaction.payerId !== user.id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
     // Check if already verified
-    if (transaction.status === 'IN_ESCROW' || transaction.status === 'RELEASED') {
+    if (transaction.status === 'in_escrow' || transaction.status === 'released') {
       return NextResponse.json({ error: 'Transaction already verified', details: { status: transaction.status } }, { status: 400 });
     }
 
@@ -51,7 +51,7 @@ export async function POST(
       await prisma.transaction.update({
         where: { id },
         data: {
-          status: 'FAILED',
+          status: 'failed',
           paystackData: paystackResponse.data,
           updatedAt: new Date(),
         },
@@ -67,7 +67,7 @@ export async function POST(
     const updated = await prisma.transaction.update({
       where: { id },
       data: {
-        status: 'IN_ESCROW',
+        status: 'in_escrow',
         paystackData: paystackResponse.data,
         updatedAt: new Date(),
       },
@@ -85,7 +85,7 @@ export async function POST(
         userId: transaction.payerId,
         type: 'payment',
         title: 'Payment Verified',
-        body: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing.title} has been verified and is held in escrow.`,
+        body: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing?.title ?? "property"} has been verified and is held in escrow.`,
         data: { transactionId: transaction.id, reference: transaction.reference },
       },
     });
@@ -95,7 +95,7 @@ export async function POST(
         userId: transaction.payeeId,
         type: 'payment',
         title: 'Payment Received in Escrow',
-        body: `₦${(Number(transaction.amount) / 100).toLocaleString()} has been paid for ${transaction.listing.title} and is held in escrow.`,
+        body: `₦${(Number(transaction.amount) / 100).toLocaleString()} has been paid for ${transaction.listing?.title ?? "property"} and is held in escrow.`,
         data: { transactionId: transaction.id, reference: transaction.reference },
       },
     });
@@ -106,7 +106,7 @@ export async function POST(
           userId: transaction.agentId,
           type: 'payment',
           title: 'Commission Pending',
-          body: `A payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} has been made for ${transaction.listing.title}. Your commission will be calculated upon escrow release.`,
+          body: `A payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} has been made for ${transaction.listing?.title ?? "property"}. Your commission will be calculated upon escrow release.`,
           data: { transactionId: transaction.id, reference: transaction.reference },
         },
       });

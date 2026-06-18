@@ -1,7 +1,7 @@
 'use client';
 
+import Link from 'next/link';
 import { SignIn } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
 export default function SignInPage() {
@@ -51,5 +51,3 @@ export default function SignInPage() {
     </div>
   );
 }
-
-import Link from 'next/link';

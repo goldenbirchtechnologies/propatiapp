@@ -91,7 +91,7 @@ export {
   useAgreementStatus,
 } from './useAgreements';
 
-// Messages hooks
+// Messages hooks (Phase E: Messaging System)
 export {
   messagesKeys,
   useConversations,
@@ -105,6 +105,19 @@ export {
   useReceiveMessage,
   useMessageReadReceipt,
 } from './useMessages';
+
+// Conversations hooks (Phase E: New API)
+export {
+  conversationsKeys,
+  useConversations as useConversationsList,
+  useConversation as useConversationDetail,
+  useMessages as useConversationMessages,
+  useCreateConversation as useCreateConversationV2,
+  useSendMessage as useSendMessageV2,
+  useMarkConversationRead,
+  useTypingIndicator,
+} from './useConversations';
+export type { Conversation, Message, CreateConversationInput, SendMessageInput } from './useConversations';
 
 // Payments hooks
 export {
@@ -157,6 +170,19 @@ export {
   useOrganizationPermissions,
 } from './useOrganizations';
 
+// Organization Tickets hooks
+export {
+  orgTicketsKeys,
+  useOrganizationTickets,
+  useOrganizationTicket,
+  useCreateOrganizationTicket,
+  useUpdateOrganizationTicket,
+  useDeleteOrganizationTicket,
+  useTicketStatusConfig,
+  useTicketPriorityConfig,
+} from './useOrganizationTickets';
+export type { TicketFilters } from './useOrganizationTickets';
+
 // Maintenance, Screenings, Disputes hooks
 export {
   maintenanceKeys,
@@ -181,3 +207,13 @@ export {
   useDisputeStatus,
   useDisputeType,
 } from './useMaintenanceScreeningsDisputes';
+
+// Notifications hooks
+export {
+  useNotifications,
+  useUnreadCount,
+  useMarkNotificationRead,
+  useMarkAllRead,
+  useMarkAsRead,
+} from './useNotifications';
+export type { Notification, NotificationsResponse } from './useNotifications';

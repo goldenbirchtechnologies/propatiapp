@@ -14,7 +14,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const authResult = await withAuth(request, ['ADMIN', 'AGENT', 'LANDLORD']);
+  const authResult = await withAuth(request, ['admin', 'agent', 'landlord']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
@@ -40,16 +40,16 @@ export async function POST(
 
     // Check permissions
     const canRelease =
-      user.role === 'ADMIN' ||
-      (user.role === 'LANDLORD' && transaction.payeeId === user.id) ||
-      (user.role === 'AGENT' && transaction.agentId === user.id);
+      user.role === 'admin' ||
+      (user.role === 'landlord' && transaction.payeeId === user.id) ||
+      (user.role === 'agent' && transaction.agentId === user.id);
 
     if (!canRelease) {
       return NextResponse.json({ error: 'FORBIDDEN: Not authorized to release this escrow' }, { status: 403 });
     }
 
     // Check transaction is in escrow
-    if (transaction.status !== 'IN_ESCROW') {
+    if (transaction.status !== 'in_escrow') {
       return NextResponse.json({ error: `Cannot release transaction in ${transaction.status} status` }, { status: 400 });
     }
 
@@ -60,7 +60,7 @@ export async function POST(
         select: { id: true },
       });
 
-      if (agreements.length === 0 && user.role !== 'ADMIN') {
+      if (agreements.length === 0 && user.role !== 'admin') {
         // Allow if no agreement exists (direct payment)
         const hasAgreement = await prisma.agreement.findFirst({
           where: { listingId: transaction.listingId },
@@ -89,12 +89,12 @@ export async function POST(
           payeeId: transaction.payeeId,
           agentId: null,
           type: transaction.type,
-          status: 'RELEASED',
+          status: 'released',
           amount: transaction.payeeAmount || transaction.amount,
           platformFee: 0,
           agentCommission: 0,
           payeeAmount: transaction.payeeAmount || transaction.amount,
-          description: `Escrow release to landlord for ${transaction.listing.title}`,
+          description: `Escrow release to landlord for ${transaction.listing?.title ?? "property"}`,
         },
       });
       transferResults.push({ to: 'payee', transferId: payeeTransfer.id, amount: transaction.payeeAmount });
@@ -105,7 +105,7 @@ export async function POST(
           userId: transaction.payeeId,
           type: 'payment',
           title: 'Funds Released',
-          body: `₦${((Number(transaction.payeeAmount) || Number(transaction.amount)) / 100).toLocaleString()} has been released to your account for ${transaction.listing.title}.`,
+          body: `₦${((Number(transaction.payeeAmount) || Number(transaction.amount)) / 100).toLocaleString()} has been released to your account for ${transaction.listing?.title ?? "property"}.`,
           data: { transactionId: transaction.id, type: 'release' },
         },
       });
@@ -120,12 +120,12 @@ export async function POST(
           payeeId: transaction.agentId,
           agentId: null,
           type: transaction.type,
-          status: 'RELEASED',
+          status: 'released',
           amount: transaction.agentCommission,
           platformFee: 0,
           agentCommission: 0,
           payeeAmount: transaction.agentCommission,
-          description: `Agent commission release for ${transaction.listing.title}`,
+          description: `Agent commission release for ${transaction.listing?.title ?? "property"}`,
         },
       });
       transferResults.push({ to: 'agent', transferId: agentTransfer.id, amount: transaction.agentCommission });
@@ -136,7 +136,7 @@ export async function POST(
           userId: transaction.agentId,
           type: 'payment',
           title: 'Commission Released',
-          body: `Your commission of ₦${(Number(transaction.agentCommission) / 100).toLocaleString()} for ${transaction.listing.title} has been released.`,
+          body: `Your commission of ₦${(Number(transaction.agentCommission) / 100).toLocaleString()} for ${transaction.listing?.title ?? "property"} has been released.`,
           data: { transactionId: transaction.id, type: 'commission_release' },
         },
       });
@@ -151,12 +151,12 @@ export async function POST(
           payeeId: transaction.payerId,
           agentId: null,
           type: transaction.type,
-          status: 'REFUNDED',
+          status: 'refunded',
           amount: transaction.amount,
           platformFee: 0,
           agentCommission: 0,
           payeeAmount: transaction.amount,
-          description: `Refund for ${transaction.listing.title}`,
+          description: `Refund for ${transaction.listing?.title ?? "property"}`,
         },
       });
       transferResults.push({ to: 'payer', transferId: refundTransfer.id, amount: transaction.amount });
@@ -167,7 +167,7 @@ export async function POST(
           userId: transaction.payerId,
           type: 'payment',
           title: 'Refund Processed',
-          body: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing.title} has been refunded.`,
+          body: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing?.title ?? "property"} has been refunded.`,
           data: { transactionId: transaction.id, type: 'refund' },
         },
       });
@@ -177,7 +177,7 @@ export async function POST(
     const updated = await prisma.transaction.update({
       where: { id },
       data: {
-        status: 'RELEASED',
+        status: 'released',
         updatedAt: new Date(),
       },
     });

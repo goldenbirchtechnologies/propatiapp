@@ -3,7 +3,7 @@ import { prisma } from './prisma';
 import { UserRole } from '@prisma/client';
 
 export async function getCurrentUser() {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) return null;
 
   const user = await prisma.user.findUnique({
@@ -30,7 +30,7 @@ export async function requireRole(...roles: UserRole[]) {
 }
 
 export async function getCurrentUserId() {
-  const { userId } = auth();
+  const { userId } = await auth();
   return userId;
 }
 
@@ -83,7 +83,7 @@ export function getRoleRedirectPath(role: UserRole): string {
 }
 
 export async function getCurrentUserWithProfile() {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) return null;
 
   const user = await prisma.user.findUnique({
@@ -92,7 +92,7 @@ export async function getCurrentUserWithProfile() {
       ownedOrganisations: true,
       orgMemberships: {
         where: { status: 'active' },
-        include: { organisation: true },
+        include: { org: true },
       },
     },
   });

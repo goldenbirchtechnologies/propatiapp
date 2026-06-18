@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
         email: user.email,
         first_name: user.fullName.split(' ')[0],
         last_name: user.fullName.split(' ').slice(1).join(' ') || '',
-        phone: user.phone ?? undefined,
+        phone: undefined,
         metadata: { orgId: organisation.id, userId: user.id },
       });
     } catch (e) {

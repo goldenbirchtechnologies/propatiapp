@@ -15,7 +15,7 @@ export async function GET(
 
   try {
     // Users can view their own profile, admins can view anyone
-    if (user.id !== id && user.role !== 'ADMIN') {
+    if (user.id !== id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
@@ -56,7 +56,7 @@ export async function GET(
         lastLogin: true,
         orgMemberships: {
           include: {
-            organization: {
+            org: {
               select: { id: true, name: true, planTier: true, maxUnits: true, maxSeats: true },
             },
           },
@@ -99,7 +99,7 @@ export async function PATCH(
 
   try {
     // Users can only update their own profile, admins can update anyone
-    if (user.id !== id && user.role !== 'ADMIN') {
+    if (user.id !== id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
@@ -109,7 +109,7 @@ export async function PATCH(
 
     // Admins can update additional fields
     let adminFields: Record<string, unknown> = {};
-    if (user.role === 'ADMIN') {
+    if (user.role === 'admin') {
       adminFields = {
         role: body.role,
         isActive: body.isActive,

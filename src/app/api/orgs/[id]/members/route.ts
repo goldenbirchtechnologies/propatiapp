@@ -79,9 +79,6 @@ export async function GET(
           user: {
             select: { id: true, fullName: true, email: true, avatarUrl: true, role: true },
           },
-          invitedByUser: {
-            select: { id: true, fullName: true, email: true },
-          },
         },
       }),
       prisma.orgMember.count({ where }),

@@ -12,36 +12,48 @@ import { formatCurrency, getInitials } from '@/lib/utils';
 export interface ListingData {
   id: string;
   title: string;
-  description: string;
-  price: number; // in kobo
-  currency: string;
+  description?: string | null;
+  price: number; // in kobo (API returns base price, not in kobo)
+  priceFormatted?: string; // From API response
   listingType: 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
-  propertyType: 'apartment' | 'house' | 'duplex' | 'land' | 'office' | 'shop' | 'warehouse';
-  bedrooms: number;
-  bathrooms: number;
-  areaSqm: number;
+  propertyType?: 'apartment' | 'house' | 'duplex' | 'land' | 'office' | 'shop' | 'warehouse' | null;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  sizeSqm?: number | null; // API uses sizeSqm, not areaSqm
   address: string;
-  city: string;
+  area: string; // API uses 'area' for city/location
   state: string;
-  images: string[];
+  images: Array<{ id: string; url: string; isCover?: boolean; order?: number }> | string[]; // Support both API response and simple array
+  coverImage?: string | null; // From API response
   verificationTier: 'basic' | 'verified' | 'inspected' | 'certified';
-  isVerified: boolean;
-  isSaved: boolean;
+  status?: string;
+  owner?: {
+    id: string;
+    fullName: string;
+    phone?: string;
+    phoneVerified?: boolean;
+    email?: string;
+    profileImage?: string | null;
+  };
   agent?: {
     id: string;
-    name: string;
-    avatar?: string;
-    isVerified: boolean;
-  };
-  landlord?: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
+    fullName: string;
+    phone?: string;
+    email?: string;
+    profileImage?: string | null;
+  } | null;
+  verification?: {
+    overallStatus: string;
+    currentLayer: number;
+    rejectedAt?: string | null;
+    completedAt?: string | null;
+  } | null;
   createdAt: string;
   updatedAt: string;
-  amenities?: string[];
-  features?: string[];
+  amenities?: string[] | null;
+  // Client-side only fields
+  isSaved?: boolean;
+  savedByCurrentUser?: boolean;
 }
 
 interface ListingCardProps {
@@ -79,7 +91,7 @@ const verificationTierLabels: Record<ListingData['verificationTier'], string> = 
   certified: 'Certified',
 };
 
-const verificationTierColors: Record<ListingData['verificationTier'], 'default' | 'success' | 'warning' | 'verification'> = {
+const verificationTierColors: Record<NonNullable<ListingData['verificationTier']>, 'default' | 'success' | 'warning' | 'verification'> = {
   basic: 'default',
   verified: 'success',
   inspected: 'warning',
@@ -90,23 +102,50 @@ import { Home, LayoutDashboard, Building, Store, Warehouse } from 'lucide-react'
 
 function ListingImage({
   images,
+  coverImage,
   alt,
   variant,
   verificationTier,
-  isVerified,
+  verification,
+  onSaveClick,
+  isSaved,
 }: {
-  images: string[];
+  images: Array<{ id: string; url: string; isCover?: boolean; order?: number }> | string[];
+  coverImage?: string | null;
   alt: string;
   variant: 'grid' | 'list' | 'compact';
   verificationTier: ListingData['verificationTier'];
-  isVerified: boolean;
+  verification?: ListingData['verification'];
+  onSaveClick?: (e: React.MouseEvent) => void;
+  isSaved?: boolean;
 }) {
-  const primaryImage = images[0] || '/placeholder-property.jpg';
+  // Extract primary image: prefer coverImage from API, fallback to first image
+  const getPrimaryImage = () => {
+    if (coverImage) return coverImage;
+
+    if (Array.isArray(images) && images.length > 0) {
+      const firstImage = images[0];
+      if (typeof firstImage === 'string') {
+        return firstImage;
+      }
+      // Find cover image or return first image
+      const cover = images.find((img) => typeof img === 'object' && img.isCover);
+      return cover ? (cover as { url: string }).url : (firstImage as { url: string }).url;
+    }
+
+    return null;
+  };
+
+  const primaryImage = getPrimaryImage() || '/placeholder-property.jpg';
+  const imageCount = Array.isArray(images) ? images.length : 0;
   const aspectRatio = variant === 'list' ? 'w-full h-48' : variant === 'compact' ? 'w-24 h-24' : 'aspect-video';
+
+  // Determine verification badge based on verification object or tier
+  const isVerified = verification?.overallStatus === 'certified' || (verification?.currentLayer != null && verification.currentLayer >= 3);
 
   return (
     <div className={cn('relative overflow-hidden bg-muted', aspectRatio)}>
-      {primaryImage ? (
+      {primaryImage && primaryImage !== '/placeholder-property.jpg' ? (
         <Image
           src={primaryImage}
           alt={alt}
@@ -130,19 +169,25 @@ function ListingImage({
           </Badge>
         )}
       </div>
-      <div className="absolute top-2 right-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="bg-white/90 backdrop-blur-sm hover:bg-white"
-          aria-label="Save listing"
-        >
-          <Heart className="h-4 w-4" />
-        </Button>
-      </div>
-      {images.length > 1 && (
+      {onSaveClick && (
+        <div className="absolute top-2 right-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onSaveClick}
+            className={cn(
+              'bg-white/90 backdrop-blur-sm hover:bg-white',
+              isSaved && 'text-red-500'
+            )}
+            aria-label={isSaved ? 'Remove from saved' : 'Save listing'}
+          >
+            <Heart className={cn('h-4 w-4', isSaved && 'fill-current')} />
+          </Button>
+        </div>
+      )}
+      {imageCount > 1 && (
         <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-          +{images.length - 1} more
+          +{imageCount - 1} more
         </div>
       )}
     </div>
@@ -156,6 +201,9 @@ function ListingDetails({
   listing: ListingData;
   variant: 'grid' | 'list' | 'compact';
 }) {
+  // Use priceFormatted if available, otherwise format the price
+  const displayPrice = listing.priceFormatted || formatCurrency(listing.price);
+
   if (variant === 'compact') {
     return (
       <div className="flex-1 min-w-0">
@@ -164,10 +212,10 @@ function ListingDetails({
         </h3>
         <div className="flex items-center gap-2 mt-1 text-sm" style={{ color: 'var(--muted)' }}>
           <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
-          <span className="truncate">{listing.address}, {listing.city}</span>
+          <span className="truncate">{listing.address}, {listing.area}</span>
         </div>
         <div className="flex items-center gap-2 mt-2" style={{ color: 'var(--accent)' }}>
-          <span className="font-heading font-bold text-lg">{formatCurrency(listing.price)}</span>
+          <span className="font-heading font-bold text-lg">{displayPrice}</span>
           {listing.listingType === 'rent' && <span className="text-sm font-normal">/month</span>}
         </div>
       </div>
@@ -186,7 +234,7 @@ function ListingDetails({
           </h3>
           <div className="flex items-center gap-2 mt-1 text-sm" style={{ color: 'var(--muted)' }}>
             <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
-            <span className="truncate">{listing.address}, {listing.city}, {listing.state}</span>
+            <span className="truncate">{listing.address}, {listing.area}, {listing.state}</span>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1" style={{ color: 'var(--accent)' }}>
@@ -194,7 +242,7 @@ function ListingDetails({
             'font-heading font-bold',
             variant === 'grid' ? 'text-lg' : 'text-xl'
           )}>
-            {formatCurrency(listing.price)}
+            {displayPrice}
           </span>
           {listing.listingType === 'rent' && (
             <span className="text-sm font-normal" style={{ color: 'var(--muted)' }}>per month</span>
@@ -202,26 +250,37 @@ function ListingDetails({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 mt-3" style={{ color: 'var(--muted)' }}>
-        <span className="flex items-center gap-1.5 text-sm font-medium">
-          <Bed className="h-4 w-4" />
-          {listing.bedrooms} {listing.bedrooms === 1 ? 'Bed' : 'Beds'}
-        </span>
-        <span className="flex items-center gap-1.5 text-sm font-medium">
-          <Bath className="h-4 w-4" />
-          {listing.bathrooms} {listing.bathrooms === 1 ? 'Bath' : 'Baths'}
-        </span>
-        <span className="flex items-center gap-1.5 text-sm font-medium">
-          <Square className="h-4 w-4" />
-          {listing.areaSqm.toLocaleString()} sqm
-        </span>
-        <Badge variant="outline" className="text-xs">
-          {listingTypeLabels[listing.listingType]}
-        </Badge>
-        <Badge variant="outline" className="text-xs capitalize">
-          {listing.propertyType}
-        </Badge>
-      </div>
+      {/* Only show details if we have valid data */}
+      {(listing.bedrooms || listing.bathrooms || listing.sizeSqm || listing.propertyType) && (
+        <div className="flex flex-wrap items-center gap-3 mt-3" style={{ color: 'var(--muted)' }}>
+          {listing.bedrooms != null && (
+            <span className="flex items-center gap-1.5 text-sm font-medium">
+              <Bed className="h-4 w-4" />
+              {listing.bedrooms} {listing.bedrooms === 1 ? 'Bed' : 'Beds'}
+            </span>
+          )}
+          {listing.bathrooms != null && (
+            <span className="flex items-center gap-1.5 text-sm font-medium">
+              <Bath className="h-4 w-4" />
+              {listing.bathrooms} {listing.bathrooms === 1 ? 'Bath' : 'Baths'}
+            </span>
+          )}
+          {listing.sizeSqm != null && (
+            <span className="flex items-center gap-1.5 text-sm font-medium">
+              <Square className="h-4 w-4" />
+              {listing.sizeSqm.toLocaleString()} sqm
+            </span>
+          )}
+          <Badge variant="outline" className="text-xs">
+            {listingTypeLabels[listing.listingType]}
+          </Badge>
+          {listing.propertyType && (
+            <Badge variant="outline" className="text-xs capitalize">
+              {listing.propertyType}
+            </Badge>
+          )}
+        </div>
+      )}
 
       {listing.amenities && listing.amenities.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-3">
@@ -243,31 +302,42 @@ function ListingDetails({
 
 function AgentInfo({
   agent,
+  owner,
 }: {
-  agent: ListingData['agent'];
+  agent?: ListingData['agent'];
+  owner?: ListingData['owner'];
 }) {
-  if (!agent) return null;
+  // Prefer agent over owner for display
+  const displayPerson = agent || owner;
+  if (!displayPerson) return null;
+
+  const name = displayPerson.fullName;
+  const avatar = displayPerson.profileImage;
+  const isAgent = !!agent;
+  const isVerified = owner?.phoneVerified || false;
 
   return (
     <div className="flex items-center gap-3 pt-3 border-t border-border">
       <div className="relative">
-        {agent.avatar ? (
-          <Image src={agent.avatar} alt={agent.name} width={40} height={40} className="rounded-full" />
+        {avatar ? (
+          <Image src={avatar} alt={name} width={40} height={40} className="rounded-full" />
         ) : (
           <div className="w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center font-heading font-bold text-white"
             style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}>
-            {getInitials(agent.name)}
+            {getInitials(name)}
           </div>
         )}
-        {agent.isVerified && (
+        {isVerified && (
           <span className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
             <CheckCircle className="h-3 w-3 text-white" />
           </span>
         )}
       </div>
       <div className="min-w-0">
-        <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{agent.name}</p>
-        <p className="text-xs" style={{ color: 'var(--muted)' }}>Verified Agent</p>
+        <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{name}</p>
+        <p className="text-xs" style={{ color: 'var(--muted)' }}>
+          {isAgent ? 'Verified Agent' : 'Property Owner'}
+        </p>
       </div>
     </div>
   );
@@ -282,10 +352,12 @@ function ListingActions({
   onSave?: (listingId: string, isSaved: boolean) => void;
   variant: 'grid' | 'list' | 'compact';
 }) {
+  const isSaved = listing.isSaved || listing.savedByCurrentUser || false;
+
   const handleSave = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onSave?.(listing.id, !listing.isSaved);
+    onSave?.(listing.id, !isSaved);
   };
 
   return (
@@ -299,12 +371,12 @@ function ListingActions({
         onClick={handleSave}
         className={cn(
           'rounded-full transition-colors',
-          listing.isSaved && 'text-red-500 bg-red-50 dark:bg-red-900/20'
+          isSaved && 'text-red-500 bg-red-50 dark:bg-red-900/20'
         )}
-        aria-label={listing.isSaved ? 'Remove from saved' : 'Save listing'}
-        aria-pressed={listing.isSaved}
+        aria-label={isSaved ? 'Remove from saved' : 'Save listing'}
+        aria-pressed={isSaved}
       >
-        <Heart className={cn('h-4 w-4', listing.isSaved && 'fill-current')} />
+        <Heart className={cn('h-4 w-4', isSaved && 'fill-current')} />
       </Button>
       {variant !== 'compact' && (
         <Button variant="outline" size="sm" className="flex-1 sm:flex-none">
@@ -324,19 +396,30 @@ export function ListingCard({
   showVerification = true,
   className,
 }: ListingCardProps) {
+  const isSaved = listing.isSaved || listing.savedByCurrentUser || false;
+
+  const handleSaveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSave?.(listing.id, !isSaved);
+  };
+
   const cardContent = (
     <>
       <ListingImage
         images={listing.images}
+        coverImage={listing.coverImage}
         alt={listing.title}
         variant={variant}
         verificationTier={listing.verificationTier}
-        isVerified={listing.isVerified}
+        verification={listing.verification}
+        onSaveClick={variant !== 'compact' ? handleSaveClick : undefined}
+        isSaved={isSaved}
       />
       <div className={cn('p-4', variant === 'list' && 'py-4')}>
         <ListingDetails listing={listing} variant={variant} />
-        {showAgent && listing.agent && (
-          <AgentInfo agent={listing.agent} />
+        {showAgent && (listing.agent || listing.owner) && (
+          <AgentInfo agent={listing.agent} owner={listing.owner} />
         )}
         <ListingActions listing={listing} onSave={onSave} variant={variant} />
       </div>
@@ -393,5 +476,3 @@ export function ListingSkeleton({ variant = 'grid', count = 3 }: { variant?: 'gr
     </div>
   );
 }
-
-import { Badge } from '@/components/ui/badge';

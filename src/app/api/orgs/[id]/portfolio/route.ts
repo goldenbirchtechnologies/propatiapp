@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { Prisma } from '@prisma/client';
 
 export async function GET(
   request: NextRequest,
@@ -65,7 +66,7 @@ export async function GET(
     const sortOrder = sort.startsWith('-') ? 'desc' : 'asc';
     orderBy = { [sortField]: sortOrder };
 
-    const [listings, total, stats] = await Promise.all([
+    const [listings, total, stats, unitStats] = await Promise.all([
       prisma.listing.findMany({
         where: listingsWhere,
         orderBy,
@@ -84,6 +85,13 @@ export async function GET(
         where: { orgListings: { some: { orgId: id } } },
         _count: true,
       }),
+      // Get unit statistics
+      prisma.unit.groupBy({
+        by: ['status', 'occupancy', 'type'],
+        where: { organizationId: id },
+        _count: true,
+        _sum: { rent: true },
+      }),
     ]);
 
     // Calculate portfolio summary stats
@@ -97,6 +105,29 @@ export async function GET(
       return acc;
     }, {} as Record<string, number>);
 
+    // Calculate unit statistics
+    const totalUnits = unitStats.reduce((sum, s) => sum + s._count, 0);
+    const occupiedUnits = unitStats.filter(s => s.occupancy === 'OCCUPIED').reduce((sum, s) => sum + s._count, 0);
+    const vacantUnits = unitStats.filter(s => s.occupancy === 'VACANT').reduce((sum, s) => sum + s._count, 0);
+    const underMaintenanceUnits = unitStats.filter(s => s.status === 'MAINTENANCE').reduce((sum, s) => sum + s._count, 0);
+
+    const totalMonthlyRent = unitStats.reduce((sum, s) => {
+      const rent = s._sum.rent ? Number(s._sum.rent) : 0;
+      return sum + rent;
+    }, 0);
+
+    const occupancyRate = totalUnits > 0 ? Math.round((occupiedUnits / totalUnits) * 100) : 0;
+
+    const unitsByType = unitStats.reduce((acc, s) => {
+      const existing = acc.find(item => item.type === s.type);
+      if (existing) {
+        existing.count += s._count;
+      } else {
+        acc.push({ type: s.type, count: s._count });
+      }
+      return acc;
+    }, [] as Array<{ type: string; count: number }>);
+
     return NextResponse.json({
       success: true,
       data: {
@@ -107,6 +138,15 @@ export async function GET(
           draft: draftListings,
           suspended: suspendedListings,
           byType: typeBreakdown,
+        },
+        units: {
+          totalUnits,
+          occupiedUnits,
+          vacantUnits,
+          underMaintenanceUnits,
+          totalMonthlyRent,
+          occupancyRate,
+          unitsByType,
         },
       },
       pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },

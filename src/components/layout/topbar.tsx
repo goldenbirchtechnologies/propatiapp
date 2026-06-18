@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
-import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp } from 'lucide-react';
+import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp, Home } from 'lucide-react';
 
 interface TopbarProps {
   onMenuClick?: () => void;

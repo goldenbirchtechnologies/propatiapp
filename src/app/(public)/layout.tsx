@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Home, Menu, X, User, LogIn, Search, Building2, Shield, DollarSign, Users, ArrowRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -7,7 +9,19 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import { useAuth, useUser } from '@clerk/nextjs';
+
+// Dynamic import to handle Clerk not being configured
+let useAuth: any;
+let useUser: any;
+try {
+  const clerk = require('@clerk/nextjs');
+  useAuth = clerk.useAuth;
+  useUser = clerk.useUser;
+} catch (e) {
+  // Clerk not available - use mock hooks
+  useAuth = () => ({ userId: null, isLoaded: true });
+  useUser = () => ({ user: null });
+}
 
 export default function PublicLayout({
   children,
@@ -15,10 +29,26 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { userId, isLoaded } = useAuth();
-  const { user } = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Try to use Clerk hooks, fall back to null if not available
+  let userId = null;
+  let isLoaded = true;
+  let user = null;
+
+  try {
+    const auth = useAuth();
+    const userHook = useUser();
+    userId = auth.userId;
+    isLoaded = auth.isLoaded;
+    user = userHook.user;
+  } catch (e) {
+    // Clerk not configured - proceed without auth
+    isLoaded = true;
+    userId = null;
+    user = null;
+  }
 
   if (!isLoaded) {
     return (

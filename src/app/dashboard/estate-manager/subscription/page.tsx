@@ -1,0 +1,310 @@
+'use client';
+
+import { useOrganizations } from '@/hooks/useOrganizations';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Separator } from '@/components/ui/separator';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Check, Crown, Building2, Users, FileText, TrendingUp, ExternalLink } from 'lucide-react';
+
+export default function SubscriptionPage() {
+  const { data: orgsData, isLoading: orgsLoading } = useOrganizations();
+  const org = orgsData?.data?.[0];
+
+  // Mock billing history
+  const billingHistory = [
+    {
+      id: '1',
+      date: '2024-06-01',
+      plan: 'Growth',
+      amount: 50000,
+      status: 'paid',
+    },
+    {
+      id: '2',
+      date: '2024-05-01',
+      plan: 'Growth',
+      amount: 50000,
+      status: 'paid',
+    },
+    {
+      id: '3',
+      date: '2024-04-01',
+      plan: 'Starter',
+      amount: 20000,
+      status: 'paid',
+    },
+  ];
+
+  if (orgsLoading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="h-96" />
+      </div>
+    );
+  }
+
+  if (!org) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
+        <p className="text-muted-foreground">No organization found</p>
+      </div>
+    );
+  }
+
+  const plans = [
+    {
+      name: 'Starter',
+      price: 20000,
+      period: 'month',
+      maxUnits: 20,
+      maxSeats: 1,
+      features: [
+        'Up to 20 units',
+        '1 team member',
+        'Basic reporting',
+        'Email support',
+        'Mobile app access',
+      ],
+      current: org.planTier === 'starter',
+    },
+    {
+      name: 'Growth',
+      price: 50000,
+      period: 'month',
+      maxUnits: 100,
+      maxSeats: 5,
+      features: [
+        'Up to 100 units',
+        '5 team members',
+        'Advanced reporting',
+        'Priority support',
+        'Mobile app access',
+        'Custom branding',
+        'API access',
+      ],
+      current: org.planTier === 'growth',
+      popular: true,
+    },
+    {
+      name: 'Enterprise',
+      price: 150000,
+      period: 'month',
+      maxUnits: 999,
+      maxSeats: 20,
+      features: [
+        'Unlimited units',
+        '20+ team members',
+        'Custom reporting',
+        'Dedicated support',
+        'Mobile app access',
+        'Custom branding',
+        'API access',
+        'SSO & advanced security',
+        'Training & onboarding',
+      ],
+      current: org.planTier === 'enterprise',
+    },
+  ];
+
+  const usageStats = [
+    {
+      label: 'Units',
+      used: org.maxUnits || 0, // Mock: actual units count
+      limit: org.maxUnits,
+      percentage: ((org.maxUnits || 0) / org.maxUnits) * 100,
+    },
+    {
+      label: 'Team Members',
+      used: 3, // Mock
+      limit: org.maxSeats,
+      percentage: (3 / org.maxSeats) * 100,
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Subscription & Billing</h1>
+        <p className="text-muted-foreground">
+          Manage your subscription plan and billing
+        </p>
+      </div>
+
+      {/* Current Plan */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Current Plan</CardTitle>
+          <CardDescription>
+            You are currently on the {org.planTier.toUpperCase()} plan
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-2xl font-bold capitalize">{org.planTier} Plan</h3>
+              <p className="text-muted-foreground">
+                ₦{plans.find((p) => p.current)?.price.toLocaleString()}/month
+              </p>
+            </div>
+            <Badge variant="default" className="text-sm">
+              Active
+            </Badge>
+          </div>
+          <Separator />
+          <div className="space-y-4">
+            <h4 className="font-semibold">Usage</h4>
+            {usageStats.map((stat) => (
+              <div key={stat.label}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-muted-foreground">{stat.label}</span>
+                  <span className="text-sm font-medium">
+                    {stat.used} / {stat.limit}
+                  </span>
+                </div>
+                <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary transition-all"
+                    style={{ width: `${Math.min(stat.percentage, 100)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <Button variant="outline" className="w-full" asChild>
+            <a
+              href="https://paystack.com/customer"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Manage Billing
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Plan Comparison */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Available Plans</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {plans.map((plan) => (
+            <Card
+              key={plan.name}
+              className={plan.popular ? 'border-primary border-2' : ''}
+            >
+              <CardHeader>
+                {plan.popular && (
+                  <Badge className="w-fit mb-2" variant="default">
+                    <Crown className="h-3 w-3 mr-1" />
+                    Most Popular
+                  </Badge>
+                )}
+                <CardTitle>{plan.name}</CardTitle>
+                <CardDescription>
+                  <span className="text-3xl font-bold text-foreground">
+                    ₦{plan.price.toLocaleString()}
+                  </span>
+                  <span className="text-muted-foreground">/{plan.period}</span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  {plan.features.map((feature) => (
+                    <div key={feature} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-green-600 shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                <Separator />
+                {plan.current ? (
+                  <Button variant="outline" className="w-full" disabled>
+                    Current Plan
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full"
+                    variant={plan.popular ? 'default' : 'outline'}
+                  >
+                    {plans.findIndex((p) => p.current) <
+                    plans.findIndex((p) => p.name === plan.name)
+                      ? 'Upgrade'
+                      : 'Downgrade'}
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Billing History */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Billing History</CardTitle>
+          <CardDescription>View your past invoices and payments</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {billingHistory.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Plan</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Invoice</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {billingHistory.map((entry) => (
+                  <TableRow key={entry.id}>
+                    <TableCell>
+                      {new Date(entry.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </TableCell>
+                    <TableCell>{entry.plan}</TableCell>
+                    <TableCell>₦{entry.amount.toLocaleString()}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={entry.status === 'paid' ? 'success' : 'secondary'}
+                      >
+                        {entry.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button size="sm" variant="ghost">
+                        Download
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+              <p className="text-muted-foreground">No billing history</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

@@ -31,7 +31,7 @@ export async function GET(
       return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     }
 
-    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'ADMIN') {
+    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
@@ -78,7 +78,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     }
 
-    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'ADMIN') {
+    if (conversation.landlordId !== user.id && conversation.tenantId !== user.id && user.role !== 'admin') {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 

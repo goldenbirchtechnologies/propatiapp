@@ -112,7 +112,7 @@ export async function POST(
       });
     }
 
-    // If fully signed, notify all parties
+    // If fully signed, notify all parties and generate PDF + rent schedule
     if (newStatus === 'fully_signed') {
       for (const notifyUser of [agreement.landlord, agreement.tenant, agreement.agent].filter(
         (p): p is { id: string; fullName: string; email: string } => p !== null
@@ -127,6 +127,24 @@ export async function POST(
           },
         });
       }
+
+      // Generate PDF and rent schedule in the background
+      // Using setTimeout to not block the response
+      setTimeout(async () => {
+        try {
+          // Generate PDF
+          const { generateAndSaveAgreementPDF } = await import('@/lib/pdf-generator');
+          await generateAndSaveAgreementPDF(id);
+
+          // Generate rent schedule
+          const { createRentScheduleEntries } = await import('@/lib/rent-schedule');
+          await createRentScheduleEntries(id);
+
+          console.log(`Generated PDF and rent schedule for agreement ${id}`);
+        } catch (error) {
+          console.error(`Failed to generate PDF/schedule for agreement ${id}:`, error);
+        }
+      }, 100);
     }
 
     return NextResponse.json({ success: true, data: signature, status: newStatus });

@@ -2,14 +2,12 @@
 
 import { useState } from 'react';
 import { useAdminVerificationQueue, useAdminReviewVerification } from '@/hooks/useVerifications';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Shield, CheckCircle, XCircle, Clock, AlertCircle, Eye, FileText, User, MapPin, Building, MoreVertical, ChevronDown, Loader2 } from 'lucide-react';
-import { format } from 'date-fn';
+import { Shield, CheckCircle, XCircle, Clock, Eye, Building, Loader2 } from 'lucide-react';
+import { format } from 'date-fns';
 
 interface AdminVerificationClientProps {
   stats: {
@@ -27,15 +25,15 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
   const [reviewNotes, setReviewNotes] = useState('');
   const [reviewLayer, setReviewLayer] = useState(1);
 
-  const { data: queueData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useAdminVerificationQueue({
+  const { data: queueData, isLoading } = useAdminVerificationQueue({
     status: activeTab === 'all' ? undefined : activeTab,
     limit: 20,
   });
   const reviewMutation = useAdminReviewVerification();
 
-  const verifications = queueData?.pages.flatMap(page => page.data || []) || [];
+  const verifications: any[] = (queueData as any)?.data || [];
 
-  const handleReview = async (verification: any, action: 'approve' | 'reject', layer: number) => {
+  const handleReview = (verification: any, action: 'approve' | 'reject', layer: number) => {
     setSelectedVerification(verification);
     setReviewAction(action);
     setReviewLayer(layer);
@@ -53,7 +51,7 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
       });
       setSelectedVerification(null);
       setReviewNotes('');
-    } catch (error) {
+    } catch {
       alert('Failed to submit review. Please try again.');
     }
   };
@@ -67,7 +65,6 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
@@ -79,15 +76,13 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Pending Review" value={stats.pendingCount + stats.inProgressCount} icon={<Clock />} />
-        <StatCard label="In Progress" value={stats.inProgressCount} icon={<Loader2 />} />
-        <StatCard label="Approved" value={stats.approvedCount} icon={<CheckCircle />} trendPositive />
-        <StatCard label="Rejected" value={stats.rejectedCount} icon={<XCircle />} />
+        <StatCard label="Pending Review" value={stats.pendingCount + stats.inProgressCount} icon={<Clock className="w-5 h-5" />} />
+        <StatCard label="In Progress" value={stats.inProgressCount} icon={<Loader2 className="w-5 h-5" />} />
+        <StatCard label="Approved" value={stats.approvedCount} icon={<CheckCircle className="w-5 h-5" />} trendPositive />
+        <StatCard label="Rejected" value={stats.rejectedCount} icon={<XCircle className="w-5 h-5" />} />
       </div>
 
-      {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           {tabs.map((tab) => (
@@ -99,42 +94,13 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
           ))}
         </TabsList>
 
-        <TabsContent value="pending" className="mt-6">
-          <VerificationTable verifications={verifications} onReview={handleReview} isLoading={isLoading} />
-        </TabsContent>
-        <TabsContent value="approved" className="mt-6">
-          <VerificationTable verifications={verifications} onReview={handleReview} isLoading={isLoading} />
-        </TabsContent>
-        <TabsContent value="rejected" className="mt-6">
-          <VerificationTable verifications={verifications} onReview={handleReview} isLoading={isLoading} />
-        </TabsContent>
-        <TabsContent value="all" className="mt-6">
-          <VerificationTable verifications={verifications} onReview={handleReview} isLoading={isLoading} />
-        </TabsContent>
+        {tabs.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value} className="mt-6">
+            <VerificationTable verifications={verifications} onReview={handleReview} isLoading={isLoading} />
+          </TabsContent>
+        ))}
       </Tabs>
 
-      {/* Load More */}
-      {(hasNextPage || isFetchingNextPage) && (
-        <div className="text-center pt-8">
-          <Button
-            variant="outline"
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            className="w-full max-w-xs"
-          >
-            {isFetchingNextPage ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                Loading more...
-              </>
-            ) : (
-              'Load More'
-            )}
-          </Button>
-        </div>
-      )}
-
-      {/* Review Modal */}
       {selectedVerification && (
         <ReviewModal
           verification={selectedVerification}
@@ -151,7 +117,11 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
   );
 }
 
-function VerificationTable({ verifications, onReview, isLoading }: { verifications: any[]; onReview: (v: any, a: 'approve' | 'reject', l: number) => void; isLoading: boolean }) {
+function VerificationTable({ verifications, onReview, isLoading }: {
+  verifications: any[];
+  onReview: (v: any, a: 'approve' | 'reject', l: number) => void;
+  isLoading: boolean;
+}) {
   if (isLoading && verifications.length === 0) {
     return (
       <Card>
@@ -188,11 +158,7 @@ function VerificationTable({ verifications, onReview, isLoading }: { verificatio
           </thead>
           <tbody>
             {verifications.map((verification) => (
-              <VerificationRow
-                key={verification.id}
-                verification={verification}
-                onReview={onReview}
-              />
+              <VerificationRow key={verification.id} verification={verification} onReview={onReview} />
             ))}
           </tbody>
         </table>
@@ -201,7 +167,10 @@ function VerificationTable({ verifications, onReview, isLoading }: { verificatio
   );
 }
 
-function VerificationRow({ verification, onReview }: { verification: any; onReview: (v: any, a: 'approve' | 'reject', l: number) => void }) {
+function VerificationRow({ verification, onReview }: {
+  verification: any;
+  onReview: (v: any, a: 'approve' | 'reject', l: number) => void;
+}) {
   const layerLabels = ['Documents', 'Identity', 'Video', 'Inspection', 'Certified'];
   const currentLayer = verification.currentLayer || 1;
   const layerStatus = [
@@ -244,7 +213,6 @@ function VerificationRow({ verification, onReview }: { verification: any; onRevi
             const status = layerStatus[index];
             const isCurrent = index + 1 === currentLayer;
             const isDone = status === 'approved';
-            
             return (
               <span
                 key={label}
@@ -299,24 +267,32 @@ function VerificationRowSkeleton() {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const config: Record<string, { class: string; label: string; icon: any }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'tag-blue', label: 'In Progress', icon: <Loader2 className="w-3 h-3 mr-1 animate-spin" /> },
-    certified: { class: 'tag-green', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
-    rejected: { class: 'tag-red', label: 'Rejected', icon: <XCircle className="w-3 h-3 mr-1" /> },
+  const config: Record<string, { label: string; icon: React.ReactNode }> = {
+    not_started: { label: 'Not Started', icon: <Clock className="w-3 h-3" /> },
+    in_progress: { label: 'In Progress', icon: <Loader2 className="w-3 h-3 animate-spin" /> },
+    certified: { label: 'Approved', icon: <CheckCircle className="w-3 h-3" /> },
+    rejected: { label: 'Rejected', icon: <XCircle className="w-3 h-3" /> },
   };
   const cfg = config[status] || config.not_started;
   return (
-    <Badge variant={cfg.class.replace('tag-', '') as any} className="flex items-center gap-1">
+    <Badge variant="secondary" className="flex items-center gap-1">
       {cfg.icon}
       {cfg.label}
     </Badge>
   );
 }
 
-function ReviewModal({ verification, action, layer, notes, onNotesChange, onSubmit, onClose, isSubmitting }: any) {
+function ReviewModal({ verification, action, layer, notes, onNotesChange, onSubmit, onClose, isSubmitting }: {
+  verification: any;
+  action: 'approve' | 'reject';
+  layer: number;
+  notes: string;
+  onNotesChange: (v: string) => void;
+  onSubmit: () => void;
+  onClose: () => void;
+  isSubmitting: boolean;
+}) {
   if (!verification) return null;
-
   const layerNames = ['', 'Documents', 'Identity', 'Video', 'Inspection', 'Certified'];
 
   return (
@@ -365,7 +341,7 @@ function ReviewModal({ verification, action, layer, notes, onNotesChange, onSubm
           <Button
             onClick={onSubmit}
             disabled={isSubmitting || (action === 'reject' && !notes.trim())}
-            variant={action === 'reject' ? 'destructive' : 'primary'}
+            variant={action === 'reject' ? 'destructive' : 'default'}
           >
             {isSubmitting ? (
               <>
@@ -382,7 +358,12 @@ function ReviewModal({ verification, action, layer, notes, onNotesChange, onSubm
   );
 }
 
-function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trendPositive?: boolean }) {
+function StatCard({ label, value, icon, trendPositive = false }: {
+  label: string;
+  value: number;
+  icon: React.ReactNode;
+  trendPositive?: boolean;
+}) {
   return (
     <Card>
       <CardContent className="p-6">
@@ -391,27 +372,11 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
             <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
             <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
-            {Icon}
+          <div className="p-3 rounded-xl" style={{ background: trendPositive ? 'var(--green-bg)' : 'var(--accent-bg)', color: trendPositive ? 'var(--green)' : 'var(--accent)' }}>
+            {icon}
           </div>
         </div>
       </CardContent>
     </Card>
   );
 }
-
-function CheckCircleIcon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>; }
-function XCircleIcon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>; }
-function ClockIcon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>; }
-function Loader2Icon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>; }
-function ShieldIcon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>; }
-function BuildingIcon() { return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/></svg>; }
-function FileTextIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>; }
-function EyeIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>; }
-function UserIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>; }
-function MapPinIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>; }
-function MoreVerticalIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>; }
-function Loader2() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>; }
-function ChevronDownIcon() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>; }
-function CheckCircle() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>; }
-function XCircle() { return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>; }

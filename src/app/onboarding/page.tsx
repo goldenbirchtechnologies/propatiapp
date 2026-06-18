@@ -91,7 +91,7 @@ function OnboardingFlow({ user }: { user: any }) {
               <input type="tel" className="inp-field" placeholder="+234 800 000 0000" />
             </div>
 
-            {user.role === 'TENANT' && (
+            {user.role === 'tenant' && (
               <div className="space-y-4">
                 <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Tenant Preferences</h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -134,7 +134,7 @@ function OnboardingFlow({ user }: { user: any }) {
               </div>
             )}
 
-            {user.role === 'LANDLORD' && (
+            {user.role === 'landlord' && (
               <div className="space-y-4">
                 <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Landlord Information</h3>
                 <div>
@@ -148,7 +148,7 @@ function OnboardingFlow({ user }: { user: any }) {
               </div>
             )}
 
-            {user.role === 'AGENT' && (
+            {user.role === 'agent' && (
               <div className="space-y-4">
                 <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Agent Information</h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -164,7 +164,7 @@ function OnboardingFlow({ user }: { user: any }) {
               </div>
             )}
 
-            {user.role === 'ESTATE_MANAGER' && (
+            {user.role === 'estate_manager' && (
               <div className="space-y-4">
                 <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Organization Setup</h3>
                 <p className="text-sm" style={{ color: 'var(--muted)' }}>You'll create your organization after completing your profile.</p>

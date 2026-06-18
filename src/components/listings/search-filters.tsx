@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { X, Filter, SlidersHorizontal, ChevronDown, ChevronUp, MapPin, Home, Building, DollarSign, Bed, Bath, Square, Search } from 'lucide-react';
+import { X, Filter, SlidersHorizontal, ChevronDown, ChevronUp, MapPin, Home, Building, DollarSign, Bed, Bath, Square, Search, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -156,7 +156,7 @@ function MultiSelectDropdown({
   selectedValues: string[];
   onChange: (values: string[]) => void;
   placeholder?: string;
-  icon?: React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
   className?: string;
 }) {
   const handleCheckboxChange = (value: string, checked: boolean) => {

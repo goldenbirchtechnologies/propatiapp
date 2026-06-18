@@ -36,7 +36,7 @@ export async function GET(
       transaction.payerId === user.id ||
       transaction.payeeId === user.id ||
       transaction.agentId === user.id ||
-      user.role === 'ADMIN';
+      user.role === 'admin';
 
     if (!isParticipant) {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });

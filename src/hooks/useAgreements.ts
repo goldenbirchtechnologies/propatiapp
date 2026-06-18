@@ -121,7 +121,7 @@ export function useAgreementStatus(agreement: Agreement | undefined) {
 
   const isSignable = ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(agreement.status);
   const isTerminatable = ['fully_signed', 'pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(agreement.status);
-  
+
   const statusOrder = [
     'draft',
     'pending_landlord',
@@ -132,7 +132,7 @@ export function useAgreementStatus(agreement: Agreement | undefined) {
     'terminated',
     'expired',
   ];
-  
+
   const currentStepIndex = statusOrder.indexOf(agreement.status);
   const currentStep = statusOrder[currentStepIndex] || agreement.status;
 
@@ -143,4 +143,36 @@ export function useAgreementStatus(agreement: Agreement | undefined) {
     progress: Math.max(0, (currentStepIndex / (statusOrder.length - 2)) * 100), // Exclude terminated/expired
     nextSteps: statusOrder.slice(currentStepIndex + 1, -2), // Exclude terminated/expired
   };
+}
+
+/**
+ * Get agreement preview HTML
+ */
+export function useAgreementPreview(id: string, enabled = true) {
+  return useQuery({
+    queryKey: ['agreement-preview', id],
+    queryFn: async () => {
+      const res = await fetch(`/api/agreements/${id}/preview`);
+      if (!res.ok) throw new Error('Failed to load agreement preview');
+      return res.text();
+    },
+    enabled: enabled && !!id,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
+/**
+ * Get rent schedule for an agreement
+ */
+export function useRentSchedule(agreementId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['rent-schedule', agreementId],
+    queryFn: async () => {
+      const res = await fetch(`/api/agreements/${agreementId}/rent-schedule`);
+      if (!res.ok) throw new Error('Failed to load rent schedule');
+      return res.json();
+    },
+    enabled: enabled && !!agreementId,
+    staleTime: 60 * 1000,
+  });
 }

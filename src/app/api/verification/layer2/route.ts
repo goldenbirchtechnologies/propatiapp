@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { verifyIdentitySchema } from '@/lib/validators';
 import { verificationService } from '@/lib/verification';
-import { Role } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);

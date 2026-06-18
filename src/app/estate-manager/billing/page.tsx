@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { CreditCard, DollarSign, Receipt, ArrowUpRight, Settings, Upgrade, Download } from 'lucide-react';
+import { CreditCard, DollarSign, Receipt, ArrowUpRight, Settings, TrendingUp, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -107,7 +107,7 @@ export default function EstateManagerBillingPage() {
             <div className="border-l pl-6 md:border-l-0 md:pl-0 md:border-t md:pt-6">
               <p className="text-sm text-muted-foreground mb-2">Current monthly cost</p>
               <div className="text-3xl font-bold text-foreground">
-                ₦{plans.find(p => p.id === currentPlan)?.price.toLocaleString()}/{period}
+                ₦{plans.find(p => p.id === currentPlan)?.price.toLocaleString()}/{plans.find(p => p.id === currentPlan)?.period}
               </div>
               <p className="text-sm text-muted-foreground">
                 {plans.find(p => p.id === currentPlan)?.seats === -1 
@@ -222,7 +222,7 @@ function PlanCard({ plan, isCurrent }: { plan: typeof plans[0]; isCurrent: boole
     <div className={`relative p-6 rounded-xl border-2 transition-all ${isCurrent ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
       {plan.popular && !isCurrent && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge variant="primary" className="text-xs">Most Popular</Badge>
+          <Badge variant="default" className="text-xs">Most Popular</Badge>
         </div>
       )}
       

@@ -42,7 +42,7 @@ export async function POST(
     const canTerminate =
       agreement.landlordId === user.id ||
       agreement.tenantId === user.id ||
-      user.role === 'ADMIN';
+      user.role === 'admin';
 
     if (!canTerminate) {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });

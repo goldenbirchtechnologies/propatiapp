@@ -26,7 +26,7 @@ export async function GET(
     if (
       verification.ownerId !== user.id &&
       verification.listing.agentId !== user.id &&
-      user.role !== 'ADMIN'
+      user.role !== 'admin'
     ) {
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }

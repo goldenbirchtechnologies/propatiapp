@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
@@ -135,8 +136,8 @@ export async function GET(
               COUNT(*) as count
             FROM "transactions"
             WHERE "listingId" IN (${listingIds.join("', '")})
-            ${startDate ? prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : prisma.empty}
-            ${endDate ? prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : prisma.empty}
+            ${startDate ? Prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : Prisma.empty}
+            ${endDate ? Prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : Prisma.empty}
             GROUP BY DATE_TRUNC('month', "createdAt"), "type"
             ORDER BY month DESC
           `,
@@ -198,8 +199,8 @@ export async function GET(
             FROM "maintenance_tickets"
             WHERE "orgId" = ${id}
             AND "resolvedAt" IS NOT NULL
-            ${startDate ? prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : prisma.empty}
-            ${endDate ? prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : prisma.empty}
+            ${startDate ? Prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : Prisma.empty}
+            ${endDate ? Prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : Prisma.empty}
           `,
         ]);
 
@@ -210,7 +211,7 @@ export async function GET(
           byStatus: statusCounts.reduce((acc, s) => { acc[s.status] = s._count; return acc; }, {} as Record<string, number>),
           byCategory: categoryCounts.reduce((acc, s) => { acc[s.category] = s._count; return acc; }, {} as Record<string, number>),
           byPriority: priorityCounts.reduce((acc, s) => { acc[s.priority] = s._count; return acc; }, {} as Record<string, number>),
-          avgResolutionTimeHours: avgResolutionTime[0]?.avg_hours || 0,
+          avgResolutionTimeHours: (avgResolutionTime as Array<{ avg_hours: number | null }>)[0]?.avg_hours || 0,
         };
         break;
       }
@@ -315,8 +316,8 @@ export async function GET(
             WHERE "listingId" IN (${listingIds.join("', '")})
             AND "type" IN ('rent', 'sale', 'short_let')
             AND "status" = 'released'
-            ${startDate ? prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : prisma.empty}
-            ${endDate ? prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : prisma.empty}
+            ${startDate ? Prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : Prisma.empty}
+            ${endDate ? Prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : Prisma.empty}
             GROUP BY DATE_TRUNC('month', "createdAt")
             ORDER BY month DESC
           `,

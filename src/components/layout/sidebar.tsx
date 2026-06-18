@@ -75,7 +75,7 @@ const roleNavigation: Record<string, NavItem[]> = {
     { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Settings className="h-5 w-5" /> },
     { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
     { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart className="h-5 w-5" /> },
-    { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <CreditCard className="h-5 w-5" /> },
+    { label: 'Subscription', href: '/dashboard/estate-manager/subscription', icon: <CreditCard className="h-5 w-5" /> },
   ],
 };
 

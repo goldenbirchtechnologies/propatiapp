@@ -1,5 +1,5 @@
 import { User as ClerkUser } from '@clerk/nextjs/server';
-import { Role, AgentTier } from '@prisma/client';
+import { UserRole as Role, AgentTier } from '@prisma/client';
 
 // Extend Clerk's User type with our custom metadata
 declare module '@clerk/nextjs/server' {

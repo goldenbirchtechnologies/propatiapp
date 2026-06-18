@@ -5,6 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import { DollarSign as CurrencyIcon, Shield as ShieldIcon, Clock as ClockIcon, Calendar as CalendarIcon, Eye as EyeIcon, FileText as FileIcon } from 'lucide-react';
 
 export default async function LandlordRentPage() {
   const { userId } = await auth();
@@ -15,7 +16,7 @@ export default async function LandlordRentPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'LANDLORD') {
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
 
@@ -24,7 +25,7 @@ export default async function LandlordRentPage() {
     where: { payeeId: user.id },
     include: {
       listing: { select: { id: true, title: true, area: true } },
-      agreement: { select: { id: true, tenantId: true, tenant: { select: { fullName: true } } } },
+      agreements: { select: { id: true, tenantId: true, tenant: { select: { fullName: true } } } },
       payer: { select: { fullName: true } },
     },
     orderBy: { createdAt: 'desc' },
@@ -81,7 +82,7 @@ export default async function LandlordRentPage() {
           />
           <StatCard
             label="Pending Payments"
-            value={pendingCount}
+            value={String(pendingCount)}
             icon={<ClockIcon />}
             trend={pendingCount > 0 ? 'Action required' : 'All caught up'}
             trendPositive={pendingCount === 0}
@@ -90,6 +91,7 @@ export default async function LandlordRentPage() {
             label="This Month"
             value={`₦${(thisMonthRevenue / 100).toLocaleString()}`}
             icon={<CalendarIcon />}
+            trend=""
             trendPositive
           />
         </div>
@@ -163,7 +165,7 @@ export default async function LandlordRentPage() {
                         </td>
                         <td className="p-4">
                           <p className="font-medium" style={{ color: 'var(--text)' }}>
-                            {tx.agreement?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
+                            {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                           </p>
                         </td>
                         <td className="p-4">
@@ -282,22 +284,3 @@ function TransactionStatusBadge({ status }: { status: string }) {
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
-// Icons
-function CurrencyIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>;
-}
-function ShieldIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
-}
-function ClockIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
-}
-function CalendarIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
-}
-function EyeIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>;
-}
-function FileIcon() {
-  return <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>;
-}

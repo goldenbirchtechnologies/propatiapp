@@ -6,7 +6,6 @@ import { paystack } from '@/lib/paystack';
 import { computeFees } from '@/lib/fees';
 import { TransactionStatus, TransactionType, UserRole } from '@prisma/client';
 import { z } from 'zod';
-import { Role } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
@@ -29,9 +28,9 @@ export async function GET(request: NextRequest) {
     // Build where clause based on user role
     const where: Record<string, unknown> = {};
 
-    if (user.role === 'ADMIN') {
+    if (user.role === 'admin') {
       // Admin can see all
-    } else if (user.role === 'AGENT') {
+    } else if (user.role === 'agent') {
       where.OR = [{ payerId: user.id }, { payeeId: user.id }, { agentId: user.id }];
     } else {
       where.OR = [{ payerId: user.id }, { payeeId: user.id }];

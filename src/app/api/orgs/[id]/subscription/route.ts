@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import { OrgPlanTier, SubscriptionStatus } from '@prisma/client';
 import { z } from 'zod';
+import { getSubscriptionPlan, getPaystackPlanCode } from '@/lib/subscription';
 
 const createSubscriptionSchema = z.object({
   plan: z.enum(['starter', 'growth', 'enterprise']),
@@ -33,7 +34,7 @@ export async function GET(
 
     const org = await prisma.organisation.findUnique({
       where: { id },
-      select: { ownerId: true, planTier: true },
+      select: { ownerId: true, planTier: true, maxUnits: true, maxSeats: true },
     });
 
     if (!org) {
@@ -103,14 +104,16 @@ export async function POST(
       return NextResponse.json({ error: 'Subscription already exists. Use PATCH to update.' }, { status: 400 });
     }
 
-    // Plan pricing (in kobo)
-    const planPricing: Record<OrgPlanTier, { amount: number; interval: string }> = {
-      starter: { amount: 1500000, interval: 'monthly' }, // 15,000 NGN/month
-      growth: { amount: 5000000, interval: 'monthly' },   // 50,000 NGN/month
-      enterprise: { amount: 15000000, interval: 'monthly' }, // 150,000 NGN/month
-    };
+    // Get plan details from subscription helper
+    const planDetails = getSubscriptionPlan(validated.plan);
+    if (!planDetails) {
+      return NextResponse.json({ error: 'Invalid plan selected' }, { status: 400 });
+    }
 
-    const pricing = planPricing[validated.plan as OrgPlanTier];
+    const pricing = {
+      amount: planDetails.priceKobo,
+      interval: 'monthly',
+    };
 
     // Create Paystack subscription
     let paystackSub;
@@ -144,10 +147,10 @@ export async function POST(
       },
     });
 
-    // Update org plan tier and limits
+    // Update org plan tier and limits from plan details
     const planTier = validated.plan as OrgPlanTier;
-    const maxUnits = planTier === 'starter' ? 20 : planTier === 'growth' ? 100 : -1;
-    const maxSeats = planTier === 'starter' ? 1 : planTier === 'growth' ? 5 : -1;
+    const maxUnits = planDetails.maxUnits;
+    const maxSeats = planDetails.maxTeamMembers;
 
     await prisma.organisation.update({
       where: { id },

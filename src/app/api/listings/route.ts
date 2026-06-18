@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { withAuth, errorResponse } from '@/lib/api-auth';
 import { listingFilterSchema } from '@/lib/validators';
 import { formatCurrencyKobo } from '@/lib/utils';
 
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
     const params = Object.fromEntries(searchParams.entries());
 
     const validated = listingFilterSchema.parse(params);
-    const { page, limit, sortBy, order, ...filters } = validated;
+    const { page, limit, sortBy, order, q, ...filters } = validated;
 
     const skip = (page - 1) * limit;
     const take = limit;
@@ -19,17 +20,35 @@ export async function GET(request: NextRequest) {
       status: 'active',
     };
 
+    // Text search across title, description, and area
+    if (q) {
+      where.OR = [
+        { title: { contains: q, mode: 'insensitive' } },
+        { description: { contains: q, mode: 'insensitive' } },
+        { area: { contains: q, mode: 'insensitive' } },
+        { address: { contains: q, mode: 'insensitive' } },
+      ];
+    }
+
     if (filters.listingType) where.listingType = filters.listingType;
     if (filters.propertyType) where.propertyType = filters.propertyType;
     if (filters.area) where.area = { contains: filters.area, mode: 'insensitive' };
     if (filters.state) where.state = filters.state;
     if (filters.minPrice || filters.maxPrice) {
-      where.price = {};
-      if (filters.minPrice) where.price = { ...where.price, gte: filters.minPrice };
-      if (filters.maxPrice) where.price = { ...where.price, lte: filters.maxPrice };
+      const priceFilter: { gte?: number; lte?: number } = {};
+      if (filters.minPrice) priceFilter.gte = filters.minPrice;
+      if (filters.maxPrice) priceFilter.lte = filters.maxPrice;
+      where.price = priceFilter;
     }
-    if (filters.minBedrooms) where.bedrooms = { gte: filters.minBedrooms };
-    if (filters.maxBedrooms) where.bedrooms = { ...(where.bedrooms as object), lte: filters.maxBedrooms };
+
+    // Handle bedroom range filters
+    if (filters.minBedrooms !== undefined || filters.maxBedrooms !== undefined) {
+      const bedroomFilter: { gte?: number; lte?: number } = {};
+      if (filters.minBedrooms !== undefined) bedroomFilter.gte = filters.minBedrooms;
+      if (filters.maxBedrooms !== undefined) bedroomFilter.lte = filters.maxBedrooms;
+      where.bedrooms = bedroomFilter;
+    }
+
     if (filters.verificationTier) where.verificationTier = filters.verificationTier;
 
     // Build orderBy
@@ -73,13 +92,16 @@ export async function GET(request: NextRequest) {
       verification: listing.verification,
     }));
 
+    const totalPages = Math.ceil(total / limit);
+
     return NextResponse.json({
       listings: formattedListings,
       pagination: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit),
+        totalPages,
+        hasNext: page < totalPages,
       },
     });
   } catch (error) {
@@ -93,12 +115,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await withAuth(request, ['landlord', 'estate_manager']);
+    if (auth instanceof NextResponse) return auth;
+
     const body = await request.json();
     const { createListingSchema } = await import('@/lib/validators');
     const validated = createListingSchema.parse(body);
 
-    // In a real app, get userId from Clerk auth
-    const userId = 'usr_landlord_001'; // Placeholder
+    const userId = auth.user.id;
 
     const listing = await prisma.listing.create({
       data: {

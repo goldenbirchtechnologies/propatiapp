@@ -17,7 +17,7 @@ export default async function LandlordMessagesPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'LANDLORD') {
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
 

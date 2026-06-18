@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Tool, Plus, Filter, Search, MoreHorizontal, Edit, Trash2, CheckCircle, AlertCircle, Clock, XCircle } from 'lucide-react';
+import { Wrench as Tool, Plus, Filter, Search, MoreHorizontal, Edit, Trash2, CheckCircle, AlertCircle, Clock, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';

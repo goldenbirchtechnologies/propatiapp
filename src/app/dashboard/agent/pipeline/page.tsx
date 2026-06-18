@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Filter, ChevronDown, DollarSign, Eye, Mail, Phone, MapPin, MoreVertical, GripVertical, Trash2, Edit } from 'lucide-react';
+import { Plus, Search, Filter, ChevronDown, DollarSign, Eye, Mail, Phone, MapPin, MoreVertical, GripVertical, Trash2, Edit, CheckCircle } from 'lucide-react';
 // import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 // import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 // import { CSS } from '@dnd-kit/utilities';
@@ -89,7 +89,7 @@ export default function AgentPipelinePage() {
           <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
             <Filter className="w-4 h-4 mr-2" /> Filters
           </Button>
-          <Button variant="primary">
+          <Button variant="default">
             <Plus className="w-4 h-4 mr-2" /> New Deal
           </Button>
         </div>

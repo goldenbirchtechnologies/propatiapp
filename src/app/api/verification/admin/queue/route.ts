@@ -6,7 +6,7 @@ import { verificationService } from '@/lib/verification';
 import { VerificationOverallStatus } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
-  const authResult = await withAuth(request, ['ADMIN']);
+  const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {

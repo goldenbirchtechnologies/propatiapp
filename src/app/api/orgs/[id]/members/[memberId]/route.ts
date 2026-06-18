@@ -48,7 +48,7 @@ export async function PATCH(
 
     const targetMember = await prisma.orgMember.findUnique({
       where: { id: memberId },
-      select: { id: true, orgId: true, userId: true, role: true, status: true },
+      select: { id: true, orgId: true, userId: true, role: true, status: true, joinedAt: true },
     });
 
     if (!targetMember || targetMember.orgId !== id) {

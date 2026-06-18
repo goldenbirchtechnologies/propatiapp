@@ -1,0 +1,219 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/auth';
+import { updateListingSchema } from '@/lib/validators';
+
+// GET /api/listings/[id] - Public access to view single listing
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Listing ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Fetch listing with all relations
+    const listing = await prisma.listing.findUnique({
+      where: { id },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            fullName: true,
+            phone: true,
+            phoneVerified: true,
+            email: true,
+            role: true,
+            profileImage: true,
+          },
+        },
+        agent: {
+          select: {
+            id: true,
+            fullName: true,
+            phone: true,
+            email: true,
+            profileImage: true,
+          },
+        },
+        images: {
+          orderBy: { order: 'asc' },
+        },
+        verification: true,
+      },
+    });
+
+    if (!listing) {
+      return NextResponse.json(
+        { success: false, error: 'Listing not found' },
+        { status: 404 }
+      );
+    }
+
+    // Only show active listings to public (unless authenticated owner/admin)
+    const user = await getCurrentUser();
+    const isOwner = user?.id === listing.ownerId;
+    const isAdmin = user?.role === 'admin';
+
+    if (listing.status !== 'active' && !isOwner && !isAdmin) {
+      return NextResponse.json(
+        { success: false, error: 'Listing not available' },
+        { status: 403 }
+      );
+    }
+
+    // Increment view count (async, don't wait)
+    prisma.listing
+      .update({
+        where: { id },
+        data: { viewsCount: { increment: 1 } },
+      })
+      .catch(() => {}); // Ignore errors
+
+    // Format response
+    const coverImage =
+      listing.images.find((img) => img.isCover)?.url || listing.images[0]?.url;
+
+    const response = {
+      success: true,
+      data: {
+        ...listing,
+        priceFormatted: `₦${Number(listing.price).toLocaleString()}`,
+        coverImage,
+        verification: listing.verification
+          ? {
+              overallStatus: listing.verification.overallStatus,
+              currentLayer: listing.verification.currentLayer,
+              rejectedAt: listing.verification.rejectedAt,
+              completedAt: listing.verification.completedAt,
+            }
+          : null,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error('GET /api/listings/[id] error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/listings/[id] - Update listing (owner only)
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Listing ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Get authenticated user
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthenticated' },
+        { status: 401 }
+      );
+    }
+
+    // Check if listing exists and get owner
+    const listing = await prisma.listing.findUnique({
+      where: { id },
+      select: { ownerId: true, status: true },
+    });
+
+    if (!listing) {
+      return NextResponse.json(
+        { success: false, error: 'Listing not found' },
+        { status: 404 }
+      );
+    }
+
+    // Verify ownership (or admin)
+    const isOwner = user.id === listing.ownerId;
+    const isAdmin = user.role === 'admin';
+
+    if (!isOwner && !isAdmin) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: You can only update your own listings' },
+        { status: 403 }
+      );
+    }
+
+    // Parse and validate request body
+    const body = await request.json();
+    const validated = updateListingSchema.parse(body);
+
+    // Restrict admin-only fields
+    if (!isAdmin) {
+      delete (validated as any).verificationTier;
+      delete (validated as any).isFeatured;
+    }
+
+    // Update listing
+    const updated = await prisma.listing.update({
+      where: { id },
+      data: validated,
+      include: {
+        owner: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+          },
+        },
+        images: true,
+        verification: true,
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Listing updated successfully',
+      data: updated,
+    });
+  } catch (error: any) {
+    console.error('PATCH /api/listings/[id] error:', error);
+
+    // Handle validation errors
+    if (error.name === 'ZodError') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          details: error.errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Handle Prisma errors
+    if (error.code === 'P2025') {
+      return NextResponse.json(
+        { success: false, error: 'Listing not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

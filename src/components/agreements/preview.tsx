@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Download, Print, Pen, Check, X, AlertCircle, FileText, User, Building, Calendar, DollarSign, Key, Hash, Shield, ChevronDown, ChevronUp } from 'lucide-react';
+import { Download, Printer, Pen, Check, X, AlertCircle, FileText, User, Building, Calendar, Clock, DollarSign, Key, Hash, Shield, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency, formatDate, formatRelativeTime } from '@/lib/utils';
 
 export interface AgreementData {
   id: string;
@@ -527,7 +527,7 @@ export function AgreementPreview({
     <div className={cn('space-y-6', className)}>
       <AgreementHeader agreement={agreement} currentUserRole={currentUserRole} />
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'preview' | 'terms' | 'signatures' | 'audit')} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="preview">Overview</TabsTrigger>
           <TabsTrigger value="terms">Terms</TabsTrigger>
@@ -570,7 +570,7 @@ export function AgreementPreview({
               </TooltipProvider>
             )}
             <Button variant="outline" onClick={() => onPrint?.(agreement.id)}>
-              <Print className="mr-2 h-4 w-4" />
+              <Printer className="mr-2 h-4 w-4" />
               Print
             </Button>
             {!isFullySigned && (canSign || currentUserRole === 'admin') && (

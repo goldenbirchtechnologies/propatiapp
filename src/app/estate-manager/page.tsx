@@ -14,13 +14,13 @@ export default async function EstateManagerDashboardPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'ESTATE_MANAGER') {
+  if (!user || user.role !== 'estate_manager') {
     redirect('/dashboard');
   }
 
   // Check if user has organization
   const orgMembership = user.orgMemberships[0];
-  const organization = orgMembership?.organization;
+  const organization = orgMembership?.org;
 
   // If no organization, show onboarding wizard
   if (!organization) {
@@ -45,13 +45,13 @@ export default async function EstateManagerDashboardPage() {
     upcomingPayments,
   ] = await Promise.all([
     prisma.listing.count({ where: { ownerId: organization.ownerId } }),
-    prisma.listing.count({ where: { ownerId: organization.ownerId, status: 'ACTIVE' } }),
+    prisma.listing.count({ where: { ownerId: organization.ownerId, status: 'active' } }),
     prisma.transaction.aggregate({
-      where: { payeeId: organization.ownerId, status: 'RELEASED' },
+      where: { payeeId: organization.ownerId, status: 'released' },
       _sum: { amount: true },
     }),
     prisma.maintenanceTicket.count({
-      where: { orgId: organization.id, status: { in: ['OPEN', 'ASSIGNED', 'IN_PROGRESS'] } },
+      where: { orgId: organization.id, status: { in: ['open', 'assigned', 'in_progress'] } },
     }),
     prisma.rentSchedule.count({
       where: {
@@ -121,9 +121,9 @@ export default async function EstateManagerDashboardPage() {
               </thead>
               <tbody>
                 {[
-                  { id: 'TKT-001', property: 'Sunrise Apartments', category: 'Plumbing', priority: 'HIGH', status: 'IN_PROGRESS', assigned: 'John M.' },
-                  { id: 'TKT-002', property: 'Greenview Estate', category: 'Electrical', priority: 'MEDIUM', status: 'ASSIGNED', assigned: 'Sarah K.' },
-                  { id: 'TKT-003', property: 'Lekki Heights', category: 'HVAC', priority: 'URGENT', status: 'OPEN', assigned: '—' },
+                  { id: 'TKT-001', property: 'Sunrise Apartments', category: 'Plumbing', priority: 'HIGH', status: 'in_progress', assigned: 'John M.' },
+                  { id: 'TKT-002', property: 'Greenview Estate', category: 'Electrical', priority: 'MEDIUM', status: 'assigned', assigned: 'Sarah K.' },
+                  { id: 'TKT-003', property: 'Lekki Heights', category: 'HVAC', priority: 'URGENT', status: 'open', assigned: '—' },
                 ].map((t, i) => (
                   <tr key={i} className="border-b" style={{ borderColor: 'var(--border)' }}>
                     <td className="p-4 font-mono text-sm" style={{ color: 'var(--text)' }}>{t.id}</td>
@@ -133,7 +133,7 @@ export default async function EstateManagerDashboardPage() {
                       <span className={`tag ${t.priority === 'URGENT' ? 'tag-red' : t.priority === 'HIGH' ? 'tag-amber' : 'tag-blue'}`}>{t.priority}</span>
                     </td>
                     <td className="p-4">
-                      <span className={`tag ${t.status === 'OPEN' ? 'tag-amber' : t.status === 'IN_PROGRESS' ? 'tag-blue' : 'tag-green'}`}>{t.status}</span>
+                      <span className={`tag ${t.status === 'open' ? 'tag-amber' : t.status === 'in_progress' ? 'tag-blue' : 'tag-green'}`}>{t.status}</span>
                     </td>
                     <td className="p-4" style={{ color: 'var(--muted)' }}>{t.assigned}</td>
                   </tr>
@@ -234,7 +234,7 @@ function StatCard({
           <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
         </div>
         <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
-          {icon}
+          {Icon}
         </div>
       </div>
       {trend && (

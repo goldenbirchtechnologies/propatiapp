@@ -1,25 +1,73 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api, apiEndpoints, type Transaction, type Wallet, type InitiatePaymentInput } from '@/lib/api';
+
+// Types
+export interface InitiatePaymentInput {
+  listingId: string;
+  agreementId?: string;
+  type: 'rent' | 'caution' | 'sale' | 'short_let' | 'subscription';
+  amount: number;
+  email: string;
+  phone?: string;
+  metadata?: Record<string, string>;
+}
+
+export interface ReleaseEscrowInput {
+  transactionId: string;
+  recipientBankCode: string;
+  recipientAccountNumber: string;
+  recipientName: string;
+  amount?: number;
+  reason?: string;
+}
+
+export interface TransactionFilters {
+  page?: number;
+  limit?: number;
+  userId?: string;
+  status?: 'pending' | 'in_escrow' | 'released' | 'failed' | 'refunded';
+  type?: 'rent' | 'caution' | 'sale' | 'short_let' | 'subscription';
+  listingId?: string;
+  agreementId?: string;
+}
+
+export interface Transaction {
+  id: string;
+  reference?: string | null;
+  type: string;
+  status: string;
+  amount: number;
+  platformFee: number;
+  agentCommission: number;
+  payeeAmount?: number | null;
+  description?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  [key: string]: unknown;
+}
 
 // Query Keys
 export const paymentsKeys = {
   all: ['payments'] as const,
   transactions: () => [...paymentsKeys.all, 'transactions'] as const,
-  transactionList: (params?: { page?: number; limit?: number }) => 
+  transactionList: (params?: TransactionFilters) =>
     [...paymentsKeys.transactions(), 'list', params] as const,
   transaction: (id: string) => [...paymentsKeys.transactions(), id] as const,
-  wallet: () => [...paymentsKeys.all, 'wallet'] as const,
 };
 
 /**
- * Get all transactions with pagination
+ * Get all transactions with pagination and filters
  */
-export function useTransactions(params?: { page?: number; limit?: number }) {
+export function useTransactions(params?: TransactionFilters) {
   return useQuery({
     queryKey: paymentsKeys.transactionList(params),
-    queryFn: () => apiEndpoints.payments.getTransactions(params),
+    queryFn: async () => {
+      const searchParams = new URLSearchParams(params as any);
+      const response = await fetch(`/api/payments/transactions?${searchParams}`);
+      if (!response.ok) throw new Error('Failed to fetch transactions');
+      return response.json();
+    },
     staleTime: 60 * 1000,
   });
 }
@@ -30,19 +78,12 @@ export function useTransactions(params?: { page?: number; limit?: number }) {
 export function useTransaction(id: string, enabled = true) {
   return useQuery({
     queryKey: paymentsKeys.transaction(id),
-    queryFn: () => apiEndpoints.payments.getTransaction(id),
+    queryFn: async () => {
+      const response = await fetch(`/api/payments/transactions/${id}`);
+      if (!response.ok) throw new Error('Failed to fetch transaction');
+      return response.json();
+    },
     enabled: enabled && !!id,
-    staleTime: 30 * 1000,
-  });
-}
-
-/**
- * Get user's wallet
- */
-export function useWallet() {
-  return useQuery({
-    queryKey: paymentsKeys.wallet(),
-    queryFn: () => apiEndpoints.payments.getWallet(),
     staleTime: 30 * 1000,
   });
 }
@@ -52,55 +93,73 @@ export function useWallet() {
  * Returns authorization URL for Paystack checkout
  */
 export function useInitiatePayment() {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: InitiatePaymentInput) => apiEndpoints.payments.initiate(data),
+    mutationFn: async (data: InitiatePaymentInput) => {
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Payment initiation failed');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: paymentsKeys.transactions() });
+    },
   });
 }
 
 /**
- * Mutation for verifying a payment
+ * Mutation for verifying a payment by reference
  */
 export function useVerifyPayment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (reference: string) => apiEndpoints.payments.verify(reference),
-    onSuccess: (transaction) => {
+    mutationFn: async (reference: string) => {
+      const response = await fetch(`/api/payments/verify/${reference}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Payment verification failed');
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: paymentsKeys.transactions() });
-      queryClient.invalidateQueries({ queryKey: paymentsKeys.wallet() });
-      queryClient.setQueryData(paymentsKeys.transaction(transaction.id), transaction);
+      if (data?.transaction?.id) {
+        queryClient.setQueryData(paymentsKeys.transaction(data.transaction.id), data);
+      }
     },
   });
 }
 
 /**
- * Mutation for requesting a refund
+ * Mutation for releasing escrow funds
  */
-export function useRequestRefund() {
+export function useReleaseEscrow() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ transactionId, reason }: { transactionId: string; reason: string }) => 
-      apiEndpoints.payments.requestRefund(transactionId, { reason }),
+    mutationFn: async ({ transactionId, ...data }: ReleaseEscrowInput) => {
+      const response = await fetch(`/api/payments/release-escrow/${transactionId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Escrow release failed');
+      }
+      return response.json();
+    },
     onSuccess: (_, { transactionId }) => {
       queryClient.invalidateQueries({ queryKey: paymentsKeys.transactions() });
       queryClient.invalidateQueries({ queryKey: paymentsKeys.transaction(transactionId) });
-      queryClient.invalidateQueries({ queryKey: paymentsKeys.wallet() });
-    },
-  });
-}
-
-/**
- * Mutation for withdrawing from wallet
- */
-export function useWithdraw() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (data: { amount: number; accountId: string }) => apiEndpoints.payments.withdraw(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: paymentsKeys.wallet() });
-      queryClient.invalidateQueries({ queryKey: paymentsKeys.transactions() });
     },
   });
 }

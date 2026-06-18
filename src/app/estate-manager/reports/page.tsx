@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import { FileText, Download, BarChart3, Calendar, Filter, Building2, DollarSign, Tool, Users, TrendingUp } from 'lucide-react';
+import { FileText, Download, BarChart3, Calendar, Filter, Building2, DollarSign, Wrench, Users, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 const reportTypes = [
   { id: 'portfolio', name: 'Portfolio Overview', icon: Building2, description: 'Property performance, occupancy, and valuation summary' },
   { id: 'financial', name: 'Financial Report', icon: DollarSign, description: 'Income, expenses, cash flow, and profitability' },
-  { id: 'maintenance', name: 'Maintenance Report', icon: Tool, description: 'Ticket volumes, resolution times, and costs' },
+  { id: 'maintenance', name: 'Maintenance Report', icon: Wrench, description: 'Ticket volumes, resolution times, and costs' },
   { id: 'occupancy', name: 'Occupancy Report', icon: Users, description: 'Vacancy rates, lease expirations, and tenant metrics' },
   { id: 'revenue', name: 'Revenue Analysis', icon: TrendingUp, description: 'Revenue trends, forecasts, and growth metrics' },
 ];

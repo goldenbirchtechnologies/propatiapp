@@ -58,15 +58,15 @@ export const ADMIN_NAVIGATION: NavItem[] = [
 ];
 
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
-  { label: 'Home', href: '/estate-manager', icon: <Home className="h-5 w-5" /> },
-  { label: 'Portfolio', href: '/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
-  { label: 'Rent Ledger', href: '/estate-manager/ledger', icon: <DollarSign className="h-5 w-5" /> },
-  { label: 'Maintenance', href: '/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
-  { label: 'Bulk Import', href: '/estate-manager/bulk-import', icon: <Plus className="h-5 w-5" /> },
-  { label: 'Agreements', href: '/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
-  { label: 'Team', href: '/estate-manager/team', icon: <Users className="h-5 w-5" /> },
-  { label: 'Billing', href: '/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
-  { label: 'Reports', href: '/estate-manager/reports', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Home', href: '/dashboard/estate-manager', icon: <Home className="h-5 w-5" /> },
+  { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
+  { label: 'Rent Ledger', href: '/dashboard/estate-manager/ledger', icon: <DollarSign className="h-5 w-5" /> },
+  { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
+  { label: 'Bulk Import', href: '/dashboard/estate-manager/bulk-import', icon: <Plus className="h-5 w-5" /> },
+  { label: 'Agreements', href: '/dashboard/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
+  { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart2 className="h-5 w-5" /> },
 ];
 
 /**

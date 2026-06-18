@@ -73,11 +73,11 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
 
 export function getRoleRedirectPath(role: UserRole): string {
   const paths: Record<UserRole, string> = {
-    landlord: '/dashboard/properties',
-    tenant: '/dashboard/search',
-    agent: '/dashboard/pipeline',
+    landlord: '/dashboard/landlord',
+    tenant: '/dashboard/tenant',
+    agent: '/dashboard/agent',
     admin: '/admin',
-    estate_manager: '/estate-manager/portfolio',
+    estate_manager: '/dashboard/estate-manager',
   };
   return paths[role] ?? '/dashboard';
 }

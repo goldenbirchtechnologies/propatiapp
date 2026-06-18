@@ -355,6 +355,30 @@ export const updateMaintenanceTicketSchema = z.object({
   priority: z.enum(['low', 'medium', 'high', 'urgent']).optional(),
 });
 
+// Application schemas
+export const applicationStatusSchema = z.enum(['pending', 'under_review', 'accepted', 'rejected', 'withdrawn']);
+
+export const createApplicationSchema = z.object({
+  listingId: z.string().cuid(),
+  message: z.string().max(2000).optional(),
+});
+
+export const updateApplicationSchema = z.object({
+  status: z.enum(['under_review', 'accepted', 'rejected', 'withdrawn']),
+  landlordNotes: z.string().max(2000).optional(),
+});
+
+export const applicationFiltersSchema = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().max(100).default(20),
+  status: applicationStatusSchema.optional(),
+  listingId: z.string().cuid().optional(),
+});
+
+export type CreateApplicationInput = z.infer<typeof createApplicationSchema>;
+export type UpdateApplicationInput = z.infer<typeof updateApplicationSchema>;
+export type ApplicationFilters = z.infer<typeof applicationFiltersSchema>;
+
 // Screening calls
 export const scheduleScreeningSchema = z.object({
   listingId: uuidSchema,

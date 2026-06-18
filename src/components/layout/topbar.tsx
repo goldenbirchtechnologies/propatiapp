@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
 import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp, Home } from 'lucide-react';
+import { NotificationsBell } from '@/components/notifications/notifications-bell';
 
 interface TopbarProps {
   onMenuClick?: () => void;
@@ -20,190 +21,7 @@ interface TopbarProps {
   className?: string;
 }
 
-interface Notification {
-  id: string;
-  type: 'info' | 'success' | 'warning' | 'error' | 'message' | 'payment' | 'verification' | 'agreement';
-  title: string;
-  message: string;
-  time: string;
-  read: boolean;
-  href?: string;
-  actionLabel?: string;
-  actionHref?: string;
-}
 
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'message',
-    title: 'New message from John Doe',
-    message: 'Hi, I\'m interested in your property at Victoria Island...',
-    time: '2 minutes ago',
-    read: false,
-    href: '/dashboard/messages',
-  },
-  {
-    id: '2',
-    type: 'payment',
-    title: 'Rent payment received',
-    message: '₦2,500,000 received for Property at Lekki Phase 1',
-    time: '1 hour ago',
-    read: false,
-    href: '/dashboard/rent',
-  },
-  {
-    id: '3',
-    type: 'verification',
-    title: 'Verification approved',
-    message: 'Your property verification has been approved - Layer 2 complete',
-    time: '3 hours ago',
-    read: true,
-    href: '/dashboard/verification',
-  },
-  {
-    id: '4',
-    type: 'agreement',
-    title: 'Agreement ready for signature',
-    message: 'Rental agreement for Apartment at Ikoyi requires your signature',
-    time: '1 day ago',
-    read: false,
-    href: '/dashboard/agreements',
-    actionLabel: 'Sign Now',
-    actionHref: '/dashboard/agreements/123/sign',
-  },
-];
-
-function NotificationItem({ notification }: { notification: Notification }) {
-  const typeIcons = {
-    info: <Bell className="h-4 w-4" />,
-    success: <CheckCircle className="h-4 w-4" />,
-    warning: <AlertTriangle className="h-4 w-4" />,
-    error: <AlertCircle className="h-4 w-4" />,
-    message: <MessageSquare className="h-4 w-4" />,
-    payment: <CreditCard className="h-4 w-4" />,
-    verification: <Shield className="h-4 w-4" />,
-    agreement: <FileText className="h-4 w-4" />,
-  };
-
-  const typeColors = {
-    info: 'text-blue-500',
-    success: 'text-green-500',
-    warning: 'text-amber-500',
-    error: 'text-red-500',
-    message: 'text-purple-500',
-    payment: 'text-emerald-500',
-    verification: 'text-accent',
-    agreement: 'text-indigo-500',
-  };
-
-  const Icon = typeIcons[notification.type] || Bell;
-  const colorClass = typeColors[notification.type];
-
-  return (
-    <Link
-      href={notification.href || '#'}
-      className={cn(
-        'flex gap-3 p-3 rounded-lg transition-colors',
-        'hover:bg-muted/50',
-        !notification.read && 'bg-accent/5'
-      )}
-    >
-      <div className={cn('flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center', colorClass, 'bg-current/10')}>
-        <Icon />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className={cn('font-medium text-sm truncate', !notification.read && 'font-semibold')} style={{ color: 'var(--text)' }}>
-          {notification.title}
-        </p>
-        <p className="text-xs truncate mt-0.5" style={{ color: 'var(--muted)' }}>
-          {notification.message}
-        </p>
-        <p className="text-[10px] mt-1" style={{ color: 'var(--muted)' }}>
-          {notification.time}
-        </p>
-      </div>
-      {!notification.read && (
-        <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0 mt-2" />
-      )}
-    </Link>
-  );
-}
-
-import { CheckCircle, AlertTriangle, AlertCircle, MessageSquare } from 'lucide-react';
-
-function NotificationDropdown({
-  userRole,
-}: { userRole?: string }) {
-  const [open, setOpen] = React.useState(false);
-  const [notifications, setNotifications] = React.useState(mockNotifications);
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
-  };
-
-  const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-  };
-
-  return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative p-2 rounded-lg"
-          style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
-          aria-label="Notifications"
-        >
-          <Bell className="h-5 w-5" />
-          {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 max-h-[500px] p-0">
-        <DropdownMenuLabel className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <span className="font-semibold" style={{ color: 'var(--text)' }}>Notifications</span>
-          {unreadCount > 0 && (
-            <Button variant="ghost" size="sm" onClick={markAllAsRead} className="text-xs p-1">
-              Mark all read
-            </Button>
-          )}
-        </DropdownMenuLabel>
-        <div className="max-h-[400px] overflow-y-auto">
-          {notifications.length === 0 ? (
-            <div className="p-8 text-center" style={{ color: 'var(--muted)' }}>
-              <Bell className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No notifications</p>
-            </div>
-          ) : (
-            notifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                notification={notification}
-              />
-            ))
-          )}
-        </div>
-        <DropdownMenuSeparator className="mx-4" />
-        <DropdownMenuItem
-          className="px-4 py-3 text-center"
-          inset
-          onSelect={() => setOpen(false)}
-        >
-          <Link href="/dashboard/notifications" className="text-accent font-medium text-sm">
-            View all notifications
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 function PurposeSwitcher({ userRole }: { userRole?: string }) {
   const [open, setOpen] = React.useState(false);
@@ -419,7 +237,7 @@ export function Topbar({
 
       <div className="flex items-center gap-2">
         <PurposeSwitcher userRole={userRole} />
-        <NotificationDropdown userRole={userRole} />
+        <NotificationsBell userRole={userRole} />
         <ThemeToggle />
         <UserMenu userRole={userRole} />
       </div>

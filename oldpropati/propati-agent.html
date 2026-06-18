@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PROPATI — Agent Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2e;
+  --navy2:#122240;
+  --navy3:#1a2f50;
+  --navy4:#243860;
+  --panel:#0f1e33;
+  --gold:#c9952a;
+  --gold-light:#e0b04a;
+  --gold-pale:rgba(201,149,42,0.12);
+  --gold-border:rgba(201,149,42,0.25);
+  --white:#f8f6f0;
+  --offwhite:#ede9e0;
+  --muted:#7a8fa8;
+  --muted2:#4a5f78;
+  --border:rgba(248,246,240,0.07);
+  --border2:rgba(248,246,240,0.13);
+  --green:#2aad72;
+  --green-bg:rgba(42,173,114,0.1);
+  --red:#d94f4f;
+  --red-bg:rgba(217,79,79,0.1);
+  --blue:#3a8fd4;
+  --blue-bg:rgba(58,143,212,0.1);
+  --amber:#d4882a;
+  --amber-bg:rgba(212,136,42,0.1);
+  --sidebar:240px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--navy);color:var(--white);
+  display:flex;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  padding:1.6rem 1.4rem 1.2rem;
+  border-bottom:1px solid var(--border);
+  font-family:'DM Serif Display',serif;
+  font-size:1.7rem;letter-spacing:0.01em;
+  display:flex;align-items:center;gap:4px;
+}
+.bp{color:var(--gold)}
+.sb-agent{
+  margin:0.8rem;
+  background:linear-gradient(135deg,var(--navy3),var(--navy4));
+  border:1px solid var(--gold-border);
+  border-radius:14px;padding:1.1rem;
+}
+.sa-av{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.95rem;color:var(--navy);margin-bottom:0.7rem;
+}
+.sa-name{font-weight:700;font-size:0.9rem}
+.sa-badge{
+  display:inline-flex;align-items:center;gap:0.35rem;
+  background:var(--gold-pale);border:1px solid var(--gold-border);
+  border-radius:100px;padding:0.25rem 0.65rem;
+  font-size:0.7rem;font-weight:700;color:var(--gold);margin-top:0.4rem;
+}
+.sa-stats{
+  display:flex;gap:1rem;margin-top:0.9rem;padding-top:0.9rem;
+  border-top:1px solid var(--border);
+}
+.sa-stat .sas-val{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--gold)}
+.sa-stat .sas-label{font-size:0.68rem;color:var(--muted);margin-top:1px}
+
+.sb-nav{flex:1;padding:0.5rem 0.8rem}
+.nav-group{font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted2);padding:1rem 0.6rem 0.35rem}
+.nav-item{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.65rem 0.75rem;border-radius:10px;
+  font-size:0.85rem;font-weight:500;cursor:pointer;
+  color:var(--muted);transition:all .18s;margin-bottom:2px;position:relative;
+}
+.nav-item:hover{background:var(--navy3);color:var(--white)}
+.nav-item.active{background:var(--gold-pale);color:var(--gold);font-weight:600}
+.nav-item.active::before{
+  content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);
+  width:3px;height:18px;background:var(--gold);border-radius:100px;
+}
+.nav-icon{font-size:1rem;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--gold);color:var(--navy);
+  font-size:0.64rem;font-weight:800;
+  padding:0.12rem 0.45rem;border-radius:100px;
+}
+.sb-footer{padding:0.8rem;border-top:1px solid var(--border)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.topbar{
+  padding:1rem 2rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--panel);flex-shrink:0;
+}
+.page-title{font-family:'DM Serif Display',serif;font-size:1.25rem;letter-spacing:0.01em}
+.page-sub{font-size:0.76rem;color:var(--muted);margin-top:2px}
+.topbar-right{display:flex;gap:0.6rem;align-items:center}
+.icon-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--navy3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:0.9rem;transition:all .18s;position:relative;
+}
+.icon-btn:hover{background:var(--navy4);border-color:var(--border2)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--gold);border:2px solid var(--panel)}
+.btn-gold{
+  background:var(--gold);color:var(--navy);border:none;
+  padding:0.6rem 1.3rem;border-radius:10px;
+  font-size:0.84rem;font-weight:700;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;gap:0.4rem;
+  transition:all .18s;
+}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+.content{flex:1;overflow-y:auto;padding:1.8rem 2rem}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── SHARED ── */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px}
+.card-head{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-weight:700;font-size:0.88rem}
+.card-body{padding:1.2rem 1.4rem}
+.card-link{font-size:0.77rem;color:var(--gold);cursor:pointer;font-weight:600}
+.card-link:hover{color:var(--gold-light)}
+.sec-tag{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:0.3rem}
+.sec-title{font-family:'DM Serif Display',serif;font-size:1.4rem;letter-spacing:0.01em}
+.sec-sub{font-size:0.81rem;color:var(--muted);margin-top:0.2rem}
+.sec-header{margin-bottom:1.5rem}
+.divider{height:1px;background:var(--border);margin:0.9rem 0}
+.tag{font-size:0.68rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:100px;text-transform:uppercase;letter-spacing:0.04em}
+.t-active{background:var(--green-bg);color:var(--green)}
+.t-pending{background:var(--amber-bg);color:var(--amber)}
+.t-closed{background:var(--gold-pale);color:var(--gold)}
+.t-rent{background:var(--green-bg);color:var(--green)}
+.t-sale{background:var(--gold-pale);color:var(--gold)}
+.t-shortlet{background:var(--amber-bg);color:var(--amber)}
+.t-verified{background:var(--blue-bg);color:var(--blue)}
+.t-certified{background:var(--gold-pale);color:var(--gold)}
+.t-new{background:var(--blue-bg);color:var(--blue)}
+.t-inprog{background:var(--amber-bg);color:var(--amber)}
+.t-done{background:var(--green-bg);color:var(--green)}
+.t-overdue{background:var(--red-bg);color:var(--red)}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-amber{background:var(--amber)}
+.dot-red{background:var(--red)}
+.dot-blue{background:var(--blue)}
+
+/* ── DASHBOARD ── */
+.earnings-hero{
+  background:linear-gradient(135deg,var(--navy3) 0%,var(--navy4) 50%,#2a3f60 100%);
+  border:1px solid var(--gold-border);
+  border-radius:20px;padding:2rem;margin-bottom:1.4rem;
+  position:relative;overflow:hidden;
+}
+.eh-pattern{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(201,149,42,0.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.eh-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+.eh-left{}
+.eh-eyebrow{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);opacity:0.8;margin-bottom:0.4rem}
+.eh-amount{font-family:'DM Serif Display',serif;font-size:3.2rem;line-height:1;letter-spacing:0.01em}
+.eh-amount span{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:400;color:var(--muted)}
+.eh-sub{font-size:0.82rem;color:var(--muted);margin-top:0.4rem}
+.eh-right{text-align:right}
+.rank-badge{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--navy);border-radius:12px;padding:0.8rem 1.2rem;
+  display:inline-block;
+}
+.rb-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;opacity:0.7}
+.rb-val{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-top:0.2rem}
+.rb-sub{font-size:0.7rem;opacity:0.75;margin-top:0.1rem}
+.eh-bottom{
+  display:flex;gap:2.5rem;margin-top:1.5rem;padding-top:1.4rem;
+  border-top:1px solid rgba(201,149,42,0.15);position:relative;z-index:1;
+}
+.eh-stat .es-val{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--gold)}
+.eh-stat .es-label{font-size:0.72rem;color:var(--muted);margin-top:2px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.4rem}
+.kpi-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem;transition:all .2s;
+}
+.kpi-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.2)}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem}
+.kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.kpi-change{font-size:0.7rem;font-weight:700;padding:0.18rem 0.5rem;border-radius:100px}
+.up{background:var(--green-bg);color:var(--green)}
+.down{background:var(--red-bg);color:var(--red)}
+.kpi-val{font-family:'DM Serif Display',serif;font-size:1.6rem;letter-spacing:0.01em}
+.kpi-label{font-size:0.75rem;color:var(--muted);margin-top:2px}
+
+.dash-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:1.4rem}
+
+/* deal rows */
+.deal-row{
+  display:flex;align-items:center;gap:0.9rem;
+  padding:0.85rem 0;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:all .18s;border-radius:8px;
+}
+.deal-row:last-child{border-bottom:none}
+.deal-row:hover{background:var(--navy3);padding:0.85rem 8px}
+.deal-thumb{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.dt1{background:linear-gradient(135deg,#2a1a0a,#4a3010)}
+.dt2{background:linear-gradient(135deg,#0a1a2a,#103040)}
+.dt3{background:linear-gradient(135deg,#1a2a0a,#2a4010)}
+.dt4{background:linear-gradient(135deg,#2a0a1a,#401030)}
+.deal-info{flex:1}
+.deal-title{font-weight:600;font-size:0.85rem}
+.deal-parties{font-size:0.73rem;color:var(--muted);margin-top:1px}
+.deal-tags{display:flex;gap:0.4rem;margin-top:0.3rem}
+.deal-commission{text-align:right;flex-shrink:0}
+.dc-val{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--gold)}
+.dc-label{font-size:0.69rem;color:var(--muted)}
+
+/* pipeline */
+.pipeline{display:flex;gap:0.8rem;overflow-x:auto;padding-bottom:0.5rem}
+.pipe-col{flex:0 0 200px;background:var(--navy3);border-radius:12px;padding:0.9rem}
+.pipe-col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem}
+.pc-title{font-size:0.78rem;font-weight:700}
+.pc-count{
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.66rem;font-weight:700;background:var(--navy4);
+}
+.pipe-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:0.8rem;margin-bottom:0.6rem;cursor:pointer;
+  transition:all .18s;
+}
+.pipe-card:last-child{margin-bottom:0}
+.pipe-card:hover{border-color:var(--gold-border);transform:translateX(2px)}
+.pp-title{font-size:0.79rem;font-weight:700;margin-bottom:0.3rem}
+.pp-addr{font-size:0.7rem;color:var(--muted);margin-bottom:0.5rem}
+.pp-bottom{display:flex;justify-content:space-between;align-items:center}
+.pp-comm{font-size:0.78rem;font-weight:700;color:var(--gold)}
+.pp-days{font-size:0.68rem;color:var(--muted2)}
+
+/* ── LISTINGS ── */
+.listings-controls{display:flex;gap:0.8rem;margin-bottom:1.4rem;align-items:center;flex-wrap:wrap}
+.filter-chip{
+  padding:0.45rem 1rem;border-radius:100px;
+  border:1.5px solid var(--border);font-size:0.8rem;font-weight:600;
+  cursor:pointer;transition:all .18s;color:var(--muted);
+}
+.filter-chip:hover,.filter-chip.on{border-color:var(--gold-border);color:var(--gold);background:var(--gold-pale)}
+.listings-table{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.lt-head{
+  display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr 1fr;
+  background:var(--navy3);padding:0.8rem 1.3rem;
+  font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
+}
+.lt-row{
+  display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr 1fr;
+  padding:0.9rem 1.3rem;border-top:1px solid var(--border);
+  align-items:center;font-size:0.83rem;transition:background .15s;cursor:pointer;
+}
+.lt-row:hover{background:var(--navy3)}
+.lt-prop{display:flex;align-items:center;gap:0.7rem}
+.lt-thumb{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.lt-name{font-weight:600;font-size:0.84rem}
+.lt-addr{font-size:0.72rem;color:var(--muted)}
+.lt-actions{display:flex;gap:0.4rem}
+.act-btn{
+  padding:0.28rem 0.65rem;border-radius:7px;font-size:0.71rem;font-weight:600;
+  cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .15s;
+}
+.ab-gold{background:var(--gold-pale);color:var(--gold)}
+.ab-gold:hover{background:rgba(201,149,42,0.22)}
+.ab-ghost{background:var(--navy3);color:var(--muted)}
+.ab-ghost:hover{color:var(--white)}
+.ab-red{background:var(--red-bg);color:var(--red)}
+
+/* ── COMMISSIONS ── */
+.comm-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.cs-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:1.4rem;
+}
+.cs-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);margin-bottom:0.5rem}
+.cs-val{font-family:'DM Serif Display',serif;font-size:2.2rem;letter-spacing:0.01em}
+.cs-sub{font-size:0.77rem;color:var(--muted);margin-top:0.3rem}
+.cs-bar{margin-top:1rem;height:5px;background:var(--navy3);border-radius:100px;overflow:hidden}
+.cs-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+
+.comm-table{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.ct-head{
+  display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 0.8fr;
+  background:var(--navy3);padding:0.8rem 1.3rem;
+  font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
+}
+.ct-row{
+  display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 0.8fr;
+  padding:0.85rem 1.3rem;border-top:1px solid var(--border);
+  align-items:center;font-size:0.83rem;transition:background .15s;
+}
+.ct-row:hover{background:var(--navy3)}
+.ct-parties{display:flex;flex-direction:column;gap:2px}
+.ct-name{font-weight:600;font-size:0.83rem}
+.ct-prop{font-size:0.71rem;color:var(--muted)}
+.ct-amount{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--gold)}
+
+/* ── INSPECTIONS ── */
+.insp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.4rem}
+.insp-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:1.3rem;transition:all .2s;
+}
+.insp-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.ic-head{display:flex;gap:0.8rem;align-items:flex-start;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.ic-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;
+}
+.ic-title{font-weight:700;font-size:0.88rem;margin-bottom:0.2rem}
+.ic-addr{font-size:0.75rem;color:var(--muted)}
+.ic-details{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:1rem}
+.icd-label{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;font-weight:700;margin-bottom:0.2rem}
+.icd-val{font-size:0.83rem;font-weight:600}
+.ic-actions{display:flex;gap:0.6rem}
+.ic-btn{
+  flex:1;padding:0.55rem;border-radius:9px;font-size:0.8rem;font-weight:600;
+  cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:all .18s;text-align:center;
+}
+.icb-primary{background:var(--gold);color:var(--navy)}
+.icb-primary:hover{background:var(--gold-light)}
+.icb-ghost{background:var(--navy3);color:var(--muted)}
+.icb-ghost:hover{color:var(--white)}
+.icb-green{background:var(--green-bg);color:var(--green)}
+.icb-green:hover{background:rgba(42,173,114,0.2)}
+
+/* map mock */
+.map-mock{
+  background:var(--navy3);border-radius:12px;height:260px;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:0.5rem;color:var(--muted);
+  border:1px solid var(--border);position:relative;overflow:hidden;
+  margin-bottom:1.2rem;
+}
+.map-mock::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(248,246,240,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(248,246,240,0.04) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+.map-pin{
+  position:absolute;font-size:1.4rem;cursor:pointer;
+  transition:transform .18s;z-index:1;
+}
+.map-pin:hover{transform:scale(1.3)}
+
+/* ── CLIENTS ── */
+.client-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.4rem}
+.client-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:1.2rem;transition:all .2s;cursor:pointer;
+}
+.client-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.cc-head{display:flex;gap:0.8rem;align-items:center;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.cc-av{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.88rem;font-weight:700;
+}
+.cc-name{font-weight:700;font-size:0.88rem}
+.cc-type{font-size:0.73rem;color:var(--muted);margin-top:1px}
+.cc-stats{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.ccs-item .ccs-val{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--gold)}
+.ccs-item .ccs-label{font-size:0.69rem;color:var(--muted)}
+.cc-actions{display:flex;gap:0.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+/* ── REPUTATION ── */
+.rep-hero{
+  background:linear-gradient(135deg,var(--navy3),var(--navy4));
+  border:1px solid var(--gold-border);border-radius:20px;padding:2rem;
+  margin-bottom:1.4rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+.rep-hero::before{content:'';position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,149,42,0.08),transparent 70%)}
+.rep-score-ring{
+  width:120px;height:120px;border-radius:50%;
+  border:4px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  flex-shrink:0;position:relative;z-index:1;
+  background:var(--navy3);
+  box-shadow:0 0 30px rgba(201,149,42,0.2);
+}
+.rsr-val{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--gold);line-height:1}
+.rsr-label{font-size:0.68rem;color:var(--muted);margin-top:2px}
+.rep-details{position:relative;z-index:1}
+.rep-details h3{font-family:'DM Serif Display',serif;font-size:1.3rem;margin-bottom:0.3rem}
+.rep-details p{font-size:0.82rem;color:var(--muted);line-height:1.6;max-width:440px}
+.rep-badges{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1rem}
+.rep-badge{
+  display:flex;align-items:center;gap:0.4rem;
+  background:var(--navy);border:1px solid var(--border2);
+  border-radius:100px;padding:0.4rem 0.9rem;font-size:0.77rem;font-weight:600;
+}
+
+.review-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:1.2rem;margin-bottom:0.8rem;
+  transition:border-color .18s;
+}
+.review-card:hover{border-color:var(--border2)}
+.rv-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.7rem}
+.rv-user{display:flex;gap:0.7rem;align-items:center}
+.rv-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0}
+.rv-name{font-weight:700;font-size:0.85rem}
+.rv-role{font-size:0.72rem;color:var(--muted)}
+.stars{color:var(--gold);font-size:0.85rem;letter-spacing:1px}
+.rv-text{font-size:0.83rem;color:var(--muted);line-height:1.65;font-style:italic}
+.rv-date{font-size:0.71rem;color:var(--muted2);margin-top:0.6rem}
+
+/* ── FIELD INPUTS ── */
+.field-group{margin-bottom:1rem}
+.field-label{font-size:0.78rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;display:block}
+.field-input{
+  width:100%;background:var(--navy3);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--white);
+  font-family:'Outfit',sans-serif;font-size:0.87rem;
+  outline:none;transition:border-color .18s;
+}
+.field-input:focus{border-color:var(--gold-border)}
+.field-input::placeholder{color:var(--muted2)}
+.field-select{
+  width:100%;background:var(--navy3);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--white);
+  font-family:'Outfit',sans-serif;font-size:0.87rem;
+  outline:none;transition:border-color .18s;appearance:none;cursor:pointer;
+}
+.field-select:focus{border-color:var(--gold-border)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:1.8rem;right:1.8rem;
+  background:var(--navy3);border:1px solid var(--gold-border);
+  border-radius:12px;padding:0.9rem 1.3rem;
+  display:flex;align-items:center;gap:0.7rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  transform:translateY(80px);opacity:0;
+  transition:all .28s cubic-bezier(.34,1.56,.64,1);z-index:1000;max-width:320px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-text{font-size:0.83rem;font-weight:500}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--navy4);border-radius:100px}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sb-brand"><span class="bp">P</span>ROPATI</div>
+  <div class="sb-agent">
+    <div class="sa-av">AB</div>
+    <div class="sa-name">Akin Balogun</div>
+    <div class="sa-badge">⭐ Senior Agent · Lagos</div>
+    <div class="sa-stats">
+      <div class="sa-stat"><div class="sas-val">4.9</div><div class="sas-label">Rating</div></div>
+      <div class="sa-stat"><div class="sas-val">128</div><div class="sas-label">Deals</div></div>
+      <div class="sa-stat"><div class="sas-val">₦18M</div><div class="sas-label">Earned</div></div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-group">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="nav('pipeline',this)">
+      <span class="nav-icon">🔀</span> Deal Pipeline
+      <span class="nav-badge">7</span>
+    </div>
+    <div class="nav-group">Listings</div>
+    <div class="nav-item" onclick="nav('listings',this)">
+      <span class="nav-icon">🏘️</span> Managed Listings
+    </div>
+    <div class="nav-item" onclick="nav('inspections',this)">
+      <span class="nav-icon">🔍</span> Inspections
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-group">Finance</div>
+    <div class="nav-item" onclick="nav('commissions',this)">
+      <span class="nav-icon">💰</span> Commissions
+    </div>
+    <div class="nav-group">Relationships</div>
+    <div class="nav-item" onclick="nav('clients',this)">
+      <span class="nav-icon">👥</span> My Clients
+    </div>
+    <div class="nav-item" onclick="nav('reputation',this)">
+      <span class="nav-icon">⭐</span> Reputation
+    </div>
+  </nav>
+  <div class="sb-footer">
+    <div class="nav-item"><span class="nav-icon">⚙️</span> Settings</div>
+    <div class="nav-item"><span class="nav-icon">🚪</span> Sign Out</div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pageTitle">Dashboard</div>
+      <div class="page-sub" id="pageSub">Tuesday, 10 March 2026 · Lagos</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn">🔍</div>
+      <div class="icon-btn">🔔<div class="notif-dot"></div></div>
+      <button class="btn-gold" onclick="nav('listings',document.querySelectorAll('.nav-item')[3])">＋ New Listing</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="screen active" id="screen-dashboard">
+      <div class="earnings-hero">
+        <div class="eh-pattern"></div>
+        <div class="eh-top">
+          <div>
+            <div class="eh-eyebrow">Total Commissions · 2026</div>
+            <div class="eh-amount">₦3,240,000 <span>earned</span></div>
+            <div class="eh-sub">Up 28% from same period last year · 14 deals closed</div>
+          </div>
+          <div class="eh-right">
+            <div class="rank-badge">
+              <div class="rb-label">Agent Rank</div>
+              <div class="rb-val">#4 Lagos</div>
+              <div class="rb-sub">Top 2% platform-wide</div>
+            </div>
+          </div>
+        </div>
+        <div class="eh-bottom">
+          <div class="eh-stat"><div class="es-val">₦580k</div><div class="es-label">This month</div></div>
+          <div class="eh-stat"><div class="es-val">7</div><div class="es-label">Active deals</div></div>
+          <div class="eh-stat"><div class="es-val">3</div><div class="es-label">Inspections this week</div></div>
+          <div class="eh-stat"><div class="es-val">18</div><div class="es-label">Managed listings</div></div>
+          <div class="eh-stat"><div class="es-val">96%</div><div class="es-label">Client satisfaction</div></div>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:var(--gold-pale)">🤝</div>
+            <span class="kpi-change up">+3</span>
+          </div>
+          <div class="kpi-val">14</div>
+          <div class="kpi-label">Deals closed (2026)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:var(--green-bg)">🏘️</div>
+            <span class="kpi-change up">+2</span>
+          </div>
+          <div class="kpi-val">18</div>
+          <div class="kpi-label">Active listings</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:var(--blue-bg)">👥</div>
+            <span class="kpi-change up">+5</span>
+          </div>
+          <div class="kpi-val">47</div>
+          <div class="kpi-label">Total clients</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-icon" style="background:var(--amber-bg)">⏳</div>
+            <span class="kpi-change down">2 due</span>
+          </div>
+          <div class="kpi-val">₦420k</div>
+          <div class="kpi-label">Pending commissions</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <!-- Recent deals -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Recent Deals</span>
+            <span class="card-link" onclick="nav('commissions',document.querySelectorAll('.nav-item')[6])">View all →</span>
+          </div>
+          <div class="card-body">
+            <div class="deal-row">
+              <div class="deal-thumb dt1">🏡</div>
+              <div class="deal-info">
+                <div class="deal-title">4-Bed Duplex, Lekki Phase 1</div>
+                <div class="deal-parties">Chidi Okonkwo → Adaeze Obi</div>
+                <div class="deal-tags"><span class="tag t-rent">Rent</span><span class="tag t-done">Closed</span></div>
+              </div>
+              <div class="deal-commission"><div class="dc-val">₦80k</div><div class="dc-label">commission</div></div>
+            </div>
+            <div class="deal-row">
+              <div class="deal-thumb dt2">🏢</div>
+              <div class="deal-info">
+                <div class="deal-title">3-Bed Apartment, VI</div>
+                <div class="deal-parties">Emeka Eze → Michael Kalu</div>
+                <div class="deal-tags"><span class="tag t-shortlet">Short-let</span><span class="tag t-done">Closed</span></div>
+              </div>
+              <div class="deal-commission"><div class="dc-val">₦52k</div><div class="dc-label">commission</div></div>
+            </div>
+            <div class="deal-row">
+              <div class="deal-thumb dt3">🏗️</div>
+              <div class="deal-info">
+                <div class="deal-title">Land — 600 sqm, Ajah</div>
+                <div class="deal-parties">Femi Adebayo → Buyer TBD</div>
+                <div class="deal-tags"><span class="tag t-sale">Sale</span><span class="tag t-pending">Negotiating</span></div>
+              </div>
+              <div class="deal-commission"><div class="dc-val">₦360k</div><div class="dc-label">expected</div></div>
+            </div>
+            <div class="deal-row">
+              <div class="deal-thumb dt4">🏠</div>
+              <div class="deal-info">
+                <div class="deal-title">2-Bed Flat, Surulere</div>
+                <div class="deal-parties">Rita Sule → Ngozi Salami</div>
+                <div class="deal-tags"><span class="tag t-rent">Rent</span><span class="tag t-inprog">Agreement sent</span></div>
+              </div>
+              <div class="deal-commission"><div class="dc-val">₦48k</div><div class="dc-label">commission</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming -->
+        <div style="display:flex;flex-direction:column;gap:1.2rem">
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Today's Schedule</span>
+              <span class="card-link" onclick="nav('inspections',document.querySelectorAll('.nav-item')[4])">All →</span>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:0.8rem">
+              <div style="display:flex;gap:0.9rem;align-items:flex-start;padding:0.7rem;background:var(--navy3);border-radius:10px;border-left:3px solid var(--gold)">
+                <div style="text-align:center;flex-shrink:0"><div style="font-weight:700;font-size:0.82rem">10:00</div><div style="font-size:0.67rem;color:var(--muted)">AM</div></div>
+                <div><div style="font-weight:700;font-size:0.82rem">Property Inspection</div><div style="font-size:0.74rem;color:var(--muted)">2-Bed Flat, Yaba · Chidi Okonkwo</div></div>
+              </div>
+              <div style="display:flex;gap:0.9rem;align-items:flex-start;padding:0.7rem;background:var(--navy3);border-radius:10px;border-left:3px solid var(--blue)">
+                <div style="text-align:center;flex-shrink:0"><div style="font-weight:700;font-size:0.82rem">2:00</div><div style="font-size:0.67rem;color:var(--muted)">PM</div></div>
+                <div><div style="font-weight:700;font-size:0.82rem">Tenant Screening Call</div><div style="font-size:0.74rem;color:var(--muted)">Ngozi Salami · 3-Bed VI</div></div>
+              </div>
+              <div style="display:flex;gap:0.9rem;align-items:flex-start;padding:0.7rem;background:var(--navy3);border-radius:10px;border-left:3px solid var(--green)">
+                <div style="text-align:center;flex-shrink:0"><div style="font-weight:700;font-size:0.82rem">4:30</div><div style="font-size:0.67rem;color:var(--muted)">PM</div></div>
+                <div><div style="font-weight:700;font-size:0.82rem">Agreement Signing</div><div style="font-size:0.74rem;color:var(--muted)">Surulere deal · Both parties confirmed</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Quick Actions</span>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:0.6rem">
+              <button style="width:100%;padding:0.75rem;background:var(--gold-pale);border:1px solid var(--gold-border);border-radius:10px;color:var(--gold);font-weight:700;font-size:0.84rem;cursor:pointer;font-family:'Outfit',sans-serif;text-align:left;transition:all .18s" onclick="nav('listings',null);toast('📝 New listing form opened')">＋ List New Property</button>
+              <button style="width:100%;padding:0.75rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-weight:600;font-size:0.84rem;cursor:pointer;font-family:'Outfit',sans-serif;text-align:left;transition:all .18s" onclick="nav('inspections',null)">🔍 Schedule Inspection</button>
+              <button style="width:100%;padding:0.75rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-weight:600;font-size:0.84rem;cursor:pointer;font-family:'Outfit',sans-serif;text-align:left;transition:all .18s" onclick="toast('📄 Agreement template opened')">📄 Create Agreement</button>
+              <button style="width:100%;padding:0.75rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;color:var(--white);font-weight:600;font-size:0.84rem;cursor:pointer;font-family:'Outfit',sans-serif;text-align:left;transition:all .18s" onclick="nav('clients',null)">👥 Add New Client</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PIPELINE ── -->
+    <div class="screen" id="screen-pipeline">
+      <div class="sec-header">
+        <div class="sec-tag">Deal Management</div>
+        <div class="sec-title">Deal Pipeline</div>
+        <div class="sec-sub">7 active deals across all stages — drag to update status</div>
+      </div>
+      <div class="pipeline">
+        <!-- Lead -->
+        <div class="pipe-col">
+          <div class="pipe-col-head">
+            <div class="pc-title" style="color:var(--muted)">🔵 Lead</div>
+            <div class="pc-count">2</div>
+          </div>
+          <div class="pipe-card" onclick="toast('📋 Deal details opened')">
+            <div class="pp-title">5-Bed House, Magodo</div>
+            <div class="pp-addr">Owner: Femi Adebayo</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-sale">Sale</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦900k est.</div><div class="pp-days">Day 3</div></div>
+          </div>
+          <div class="pipe-card" onclick="toast('📋 Deal details opened')">
+            <div class="pp-title">Office Space, Ikeja</div>
+            <div class="pp-addr">Owner: Bola Ade</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-rent">Rent</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦120k est.</div><div class="pp-days">Day 1</div></div>
+          </div>
+        </div>
+        <!-- Screening -->
+        <div class="pipe-col">
+          <div class="pipe-col-head">
+            <div class="pc-title" style="color:var(--blue)">📹 Screening</div>
+            <div class="pc-count">2</div>
+          </div>
+          <div class="pipe-card" style="border-color:rgba(58,143,212,0.3)" onclick="toast('📹 Screening call scheduled')">
+            <div class="pp-title">3-Bed Apt, VI</div>
+            <div class="pp-addr">Tenant: Ngozi Salami</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-rent">Rent</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦48k est.</div><div class="pp-days">Call today 2PM</div></div>
+          </div>
+          <div class="pipe-card" onclick="toast('📹 Screening call scheduled')">
+            <div class="pp-title">2-Bed Flat, Surulere</div>
+            <div class="pp-addr">Tenant: Peter Ogar</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-rent">Rent</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦36k est.</div><div class="pp-days">Day 5</div></div>
+          </div>
+        </div>
+        <!-- Negotiating -->
+        <div class="pipe-col">
+          <div class="pipe-col-head">
+            <div class="pc-title" style="color:var(--amber)">🤝 Negotiating</div>
+            <div class="pc-count">2</div>
+          </div>
+          <div class="pipe-card" style="border-color:rgba(212,136,42,0.3)" onclick="toast('💬 Negotiation chat opened')">
+            <div class="pp-title">Land — 600 sqm, Ajah</div>
+            <div class="pp-addr">Seller: Chidi · Buyer: TBD</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-sale">Sale</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦360k est.</div><div class="pp-days">Day 12</div></div>
+          </div>
+          <div class="pipe-card" onclick="toast('💬 Negotiation chat opened')">
+            <div class="pp-title">Duplex, Ikoyi</div>
+            <div class="pp-addr">Seller: Taiwo · Buyer: Emeka</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-sale">Sale</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦650k est.</div><div class="pp-days">Day 8</div></div>
+          </div>
+        </div>
+        <!-- Agreement -->
+        <div class="pipe-col">
+          <div class="pipe-col-head">
+            <div class="pc-title" style="color:var(--gold)">📄 Agreement</div>
+            <div class="pc-count">1</div>
+          </div>
+          <div class="pipe-card" style="border-color:var(--gold-border)" onclick="toast('📄 Agreement sent for signature')">
+            <div class="pp-title">2-Bed Flat, Surulere</div>
+            <div class="pp-addr">Rita Sule → Ngozi Salami</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-rent">Rent</span></div>
+            <div class="pp-bottom"><div class="pp-comm">₦48k est.</div><div class="pp-days">Awaiting sig.</div></div>
+          </div>
+        </div>
+        <!-- Closed -->
+        <div class="pipe-col">
+          <div class="pipe-col-head">
+            <div class="pc-title" style="color:var(--green)">✅ Closed</div>
+            <div class="pc-count">3</div>
+          </div>
+          <div class="pipe-card" style="opacity:0.7" onclick="toast('🎉 Deal details')">
+            <div class="pp-title">4-Bed Duplex, Lekki</div>
+            <div class="pp-addr">Okonkwo → Adaeze Obi</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-done">Closed</span></div>
+            <div class="pp-bottom"><div class="pp-comm" style="color:var(--green)">₦80k earned</div><div class="pp-days">Mar 1</div></div>
+          </div>
+          <div class="pipe-card" style="opacity:0.7" onclick="toast('🎉 Deal details')">
+            <div class="pp-title">3-Bed Apt, VI</div>
+            <div class="pp-addr">Eze → Michael Kalu</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-done">Closed</span></div>
+            <div class="pp-bottom"><div class="pp-comm" style="color:var(--green)">₦52k earned</div><div class="pp-days">Feb 20</div></div>
+          </div>
+          <div class="pipe-card" style="opacity:0.7" onclick="toast('🎉 Deal details')">
+            <div class="pp-title">Studio, Yaba</div>
+            <div class="pp-addr">Tunde → Rita Sule</div>
+            <div style="margin-bottom:0.4rem"><span class="tag t-done">Closed</span></div>
+            <div class="pp-bottom"><div class="pp-comm" style="color:var(--green)">₦28k earned</div><div class="pp-days">Feb 10</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LISTINGS ── -->
+    <div class="screen" id="screen-listings">
+      <div class="sec-header">
+        <div class="sec-tag">Portfolio</div>
+        <div class="sec-title">Managed Listings</div>
+        <div class="sec-sub">All properties you manage on behalf of landlords</div>
+      </div>
+      <div class="listings-controls">
+        <div class="filter-chip on" onclick="this.classList.toggle('on')">All (18)</div>
+        <div class="filter-chip" onclick="this.classList.toggle('on')">🗝️ Rent</div>
+        <div class="filter-chip" onclick="this.classList.toggle('on')">💰 Sale</div>
+        <div class="filter-chip" onclick="this.classList.toggle('on')">📅 Short-let</div>
+        <div class="filter-chip" onclick="this.classList.toggle('on')">⭐ Certified</div>
+        <div class="filter-chip" onclick="this.classList.toggle('on')">🔴 Vacant</div>
+        <div style="margin-left:auto">
+          <button class="btn-gold" onclick="toast('📝 New listing form opened')">＋ Add Listing</button>
+        </div>
+      </div>
+      <div class="listings-table">
+        <div class="lt-head"><div>Property</div><div>Type</div><div>Price</div><div>Status</div><div>Verification</div><div>Actions</div></div>
+        <div class="lt-row">
+          <div class="lt-prop"><div class="lt-thumb dt1" style="font-size:1.1rem">🏡</div><div><div class="lt-name">4-Bed Duplex, Lekki Ph1</div><div class="lt-addr">Chidi Okonkwo · Lagos</div></div></div>
+          <div><span class="tag t-rent">Rent</span></div>
+          <div style="font-weight:700">₦800k<span style="font-size:0.72rem;font-weight:400;color:var(--muted)">/yr</span></div>
+          <div><span class="tag t-active">Occupied</span></div>
+          <div><span class="tag t-certified">⭐ Certified</span></div>
+          <div class="lt-actions"><button class="act-btn ab-gold" onclick="toast('✏️ Listing editor opened')">Edit</button><button class="act-btn ab-ghost" onclick="toast('👁 Listing preview opened')">View</button></div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-prop"><div class="lt-thumb dt2" style="font-size:1.1rem">🏢</div><div><div class="lt-name">3-Bed Apartment, VI</div><div class="lt-addr">Emeka Eze · Lagos</div></div></div>
+          <div><span class="tag t-shortlet">Short-let</span></div>
+          <div style="font-weight:700">₦85k<span style="font-size:0.72rem;font-weight:400;color:var(--muted)">/night</span></div>
+          <div><span class="tag t-active">Occupied</span></div>
+          <div><span class="tag t-verified">✔ Verified</span></div>
+          <div class="lt-actions"><button class="act-btn ab-gold" onclick="toast('✏️ Listing editor opened')">Edit</button><button class="act-btn ab-ghost" onclick="toast('👁 Listing preview opened')">View</button></div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-prop"><div class="lt-thumb dt3" style="font-size:1.1rem">🏠</div><div><div class="lt-name">2-Bed Flat, Yaba</div><div class="lt-addr">Rita Sule · Lagos</div></div></div>
+          <div><span class="tag t-rent">Rent</span></div>
+          <div style="font-weight:700">₦480k<span style="font-size:0.72rem;font-weight:400;color:var(--muted)">/yr</span></div>
+          <div><span class="tag t-overdue" style="background:var(--red-bg);color:var(--red)">Vacant</span></div>
+          <div><span class="tag t-pending">⏳ Pending</span></div>
+          <div class="lt-actions"><button class="act-btn ab-gold" onclick="toast('✏️ Listing editor opened')">Edit</button><button class="act-btn ab-ghost" onclick="toast('📹 Screening call setup')">Screen</button></div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-prop"><div class="lt-thumb dt4" style="font-size:1.1rem">🏗️</div><div><div class="lt-name">Land — 600 sqm, Ajah</div><div class="lt-addr">Femi Adebayo · Lagos</div></div></div>
+          <div><span class="tag t-sale">Sale</span></div>
+          <div style="font-weight:700">₦18M</div>
+          <div><span class="tag t-pending">Negotiating</span></div>
+          <div><span class="tag t-certified">⭐ Certified</span></div>
+          <div class="lt-actions"><button class="act-btn ab-gold" onclick="toast('💬 Negotiation chat opened')">Negotiate</button><button class="act-btn ab-ghost" onclick="toast('👁 Listing preview')">View</button></div>
+        </div>
+        <div class="lt-row">
+          <div class="lt-prop"><div class="lt-thumb dt1" style="font-size:1.1rem">🏬</div><div><div class="lt-name">Office Space, Ikeja GRA</div><div class="lt-addr">Bola Ade · Lagos</div></div></div>
+          <div><span class="tag t-rent">Commercial</span></div>
+          <div style="font-weight:700">₦4.8M<span style="font-size:0.72rem;font-weight:400;color:var(--muted)">/yr</span></div>
+          <div><span class="tag t-active">Occupied</span></div>
+          <div><span class="tag t-certified">⭐ Certified</span></div>
+          <div class="lt-actions"><button class="act-btn ab-gold" onclick="toast('✏️ Listing editor opened')">Edit</button><button class="act-btn ab-ghost" onclick="toast('👁 Listing preview')">View</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INSPECTIONS ── -->
+    <div class="screen" id="screen-inspections">
+      <div class="sec-header">
+        <div class="sec-tag">Field Work</div>
+        <div class="sec-title">Property Inspections</div>
+        <div class="sec-sub">Scheduled visits and verification inspections across Lagos</div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-mock">
+        <div class="map-pin" style="top:35%;left:40%" onclick="toast('📍 4-Bed Duplex, Lekki — 10:00 AM today')">📍</div>
+        <div class="map-pin" style="top:55%;left:28%" onclick="toast('📍 2-Bed Flat, Yaba — 2:00 PM today')">📍</div>
+        <div class="map-pin" style="top:42%;left:62%" onclick="toast('📍 Land — Ajah, Mar 12')">📌</div>
+        <div class="map-pin" style="top:25%;left:55%" onclick="toast('📍 Office Space, Ikeja — Mar 13')">📌</div>
+        <div style="position:relative;z-index:1;text-align:center">
+          <div style="font-size:1.4rem;margin-bottom:0.3rem">🗺️</div>
+          <div style="font-size:0.82rem;color:var(--muted)">Lagos Inspection Map · 4 upcoming visits</div>
+          <div style="font-size:0.72rem;color:var(--muted2);margin-top:0.2rem">Click pins for details</div>
+        </div>
+      </div>
+
+      <div class="insp-grid">
+        <!-- Today 1 -->
+        <div class="insp-card">
+          <div class="ic-head">
+            <div class="ic-icon" style="background:var(--gold-pale)">🏡</div>
+            <div>
+              <div class="ic-title">4-Bed Duplex, Lekki Phase 1</div>
+              <div class="ic-addr">📍 14 Admiralty Way, Lekki · Landlord: Chidi Okonkwo</div>
+            </div>
+            <span class="tag t-inprog">Today</span>
+          </div>
+          <div class="ic-details">
+            <div><div class="icd-label">Time</div><div class="icd-val">10:00 AM</div></div>
+            <div><div class="icd-label">Type</div><div class="icd-val">Verification (Layer 4)</div></div>
+            <div><div class="icd-label">Contact</div><div class="icd-val">+234 803 123 4567</div></div>
+            <div><div class="icd-label">Est. Duration</div><div class="icd-val">45 minutes</div></div>
+          </div>
+          <div class="ic-actions">
+            <button class="ic-btn icb-primary" onclick="toast('🗺️ Navigation opened — 2.4km away')">Navigate →</button>
+            <button class="ic-btn icb-green" onclick="toast('✅ Inspection marked as complete! Badge updated.')">Mark Complete</button>
+            <button class="ic-btn icb-ghost" onclick="toast('📞 Calling Chidi Okonkwo...')">Call</button>
+          </div>
+        </div>
+        <!-- Today 2 -->
+        <div class="insp-card">
+          <div class="ic-head">
+            <div class="ic-icon" style="background:var(--blue-bg)">🏠</div>
+            <div>
+              <div class="ic-title">2-Bed Flat, Yaba</div>
+              <div class="ic-addr">📍 5 Tejuosho St, Yaba · Landlord: Rita Sule</div>
+            </div>
+            <span class="tag t-inprog">Today</span>
+          </div>
+          <div class="ic-details">
+            <div><div class="icd-label">Time</div><div class="icd-val">2:00 PM</div></div>
+            <div><div class="icd-label">Type</div><div class="icd-val">New listing audit</div></div>
+            <div><div class="icd-label">Contact</div><div class="icd-val">+234 706 789 0123</div></div>
+            <div><div class="icd-label">Est. Duration</div><div class="icd-val">30 minutes</div></div>
+          </div>
+          <div class="ic-actions">
+            <button class="ic-btn icb-primary" onclick="toast('🗺️ Navigation opened — 5.2km away')">Navigate →</button>
+            <button class="ic-btn icb-green" onclick="toast('✅ Inspection marked complete!')">Mark Complete</button>
+            <button class="ic-btn icb-ghost" onclick="toast('📞 Calling Rita Sule...')">Call</button>
+          </div>
+        </div>
+        <!-- Upcoming 1 -->
+        <div class="insp-card" style="opacity:0.8">
+          <div class="ic-head">
+            <div class="ic-icon" style="background:var(--amber-bg)">🏗️</div>
+            <div>
+              <div class="ic-title">Land — 600 sqm, Ajah</div>
+              <div class="ic-addr">📍 Lekki-Epe Expressway, Ajah · Landlord: Femi Adebayo</div>
+            </div>
+            <span class="tag t-pending">Mar 12</span>
+          </div>
+          <div class="ic-details">
+            <div><div class="icd-label">Time</div><div class="icd-val">11:00 AM</div></div>
+            <div><div class="icd-label">Type</div><div class="icd-val">Verification (Layer 4)</div></div>
+            <div><div class="icd-label">Contact</div><div class="icd-val">+234 802 345 6789</div></div>
+            <div><div class="icd-label">Est. Duration</div><div class="icd-val">60 minutes</div></div>
+          </div>
+          <div class="ic-actions">
+            <button class="ic-btn icb-ghost" onclick="toast('📅 Reschedule form opened')">Reschedule</button>
+            <button class="ic-btn icb-ghost" onclick="toast('📞 Calling Femi Adebayo...')">Call</button>
+          </div>
+        </div>
+        <!-- Upcoming 2 -->
+        <div class="insp-card" style="opacity:0.8">
+          <div class="ic-head">
+            <div class="ic-icon" style="background:var(--green-bg)">🏬</div>
+            <div>
+              <div class="ic-title">Office Space, Ikeja GRA</div>
+              <div class="ic-addr">📍 3 Medical Road, Ikeja · Landlord: Bola Ade</div>
+            </div>
+            <span class="tag t-pending">Mar 13</span>
+          </div>
+          <div class="ic-details">
+            <div><div class="icd-label">Time</div><div class="icd-val">3:00 PM</div></div>
+            <div><div class="icd-label">Type</div><div class="icd-val">Renewal inspection</div></div>
+            <div><div class="icd-label">Contact</div><div class="icd-val">+234 805 678 9012</div></div>
+            <div><div class="icd-label">Est. Duration</div><div class="icd-val">45 minutes</div></div>
+          </div>
+          <div class="ic-actions">
+            <button class="ic-btn icb-ghost" onclick="toast('📅 Reschedule form opened')">Reschedule</button>
+            <button class="ic-btn icb-ghost" onclick="toast('📞 Calling Bola Ade...')">Call</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMMISSIONS ── -->
+    <div class="screen" id="screen-commissions">
+      <div class="sec-header">
+        <div class="sec-tag">Finance</div>
+        <div class="sec-title">Commissions</div>
+        <div class="sec-sub">Your earnings from every deal closed on PROPATI</div>
+      </div>
+      <div class="comm-summary">
+        <div class="cs-card">
+          <div class="cs-label">Total Earned · 2026</div>
+          <div class="cs-val" style="color:var(--gold)">₦3,240,000</div>
+          <div class="cs-sub">14 deals closed · Avg ₦231k/deal</div>
+          <div class="cs-bar"><div class="cs-fill" style="width:81%"></div></div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-label">This Month</div>
+          <div class="cs-val" style="color:var(--green)">₦580,000</div>
+          <div class="cs-sub">3 deals · Up 18% vs Feb</div>
+        </div>
+        <div class="cs-card">
+          <div class="cs-label">Pending Payout</div>
+          <div class="cs-val" style="color:var(--amber)">₦420,000</div>
+          <div class="cs-sub">2 deals pending settlement</div>
+        </div>
+      </div>
+      <div class="comm-table">
+        <div class="ct-head"><div>Deal</div><div>Parties</div><div>Type</div><div>Rate</div><div>Commission</div><div>Status</div></div>
+        <div class="ct-row">
+          <div><div style="font-weight:700;font-size:0.84rem">4-Bed Lekki</div><div style="font-size:0.71rem;color:var(--muted)">Closed Mar 1</div></div>
+          <div class="ct-parties"><div class="ct-name">Chidi → Adaeze</div><div class="ct-prop">Rental · ₦800k/yr</div></div>
+          <div><span class="tag t-rent">Rent</span></div>
+          <div style="font-size:0.82rem">10%</div>
+          <div class="ct-amount">₦80,000</div>
+          <div><span class="tag t-done">✓ Paid</span></div>
+        </div>
+        <div class="ct-row">
+          <div><div style="font-weight:700;font-size:0.84rem">3-Bed VI</div><div style="font-size:0.71rem;color:var(--muted)">Closed Feb 20</div></div>
+          <div class="ct-parties"><div class="ct-name">Eze → Michael</div><div class="ct-prop">Short-let · ₦520k/mo</div></div>
+          <div><span class="tag t-shortlet">Short-let</span></div>
+          <div style="font-size:0.82rem">10%</div>
+          <div class="ct-amount">₦52,000</div>
+          <div><span class="tag t-done">✓ Paid</span></div>
+        </div>
+        <div class="ct-row">
+          <div><div style="font-weight:700;font-size:0.84rem">Duplex, Ikoyi</div><div style="font-size:0.71rem;color:var(--muted)">Negotiating</div></div>
+          <div class="ct-parties"><div class="ct-name">Taiwo → Emeka</div><div class="ct-prop">Sale · ₦65M asking</div></div>
+          <div><span class="tag t-sale">Sale</span></div>
+          <div style="font-size:0.82rem">1%</div>
+          <div class="ct-amount">₦650,000</div>
+          <div><span class="tag t-pending">Pending</span></div>
+        </div>
+        <div class="ct-row">
+          <div><div style="font-weight:700;font-size:0.84rem">Land, Ajah</div><div style="font-size:0.71rem;color:var(--muted)">Negotiating</div></div>
+          <div class="ct-parties"><div class="ct-name">Femi → TBD</div><div class="ct-prop">Sale · ₦18M asking</div></div>
+          <div><span class="tag t-sale">Sale</span></div>
+          <div style="font-size:0.82rem">2%</div>
+          <div class="ct-amount">₦360,000</div>
+          <div><span class="tag t-pending">Pending</span></div>
+        </div>
+        <div class="ct-row">
+          <div><div style="font-weight:700;font-size:0.84rem">2-Bed Surulere</div><div style="font-size:0.71rem;color:var(--muted)">Agreement sent</div></div>
+          <div class="ct-parties"><div class="ct-name">Rita → Ngozi</div><div class="ct-prop">Rental · ₦480k/yr</div></div>
+          <div><span class="tag t-rent">Rent</span></div>
+          <div style="font-size:0.82rem">10%</div>
+          <div class="ct-amount">₦48,000</div>
+          <div><span class="tag t-pending">Pending</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CLIENTS ── -->
+    <div class="screen" id="screen-clients">
+      <div class="sec-header" style="display:flex;align-items:flex-start;justify-content:space-between">
+        <div>
+          <div class="sec-tag">Relationships</div>
+          <div class="sec-title">My Clients</div>
+          <div class="sec-sub">Landlords, buyers, and tenants you represent</div>
+        </div>
+        <button class="btn-gold" onclick="toast('👤 New client form opened')">＋ Add Client</button>
+      </div>
+      <div class="client-grid">
+        <div class="client-card">
+          <div class="cc-head">
+            <div class="cc-av" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)">CO</div>
+            <div>
+              <div class="cc-name">Chidi Okonkwo</div>
+              <div class="cc-type">🏠 Landlord · 4 properties</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div class="ccs-item"><div class="ccs-val">4</div><div class="ccs-label">Properties managed</div></div>
+            <div class="ccs-item"><div class="ccs-val">₦180k</div><div class="ccs-label">Commissions earned</div></div>
+          </div>
+          <div class="cc-actions">
+            <button class="act-btn ab-gold" style="flex:1" onclick="toast('💬 Messaging Chidi Okonkwo...')">Message</button>
+            <button class="act-btn ab-ghost" style="flex:1" onclick="toast('📋 Client profile opened')">Profile</button>
+          </div>
+        </div>
+        <div class="client-card">
+          <div class="cc-head">
+            <div class="cc-av" style="background:linear-gradient(135deg,var(--blue),#6a4ad4);color:white">FA</div>
+            <div>
+              <div class="cc-name">Femi Adebayo</div>
+              <div class="cc-type">🏗️ Landlord · Land seller</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div class="ccs-item"><div class="ccs-val">2</div><div class="ccs-label">Properties listed</div></div>
+            <div class="ccs-item"><div class="ccs-val">₦360k</div><div class="ccs-label">Expected commission</div></div>
+          </div>
+          <div class="cc-actions">
+            <button class="act-btn ab-gold" style="flex:1" onclick="toast('💬 Messaging Femi...')">Message</button>
+            <button class="act-btn ab-ghost" style="flex:1" onclick="toast('📋 Profile opened')">Profile</button>
+          </div>
+        </div>
+        <div class="client-card">
+          <div class="cc-head">
+            <div class="cc-av" style="background:linear-gradient(135deg,var(--green),#4ad4a8);color:white">AO</div>
+            <div>
+              <div class="cc-name">Adaeze Obi</div>
+              <div class="cc-type">🙋 Tenant · Active lease</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div class="ccs-item"><div class="ccs-val">1</div><div class="ccs-label">Active rental</div></div>
+            <div class="ccs-item"><div class="ccs-val">₦80k</div><div class="ccs-label">Commission earned</div></div>
+          </div>
+          <div class="cc-actions">
+            <button class="act-btn ab-gold" style="flex:1" onclick="toast('💬 Messaging Adaeze...')">Message</button>
+            <button class="act-btn ab-ghost" style="flex:1" onclick="toast('📋 Profile opened')">Profile</button>
+          </div>
+        </div>
+        <div class="client-card">
+          <div class="cc-head">
+            <div class="cc-av" style="background:linear-gradient(135deg,#d44040,var(--amber));color:white">NS</div>
+            <div>
+              <div class="cc-name">Ngozi Salami</div>
+              <div class="cc-type">🔍 Tenant · Searching</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div class="ccs-item"><div class="ccs-val">2</div><div class="ccs-label">Viewings done</div></div>
+            <div class="ccs-item"><div class="ccs-val">₦48k</div><div class="ccs-label">Potential commission</div></div>
+          </div>
+          <div class="cc-actions">
+            <button class="act-btn ab-gold" style="flex:1" onclick="toast('💬 Messaging Ngozi...')">Message</button>
+            <button class="act-btn ab-ghost" style="flex:1" onclick="toast('📋 Profile opened')">Profile</button>
+          </div>
+        </div>
+        <div class="client-card">
+          <div class="cc-head">
+            <div class="cc-av" style="background:linear-gradient(135deg,#4040d4,#4ab4d4);color:white">EE</div>
+            <div>
+              <div class="cc-name">Emeka Eze</div>
+              <div class="cc-type">🏢 Landlord · 2 properties</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div class="ccs-item"><div class="ccs-val">2</div><div class="ccs-label">Properties managed</div></div>
+            <div class="ccs-item"><div class="ccs-val">₦52k</div><div class="ccs-label">Commission earned</div></div>
+          </div>
+          <div class="cc-actions">
+            <button class="act-btn ab-gold" style="flex:1" onclick="toast('💬 Messaging Emeka...')">Message</button>
+            <button class="act-btn ab-ghost" style="flex:1" onclick="toast('📋 Profile opened')">Profile</button>
+          </div>
+        </div>
+        <div class="client-card" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;border-style:dashed;min-height:180px;cursor:pointer" onclick="toast('👤 New client form opened')">
+          <div style="font-size:2rem;opacity:0.4">＋</div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--muted)">Add New Client</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REPUTATION ── -->
+    <div class="screen" id="screen-reputation">
+      <div class="sec-header">
+        <div class="sec-tag">Trust & Performance</div>
+        <div class="sec-title">Your Reputation</div>
+        <div class="sec-sub">PROPATI score, badges, and client reviews</div>
+      </div>
+
+      <div class="rep-hero">
+        <div class="rep-details">
+          <h3>Senior Agent · Top 2% on PROPATI</h3>
+          <p>Your reputation is built on verified inspections, closed deals, and consistently positive client feedback. Keep completing verification inspections and closing deals to maintain your top ranking.</p>
+          <div class="rep-badges">
+            <div class="rep-badge">⭐ 128 Inspections</div>
+            <div class="rep-badge">🔒 Identity Verified</div>
+            <div class="rep-badge">🏆 Top Closer · Q1 2026</div>
+            <div class="rep-badge">📹 100+ Screenings</div>
+            <div class="rep-badge">✅ PROPATI Certified Agent</div>
+          </div>
+        </div>
+        <div class="rep-score-ring">
+          <div class="rsr-val">4.9</div>
+          <div class="rsr-label">/ 5.0 score</div>
+        </div>
+      </div>
+
+      <!-- Score breakdown -->
+      <div class="card" style="margin-bottom:1.4rem">
+        <div class="card-head"><span class="card-title">Score Breakdown</span></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem">
+            <div>
+              <div style="font-size:0.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem">Deal Success Rate</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--gold)">96%</div>
+              <div style="height:5px;background:var(--navy3);border-radius:100px;margin-top:0.5rem;overflow:hidden"><div style="height:100%;width:96%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:100px"></div></div>
+            </div>
+            <div>
+              <div style="font-size:0.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem">Response Time</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--green)">&lt;2h</div>
+              <div style="height:5px;background:var(--navy3);border-radius:100px;margin-top:0.5rem;overflow:hidden"><div style="height:100%;width:88%;background:linear-gradient(90deg,var(--green),#4ad4a8);border-radius:100px"></div></div>
+            </div>
+            <div>
+              <div style="font-size:0.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem">Inspections Done</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--gold)">128</div>
+              <div style="height:5px;background:var(--navy3);border-radius:100px;margin-top:0.5rem;overflow:hidden"><div style="height:100%;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:100px"></div></div>
+            </div>
+            <div>
+              <div style="font-size:0.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem">Client Satisfaction</div>
+              <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--green)">98%</div>
+              <div style="height:5px;background:var(--navy3);border-radius:100px;margin-top:0.5rem;overflow:hidden"><div style="height:100%;width:98%;background:linear-gradient(90deg,var(--green),#4ad4a8);border-radius:100px"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="sec-header"><div class="sec-title" style="font-size:1.1rem">Client Reviews (47)</div></div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-av" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy)">CO</div>
+            <div><div class="rv-name">Chidi Okonkwo</div><div class="rv-role">Landlord · 4 properties</div></div>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+        <div class="rv-text">"Akin is hands-down the best agent I've worked with. He managed the listing, screened all tenants, and had the property rented within 3 weeks. Very professional and always reachable."</div>
+        <div class="rv-date">March 3, 2026 · Verified Deal</div>
+      </div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-av" style="background:linear-gradient(135deg,var(--green),#4ad4a8);color:white">AO</div>
+            <div><div class="rv-name">Adaeze Obi</div><div class="rv-role">Tenant · Lekki duplex</div></div>
+          </div>
+          <div class="stars">★★★★★</div>
+        </div>
+        <div class="rv-text">"He made the whole rental process so smooth. The property was exactly as listed, the agreement was ready same day, and he kept me informed throughout. Highly recommend."</div>
+        <div class="rv-date">January 5, 2026 · Verified Deal</div>
+      </div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-av" style="background:linear-gradient(135deg,var(--blue),#6a4ad4);color:white">FA</div>
+            <div><div class="rv-name">Femi Adebayo</div><div class="rv-role">Landlord · Land sale</div></div>
+          </div>
+          <div class="stars">★★★★☆</div>
+        </div>
+        <div class="rv-text">"Still working with Akin on my land sale. He's been thorough with the verification process and has brought in serious buyers. Looking forward to closing this deal."</div>
+        <div class="rv-date">February 18, 2026 · Ongoing Deal</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span id="toastIcon">✅</span>
+  <span class="toast-text" id="toastText"></span>
+</div>
+
+<script>
+const titles={
+  dashboard:['Dashboard','Tuesday, 10 March 2026 · Lagos'],
+  pipeline:['Deal Pipeline','7 active deals in progress'],
+  listings:['Managed Listings','18 properties under management'],
+  inspections:['Inspections','3 visits scheduled this week'],
+  commissions:['Commissions','₦3.24M earned in 2026'],
+  clients:['My Clients','47 landlords, tenants & buyers'],
+  reputation:['Reputation','⭐ 4.9 · Senior Agent · #4 Lagos'],
+};
+
+function nav(id,el){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const t=titles[id]||['PROPATI',''];
+  document.getElementById('pageTitle').textContent=t[0];
+  document.getElementById('pageSub').textContent=t[1];
+}
+
+let toastTimer;
+function toast(msg){
+  clearTimeout(toastTimer);
+  document.getElementById('toastIcon').textContent=msg.slice(0,2);
+  document.getElementById('toastText').textContent=msg.slice(2).trim();
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>

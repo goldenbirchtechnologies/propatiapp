@@ -1,0 +1,11 @@
+.next
+node_modules
+out
+build
+dist
+*.config.js
+*.config.ts
+coverage
+*.d.ts
+prisma/migrations
+.next-env.d.ts

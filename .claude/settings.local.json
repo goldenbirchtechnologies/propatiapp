@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\Users\\\\USER\\\\Documents\\\\NEWPROPATI\")",
+      "Bash(git init *)",
+      "Bash(npx shadcn@latest *)",
+      "Bash(git add *)"
+    ]
+  },
+  "enabledPlugins": {
+    "security-guidance@claude-plugins-official": true
+  }
+}

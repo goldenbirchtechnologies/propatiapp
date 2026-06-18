@@ -1,0 +1,841 @@
+// ===========================================================================
+// PROPATI — Prisma Schema for PostgreSQL (Supabase)
+// Source: DATABASE_SCHEMA.md
+// Generated for Next.js 14 + Prisma
+// ===========================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===========================================================================
+// ENUMS
+// ===========================================================================
+
+enum UserRole {
+  landlord
+  tenant
+  agent
+  admin
+  estate_manager
+}
+
+enum ListingType {
+  rent
+  sale
+  short_let
+  share
+  commercial
+}
+
+enum PropertyType {
+  apartment
+  house
+  duplex
+  land
+  office
+  shop
+  warehouse
+}
+
+enum ListingStatus {
+  draft
+  active
+  suspended
+  deleted
+}
+
+enum VerificationTier {
+  basic
+  verified
+  inspected
+  certified
+}
+
+enum VerificationLayerStatus {
+  pending
+  approved
+  rejected
+}
+
+enum VerificationOverallStatus {
+  not_started
+  in_progress
+  certified
+  rejected
+}
+
+enum TransactionType {
+  rent
+  caution
+  sale
+  short_let
+  subscription
+}
+
+enum TransactionStatus {
+  pending
+  in_escrow
+  released
+  failed
+  refunded
+}
+
+enum AgreementType {
+  rental
+  sale
+  short_let
+  share
+}
+
+enum AgreementStatus {
+  draft
+  pending_landlord
+  pending_tenant
+  tenant_signed
+  landlord_signed
+  fully_signed
+  terminated
+  expired
+}
+
+enum FlagType {
+  fraud
+  duplicate
+  misleading
+  wrong_price
+  harassment
+  other
+}
+
+enum FlagStatus {
+  open
+  reviewed
+  dismissed
+}
+
+enum ConversationStatus {
+  active
+  archived
+  blocked
+}
+
+enum MessageAttachmentType {
+  image
+  document
+  voice
+}
+
+enum NotificationType {
+  rent_due
+  payment
+  message
+  verification
+  agreement
+  maintenance
+  screening
+  system
+}
+
+enum OrgPlanTier {
+  starter
+  growth
+  enterprise
+}
+
+enum OrgMemberRole {
+  manager
+  accountant
+  maintenance
+  owner_view
+}
+
+enum OrgMemberStatus {
+  pending
+  active
+  removed
+}
+
+enum MaintenanceCategory {
+  plumbing
+  electrical
+  structural
+  security
+  cleaning
+  other
+}
+
+enum MaintenancePriority {
+  low
+  medium
+  high
+  urgent
+}
+
+enum MaintenanceStatus {
+  open
+  assigned
+  in_progress
+  resolved
+  closed
+}
+
+enum SubscriptionStatus {
+  active
+  paused
+  cancelled
+}
+
+enum DisputeType {
+  non_delivery
+  misrepresentation
+  refund
+  other
+}
+
+enum DisputeStatus {
+  open
+  investigating
+  mediated
+  resolved
+  closed
+}
+
+enum ScreeningCallStatus {
+  scheduled
+  completed
+  cancelled
+  no_show
+}
+
+enum EmailStatus {
+  sent
+  failed
+  bounced
+}
+
+enum IdType {
+  nin
+  bvn
+  passport
+  drivers_licence
+  voters_card
+}
+
+enum EmploymentStatus {
+  employed
+  self_employed
+  business_owner
+  student
+  retired
+  unemployed
+}
+
+enum EmploymentType {
+  full_time
+  part_time
+  contract
+  freelance
+  internship
+}
+
+enum AgentTier {
+  standard
+  senior
+  probation
+}
+
+// ===========================================================================
+// CORE AUTHENTICATION (4 tables)
+// ===========================================================================
+
+model User {
+  id                    String    @id @default(cuid()) @map("id") // 'usr_' + 16 chars
+  clerkId               String    @unique @map("clerk_id")
+  email                 String    @unique
+  phone                 String?   @unique
+  password              String    // bcrypt cost 12 (legacy, Clerk handles auth now)
+  role                  UserRole
+  fullName              String    @map("full_name")
+  avatarUrl             String?   @map("avatar_url")
+
+  // NIN/BVN Encryption (AES-256-GCM)
+  ninEncrypted          String?   @map("nin_encrypted")
+  ninHash               String?   @unique @map("nin_hash")
+  ninVerified           Boolean   @default(false) @map("nin_verified")
+  bvnEncrypted          String?   @map("bvn_encrypted")
+  idType                IdType?   @map("id_type")
+  idNumberEnc           String?   @map("id_number_enc")
+  idVerified            Boolean   @default(false) @map("id_verified")
+  idDocUrl              String?   @map("id_doc_url")
+  phoneVerified         Boolean   @default(false) @map("phone_verified")
+
+  // Tenant Screening Profile
+  employmentStatus      EmploymentStatus?   @map("employment_status")
+  employmentType        EmploymentType?     @map("employment_type")
+  employerName          String?             @map("employer_name")
+  jobTitle              String?             @map("job_title")
+  yearlyIncome          BigInt?             @map("yearly_income")
+  incomeVerified        Boolean   @default(false) @map("income_verified")
+  profileBio            String?             @map("profile_bio")
+  profileCompleted      Boolean   @default(false) @map("profile_completed")
+  guarantorName         String?             @map("guarantor_name")
+  guarantorPhone        String?             @map("guarantor_phone")
+  guarantorRelationship String?             @map("guarantor_relationship")
+
+  // Status Flags
+  isActive              Boolean   @default(true) @map("is_active")
+  isBanned              Boolean   @default(false) @map("is_banned")
+  banReason             String?   @map("ban_reason")
+
+  // Agent Specific
+  agentTier             AgentTier @default(standard) @map("agent_tier")
+  agentApproved         Boolean   @default(false) @map("agent_approved")
+  agentBio              String?   @map("agent_bio")
+  agentAreas            Json?     @map("agent_areas")
+
+  // Timestamps
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  lastLogin             DateTime? @map("last_login")
+
+  // Relations
+  refreshTokens         RefreshToken[]
+  passwordResets        PasswordReset?
+  phoneOtps             PhoneOtp[]
+  ownedListings         Listing[]    @relation("ListingOwner")
+  managedListings       Listing[]    @relation("ListingAgent")
+  sentTransactions      Transaction[] @relation("TransactionPayer")
+  receivedTransactions  Transaction[] @relation("TransactionPayee")
+  agentTransactions     Transaction[] @relation("TransactionAgent")
+  landlordAgreements    Agreement[]  @relation("AgreementLandlord")
+  tenantAgreements      Agreement[]  @relation("AgreementTenant")
+  agentAgreements       Agreement[]  @relation("AgreementAgent")
+  landlordConversations Conversation[] @relation("ConversationLandlord")
+  tenantConversations   Conversation[] @relation("ConversationTenant")
+  sentMessages          Message[]    @relation("MessageSender")
+  notifications         Notification[]
+  ownedOrganisations    Organisation[] @relation("OrganisationOwner")
+  orgMemberships        OrgMember[]  @relation("OrgMemberUser")
+  raisedTickets         MaintenanceTicket[] @relation("MaintenanceRaisedBy")
+  assignedTickets       MaintenanceTicket[] @relation("MaintenanceAssignedTo")
+  maintenanceInspections Verification[] @relation("InspectionAgent")
+  scheduledScreenings   ScreeningCall[] @relation("ScreeningLandlord")
+  tenantScreenings      ScreeningCall[] @relation("ScreeningTenant")
+  verifications         Verification[] @relation("VerificationOwner")
+  reviewedVerifications Verification[] @relation("VerificationReviewer")
+  signatureRecords      AgreementSignature[]
+  disputes              Dispute[]    @relation("DisputeRaisedBy")
+  adminDisputes         Dispute[]    @relation("DisputeAdmin")
+  emailLogs             EmailLog[] @relation("UserEmailLogs")
+  savedListings         SavedListing[] @relation("UserSavedListings")
+  flaggedListings       ListingFlag[]  @relation("FlaggedByUser")
+  maintenanceTickets    MaintenanceTicket[] @relation("MaintenanceTenant")
+
+  @@index([email], map: "idx_users_email")
+  @@index([ninHash], map: "idx_users_nin_hash")
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid()) @map("id") // 'rft_' + 16 chars
+  userId     String   @map("user_id")
+  tokenHash  String   @map("token_hash")
+  expiresAt  DateTime @map("expires_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid()) @map("id") // 'pwd_' + 16 chars
+  userId    String   @unique @map("user_id")
+  tokenHash String   @map("token_hash")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_resets")
+}
+
+model PhoneOtp {
+  id        String   @id @default(cuid()) @map("id") // 'otp_' + 16 chars
+  userId    String   @map("user_id")
+  otpHash   String   @map("otp_hash")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("phone_otps")
+}
+
+// ===========================================================================
+// LISTINGS & VERIFICATION (6 tables)
+// ===========================================================================
+
+model Listing {
+  id                   String            @id @default(cuid()) @map("id") // 'lst_' + 12 chars
+  ownerId              String            @map("owner_id")
+  agentId              String?           @map("agent_id")
+  title                String
+  description          String?
+  listingType          ListingType       @map("listing_type")
+  propertyType         PropertyType?     @map("property_type")
+  address              String
+  area                 String
+  state                String            @default("Lagos")
+  price                Decimal           @db.Decimal(15, 2) // Naira for display
+  pricePeriod          String?           @map("price_period") // night, month, year, total
+  cautionDeposit       Decimal?          @db.Decimal(15, 2) @map("caution_deposit")
+  serviceCharge        Decimal?          @db.Decimal(15, 2) @map("service_charge")
+  bedrooms             Int?
+  bathrooms            Int?
+  toilets              Int?
+  sizeSqm              Decimal?          @db.Decimal(10, 2) @map("size_sqm")
+  floorLevel           Int?              @map("floor_level")
+  furnished            Boolean           @default(false)
+  parkingSpaces        Int               @default(0) @map("parking_spaces")
+  amenities            Json?
+  availableFrom        DateTime?         @map("available_from")
+  minimumStay          Int?              @map("minimum_stay")
+  status               ListingStatus     @default(draft)
+  verificationTier     VerificationTier  @default(basic) @map("verification_tier")
+  isFeatured           Boolean           @default(false) @map("is_featured")
+  viewsCount           Int               @default(0) @map("views_count")
+  createdAt            DateTime          @default(now()) @map("created_at")
+  updatedAt            DateTime          @updatedAt @map("updated_at")
+
+  owner                User              @relation("ListingOwner", fields: [ownerId], references: [id])
+  agent                User?             @relation("ListingAgent", fields: [agentId], references: [id])
+  images               ListingImage[]
+  savedBy              SavedListing[]
+  flags                ListingFlag[]
+  verification         Verification?
+  transactions         Transaction[]
+  agreements           Agreement[]
+  conversations        Conversation[]
+  screeningCalls       ScreeningCall[]
+  maintenanceTickets   MaintenanceTicket[]
+  orgListings          OrgListing[]
+  disputes             Dispute[]
+
+  @@index([ownerId], map: "idx_listings_owner")
+  @@index([status], map: "idx_listings_status")
+  @@index([listingType], map: "idx_listings_type")
+  @@index([area], map: "idx_listings_area")
+  @@map("listings")
+}
+
+model ListingImage {
+  id           String   @id @default(cuid()) @map("id") // 'img_' + 12 chars
+  listingId    String   @map("listing_id")
+  url          String
+  publicId     String?  @map("public_id")
+  isCover      Boolean  @default(false) @map("is_cover")
+  sortOrder    Int      @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  listing      Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@map("listing_images")
+}
+
+model SavedListing {
+  id         String   @id @default(cuid()) @map("id") // 'sav_' + 12 chars
+  userId     String   @map("user_id")
+  listingId  String   @map("listing_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User     @relation("UserSavedListings", fields: [userId], references: [id], onDelete: Cascade)
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+  @@map("saved_listings")
+}
+
+model ListingFlag {
+  id           String    @id @default(cuid()) @map("id") // 'flg_' + 12 chars
+  listingId    String    @map("listing_id")
+  flaggedBy    String    @map("flagged_by")
+  type         FlagType
+  description  String?
+  status       FlagStatus @default(open)
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  listing      Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  flaggedByUser User    @relation("FlaggedByUser", fields: [flaggedBy], references: [id])
+
+  @@map("listing_flags")
+}
+
+model Verification {
+  id                String                   @id @default(cuid()) @map("id") // 'ver_' + 12 chars
+  listingId         String                   @unique @map("listing_id")
+  ownerId           String                   @map("owner_id")
+
+  // Layer 1: Documents
+  l1Status          VerificationLayerStatus  @default(pending) @map("l1_status")
+  l1DocUrl          String?                  @map("l1_doc_url")
+  l1SubmittedAt     DateTime?                @map("l1_submitted_at")
+
+  // Layer 2: Identity Match
+  l2Status          VerificationLayerStatus  @default(pending) @map("l2_status")
+  l2IdType          IdType?                  @map("l2_id_type")
+  l2VerifiedAt      DateTime?                @map("l2_verified_at")
+
+  // Layer 3: Live Video
+  l3Status          VerificationLayerStatus  @default(pending) @map("l3_status")
+  l3VideoUrl        String?                  @map("l3_video_url")
+  l3QrCode          String?                  @map("l3_qr_code")
+
+  // Layer 4: Physical Inspection
+  l4Status          VerificationLayerStatus  @default(pending) @map("l4_status")
+  l4AgentId         String?                  @map("l4_agent_id")
+  l4ScheduledAt     DateTime?                @map("l4_scheduled_at")
+  l4CompletedAt     DateTime?                @map("l4_completed_at")
+  l4ReportUrl       String?                  @map("l4_report_url")
+
+  // Layer 5: Admin Certification
+  l5Status          VerificationLayerStatus  @default(pending) @map("l5_status")
+  currentLayer      Int                      @default(1) @map("current_layer")
+  overallStatus     VerificationOverallStatus @default(not_started) @map("overall_status")
+  adminNotes        String?                  @map("admin_notes")
+  reviewedBy        String?                  @map("reviewed_by")
+  reviewedAt        DateTime?                @map("reviewed_at")
+  updatedAt         DateTime                 @updatedAt @map("updated_at")
+
+  listing           Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  owner             User                     @relation("VerificationOwner", fields: [ownerId], references: [id])
+  reviewer          User?                    @relation("VerificationReviewer", fields: [reviewedBy], references: [id])
+  l4Agent           User?                    @relation("InspectionAgent", fields: [l4AgentId], references: [id])
+
+  @@map("verifications")
+}
+
+// ===========================================================================
+// TRANSACTIONS & AGREEMENTS (6 tables)
+// ===========================================================================
+
+model Transaction {
+  id               String           @id @default(cuid()) @map("id") // 'txn_' + 12 chars
+  reference        String?          @unique @map("reference") // Paystack reference
+  listingId        String?          @map("listing_id")
+  payerId          String           @map("payer_id")
+  payeeId          String           @map("payee_id")
+  agentId          String?          @map("agent_id")
+  type             TransactionType
+  status           TransactionStatus @default(pending)
+  amount           BigInt           // kobo (integer)
+  platformFee      BigInt           @default(0) @map("platform_fee")
+  agentCommission  BigInt           @default(0) @map("agent_commission")
+  payeeAmount      BigInt?          @map("payee_amount")
+  description      String?
+  paystackData     Json?            @map("paystack_data")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+
+  listing          Listing?         @relation(fields: [listingId], references: [id])
+  payer            User             @relation("TransactionPayer", fields: [payerId], references: [id])
+  payee            User             @relation("TransactionPayee", fields: [payeeId], references: [id])
+  agent            User?            @relation("TransactionAgent", fields: [agentId], references: [id])
+  agreements       Agreement[]      @relation("TransactionAgreements")
+  rentSchedule     RentSchedule?
+
+  @@map("transactions")
+}
+
+model Agreement {
+  id                  String           @id @default(cuid()) @map("id") // 'agr_' + 12 chars
+  listingId           String           @map("listing_id")
+  landlordId          String           @map("landlord_id")
+  tenantId            String           @map("tenant_id")
+  agentId             String?          @map("agent_id")
+  type                AgreementType
+  status              AgreementStatus  @default(draft)
+  startDate           DateTime?        @map("start_date")
+  endDate             DateTime?        @map("end_date")
+  rentAmount          Decimal?         @db.Decimal(15, 2) @map("rent_amount")
+  rentPeriod          String?          @map("rent_period") // monthly, yearly
+  cautionDeposit      Decimal?         @db.Decimal(15, 2) @map("caution_deposit")
+  serviceCharge       Decimal?         @db.Decimal(15, 2) @map("service_charge")
+  noticePeriodDays    Int              @default(30) @map("notice_period_days")
+  specialClauses      String?          @map("special_clauses")
+  landlordSignedAt    DateTime?        @map("landlord_signed_at")
+  tenantSignedAt      DateTime?        @map("tenant_signed_at")
+  templateVars        Json?            @map("template_vars")
+  createdAt           DateTime         @default(now()) @map("created_at")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+
+  listing             Listing          @relation(fields: [listingId], references: [id])
+  landlord            User             @relation("AgreementLandlord", fields: [landlordId], references: [id])
+  tenant              User             @relation("AgreementTenant", fields: [tenantId], references: [id])
+  agent               User?            @relation("AgreementAgent", fields: [agentId], references: [id])
+  signatures          AgreementSignature[]
+  transactions        Transaction[]    @relation("TransactionAgreements")
+  rentSchedule        RentSchedule[]
+
+  @@map("agreements")
+}
+
+model AgreementSignature {
+  id              String   @id @default(cuid()) @map("id") // 'sig_' + 12 chars
+  agreementId     String   @map("agreement_id")
+  signerId        String   @map("signer_id")
+  role            String   // 'landlord' | 'tenant' | 'agent'
+  ipAddress       String?  @map("ip_address")
+  userAgent       String?  @map("user_agent")
+  consentText     String?  @map("consent_text")
+  signedAt        DateTime @default(now()) @map("signed_at")
+  checksum        String?  // SHA256(doc_url + signer_id + signed_at)
+
+  agreement       Agreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  signer          User     @relation(fields: [signerId], references: [id])
+
+  @@map("agreement_signatures")
+}
+
+model RentSchedule {
+  id               String        @id @default(cuid()) @map("id") // 'rnt_' + 12 chars
+  agreementId      String        @map("agreement_id")
+  dueDate          String        @map("due_date") // 'YYYY-MM-DD'
+  amount           Decimal       @db.Decimal(15, 2)
+  status           String        @default("upcoming") // upcoming, paid, overdue
+  paidAt           DateTime?     @map("paid_at")
+  transactionId    String?       @unique @map("transaction_id")
+  reminderSent     Int           @default(0) @map("reminder_sent") // bitmask: 1=7days, 2=3days, 4=1day
+
+  agreement        Agreement     @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  transaction      Transaction?  @relation(fields: [transactionId], references: [id])
+
+  @@map("rent_schedule")
+}
+
+// ===========================================================================
+// MESSAGING (3 tables)
+// ===========================================================================
+
+model Conversation {
+  id               String             @id @default(cuid()) @map("id") // 'cnv_' + 12 chars
+  listingId        String?            @map("listing_id")
+  landlordId       String             @map("landlord_id")
+  tenantId         String             @map("tenant_id")
+  subject          String?
+  lastMessage      String?            @map("last_message")
+  lastMessageAt    DateTime?          @map("last_message_at")
+  unreadTenant     Int                @default(0) @map("unread_tenant")
+  unreadLandlord   Int                @default(0) @map("unread_landlord")
+  status           ConversationStatus @default(active)
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  listing          Listing?           @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  landlord         User               @relation("ConversationLandlord", fields: [landlordId], references: [id])
+  tenant           User               @relation("ConversationTenant", fields: [tenantId], references: [id])
+  messages         Message[]
+
+  @@unique([landlordId, tenantId, listingId])
+  @@index([landlordId], map: "idx_conversations_landlord")
+  @@index([tenantId], map: "idx_conversations_tenant")
+  @@map("conversations")
+}
+
+model Message {
+  id               String                @id @default(cuid()) @map("id") // 'msg_' + 12 chars
+  conversationId   String                @map("conversation_id")
+  senderId         String                @map("sender_id")
+  content          String
+  attachmentUrl    String?               @map("attachment_url")
+  attachmentType   MessageAttachmentType? @map("attachment_type")
+  isRead           Boolean               @default(false) @map("is_read")
+  readAt           DateTime?             @map("read_at")
+  createdAt        DateTime              @default(now()) @map("created_at")
+
+  conversation     Conversation          @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender           User                  @relation("MessageSender", fields: [senderId], references: [id])
+
+  @@index([conversationId, createdAt], map: "idx_messages_conv")
+  @@index([senderId], map: "idx_messages_sender")
+  @@map("messages")
+}
+
+model Notification {
+  id        String           @id @default(cuid()) @map("id") // 'not_' + 12 chars
+  userId    String           @map("user_id")
+  type      NotificationType
+  title     String
+  body      String
+  data      Json?
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read], map: "idx_notifications_user")
+  @@map("notifications")
+}
+
+// ===========================================================================
+// ORGANISATIONS — B2B SaaS (5 tables)
+// ===========================================================================
+
+model Organisation {
+  id                  String          @id @default(cuid()) @map("id") // 'org_' + 12 chars
+  name                String
+  ownerId             String          @map("owner_id")
+  billingEmail        String?         @map("billing_email")
+  address             String?
+  cacNumber           String?         @map("cac_number")
+  planTier            OrgPlanTier     @default(starter) @map("plan_tier")
+  maxUnits            Int             @default(20) @map("max_units")
+  maxSeats            Int             @default(1) @map("max_seats")
+  paystackCustomerId  String?         @map("paystack_customer_id")
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+
+  owner               User            @relation("OrganisationOwner", fields: [ownerId], references: [id])
+  members             OrgMember[]
+  listings            OrgListing[]
+  maintenanceTickets  MaintenanceTicket[]
+  subscription        OrgSubscription?
+
+  @@map("organisations")
+}
+
+model OrgMember {
+  id           String            @id @default(cuid()) @map("id") // 'mem_' + 12 chars
+  orgId        String            @map("org_id")
+  userId       String?           @map("user_id")
+  email        String?           // for pending invites
+  role         OrgMemberRole
+  status       OrgMemberStatus   @default(pending)
+  invitedBy    String?           @map("invited_by")
+  inviteToken  String?           @unique @map("invite_token")
+  joinedAt     DateTime?         @map("joined_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+
+  org          Organisation      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user         User?             @relation("OrgMemberUser", fields: [userId], references: [id])
+
+  @@unique([orgId, userId])
+  @@map("org_members")
+}
+
+model OrgListing {
+  id        String         @id @default(cuid()) @map("id")
+  orgId     String         @map("org_id")
+  listingId String         @map("listing_id")
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  org       Organisation   @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  listing   Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, listingId])
+  @@map("org_listings")
+}
+
+model MaintenanceTicket {
+  id              String              @id @default(cuid()) @map("id") // 'tkt_' + 12 chars
+  orgId           String?             @map("org_id")
+  listingId       String?             @map("listing_id")
+  tenantId        String?             @map("tenant_id")
+  raisedBy        String              @map("raised_by")
+  title           String
+  description     String?
+  category        MaintenanceCategory
+  priority        MaintenancePriority @default(medium)
+  status          MaintenanceStatus   @default(open)
+  assignedTo      String?             @map("assigned_to")
+  photoUrls       String[]            @map("photo_urls")
+  resolutionNote  String?             @map("resolution_note")
+  resolvedAt      DateTime?           @map("resolved_at")
+  closedAt        DateTime?           @map("closed_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  org             Organisation?       @relation(fields: [orgId], references: [id])
+  listing         Listing?            @relation(fields: [listingId], references: [id])
+  tenant          User?               @relation("MaintenanceTenant", fields: [tenantId], references: [id])
+  raisedByUser    User                @relation("MaintenanceRaisedBy", fields: [raisedBy], references: [id])
+  assignedToUser  User?               @relation("MaintenanceAssignedTo", fields: [assignedTo], references: [id])
+
+  @@map("maintenance_tickets")
+}
+
+model OrgSubscription {
+  id                    String            @id @default(cuid()) @map("id")
+  orgId                 String            @unique @map("org_id")
+  paystackSubId         String            @unique @map("paystack_sub_id")
+  plan                  String
+  status                SubscriptionStatus @default(active)
+  amount                BigInt            // kobo
+  currentPeriodStart    DateTime          @map("current_period_start")
+  currentPeriodEnd      DateTime          @map("current_period_end")
+  nextBillingDate       DateTime          @map("next_billing_date")
+  createdAt             DateTime          @default(now()) @map("created_at")
+
+  org                   Organisation      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@map("org_subscriptions")
+}
+
+// ===========================================================================
+// AUXILIARY TABLES (2 tables + email_log)
+// ===========================================================================
+
+model Dispute {
+  id          String         @id @default(cuid()) @map("id") // 'dsp_' + 12 chars
+  listingId   String?        @map("listing_id")
+  raisedBy    String         @map("raised_by")
+  type        DisputeType
+  status      DisputeStatus  @default(open)
+  description String
+  resolution  String?
+  adminId     String?        @map("admin_id")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  resolvedAt  DateTime?      @map("resolved_at")
+
+  listing     Listing?       @relation(fields: [listingId], references: [id])
+  raisedByUser User          @relation("DisputeRaisedBy", fields: [raisedBy], references: [id])
+  admin       User?          @relation("DisputeAdmin", fields: [adminId], references: [id])
+
+  @@map("disputes")
+}
+
+model ScreeningCall {
+  id            String                @id @default(cuid()) @map("id") // 'scr_' + 12 chars
+  listingId     String                @map("listing_id")
+  landlordId    String                @map("landlord_id")
+  tenantId      String                @map("tenant_id")
+  scheduledAt   DateTime              @map("scheduled_at")
+  status        ScreeningCallStatus   @default(scheduled)
+  notes         String?
+  createdAt     DateTime              @default(now()) @map("created_at")
+
+  listing       Listing               @relation(fields: [listingId], references: [id])
+  landlord      User                  @relation("ScreeningLandlord", fields: [landlordId], references: [id])
+  tenant        User                  @relation("ScreeningTenant", fields: [tenantId], references: [id])
+
+  @@map("screening_calls")
+}
+
+model EmailLog {
+  id        String       @id @default(cuid()) @map("id") // 'eml_' + 12 chars
+  toEmail   String       @map("to_email")
+  subject   String
+  status    EmailStatus
+  error     String?
+  createdAt DateTime     @default(now()) @map("created_at")
+  user      User?        @relation("UserEmailLogs", fields: [userId], references: [id])
+  userId    String?      @map("user_id")
+
+  @@map("email_log")
+}

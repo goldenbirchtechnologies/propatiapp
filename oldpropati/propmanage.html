@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NestBridge – Property Management Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e1117;
+    --off: #f4f1eb;
+    --cream: #ede8df;
+    --gold: #c8973a;
+    --gold-light: #e8bb6a;
+    --teal: #1e7b6e;
+    --teal-light: #2aa391;
+    --muted: #6b6760;
+    --card: #ffffff;
+    --border: rgba(14,17,23,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(244,241,235,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); display: inline-block; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { text-decoration: none; color: var(--ink); font-size: 0.9rem; font-weight: 500; opacity: 0.75; transition: opacity 0.2s; }
+  nav ul a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--ink); color: var(--off);
+    padding: 0.6rem 1.4rem; border-radius: 100px;
+    font-size: 0.88rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--teal); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    gap: 4rem; padding: 8rem 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -120px; right: -120px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,151,58,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: 100px; padding: 0.4rem 1rem;
+    font-size: 0.82rem; font-weight: 500; color: var(--teal);
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.4rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  h1 em { font-style: normal; color: var(--gold); }
+  .hero p {
+    margin-top: 1.4rem;
+    font-size: 1.1rem; line-height: 1.7;
+    color: var(--muted); max-width: 480px;
+  }
+  .hero-actions {
+    margin-top: 2.4rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--off);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--teal); transform: translateY(-2px); }
+  .btn-ghost {
+    color: var(--ink); font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+    opacity: 0.65; transition: opacity 0.2s;
+  }
+  .btn-ghost:hover { opacity: 1; }
+
+  /* hero card stack */
+  .hero-visual {
+    position: relative; display: flex; justify-content: center; align-items: center;
+  }
+  .card-stack {
+    position: relative; width: 360px; height: 420px;
+  }
+  .dash-card {
+    position: absolute; background: var(--card);
+    border-radius: 20px; padding: 1.4rem;
+    box-shadow: 0 8px 40px rgba(14,17,23,0.10);
+    border: 1px solid var(--border);
+    transition: transform 0.3s;
+  }
+  .dash-card:hover { transform: translateY(-4px) !important; }
+  .card-main {
+    width: 320px; top: 0; left: 20px;
+    animation: float 6s ease-in-out infinite;
+  }
+  .card-small {
+    width: 200px; bottom: 20px; right: -20px;
+    animation: float 6s ease-in-out infinite 2s;
+  }
+  .card-pill {
+    width: 220px; bottom: 110px; left: -30px;
+    animation: float 6s ease-in-out infinite 4s;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  .card-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.8rem; }
+  .rent-amount { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; }
+  .rent-due { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+  .progress-bar { margin-top: 1rem; height: 6px; background: var(--cream); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--teal-light)); border-radius: 100px; width: 73%; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-top: 0.4rem; }
+  .tenant-row { display: flex; align-items: center; gap: 0.7rem; margin-top: 0.8rem; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; justify-content: center; color: white; }
+  .av1 { background: var(--teal); }
+  .av2 { background: var(--gold); }
+  .av3 { background: #8b5cf6; }
+  .tenant-info { flex: 1; }
+  .tenant-name { font-size: 0.82rem; font-weight: 600; }
+  .tenant-unit { font-size: 0.74rem; color: var(--muted); }
+  .status-badge { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 100px; }
+  .paid { background: #d1fae5; color: #065f46; }
+  .pending { background: #fef3c7; color: #92400e; }
+  .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag { font-size: 0.74rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); }
+  .tag-short { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+  .tag-long { background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
+  .pill-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .pill-stat { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+  .pill-desc { font-size: 0.76rem; color: var(--muted); }
+
+  /* ── ROLES ── */
+  .section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--teal); margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 3.5vw, 2.8rem); line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .roles-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .role-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .role-card:hover { box-shadow: 0 12px 40px rgba(14,17,23,0.1); transform: translateY(-4px); }
+  .role-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .role-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .role-desc { font-size: 0.9rem; line-height: 1.65; color: var(--muted); }
+  .role-features { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .feat { font-size: 0.84rem; display: flex; align-items: flex-start; gap: 0.5rem; }
+  .feat::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+    margin-top: 3rem;
+  }
+  .feat-block {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    display: flex; gap: 1.2rem;
+    transition: box-shadow 0.25s;
+  }
+  .feat-block:hover { box-shadow: 0 8px 32px rgba(14,17,23,0.08); }
+  .feat-block.wide { grid-column: span 2; flex-direction: column; }
+  .feat-icon-box {
+    width: 52px; height: 52px; flex-shrink: 0;
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .bg-gold { background: rgba(200,151,58,0.12); }
+  .bg-teal { background: rgba(30,123,110,0.12); }
+  .bg-purple { background: rgba(139,92,246,0.12); }
+  .bg-blue { background: rgba(59,130,246,0.12); }
+  .bg-rose { background: rgba(244,63,94,0.12); }
+  .feat-content h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .feat-content p { font-size: 0.88rem; line-height: 1.6; color: var(--muted); }
+
+  /* rental type toggle visual */
+  .rental-types {
+    display: flex; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap;
+  }
+  .rtype {
+    border-radius: 14px; padding: 1rem 1.4rem;
+    border: 2px solid var(--border); flex: 1; min-width: 180px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .rtype.active { border-color: var(--teal); background: rgba(30,123,110,0.06); }
+  .rtype-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .rtype-sub { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── PROCESS ── */
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    margin-top: 3rem; position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute; top: 26px; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    z-index: 0;
+  }
+  .step {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--card); border: 2px solid var(--border);
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem; position: relative;
+  }
+  .step:nth-child(1) .step-num { border-color: var(--teal); color: var(--teal); }
+  .step:nth-child(2) .step-num { border-color: var(--gold); color: var(--gold); }
+  .step:nth-child(3) .step-num { border-color: var(--teal); color: var(--teal); }
+  .step:nth-child(4) .step-num { border-color: var(--gold); color: var(--gold); }
+  .step h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .step p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin: 0 3rem 6rem; background: var(--ink);
+    border-radius: 28px; padding: 5rem 4rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,151,58,0.2) 0%, transparent 70%);
+  }
+  .cta-section h2 { color: var(--off); position: relative; }
+  .cta-section p { color: rgba(244,241,235,0.6); margin-top: 1rem; font-size: 1.05rem; position: relative; }
+  .cta-actions { margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+  .btn-gold {
+    background: var(--gold); color: var(--ink);
+    padding: 0.9rem 2.2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 600; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1.5px solid rgba(244,241,235,0.3); color: var(--off);
+    padding: 0.9rem 2.2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--off); background: rgba(244,241,235,0.07); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.82rem; color: var(--muted);
+  }
+
+  /* ── ANIM ── */
+  .fade-in { opacity: 0; transform: translateY(24px); animation: fadeUp 0.7s ease forwards; }
+  .fade-in:nth-child(2) { animation-delay: 0.1s; }
+  .fade-in:nth-child(3) { animation-delay: 0.2s; }
+  .fade-in:nth-child(4) { animation-delay: 0.3s; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; }
+    .hero-visual { display: none; }
+    .roles-grid, .features-grid { grid-template-columns: 1fr; }
+    .feat-block.wide { grid-column: span 1; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .section { padding: 4rem 1.5rem; }
+    .cta-section { margin: 0 1.5rem 4rem; padding: 3rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span class="logo-dot"></span>NestBridge</div>
+  <ul>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge"><span></span> Now live — short-let & long-term rentals</div>
+    <h1 class="fade-in">Property management,<br/><em>reimagined</em> for everyone.</h1>
+    <p class="fade-in">One platform for landlords, tenants, and agents. Collect rent online, screen tenants with video calls, and sign digital agreements — all in one place.</p>
+    <div class="hero-actions fade-in">
+      <a href="#cta" class="btn-primary">Start for free</a>
+      <a href="#features" class="btn-ghost">See features →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="card-stack">
+      <!-- Main rent card -->
+      <div class="dash-card card-main">
+        <div class="card-label">Rent Collection — March 2026</div>
+        <div class="rent-amount">₦480,000</div>
+        <div class="rent-due">Due Mar 31 · 3 properties</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="progress-label"><span>73% collected</span><span>2 pending</span></div>
+        <div style="margin-top:1rem; display:flex; flex-direction:column; gap:0.6rem;">
+          <div class="tenant-row">
+            <div class="avatar av1">AO</div>
+            <div class="tenant-info"><div class="tenant-name">Adaeze O.</div><div class="tenant-unit">Unit 4B · Long-term</div></div>
+            <span class="status-badge paid">Paid</span>
+          </div>
+          <div class="tenant-row">
+            <div class="avatar av2">MK</div>
+            <div class="tenant-info"><div class="tenant-name">Michael K.</div><div class="tenant-unit">Unit 2A · Short-let</div></div>
+            <span class="status-badge pending">Pending</span>
+          </div>
+          <div class="tenant-row">
+            <div class="avatar av3">FN</div>
+            <div class="tenant-info"><div class="tenant-name">Fatima N.</div><div class="tenant-unit">Unit 1C · Long-term</div></div>
+            <span class="status-badge paid">Paid</span>
+          </div>
+        </div>
+      </div>
+      <!-- Rental type pill -->
+      <div class="dash-card card-pill">
+        <div class="card-label">Rental Types</div>
+        <div class="tag-row">
+          <span class="tag tag-short">Short-let</span>
+          <span class="tag tag-long">Long-term</span>
+        </div>
+      </div>
+      <!-- Stat card -->
+      <div class="dash-card card-small">
+        <div class="pill-icon">🏘️</div>
+        <div class="pill-stat">12</div>
+        <div class="pill-desc">Properties managed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="section" id="roles">
+  <div class="section-label">Who it's for</div>
+  <h2>Built for every person<br/>in the rental journey</h2>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-icon">🏠</div>
+      <div class="role-title">Landlords</div>
+      <div class="role-desc">Manage your entire portfolio from one dashboard. Know who has paid, who hasn't, and what needs attention.</div>
+      <div class="role-features">
+        <div class="feat">Multi-property dashboard</div>
+        <div class="feat">Monthly rent collection & reminders</div>
+        <div class="feat">Short-let & long-term property support</div>
+        <div class="feat">Screen tenants via video or voice call</div>
+        <div class="feat">Sign & store digital agreements</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🙋</div>
+      <div class="role-title">Tenants</div>
+      <div class="role-desc">Pay rent on time, stay connected with your landlord, and keep all your documents in one secure place.</div>
+      <div class="role-features">
+        <div class="feat">Easy online monthly rent payments</div>
+        <div class="feat">Receive & sign digital lease agreements</div>
+        <div class="feat">Screening call from landlord or agent</div>
+        <div class="feat">Maintenance request tracking</div>
+        <div class="feat">Full payment history & receipts</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">💼</div>
+      <div class="role-title">Agents</div>
+      <div class="role-desc">Facilitate deals between landlords and tenants. Manage listings, agreements, and collections professionally.</div>
+      <div class="role-features">
+        <div class="feat">Manage listings on behalf of landlords</div>
+        <div class="feat">Coordinate tenant screening calls</div>
+        <div class="feat">Prepare & send digital agreements</div>
+        <div class="feat">Track commissions per transaction</div>
+        <div class="feat">Unified communication hub</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" style="background: var(--cream);">
+  <div class="section-label">Platform features</div>
+  <h2>Everything under one roof</h2>
+  <div class="features-grid">
+    <div class="feat-block">
+      <div class="feat-icon-box bg-teal">💳</div>
+      <div class="feat-content">
+        <h3>Online Rent Collection</h3>
+        <p>Accept monthly rent payments online. Automated reminders keep tenants on track, and landlords get instant notifications when funds are received.</p>
+      </div>
+    </div>
+    <div class="feat-block">
+      <div class="feat-icon-box bg-gold">📄</div>
+      <div class="feat-content">
+        <h3>Digitized Agreements</h3>
+        <p>Create, send, and sign rental agreements electronically. Legally binding e-signatures mean no printing, scanning, or chasing signatures.</p>
+      </div>
+    </div>
+    <div class="feat-block">
+      <div class="feat-icon-box bg-purple">📹</div>
+      <div class="feat-content">
+        <h3>Video & Voice Screening</h3>
+        <p>Landlords can interview prospective tenants via built-in video or voice calls before making any decisions — all from within the platform.</p>
+      </div>
+    </div>
+    <div class="feat-block">
+      <div class="feat-icon-box bg-blue">🏘️</div>
+      <div class="feat-content">
+        <h3>Multi-Property Management</h3>
+        <p>Landlords can manage an unlimited number of properties from a single account — each with its own rent schedule, tenants, and documents.</p>
+      </div>
+    </div>
+    <div class="feat-block wide">
+      <div style="display:flex;gap:1.2rem;align-items:flex-start;">
+        <div class="feat-icon-box bg-rose">🏷️</div>
+        <div class="feat-content">
+          <h3>Short-let & Long-term Rental Modes</h3>
+          <p>Automatically adapts rent schedules, agreements, and screening flows based on the rental type. Switch between modes with a single toggle.</p>
+        </div>
+      </div>
+      <div class="rental-types">
+        <div class="rtype active">
+          <div class="rtype-title">🗓️ Short-let</div>
+          <div class="rtype-sub">Days to months · Flexible billing · Instant agreements</div>
+        </div>
+        <div class="rtype">
+          <div class="rtype-title">📆 Long-term Rental</div>
+          <div class="rtype-sub">6–24 months · Monthly collection · Standard lease</div>
+        </div>
+        <div class="rtype">
+          <div class="rtype-title">🤝 Managed by Agent</div>
+          <div class="rtype-sub">Agent handles everything on landlord's behalf</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">How it works</div>
+  <h2>From listing to lease<br/>in four steps</h2>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>List Your Property</h4>
+      <p>Landlord or agent adds a property, sets the rental type (short-let or long-term), and uploads details.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Screen Tenants</h4>
+      <p>Invite prospective tenants to a video or voice screening call directly through the platform.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Sign Agreement</h4>
+      <p>Both parties sign the digitized rental agreement online — no paperwork, no delays.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>Collect Rent</h4>
+      <p>Monthly rent is collected automatically, with reminders for tenants and instant notifications for landlords.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="cta">
+  <h2>Ready to simplify property management?</h2>
+  <p>Join landlords, tenants, and agents already using NestBridge to make renting effortless.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-gold">Create a free account</a>
+    <a href="#" class="btn-outline">Book a demo</a>
+  </div>
+</div>
+
+<footer>
+  <div class="logo"><span class="logo-dot"></span>NestBridge</div>
+  <div>© 2026 NestBridge · All rights reserved</div>
+  <div>Privacy · Terms · Contact</div>
+</footer>
+
+</body>
+</html>

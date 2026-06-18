@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PROPATI – Buy, Sell, Rent, Share & Manage Property</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;
+  --white:#fafaf8;
+  --sand:#f0ebe2;
+  --sand2:#e6dfd3;
+  --rust:#c0521f;
+  --rust-light:#e07040;
+  --green:#1a5c3a;
+  --green-light:#2a8a58;
+  --amber:#d4920a;
+  --blue:#1a3d6e;
+  --muted:#6b6560;
+  --border:rgba(10,10,10,0.1);
+  --card:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--white);color:var(--black);
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4rem;
+  background:rgba(250,250,248,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.brand{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;font-size:1.6rem;letter-spacing:-0.04em;
+  display:flex;align-items:center;gap:2px;
+}
+.brand-p{color:var(--rust)}
+.brand-rest{color:var(--black)}
+nav ul{list-style:none;display:flex;gap:2rem}
+nav ul a{font-size:0.88rem;font-weight:500;color:var(--muted);transition:color .2s}
+nav ul a:hover{color:var(--black)}
+.nav-right{display:flex;gap:0.8rem;align-items:center}
+.btn-sm{padding:0.55rem 1.2rem;border-radius:100px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-outline-sm{background:transparent;border:1.5px solid var(--border);color:var(--black)}
+.btn-outline-sm:hover{border-color:var(--black)}
+.btn-dark{background:var(--black);color:var(--white)}
+.btn-dark:hover{background:var(--rust)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:9rem 4rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 70% 30%, rgba(192,82,31,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 500px at 20% 70%, rgba(26,92,58,0.06) 0%, transparent 60%);
+}
+.hero-grid-pattern{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:rgba(192,82,31,0.08);border:1px solid rgba(192,82,31,0.2);
+  color:var(--rust);border-radius:100px;padding:0.45rem 1.1rem;
+  font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
+  margin-bottom:2rem;
+}
+.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--rust);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+h1{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(3.2rem,6.5vw,6rem);
+  font-weight:800;line-height:0.98;
+  letter-spacing:-0.03em;
+}
+h1 .line2{
+  display:inline-block;
+  background:linear-gradient(135deg, var(--rust) 0%, var(--amber) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  margin-top:2rem;font-size:1.15rem;line-height:1.7;
+  color:var(--muted);max-width:560px;
+}
+.hero-cta{margin-top:2.8rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-rust{
+  background:var(--rust);color:white;
+  padding:1rem 2.4rem;border-radius:100px;
+  font-size:1rem;font-weight:600;
+  transition:all .2s;display:inline-flex;align-items:center;gap:0.5rem;
+}
+.btn-rust:hover{background:var(--rust-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(192,82,31,0.3)}
+.btn-ghost{
+  color:var(--muted);font-size:0.95rem;font-weight:500;
+  display:flex;align-items:center;gap:0.4rem;
+  transition:color .2s;
+}
+.btn-ghost:hover{color:var(--black)}
+
+/* listing type pills */
+.listing-types{
+  display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:3.5rem;
+  position:relative;z-index:1;
+}
+.ltype{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.6rem 1.2rem;border-radius:100px;
+  border:1.5px solid var(--border);background:var(--card);
+  font-size:0.84rem;font-weight:600;cursor:pointer;
+  transition:all .2s;
+}
+.ltype:hover,.ltype.active{border-color:var(--rust);color:var(--rust);background:rgba(192,82,31,0.05)}
+.ltype-icon{font-size:1rem}
+
+/* stats row */
+.stats-row{
+  display:flex;gap:3rem;flex-wrap:wrap;margin-top:4rem;
+  padding-top:3rem;border-top:1px solid var(--border);
+  position:relative;z-index:1;
+}
+.stat-item .stat-num{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;
+}
+.stat-item .stat-num span{color:var(--rust)}
+.stat-item .stat-label{font-size:0.82rem;color:var(--muted);margin-top:0.1rem}
+
+/* ─── SEARCH BAR ─── */
+.search-section{
+  background:var(--sand);padding:3rem 4rem;
+  border-top:1px solid var(--sand2);border-bottom:1px solid var(--sand2);
+}
+.search-bar{
+  display:flex;gap:0;background:white;
+  border-radius:16px;border:1.5px solid var(--border);
+  overflow:hidden;box-shadow:0 4px 24px rgba(10,10,10,0.06);
+  max-width:900px;margin:0 auto;
+}
+.search-field{
+  flex:1;padding:1.1rem 1.4rem;border:none;outline:none;
+  font-family:'Instrument Sans',sans-serif;font-size:0.95rem;color:var(--black);
+  background:transparent;
+}
+.search-divider{width:1px;background:var(--border);margin:0.8rem 0}
+.search-select{
+  padding:1.1rem 1rem;border:none;outline:none;background:transparent;
+  font-family:'Instrument Sans',sans-serif;font-size:0.9rem;color:var(--muted);
+  cursor:pointer;
+}
+.search-btn{
+  background:var(--rust);color:white;border:none;
+  padding:0 2rem;font-size:0.9rem;font-weight:600;
+  cursor:pointer;transition:background .2s;
+  font-family:'Instrument Sans',sans-serif;
+}
+.search-btn:hover{background:var(--rust-light)}
+
+/* ─── LISTINGS ─── */
+.section{padding:5rem 4rem}
+.sec-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem}
+.sec-tag{
+  font-size:0.75rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.12em;color:var(--rust);margin-bottom:0.6rem;
+}
+h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;font-size:clamp(1.8rem,3vw,2.6rem);
+  letter-spacing:-0.025em;line-height:1.1;
+}
+.see-all{font-size:0.88rem;font-weight:600;color:var(--rust);display:flex;align-items:center;gap:0.3rem}
+.see-all:hover{gap:0.6rem;transition:gap .2s}
+
+.listings-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
+}
+.prop-card{
+  background:var(--card);border-radius:20px;
+  border:1px solid var(--border);overflow:hidden;
+  transition:all .25s;cursor:pointer;
+}
+.prop-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(10,10,10,0.1)}
+.prop-img{
+  height:200px;position:relative;overflow:hidden;
+}
+.prop-img-bg{
+  width:100%;height:100%;object-fit:cover;transition:transform .4s;
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+}
+.prop-card:hover .prop-img-bg{transform:scale(1.05)}
+.img-1{background:linear-gradient(135deg,#e8d5c0,#c4a882)}
+.img-2{background:linear-gradient(135deg,#c0d5c4,#82a888)}
+.img-3{background:linear-gradient(135deg,#c0c8d5,#8290a8)}
+.img-4{background:linear-gradient(135deg,#d5c0c8,#a88290)}
+.img-5{background:linear-gradient(135deg,#d5d0c0,#a8a080)}
+.img-6{background:linear-gradient(135deg,#c8d5c0,#90a880)}
+.prop-badge{
+  position:absolute;top:12px;left:12px;
+  padding:0.35rem 0.75rem;border-radius:100px;
+  font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;
+}
+.badge-rent{background:rgba(26,92,58,0.9);color:white}
+.badge-sell{background:rgba(192,82,31,0.9);color:white}
+.badge-share{background:rgba(26,61,110,0.9);color:white}
+.badge-shortlet{background:rgba(212,146,10,0.9);color:white}
+.verify-badge{
+  position:absolute;top:12px;right:12px;
+  background:white;border-radius:100px;padding:0.3rem 0.65rem;
+  font-size:0.7rem;font-weight:700;display:flex;align-items:center;gap:0.3rem;
+}
+.v-certified{color:var(--green)}
+.v-verified{color:var(--blue)}
+.prop-body{padding:1.2rem}
+.prop-price{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;
+}
+.prop-price span{font-size:0.8rem;font-weight:500;color:var(--muted)}
+.prop-title{font-size:0.9rem;font-weight:600;margin-top:0.3rem}
+.prop-loc{font-size:0.8rem;color:var(--muted);margin-top:0.2rem;display:flex;align-items:center;gap:0.3rem}
+.prop-meta{
+  display:flex;gap:1rem;margin-top:1rem;
+  padding-top:1rem;border-top:1px solid var(--border);
+  font-size:0.78rem;color:var(--muted);
+}
+.prop-meta span{display:flex;align-items:center;gap:0.3rem}
+
+/* ─── VERIFICATION ─── */
+.verify-section{
+  background:var(--black);color:var(--white);
+  padding:6rem 4rem;position:relative;overflow:hidden;
+}
+.verify-section::before{
+  content:'';position:absolute;top:-200px;right:-200px;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(192,82,31,0.15) 0%,transparent 60%);
+}
+.verify-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;
+  align-items:center;position:relative;z-index:1;
+}
+.verify-left .sec-tag{color:var(--rust-light)}
+.verify-left h2{color:var(--white)}
+.verify-left p{color:rgba(250,250,248,0.6);font-size:1rem;line-height:1.7;margin-top:1rem;max-width:480px}
+
+.trust-badges{
+  display:flex;flex-direction:column;gap:1rem;margin-top:3rem;
+}
+.trust-tier{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;padding:1.1rem 1.4rem;
+  transition:all .2s;cursor:default;
+}
+.trust-tier:hover{background:rgba(255,255,255,0.07);transform:translateX(4px)}
+.tier-icon{font-size:1.4rem;flex-shrink:0}
+.tier-info{flex:1}
+.tier-name{font-weight:700;font-size:0.92rem;margin-bottom:0.2rem}
+.tier-desc{font-size:0.78rem;color:rgba(250,250,248,0.5)}
+.tier-tag{
+  font-size:0.7rem;font-weight:700;padding:0.25rem 0.65rem;
+  border-radius:100px;text-transform:uppercase;letter-spacing:0.06em;
+}
+.t-basic{background:rgba(212,146,10,0.2);color:#e8c060}
+.t-verified{background:rgba(59,130,246,0.2);color:#93c5fd}
+.t-inspected{background:rgba(34,197,94,0.2);color:#86efac}
+.t-certified{background:rgba(192,82,31,0.2);color:#fca98d}
+
+.verify-right{position:relative;z-index:1}
+.verify-steps-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:24px;padding:2rem;
+}
+.vstep{
+  display:flex;gap:1.2rem;padding:1rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.vstep:last-child{border-bottom:none}
+.vstep-num{
+  width:36px;height:36px;flex-shrink:0;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:0.9rem;
+}
+.vn1{background:rgba(212,146,10,0.2);color:#e8c060}
+.vn2{background:rgba(59,130,246,0.2);color:#93c5fd}
+.vn3{background:rgba(192,82,31,0.2);color:#fca98d}
+.vn4{background:rgba(34,197,94,0.2);color:#86efac}
+.vn5{background:rgba(139,92,246,0.2);color:#c4b5fd}
+.vstep-content h4{font-weight:700;font-size:0.9rem;margin-bottom:0.3rem}
+.vstep-content p{font-size:0.8rem;color:rgba(250,250,248,0.5);line-height:1.5}
+
+/* ─── ROLES ─── */
+.roles-section{background:var(--sand);padding:6rem 4rem}
+.roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.role-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:22px;padding:2rem;
+  transition:all .25s;
+}
+.role-card:hover{box-shadow:0 12px 40px rgba(10,10,10,0.08);transform:translateY(-3px)}
+.role-emoji{font-size:2.2rem;margin-bottom:1.2rem}
+.role-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:0.5rem}
+.role-desc{font-size:0.87rem;line-height:1.65;color:var(--muted);margin-bottom:1.4rem}
+.role-feats{display:flex;flex-direction:column;gap:0.5rem}
+.rfeat{
+  font-size:0.82rem;display:flex;align-items:flex-start;gap:0.5rem;
+  padding:0.4rem 0;border-bottom:1px solid rgba(10,10,10,0.05);
+}
+.rfeat:last-child{border-bottom:none}
+.rfeat-icon{flex-shrink:0;margin-top:1px}
+
+/* ─── HOW IT WORKS ─── */
+.how-section{padding:6rem 4rem}
+.how-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  margin-top:3.5rem;position:relative;
+}
+.how-grid::before{
+  content:'';position:absolute;top:28px;left:10%;right:10%;
+  height:2px;
+  background:repeating-linear-gradient(90deg,var(--rust) 0,var(--rust) 12px,transparent 12px,transparent 24px);
+}
+.how-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 0.5rem;position:relative;z-index:1;
+}
+.how-num{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--card);border:2px solid var(--sand2);
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2rem;position:relative;
+}
+.how-step:nth-child(odd) .how-num{border-color:var(--rust);color:var(--rust);background:rgba(192,82,31,0.06)}
+.how-step:nth-child(even) .how-num{border-color:var(--green);color:var(--green);background:rgba(26,92,58,0.06)}
+.how-step h4{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.92rem;margin-bottom:0.4rem}
+.how-step p{font-size:0.78rem;color:var(--muted);line-height:1.55}
+
+/* ─── CTA ─── */
+.cta-wrap{padding:0 4rem 6rem}
+.cta-inner{
+  background:var(--rust);border-radius:28px;
+  padding:5rem;display:grid;grid-template-columns:1fr auto;
+  gap:3rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+.cta-inner::before{
+  content:'PROPATI';
+  position:absolute;right:-1rem;top:50%;transform:translateY(-50%);
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:12rem;font-weight:800;
+  color:rgba(255,255,255,0.07);letter-spacing:-0.05em;white-space:nowrap;
+}
+.cta-inner h2{color:white;font-size:clamp(2rem,3.5vw,3rem)}
+.cta-inner p{color:rgba(255,255,255,0.75);margin-top:0.8rem;font-size:1rem;line-height:1.6}
+.cta-buttons{display:flex;flex-direction:column;gap:0.8rem;flex-shrink:0;position:relative;z-index:1}
+.btn-white{
+  background:white;color:var(--rust);
+  padding:1rem 2rem;border-radius:100px;
+  font-size:0.95rem;font-weight:700;white-space:nowrap;
+  transition:all .2s;display:inline-block;text-align:center;
+}
+.btn-white:hover{background:var(--sand);transform:translateY(-2px)}
+.btn-white-outline{
+  border:2px solid rgba(255,255,255,0.4);color:white;
+  padding:0.9rem 2rem;border-radius:100px;
+  font-size:0.9rem;font-weight:600;white-space:nowrap;
+  transition:all .2s;display:inline-block;text-align:center;
+}
+.btn-white-outline:hover{border-color:white;background:rgba(255,255,255,0.1)}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--black);color:var(--white);
+  padding:4rem 4rem 2rem;
+}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;
+  padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.footer-brand .brand{margin-bottom:1rem}
+.footer-brand p{font-size:0.85rem;color:rgba(250,250,248,0.45);line-height:1.65;max-width:260px}
+.footer-col h5{font-weight:700;font-size:0.85rem;margin-bottom:1.2rem;color:rgba(250,250,248,0.4);text-transform:uppercase;letter-spacing:0.08em}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.footer-col ul li a{font-size:0.84rem;color:rgba(250,250,248,0.55);transition:color .2s}
+.footer-col ul li a:hover{color:var(--rust-light)}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:2rem;font-size:0.78rem;color:rgba(250,250,248,0.3);
+}
+
+/* ─── ANIMS ─── */
+.reveal{opacity:0;transform:translateY(20px);animation:revealUp 0.7s ease forwards}
+.reveal-d1{animation-delay:0.05s}
+.reveal-d2{animation-delay:0.15s}
+.reveal-d3{animation-delay:0.25s}
+.reveal-d4{animation-delay:0.35s}
+@keyframes revealUp{to{opacity:1;transform:translateY(0)}}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  nav ul,.nav-right .btn-outline-sm{display:none}
+  .hero,.section,.verify-section,.roles-section,.how-section,.cta-wrap,.footer-top{padding-left:1.5rem;padding-right:1.5rem}
+  .listings-grid,.roles-grid{grid-template-columns:1fr}
+  .verify-grid{grid-template-columns:1fr}
+  .how-grid{grid-template-columns:1fr 1fr;gap:2rem}
+  .how-grid::before{display:none}
+  .cta-inner{grid-template-columns:1fr;padding:2.5rem}
+  .cta-inner::before{display:none}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .search-section{padding:2rem 1.5rem}
+  .stats-row{gap:2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="brand"><span class="brand-p">P</span><span class="brand-rest">ROPATI</span></div>
+  <ul>
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#verify">Verification</a></li>
+    <li><a href="#roles">For You</a></li>
+    <li><a href="#how">How it works</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#" class="btn-sm btn-outline-sm">Sign in</a>
+    <a href="#" class="btn-sm btn-dark">List Property</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal">Nigeria's trusted property platform</div>
+    <h1 class="reveal reveal-d1">
+      Buy, Sell, Rent,<br/>
+      <span class="line2">Share & Manage</span><br/>
+      property.
+    </h1>
+    <p class="hero-sub reveal reveal-d2">
+      PROPATI connects landlords, tenants, buyers, sellers, and agents in one verified marketplace. Every listing is authenticated. Every transaction is protected.
+    </p>
+    <div class="hero-cta reveal reveal-d3">
+      <a href="#listings" class="btn-rust">Explore Properties →</a>
+      <a href="#" class="btn-ghost">List your property ↗</a>
+    </div>
+
+    <div class="listing-types reveal reveal-d4">
+      <div class="ltype active" onclick="setActive(this)"><span class="ltype-icon">🏠</span> Buy</div>
+      <div class="ltype" onclick="setActive(this)"><span class="ltype-icon">💰</span> Sell</div>
+      <div class="ltype" onclick="setActive(this)"><span class="ltype-icon">🗝️</span> Rent</div>
+      <div class="ltype" onclick="setActive(this)"><span class="ltype-icon">🤝</span> Share</div>
+      <div class="ltype" onclick="setActive(this)"><span class="ltype-icon">📅</span> Short-let</div>
+      <div class="ltype" onclick="setActive(this)"><span class="ltype-icon">🏢</span> Commercial</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">24<span>k+</span></div>
+      <div class="stat-label">Verified listings</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8<span>k+</span></div>
+      <div class="stat-label">Properties sold</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3<span>k+</span></div>
+      <div class="stat-label">Registered agents</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98<span>%</span></div>
+      <div class="stat-label">Verification accuracy</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SEARCH ─── -->
+<div class="search-section">
+  <div class="search-bar">
+    <input class="search-field" type="text" placeholder="🔍  Search by location, city, or property type…"/>
+    <div class="search-divider"></div>
+    <select class="search-select">
+      <option>All Types</option>
+      <option>Buy</option>
+      <option>Sell</option>
+      <option>Rent</option>
+      <option>Share</option>
+      <option>Short-let</option>
+      <option>Commercial</option>
+    </select>
+    <div class="search-divider"></div>
+    <select class="search-select">
+      <option>Any Price</option>
+      <option>Under ₦5M</option>
+      <option>₦5M – ₦20M</option>
+      <option>₦20M – ₦100M</option>
+      <option>Above ₦100M</option>
+    </select>
+    <button class="search-btn">Search</button>
+  </div>
+</div>
+
+<!-- ─── LISTINGS ─── -->
+<section class="section" id="listings">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Featured Listings</div>
+      <h2>Properties you'll love</h2>
+    </div>
+    <a href="#" class="see-all">View all listings →</a>
+  </div>
+  <div class="listings-grid">
+    <!-- Card 1 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-1">🏡</div>
+        <div class="prop-badge badge-sell">For Sale</div>
+        <div class="verify-badge v-certified">⭐ PROPATI Certified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦45,000,000 <span></span></div>
+        <div class="prop-title">4-Bed Detached Duplex</div>
+        <div class="prop-loc">📍 Lekki Phase 1, Lagos</div>
+        <div class="prop-meta">
+          <span>🛏 4 beds</span>
+          <span>🚿 3 baths</span>
+          <span>📐 320 m²</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-2">🏢</div>
+        <div class="prop-badge badge-rent">For Rent</div>
+        <div class="verify-badge v-verified">✔ Verified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦2,400,000 <span>/ yr</span></div>
+        <div class="prop-title">3-Bed Apartment</div>
+        <div class="prop-loc">📍 Maitama, Abuja</div>
+        <div class="prop-meta">
+          <span>🛏 3 beds</span>
+          <span>🚿 2 baths</span>
+          <span>📐 180 m²</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-3">🏠</div>
+        <div class="prop-badge badge-shortlet">Short-let</div>
+        <div class="verify-badge v-certified">⭐ PROPATI Certified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦85,000 <span>/ night</span></div>
+        <div class="prop-title">Luxury 2-Bed Apartment</div>
+        <div class="prop-loc">📍 Victoria Island, Lagos</div>
+        <div class="prop-meta">
+          <span>🛏 2 beds</span>
+          <span>🚿 2 baths</span>
+          <span>🏊 Pool</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-4">🏘️</div>
+        <div class="prop-badge badge-share">Shared</div>
+        <div class="verify-badge v-verified">✔ Verified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦350,000 <span>/ yr</span></div>
+        <div class="prop-title">Shared 1-Bed Studio</div>
+        <div class="prop-loc">📍 Yaba, Lagos</div>
+        <div class="prop-meta">
+          <span>🛏 1 bed</span>
+          <span>🚿 1 bath</span>
+          <span>👥 2 tenants</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 5 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-5">🏗️</div>
+        <div class="prop-badge badge-sell">For Sale</div>
+        <div class="verify-badge v-certified">⭐ PROPATI Certified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦12,000,000 <span></span></div>
+        <div class="prop-title">Land — 600 sqm</div>
+        <div class="prop-loc">📍 Gwarinpa, Abuja</div>
+        <div class="prop-meta">
+          <span>📐 600 m²</span>
+          <span>📜 C of O</span>
+          <span>🏷 Residential</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 6 -->
+    <div class="prop-card">
+      <div class="prop-img">
+        <div class="prop-img-bg img-6">🏬</div>
+        <div class="prop-badge badge-rent">Commercial</div>
+        <div class="verify-badge v-verified">✔ Verified</div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">₦4,800,000 <span>/ yr</span></div>
+        <div class="prop-title">Office Space — Open Plan</div>
+        <div class="prop-loc">📍 Ikeja GRA, Lagos</div>
+        <div class="prop-meta">
+          <span>📐 240 m²</span>
+          <span>🚗 Parking</span>
+          <span>⚡ 24hr Power</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VERIFICATION ─── -->
+<section class="verify-section" id="verify">
+  <div class="verify-grid">
+    <div class="verify-left">
+      <div class="sec-tag">Property Verification</div>
+      <h2>Every listing<br/>is authenticated.</h2>
+      <p>We built a 5-layer verification system so you never have to wonder if a property is real, or if the person listing it actually owns it.</p>
+      <div class="trust-badges">
+        <div class="trust-tier">
+          <div class="tier-icon">🟡</div>
+          <div class="tier-info">
+            <div class="tier-name">Basic</div>
+            <div class="tier-desc">Documents uploaded, pending review</div>
+          </div>
+          <div class="tier-tag t-basic">Layer 1</div>
+        </div>
+        <div class="trust-tier">
+          <div class="tier-icon">🔵</div>
+          <div class="tier-info">
+            <div class="tier-name">Verified</div>
+            <div class="tier-desc">Documents reviewed & identity matched</div>
+          </div>
+          <div class="tier-tag t-verified">Layer 2–3</div>
+        </div>
+        <div class="trust-tier">
+          <div class="tier-icon">🟢</div>
+          <div class="tier-info">
+            <div class="tier-name">Inspected</div>
+            <div class="tier-desc">Registered agent physically confirmed</div>
+          </div>
+          <div class="tier-tag t-inspected">Layer 4</div>
+        </div>
+        <div class="trust-tier">
+          <div class="tier-icon">⭐</div>
+          <div class="tier-info">
+            <div class="tier-name">PROPATI Certified</div>
+            <div class="tier-desc">All layers passed + strong transaction history</div>
+          </div>
+          <div class="tier-tag t-certified">All Layers</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="verify-right">
+      <div class="verify-steps-card">
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1rem;margin-bottom:1.2rem;color:rgba(250,250,248,0.9)">How verification works</div>
+        <div class="vstep">
+          <div class="vstep-num vn1">01</div>
+          <div class="vstep-content">
+            <h4>Document Upload</h4>
+            <p>Landlord uploads title deed, C of O, survey plan, or deed of assignment. Stored securely and flagged for review.</p>
+          </div>
+        </div>
+        <div class="vstep">
+          <div class="vstep-num vn2">02</div>
+          <div class="vstep-content">
+            <h4>Identity Match</h4>
+            <p>Name on property documents must match a government-issued ID — NIN, passport, or driver's licence.</p>
+          </div>
+        </div>
+        <div class="vstep">
+          <div class="vstep-num vn3">03</div>
+          <div class="vstep-content">
+            <h4>Live Photo / Video Proof</h4>
+            <p>Landlord records a short video inside the property holding a unique PROPATI QR code — impossible to fake with old photos.</p>
+          </div>
+        </div>
+        <div class="vstep">
+          <div class="vstep-num vn4">04</div>
+          <div class="vstep-content">
+            <h4>Agent Physical Inspection</h4>
+            <p>A registered PROPATI agent visits and counter-signs the verification. Unlocks the "Inspected" badge.</p>
+          </div>
+        </div>
+        <div class="vstep">
+          <div class="vstep-num vn5">05</div>
+          <div class="vstep-content">
+            <h4>Community Flagging</h4>
+            <p>Any user can flag a suspicious listing. Repeated flags trigger immediate manual review and temporary suspension.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ROLES ─── -->
+<section class="roles-section" id="roles">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">Who PROPATI is for</div>
+      <h2>Built for every role<br/>in property.</h2>
+    </div>
+  </div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-emoji">🏠</div>
+      <div class="role-title">Landlords</div>
+      <div class="role-desc">List, manage, and get paid — all from one dashboard. Support for multiple properties, short-let and long-term.</div>
+      <div class="role-feats">
+        <div class="rfeat"><span class="rfeat-icon">💳</span> Monthly online rent collection</div>
+        <div class="rfeat"><span class="rfeat-icon">📋</span> Multi-property dashboard</div>
+        <div class="rfeat"><span class="rfeat-icon">📹</span> Video/voice tenant screening</div>
+        <div class="rfeat"><span class="rfeat-icon">📄</span> Digital lease agreements</div>
+        <div class="rfeat"><span class="rfeat-icon">✅</span> Property verification badge</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-emoji">🙋</div>
+      <div class="role-title">Tenants & Buyers</div>
+      <div class="role-desc">Search verified listings, apply online, pay rent, and communicate — without the back-and-forth.</div>
+      <div class="role-feats">
+        <div class="rfeat"><span class="rfeat-icon">🔍</span> Browse verified listings only</div>
+        <div class="rfeat"><span class="rfeat-icon">📅</span> Schedule & attend screening calls</div>
+        <div class="rfeat"><span class="rfeat-icon">🖊️</span> Sign digital agreements</div>
+        <div class="rfeat"><span class="rfeat-icon">💸</span> Pay rent online — monthly</div>
+        <div class="rfeat"><span class="rfeat-icon">🧾</span> Full payment receipts & history</div>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-emoji">💼</div>
+      <div class="role-title">Agents</div>
+      <div class="role-desc">Grow your agency on PROPATI. Manage listings, conduct inspections, and earn from every deal you close.</div>
+      <div class="role-feats">
+        <div class="rfeat"><span class="rfeat-icon">🏘️</span> Manage listings for landlords</div>
+        <div class="rfeat"><span class="rfeat-icon">🔵</span> Conduct physical verifications</div>
+        <div class="rfeat"><span class="rfeat-icon">🤝</span> Facilitate buy/sell negotiations</div>
+        <div class="rfeat"><span class="rfeat-icon">📊</span> Track deals & commissions</div>
+        <div class="rfeat"><span class="rfeat-icon">⭐</span> Build your agent reputation score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how-section" id="how">
+  <div class="sec-header">
+    <div>
+      <div class="sec-tag">How it works</div>
+      <h2>From search to signed<br/>in 5 simple steps.</h2>
+    </div>
+  </div>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-num">01</div>
+      <h4>Create Account</h4>
+      <p>Sign up as a landlord, tenant, buyer, or agent. Choose your role — or use multiple.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">02</div>
+      <h4>List or Search</h4>
+      <p>List your property for sale, rent, share, or short-let — or search verified listings near you.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">03</div>
+      <h4>Get Verified</h4>
+      <p>Complete the 5-layer verification process and earn your trust badge to attract serious buyers.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">04</div>
+      <h4>Screen & Connect</h4>
+      <p>Conduct video or voice screening calls, negotiate, and agree on terms — all within PROPATI.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">05</div>
+      <h4>Sign & Transact</h4>
+      <p>Sign digital agreements, collect rent monthly, or complete your sale — with full transaction records.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <div>
+      <h2>Nigeria's property market,<br/>finally trustworthy.</h2>
+      <p>Join thousands already listing, buying, renting, and managing property on PROPATI — the only platform that verifies every listing.</p>
+    </div>
+    <div class="cta-buttons">
+      <a href="#" class="btn-white">Create Free Account</a>
+      <a href="#" class="btn-white-outline">List a Property</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="brand"><span class="brand-p">P</span><span style="color:var(--white)">ROPATI</span></div>
+      <p>Nigeria's most trusted property marketplace — buy, sell, rent, share, and manage all in one place.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Marketplace</h5>
+      <ul>
+        <li><a href="#">Buy Property</a></li>
+        <li><a href="#">Sell Property</a></li>
+        <li><a href="#">Rent a Home</a></li>
+        <li><a href="#">Share Space</a></li>
+        <li><a href="#">Short-let</a></li>
+        <li><a href="#">Commercial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Platform</h5>
+      <ul>
+        <li><a href="#">Rent Collection</a></li>
+        <li><a href="#">Digital Agreements</a></li>
+        <li><a href="#">Tenant Screening</a></li>
+        <li><a href="#">Verification</a></li>
+        <li><a href="#">For Agents</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About PROPATI</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 PROPATI. All rights reserved.</div>
+    <div>Made for Nigeria 🇳🇬</div>
+  </div>
+</footer>
+
+<script>
+function setActive(el){
+  document.querySelectorAll('.ltype').forEach(l=>l.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

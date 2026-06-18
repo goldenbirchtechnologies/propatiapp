@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PROPATI — Admin Console</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0e12;
+  --bg2:#111318;
+  --bg3:#161a21;
+  --bg4:#1c2028;
+  --bg5:#222833;
+  --panel:#13161d;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.11);
+  --cyan:#00d4c8;
+  --cyan2:#00f0e2;
+  --cyan-dim:rgba(0,212,200,0.12);
+  --cyan-border:rgba(0,212,200,0.25);
+  --text:#e8eaf0;
+  --text2:#9aa0b0;
+  --text3:#4a5268;
+  --green:#22c55e;
+  --green-bg:rgba(34,197,94,0.1);
+  --red:#ef4444;
+  --red-bg:rgba(239,68,68,0.1);
+  --amber:#f59e0b;
+  --amber-bg:rgba(245,158,11,0.1);
+  --blue:#3b82f6;
+  --blue-bg:rgba(59,130,246,0.1);
+  --purple:#a855f7;
+  --purple-bg:rgba(168,85,247,0.1);
+  --sidebar:224px;
+}
+html,body{height:100%;overflow:hidden;font-size:13px}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);display:flex}
+
+/* ── SCANLINE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
+
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--panel);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;height:100vh;overflow-y:auto;
+}
+.sb-brand{
+  padding:1.3rem 1.2rem 1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.6rem;
+}
+.brand-mark{
+  width:28px;height:28px;border-radius:6px;
+  background:var(--cyan);display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;color:#000;flex-shrink:0;
+}
+.brand-name{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;letter-spacing:0.05em;
+}
+.brand-badge{
+  display:block;font-family:'DM Mono',monospace;font-size:0.56rem;font-weight:400;
+  color:var(--cyan);opacity:0.7;letter-spacing:0.12em;text-transform:uppercase;margin-top:1px;
+}
+
+.sb-admin{
+  margin:0.7rem;padding:0.85rem;
+  background:var(--cyan-dim);border:1px solid var(--cyan-border);
+  border-radius:8px;
+}
+.sad-role{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.3rem}
+.sad-name{font-size:0.84rem;font-weight:700}
+.sad-access{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);margin-top:0.15rem}
+
+.sb-nav{flex:1;padding:0.4rem 0.6rem}
+.nav-group{
+  font-family:'DM Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text3);padding:0.9rem 0.6rem 0.28rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:0.65rem;
+  padding:0.58rem 0.7rem;border-radius:6px;
+  font-size:0.82rem;font-weight:600;cursor:pointer;
+  color:var(--text2);transition:all .15s;margin-bottom:1px;
+  position:relative;letter-spacing:0.01em;
+}
+.nav-item:hover{background:var(--bg4);color:var(--text)}
+.nav-item.active{background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border)}
+.nav-item .ni{font-size:0.8rem;width:16px;text-align:center;flex-shrink:0}
+.nav-pill{
+  margin-left:auto;font-family:'DM Mono',monospace;
+  font-size:0.6rem;font-weight:700;padding:0.12rem 0.4rem;
+  border-radius:3px;
+}
+.np-red{background:rgba(239,68,68,0.15);color:var(--red)}
+.np-amber{background:var(--amber-bg);color:var(--amber)}
+.np-cyan{background:var(--cyan-dim);color:var(--cyan)}
+
+.sb-footer{padding:0.6rem;border-top:1px solid var(--border)}
+.sys-status{
+  padding:0.7rem;background:var(--bg3);border-radius:6px;margin-bottom:0.5rem;
+  font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text3);
+}
+.ss-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem}
+.ss-row:last-child{margin-bottom:0}
+.ss-dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:0.35rem}
+.dot-on{background:var(--green);box-shadow:0 0 4px var(--green)}
+.dot-warn{background:var(--amber)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+.topbar{
+  padding:0.8rem 1.6rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--panel);flex-shrink:0;
+}
+.tb-left{display:flex;align-items:center;gap:1rem}
+.tb-breadcrumb{
+  font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text3);
+  display:flex;align-items:center;gap:0.4rem;
+}
+.tb-sep{opacity:0.4}
+.tb-current{color:var(--cyan)}
+.page-title{font-weight:800;font-size:1.05rem;letter-spacing:0.02em}
+.tb-right{display:flex;gap:0.5rem;align-items:center}
+.tb-time{
+  font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3);
+  padding:0.3rem 0.6rem;background:var(--bg3);border-radius:5px;border:1px solid var(--border);
+}
+.icon-btn{
+  width:32px;height:32px;border-radius:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:0.8rem;transition:all .15s;position:relative;
+}
+.icon-btn:hover{background:var(--bg4);border-color:var(--border2)}
+.notif-dot{
+  position:absolute;top:5px;right:5px;width:6px;height:6px;
+  border-radius:50%;background:var(--red);border:1.5px solid var(--panel);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.btn-danger{
+  padding:0.42rem 0.9rem;border-radius:6px;border:none;
+  background:var(--red-bg);color:var(--red);
+  font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;
+  border:1px solid rgba(239,68,68,0.2);transition:all .15s;
+  display:flex;align-items:center;gap:0.3rem;
+}
+.btn-danger:hover{background:rgba(239,68,68,0.2)}
+.btn-cyan{
+  padding:0.42rem 0.9rem;border-radius:6px;border:none;
+  background:var(--cyan);color:#000;
+  font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:800;cursor:pointer;
+  transition:all .15s;display:flex;align-items:center;gap:0.3rem;
+}
+.btn-cyan:hover{background:var(--cyan2);transform:translateY(-1px)}
+
+.content{flex:1;overflow-y:auto;padding:1.4rem 1.6rem}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── SHARED COMPONENTS ── */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px}
+.card:hover{border-color:var(--border2)}
+.card-head{
+  padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{font-size:0.82rem;font-weight:700;letter-spacing:0.02em}
+.card-mono{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text3)}
+.card-body{padding:1rem 1.1rem}
+.card-link{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--cyan);cursor:pointer}
+.card-link:hover{color:var(--cyan2)}
+
+.tag{font-family:'DM Mono',monospace;font-size:0.62rem;font-weight:700;padding:0.14rem 0.42rem;border-radius:3px;letter-spacing:0.04em;text-transform:uppercase;display:inline-block}
+.t-green{background:var(--green-bg);color:var(--green)}
+.t-red{background:var(--red-bg);color:var(--red)}
+.t-amber{background:var(--amber-bg);color:var(--amber)}
+.t-blue{background:var(--blue-bg);color:var(--blue)}
+.t-cyan{background:var(--cyan-dim);color:var(--cyan)}
+.t-purple{background:var(--purple-bg);color:var(--purple)}
+.t-muted{background:rgba(255,255,255,0.05);color:var(--text3)}
+
+.mono{font-family:'DM Mono',monospace}
+
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;margin-bottom:1.2rem}
+.kpi{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  padding:1rem;transition:all .18s;cursor:default;
+}
+.kpi:hover{border-color:var(--cyan-border)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem}
+.kpi-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-0.02em;line-height:1}
+.kpi-sub{font-family:'DM Mono',monospace;font-size:0.62rem;margin-top:0.35rem}
+.kpi-bar{margin-top:0.6rem;height:2px;background:var(--bg5);border-radius:1px;overflow:hidden}
+.kpi-fill{height:100%;border-radius:1px;background:var(--cyan)}
+
+/* ── DATA TABLES ── */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{
+  font-family:'DM Mono',monospace;font-size:0.62rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);
+  padding:0.65rem 1rem;text-align:left;border-bottom:1px solid var(--border);
+  background:var(--bg3);
+}
+.data-table td{
+  padding:0.72rem 1rem;border-bottom:1px solid var(--border);
+  font-size:0.81rem;vertical-align:middle;transition:background .1s;
+}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tbody tr:hover td{background:var(--bg3)}
+.data-table tbody tr{cursor:pointer}
+
+/* ── ACTION BTNS ── */
+.act{
+  padding:0.22rem 0.55rem;border-radius:4px;font-size:0.7rem;font-weight:700;
+  cursor:pointer;border:none;font-family:'Syne',sans-serif;transition:all .13s;
+}
+.act-green{background:var(--green-bg);color:var(--green)}
+.act-green:hover{background:rgba(34,197,94,0.2)}
+.act-red{background:var(--red-bg);color:var(--red)}
+.act-red:hover{background:rgba(239,68,68,0.2)}
+.act-amber{background:var(--amber-bg);color:var(--amber)}
+.act-amber:hover{background:rgba(245,158,11,0.2)}
+.act-ghost{background:rgba(255,255,255,0.05);color:var(--text2)}
+.act-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+.act-cyan{background:var(--cyan-dim);color:var(--cyan)}
+.act-cyan:hover{background:rgba(0,212,200,0.2)}
+
+/* Divider */
+.div{height:1px;background:var(--border);margin:1rem 0}
+
+/* ── OVERVIEW SCREEN ── */
+.alert-bar{
+  background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);
+  border-radius:7px;padding:0.75rem 1.1rem;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.alert-bar .ab-icon{font-size:1rem}
+.alert-bar .ab-text{font-size:0.8rem;color:var(--amber)}
+.alert-bar .ab-action{margin-left:auto;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--cyan);cursor:pointer}
+
+.main-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:1.1rem}
+
+/* Revenue chart mock */
+.rev-chart{
+  background:var(--bg3);border-radius:6px;padding:0.8rem;
+  display:flex;align-items:flex-end;gap:3px;height:90px;
+}
+.rev-bar{
+  flex:1;border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,var(--cyan),rgba(0,212,200,0.3));
+  min-height:4px;transition:all .3s;cursor:pointer;
+  position:relative;
+}
+.rev-bar:hover{background:linear-gradient(180deg,var(--cyan2),rgba(0,240,226,0.4));filter:brightness(1.1)}
+.rev-bar.accent{background:linear-gradient(180deg,#fff,rgba(255,255,255,0.4))}
+
+/* Activity feed */
+.activity-item{
+  display:flex;gap:0.8rem;padding:0.65rem 0;
+  border-bottom:1px solid var(--border);align-items:flex-start;
+}
+.activity-item:last-child{border-bottom:none}
+.ai-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.ai-dot-green{background:var(--green);box-shadow:0 0 4px var(--green)}
+.ai-dot-amber{background:var(--amber)}
+.ai-dot-red{background:var(--red);box-shadow:0 0 4px var(--red)}
+.ai-dot-cyan{background:var(--cyan);box-shadow:0 0 4px var(--cyan)}
+.ai-dot-blue{background:var(--blue)}
+.ai-text{flex:1;font-size:0.79rem;line-height:1.45}
+.ai-time{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text3);flex-shrink:0;white-space:nowrap}
+
+/* Map mock */
+.map-mock{
+  background:var(--bg3);border-radius:7px;height:200px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;border:1px solid var(--border);
+}
+.map-mock::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+.map-dot{position:absolute;z-index:1;cursor:pointer;transition:transform .15s}
+.map-dot:hover{transform:scale(1.5)}
+.map-dot span{display:block;width:8px;height:8px;border-radius:50%;position:relative}
+.map-dot span::after{content:'';position:absolute;inset:-4px;border-radius:50%;opacity:0.3;animation:ripple 2s infinite}
+@keyframes ripple{0%{transform:scale(0.8);opacity:0.4}100%{transform:scale(2.2);opacity:0}}
+
+/* Spark bars */
+.spark{display:flex;align-items:flex-end;gap:1px;height:24px}
+.spark-bar{flex:1;border-radius:1px 1px 0 0;background:var(--cyan);opacity:0.5;min-height:2px}
+.spark-bar.hi{opacity:1}
+
+/* ── VERIFICATION SCREEN ── */
+.vq-item{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  padding:1.1rem;margin-bottom:0.7rem;transition:all .18s;
+}
+.vq-item:hover{border-color:var(--border2)}
+.vq-top{display:flex;align-items:flex-start;gap:0.9rem;margin-bottom:0.8rem}
+.vq-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.vq-name{font-weight:700;font-size:0.86rem;margin-bottom:0.15rem}
+.vq-meta{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--text3)}
+.vq-layers{display:flex;gap:0.3rem;margin-bottom:0.8rem;flex-wrap:wrap}
+.layer-dot{
+  font-family:'DM Mono',monospace;font-size:0.62rem;font-weight:700;
+  padding:0.18rem 0.5rem;border-radius:3px;
+  display:flex;align-items:center;gap:0.3rem;
+}
+.ld-done{background:var(--green-bg);color:var(--green)}
+.ld-pend{background:var(--amber-bg);color:var(--amber)}
+.ld-miss{background:rgba(255,255,255,0.04);color:var(--text3)}
+.ld-fail{background:var(--red-bg);color:var(--red)}
+.vq-actions{display:flex;gap:0.5rem}
+
+/* ── FLAGS SCREEN ── */
+.flag-severity{display:flex;gap:0.3rem;align-items:center;font-size:0.72rem;font-weight:700}
+.sev-bar{width:3px;border-radius:1px}
+
+/* ── USERS SCREEN ── */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+
+/* ── AGENTS SCREEN ── */
+.agent-row-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:7px;
+  display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr 1fr 120px;
+  align-items:center;padding:0.75rem 1rem;margin-bottom:0.5rem;
+  transition:all .15s;cursor:pointer;font-size:0.81rem;gap:0.8rem;
+}
+.agent-row-card:hover{border-color:var(--border2);background:var(--bg3)}
+
+/* ── SETTINGS SCREEN ── */
+.setting-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.9rem 1.1rem;border-bottom:1px solid var(--border);
+}
+.setting-row:last-child{border-bottom:none}
+.sr-left .sr-label{font-size:0.83rem;font-weight:600}
+.sr-left .sr-desc{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3);margin-top:0.15rem}
+.toggle{
+  width:36px;height:20px;border-radius:10px;border:none;cursor:pointer;
+  position:relative;transition:background .2s;flex-shrink:0;
+}
+.toggle.on{background:var(--cyan)}
+.toggle.off{background:var(--bg5)}
+.toggle::after{
+  content:'';position:absolute;top:3px;width:14px;height:14px;border-radius:50%;
+  background:white;transition:left .2s;
+}
+.toggle.on::after{left:19px}
+.toggle.off::after{left:3px}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:1.4rem;right:1.4rem;z-index:9999;
+  background:var(--bg4);border:1px solid var(--cyan-border);
+  border-radius:7px;padding:0.75rem 1.1rem;
+  display:flex;align-items:center;gap:0.6rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(0,212,200,0.05);
+  transform:translateY(60px);opacity:0;transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  max-width:280px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-text{font-size:0.79rem;font-weight:600}
+
+/* ── MODAL ── */
+.modal-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;z-index:998;
+  opacity:0;pointer-events:none;transition:opacity .18s;
+}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:10px;
+  width:480px;transform:translateY(16px) scale(0.97);transition:transform .18s;
+}
+.modal-ov.open .modal-box{transform:none}
+.modal-head{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-weight:800;font-size:0.95rem}
+.modal-body{padding:1.3rem}
+.modal-foot{padding:1rem 1.3rem;border-top:1px solid var(--border);display:flex;gap:0.6rem;justify-content:flex-end}
+.fg{margin-bottom:0.9rem}
+.fg label{display:block;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:0.35rem}
+.fg input,.fg textarea,.fg select{
+  width:100%;background:var(--bg4);border:1.5px solid var(--border);
+  border-radius:6px;padding:0.65rem 0.85rem;color:var(--text);
+  font-family:'Syne',sans-serif;font-size:0.82rem;outline:none;transition:border-color .15s;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--cyan-border)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text3)}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="brand-mark">P</div>
+    <div>
+      <div class="brand-name">PROPATI</div>
+      <span class="brand-badge">ADMIN CONSOLE</span>
+    </div>
+  </div>
+
+  <div class="sb-admin">
+    <div class="sad-role">// super admin</div>
+    <div class="sad-name">Emeka Okafor</div>
+    <div class="sad-access">access: ALL · NG-PROD</div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="nav-group">// OVERVIEW</div>
+    <div class="nav-item active" onclick="nav('overview',this)">
+      <span class="ni">▦</span> Overview
+    </div>
+    <div class="nav-item" onclick="nav('revenue',this)">
+      <span class="ni">◈</span> Revenue
+    </div>
+
+    <div class="nav-group">// MODERATION</div>
+    <div class="nav-item" onclick="nav('verification',this)">
+      <span class="ni">◉</span> Verification Queue
+      <span class="nav-pill np-amber">12</span>
+    </div>
+    <div class="nav-item" onclick="nav('flags',this)">
+      <span class="ni">⚑</span> Flagged Listings
+      <span class="nav-pill np-red">7</span>
+    </div>
+    <div class="nav-item" onclick="nav('disputes',this)">
+      <span class="ni">⚖</span> Disputes
+      <span class="nav-pill np-red">3</span>
+    </div>
+
+    <div class="nav-group">// USERS</div>
+    <div class="nav-item" onclick="nav('users',this)">
+      <span class="ni">◎</span> All Users
+    </div>
+    <div class="nav-item" onclick="nav('agents',this)">
+      <span class="ni">◆</span> Agent Management
+    </div>
+
+    <div class="nav-group">// PLATFORM</div>
+    <div class="nav-item" onclick="nav('listings-admin',this)">
+      <span class="ni">▤</span> All Listings
+    </div>
+    <div class="nav-item" onclick="nav('transactions',this)">
+      <span class="ni">⇄</span> Transactions
+    </div>
+    <div class="nav-item" onclick="nav('settings',this)">
+      <span class="ni">⚙</span> Platform Config
+    </div>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="sys-status">
+      <div class="ss-row">
+        <span><span class="ss-dot dot-on"></span>API</span>
+        <span style="color:var(--green)" class="mono">99.9%</span>
+      </div>
+      <div class="ss-row">
+        <span><span class="ss-dot dot-on"></span>Payments</span>
+        <span style="color:var(--green)" class="mono">Online</span>
+      </div>
+      <div class="ss-row">
+        <span><span class="ss-dot dot-warn"></span>SMS</span>
+        <span style="color:var(--amber)" class="mono">Degraded</span>
+      </div>
+    </div>
+    <div class="nav-item" onclick="toast('🚪 Signing out...')">
+      <span class="ni">⏏</span> Sign Out
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <div>
+        <div class="page-title" id="pageTitle">Overview</div>
+        <div class="tb-breadcrumb">
+          <span>PROPATI</span><span class="tb-sep">/</span>
+          <span>admin</span><span class="tb-sep">/</span>
+          <span class="tb-current" id="pageCrumb">overview</span>
+        </div>
+      </div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-time" id="liveClock">--:--:-- WAT</div>
+      <div class="icon-btn" onclick="toast('🔍 Global search...')">🔍</div>
+      <div class="icon-btn" onclick="nav('flags',document.querySelectorAll('.nav-item')[4])">
+        🔔<div class="notif-dot"></div>
+      </div>
+      <button class="btn-danger" onclick="toast('🔴 Incident logged and team notified')">⚠ Incident</button>
+      <button class="btn-cyan" onclick="openModal()">＋ Action</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="screen active" id="screen-overview">
+      <div class="alert-bar">
+        <span class="ab-icon">⚠️</span>
+        <span class="ab-text"><strong>SMS gateway degraded</strong> — Twilio reporting latency &gt;3s on NG routes. Rent reminders may be delayed. Auto-fallback to email active.</span>
+        <span class="ab-action" onclick="nav('settings',document.querySelectorAll('.nav-item')[10])">View config →</span>
+      </div>
+
+      <div class="kpi-strip">
+        <div class="kpi">
+          <div class="kpi-label">Total Users</div>
+          <div class="kpi-val" style="color:var(--cyan)">48,291</div>
+          <div class="kpi-sub" style="color:var(--green)">↑ +1,204 this week</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:82%"></div></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Active Listings</div>
+          <div class="kpi-val">6,840</div>
+          <div class="kpi-sub" style="color:var(--green)">↑ +312 this week</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:68%"></div></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">GMV (Mar)</div>
+          <div class="kpi-val" style="color:var(--green)">₦2.1B</div>
+          <div class="kpi-sub" style="color:var(--green)">↑ +18% vs Feb</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:91%;background:var(--green)"></div></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Platform Revenue</div>
+          <div class="kpi-val">₦84.3M</div>
+          <div class="kpi-sub" style="color:var(--green)">↑ +22% MoM</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:76%"></div></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Pending Review</div>
+          <div class="kpi-val" style="color:var(--amber)">22</div>
+          <div class="kpi-sub" style="color:var(--red)">↑ 7 new flags</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:22%;background:var(--amber)"></div></div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <!-- Left column -->
+        <div style="display:flex;flex-direction:column;gap:1rem">
+
+          <!-- Revenue chart -->
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Platform Revenue — 2026</span>
+              <div style="display:flex;gap:0.8rem;align-items:center">
+                <span class="mono" style="font-size:0.65rem;color:var(--text3)">₦ billions</span>
+                <span class="card-link" onclick="nav('revenue',document.querySelectorAll('.nav-item')[1])">Full report →</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0.8rem">
+                <div>
+                  <div class="mono" style="font-size:0.62rem;color:var(--text3)">YTD REVENUE</div>
+                  <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em">₦218.4M</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="mono" style="font-size:0.62rem;color:var(--green)">▲ 31% vs 2025</div>
+                  <div class="mono" style="font-size:0.62rem;color:var(--text3)">Target: ₦900M</div>
+                </div>
+              </div>
+              <div class="rev-chart">
+                ${[28,34,42,38,55,48,62,58,71,68,84,0].map((h,i)=>{
+                  const pct = Math.round((h/84)*100);
+                  return `<div class="rev-bar${i===10?' accent':''}" style="height:${pct}%" title="${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}: ₦${h}M" onclick="toast('📊 ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}: ₦${h}M revenue')"></div>`;
+                }).join('')}
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:0.5rem">
+                ${['J','F','M','A','M','J','J','A','S','O','N','D'].map(m=>`<span class="mono" style="font-size:0.6rem;color:var(--text3)">${m}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Live activity -->
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Live Activity Feed</span>
+              <span class="mono" style="font-size:0.65rem;color:var(--green)">● streaming</span>
+            </div>
+            <div class="card-body">
+              ${[
+                {d:'ai-dot-green',t:'<strong>New listing verified</strong> — 3-Bed Apt, VI. C of O + ID matched ✓',time:'0s ago'},
+                {d:'ai-dot-red',t:'<strong>Listing flagged</strong> — "5-Bed Lekki" reported by 3 users (duplicate photos)',time:'14s ago'},
+                {d:'ai-dot-cyan',t:'<strong>New agent approved</strong> — Kemi Adeyemi, Abuja. Passed all checks.',time:'1m ago'},
+                {d:'ai-dot-amber',t:'<strong>Payment dispute opened</strong> — Tenant claims caution not returned. ₦150k.',time:'3m ago'},
+                {d:'ai-dot-green',t:'<strong>₦4.8M transaction</strong> — Office space, Ikeja GRA. Escrow released.',time:'5m ago'},
+                {d:'ai-dot-blue',t:'<strong>User KYC completed</strong> — Fatima Nuhu. NIN verified via NIMC API.',time:'8m ago'},
+                {d:'ai-dot-amber',t:'<strong>Verification stuck</strong> — Layer 3 QR code expired for listing #4821.',time:'12m ago'},
+                {d:'ai-dot-red',t:'<strong>SMS delivery failure</strong> — 48 rent reminders undelivered (Twilio).',time:'18m ago'},
+              ].map(a=>`
+              <div class="activity-item">
+                <div class="ai-dot ${a.d}"></div>
+                <div class="ai-text">${a.t}</div>
+                <div class="ai-time">${a.time}</div>
+              </div>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div style="display:flex;flex-direction:column;gap:1rem">
+
+          <!-- Nigeria map coverage -->
+          <div class="card">
+            <div class="card-head"><span class="card-title">Coverage by State</span><span class="card-link" onclick="toast('🗺️ Full coverage map opened')">Expand →</span></div>
+            <div class="map-mock">
+              <div class="map-dot" style="top:62%;left:42%" onclick="toast('📍 Lagos — 28,400 listings · 31,200 users')">
+                <span style="background:var(--cyan);box-shadow:0 0 6px var(--cyan)"></span>
+              </div>
+              <div class="map-dot" style="top:28%;left:55%" onclick="toast('📍 Abuja — 9,200 listings · 11,800 users')">
+                <span style="background:var(--cyan);box-shadow:0 0 4px var(--cyan);width:6px;height:6px"></span>
+              </div>
+              <div class="map-dot" style="top:70%;left:72%" onclick="toast('📍 Port Harcourt — 4,100 listings · 5,200 users')">
+                <span style="background:var(--blue);box-shadow:0 0 4px var(--blue);width:5px;height:5px"></span>
+              </div>
+              <div class="map-dot" style="top:40%;left:35%" onclick="toast('📍 Ibadan — 2,800 listings · 3,400 users')">
+                <span style="background:var(--text2);width:5px;height:5px"></span>
+              </div>
+              <div class="map-dot" style="top:22%;left:68%" onclick="toast('📍 Kano — 1,200 listings · 1,800 users')">
+                <span style="background:var(--text2);width:4px;height:4px"></span>
+              </div>
+              <div style="position:relative;z-index:1;text-align:center">
+                <div class="mono" style="font-size:0.72rem;color:var(--text3)">Nigeria · 6 active states</div>
+                <div class="mono" style="font-size:0.65rem;color:var(--text3);margin-top:0.2rem">Click dots for details</div>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0.75rem 1.1rem">
+              ${[['Lagos','28,400','62%',var(--cyan)'],['Abuja','9,200','20%','var(--blue)'],['PH','4,100','9%','var(--purple)'],['Others','4,900','9%','var(--text3)']].map(r=>`
+              <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem">
+                <div class="mono" style="font-size:0.7rem;width:45px;color:var(--text3)">${r[0]}</div>
+                <div style="flex:1;height:4px;background:var(--bg5);border-radius:2px;overflow:hidden">
+                  <div style="height:100%;width:${r[2]};background:${r[3]};border-radius:2px"></div>
+                </div>
+                <div class="mono" style="font-size:0.7rem;color:var(--text2);width:45px;text-align:right">${r[1]}</div>
+              </div>`).join('')}
+            </div>
+          </div>
+
+          <!-- Quick action tasks -->
+          <div class="card">
+            <div class="card-head"><span class="card-title">Action Required</span><span class="tag t-red">22 items</span></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:0.5rem">
+              ${[
+                {icon:'◉',label:'Verification queue',count:'12 pending',c:'var(--amber)',page:'verification'},
+                {icon:'⚑',label:'Flagged listings',count:'7 new',c:'var(--red)',page:'flags'},
+                {icon:'⚖',label:'Open disputes',count:'3 active',c:'var(--red)',page:'disputes'},
+              ].map(a=>`
+              <div style="display:flex;align-items:center;gap:0.75rem;padding:0.72rem 0.8rem;border-radius:6px;border:1px solid var(--border);cursor:pointer;background:var(--bg3);transition:all .15s" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'" onclick="nav('${a.page}',null)">
+                <span style="color:${a.c};font-size:0.9rem">${a.icon}</span>
+                <div style="flex:1;font-size:0.81rem;font-weight:600">${a.label}</div>
+                <span class="mono" style="font-size:0.68rem;color:${a.c}">${a.count}</span>
+                <span class="mono" style="font-size:0.7rem;color:var(--text3)">→</span>
+              </div>`).join('')}
+            </div>
+          </div>
+
+          <!-- Top metrics -->
+          <div class="card">
+            <div class="card-head"><span class="card-title">Platform Health</span></div>
+            <div class="card-body">
+              ${[
+                {l:'Verification success rate',v:'87%',c:'var(--green)',w:87},
+                {l:'Avg. time to verify',v:'2.4 days',c:'var(--cyan)',w:70},
+                {l:'Dispute resolution rate',v:'94%',c:'var(--green)',w:94},
+                {l:'Agent inspection SLA',v:'91%',c:'var(--green)',w:91},
+                {l:'Payment success rate',v:'99.1%',c:'var(--cyan)',w:99},
+              ].map(m=>`
+              <div style="margin-bottom:0.65rem">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.25rem">
+                  <span class="mono" style="font-size:0.64rem;color:var(--text3)">${m.l}</span>
+                  <span class="mono" style="font-size:0.64rem;color:${m.c};font-weight:700">${m.v}</span>
+                </div>
+                <div style="height:2px;background:var(--bg5);border-radius:1px;overflow:hidden">
+                  <div style="height:100%;width:${m.w}%;background:${m.c};border-radius:1px"></div>
+                </div>
+              </div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REVENUE ══ -->
+    <div class="screen" id="screen-revenue">
+      <div class="g4" style="margin-bottom:1.2rem">
+        ${[
+          {l:'GMV (Mar 2026)',v:'₦2.14B',s:'↑ 18% vs Feb',c:'var(--cyan)'},
+          {l:'Platform Revenue',v:'₦84.3M',s:'3.94% take rate',c:'var(--green)'},
+          {l:'Escrow Held',v:'₦340M',s:'284 active deals',c:'var(--amber)'},
+          {l:'Avg Deal Size',v:'₦7.5M',s:'↑ 9% vs last month',c:'var(--text)'},
+        ].map(k=>`
+        <div class="kpi">
+          <div class="kpi-label">${k.l}</div>
+          <div class="kpi-val" style="color:${k.c}">${k.v}</div>
+          <div class="kpi-sub" style="color:var(--text3)">${k.s}</div>
+        </div>`).join('')}
+      </div>
+
+      <div class="g2" style="margin-bottom:1.1rem">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Revenue Breakdown by Type</span></div>
+          <div class="card-body">
+            ${[
+              {l:'Rental commissions (10%)',v:'₦41.2M',pct:49,c:'var(--cyan)'},
+              {l:'Sale commissions (1–2%)',v:'₦28.6M',pct:34,c:'var(--green)'},
+              {l:'Short-let booking fee (5%)',v:'₦9.1M',pct:11,c:'var(--purple)'},
+              {l:'Verification badges',v:'₦3.4M',pct:4,c:'var(--amber)'},
+              {l:'Agent subscriptions',v:'₦2.0M',pct:2,c:'var(--blue)'},
+            ].map(r=>`
+            <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.75rem">
+              <div style="width:8px;height:8px;border-radius:2px;background:${r.c};flex-shrink:0"></div>
+              <div style="flex:1;font-size:0.79rem">${r.l}</div>
+              <div class="mono" style="font-size:0.7rem;color:var(--text3);width:40px;text-align:right">${r.pct}%</div>
+              <div style="font-size:0.82rem;font-weight:700;width:60px;text-align:right">${r.v}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Monthly Trend</span></div>
+          <div class="card-body">
+            <table class="data-table" style="width:100%">
+              <thead><tr><th>Month</th><th>GMV</th><th>Revenue</th><th>Take Rate</th><th>Deals</th></tr></thead>
+              <tbody>
+                ${[
+                  ['Jan 2026','₦1.12B','₦42.1M','3.75%','1,840'],
+                  ['Feb 2026','₦1.81B','₦71.4M','3.94%','2,910'],
+                  ['Mar 2026','₦2.14B','₦84.3M','3.94%','3,421'],
+                ].map(r=>`<tr onclick="toast('📊 Detailed breakdown for ${r[0]}')"><td class="mono" style="font-size:0.73rem">${r[0]}</td><td style="font-weight:700;color:var(--cyan)">${r[1]}</td><td style="font-weight:700;color:var(--green)">${r[2]}</td><td class="mono" style="font-size:0.73rem">${r[3]}</td><td class="mono" style="font-size:0.73rem">${r[4]}</td></tr>`).join('')}
+              </tbody>
+            </table>
+            <div style="margin-top:1rem;padding:0.8rem;background:var(--bg3);border-radius:6px;border-left:3px solid var(--cyan)">
+              <div class="mono" style="font-size:0.64rem;color:var(--text3);margin-bottom:0.3rem">Q1 2026 TOTAL</div>
+              <div style="font-size:1.4rem;font-weight:800;color:var(--cyan)">₦197.8M revenue</div>
+              <div class="mono" style="font-size:0.68rem;color:var(--green);margin-top:0.2rem">↑ 31% vs Q1 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><span class="card-title">Top Transactions (March 2026)</span></div>
+        <div style="overflow:hidden">
+          <table class="data-table">
+            <thead><tr><th>Transaction ID</th><th>Property</th><th>Parties</th><th>Type</th><th>Deal Value</th><th>Platform Fee</th><th>Status</th></tr></thead>
+            <tbody>
+              ${[
+                ['TXN-2026-8821','Office Space, Ikeja GRA','Bola Ade → Corp Tenant','Commercial','₦4,800,000','₦192,000','t-green'],
+                ['TXN-2026-8744','5-Bed House, Magodo','Taiwo Bello → Buyer','Sale','₦65,000,000','₦650,000','t-green'],
+                ['TXN-2026-8701','4-Bed Duplex, Lekki','C. Okonkwo → A. Obi','Rent','₦800,000','₦80,000','t-green'],
+                ['TXN-2026-8698','3-Bed Apt, VI Short-let','Emeka Eze → Tourist','Short-let','₦520,000','₦26,000','t-green'],
+                ['TXN-2026-8650','Land 600sqm, Ajah','F. Adebayo → Buyer','Sale','₦18,000,000','₦360,000','t-amber'],
+              ].map(r=>`
+              <tr onclick="toast('📋 Opening transaction ${r[0]}...')">
+                <td class="mono" style="font-size:0.71rem;color:var(--cyan)">${r[0]}</td>
+                <td style="font-weight:600;font-size:0.8rem">${r[1]}</td>
+                <td style="font-size:0.77rem;color:var(--text2)">${r[2]}</td>
+                <td><span class="tag t-muted">${r[3]}</span></td>
+                <td style="font-weight:700">${r[4]}</td>
+                <td style="font-weight:700;color:var(--green)">${r[5]}</td>
+                <td><span class="tag ${r[6]}">${r[6]==='t-green'?'Settled':'Pending'}</span></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ VERIFICATION QUEUE ══ -->
+    <div class="screen" id="screen-verification">
+      <div style="display:flex;gap:0.7rem;margin-bottom:1.2rem;align-items:center">
+        ${[['All','12'],['Layer 1 — Docs','4'],['Layer 2 — Identity','3'],['Layer 3 — QR Proof','3'],['Layer 4 — Inspection','2']].map((f,i)=>`
+        <div style="padding:0.38rem 0.85rem;border-radius:5px;border:1px solid ${i===0?'var(--cyan-border)':'var(--border)'};font-size:0.77rem;font-weight:700;cursor:pointer;background:${i===0?'var(--cyan-dim)':'var(--bg3)'};color:${i===0?'var(--cyan)':'var(--text2)'};display:flex;align-items:center;gap:0.4rem;font-family:'Syne',sans-serif" onclick="toast('🔍 Filtered to ${f[0]}')">
+          ${f[0]} <span class="mono" style="font-size:0.62rem;opacity:0.7">${f[1]}</span>
+        </div>`).join('')}
+        <div style="margin-left:auto" class="mono" style="font-size:0.7rem;color:var(--text3)">Avg review time: <strong style="color:var(--amber)">2.4 days</strong></div>
+      </div>
+
+      ${[
+        {icon:'🏡',bg:'rgba(0,212,200,0.08)',n:'4-Bed Duplex, Lekki Phase 1',owner:'Chidi Okonkwo · chidi@propati.ng',id:'LST-4821',sub:'Mar 8, 2026 · Pending 2 days',layers:[{s:'done',l:'Docs uploaded'},{s:'done',l:'ID matched'},{s:'pend',l:'QR proof submitted'},{s:'miss',l:'Inspection'},{s:'miss',l:'Certified'}],note:'QR video submitted but low resolution. Request re-upload.',action:'review'},
+        {icon:'🏢',bg:'rgba(59,130,246,0.08)',n:'Commercial Office, Ikeja GRA',owner:'Bola Ade · bola@propati.ng',id:'LST-4798',sub:'Mar 7, 2026 · Pending 3 days',layers:[{s:'done',l:'Docs uploaded'},{s:'fail',l:'ID mismatch'},{s:'miss',l:'QR proof'},{s:'miss',l:'Inspection'},{s:'miss',l:'Certified'}],note:'Name on Title Deed: "BOLA A. ADE" — NIN shows "BOLAJI ADEKUNLE". Needs clarification.',action:'reject'},
+        {icon:'🏠',bg:'rgba(168,85,247,0.08)',n:'3-Bed Apartment, Surulere',owner:'Rita Sule · rita@propati.ng',id:'LST-4755',sub:'Mar 6, 2026 · Pending 4 days',layers:[{s:'done',l:'Docs uploaded'},{s:'done',l:'ID matched'},{s:'done',l:'QR verified'},{s:'pend',l:'Inspection booked'},{s:'miss',l:'Certified'}],note:'Agent Akin Balogun booked inspection for Mar 12. Awaiting completion.',action:'monitor'},
+        {icon:'🏗️',bg:'rgba(245,158,11,0.08)',n:'Land — 1000 sqm, Ajah',owner:'Femi Adebayo · femi@propati.ng',id:'LST-4712',sub:'Mar 5, 2026 · Pending 5 days',layers:[{s:'done',l:'Docs uploaded'},{s:'done',l:'ID matched'},{s:'done',l:'QR verified'},{s:'done',l:'Inspected'},{s:'pend',l:'Final review'}],note:'All 4 layers passed. Final admin review required before PROPATI Certified badge.',action:'certify'},
+      ].map(v=>`
+      <div class="vq-item">
+        <div class="vq-top">
+          <div class="vq-icon" style="background:${v.bg}">${v.icon}</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.15rem">
+              <div class="vq-name">${v.n}</div>
+              <span class="mono" style="font-size:0.65rem;color:var(--text3)">${v.id}</span>
+            </div>
+            <div class="vq-meta">${v.owner} · ${v.sub}</div>
+          </div>
+          <span class="tag ${v.action==='certify'?'t-green':v.action==='reject'?'t-red':v.action==='monitor'?'t-blue':'t-amber'}">${v.action.toUpperCase()}</span>
+        </div>
+        <div class="vq-layers">
+          ${v.layers.map((l,i)=>`
+          <div class="layer-dot ld-${l.s}">
+            <span>${i+1}</span> ${l.l}
+          </div>`).join('')}
+        </div>
+        <div style="background:var(--bg3);border-radius:5px;padding:0.6rem 0.8rem;margin-bottom:0.75rem;border-left:2px solid ${v.action==='certify'?'var(--green)':v.action==='reject'?'var(--red)':'var(--amber)'}">
+          <span class="mono" style="font-size:0.65rem;color:var(--text3)">NOTE: </span>
+          <span style="font-size:0.78rem;color:var(--text2)">${v.note}</span>
+        </div>
+        <div class="vq-actions">
+          ${v.action==='certify'?`
+            <button class="act act-green" onclick="toast('⭐ PROPATI Certified badge granted to ${v.n}!')">⭐ Grant Certified Badge</button>
+            <button class="act act-ghost" onclick="toast('📋 Full submission opened')">View Documents</button>
+          `:v.action==='reject'?`
+            <button class="act act-red" onclick="toast('❌ Listing rejected. Owner notified.')">Reject & Notify</button>
+            <button class="act act-amber" onclick="toast('📨 Re-upload request sent to ${v.owner.split(' ')[0]}')">Request Re-upload</button>
+            <button class="act act-ghost" onclick="toast('📋 Full submission opened')">View Docs</button>
+          `:v.action==='review'?`
+            <button class="act act-cyan" onclick="toast('✅ QR video reviewed and approved!')">Approve QR</button>
+            <button class="act act-amber" onclick="toast('📨 Re-upload request sent')">Request Re-upload</button>
+            <button class="act act-ghost" onclick="toast('📹 Playing QR video...')">▶ Play Video</button>
+          `:`
+            <button class="act act-ghost" onclick="toast('📋 Monitoring ${v.n} — agent update expected Mar 12')">Monitor</button>
+            <button class="act act-amber" onclick="toast('📞 Calling agent...')">Contact Agent</button>
+          `}
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <!-- ══ FLAGGED LISTINGS ══ -->
+    <div class="screen" id="screen-flags">
+      <div style="margin-bottom:1.1rem;display:flex;gap:0.7rem;align-items:center">
+        ${[['All Flags','7'],['Fraud','3'],['Duplicate','2'],['Misleading','1'],['Harassment','1']].map((f,i)=>`
+        <div style="padding:0.38rem 0.85rem;border-radius:5px;border:1px solid ${i===0?'rgba(239,68,68,0.4)':'var(--border)'};font-size:0.77rem;font-weight:700;cursor:pointer;background:${i===0?'rgba(239,68,68,0.08)':'var(--bg3)'};color:${i===0?'var(--red)':'var(--text2)'};display:flex;align-items:center;gap:0.4rem" onclick="toast('🔍 Filtered to ${f[0]}')">
+          ${f[0]} <span class="mono" style="font-size:0.62rem;opacity:0.7">${f[1]}</span>
+        </div>`).join('')}
+        <button class="btn-danger" style="margin-left:auto" onclick="toast('⚠ All 7 listings suspended pending review')">Suspend All</button>
+      </div>
+
+      <div style="overflow:hidden;border-radius:8px;border:1px solid var(--border)">
+        <table class="data-table" style="width:100%">
+          <thead>
+            <tr>
+              <th>Listing</th><th>Owner</th><th>Flag Type</th><th>Severity</th><th>Reports</th><th>Flagged</th><th>Status</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${[
+              {icon:'🏡',n:'5-Bed House, Lekki',owner:'Unknown Agent',ft:'Fraud',sev:3,rep:8,date:'Mar 9',st:'Active',sc:'t-red'},
+              {icon:'🏢',n:'3-Bed VI — duplicate listing',owner:'Emeka Eze',ft:'Duplicate',sev:2,rep:5,date:'Mar 8',st:'Active',sc:'t-red'},
+              {icon:'🏠',n:'1-Bed Studio, Yaba',owner:'Peter Ogar',ft:'Misleading',sev:2,rep:3,date:'Mar 7',st:'Active',sc:'t-amber'},
+              {icon:'🏗️',n:'Commercial Plot, Lekki',owner:'Tunde Ibrahim',ft:'Fraud',sev:3,rep:11,date:'Mar 7',st:'Suspended',sc:'t-amber'},
+              {icon:'🏡',n:'2-Bed Flat, Surulere',owner:'Rita Sule',ft:'Harassment',sev:1,rep:2,date:'Mar 6',st:'Active',sc:'t-amber'},
+              {icon:'🏬',n:'Office Space, Ikeja',owner:'Bola Ade',ft:'Duplicate',sev:1,rep:2,date:'Mar 5',st:'Reviewing',sc:'t-blue'},
+              {icon:'🏘️',n:'4-Bed, Magodo Phase 2',owner:'Femi Adebayo',ft:'Fraud',sev:3,rep:6,date:'Mar 4',st:'Active',sc:'t-red'},
+            ].map(f=>`
+            <tr onclick="toast('🔍 Opening flag investigation for ${f.n}...')">
+              <td>
+                <div style="display:flex;align-items:center;gap:0.6rem">
+                  <span style="font-size:1.05rem">${f.icon}</span>
+                  <span style="font-weight:600;font-size:0.8rem">${f.n}</span>
+                </div>
+              </td>
+              <td style="font-size:0.78rem;color:var(--text2)">${f.owner}</td>
+              <td><span class="tag ${f.ft==='Fraud'?'t-red':f.ft==='Duplicate'?'t-amber':f.ft==='Misleading'?'t-purple':'t-blue'}">${f.ft}</span></td>
+              <td>
+                <div class="flag-severity">
+                  ${[1,2,3].map(i=>`<div class="sev-bar" style="height:${i*4+4}px;background:${i<=f.sev?(f.sev===3?'var(--red)':'var(--amber)'):'var(--bg5)'}"></div>`).join('')}
+                  <span class="mono" style="font-size:0.65rem;color:${f.sev===3?'var(--red)':'var(--amber)'}">L${f.sev}</span>
+                </div>
+              </td>
+              <td class="mono" style="font-size:0.75rem;color:${f.rep>=8?'var(--red)':f.rep>=4?'var(--amber)':'var(--text2)'};font-weight:700">${f.rep} reports</td>
+              <td class="mono" style="font-size:0.72rem;color:var(--text3)">${f.date}</td>
+              <td><span class="tag ${f.sc}">${f.st}</span></td>
+              <td onclick="event.stopPropagation()">
+                <div style="display:flex;gap:0.3rem">
+                  <button class="act act-red" onclick="toast('🚫 Listing suspended: ${f.n}')">Suspend</button>
+                  <button class="act act-ghost" onclick="toast('🗑 Listing removed and owner warned')">Remove</button>
+                </div>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ DISPUTES ══ -->
+    <div class="screen" id="screen-disputes">
+      <div class="g3" style="margin-bottom:1.1rem">
+        ${[{l:'Open Disputes',v:'3',c:'var(--red)'},{l:'Avg Resolution',v:'4.2 days',c:'var(--amber)'},{l:'Resolution Rate',v:'94%',c:'var(--green)'}].map(k=>`
+        <div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div></div>`).join('')}
+      </div>
+      ${[
+        {icon:'⚖️',n:'Caution Deposit Dispute',parties:'Fatima Nuhu (tenant) vs Emeka Eze (landlord)',amount:'₦150,000',type:'Caution not returned',status:'Escalated',sc:'t-red',desc:'Tenant vacated Jan 31, landlord has not returned caution. Tenant claims property was left in good condition. Landlord alleges damages.'},
+        {icon:'💳',n:'Rent Payment Dispute',parties:'Peter Ogar (tenant) vs Rita Sule (landlord)',amount:'₦240,000',type:'Payment not credited',status:'Under Review',sc:'t-amber',desc:'Bank transfer made Feb 28. Tenant has proof of transfer. Landlord claims no payment received. Likely escrow delay.'},
+        {icon:'📄',n:'Agreement Breach',parties:'Tunde Ibrahim (tenant) vs Chidi Okonkwo (landlord)',amount:'₦800,000',type:'Lease termination',status:'Mediation',sc:'t-blue',desc:'Landlord attempting to terminate lease 4 months early. Tenant claims this is unlawful under lease terms signed Jan 1, 2026.'},
+      ].map(d=>`
+      <div class="card" style="margin-bottom:0.8rem">
+        <div class="card-head">
+          <div style="display:flex;align-items:center;gap:0.7rem">
+            <span style="font-size:1.2rem">${d.icon}</span>
+            <div>
+              <div style="font-weight:700;font-size:0.86rem">${d.n}</div>
+              <div class="mono" style="font-size:0.65rem;color:var(--text3)">${d.parties}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.6rem;align-items:center">
+            <span class="mono" style="font-size:0.8rem;font-weight:700;color:var(--amber)">${d.amount}</span>
+            <span class="tag ${d.sc}">${d.status}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:1rem;margin-bottom:0.8rem">
+            <span class="tag t-muted">${d.type}</span>
+          </div>
+          <div style="font-size:0.79rem;color:var(--text2);line-height:1.6;margin-bottom:1rem;padding:0.7rem;background:var(--bg3);border-radius:5px">${d.desc}</div>
+          <div style="display:flex;gap:0.6rem">
+            <button class="act act-green" onclick="toast('✅ Ruling made in tenant favour. Refund initiated.')">Rule: Tenant</button>
+            <button class="act act-amber" onclick="toast('⚖ Ruling made in landlord favour.')">Rule: Landlord</button>
+            <button class="act act-cyan" onclick="toast('🤝 Mediation call scheduled for both parties.')">Schedule Mediation</button>
+            <button class="act act-ghost" onclick="toast('📄 Full case file opened')">View Evidence</button>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <!-- ══ USERS ══ -->
+    <div class="screen" id="screen-users">
+      <div class="g4" style="margin-bottom:1.1rem">
+        ${[{l:'Total Users',v:'48,291'},{l:'Landlords',v:'12,840'},{l:'Tenants',v:'29,102'},{l:'Agents',v:'6,349'}].map(k=>`
+        <div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val">${k.v}</div></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.7rem;margin-bottom:1rem">
+        <input style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.85rem;color:var(--text);font-family:'Syne',sans-serif;font-size:0.82rem;outline:none" placeholder="Search users by name, email, or phone..."/>
+        ${['All','Landlords','Tenants','Agents','Suspended'].map((f,i)=>`
+        <div style="padding:0.38rem 0.8rem;border-radius:5px;border:1px solid ${i===0?'var(--cyan-border)':'var(--border)'};font-size:0.77rem;font-weight:700;cursor:pointer;background:${i===0?'var(--cyan-dim)':'var(--bg3)'};color:${i===0?'var(--cyan)':'var(--text2)'}" onclick="toast('🔍 Filtered to ${f}')">${f}</div>`).join('')}
+      </div>
+      <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+        <table class="data-table">
+          <thead><tr><th>User</th><th>Role</th><th>Joined</th><th>Activity</th><th>KYC</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${[
+              {av:'CO',c:'#d4622a',n:'Chidi Okonkwo',email:'chidi@propati.ng',role:'Landlord',joined:'Jan 2025',act:'Active 2h ago',kyc:'t-green',kycs:'✓ Verified',st:'t-green',sts:'Active'},
+              {av:'AO',c:'#0e7c6a',n:'Adaeze Obi',email:'adaeze@propati.ng',role:'Tenant',joined:'Dec 2025',act:'Active 1d ago',kyc:'t-green',kycs:'✓ Verified',st:'t-green',sts:'Active'},
+              {av:'AB',c:'#c9952a',n:'Akin Balogun',email:'akin@propati.ng',role:'Agent',joined:'Mar 2024',act:'Active 0h ago',kyc:'t-green',kycs:'✓ Verified',st:'t-cyan',sts:'Senior'},
+              {av:'TI',c:'#3b82f6',n:'Tunde Ibrahim',email:'tunde@propati.ng',role:'Tenant',joined:'Feb 2026',act:'Active 3d ago',kyc:'t-amber',kycs:'⏳ Pending',st:'t-green',sts:'Active'},
+              {av:'FN',c:'#a855f7',n:'Fatima Nuhu',email:'fatima@propati.ng',role:'Tenant',joined:'Nov 2025',act:'Active 1d ago',kyc:'t-green',kycs:'✓ Verified',st:'t-amber',sts:'Dispute'},
+              {av:'PO',c:'#ef4444',n:'Peter Ogar',email:'peter@propati.ng',role:'Landlord',joined:'Aug 2025',act:'Active 5d ago',kyc:'t-red',kycs:'✗ Failed',st:'t-red',sts:'Flagged'},
+            ].map(u=>`
+            <tr onclick="toast('👤 Opening ${u.n} profile...')">
+              <td>
+                <div style="display:flex;align-items:center;gap:0.7rem">
+                  <div class="av" style="width:30px;height:30px;background:${u.c};font-size:0.68rem;color:white">${u.av}</div>
+                  <div>
+                    <div style="font-weight:700;font-size:0.81rem">${u.n}</div>
+                    <div class="mono" style="font-size:0.62rem;color:var(--text3)">${u.email}</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag t-muted">${u.role}</span></td>
+              <td class="mono" style="font-size:0.72rem;color:var(--text3)">${u.joined}</td>
+              <td class="mono" style="font-size:0.72rem;color:var(--text2)">${u.act}</td>
+              <td><span class="tag ${u.kyc}">${u.kycs}</span></td>
+              <td><span class="tag ${u.st}">${u.sts}</span></td>
+              <td onclick="event.stopPropagation()">
+                <div style="display:flex;gap:0.3rem">
+                  <button class="act act-ghost" onclick="toast('👤 ${u.n} profile opened')">View</button>
+                  ${u.sts==='Active'||u.sts==='Senior'?`<button class="act act-red" onclick="toast('⛔ ${u.n} suspended')">Suspend</button>`:`<button class="act act-green" onclick="toast('✅ ${u.n} reactivated')">Reactivate</button>`}
+                </div>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ AGENTS ══ -->
+    <div class="screen" id="screen-agents">
+      <div class="g4" style="margin-bottom:1.1rem">
+        ${[{l:'Total Agents',v:'6,349',c:'var(--text)'},{l:'Senior Agents',v:'284',c:'var(--cyan)'},{l:'Avg Rating',v:'4.6 / 5',c:'var(--amber)'},{l:'Pending Approval',v:'18',c:'var(--amber)'}].map(k=>`
+        <div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c}">${k.v}</div></div>`).join('')}
+      </div>
+
+      <div style="margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center">
+        <div class="mono" style="font-size:0.7rem;color:var(--text3)">Showing top agents by GMV — March 2026</div>
+        <button class="btn-cyan" onclick="toast('👤 New agent onboarding form opened')">＋ Onboard Agent</button>
+      </div>
+
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr 1fr 120px;gap:0.8rem;padding:0.65rem 1rem;background:var(--bg3);border-bottom:1px solid var(--border)">
+          ${['Agent','State','Deals (Mar)','GMV','Rating','Status','Actions'].map(h=>`<div class="mono" style="font-size:0.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em">${h}</div>`).join('')}
+        </div>
+        ${[
+          {av:'AB',c:'#c9952a',n:'Akin Balogun',email:'akin@propati.ng',state:'Lagos',deals:14,gmv:'₦218M',rating:'4.9',tier:'Senior',sc:'t-cyan'},
+          {av:'KA',c:'#3b82f6',n:'Kemi Adeyemi',email:'kemi@propati.ng',state:'Abuja',deals:11,gmv:'₦174M',rating:'4.8',tier:'Senior',sc:'t-cyan'},
+          {av:'TJ',c:'#22c55e',n:'Taiwo Johnson',email:'taiwo@propati.ng',state:'Lagos',deals:9,gmv:'₦141M',rating:'4.7',tier:'Standard',sc:'t-green'},
+          {av:'FD',c:'#a855f7',n:'Funke Dada',email:'funke@propati.ng',state:'Lagos',deals:8,gmv:'₦128M',rating:'4.5',tier:'Standard',sc:'t-green'},
+          {av:'SM',c:'#ef4444',n:'Samuel Musa',email:'samuel@propati.ng',state:'PH',deals:6,gmv:'₦92M',rating:'3.9',tier:'Probation',sc:'t-red'},
+        ].map(a=>`
+        <div class="agent-row-card" onclick="toast('👤 Opening ${a.n} agent profile...')">
+          <div style="display:flex;align-items:center;gap:0.7rem">
+            <div class="av" style="width:32px;height:32px;background:${a.c};font-size:0.72rem;color:white">${a.av}</div>
+            <div>
+              <div style="font-weight:700;font-size:0.82rem">${a.n}</div>
+              <div class="mono" style="font-size:0.62rem;color:var(--text3)">${a.email}</div>
+            </div>
+          </div>
+          <div class="mono" style="font-size:0.74rem;color:var(--text2)">${a.state}</div>
+          <div style="font-weight:700;font-size:0.82rem">${a.deals}</div>
+          <div style="font-weight:700;font-size:0.82rem;color:var(--cyan)">${a.gmv}</div>
+          <div class="mono" style="font-size:0.78rem;color:var(--amber)">${a.rating} ★</div>
+          <div><span class="tag ${a.sc}">${a.tier}</span></div>
+          <div style="display:flex;gap:0.3rem" onclick="event.stopPropagation()">
+            <button class="act act-ghost" onclick="toast('📋 ${a.n} profile opened')">Profile</button>
+            ${a.tier==='Probation'?`<button class="act act-red" onclick="toast('⛔ ${a.n} suspended from platform')">Suspend</button>`:`<button class="act act-cyan" onclick="toast('⬆ ${a.n} tier updated')">Promote</button>`}
+          </div>
+        </div>`).join('')}
+      </div>
+
+      <div style="margin-top:1.1rem">
+        <div style="font-weight:700;font-size:0.88rem;margin-bottom:0.7rem">Pending Agent Applications (18)</div>
+        <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+          <table class="data-table">
+            <thead><tr><th>Applicant</th><th>State</th><th>Experience</th><th>Applied</th><th>Documents</th><th>Action</th></tr></thead>
+            <tbody>
+              ${[
+                {n:'Ngozi Salami',state:'Lagos',exp:'5 yrs',date:'Mar 9',docs:'t-green',ds:'Complete'},
+                {n:'Emeka Johnson',state:'Abuja',exp:'3 yrs',date:'Mar 8',docs:'t-amber',ds:'Partial'},
+                {n:'Rita Okonkwo',state:'PH',exp:'8 yrs',date:'Mar 7',docs:'t-green',ds:'Complete'},
+              ].map(a=>`
+              <tr>
+                <td style="font-weight:600;font-size:0.81rem">${a.n}</td>
+                <td class="mono" style="font-size:0.73rem">${a.state}</td>
+                <td class="mono" style="font-size:0.73rem">${a.exp}</td>
+                <td class="mono" style="font-size:0.72rem;color:var(--text3)">${a.date}</td>
+                <td><span class="tag ${a.docs}">${a.ds}</span></td>
+                <td>
+                  <div style="display:flex;gap:0.35rem">
+                    <button class="act act-green" onclick="toast('✅ ${a.n} approved as PROPATI agent!')">Approve</button>
+                    <button class="act act-red" onclick="toast('❌ ${a.n} application rejected')">Reject</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ALL LISTINGS ══ -->
+    <div class="screen" id="screen-listings-admin">
+      <div class="g4" style="margin-bottom:1.1rem">
+        ${[{l:'Total Listings',v:'6,840'},{l:'Pending Review',v:'124',c:'var(--amber)'},{l:'Suspended',v:'38',c:'var(--red)'},{l:'Certified',v:'2,104',c:'var(--cyan)'}].map(k=>`
+        <div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c||'var(--text)'}">${k.v}</div></div>`).join('')}
+      </div>
+      <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+        <table class="data-table">
+          <thead><tr><th>Listing</th><th>Owner</th><th>Type</th><th>Price</th><th>State</th><th>Verification</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${[
+              {e:'🏡',n:'4-Bed Duplex, Lekki Ph1',owner:'C. Okonkwo',ty:'Rent',p:'₦800k/yr',state:'Lagos',vc:'t-cyan',vs:'⭐ Certified',st:'t-green',sts:'Active'},
+              {e:'🏢',n:'3-Bed Apt, VI',owner:'E. Eze',ty:'Short-let',p:'₦85k/nt',state:'Lagos',vc:'t-green',vs:'✔ Verified',st:'t-green',sts:'Active'},
+              {e:'🏠',n:'2-Bed Flat, Yaba',owner:'R. Sule',ty:'Rent',p:'₦480k/yr',state:'Lagos',vc:'t-amber',vs:'⏳ Layer 3',st:'t-amber',sts:'Review'},
+              {e:'🏗️',n:'Commercial Plot, Lekki',owner:'Unknown',ty:'Sale',p:'₦45M',state:'Lagos',vc:'t-red',vs:'✗ Suspicious',st:'t-red',sts:'Suspended'},
+              {e:'🏬',n:'Office Space, Ikeja',owner:'B. Ade',ty:'Commercial',p:'₦4.8M/yr',state:'Lagos',vc:'t-cyan',vs:'⭐ Certified',st:'t-green',sts:'Active'},
+            ].map(r=>`
+            <tr onclick="toast('🏡 Opening listing: ${r.n}...')">
+              <td>
+                <div style="display:flex;align-items:center;gap:0.6rem">
+                  <span>${r.e}</span>
+                  <span style="font-weight:600;font-size:0.81rem">${r.n}</span>
+                </div>
+              </td>
+              <td style="font-size:0.79rem;color:var(--text2)">${r.owner}</td>
+              <td><span class="tag t-muted">${r.ty}</span></td>
+              <td style="font-weight:700;font-size:0.8rem">${r.p}</td>
+              <td class="mono" style="font-size:0.73rem">${r.state}</td>
+              <td><span class="tag ${r.vc}">${r.vs}</span></td>
+              <td><span class="tag ${r.st}">${r.sts}</span></td>
+              <td onclick="event.stopPropagation()">
+                <div style="display:flex;gap:0.3rem">
+                  <button class="act act-ghost" onclick="toast('👁 Opening listing view...')">View</button>
+                  ${r.sts==='Active'?`<button class="act act-red" onclick="toast('🚫 Listing suspended')">Suspend</button>`:`<button class="act act-green" onclick="toast('✅ Listing reinstated')">Reinstate</button>`}
+                </div>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ TRANSACTIONS ══ -->
+    <div class="screen" id="screen-transactions">
+      <div class="g4" style="margin-bottom:1.1rem">
+        ${[{l:'Mar Transactions',v:'3,421'},{l:'Total Volume',v:'₦2.14B',c:'var(--cyan)'},{l:'Escrow Held',v:'₦340M',c:'var(--amber)'},{l:'Failed / Disputed',v:'12',c:'var(--red)'}].map(k=>`
+        <div class="kpi"><div class="kpi-label">${k.l}</div><div class="kpi-val" style="color:${k.c||'var(--text)'}">${k.v}</div></div>`).join('')}
+      </div>
+      <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+        <table class="data-table">
+          <thead><tr><th>TXN ID</th><th>Parties</th><th>Property</th><th>Amount</th><th>Fee</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            ${[
+              {id:'TXN-8821',parties:'B. Ade → Corp',prop:'Office, Ikeja',amt:'₦4,800,000',fee:'₦192,000',date:'Mar 10',st:'t-green',sts:'Settled'},
+              {id:'TXN-8744',parties:'T. Bello → Buyer',prop:'5-Bed, Magodo',amt:'₦65,000,000',fee:'₦650,000',date:'Mar 9',st:'t-amber',sts:'Escrow'},
+              {id:'TXN-8701',parties:'C. Okonkwo → A.Obi',prop:'4-Bed, Lekki',amt:'₦800,000',fee:'₦80,000',date:'Mar 2',st:'t-green',sts:'Settled'},
+              {id:'TXN-8698',parties:'E. Eze → Tourist',prop:'3-Bed, VI',amt:'₦520,000',fee:'₦26,000',date:'Mar 1',st:'t-green',sts:'Settled'},
+              {id:'TXN-8612',parties:'P. Ogar → R. Sule',prop:'2-Bed, Surulere',amt:'₦240,000',fee:'₦24,000',date:'Feb 28',st:'t-red',sts:'Disputed'},
+            ].map(r=>`
+            <tr onclick="toast('📋 Opening ${r.id}...')">
+              <td class="mono" style="font-size:0.7rem;color:var(--cyan)">${r.id}</td>
+              <td style="font-size:0.78rem;color:var(--text2)">${r.parties}</td>
+              <td style="font-size:0.79rem;font-weight:600">${r.prop}</td>
+              <td style="font-weight:700">${r.amt}</td>
+              <td style="color:var(--green);font-weight:700">${r.fee}</td>
+              <td class="mono" style="font-size:0.72rem;color:var(--text3)">${r.date}</td>
+              <td><span class="tag ${r.st}">${r.sts}</span></td>
+              <td onclick="event.stopPropagation()">
+                <button class="act act-ghost" onclick="toast('📋 Transaction detail opened')">Detail</button>
+                ${r.sts==='Disputed'?`<button class="act act-cyan" onclick="toast('⚖ Dispute investigation opened')">Investigate</button>`:''}
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="screen" id="screen-settings">
+      <div class="g2" style="align-items:start">
+        <div>
+          <div class="card" style="margin-bottom:1rem">
+            <div class="card-head"><span class="card-title">Platform Features</span></div>
+            ${[
+              {l:'User KYC verification',d:'NIN check via NIMC API',on:true},
+              {l:'Escrow payments',d:'Hold funds until deal confirms',on:true},
+              {l:'SMS notifications',d:'Twilio NG gateway',on:false},
+              {l:'Email notifications',d:'Sendgrid fallback active',on:true},
+              {l:'Agent physical inspections',d:'Layer 4 of verification',on:true},
+              {l:'Community flagging',d:'Users can flag listings',on:true},
+              {l:'Auto-badge expiry',d:'Revoke badges after 12 months',on:true},
+              {l:'Beta: AI screening summaries',d:'Claude-powered screening notes',on:false},
+            ].map(s=>`
+            <div class="setting-row">
+              <div class="sr-left">
+                <div class="sr-label">${s.l}</div>
+                <div class="sr-desc">${s.d}</div>
+              </div>
+              <button class="toggle ${s.on?'on':'off'}" onclick="this.classList.toggle('on');this.classList.toggle('off');toast('${s.on?'🔴':'🟢'} ${s.l} ${s.on?'disabled':'enabled'}')"></button>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1rem">
+            <div class="card-head"><span class="card-title">Commission Rates</span></div>
+            <div class="card-body">
+              ${[['Rental deals','10% of annual rent'],['Property sales (under ₦20M)','2% of sale price'],['Property sales (above ₦20M)','1% of sale price'],['Short-let bookings','5% of booking value'],['Commercial properties','8% of annual rent'],['Agent subscription','₦15,000/month']].map(r=>`
+              <div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:0.8rem">${r[0]}</span>
+                <span class="mono" style="font-size:0.78rem;color:var(--cyan);font-weight:700">${r[1]}</span>
+              </div>`).join('')}
+              <button class="act act-cyan" style="margin-top:0.8rem" onclick="toast('✏ Commission rates editor opened')">Edit Rates</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">API & Integrations</span></div>
+            <div class="card-body">
+              ${[
+                {n:'NIMC (NIN Verification)',s:'t-green',ss:'● Connected'},
+                {n:'Twilio (SMS)',s:'t-amber',ss:'⚠ Degraded'},
+                {n:'Sendgrid (Email)',s:'t-green',ss:'● Connected'},
+                {n:'Paystack (Payments)',s:'t-green',ss:'● Connected'},
+                {n:'Google Maps API',s:'t-green',ss:'● Connected'},
+              ].map(a=>`
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:0.8rem;font-weight:600">${a.n}</span>
+                <span class="tag ${a.s}">${a.ss}</span>
+              </div>`).join('')}
+              <button class="act act-ghost" style="margin-top:0.8rem" onclick="toast('🔧 API config panel opened')">Manage Keys</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── QUICK ACTION MODAL ── -->
+<div class="modal-ov" id="modalOv" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span class="modal-title">Admin Quick Action</span>
+      <span style="cursor:pointer;color:var(--text3);font-size:1.1rem" onclick="closeModal()">✕</span>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <label>Action Type</label>
+        <select>
+          <option>Suspend user account</option>
+          <option>Remove listing</option>
+          <option>Grant verification badge</option>
+          <option>Issue platform-wide notice</option>
+          <option>Override escrow release</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Target (user ID / listing ID)</label>
+        <input placeholder="e.g. USR-48291 or LST-4821"/>
+      </div>
+      <div class="fg">
+        <label>Reason / Notes</label>
+        <textarea rows="3" placeholder="Document your reason for this action..."></textarea>
+      </div>
+      <div style="background:var(--red-bg);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:0.7rem;font-size:0.77rem;color:var(--red)">
+        ⚠ All admin actions are logged with your credentials and timestamp.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="act act-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" onclick="closeModal();toast('⚠ Action executed and logged to audit trail')">Execute Action</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span id="toastIcon" style="font-size:0.95rem"></span>
+  <span class="toast-text" id="toastText"></span>
+</div>
+
+<script>
+// Clock
+function updateClock(){
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const el = document.getElementById('liveClock');
+  if(el) el.textContent = t + ' WAT';
+}
+updateClock();
+setInterval(updateClock,1000);
+
+// Nav
+const pageMeta = {
+  overview:   ['Overview','overview'],
+  revenue:    ['Revenue Analytics','revenue'],
+  verification:['Verification Queue','moderation/verification'],
+  flags:      ['Flagged Listings','moderation/flags'],
+  disputes:   ['Disputes','moderation/disputes'],
+  users:      ['All Users','users'],
+  agents:     ['Agent Management','users/agents'],
+  'listings-admin':['All Listings','platform/listings'],
+  transactions:['Transactions','platform/transactions'],
+  settings:   ['Platform Config','platform/settings'],
+};
+
+function nav(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screen = document.getElementById('screen-' + id);
+  if (screen) screen.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const meta = pageMeta[id] || [id, id];
+  document.getElementById('pageTitle').textContent = meta[0];
+  document.getElementById('pageCrumb').textContent = meta[1];
+}
+
+// Modal
+function openModal() { document.getElementById('modalOv').classList.add('open') }
+function closeModal() { document.getElementById('modalOv').classList.remove('open') }
+
+// Toast
+let toastTimer;
+function toast(msg) {
+  clearTimeout(toastTimer);
+  const icon = msg.slice(0,2);
+  const text = msg.slice(2).trim();
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastText').textContent = text;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PROPATI — Landlord Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;
+  --surface:#181818;
+  --surface2:#222222;
+  --surface3:#2a2a2a;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.12);
+  --text:#f5f4f0;
+  --muted:#888680;
+  --muted2:#555350;
+  --rust:#d4622a;
+  --rust-light:#e8834e;
+  --rust-glow:rgba(212,98,42,0.18);
+  --green:#2a9e68;
+  --green-bg:rgba(42,158,104,0.12);
+  --amber:#c8920a;
+  --amber-bg:rgba(200,146,10,0.12);
+  --blue:#3a7cd4;
+  --blue-bg:rgba(58,124,212,0.12);
+  --red:#d44040;
+  --red-bg:rgba(212,64,64,0.1);
+  --sidebar:220px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--bg);color:var(--text);
+  display:flex;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;
+}
+.sidebar-brand{
+  padding:1.6rem 1.4rem 1.2rem;
+  border-bottom:1px solid var(--border);
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;font-size:1.4rem;letter-spacing:-0.04em;
+}
+.brand-p{color:var(--rust)}
+.sidebar-user{
+  padding:1rem 1.2rem;margin:0.8rem;
+  background:var(--surface2);border-radius:12px;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.user-av{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rust),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.85rem;flex-shrink:0;
+}
+.user-name{font-size:0.82rem;font-weight:600}
+.user-role{font-size:0.72rem;color:var(--muted)}
+.sidebar-nav{flex:1;padding:0.5rem 0.8rem}
+.nav-section{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted2);padding:1rem 0.6rem 0.4rem}
+.nav-item{
+  display:flex;align-items:center;gap:0.7rem;
+  padding:0.65rem 0.75rem;border-radius:10px;
+  font-size:0.84rem;font-weight:500;cursor:pointer;
+  color:var(--muted);transition:all .18s;margin-bottom:2px;
+  position:relative;
+}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--rust-glow);color:var(--rust);font-weight:600}
+.nav-item.active::before{
+  content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);
+  width:3px;height:20px;background:var(--rust);border-radius:100px;
+}
+.nav-icon{font-size:1rem;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--rust);color:white;
+  font-size:0.65rem;font-weight:700;
+  padding:0.15rem 0.45rem;border-radius:100px;
+}
+.sidebar-footer{padding:1rem;border-top:1px solid var(--border)}
+.sidebar-footer .nav-item{color:var(--muted)}
+
+/* ── MAIN ── */
+.main{
+  flex:1;display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+}
+.topbar{
+  padding:1rem 2rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);flex-shrink:0;
+}
+.page-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.2rem}
+.page-sub{font-size:0.78rem;color:var(--muted);margin-top:0.1rem}
+.topbar-actions{display:flex;gap:0.7rem;align-items:center}
+.icon-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:0.95rem;transition:all .18s;
+  position:relative;
+}
+.icon-btn:hover{background:var(--surface3);border-color:var(--border2)}
+.notif-dot{
+  position:absolute;top:6px;right:6px;
+  width:7px;height:7px;border-radius:50%;background:var(--rust);
+  border:2px solid var(--surface);
+}
+.btn-primary{
+  background:var(--rust);color:white;border:none;
+  padding:0.6rem 1.2rem;border-radius:10px;
+  font-size:0.84rem;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  display:flex;align-items:center;gap:0.4rem;
+  transition:all .18s;
+}
+.btn-primary:hover{background:var(--rust-light);transform:translateY(-1px)}
+.content{flex:1;overflow-y:auto;padding:2rem}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── DASHBOARD OVERVIEW ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:1.4rem;transition:all .2s;
+}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.stat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.stat-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.ic-rust{background:var(--rust-glow);color:var(--rust)}
+.ic-green{background:var(--green-bg);color:var(--green)}
+.ic-amber{background:var(--amber-bg);color:var(--amber)}
+.ic-blue{background:var(--blue-bg);color:var(--blue)}
+.stat-change{
+  font-size:0.72rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:100px;
+}
+.up{background:var(--green-bg);color:var(--green)}
+.down{background:var(--red-bg);color:var(--red)}
+.stat-val{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.8rem;letter-spacing:-0.02em}
+.stat-label{font-size:0.78rem;color:var(--muted);margin-top:0.2rem}
+
+.dash-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:1.5rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px}
+.card-head{
+  padding:1.2rem 1.4rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{font-weight:700;font-size:0.9rem}
+.card-body{padding:1.2rem 1.4rem}
+.card-link{font-size:0.78rem;color:var(--rust);cursor:pointer;font-weight:600}
+.card-link:hover{color:var(--rust-light)}
+
+/* property rows */
+.prop-row{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.8rem 0;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .15s;border-radius:8px;
+}
+.prop-row:last-child{border-bottom:none}
+.prop-row:hover{background:var(--surface2);padding-left:8px}
+.prop-thumb{
+  width:48px;height:48px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+}
+.pt1{background:linear-gradient(135deg,#3a2a1a,#6a4a2a)}
+.pt2{background:linear-gradient(135deg,#1a2a3a,#2a4a6a)}
+.pt3{background:linear-gradient(135deg,#1a3a2a,#2a6a4a)}
+.pt4{background:linear-gradient(135deg,#3a1a2a,#6a2a4a)}
+.prop-info{flex:1}
+.prop-name{font-weight:600;font-size:0.86rem}
+.prop-addr{font-size:0.76rem;color:var(--muted);margin-top:1px}
+.prop-meta-row{display:flex;gap:0.6rem;align-items:center;margin-top:0.3rem}
+.tag{font-size:0.68rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:100px;text-transform:uppercase;letter-spacing:0.05em}
+.t-rent{background:var(--green-bg);color:var(--green)}
+.t-sale{background:var(--rust-glow);color:var(--rust)}
+.t-shortlet{background:var(--amber-bg);color:var(--amber)}
+.t-vacant{background:var(--red-bg);color:var(--red)}
+.t-occupied{background:var(--green-bg);color:var(--green)}
+.t-verified{background:var(--blue-bg);color:var(--blue)}
+.t-certified{background:rgba(200,146,10,0.15);color:var(--amber)}
+.t-pending{background:var(--amber-bg);color:var(--amber)}
+.prop-price{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.9rem;text-align:right}
+.prop-period{font-size:0.7rem;color:var(--muted)}
+
+/* rent list */
+.rent-row{
+  display:flex;align-items:center;gap:0.8rem;
+  padding:0.75rem 0;border-bottom:1px solid var(--border);
+}
+.rent-row:last-child{border-bottom:none}
+.tenant-av{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.76rem;font-weight:700;flex-shrink:0;
+}
+.av-a{background:linear-gradient(135deg,var(--rust),var(--amber))}
+.av-b{background:linear-gradient(135deg,var(--blue),#6a4ad4)}
+.av-c{background:linear-gradient(135deg,var(--green),#4ad4a8)}
+.av-d{background:linear-gradient(135deg,#d4a040,var(--amber))}
+.av-e{background:linear-gradient(135deg,#d440a0,var(--rust))}
+.rent-info{flex:1}
+.rent-name{font-size:0.83rem;font-weight:600}
+.rent-unit{font-size:0.73rem;color:var(--muted)}
+.rent-amount{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.88rem;text-align:right}
+.rent-date{font-size:0.7rem;color:var(--muted);text-align:right}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-amber{background:var(--amber)}
+.dot-red{background:var(--red)}
+
+/* ── RENT COLLECTION ── */
+.rent-header-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.rc-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:1.4rem;
+}
+.rc-label{font-size:0.76rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.rc-val{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem;letter-spacing:-0.02em}
+.rc-sub{font-size:0.78rem;color:var(--muted);margin-top:0.3rem}
+.progress-wrap{margin-top:1rem}
+.prog-bar{height:6px;background:var(--surface3);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--green),#4ad4a8)}
+.prog-labels{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:0.4rem}
+
+.rent-table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.rt-head{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 0.8fr;gap:0;background:var(--surface2);padding:0.8rem 1.4rem;font-size:0.73rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)}
+.rt-row{
+  display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 0.8fr;
+  padding:0.9rem 1.4rem;border-top:1px solid var(--border);
+  align-items:center;font-size:0.83rem;transition:background .15s;
+}
+.rt-row:hover{background:var(--surface2)}
+.rt-tenant{display:flex;align-items:center;gap:0.7rem}
+.rt-actions{display:flex;gap:0.4rem}
+.action-btn{
+  padding:0.3rem 0.7rem;border-radius:7px;font-size:0.72rem;font-weight:600;cursor:pointer;border:none;font-family:'Instrument Sans',sans-serif;transition:all .15s;
+}
+.ab-green{background:var(--green-bg);color:var(--green)}
+.ab-green:hover{background:rgba(42,158,104,0.25)}
+.ab-amber{background:var(--amber-bg);color:var(--amber)}
+.ab-amber:hover{background:rgba(200,146,10,0.25)}
+.ab-ghost{background:var(--surface3);color:var(--muted)}
+.ab-ghost:hover{background:var(--surface2);color:var(--text)}
+
+/* ── VERIFICATION WIZARD ── */
+.wizard-wrap{max-width:700px;margin:0 auto}
+.wizard-steps{display:flex;gap:0;margin-bottom:2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0.3rem;overflow:hidden}
+.wiz-step{
+  flex:1;padding:0.7rem 0.5rem;text-align:center;
+  border-radius:10px;cursor:pointer;transition:all .2s;
+}
+.wiz-step.done{background:var(--green-bg)}
+.wiz-step.active{background:var(--rust-glow)}
+.wiz-step.locked{opacity:0.4;cursor:not-allowed}
+.wiz-num{
+  width:24px;height:24px;border-radius:50%;
+  margin:0 auto 0.3rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:800;
+}
+.wiz-step.done .wiz-num{background:var(--green);color:white}
+.wiz-step.active .wiz-num{background:var(--rust);color:white}
+.wiz-step.locked .wiz-num{background:var(--surface3);color:var(--muted)}
+.wiz-label{font-size:0.72rem;font-weight:600}
+.wiz-step.active .wiz-label{color:var(--rust)}
+.wiz-step.done .wiz-label{color:var(--green)}
+
+.wiz-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem}
+.wiz-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:0.4rem}
+.wiz-sub{font-size:0.86rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.6}
+.upload-zone{
+  border:2px dashed var(--border2);border-radius:14px;padding:2rem;
+  text-align:center;cursor:pointer;transition:all .2s;background:var(--surface2);
+}
+.upload-zone:hover{border-color:var(--rust);background:var(--rust-glow)}
+.upload-icon{font-size:2.2rem;margin-bottom:0.6rem}
+.upload-text{font-weight:600;font-size:0.9rem;margin-bottom:0.3rem}
+.upload-sub{font-size:0.78rem;color:var(--muted)}
+.doc-types{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.2rem}
+.doc-chip{
+  padding:0.5rem 1rem;border-radius:100px;
+  border:1.5px solid var(--border);font-size:0.8rem;font-weight:600;cursor:pointer;
+  transition:all .18s;
+}
+.doc-chip:hover,.doc-chip.selected{border-color:var(--rust);color:var(--rust);background:var(--rust-glow)}
+.field-group{margin-bottom:1.2rem}
+.field-label{font-size:0.8rem;font-weight:600;color:var(--muted);margin-bottom:0.5rem;display:block}
+.field-input{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--text);
+  font-family:'Instrument Sans',sans-serif;font-size:0.88rem;
+  outline:none;transition:border-color .18s;
+}
+.field-input:focus{border-color:var(--rust)}
+.field-input::placeholder{color:var(--muted2)}
+.qr-box{
+  background:white;border-radius:16px;padding:1.5rem;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  gap:0.6rem;margin:1rem auto;width:180px;
+}
+.qr-grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:2px;width:130px;
+}
+.qr-cell{
+  width:100%;aspect-ratio:1;border-radius:1px;
+  background:var(--black);
+}
+.qr-cell.w{background:white}
+.qr-label{font-size:0.72rem;color:#333;font-weight:700;text-align:center}
+.vid-preview{
+  background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:14px;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:0.6rem;color:var(--muted);
+  font-size:0.86rem;cursor:pointer;transition:all .2s;
+}
+.vid-preview:hover{border-color:var(--rust);color:var(--rust-light)}
+.vid-icon{font-size:2.5rem}
+.checklist{display:flex;flex-direction:column;gap:0.7rem;margin-top:1rem}
+.check-item{
+  display:flex;align-items:center;gap:0.8rem;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:0.8rem 1rem;
+}
+.check-icon{font-size:1.1rem;flex-shrink:0}
+.check-text{font-size:0.84rem;font-weight:500;flex:1}
+.check-status{font-size:0.75rem;font-weight:700}
+.cs-done{color:var(--green)}
+.cs-pending{color:var(--amber)}
+.wiz-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.8rem;padding-top:1.4rem;border-top:1px solid var(--border)}
+.btn-back{
+  background:var(--surface2);color:var(--muted);border:1px solid var(--border);
+  padding:0.65rem 1.4rem;border-radius:10px;font-size:0.86rem;font-weight:600;
+  cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .18s;
+}
+.btn-back:hover{color:var(--text);border-color:var(--border2)}
+.btn-next{
+  background:var(--rust);color:white;border:none;
+  padding:0.65rem 1.8rem;border-radius:10px;font-size:0.86rem;font-weight:600;
+  cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .18s;
+}
+.btn-next:hover{background:var(--rust-light)}
+
+/* ── LISTING SUBMISSION ── */
+.listing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem}
+.listing-grid.full{grid-template-columns:1fr}
+.field-select{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--text);
+  font-family:'Instrument Sans',sans-serif;font-size:0.88rem;
+  outline:none;transition:border-color .18s;appearance:none;cursor:pointer;
+}
+.field-select:focus{border-color:var(--rust)}
+.field-textarea{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--text);
+  font-family:'Instrument Sans',sans-serif;font-size:0.88rem;
+  outline:none;transition:border-color .18s;resize:vertical;min-height:90px;
+}
+.field-textarea:focus{border-color:var(--rust)}
+.img-upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:0.5rem}
+.img-slot{
+  aspect-ratio:1;border-radius:10px;
+  border:2px dashed var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;cursor:pointer;transition:all .2s;
+  background:var(--surface2);
+}
+.img-slot:hover{border-color:var(--rust);background:var(--rust-glow)}
+.img-slot.filled{border-style:solid;border-color:var(--border2);font-size:2rem}
+.amenities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-top:0.5rem}
+.amenity-chip{
+  padding:0.6rem 0.8rem;border-radius:10px;
+  border:1.5px solid var(--border);font-size:0.8rem;font-weight:500;
+  cursor:pointer;transition:all .18s;text-align:center;
+  display:flex;align-items:center;gap:0.4rem;justify-content:center;
+}
+.amenity-chip:hover,.amenity-chip.on{border-color:var(--rust);color:var(--rust);background:var(--rust-glow)}
+.listing-steps{display:flex;gap:0.5rem;margin-bottom:2rem}
+.ls-step{
+  flex:1;padding:0.6rem;text-align:center;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;font-size:0.76rem;font-weight:600;color:var(--muted);cursor:pointer;
+  transition:all .18s;
+}
+.ls-step.active{background:var(--rust-glow);border-color:var(--rust);color:var(--rust)}
+.ls-step.done{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.price-type-row{display:flex;gap:0.6rem;margin-top:0.5rem}
+.price-type-btn{
+  flex:1;padding:0.65rem;border-radius:10px;
+  border:1.5px solid var(--border);font-size:0.82rem;font-weight:600;
+  cursor:pointer;transition:all .18s;text-align:center;background:var(--surface2);color:var(--muted);
+}
+.price-type-btn:hover,.price-type-btn.active{border-color:var(--rust);color:var(--rust);background:var(--rust-glow)}
+
+/* ── SCREENING UI ── */
+.screening-layout{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;height:calc(100vh - 180px)}
+.call-panel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;display:flex;flex-direction:column;overflow:hidden;
+}
+.call-video-area{
+  flex:1;background:var(--bg);position:relative;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:0.5rem;color:var(--muted);
+}
+.call-video-area.active-call{
+  background:linear-gradient(180deg,#0f1a14 0%,#0a0f0a 100%);
+}
+.caller-av{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rust),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;font-weight:800;
+  box-shadow:0 0 40px rgba(212,98,42,0.3);
+  animation:callPulse 2s ease-in-out infinite;
+}
+@keyframes callPulse{0%,100%{box-shadow:0 0 20px rgba(212,98,42,0.2)}50%{box-shadow:0 0 50px rgba(212,98,42,0.5)}}
+.caller-name{font-size:1.1rem;font-weight:700;color:var(--text)}
+.caller-status{font-size:0.82rem;color:var(--green);display:flex;align-items:center;gap:0.4rem}
+.call-timer{font-family:'Bricolage Grotesque',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text)}
+.self-preview{
+  position:absolute;bottom:1rem;right:1rem;
+  width:120px;height:80px;border-radius:10px;
+  background:var(--surface2);border:2px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.call-controls{
+  padding:1rem 1.4rem;border-top:1px solid var(--border);
+  display:flex;justify-content:center;gap:0.8rem;align-items:center;
+}
+.ctrl-btn{
+  width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:all .18s;font-family:'Instrument Sans',sans-serif;
+}
+.ctrl-normal{background:var(--surface2);color:var(--text)}
+.ctrl-normal:hover{background:var(--surface3)}
+.ctrl-red{background:var(--red);color:white}
+.ctrl-red:hover{background:#e05050}
+.ctrl-green{background:var(--green);color:white}
+.ctrl-green:hover{background:#3aba7a}
+.ctrl-muted2{background:var(--surface3);color:var(--muted)}
+
+.screening-right{display:flex;flex-direction:column;gap:1rem;overflow-y:auto}
+.applicant-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.2rem;
+}
+.app-head{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.app-av{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),#6a4ad4);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.95rem;
+}
+.app-name{font-weight:700;font-size:0.95rem}
+.app-sub{font-size:0.76rem;color:var(--muted)}
+.app-field{margin-bottom:0.8rem}
+.app-field-label{font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.2rem}
+.app-field-val{font-size:0.84rem;font-weight:500}
+.score-bar-wrap{margin-top:0.3rem}
+.score-bar{height:5px;background:var(--surface3);border-radius:100px;overflow:hidden}
+.score-fill{height:100%;border-radius:100px}
+.sf-high{background:linear-gradient(90deg,var(--green),#4ad4a8);width:85%}
+.sf-mid{background:linear-gradient(90deg,var(--amber),#e8b840);width:60%}
+.notes-area{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:0.7rem;color:var(--text);
+  font-family:'Instrument Sans',sans-serif;font-size:0.82rem;
+  outline:none;resize:none;min-height:70px;
+}
+.notes-area:focus{border-color:var(--rust)}
+.decision-btns{display:flex;gap:0.6rem;margin-top:0.6rem}
+.db-approve{
+  flex:1;background:var(--green-bg);color:var(--green);
+  border:1px solid rgba(42,158,104,0.3);border-radius:10px;
+  padding:0.65rem;font-size:0.82rem;font-weight:700;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;transition:all .18s;
+}
+.db-approve:hover{background:rgba(42,158,104,0.25)}
+.db-decline{
+  flex:1;background:var(--red-bg);color:var(--red);
+  border:1px solid rgba(212,64,64,0.2);border-radius:10px;
+  padding:0.65rem;font-size:0.82rem;font-weight:700;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;transition:all .18s;
+}
+.db-decline:hover{background:rgba(212,64,64,0.2)}
+
+.queue-list{display:flex;flex-direction:column;gap:0.5rem}
+.queue-item{
+  display:flex;align-items:center;gap:0.7rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:0.8rem;cursor:pointer;transition:all .18s;
+}
+.queue-item:hover{border-color:var(--border2);background:var(--surface2)}
+.queue-item.calling{border-color:var(--green);background:var(--green-bg)}
+.qi-av{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;
+}
+.qi-info{flex:1}
+.qi-name{font-size:0.82rem;font-weight:600}
+.qi-prop{font-size:0.72rem;color:var(--muted)}
+.qi-status{font-size:0.7rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:100px}
+.qs-waiting{background:var(--amber-bg);color:var(--amber)}
+.qs-active{background:var(--green-bg);color:var(--green)}
+.qs-done{background:var(--surface3);color:var(--muted)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;padding:1rem 1.4rem;
+  display:flex;align-items:center;gap:0.8rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  transform:translateY(80px);opacity:0;
+  transition:all .3s;z-index:1000;
+  max-width:320px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{font-size:1.2rem}
+.toast-text{font-size:0.84rem;font-weight:500}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:100px}
+
+/* ── SECTION HEADER ── */
+.sec-header{margin-bottom:1.5rem}
+.sec-tag{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--rust);margin-bottom:0.3rem}
+.sec-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.02em}
+.sec-sub{font-size:0.83rem;color:var(--muted);margin-top:0.2rem}
+
+/* ── MISC ── */
+.divider{height:1px;background:var(--border);margin:1rem 0}
+.empty{text-align:center;padding:3rem;color:var(--muted);font-size:0.88rem}
+.flex-row{display:flex;align-items:center;gap:0.6rem}
+.ml-auto{margin-left:auto}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand"><span class="brand-p">P</span>ROPATI</div>
+  <div class="sidebar-user">
+    <div class="user-av">CO</div>
+    <div>
+      <div class="user-name">Chidi Okonkwo</div>
+      <div class="user-role">Landlord · Lagos</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)">
+      <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="nav('properties',this)">
+      <span class="nav-icon">🏘️</span> My Properties
+    </div>
+    <div class="nav-section">Transactions</div>
+    <div class="nav-item" onclick="nav('rent',this)">
+      <span class="nav-icon">💳</span> Rent Collection
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-item" onclick="nav('listing',this)">
+      <span class="nav-icon">➕</span> Add Listing
+    </div>
+    <div class="nav-section">Tenants</div>
+    <div class="nav-item" onclick="nav('screening',this)">
+      <span class="nav-icon">📹</span> Screening Calls
+      <span class="nav-badge">2</span>
+    </div>
+    <div class="nav-item" onclick="nav('agreements',this)">
+      <span class="nav-icon">📄</span> Agreements
+    </div>
+    <div class="nav-section">Verification</div>
+    <div class="nav-item" onclick="nav('verify',this)">
+      <span class="nav-icon">✅</span> Verify Property
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="nav-item"><span class="nav-icon">⚙️</span> Settings</div>
+    <div class="nav-item"><span class="nav-icon">🚪</span> Sign Out</div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pageTitle">Dashboard</div>
+      <div class="page-sub" id="pageSub">Good morning, Chidi 👋</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="icon-btn">🔍</div>
+      <div class="icon-btn">🔔 <div class="notif-dot"></div></div>
+      <button class="btn-primary" onclick="nav('listing',document.querySelector('.nav-item:nth-child(6)'))">＋ Add Listing</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="screen active" id="screen-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon ic-rust">🏘️</div>
+            <span class="stat-change up">+2</span>
+          </div>
+          <div class="stat-val">7</div>
+          <div class="stat-label">Total Properties</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon ic-green">💰</div>
+            <span class="stat-change up">+12%</span>
+          </div>
+          <div class="stat-val">₦4.2M</div>
+          <div class="stat-label">Rent Collected (Mar)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon ic-amber">⏳</div>
+            <span class="stat-change down">3 due</span>
+          </div>
+          <div class="stat-val">₦1.1M</div>
+          <div class="stat-label">Pending Payments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon ic-blue">📹</div>
+            <span class="stat-change up">2 today</span>
+          </div>
+          <div class="stat-val">5</div>
+          <div class="stat-label">Screening Requests</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">My Properties</span>
+            <span class="card-link" onclick="nav('properties',null)">View all →</span>
+          </div>
+          <div class="card-body">
+            <div class="prop-row">
+              <div class="prop-thumb pt1">🏡</div>
+              <div class="prop-info">
+                <div class="prop-name">4-Bed Duplex, Lekki Phase 1</div>
+                <div class="prop-meta-row">
+                  <span class="tag t-rent">Rent</span>
+                  <span class="tag t-occupied">Occupied</span>
+                  <span class="tag t-certified">⭐ Certified</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div class="prop-price">₦800k</div>
+                <div class="prop-period">/year</div>
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-thumb pt2">🏢</div>
+              <div class="prop-info">
+                <div class="prop-name">3-Bed Apartment, VI</div>
+                <div class="prop-meta-row">
+                  <span class="tag t-shortlet">Short-let</span>
+                  <span class="tag t-occupied">Occupied</span>
+                  <span class="tag t-verified">✔ Verified</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div class="prop-price">₦85k</div>
+                <div class="prop-period">/night</div>
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-thumb pt3">🏠</div>
+              <div class="prop-info">
+                <div class="prop-name">2-Bed Flat, Yaba</div>
+                <div class="prop-meta-row">
+                  <span class="tag t-rent">Rent</span>
+                  <span class="tag t-vacant">Vacant</span>
+                  <span class="tag t-pending">⏳ Pending</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div class="prop-price">₦480k</div>
+                <div class="prop-period">/year</div>
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-thumb pt4">🏗️</div>
+              <div class="prop-info">
+                <div class="prop-name">Land — 600 sqm, Ajah</div>
+                <div class="prop-meta-row">
+                  <span class="tag t-sale">For Sale</span>
+                  <span class="tag t-certified">⭐ Certified</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div class="prop-price">₦18M</div>
+                <div class="prop-period">asking</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Rent Overview</span>
+            <span class="card-link" onclick="nav('rent',null)">Manage →</span>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:1rem">
+              <div style="font-size:0.76rem;color:var(--muted);margin-bottom:0.3rem">March 2026 Collection</div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.8rem;font-weight:800">₦4.2M <span style="font-size:1rem;color:var(--muted)">/ ₦5.3M</span></div>
+              <div class="progress-wrap">
+                <div class="prog-bar"><div class="prog-fill" style="width:79%"></div></div>
+                <div class="prog-labels"><span>79% collected</span><span>₦1.1M pending</span></div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="rent-row">
+              <div class="status-dot dot-green"></div>
+              <div class="tenant-av av-a">AO</div>
+              <div class="rent-info">
+                <div class="rent-name">Adaeze Obi</div>
+                <div class="rent-unit">4-Bed Lekki</div>
+              </div>
+              <div><div class="rent-amount">₦800k</div><div class="rent-date">Paid Mar 2</div></div>
+            </div>
+            <div class="rent-row">
+              <div class="status-dot dot-amber"></div>
+              <div class="tenant-av av-b">MK</div>
+              <div class="rent-info">
+                <div class="rent-name">Michael Kalu</div>
+                <div class="rent-unit">3-Bed VI</div>
+              </div>
+              <div><div class="rent-amount">₦480k</div><div class="rent-date">Due Mar 15</div></div>
+            </div>
+            <div class="rent-row">
+              <div class="status-dot dot-red"></div>
+              <div class="tenant-av av-c">FN</div>
+              <div class="rent-info">
+                <div class="rent-name">Fatima Nuhu</div>
+                <div class="rent-unit">2-Bed Yaba</div>
+              </div>
+              <div><div class="rent-amount">₦240k</div><div class="rent-date">Overdue</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RENT COLLECTION ── -->
+    <div class="screen" id="screen-rent">
+      <div class="sec-header">
+        <div class="sec-tag">Finance</div>
+        <div class="sec-title">Rent Collection</div>
+        <div class="sec-sub">Track and manage monthly payments across all properties</div>
+      </div>
+      <div class="rent-header-cards">
+        <div class="rc-card">
+          <div class="rc-label">Total Expected (Mar)</div>
+          <div class="rc-val">₦5.3M</div>
+          <div class="rc-sub">Across 6 tenants</div>
+          <div class="progress-wrap">
+            <div class="prog-bar"><div class="prog-fill" style="width:79%"></div></div>
+            <div class="prog-labels"><span>79%</span><span>₦1.1M left</span></div>
+          </div>
+        </div>
+        <div class="rc-card">
+          <div class="rc-label">Collected</div>
+          <div class="rc-val" style="color:var(--green)">₦4.2M</div>
+          <div class="rc-sub">4 of 6 tenants paid</div>
+        </div>
+        <div class="rc-card">
+          <div class="rc-label">Overdue</div>
+          <div class="rc-val" style="color:var(--red)">₦1.1M</div>
+          <div class="rc-sub">2 tenants · Reminders sent</div>
+        </div>
+      </div>
+
+      <div class="rent-table">
+        <div class="rt-head">
+          <div>Tenant</div><div>Property</div><div>Amount</div><div>Due Date</div><div>Status</div><div>Action</div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-tenant"><div class="tenant-av av-a">AO</div><div><div style="font-weight:600;font-size:0.84rem">Adaeze Obi</div><div style="font-size:0.72rem;color:var(--muted)">+234 801 234 5678</div></div></div>
+          <div style="font-size:0.83rem">4-Bed Duplex, Lekki</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700">₦800,000</div>
+          <div style="font-size:0.82rem">Mar 1, 2026</div>
+          <div><span class="tag t-occupied" style="font-size:0.72rem">✓ Paid</span></div>
+          <div class="rt-actions"><button class="action-btn ab-ghost" onclick="toast('📄 Receipt downloaded')">Receipt</button></div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-tenant"><div class="tenant-av av-b">MK</div><div><div style="font-weight:600;font-size:0.84rem">Michael Kalu</div><div style="font-size:0.72rem;color:var(--muted)">+234 803 456 7890</div></div></div>
+          <div style="font-size:0.83rem">3-Bed Apt, VI</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700">₦480,000</div>
+          <div style="font-size:0.82rem">Mar 15, 2026</div>
+          <div><span class="tag t-pending">⏳ Pending</span></div>
+          <div class="rt-actions"><button class="action-btn ab-amber" onclick="toast('📨 Reminder sent to Michael')">Remind</button></div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-tenant"><div class="tenant-av av-c">FN</div><div><div style="font-weight:600;font-size:0.84rem">Fatima Nuhu</div><div style="font-size:0.72rem;color:var(--muted)">+234 706 789 0123</div></div></div>
+          <div style="font-size:0.83rem">2-Bed Flat, Yaba</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700">₦240,000</div>
+          <div style="font-size:0.82rem">Mar 1, 2026</div>
+          <div><span class="tag t-vacant" style="background:var(--red-bg);color:var(--red)">⚠ Overdue</span></div>
+          <div class="rt-actions"><button class="action-btn ab-amber" onclick="toast('📨 Reminder sent to Fatima')">Remind</button><button class="action-btn ab-ghost" onclick="toast('📞 Calling Fatima...')">Call</button></div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-tenant"><div class="tenant-av av-d">EJ</div><div><div style="font-weight:600;font-size:0.84rem">Emeka Johnson</div><div style="font-size:0.72rem;color:var(--muted)">+234 805 234 5670</div></div></div>
+          <div style="font-size:0.83rem">Office, Ikeja GRA</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700">₦1,200,000</div>
+          <div style="font-size:0.82rem">Mar 1, 2026</div>
+          <div><span class="tag t-occupied" style="font-size:0.72rem">✓ Paid</span></div>
+          <div class="rt-actions"><button class="action-btn ab-ghost" onclick="toast('📄 Receipt downloaded')">Receipt</button></div>
+        </div>
+        <div class="rt-row">
+          <div class="rt-tenant"><div class="tenant-av av-e">RS</div><div><div style="font-weight:600;font-size:0.84rem">Rita Sule</div><div style="font-size:0.72rem;color:var(--muted)">+234 702 345 6789</div></div></div>
+          <div style="font-size:0.83rem">1-Bed Studio, Surulere</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700">₦180,000</div>
+          <div style="font-size:0.82rem">Mar 5, 2026</div>
+          <div><span class="tag t-occupied" style="font-size:0.72rem">✓ Paid</span></div>
+          <div class="rt-actions"><button class="action-btn ab-ghost" onclick="toast('📄 Receipt downloaded')">Receipt</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ADD LISTING ── -->
+    <div class="screen" id="screen-listing">
+      <div class="sec-header">
+        <div class="sec-tag">Marketplace</div>
+        <div class="sec-title">Add New Listing</div>
+        <div class="sec-sub">List your property for sale, rent, share, or short-let</div>
+      </div>
+      <div class="listing-steps">
+        <div class="ls-step active" id="ls1">1. Property Details</div>
+        <div class="ls-step" id="ls2">2. Photos & Amenities</div>
+        <div class="ls-step" id="ls3">3. Pricing</div>
+        <div class="ls-step" id="ls4">4. Review & Publish</div>
+      </div>
+      <div style="max-width:700px">
+        <!-- Step 1 -->
+        <div id="listing-step-1">
+          <div class="wiz-card">
+            <div class="wiz-title">Property Details</div>
+            <div class="wiz-sub">Tell us about the property you want to list on PROPATI.</div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Listing Type</label>
+                <select class="field-select" onchange="updatePricing(this.value)">
+                  <option>For Rent</option>
+                  <option>For Sale</option>
+                  <option>Short-let</option>
+                  <option>Shared Space</option>
+                  <option>Commercial Lease</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Property Type</label>
+                <select class="field-select">
+                  <option>Detached House</option>
+                  <option>Semi-detached</option>
+                  <option>Apartment/Flat</option>
+                  <option>Bungalow</option>
+                  <option>Land</option>
+                  <option>Office</option>
+                  <option>Warehouse</option>
+                </select>
+              </div>
+            </div>
+            <div class="listing-grid full">
+              <div class="field-group">
+                <label class="field-label">Property Title</label>
+                <input class="field-input" type="text" placeholder="e.g. Modern 3-Bedroom Apartment with Pool"/>
+              </div>
+            </div>
+            <div class="listing-grid full">
+              <div class="field-group">
+                <label class="field-label">Description</label>
+                <textarea class="field-textarea" placeholder="Describe the property — key features, nearby landmarks, condition..."></textarea>
+              </div>
+            </div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">State</label>
+                <select class="field-select">
+                  <option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option><option>Ogun</option><option>Kano</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label">City / Area</label>
+                <input class="field-input" type="text" placeholder="e.g. Lekki Phase 1"/>
+              </div>
+            </div>
+            <div class="listing-grid full">
+              <div class="field-group">
+                <label class="field-label">Street Address</label>
+                <input class="field-input" type="text" placeholder="Full address"/>
+              </div>
+            </div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Bedrooms</label>
+                <select class="field-select"><option>Studio</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5+</option></select>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Bathrooms</label>
+                <select class="field-select"><option>1</option><option selected>2</option><option>3</option><option>4+</option></select>
+              </div>
+            </div>
+            <div class="wiz-footer">
+              <div></div>
+              <button class="btn-next" onclick="listingStep(2)">Next: Photos & Amenities →</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div id="listing-step-2" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">Photos & Amenities</div>
+            <div class="wiz-sub">Great photos attract better tenants and buyers. Upload at least 4 clear images.</div>
+            <div class="field-label">Property Photos</div>
+            <div class="img-upload-grid">
+              <div class="img-slot filled">🏡</div>
+              <div class="img-slot filled">🛋️</div>
+              <div class="img-slot filled">🛁</div>
+              <div class="img-slot filled">🍳</div>
+              <div class="img-slot" onclick="toast('📷 Photo upload opened')">＋</div>
+              <div class="img-slot" onclick="toast('📷 Photo upload opened')">＋</div>
+              <div class="img-slot" onclick="toast('📷 Photo upload opened')">＋</div>
+              <div class="img-slot" onclick="toast('📷 Photo upload opened')">＋</div>
+            </div>
+            <div class="field-label" style="margin-top:1.4rem">Amenities</div>
+            <div class="amenities-grid">
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">🔌 24hr Power</div>
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">💧 Running Water</div>
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">🔒 Security</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🏊 Swimming Pool</div>
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">🚗 Car Park</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🏋️ Gym</div>
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">📶 WiFi</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🧺 Laundry</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🛗 Elevator</div>
+              <div class="amenity-chip on" onclick="this.classList.toggle('on')">🌿 Garden</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🎮 Rec Room</div>
+              <div class="amenity-chip" onclick="this.classList.toggle('on')">🐾 Pet Friendly</div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="listingStep(1)">← Back</button>
+              <button class="btn-next" onclick="listingStep(3)">Next: Pricing →</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div id="listing-step-3" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">Pricing</div>
+            <div class="wiz-sub">Set your price and payment terms. Be competitive to attract quality tenants and buyers.</div>
+            <div class="field-label">Listing Category</div>
+            <div class="price-type-row" style="margin-bottom:1.2rem">
+              <div class="price-type-btn active" onclick="setPriceType(this)">🗝️ Long-term Rent</div>
+              <div class="price-type-btn" onclick="setPriceType(this)">📅 Short-let</div>
+              <div class="price-type-btn" onclick="setPriceType(this)">💰 For Sale</div>
+              <div class="price-type-btn" onclick="setPriceType(this)">🤝 Shared</div>
+            </div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Asking Price (₦)</label>
+                <input class="field-input" type="text" placeholder="e.g. 800,000"/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Payment Period</label>
+                <select class="field-select">
+                  <option>Per Year</option><option>Per Month</option><option>Per Night</option><option>One-time</option>
+                </select>
+              </div>
+            </div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Caution Fee</label>
+                <input class="field-input" type="text" placeholder="e.g. 200,000"/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Agency Fee (%)</label>
+                <input class="field-input" type="text" placeholder="e.g. 10"/>
+              </div>
+            </div>
+            <div class="listing-grid full">
+              <div class="field-group">
+                <label class="field-label">Additional Notes on Pricing</label>
+                <textarea class="field-textarea" placeholder="e.g. Negotiable for longer leases. 2 years upfront preferred."></textarea>
+              </div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="listingStep(2)">← Back</button>
+              <button class="btn-next" onclick="listingStep(4)">Next: Review →</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div id="listing-step-4" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">Review & Publish</div>
+            <div class="wiz-sub">Almost done! Review the key details before your listing goes live on PROPATI.</div>
+            <div style="background:var(--surface2);border-radius:14px;padding:1.2rem;margin-bottom:1.2rem">
+              <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem">
+                <div style="width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,#3a2a1a,#6a4a2a);display:flex;align-items:center;justify-content:center;font-size:1.8rem">🏡</div>
+                <div>
+                  <div style="font-weight:700;font-size:0.95rem">Modern 3-Bedroom Apartment with Pool</div>
+                  <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem">📍 Lekki Phase 1, Lagos</div>
+                  <div style="display:flex;gap:0.4rem;margin-top:0.4rem"><span class="tag t-rent">For Rent</span><span class="tag t-verified">Verified</span></div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;font-size:0.82rem">
+                <div><div style="color:var(--muted);font-size:0.72rem;margin-bottom:0.2rem">Bedrooms</div><strong>3</strong></div>
+                <div><div style="color:var(--muted);font-size:0.72rem;margin-bottom:0.2rem">Bathrooms</div><strong>2</strong></div>
+                <div><div style="color:var(--muted);font-size:0.72rem;margin-bottom:0.2rem">Price</div><strong>₦800,000/yr</strong></div>
+              </div>
+            </div>
+            <div class="checklist">
+              <div class="check-item"><div class="check-icon">📸</div><div class="check-text">4 photos uploaded</div><div class="check-status cs-done">✓ Done</div></div>
+              <div class="check-item"><div class="check-icon">📍</div><div class="check-text">Address confirmed</div><div class="check-status cs-done">✓ Done</div></div>
+              <div class="check-item"><div class="check-icon">💰</div><div class="check-text">Pricing set</div><div class="check-status cs-done">✓ Done</div></div>
+              <div class="check-item"><div class="check-icon">✅</div><div class="check-text">Property verified</div><div class="check-status cs-done">✓ Certified</div></div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="listingStep(3)">← Back</button>
+              <button class="btn-next" onclick="publishListing()">🚀 Publish Listing</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VERIFICATION WIZARD ── -->
+    <div class="screen" id="screen-verify">
+      <div class="sec-header">
+        <div class="sec-tag">Trust & Safety</div>
+        <div class="sec-title">Verify Your Property</div>
+        <div class="sec-sub">Complete all 5 layers to earn the PROPATI Certified badge</div>
+      </div>
+      <div class="wizard-wrap">
+        <div class="wizard-steps">
+          <div class="wiz-step done" onclick="goWizStep(1)"><div class="wiz-num">✓</div><div class="wiz-label">Documents</div></div>
+          <div class="wiz-step active" onclick="goWizStep(2)"><div class="wiz-num">2</div><div class="wiz-label">Identity</div></div>
+          <div class="wiz-step locked" id="ws3"><div class="wiz-num">3</div><div class="wiz-label">Live Proof</div></div>
+          <div class="wiz-step locked" id="ws4"><div class="wiz-num">4</div><div class="wiz-label">Inspection</div></div>
+          <div class="wiz-step locked" id="ws5"><div class="wiz-num">5</div><div class="wiz-label">Certified</div></div>
+        </div>
+
+        <div id="wiz-panel-1" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">📄 Layer 1 — Upload Documents</div>
+            <div class="wiz-sub">Upload at least one official document proving ownership of the property. Accepted formats: PDF, JPG, PNG.</div>
+            <div class="field-label">Select Document Type</div>
+            <div class="doc-types">
+              <div class="doc-chip selected">Certificate of Occupancy (C of O)</div>
+              <div class="doc-chip" onclick="selectDoc(this)">Title Deed</div>
+              <div class="doc-chip" onclick="selectDoc(this)">Deed of Assignment</div>
+              <div class="doc-chip" onclick="selectDoc(this)">Survey Plan</div>
+              <div class="doc-chip" onclick="selectDoc(this)">Governor's Consent</div>
+            </div>
+            <div class="upload-zone" style="margin-top:1.4rem" onclick="toast('📂 File picker opened')">
+              <div class="upload-icon">📁</div>
+              <div class="upload-text">Drop your document here</div>
+              <div class="upload-sub">or click to browse · PDF, JPG, PNG · Max 10MB</div>
+            </div>
+            <div class="wiz-footer"><div></div><button class="btn-next" onclick="goWizStep(2)">Next →</button></div>
+          </div>
+        </div>
+
+        <div id="wiz-panel-2">
+          <div class="wiz-card">
+            <div class="wiz-title">🪪 Layer 2 — Identity Match</div>
+            <div class="wiz-sub">Your name on the uploaded property document must match a government-issued ID. This prevents fraud and impersonation.</div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Full Name (as on ID)</label>
+                <input class="field-input" type="text" placeholder="Chidi Emmanuel Okonkwo" value="Chidi Emmanuel Okonkwo"/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">ID Type</label>
+                <select class="field-select">
+                  <option>National ID (NIN)</option>
+                  <option>International Passport</option>
+                  <option>Driver's Licence</option>
+                  <option>Voter's Card</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">ID Number</label>
+              <input class="field-input" type="text" placeholder="e.g. 1234 5678 9012"/>
+            </div>
+            <div class="upload-zone" onclick="toast('📷 Camera/upload for ID opened')">
+              <div class="upload-icon">🪪</div>
+              <div class="upload-text">Upload a photo of your ID</div>
+              <div class="upload-sub">Front and back · Must be clearly readable</div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="goWizStep(1)">← Back</button>
+              <button class="btn-next" onclick="goWizStep(3)">Verify Identity →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="wiz-panel-3" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">📹 Layer 3 — Live Property Proof</div>
+            <div class="wiz-sub">Record a short video inside the property while holding your unique PROPATI QR code. This proves you have physical access and cannot be faked.</div>
+            <div style="text-align:center;margin:1rem 0">
+              <div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.8rem">Your unique verification QR code</div>
+              <div class="qr-box">
+                <div class="qr-grid" id="qrGrid"></div>
+                <div class="qr-label">PROPATI-VERIFY<br/>CHI-2026-0310</div>
+              </div>
+              <div style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem">This code expires in 24 hours</div>
+            </div>
+            <div class="vid-preview" onclick="toast('📹 Camera opened — record your 30-second video')">
+              <div class="vid-icon">🎥</div>
+              <div>Tap to record your verification video</div>
+              <div style="font-size:0.74rem;opacity:0.6">Hold the QR code clearly visible · 15–30 seconds</div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="goWizStep(2)">← Back</button>
+              <button class="btn-next" onclick="goWizStep(4)">Submit Video →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="wiz-panel-4" style="display:none">
+          <div class="wiz-card">
+            <div class="wiz-title">🤝 Layer 4 — Agent Inspection</div>
+            <div class="wiz-sub">A registered PROPATI agent will physically visit and confirm your property. This unlocks the "Inspected" badge and increases buyer trust significantly.</div>
+            <div class="listing-grid">
+              <div class="field-group">
+                <label class="field-label">Preferred Date</label>
+                <input class="field-input" type="date"/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Preferred Time</label>
+                <select class="field-select">
+                  <option>9:00 AM – 11:00 AM</option>
+                  <option>11:00 AM – 1:00 PM</option>
+                  <option>2:00 PM – 4:00 PM</option>
+                  <option>4:00 PM – 6:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div style="background:var(--surface2);border-radius:12px;padding:1rem;margin-bottom:1rem">
+              <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.6rem;font-weight:600">Nearest Available Agents</div>
+              <div class="rent-row" style="border-bottom:1px solid var(--border)">
+                <div class="tenant-av av-b">AB</div>
+                <div class="rent-info"><div class="rent-name">Akin Balogun</div><div class="rent-unit">⭐ 4.9 · 128 inspections · 2.4km away</div></div>
+                <button class="action-btn ab-green" onclick="toast('✅ Akin Balogun assigned as your inspector')">Assign</button>
+              </div>
+              <div class="rent-row">
+                <div class="tenant-av av-c">CU</div>
+                <div class="rent-info"><div class="rent-name">Chisom Ude</div><div class="rent-unit">⭐ 4.7 · 94 inspections · 4.1km away</div></div>
+                <button class="action-btn ab-ghost" onclick="toast('✅ Chisom Ude assigned as your inspector')">Assign</button>
+              </div>
+            </div>
+            <div class="wiz-footer">
+              <button class="btn-back" onclick="goWizStep(3)">← Back</button>
+              <button class="btn-next" onclick="goWizStep(5)">Book Inspection →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="wiz-panel-5" style="display:none">
+          <div class="wiz-card" style="text-align:center">
+            <div style="font-size:4rem;margin-bottom:1rem">⭐</div>
+            <div class="wiz-title" style="text-align:center">PROPATI Certified!</div>
+            <div class="wiz-sub" style="text-align:center;margin:0 auto 1.8rem;max-width:380px">All 5 verification layers are complete. Your property now displays the <strong>PROPATI Certified</strong> badge — the highest trust level on the platform.</div>
+            <div class="checklist">
+              <div class="check-item"><div class="check-icon">📄</div><div class="check-text">Documents uploaded & reviewed</div><div class="check-status cs-done">✓</div></div>
+              <div class="check-item"><div class="check-icon">🪪</div><div class="check-text">Identity matched</div><div class="check-status cs-done">✓</div></div>
+              <div class="check-item"><div class="check-icon">📹</div><div class="check-text">Live video proof accepted</div><div class="check-status cs-done">✓</div></div>
+              <div class="check-item"><div class="check-icon">🤝</div><div class="check-text">Agent inspection booked</div><div class="check-status cs-pending">Pending Mar 15</div></div>
+              <div class="check-item"><div class="check-icon">🚩</div><div class="check-text">Community trust — 0 flags</div><div class="check-status cs-done">✓ Clean</div></div>
+            </div>
+            <div style="margin-top:1.5rem">
+              <button class="btn-next" onclick="nav('dashboard',document.querySelector('.nav-item'))">Back to Dashboard →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREENING ── -->
+    <div class="screen" id="screen-screening">
+      <div class="sec-header" style="margin-bottom:1rem">
+        <div class="sec-tag">Tenant Screening</div>
+        <div class="sec-title">Screening Calls</div>
+        <div class="sec-sub">Interview applicants via video or voice before approving them</div>
+      </div>
+      <div class="screening-layout">
+        <div class="call-panel">
+          <div class="call-video-area active-call" id="callArea">
+            <div class="caller-av" id="callerAvatar">TI</div>
+            <div class="caller-name" id="callerName">Tunde Ibrahim</div>
+            <div class="caller-status">🟢 Connected · Video Call</div>
+            <div class="call-timer" id="callTimer">04:32</div>
+            <div class="self-preview">😊</div>
+          </div>
+          <div class="call-controls">
+            <div class="ctrl-btn ctrl-normal" title="Toggle mic" onclick="toast('🎤 Muted')">🎤</div>
+            <div class="ctrl-btn ctrl-normal" title="Toggle camera" onclick="toast('📷 Camera off')">📷</div>
+            <div class="ctrl-btn ctrl-normal" title="Share screen" onclick="toast('🖥 Screen share started')">🖥️</div>
+            <div class="ctrl-btn ctrl-red" title="End call" onclick="endCall()">📵</div>
+            <div class="ctrl-btn ctrl-normal" title="Chat" onclick="toast('💬 Chat opened')">💬</div>
+            <div class="ctrl-btn ctrl-normal" title="Record" onclick="toast('⏺ Recording started')">⏺️</div>
+          </div>
+        </div>
+
+        <div class="screening-right">
+          <div class="applicant-card">
+            <div class="app-head">
+              <div class="app-av">TI</div>
+              <div>
+                <div class="app-name">Tunde Ibrahim</div>
+                <div class="app-sub">Applying for: 4-Bed Duplex, Lekki</div>
+              </div>
+            </div>
+            <div class="app-field">
+              <div class="app-field-label">Employment</div>
+              <div class="app-field-val">Senior Engineer · GTBank</div>
+            </div>
+            <div class="app-field">
+              <div class="app-field-label">Monthly Income</div>
+              <div class="app-field-val">₦450,000/month</div>
+            </div>
+            <div class="app-field">
+              <div class="app-field-label">Credit Score</div>
+              <div class="score-bar-wrap">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
+                  <span style="font-size:0.82rem;font-weight:600">785 / 900</span>
+                  <span style="font-size:0.72rem;color:var(--green);font-weight:600">Excellent</span>
+                </div>
+                <div class="score-bar"><div class="score-fill sf-high"></div></div>
+              </div>
+            </div>
+            <div class="app-field">
+              <div class="app-field-label">References</div>
+              <div class="app-field-val" style="font-size:0.8rem;color:var(--muted)">2 references · Both verified ✓</div>
+            </div>
+            <div class="field-label" style="margin-top:0.6rem">Screening Notes</div>
+            <textarea class="notes-area" placeholder="Add private notes about this applicant...">Seems very professional. Asked good questions about the property. Confirmed 2-year lease preferred.</textarea>
+            <div class="decision-btns">
+              <button class="db-approve" onclick="toast('✅ Tunde Ibrahim approved! Agreement will be sent.')">✓ Approve</button>
+              <button class="db-decline" onclick="toast('❌ Application declined.')">✗ Decline</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem">Queue (3)</div>
+            <div class="queue-list">
+              <div class="queue-item calling">
+                <div class="qi-av av-b" style="background:linear-gradient(135deg,var(--blue),#6a4ad4)">TI</div>
+                <div class="qi-info">
+                  <div class="qi-name">Tunde Ibrahim</div>
+                  <div class="qi-prop">4-Bed Lekki</div>
+                </div>
+                <span class="qi-status qs-active">● Live</span>
+              </div>
+              <div class="queue-item">
+                <div class="qi-av av-c" style="background:linear-gradient(135deg,var(--green),#4ad4a8)">NS</div>
+                <div class="qi-info">
+                  <div class="qi-name">Ngozi Salami</div>
+                  <div class="qi-prop">3-Bed VI</div>
+                </div>
+                <span class="qi-status qs-waiting">Waiting</span>
+              </div>
+              <div class="queue-item">
+                <div class="qi-av av-d" style="background:linear-gradient(135deg,#d4a040,var(--amber))">PO</div>
+                <div class="qi-info">
+                  <div class="qi-name">Peter Ogar</div>
+                  <div class="qi-prop">2-Bed Yaba</div>
+                </div>
+                <span class="qi-status qs-waiting">Waiting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROPERTIES ── -->
+    <div class="screen" id="screen-properties">
+      <div class="sec-header">
+        <div class="sec-tag">Portfolio</div>
+        <div class="sec-title">My Properties</div>
+        <div class="sec-sub">All your listings in one place</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem">
+        <div class="stat-card" style="cursor:pointer" onclick="toast('🏡 Opening property details...')">
+          <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem">
+            <div class="prop-thumb pt1" style="width:44px;height:44px;font-size:1.2rem">🏡</div>
+            <div><div style="font-weight:700;font-size:0.9rem">4-Bed Duplex</div><div style="font-size:0.74rem;color:var(--muted)">Lekki Phase 1, Lagos</div></div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem"><span class="tag t-rent">Rent</span><span class="tag t-occupied">Occupied</span><span class="tag t-certified">⭐ Certified</span></div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem">₦800k<span style="font-size:0.8rem;font-weight:400;color:var(--muted)">/yr</span></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer" onclick="toast('🏢 Opening property details...')">
+          <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem">
+            <div class="prop-thumb pt2" style="width:44px;height:44px;font-size:1.2rem">🏢</div>
+            <div><div style="font-weight:700;font-size:0.9rem">3-Bed Apartment</div><div style="font-size:0.74rem;color:var(--muted)">Victoria Island, Lagos</div></div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem"><span class="tag t-shortlet">Short-let</span><span class="tag t-occupied">Occupied</span><span class="tag t-verified">✔ Verified</span></div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem">₦85k<span style="font-size:0.8rem;font-weight:400;color:var(--muted)">/night</span></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer" onclick="toast('🏠 Opening property details...')">
+          <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem">
+            <div class="prop-thumb pt3" style="width:44px;height:44px;font-size:1.2rem">🏠</div>
+            <div><div style="font-weight:700;font-size:0.9rem">2-Bed Flat</div><div style="font-size:0.74px;color:var(--muted)">Yaba, Lagos</div></div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem"><span class="tag t-rent">Rent</span><span class="tag t-vacant">Vacant</span><span class="tag t-pending">⏳ Pending</span></div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem">₦480k<span style="font-size:0.8rem;font-weight:400;color:var(--muted)">/yr</span></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer" onclick="toast('🏗️ Opening property details...')">
+          <div style="display:flex;gap:0.8rem;align-items:center;margin-bottom:0.8rem">
+            <div class="prop-thumb pt4" style="width:44px;height:44px;font-size:1.2rem">🏗️</div>
+            <div><div style="font-weight:700;font-size:0.9rem">Land — 600 sqm</div><div style="font-size:0.74rem;color:var(--muted)">Ajah, Lagos</div></div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.8rem"><span class="tag t-sale">For Sale</span><span class="tag t-certified">⭐ Certified</span></div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem">₦18M<span style="font-size:0.8rem;font-weight:400;color:var(--muted)"> asking</span></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.4rem;min-height:140px" onclick="nav('listing',null)">
+          <div style="font-size:2rem">＋</div>
+          <div style="font-weight:600;font-size:0.88rem;color:var(--muted)">Add New Property</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGREEMENTS ── -->
+    <div class="screen" id="screen-agreements">
+      <div class="sec-header">
+        <div class="sec-tag">Legal</div>
+        <div class="sec-title">Digital Agreements</div>
+        <div class="sec-sub">All signed and pending lease agreements</div>
+      </div>
+      <div class="rent-table">
+        <div class="rt-head" style="grid-template-columns:2fr 1.5fr 1fr 1fr 1fr">
+          <div>Tenant</div><div>Property</div><div>Type</div><div>Status</div><div>Action</div>
+        </div>
+        <div class="rt-row" style="grid-template-columns:2fr 1.5fr 1fr 1fr 1fr">
+          <div class="rt-tenant"><div class="tenant-av av-a">AO</div><div><div style="font-weight:600;font-size:0.84rem">Adaeze Obi</div><div style="font-size:0.72rem;color:var(--muted)">Signed Jan 1, 2026</div></div></div>
+          <div style="font-size:0.83rem">4-Bed Lekki</div>
+          <div><span class="tag t-rent">12-month</span></div>
+          <div><span class="tag t-occupied" style="font-size:0.72rem">✓ Active</span></div>
+          <div class="rt-actions"><button class="action-btn ab-ghost" onclick="toast('📄 Agreement downloaded')">View</button></div>
+        </div>
+        <div class="rt-row" style="grid-template-columns:2fr 1.5fr 1fr 1fr 1fr">
+          <div class="rt-tenant"><div class="tenant-av av-b">TI</div><div><div style="font-weight:600;font-size:0.84rem">Tunde Ibrahim</div><div style="font-size:0.72rem;color:var(--muted)">Awaiting signature</div></div></div>
+          <div style="font-size:0.83rem">4-Bed Lekki</div>
+          <div><span class="tag t-rent">24-month</span></div>
+          <div><span class="tag t-pending">⏳ Pending</span></div>
+          <div class="rt-actions"><button class="action-btn ab-amber" onclick="toast('📨 Reminder sent to Tunde')">Remind</button><button class="action-btn ab-ghost" onclick="toast('📄 Agreement opened')">View</button></div>
+        </div>
+        <div class="rt-row" style="grid-template-columns:2fr 1.5fr 1fr 1fr 1fr">
+          <div class="rt-tenant"><div class="tenant-av av-c">EJ</div><div><div style="font-weight:600;font-size:0.84rem">Emeka Johnson</div><div style="font-size:0.72rem;color:var(--muted)">Signed Feb 15, 2026</div></div></div>
+          <div style="font-size:0.83rem">Office, Ikeja GRA</div>
+          <div><span class="tag t-shortlet">Commercial</span></div>
+          <div><span class="tag t-occupied" style="font-size:0.72rem">✓ Active</span></div>
+          <div class="rt-actions"><button class="action-btn ab-ghost" onclick="toast('📄 Agreement downloaded')">View</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✅</span>
+  <span class="toast-text" id="toastText">Done!</span>
+</div>
+
+<script>
+// ── NAV ──
+const titles = {
+  dashboard:['Dashboard','Good morning, Chidi 👋'],
+  properties:['My Properties','Manage your property portfolio'],
+  rent:['Rent Collection','March 2026 · 7 properties'],
+  listing:['Add Listing','List on PROPATI marketplace'],
+  verify:['Property Verification','Earn the PROPATI Certified badge'],
+  screening:['Screening Calls','2 applicants waiting'],
+  agreements:['Agreements','Digital lease management'],
+};
+function nav(id, el){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const t = titles[id]||['PROPATI',''];
+  document.getElementById('pageTitle').textContent = t[0];
+  document.getElementById('pageSub').textContent = t[1];
+}
+
+// ── LISTING STEPS ──
+function listingStep(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('listing-step-'+i).style.display = i===n?'block':'none';
+    const s = document.getElementById('ls'+i);
+    s.classList.remove('active','done');
+    if(i===n) s.classList.add('active');
+    else if(i<n) s.classList.add('done');
+  });
+}
+function setPriceType(el){
+  document.querySelectorAll('.price-type-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectDoc(el){
+  document.querySelectorAll('.doc-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function publishListing(){
+  toast('🚀 Your listing is now live on PROPATI!');
+  setTimeout(()=>nav('dashboard',document.querySelectorAll('.nav-item')[0]),1200);
+}
+
+// ── WIZARD ──
+const wizPanels = [1,2,3,4,5];
+function goWizStep(n){
+  wizPanels.forEach(i=>{
+    document.getElementById('wiz-panel-'+i).style.display = i===n?'block':'none';
+  });
+  const steps = document.querySelectorAll('.wiz-step');
+  steps.forEach((s,i)=>{
+    s.className = 'wiz-step';
+    if(i+1 < n) s.classList.add('done');
+    else if(i+1 === n) s.classList.add('active');
+    else s.classList.add('locked');
+    const num = s.querySelector('.wiz-num');
+    num.textContent = i+1 < n ? '✓' : (i+1);
+  });
+  // generate QR for step 3
+  if(n===3) generateQR();
+}
+function generateQR(){
+  const g = document.getElementById('qrGrid');
+  if(!g) return;
+  g.innerHTML='';
+  const pat=[1,1,1,1,1,1,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1,1,1,1,1,1,1,0,0,1,0,1,0,0,0,0];
+  pat.forEach(v=>{const c=document.createElement('div');c.className='qr-cell'+(v===0?' w':'');g.appendChild(c)});
+}
+
+// ── CALL TIMER ──
+let timerSec = 272, timerInt;
+function startTimer(){
+  timerInt = setInterval(()=>{
+    timerSec++;
+    const m=Math.floor(timerSec/60), s=timerSec%60;
+    const el=document.getElementById('callTimer');
+    if(el) el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  },1000);
+}
+startTimer();
+function endCall(){
+  clearInterval(timerInt);
+  const area = document.getElementById('callArea');
+  area.innerHTML='<div style="color:var(--muted);font-size:0.9rem;text-align:center"><div style="font-size:3rem;margin-bottom:0.8rem">📵</div>Call ended<br><span style="font-size:0.78rem">Duration: 04:32</span></div>';
+  toast('📵 Call ended · Duration: 04:32');
+}
+
+// ── TOAST ──
+let toastTimer;
+function toast(msg){
+  clearTimeout(toastTimer);
+  const icons={'✅':'✅','📄':'📄','📨':'📨','📷':'📷','📹':'📹','📂':'📂','🚀':'🚀','⏺':'⏺️','💬':'💬','🖥':'🖥️','🎤':'🎤','📵':'📵','📞':'📞','📏':'📏'};
+  const first = msg.slice(0,2);
+  document.getElementById('toastIcon').textContent = first;
+  document.getElementById('toastText').textContent = msg.slice(2).trim() || msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  toastTimer = setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── AMENITY CHIPS ──
+document.querySelectorAll('.amenity-chip').forEach(c=>{
+  c.addEventListener('click',()=>c.classList.toggle('on'));
+});
+</script>
+</body>
+</html>

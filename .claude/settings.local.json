@@ -78,7 +78,23 @@
       "Bash(npm uninstall *)",
       "Bash(npx tsc *)",
       "Bash(awk -F':' '{print $1}')",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(git -C .claude/worktrees/agent-a8f40687947471e7f diff prisma/schema.prisma)",
+      "Bash(cp -r src/app/api/applications \"/c/Users/USER/Documents/NEWPROPATI/src/app/api/\")",
+      "Bash(cp -r src/app/dashboard/landlord/applications \"/c/Users/USER/Documents/NEWPROPATI/src/app/dashboard/landlord/\")",
+      "Bash(cp -r src/app/dashboard/tenant/applications \"/c/Users/USER/Documents/NEWPROPATI/src/app/dashboard/tenant/\")",
+      "Bash(cp -r src/app/admin/disputes \"/c/Users/USER/Documents/NEWPROPATI/src/app/admin/\")",
+      "Bash(cp -r src/app/api/disputes \"/c/Users/USER/Documents/NEWPROPATI/src/app/api/\")",
+      "Bash(cp -r src/app/api/stamp-duty \"/c/Users/USER/Documents/NEWPROPATI/src/app/api/\")",
+      "Bash(cp -r src/app/api/webhook/remita \"/c/Users/USER/Documents/NEWPROPATI/src/app/api/webhook/\")",
+      "Bash(cp -r src/components/agreements/stamp-duty-widget.tsx \"/c/Users/USER/Documents/NEWPROPATI/src/components/agreements/\")",
+      "Bash(cp src/lib/stamp-duty.ts \"/c/Users/USER/Documents/NEWPROPATI/src/lib/\")",
+      "Bash(cp -rv \"/c/Users/USER/Documents/NEWPROPATI/.claude/worktrees/agent-a153cf2f27e3645c4/src/app/dashboard/landlord/applications\" \"src/app/dashboard/landlord/\")",
+      "Bash(cp -rv \"/c/Users/USER/Documents/NEWPROPATI/.claude/worktrees/agent-a153cf2f27e3645c4/src/app/dashboard/tenant/applications\" \"src/app/dashboard/tenant/\")",
+      "Bash(cp -rv \"/c/Users/USER/Documents/NEWPROPATI/.claude/worktrees/agent-a54fd18b4abd9bcd1/src/app/admin/disputes\" \"src/app/admin/\")",
+      "Bash(cp -rv \"/c/Users/USER/Documents/NEWPROPATI/.claude/worktrees/agent-a54fd18b4abd9bcd1/src/app/api/disputes\" \"src/app/api/\")",
+      "Bash(export DIRECT_URL=\"postgresql://postgres.qpoorimlcoxgxttkuyln:06xlXxKCk977gflC@aws-1-eu-west-2.pooler.supabase.com:5432/postgres\")",
+      "Bash(git checkout *)"
     ]
   },
   "enabledPlugins": {

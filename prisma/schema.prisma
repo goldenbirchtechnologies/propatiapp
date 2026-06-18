@@ -207,6 +207,24 @@ enum DisputeStatus {
   closed
 }
 
+enum ApplicationStatus {
+  pending
+  under_review
+  accepted
+  rejected
+  withdrawn
+}
+
+enum StampDutyStatus {
+  pending
+  payment_pending
+  payment_failed
+  paid
+  processing
+  issued
+  failed
+}
+
 enum ScreeningCallStatus {
   scheduled
   completed
@@ -353,6 +371,8 @@ model User {
   savedListings         SavedListing[] @relation("UserSavedListings")
   flaggedListings       ListingFlag[]  @relation("FlaggedByUser")
   maintenanceTickets    MaintenanceTicket[] @relation("MaintenanceTenant")
+  tenantApplications    Application[]  @relation("TenantApplications")
+  landlordApplications  Application[]  @relation("LandlordApplications")
   currentlyRentingUnits Unit[]       @relation("UnitCurrentTenant")
   adminAuditLogs        AdminAuditLog[] @relation("AdminAuditLogs")
 
@@ -447,6 +467,7 @@ model Listing {
   orgListings          OrgListing[]
   disputes             Dispute[]
   units                Unit[]
+  applications         Application[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([status], map: "idx_listings_status")
@@ -624,6 +645,7 @@ model Agreement {
   signatures          AgreementSignature[]
   transactions        Transaction[]    @relation("TransactionAgreements")
   rentSchedule        RentSchedule[]
+  stampDuty           StampDuty?
 
   @@map("agreements")
 }
@@ -952,4 +974,56 @@ model Unit {
   @@index([occupancy], map: "idx_units_occupancy")
   @@unique([organizationId, buildingName, unitNumber])
   @@map("units")
+}
+
+// ===========================================================================
+// TENANT APPLICATIONS (1 table)
+// ===========================================================================
+
+model Application {
+  id             String            @id @default(cuid())
+  listingId      String            @map("listing_id")
+  tenantId       String            @map("tenant_id")
+  landlordId     String            @map("landlord_id")
+  status         ApplicationStatus @default(pending)
+  message        String?
+  landlordNotes  String?           @map("landlord_notes")
+  reviewedAt     DateTime?         @map("reviewed_at")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  listing        Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tenant         User              @relation("TenantApplications", fields: [tenantId], references: [id])
+  landlord       User              @relation("LandlordApplications", fields: [landlordId], references: [id])
+
+  @@index([tenantId])
+  @@index([landlordId])
+  @@index([listingId])
+  @@index([status])
+  @@map("applications")
+}
+
+// ===========================================================================
+// STAMP DUTY — FIRS e-Certificate via Remita (1 table)
+// ===========================================================================
+
+model StampDuty {
+  id                String          @id @default(cuid())
+  agreementId       String          @unique @map("agreement_id")
+  amount            Decimal         @db.Decimal(15, 2)
+  remitaRrr         String?         @map("remita_rrr")
+  transactionId     String?         @map("transaction_id")
+  certificateNumber String?         @map("certificate_number")
+  certificateUrl    String?         @map("certificate_url")
+  status            StampDutyStatus @default(pending)
+  paidAt            DateTime?       @map("paid_at")
+  issuedAt          DateTime?       @map("issued_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  agreement         Agreement       @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([remitaRrr])
+  @@map("stamp_duty")
 }

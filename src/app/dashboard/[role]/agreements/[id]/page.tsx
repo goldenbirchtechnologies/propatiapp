@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAgreement } from '@/hooks/useAgreements';
 import { AgreementStatusBadge } from '@/components/agreements/agreement-status-badge';
 import { RentScheduleTable, type RentScheduleEntry } from '@/components/agreements/rent-schedule-table';
+import { StampDutyWidget } from '@/components/agreements/stamp-duty-widget';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AgreementDetailPage() {
@@ -283,6 +284,17 @@ export default function AgreementDetailPage() {
         <Card className="p-6 mb-6">
           <RentScheduleTable entries={rentSchedule} showActions={role === 'tenant'} />
         </Card>
+      )}
+
+      {/* Stamp Duty */}
+      {agreement.status === 'fully_signed' && (
+        <div className="mb-6">
+          <StampDutyWidget
+            agreementId={agreement.id}
+            annualRent={agreement.rentAmount || 0}
+            stampDuty={(agreement as any).stampDuty}
+          />
+        </div>
       )}
 
       {/* Timeline */}

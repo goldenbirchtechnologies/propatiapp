@@ -3,6 +3,12 @@
  * Templates for different types of rental agreements
  */
 
+export interface StampDutyEndorsement {
+  certificateNumber: string;
+  amountPaid: number;
+  paidAt: Date;
+}
+
 export interface AgreementTemplateData {
   agreementId: string;
   agreementDate: string;
@@ -26,6 +32,42 @@ export interface AgreementTemplateData {
   serviceCharge: string;
   noticePeriodDays: number;
   specialClauses: string;
+  stampDuty?: StampDutyEndorsement;
+}
+
+function renderStampDutyEndorsement(sd: StampDutyEndorsement): string {
+  const formattedDate = sd.paidAt.toLocaleDateString('en-NG', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+  const formattedAmount = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    maximumFractionDigits: 0,
+  }).format(sd.amountPaid);
+
+  return `
+  <div style="margin-top:60px;padding:24px;border:2px solid #1a5276;border-radius:8px;background:#eaf4fb;">
+    <h2 style="text-align:center;color:#1a5276;letter-spacing:2px;margin-bottom:16px;">ELECTRONIC STAMP DUTY CERTIFICATE</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tr>
+        <td style="padding:8px;font-weight:bold;color:#555;width:40%;">Certificate Number:</td>
+        <td style="padding:8px;font-family:monospace;color:#1a5276;font-weight:bold;">${sd.certificateNumber}</td>
+      </tr>
+      <tr style="background:#d6eaf8;">
+        <td style="padding:8px;font-weight:bold;color:#555;">Amount Paid:</td>
+        <td style="padding:8px;">${formattedAmount}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px;font-weight:bold;color:#555;">Date of Payment:</td>
+        <td style="padding:8px;">${formattedDate}</td>
+      </tr>
+    </table>
+    <p style="margin-top:16px;font-size:12px;color:#555;text-align:center;font-style:italic;">
+      This agreement has been duly stamped in accordance with the Stamp Duties Act, CAP S8, LFN 2004
+    </p>
+  </div>`;
 }
 
 export const residentialRentTemplate = (data: AgreementTemplateData) => `
@@ -172,6 +214,8 @@ export const residentialRentTemplate = (data: AgreementTemplateData) => `
     <p>This agreement is facilitated by PROPATI - Nigeria's Verified Property Marketplace</p>
     <p>www.propati.ng</p>
   </div>
+
+  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
 </html>
 `;
@@ -250,6 +294,8 @@ export const commercialRentTemplate = (data: AgreementTemplateData) => `
   <div class="section" style="margin-top: 60px;">
     <p>IN WITNESS WHEREOF, the parties have executed this Commercial Lease Agreement.</p>
   </div>
+
+  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
 </html>
 `;
@@ -407,6 +453,8 @@ export const saleAgreementTemplate = (data: AgreementTemplateData) => `
     </div>
   </div>
   ` : ''}
+
+  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
 </html>
 `;

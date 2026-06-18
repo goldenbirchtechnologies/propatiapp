@@ -264,6 +264,13 @@ enum UnitOccupancy {
   NOTICE_GIVEN
 }
 
+enum StampDutyStatus {
+  pending
+  paid
+  certificate_issued
+  failed
+}
+
 // ===========================================================================
 // CORE AUTHENTICATION (4 tables)
 // ===========================================================================
@@ -624,6 +631,7 @@ model Agreement {
   signatures          AgreementSignature[]
   transactions        Transaction[]    @relation("TransactionAgreements")
   rentSchedule        RentSchedule[]
+  stampDuty           StampDuty?
 
   @@map("agreements")
 }
@@ -952,4 +960,27 @@ model Unit {
   @@index([occupancy], map: "idx_units_occupancy")
   @@unique([organizationId, buildingName, unitNumber])
   @@map("units")
+}
+
+// ===========================================================================
+// STAMP DUTY — FIRS e-Certificate via Remita (1 table)
+// ===========================================================================
+
+model StampDuty {
+  id                String           @id @default(cuid())
+  agreementId       String           @unique @map("agreement_id")
+  amount            Float
+  remitaRrr         String?          @map("remita_rrr")
+  transactionId     String?          @map("transaction_id")
+  certificateNumber String?          @map("certificate_number")
+  certificateUrl    String?          @map("certificate_url")
+  status            StampDutyStatus  @default(pending)
+  paidAt            DateTime?        @map("paid_at")
+  issuedAt          DateTime?        @map("issued_at")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  agreement         Agreement        @relation(fields: [agreementId], references: [id])
+
+  @@map("stamp_duties")
 }

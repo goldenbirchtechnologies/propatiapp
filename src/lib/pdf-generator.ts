@@ -31,6 +31,14 @@ export async function generateAgreementPDF(agreementId: string): Promise<{ url: 
           },
         },
       },
+      stampDuty: {
+        select: {
+          certificateNumber: true,
+          amount: true,
+          paidAt: true,
+          status: true,
+        },
+      },
     },
   });
 
@@ -71,6 +79,14 @@ export async function generateAgreementPDF(agreementId: string): Promise<{ url: 
     serviceCharge: agreement.serviceCharge ? Number(agreement.serviceCharge).toLocaleString('en-NG') : 'N/A',
     noticePeriodDays: agreement.noticePeriodDays,
     specialClauses: agreement.specialClauses || '',
+    stampDuty:
+      agreement.stampDuty?.certificateNumber && agreement.stampDuty?.paidAt
+        ? {
+            certificateNumber: agreement.stampDuty.certificateNumber,
+            amountPaid: agreement.stampDuty.amount,
+            paidAt: agreement.stampDuty.paidAt,
+          }
+        : undefined,
   };
 
   // Render HTML

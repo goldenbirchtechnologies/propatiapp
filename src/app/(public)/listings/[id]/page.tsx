@@ -326,7 +326,7 @@ function ListingDetailContent({ id }: { id: string }) {
   const isAuthenticated = isUserLoaded && !!user;
 
   // Check if user is owner
-  const isOwnerView = isAuthenticated && currentUserId && listing?.owner?.id === currentUserId;
+  const isOwnerView = !!(isAuthenticated && currentUserId && listing?.owner?.id === currentUserId);
 
   const handleSaveToggle = () => {
     if (isSaved) {

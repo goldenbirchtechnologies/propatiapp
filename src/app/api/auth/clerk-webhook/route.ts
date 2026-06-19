@@ -2,10 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { Webhook } from 'svix';
 import { prisma } from '@/lib/prisma';
+import { withRateLimit, webhookRateLimiter, getRateLimitHeaders } from '@/lib/rate-limit';
 
 const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
 
 export async function POST(request: NextRequest) {
+  // Rate limiting for webhook
+  const rateLimitResult = await withRateLimit(request, webhookRateLimiter);
+  const rateLimitHeaders = getRateLimitHeaders(rateLimitResult);
+
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      { error: 'Too Many Requests' },
+      { status: 429, headers: rateLimitHeaders }
+    );
+  }
+
   if (!webhookSecret) {
     console.error('CLERK_WEBHOOK_SECRET not configured');
     return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 500 });
@@ -61,10 +73,10 @@ export async function POST(request: NextRequest) {
         console.log(`Unhandled Clerk event type: ${type}`);
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true }, { headers: rateLimitHeaders });
   } catch (error) {
     console.error('Error processing Clerk webhook:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers: rateLimitHeaders });
   }
 }
 

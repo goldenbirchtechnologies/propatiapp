@@ -3,15 +3,26 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { listingFilterSchema } from '@/lib/validators';
 import { formatCurrencyKobo } from '@/lib/fees';
+import { withRateLimit, apiRateLimiter, getRateLimitHeaders } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await withRateLimit(request, apiRateLimiter);
+  const rateLimitHeaders = getRateLimitHeaders(rateLimitResult);
+
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      { error: 'Too Many Requests' },
+      { status: 429, headers: rateLimitHeaders }
+    );
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const params = Object.fromEntries(searchParams.entries());
 
     const validated = listingFilterSchema.parse(params);
     const { page, limit, sortBy, order, q, ...filters } = validated;
-
     const skip = (page - 1) * limit;
     const take = limit;
 
@@ -94,16 +105,19 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(total / limit);
 
-    return NextResponse.json({
-      listings: formattedListings,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages,
-        hasNext: page < totalPages,
+    return NextResponse.json(
+      {
+        listings: formattedListings,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages,
+          hasNext: page < totalPages,
+        },
       },
-    });
+      { headers: rateLimitHeaders }
+    );
   } catch (error) {
     console.error('Listings GET error:', error);
     if (error instanceof Error && error.name === 'ZodError') {

@@ -6,7 +6,6 @@ import { useAgreementStatus } from '@/hooks/useAgreements';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Pen, Download, Eye, AlertCircle, CheckCircle, Clock, Home, Shield } from 'lucide-react';
 import Link from 'next/link';
@@ -101,21 +100,22 @@ export default function TenantAgreementsPage() {
         <StatCard label="Expired" value={agreements.filter(a => a.status === 'expired').length} icon={<AlertCircle />} />
       </div>
 
-      {/* Tabs */}
+      {/* Filter buttons */}
       <div className="flex flex-wrap gap-2 mb-4">
         {statusTabs.map((tab) => (
-          <TabsTrigger
+          <button
             key={tab.value}
-            value={tab.value}
-            className={cn(
-              'flex items-center gap-2',
-              activeTab === tab.value && 'bg-accent/10 text-accent'
-            )}
             onClick={() => setActiveTab(tab.value)}
+            className={cn(
+              'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium border transition-colors',
+              activeTab === tab.value
+                ? 'bg-accent/10 text-accent border-accent/30'
+                : 'border-transparent hover:bg-muted/50'
+            )}
           >
-            <span className="font-medium">{tab.label}</span>
+            <span>{tab.label}</span>
             <Badge variant="secondary" className="text-xs">{tab.count}</Badge>
-          </TabsTrigger>
+          </button>
         ))}
       </div>
 

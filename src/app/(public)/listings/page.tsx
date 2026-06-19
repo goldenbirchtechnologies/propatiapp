@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { CategoryToggle, type PropertyCategory } from '@/components/search/CategoryToggle';
@@ -79,7 +80,7 @@ const COMMERCIAL_TYPES: PropertyType[] = ['shop', 'office', 'warehouse'];
 // MAIN COMPONENT
 // ============================================================================
 
-export default function ListingsPage() {
+function ListingsPageInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -664,5 +665,13 @@ export default function ListingsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ListingsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading listings...</div>}>
+      <ListingsPageInner />
+    </Suspense>
   );
 }

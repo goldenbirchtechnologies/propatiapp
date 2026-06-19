@@ -1,3 +1,4 @@
+import React from 'react';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
@@ -266,9 +267,9 @@ export default async function AdminDashboardPage() {
 }
 
 // Icons
-function FlagIcon() {
+function FlagIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg className={className ?? "w-5 h-5"} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
       <line x1="4" y1="22" x2="4" y2="15" />
     </svg>

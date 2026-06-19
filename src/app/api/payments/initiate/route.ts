@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import { computeFees } from '@/lib/fees';
 import { TransactionType } from '@prisma/client';
+import { randomBytes } from 'crypto';
 
 /**
  * POST /api/payments/initiate
@@ -81,9 +82,9 @@ export async function POST(request: NextRequest) {
     const payeeId = listing.ownerId;
     const agentId = listing.agentId;
 
-    // Generate unique reference
+    // Generate unique reference with cryptographically secure random
     const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(2, 8);
+    const randomStr = randomBytes(4).toString('hex'); // 8 chars, 32 bits entropy
     const reference = `PROPATI_${validated.type}_${timestamp}_${randomStr}`.toUpperCase();
 
     // Create transaction record

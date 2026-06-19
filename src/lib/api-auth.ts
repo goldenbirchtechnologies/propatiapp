@@ -77,7 +77,7 @@ export function successResponse<T>(data: T, message?: string) {
 }
 
 export function errorResponse(message: string, status = 400, details?: unknown) {
-  return NextResponse.json({ success: false, error: message, details }, { status });
+  return NextResponse.json({ success: false, error: message, details, statusCode: status }, { status });
 }
 
 export function paginatedResponse<T>(

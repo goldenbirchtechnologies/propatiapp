@@ -96,7 +96,12 @@
       "Bash(export DIRECT_URL=\"postgresql://postgres.qpoorimlcoxgxttkuyln:06xlXxKCk977gflC@aws-1-eu-west-2.pooler.supabase.com:5432/postgres\")",
       "Bash(git checkout *)",
       "Bash(git rm *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(python3 *)",
+      "Bash(node -e \"console.log\\('Checking imports...'\\); const fs = require\\('fs'\\); const files = ['src/lib/utils.ts', 'src/components/search/CategoryToggle.tsx', 'src/components/listings/PropertyCard.tsx', 'src/components/ui/button.tsx', 'src/components/ui/input.tsx', 'src/components/ui/slider.tsx', 'src/components/ui/checkbox.tsx', 'src/components/ui/select.tsx', 'src/lib/mobile-utils.ts']; files.forEach\\(f => console.log\\(f + ': ' + \\(fs.existsSync\\(f\\) ? 'EXISTS' : 'MISSING'\\)\\)\\);\")",
+      "Bash(node -e \"const fs = require\\('fs'\\); const content = fs.readFileSync\\('src/app/\\(public\\)/listings/page.tsx', 'utf8'\\); console.log\\('File length:', content.length, 'chars'\\); console.log\\('Has export default:', content.includes\\('export default'\\)\\); console.log\\('Has use client:', content.includes\\(\\\\\"'use client'\\\\\"\\)\\);\")",
+      "Bash(node -e \"const fs = require\\('fs'\\); ['src/components/search/SearchFilters.tsx', 'src/components/search/MobileFilterSheet.tsx', 'src/components/search/EmptySearchState.tsx'].forEach\\(f => { const c = fs.readFileSync\\(f, 'utf8'\\); console.log\\(f + ':', 'export default:', c.includes\\('export default'\\), 'length:', c.length\\); }\\);\")",
+      "Bash(node -e \"const fs = require\\('fs'\\); const content = fs.readFileSync\\('src/app/\\(public\\)/listings/page.tsx', 'utf8'\\); const imports = content.split\\('\\\\\\\\n'\\).filter\\(line => line.trim\\(\\).startsWith\\('import'\\)\\); console.log\\('Imports in listings page:'\\); imports.forEach\\(imp => console.log\\(imp\\)\\);\")"
     ]
   },
   "disabledMcpjsonServers": [

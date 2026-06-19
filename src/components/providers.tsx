@@ -17,35 +17,25 @@ function getQueryClient() {
   });
 }
 
-// Check if Clerk is properly configured
-const isClerkConfigured =
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY !== 'pk_test_your_key_here';
-
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(getQueryClient);
 
-  const content = (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+  // Always wrap with ClerkProvider (it handles missing keys gracefully in dev)
+  // Use a fallback key for build time if real key is missing
+  const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_placeholder';
+
+  return (
+    <ClerkProvider
+      publishableKey={clerkKey}
+      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
+      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
+      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
+      signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}
+    >
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ClerkProvider>
   );
-
-  // Only wrap with Clerk if it's configured
-  if (isClerkConfigured) {
-    return (
-      <ClerkProvider
-        publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
-        afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
-        afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
-        signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
-        signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}
-      >
-        {content}
-      </ClerkProvider>
-    );
-  }
-
-  return content;
 }

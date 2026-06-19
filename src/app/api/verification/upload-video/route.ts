@@ -3,9 +3,9 @@ import { withAuth } from '@/lib/api-auth';
 import { uploadVideo } from '@/lib/cloudinary';
 import { prisma } from '@/lib/prisma';
 
-// Video validation constants
-export const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
-export const ACCEPTED_VIDEO_TYPES = [
+// Video validation constants (not exported to avoid Next.js route export conflicts)
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+const ACCEPTED_VIDEO_TYPES = [
   'video/mp4',
   'video/quicktime',
   'video/x-msvideo',

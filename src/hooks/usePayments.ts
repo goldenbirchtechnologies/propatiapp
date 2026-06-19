@@ -182,6 +182,24 @@ export function usePaymentStatus(transaction: Transaction | undefined) {
 }
 
 /**
+ * Hook for wallet balance
+ */
+export function useWallet() {
+  return useQuery({
+    queryKey: ['wallet'],
+    queryFn: async () => {
+      const response = await fetch(`/api/wallet`);
+      if (!response.ok) {
+        // Return mock wallet if API doesn't exist yet
+        return { balance: 0, currency: 'NGN' };
+      }
+      return response.json();
+    },
+    staleTime: 60 * 1000,
+  });
+}
+
+/**
  * Hook for computing fee breakdown
  */
 export function usePaymentBreakdown(transaction: Transaction | undefined) {

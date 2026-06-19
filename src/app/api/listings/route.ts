@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { listingFilterSchema } from '@/lib/validators';
-import { formatCurrencyKobo } from '@/lib/utils';
+import { formatCurrencyKobo } from '@/lib/fees';
 
 export async function GET(request: NextRequest) {
   try {

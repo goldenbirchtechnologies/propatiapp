@@ -52,6 +52,19 @@ export function computeFees(
 }
 
 /**
+ * Format currency from kobo to Naira string
+ */
+export function formatCurrencyKobo(amount: number | bigint): string {
+  const num = typeof amount === 'bigint' ? Number(amount) : amount;
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(num);
+}
+
+/**
  * Calculate subscription plan pricing
  */
 export const SUBSCRIPTION_PLANS = {
@@ -106,5 +119,3 @@ export function formatFeeBreakdown(breakdown: FeeBreakdown) {
     payeeAmount: formatCurrencyKobo(breakdown.payeeAmount),
   };
 }
-
-import { formatCurrencyKobo } from './utils';

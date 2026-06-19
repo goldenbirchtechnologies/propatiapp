@@ -15,16 +15,6 @@ export function formatCurrency(amount: number | bigint, currency = 'NGN'): strin
   }).format(num / 100); // Convert kobo to Naira
 }
 
-export function formatCurrencyKobo(amount: number | bigint): string {
-  const num = typeof amount === 'bigint' ? Number(amount) : amount;
-  return new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: 'NGN',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(num);
-}
-
 export function generateId(prefix: string, length = 12): string {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = prefix;
@@ -121,26 +111,6 @@ export function parseKoboToNaira(kobo: number | bigint): number {
 
 export function parseNairaToKobo(naira: number): number {
   return Math.round(naira * 100);
-}
-
-export function computePlatformFee(
-  type: 'rent' | 'sale' | 'short_let' | 'subscription',
-  amount: number,
-  hasAgent: boolean
-): { platformFee: number; agentCommission: number; payeeAmount: number } {
-  const RATES = {
-    rent: { platform: 0.10, agent: 0.10 },
-    sale: { platform: amount > 20_000_000 * 100 ? 0.02 : 0.01, agent: 0.015 },
-    short_let: { platform: 0.10, agent: 0.10 },
-    subscription: { platform: 0, agent: 0 },
-  };
-
-  const rate = RATES[type];
-  const platformFee = Math.round(amount * rate.platform);
-  const agentCommission = hasAgent ? Math.round(platformFee * rate.agent) : 0;
-  const payeeAmount = amount - platformFee - agentCommission;
-
-  return { platformFee, agentCommission, payeeAmount };
 }
 
 export const NAIGERIAN_STATES = [

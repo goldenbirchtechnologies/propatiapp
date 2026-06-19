@@ -87,41 +87,45 @@ export async function POST(request: NextRequest) {
     const randomStr = randomBytes(4).toString('hex'); // 8 chars, 32 bits entropy
     const reference = `PROPATI_${validated.type}_${timestamp}_${randomStr}`.toUpperCase();
 
-    // Create transaction record
-    const transaction = await prisma.transaction.create({
-      data: {
-        reference,
-        listingId: listing.id,
-        payerId: user.id,
-        payeeId,
-        agentId: hasAgent ? agentId : null,
-        type: validated.type as TransactionType,
-        status: 'pending',
-        amount: BigInt(amountKobo),
-        platformFee: BigInt(fees.platformFee),
-        agentCommission: BigInt(fees.agentCommission),
-        payeeAmount: BigInt(fees.payeeAmount),
-        description: validated.metadata?.description || `Payment for ${listing.title}`,
-        paystackData: validated.metadata,
-      },
-      include: {
-        listing: { select: { id: true, title: true, area: true } },
-        payer: { select: { id: true, fullName: true, email: true } },
-        payee: { select: { id: true, fullName: true, email: true } },
-      },
-    });
-
-    // Link agreement to transaction if provided
-    if (validated.agreementId) {
-      await prisma.agreement.update({
-        where: { id: validated.agreementId },
+    // Create transaction record & link agreement atomically
+    const transaction = await prisma.$transaction(async (tx) => {
+      const newTransaction = await tx.transaction.create({
         data: {
-          transactions: {
-            connect: { id: transaction.id },
-          },
+          reference,
+          listingId: listing.id,
+          payerId: user.id,
+          payeeId,
+          agentId: hasAgent ? agentId : null,
+          type: validated.type as TransactionType,
+          status: 'pending',
+          amount: BigInt(amountKobo),
+          platformFee: BigInt(fees.platformFee),
+          agentCommission: BigInt(fees.agentCommission),
+          payeeAmount: BigInt(fees.payeeAmount),
+          description: validated.metadata?.description || `Payment for ${listing.title}`,
+          paystackData: validated.metadata,
+        },
+        include: {
+          listing: { select: { id: true, title: true, area: true } },
+          payer: { select: { id: true, fullName: true, email: true } },
+          payee: { select: { id: true, fullName: true, email: true } },
         },
       });
-    }
+
+      // Link agreement to transaction if provided (same transaction)
+      if (validated.agreementId) {
+        await tx.agreement.update({
+          where: { id: validated.agreementId },
+          data: {
+            transactions: {
+              connect: { id: newTransaction.id },
+            },
+          },
+        });
+      }
+
+      return newTransaction;
+    });
 
     // Initialize Paystack transaction
     const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/payments/callback?reference=${reference}`;

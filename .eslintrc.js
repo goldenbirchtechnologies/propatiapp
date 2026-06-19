@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default tseslint.config(
   js.configs.recommended,
@@ -27,6 +28,7 @@ export default tseslint.config(
     plugins: {
       prettier,
       'react-hooks': reactHooks,
+      next: nextPlugin,
     },
     rules: {
       'prettier/prettier': 'error',

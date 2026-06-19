@@ -135,7 +135,7 @@ export async function GET(
               SUM("amount")::numeric as total_amount,
               COUNT(*) as count
             FROM "transactions"
-            WHERE "listingId" IN (${listingIds.join("', '")})
+            WHERE "listingId" IN (${Prisma.join(listingIds)})
             ${startDate ? Prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : Prisma.empty}
             ${endDate ? Prisma.sql`AND "createdAt" <= ${new Date(endDate)}` : Prisma.empty}
             GROUP BY DATE_TRUNC('month', "createdAt"), "type"
@@ -313,7 +313,7 @@ export async function GET(
               SUM("payeeAmount")::numeric as net_revenue,
               COUNT(*) as transaction_count
             FROM "transactions"
-            WHERE "listingId" IN (${listingIds.join("', '")})
+            WHERE "listingId" IN (${Prisma.join(listingIds)})
             AND "type" IN ('rent', 'sale', 'short_let')
             AND "status" = 'released'
             ${startDate ? Prisma.sql`AND "createdAt" >= ${new Date(startDate)}` : Prisma.empty}

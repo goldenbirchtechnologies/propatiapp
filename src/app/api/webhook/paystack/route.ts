@@ -208,42 +208,47 @@ async function handleTransferSuccess(data: any) {
 
   console.log(`[Webhook] Transfer successful: ${reference} - ₦${(amount / 100).toLocaleString()}`);
 
-  // Try to find transaction by reference in paystackData
-  const transactions = await prisma.transaction.findMany({
-    where: {
-      status: 'in_escrow',
-      paystackData: {
-        path: ['transfer_reference'],
-        equals: reference,
+  // Use transaction for atomic read-then-update to prevent race conditions
+  await prisma.$transaction(async (tx) => {
+    // Find transaction by reference in paystackData with locking
+    const transactions = await tx.transaction.findMany({
+      where: {
+        status: 'in_escrow',
+        paystackData: {
+          path: ['transfer_reference'],
+          equals: reference,
+        },
       },
-    },
-    take: 1,
+      take: 1,
+    });
+
+    if (transactions.length > 0) {
+      const transaction = transactions[0];
+      
+      // Atomic update within transaction
+      await tx.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: 'released',
+          paystackData: { ...transaction.paystackData as object, transfer: data },
+          updatedAt: new Date(),
+        },
+      });
+
+      // Notify payee (within same transaction)
+      await tx.notification.create({
+        data: {
+          userId: transaction.payeeId,
+          type: 'payment',
+          title: 'Funds Transferred',
+          body: `₦${(amount / 100).toLocaleString()} has been successfully transferred to your account.`,
+          data: { transactionId: transaction.id, transferCode: transfer_code },
+        },
+      });
+
+      console.log(`[Webhook] Transaction ${transaction.id} marked as RELEASED`);
+    }
   });
-
-  if (transactions.length > 0) {
-    const transaction = transactions[0];
-    await prisma.transaction.update({
-      where: { id: transaction.id },
-      data: {
-        status: 'released',
-        paystackData: { ...transaction.paystackData as object, transfer: data },
-        updatedAt: new Date(),
-      },
-    });
-
-    // Notify payee
-    await prisma.notification.create({
-      data: {
-        userId: transaction.payeeId,
-        type: 'payment',
-        title: 'Funds Transferred',
-        body: `₦${(amount / 100).toLocaleString()} has been successfully transferred to your account.`,
-        data: { transactionId: transaction.id, transferCode: transfer_code },
-      },
-    });
-
-    console.log(`[Webhook] Transaction ${transaction.id} marked as RELEASED`);
-  }
 }
 
 async function handleTransferFailed(data: any) {
@@ -251,53 +256,56 @@ async function handleTransferFailed(data: any) {
 
   console.error(`[Webhook] Transfer failed: ${reference} - ${reason}`);
 
-  // Try to find transaction by reference
-  const transactions = await prisma.transaction.findMany({
-    where: {
-      status: 'in_escrow',
-      paystackData: {
-        path: ['transfer_reference'],
-        equals: reference,
-      },
-    },
-    take: 1,
-  });
-
-  if (transactions.length > 0) {
-    const transaction = transactions[0];
-
-    // Update paystackData with failure info
-    await prisma.transaction.update({
-      where: { id: transaction.id },
-      data: {
+  // Use transaction for atomic read-then-update to prevent race conditions
+  await prisma.$transaction(async (tx) => {
+    // Try to find transaction by reference
+    const transactions = await tx.transaction.findMany({
+      where: {
+        status: 'in_escrow',
         paystackData: {
-          ...transaction.paystackData as object,
-          transfer_failed: { reason, timestamp: new Date().toISOString() }
+          path: ['transfer_reference'],
+          equals: reference,
         },
-        updatedAt: new Date(),
       },
+      take: 1,
     });
 
-    // Notify admin
-    const admins = await prisma.user.findMany({
-      where: { role: 'admin' },
-      select: { id: true },
-    });
+    if (transactions.length > 0) {
+      const transaction = transactions[0];
 
-    for (const admin of admins) {
-      await prisma.notification.create({
+      // Update paystackData with failure info (atomic)
+      await tx.transaction.update({
+        where: { id: transaction.id },
         data: {
-          userId: admin.id,
-          type: 'system',
-          title: 'Transfer Failed - Manual Action Required',
-          body: `Transfer failed for transaction ${transaction.id}: ${reason}. Manual intervention required.`,
-          data: { transactionId: transaction.id, reference, reason },
+          paystackData: {
+            ...transaction.paystackData as object,
+            transfer_failed: { reason, timestamp: new Date().toISOString() }
+          },
+          updatedAt: new Date(),
         },
       });
-    }
 
-    console.log(`[Webhook] Transfer failure logged for transaction ${transaction.id}`);
-  }
+      // Notify admin (within same transaction)
+      const admins = await tx.user.findMany({
+        where: { role: 'admin' },
+        select: { id: true },
+      });
+
+      for (const admin of admins) {
+        await tx.notification.create({
+          data: {
+            userId: admin.id,
+            type: 'system',
+            title: 'Transfer Failed - Manual Action Required',
+            body: `Transfer failed for transaction ${transaction.id}: ${reason}. Manual intervention required.`,
+            data: { transactionId: transaction.id, reference, reason },
+          },
+        });
+      }
+
+      console.log(`[Webhook] Transfer failure logged for transaction ${transaction.id}`);
+    }
+  });
 }
 
 async function handleDisputeCreate(data: any) {

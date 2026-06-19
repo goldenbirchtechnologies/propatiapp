@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inspection Report | PROPATI Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verified-shimmer {
+            background: linear-gradient(90deg, #50dea5 0%, #71fbc0 50%, #50dea5 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e8eeff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#002a1b",
+                        "error-container": "#ffdad6",
+                        "on-background": "#161c27",
+                        "surface-container-low": "#f1f3ff",
+                        "outline-variant": "#c4c6ce",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "surface-container-highest": "#dde2f3",
+                        "on-surface": "#161c27",
+                        "on-secondary-fixed": "#291800",
+                        "surface-bright": "#f9f9ff",
+                        "secondary-container": "#feae2c",
+                        "secondary-fixed": "#ffddb4",
+                        "surface-container-high": "#e3e8f9",
+                        "on-tertiary-fixed": "#002114",
+                        "secondary": "#835500",
+                        "on-secondary-container": "#6b4500",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "primary": "#000f22",
+                        "inverse-primary": "#b0c8eb",
+                        "primary-container": "#0a2540",
+                        "tertiary": "#001209",
+                        "inverse-on-surface": "#ecf0ff",
+                        "surface": "#f9f9ff",
+                        "primary-fixed": "#d2e4ff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-primary-fixed-variant": "#314865",
+                        "surface-tint": "#49607e",
+                        "on-primary-container": "#768dad",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2a303d",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "background": "#f9f9ff",
+                        "secondary-fixed-dim": "#ffb955",
+                        "surface-dim": "#d4daea",
+                        "outline": "#74777e",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#71fbc0",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dde2f3",
+                        "on-tertiary-container": "#009e6f",
+                        "on-primary-fixed": "#001c37",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#43474d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- Sidebar Navigation Shell -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 top-0 z-40 bg-primary-container text-on-primary-container w-64 shadow-2xl no-print">
+<div class="p-lg flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">domain_verification</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-secondary-fixed leading-tight">Admin Portal</h2>
+<p class="font-label-sm text-[10px] opacity-70 uppercase tracking-widest">Inspection Suite v2.4</p>
+</div>
+</div>
+<nav class="mt-8 flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-5 py-3 hover:bg-primary-fixed-dim/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-5 py-3 hover:bg-primary-fixed-dim/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-md">Verification Queue</span>
+</a>
+<!-- Active State: Field Reports -->
+<a class="flex items-center gap-3 bg-transparent text-secondary-fixed font-bold border-l-4 border-secondary-fixed pl-4 py-3 scale-95 origin-left duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assignment" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-md">Field Reports</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-5 py-3 hover:bg-primary-fixed-dim/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-label-md">Certified Listings</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-5 py-3 hover:bg-primary-fixed-dim/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md">Audit Logs</span>
+</a>
+</nav>
+<div class="mt-auto p-lg border-t border-white/10">
+<button class="w-full h-11 bg-secondary-fixed text-primary-container font-bold rounded-xl flex items-center justify-center gap-2 mb-4 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-md">New Inspection</span>
+</button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-2 py-2 hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 pl-2 py-2 hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 p-margin-mobile md:p-gutter lg:p-margin-desktop min-h-screen">
+<!-- Header Actions -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-xl no-print">
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary">Inspection Details</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-lg h-11 border border-outline text-primary font-bold rounded-xl flex items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-md">Share</span>
+</button>
+<button class="px-lg h-11 bg-primary-container text-white font-bold rounded-xl flex items-center gap-2 hover:opacity-90 transition-opacity" onclick="window.print()">
+<span class="material-symbols-outlined">download</span>
+<span class="font-label-md">Download Report</span>
+</button>
+</div>
+</header>
+<!-- Report Paper Area -->
+<div class="print-area bg-white shadow-lg border border-outline-variant rounded-xl overflow-hidden max-w-5xl mx-auto">
+<!-- Report Header -->
+<div class="bg-primary text-white p-lg md:p-xl flex flex-col md:flex-row justify-between gap-6 border-b-4 border-secondary-container">
+<div class="space-y-2">
+<div class="flex items-center gap-2 opacity-80 mb-2">
+<span class="material-symbols-outlined text-sm">apartment</span>
+<p class="font-label-sm uppercase tracking-widest text-[10px]">Real Estate Audit Document</p>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-white">Mainland Regional Office HQ</h2>
+<div class="flex flex-wrap gap-x-6 gap-y-2 text-on-primary-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">tag</span>
+<span class="font-label-md">#INS-2024-0882</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">calendar_today</span>
+<span class="font-label-md">August 24, 2024</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<div class="bg-tertiary-container border border-on-tertiary-container/30 px-6 py-3 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-headline-sm text-headline-sm text-on-tertiary-container">CLEARANCE ISSUED</span>
+</div>
+<p class="mt-2 font-label-sm text-on-primary-container/60">Final Accreditation Status</p>
+</div>
+</div>
+<div class="p-lg md:p-xl space-y-xl">
+<!-- Clearance Summary Bento -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<div class="lg:col-span-2 bg-surface-container-low p-lg rounded-xl flex flex-col md:flex-row items-center gap-lg border border-outline-variant">
+<img alt="PROPATI Verified Seal" class="w-32 h-32 md:w-40 md:h-40 shrink-0 drop-shadow-md" src="https://lh3.googleusercontent.com/aida/AP1WRLuDeLGxym8znS3g2QGdVzh9JP0LthBylNMkYY6vL6h9m0zRsf-JXExa3WDvQNxo9f0SYRe2gbFpTQRM1UlfvxWOHOqM9ZtSR4fD6ylNkgSHKFprW8gemTGRvwxkoIYploK3gQ6VqN7GNRPNv7vEFpsv-SKQpq2Fx95SzhReaQZA2MC07ZJlCGroQAoq0fdJystg4E2G1RTVRW7Xf2d9L6vtqDqizGVe0-fGx4TFdk5COzc9sfeuLPEwxMg"/>
+<div class="text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Master Verification Passed</h3>
+<p class="font-body-md text-on-surface-variant mb-4 max-w-md">This property has successfully navigated the comprehensive Tier 2 audit framework, confirming legal residency, operational capacity, and structural compliance.</p>
+<div class="flex flex-wrap gap-2 justify-center md:justify-start">
+<span class="bg-on-background text-white px-3 py-1 rounded-full font-label-sm text-[11px] uppercase">Tier 2 Accredited</span>
+<span class="bg-secondary-fixed text-primary px-3 py-1 rounded-full font-label-sm text-[11px] uppercase">Lagos State Compliant</span>
+</div>
+</div>
+</div>
+<div class="bg-primary p-lg rounded-xl flex flex-col justify-center text-center text-white border border-outline">
+<p class="font-label-sm text-secondary-fixed-dim uppercase tracking-tighter mb-1">Audit Score</p>
+<div class="text-[64px] font-headline-xl leading-none font-black">98<span class="text-secondary-fixed text-2xl">%</span></div>
+<p class="font-body-sm text-on-primary-container mt-2">Elite Performance Category</p>
+</div>
+</section>
+<!-- Audit Categories -->
+<section class="space-y-md">
+<div class="flex items-center gap-2 mb-gutter">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Compliance Assessment</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Category 1 -->
+<div class="p-lg border border-outline-variant rounded-xl hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary">description</span>
+</div>
+<span class="bg-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-[10px] border border-on-tertiary-container/20">VERIFIED</span>
+</div>
+<h4 class="font-headline-sm text-[18px] text-primary mb-2">Business Registration</h4>
+<ul class="space-y-2 mb-md font-body-sm text-on-surface-variant">
+<li class="flex justify-between"><span>CAC Reg:</span> <span class="font-label-md">RC-882910</span></li>
+<li class="flex justify-between"><span>Tax Status:</span> <span class="text-on-tertiary-container">Current</span></li>
+</ul>
+<a class="text-primary font-bold font-label-md flex items-center gap-1 hover:underline" href="#">
+                                View Original <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+<!-- Category 2 -->
+<div class="p-lg border border-outline-variant rounded-xl hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary">location_city</span>
+</div>
+<span class="bg-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-[10px] border border-on-tertiary-container/20">VERIFIED</span>
+</div>
+<h4 class="font-headline-sm text-[18px] text-primary mb-2">Physical Office</h4>
+<ul class="space-y-2 mb-md font-body-sm text-on-surface-variant">
+<li class="flex justify-between"><span>Signage:</span> <span class="font-label-md">Present</span></li>
+<li class="flex justify-between"><span>Maintenance:</span> <span class="font-label-md">Excellent</span></li>
+</ul>
+<p class="text-on-surface-variant font-label-sm text-[12px] italic">Verified via physical visit</p>
+</div>
+<!-- Category 3 -->
+<div class="p-lg border border-outline-variant rounded-xl hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+<span class="bg-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-[10px] border border-on-tertiary-container/20">VERIFIED</span>
+</div>
+<h4 class="font-headline-sm text-[18px] text-primary mb-2">Operational Capacity</h4>
+<ul class="space-y-2 mb-md font-body-sm text-on-surface-variant">
+<li class="flex justify-between"><span>Staff Count:</span> <span class="font-label-md">24 Active</span></li>
+<li class="flex justify-between"><span>Workstations:</span> <span class="font-label-md">30 Units</span></li>
+</ul>
+<p class="text-on-surface-variant font-label-sm text-[12px] italic">Official equipment confirmed</p>
+</div>
+</div>
+</section>
+<!-- Evidence Gallery -->
+<section>
+<div class="flex items-center gap-2 mb-gutter">
+<span class="material-symbols-outlined text-primary">photo_library</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Evidence Gallery</h3>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<div class="group relative aspect-square bg-surface-variant rounded-xl overflow-hidden cursor-zoom-in">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-fidelity wide-angle photograph of a modern corporate office exterior in Lagos, Nigeria. The building features clean glass windows reflecting a bright blue sky, professionally mounted signage for PROPATI, and well-maintained surroundings in a premium business district. The lighting is crisp afternoon sun, emphasizing a high-trust professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSsm7JNZ49Iy8Xawm8wR6mmVcQa4k2l_xsfRHoxuBGGggV36aU1IUSqUp7mSvi6Y1dqRZN2146QTKXMVNQju-NXav0pbWDjeKW4LhfVBrslkrboZ75pfEsEtCplZzG45ZHsjijV2XpJjMH3hkoRBYS2ayzR_bJkw5MYqCXbOeQAK4B4bAI5k4Jud7UNi-TSGRv74aIyo0azr1KF7ES5sGY_Y0hrUEtl7eoLAHTfef9t_oGy0M2I4kPHkUiwFHhFP6UkhHrfep1S74"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<p class="text-white font-label-sm text-[10px]">OFFICE EXTERIOR</p>
+</div>
+</div>
+<div class="group relative aspect-square bg-surface-variant rounded-xl overflow-hidden cursor-zoom-in">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A professional photograph of a luxury office reception area. The space has a sleek minimalist desk, warm ambient lighting, and high-end marble flooring. A branding wall with the PROPATI logo is visible in the background. The style is contemporary and authoritative, using a palette of deep navy and soft grays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA0Mvj1vM88a7BjvbDwRy1uu0uFXd1n8dTt2yi3epVJXsuqYfJBuf0WjVDxxXtR6PNPA-0VFBVEtkeffhfxx7QrX9Z2gV1mG6BY-WeHVxtHeFbQM6dXqlw41suUJEDMKm2n7O7Q9Ib_YZ8yWLIgmTjmHEAhyIuFUAz5YvCOKb8Fvz_CJPSO_R-fuJP2gJUojtBVLyt9KRZopiI4km3YJZBehFs8A7cguQBY0z-D3AUx_RUnwUzrdGHOYIlEhubt5DBFfWpCOLGf6Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<p class="text-white font-label-sm text-[10px]">RECEPTION AREA</p>
+</div>
+</div>
+<div class="group relative aspect-square bg-surface-variant rounded-xl overflow-hidden cursor-zoom-in">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A wide-shot photo of a bustling, high-capacity office workstation floor. Ergonomic chairs, dual-monitor setups, and clean desks occupied by professional staff. The room is well-lit with recessed LED panels and features high-quality interior finishes. The mood is productive and systematic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0fXhZ1j6XVyd9lvOpEPv_1igcNwjHO8sZ2Zht7gM0zB3YcQhJISy2Y0XNtHZOH2gLCpttG9P600k5Yb6ohriHhUQbbmlSPsKFkGq_XbEunF9Wz1y2-dUSVRgYJ1w7e-cuGn8sx83RHSvduXO9BsN5rSR4QHfDjRLGfxTcSDnK6kQg2VSmWj-mtvw1BKwPLIw80uVoVQHtfNf6td_rFSs8QqarKN3Cfz8FpUUzWBVxrwXqsbZgXECfPMvzLPGfSz-awwnajgng8Dw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<p class="text-white font-label-sm text-[10px]">WORKSTATIONS</p>
+</div>
+</div>
+<div class="group relative aspect-square bg-surface-variant rounded-xl overflow-hidden cursor-zoom-in">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A clean, clinical photograph of a modern executive meeting room. A large glass table with high-back navy blue chairs, a state-of-the-art teleconferencing screen, and minimalist decor. The room is immaculate, representing high maintenance and operational readiness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOkz7WJuWc8XJOT2qu0Ae5F7q1WyFhY04sjJcTphDXSUtM_gisubqyNoIUdy1itlE6LIO-DQxcAt4gK8SmE03St2eXQFss-a9TBCPPUk8pGySmKJtbK9_fKFampvweu4jX_3d1ke2vfjWo7MxQCldHS0jAvGJocS9Xi3AJqypHhTZNxvBC-HY_CW3fLs400Xy1CmltEONSItfNNB0D0Dbd4CNlh5sF5iAvpRm2b1x0rBz5aerfMWrcNHIgpkhMkfG9zGVlinnNlm8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<p class="text-white font-label-sm text-[10px]">MEETING ROOM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Inspector Remarks -->
+<section class="bg-surface p-lg border-l-4 border-primary rounded-r-xl">
+<h4 class="font-label-md text-primary font-bold uppercase mb-2">Inspector's Professional Remarks</h4>
+<p class="font-body-md text-on-surface leading-relaxed">
+                        The facility located at the Mainland Regional Office HQ is fully operational and meets all Lagos State regulatory requirements for Tier 2 accreditation. Documentation was verified against original state records and physical infrastructure exceeds standard safety and operational capacity benchmarks. We recommend immediate activation of the certified listing status on the PROPATI marketplace.
+                    </p>
+</section>
+<!-- Footer / Sign-off -->
+<footer class="pt-xl border-t border-outline-variant flex flex-col md:flex-row justify-between items-end gap-lg">
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">shield_person</span>
+</div>
+<div>
+<p class="font-label-md text-primary font-bold">Chidi Anthony Okafor</p>
+<p class="font-body-sm text-on-surface-variant">Lead Field Inspector • ID: PR-992</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="px-3 py-1 bg-surface-container-highest rounded border border-outline-variant">
+<p class="text-[9px] font-label-sm uppercase opacity-60 mb-1">Time Logged</p>
+<p class="text-[11px] font-label-md">14:22:10 WAT</p>
+</div>
+<div class="px-3 py-1 bg-surface-container-highest rounded border border-outline-variant">
+<p class="text-[9px] font-label-sm uppercase opacity-60 mb-1">GPS Auth</p>
+<p class="text-[11px] font-label-md">6.5244° N, 3.3792° E</p>
+</div>
+</div>
+</div>
+<div class="text-center md:text-right">
+<div class="mb-2 italic font-serif text-2xl text-primary opacity-80" style="font-family: 'Brush Script MT', cursive;">C.A. Okafor</div>
+<div class="w-48 h-[1px] bg-outline ml-auto mb-2"></div>
+<p class="font-label-sm text-[10px] uppercase text-on-surface-variant">Authorized Digital Signature</p>
+<div class="mt-4 opacity-30 select-none grayscale no-print">
+<img alt="Stamp Placeholder" class="w-16 h-16 ml-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLuDeLGxym8znS3g2QGdVzh9JP0LthBylNMkYY6vL6h9m0zRsf-JXExa3WDvQNxo9f0SYRe2gbFpTQRM1UlfvxWOHOqM9ZtSR4fD6ylNkgSHKFprW8gemTGRvwxkoIYploK3gQ6VqN7GNRPNv7vEFpsv-SKQpq2Fx95SzhReaQZA2MC07ZJlCGroQAoq0fdJystg4E2G1RTVRW7Xf2d9L6vtqDqizGVe0-fGx4TFdk5COzc9sfeuLPEwxMg"/>
+</div>
+</div>
+</footer>
+</div>
+</div>
+<!-- System Footer -->
+<div class="max-w-5xl mx-auto mt-lg text-center no-print">
+<p class="font-body-sm text-on-surface-variant opacity-60">This is a system-generated document. For verification queries, visit propati.com/verify-id?#INS-2024-0882</p>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for gallery hover
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Potential expansion logic or ripple effect
+            });
+        });
+
+        // Print functionality handles CSS @media print automatically
+        function handlePrint() {
+            window.print();
+        }
+    </script>
+</body></html>

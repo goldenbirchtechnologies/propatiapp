@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Overdue Notice</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#6b4500",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#0a2540",
+                        "surface-container-low": "#f1f3ff",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#dde2f3",
+                        "surface-bright": "#f9f9ff",
+                        "inverse-primary": "#b0c8eb",
+                        "tertiary": "#001209",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-tertiary-container": "#009e6f",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "primary": "#000f22",
+                        "on-primary-container": "#768dad",
+                        "inverse-on-surface": "#ecf0ff",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e3e8f9",
+                        "surface": "#f9f9ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-tertiary-fixed": "#002114",
+                        "on-secondary-fixed": "#291800",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-container-highest": "#dde2f3",
+                        "outline": "#74777e",
+                        "on-surface": "#161c27",
+                        "background": "#f9f9ff",
+                        "secondary-fixed": "#ffddb4",
+                        "on-surface-variant": "#43474d",
+                        "secondary": "#835500",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "tertiary-container": "#002a1b",
+                        "surface-tint": "#49607e",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#71fbc0",
+                        "on-background": "#161c27",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#001c37",
+                        "surface-container": "#e8eeff",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d4daea",
+                        "secondary-container": "#feae2c",
+                        "on-primary-fixed-variant": "#314865",
+                        "inverse-surface": "#2a303d",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "base": "4px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin-desktop": "64px",
+                        "lg": "24px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .document-canvas {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+        }
+        .verification-shimmer {
+            background: linear-gradient(90deg, #6b4500 0%, #feae2c 50%, #6b4500 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        body {
+            background-color: #f9f9ff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-6 md:px-margin-desktop w-full h-16 bg-primary dark:bg-primary-container shadow-md">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-extrabold text-secondary-container">PROPATI</span>
+</div>
+<nav class="hidden md:flex items-center gap-xl">
+<a class="font-label-md text-label-md text-on-primary-container opacity-80 hover:text-secondary-fixed-dim transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-primary-container opacity-80 hover:text-secondary-fixed-dim transition-colors" href="#">Properties</a>
+<a class="font-label-md text-label-md text-secondary-fixed font-bold border-b-2 border-secondary-fixed pb-1" href="#">Payments</a>
+<a class="font-label-md text-label-md text-on-primary-container opacity-80 hover:text-secondary-fixed-dim transition-colors" href="#">Documents</a>
+</nav>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-primary cursor-pointer hover:opacity-70">notifications</span>
+<span class="material-symbols-outlined text-on-primary cursor-pointer hover:opacity-70">settings</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot of a property manager, clean lighting, studio background, wearing a professional navy suit, representing trust and authority in the fintech real estate sector." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTLNdj-zh9LvgiCnxNBY2Aq8zXVmufWda8csfv-tfle_0C-CrHav-zar1EUvaIjAZbu-1aSJL8Dh1I9gK0u7uCpweP4ZH5WB0E3c_mUu1RuE4m7aLb7oIp1hWDH1bNL-M3xaQrc2InXZLOv3ow8t4wxM5NpDkteKEPKixCAgb96iSbzSW-PXlDemvYEoH1D9B59rHpMk2nx83eDUh8TtXvigLMghj3Mkwd_Ttw7aoNACr8BRs9USDR"/>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 py-lg flex-col bg-primary dark:bg-primary-container border-r border-outline-variant">
+<div class="px-6 mb-lg">
+<div class="flex items-center gap-md mb-xs">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-primary">Reference: #PRO-9920</h3>
+<p class="font-body-sm text-body-sm text-on-primary-container">Overdue Notice Dept.</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<div class="flex items-center gap-md text-on-primary-container py-3 px-6 hover:bg-on-primary-fixed-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Tenant Profile</span>
+</div>
+<div class="flex items-center gap-md text-on-primary-container py-3 px-6 hover:bg-on-primary-fixed-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Property Details</span>
+</div>
+<div class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-r-full py-3 px-6 border-l-4 border-secondary-fixed translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-md text-label-md">Payment History</span>
+</div>
+<div class="flex items-center gap-md text-on-primary-container py-3 px-6 hover:bg-on-primary-fixed-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Lease Agreement</span>
+</div>
+<div class="flex items-center gap-md text-on-primary-container py-3 px-6 hover:bg-on-primary-fixed-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-md text-label-md">Communication Log</span>
+</div>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-on-primary-fixed-variant text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-sm hover:bg-opacity-80 transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                    Download PDF
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 p-4 md:p-lg lg:p-xl">
+<!-- Breadcrumbs / Status -->
+<div class="max-w-4xl mx-auto mb-lg flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">DOCUMENTS</span>
+<span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+<span class="font-label-sm text-label-sm text-primary">OFFICIAL NOTICES</span>
+</div>
+<div class="flex items-center gap-sm px-3 py-1 bg-surface-container-high rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+<span class="font-label-sm text-label-sm text-secondary">VERIFIED DOCUMENT</span>
+</div>
+</div>
+<!-- Overdue Banner -->
+<div class="max-w-4xl mx-auto bg-error-container text-on-error-container rounded-xl p-md mb-lg border-l-4 border-error flex items-center gap-md">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h1 class="font-headline-sm text-headline-sm uppercase tracking-wider">OVERDUE PAYMENT NOTICE</h1>
+<p class="font-body-sm text-body-sm opacity-90">Urgent action required: Your account currently has an outstanding balance.</p>
+</div>
+</div>
+<!-- The Official Document -->
+<article class="max-w-4xl mx-auto document-canvas rounded-xl p-lg md:p-xl border border-outline-variant relative overflow-hidden">
+<!-- Background Shimmer for authenticity -->
+<div class="absolute top-0 right-0 w-32 h-32 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">security</span>
+</div>
+<div class="flex flex-col md:flex-row justify-between mb-xl gap-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Debt Summary</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Reference ID: <span class="font-label-md text-label-md text-on-surface">#PRO-9920-OCT-2024</span></p>
+<p class="font-body-md text-body-md text-on-surface-variant">Issue Date: <span class="font-label-md text-label-md text-on-surface">October 24, 2024</span></p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-lg border border-outline-variant flex flex-col items-center md:items-end justify-center min-w-[240px]">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Arrears</span>
+<h3 class="font-headline-xl-mobile text-headline-xl-mobile text-error font-extrabold">₦1,450,000.00</h3>
+<div class="mt-xs px-3 py-1 bg-error text-on-error rounded-full font-label-sm text-label-sm">
+                            12 DAYS PAST DUE
+                        </div>
+</div>
+</div>
+<!-- Arrears Breakdown -->
+<section class="mb-xl">
+<h4 class="font-headline-sm text-headline-sm text-primary mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined">list_alt</span>
+                        Itemized Arrears
+                    </h4>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline">
+<th class="text-left py-md px-lg font-label-md text-label-md text-on-surface-variant">DESCRIPTION</th>
+<th class="text-left py-md px-lg font-label-md text-label-md text-on-surface-variant">DUE DATE</th>
+<th class="text-right py-md px-lg font-label-md text-label-md text-on-surface-variant">AMOUNT (₦)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface">Residential Rent (Unit B-12)</td>
+<td class="py-md px-lg font-label-md text-label-md text-on-surface-variant">Oct 12, 2024</td>
+<td class="py-md px-lg text-right font-label-md text-label-md">1,200,000.00</td>
+</tr>
+<tr>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface">Annual Service Charge</td>
+<td class="py-md px-lg font-label-md text-label-md text-on-surface-variant">Oct 12, 2024</td>
+<td class="py-md px-lg text-right font-label-md text-label-md">200,000.00</td>
+</tr>
+<tr>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface">Utility Surcharge (Water/Electric)</td>
+<td class="py-md px-lg font-label-md text-label-md text-on-surface-variant">Oct 15, 2024</td>
+<td class="py-md px-lg text-right font-label-md text-label-md">50,000.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="bg-surface-container-high font-bold">
+<td class="py-md px-lg font-headline-sm text-headline-sm text-primary text-right" colspan="2">TOTAL BALANCE</td>
+<td class="py-md px-lg text-right font-headline-sm text-headline-sm text-primary">₦1,450,000.00</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</section>
+<!-- Warning & Penalty -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg mb-xl">
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<h5 class="font-label-md text-label-md text-primary mb-xs">Late Fee Warning</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                Please be advised that per your Lease Agreement Section 4.2, a daily late accrual fee of <strong>₦2,500.00</strong> will be applied starting 15 days past the due date. To avoid additional penalties and potential impact on your tenant credit rating, please settle this balance by <strong>October 27, 2024</strong>.
+                            </p>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-md justify-between items-center border-t border-outline-variant pt-xl">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist verified shield icon with a circular metallic finish and a green checkmark, high-end fintech visual, representing secure transactions and verified legal status." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSr4NmYvl8nft3hNBn2H9dW4ucQOgXz3cQrybGeKPJJ3VGInXxOhGwJO58Ky45iGt-0ASAlZtKEujauN5_CD1Vx7GCuXgtgH2qLF5-6fJSXnSmpgo4zH2z-go9211zQfLnkfYuMLm7WM4z-4N3OM5eV3QNkfpstTb4eJnLfLq6wt02cfmBwDagcxCvuN-uZYW6lcNwstkS221t2IxVb6Hp_SmhVjlCAZLrq3kNCQq96WeAjriSpA8R"/>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">OFFICIALLY ISSUED BY</p>
+<p class="font-label-md text-label-md text-primary">PROPATI COMPLIANCE DEPT.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-md w-full sm:w-auto">
+<button class="px-xl py-3 border border-primary text-primary rounded-xl font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                            Request Payment Plan
+                        </button>
+<button class="px-xl py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+                            Pay Now
+                        </button>
+</div>
+</div>
+</article>
+<!-- Support Section -->
+<div class="max-w-4xl mx-auto mt-xl grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="bg-white p-lg rounded-xl border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-on-primary-container bg-surface-container p-sm rounded-lg">headset_mic</span>
+<div>
+<h6 class="font-label-md text-label-md text-primary">Facing Hardship?</h6>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-sm">Connect with a financial advisor to discuss alternative arrangements.</p>
+<a class="text-primary font-label-sm text-label-sm underline hover:opacity-80" href="#">Speak with an Advisor</a>
+</div>
+</div>
+<div class="bg-white p-lg rounded-xl border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-on-primary-container bg-surface-container p-sm rounded-lg">help</span>
+<div>
+<h6 class="font-label-md text-label-md text-primary">Payment Support</h6>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-sm">Visit our help center for troubleshooting payment portal issues.</p>
+<a class="text-primary font-label-sm text-label-sm underline hover:opacity-80" href="#">Visit Support Center</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-md px-6 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center mt-auto bg-surface-container-lowest border-t border-outline-variant">
+<div class="mb-md md:mb-0">
+<span class="font-label-md text-label-md font-bold text-primary">PROPATI</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-md">© 2024 PROPATI Marketplace. Official Financial Notice. All rights reserved.</span>
+</div>
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Legal Terms</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support Center</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Compliance</a>
+</div>
+</footer>
+<!-- Interactive Layer: Notification Micro-interaction -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+        
+        // Simple hover animation for the document canvas
+        const doc = document.querySelector('.document-canvas');
+        doc.addEventListener('mouseenter', () => {
+            doc.style.transform = 'translateY(-2px)';
+            doc.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            doc.style.boxShadow = '0 10px 25px rgba(0,0,0,0.08)';
+        });
+        doc.addEventListener('mouseleave', () => {
+            doc.style.transform = 'translateY(0)';
+            doc.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+        });
+    </script>
+</body></html>

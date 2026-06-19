@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Listing | PROPATI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#006b5b",
+                    "on-primary-fixed": "#00201a",
+                    "surface-variant": "#d8e3fb",
+                    "surface-container-highest": "#d8e3fb",
+                    "inverse-on-surface": "#ecf1ff",
+                    "primary": "#006152",
+                    "on-secondary-container": "#725000",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#fcc355",
+                    "primary-fixed": "#98f4dd",
+                    "on-tertiary-fixed": "#3c0801",
+                    "surface-container-high": "#dee8ff",
+                    "on-background": "#111c2d",
+                    "background": "#f9f9ff",
+                    "primary-container": "#0e7c6a",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#7bd7c2",
+                    "surface": "#f9f9ff",
+                    "inverse-primary": "#7bd7c2",
+                    "on-tertiary-fixed-variant": "#753222",
+                    "type-roomshare": "#ec4899",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e7eeff",
+                    "on-primary-container": "#bdffed",
+                    "commercial-gold": "#c9952a",
+                    "on-error-container": "#93000a",
+                    "type-shortlet": "#f59e0b",
+                    "on-primary-fixed-variant": "#005144",
+                    "outline-variant": "#bdc9c4",
+                    "outline": "#6e7a76",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#5e4200",
+                    "secondary-fixed": "#ffdea8",
+                    "surface-bright": "#f9f9ff",
+                    "on-tertiary-container": "#ffeeea",
+                    "type-sale": "#10b981",
+                    "surface-container-low": "#f0f3ff",
+                    "on-surface": "#111c2d",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#3e4946",
+                    "commercial-gold-soft": "rgba(201, 149, 42, 0.1)",
+                    "type-lease": "#8b5cf6",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#271900",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#ffdad2",
+                    "type-rent": "#3b82f6",
+                    "residential-teal-soft": "rgba(14, 124, 106, 0.1)",
+                    "tertiary": "#88412f",
+                    "secondary": "#7c5800",
+                    "surface-dim": "#cfdaf2",
+                    "tertiary-container": "#a65845",
+                    "tertiary-fixed-dim": "#ffb4a2",
+                    "secondary-fixed-dim": "#f6bd50",
+                    "residential-teal": "#0e7c6a",
+                    "inverse-surface": "#263143"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "base-unit": "4px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "title-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-transition {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .step-hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .step-active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        input:checked + label {
+            border-color: #006152;
+            background-color: rgba(14, 124, 106, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-lg">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant shadow-sm h-20">
+<div class="flex justify-between items-center h-full px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-display-lg font-bold text-primary">PROPATI</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-lg" href="#">Browse</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-lg" href="#">Listings</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-lg" href="#">Insights</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full">notifications</button>
+<div class="h-10 w-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a real estate agent with a friendly expression, set against a blurred modern office background with soft daylight. The image has a clean, high-trust corporate aesthetic with a muted color palette of teals and greys." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzDbiwcCu_bWNedDCbEQOnuuqnOJD9VyXcUtq2xZ6BkyRavGXwNlGbvxvNlN0C-4slSSAV_rVsj74uvTuYrfqZ8Kx0EdCpB2vDwvV2l1Cu3tZMTopuS5Aa0gX31qjmmYlinbCk_ee_6PZN9WtjV7_GvBFiSY5zSgyCn4p6WXuY9mPe4vLbg2UDUbagnIEReEXhhqZB1gGdYO_j9GWOcP4XMyAoiJrPYPtjOAZ6D_eTit6n_VzHB2ye"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-20 px-margin-mobile md:px-margin-desktop max-w-[800px] mx-auto min-h-screen">
+<!-- Progress Stepper -->
+<div class="mb-12">
+<div class="flex justify-between items-center relative mb-4">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<!-- Step 1 Indicator -->
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold transition-colors" id="dot-1">1</div>
+<!-- Step 2 Indicator -->
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant border-2 border-outline-variant flex items-center justify-center font-bold transition-colors" id="dot-2">2</div>
+<!-- Step 3 Indicator -->
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant border-2 border-outline-variant flex items-center justify-center font-bold transition-colors" id="dot-3">3</div>
+<!-- Step 4 Indicator -->
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant border-2 border-outline-variant flex items-center justify-center font-bold transition-colors" id="dot-4">4</div>
+</div>
+<div class="flex justify-between px-1">
+<span class="text-label-caps font-label-caps uppercase text-primary">Sector</span>
+<span class="text-label-caps font-label-caps uppercase text-on-surface-variant">Listing</span>
+<span class="text-label-caps font-label-caps uppercase text-on-surface-variant">Details</span>
+<span class="text-label-caps font-label-caps uppercase text-on-surface-variant">Specifications</span>
+</div>
+</div>
+<form class="space-y-8" id="listingForm">
+<!-- STEP 1: SECTOR SELECTION -->
+<section class="step-transition step-active" id="step-1">
+<h1 class="font-headline-lg text-headline-lg mb-2">What are you listing?</h1>
+<p class="text-on-surface-variant mb-8">Choose the primary sector for your property to get started.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<input class="hidden peer" id="sector_residential" name="sector" required="" type="radio" value="residential"/>
+<label class="block p-8 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-all bg-surface hover:shadow-md peer-checked:border-primary peer-checked:bg-residential-teal-soft" for="sector_residential">
+<span class="material-symbols-outlined text-4xl text-primary mb-4 block" data-icon="home">home</span>
+<h3 class="font-title-md text-title-md mb-2">🏠 RESIDENTIAL</h3>
+<p class="text-body-sm text-on-surface-variant">Apartments, houses, villas, and shared living spaces for personal occupancy.</p>
+</label>
+<input class="hidden peer" id="sector_commercial" name="sector" type="radio" value="commercial"/>
+<label class="block p-8 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-primary transition-all bg-surface hover:shadow-md peer-checked:border-primary peer-checked:bg-commercial-gold-soft" for="sector_commercial">
+<span class="material-symbols-outlined text-4xl text-commercial-gold mb-4 block" data-icon="business">business</span>
+<h3 class="font-title-md text-title-md mb-2">🏢 COMMERCIAL</h3>
+<p class="text-body-sm text-on-surface-variant">Offices, retail spaces, warehouses, and industrial complexes for business use.</p>
+</label>
+</div>
+</section>
+<!-- STEP 2: CONDITIONAL LISTING TYPES -->
+<section class="step-transition step-hidden" id="step-2">
+<h2 class="font-headline-lg text-headline-lg mb-2">How do you want to list?</h2>
+<p class="text-on-surface-variant mb-8">Select the transaction model for this listing.</p>
+<div class="space-y-4" id="listing-type-container">
+<!-- Dynamic content based on Step 1 selection -->
+</div>
+</section>
+<!-- STEP 3: CONDITIONAL PROPERTY TYPES -->
+<section class="step-transition step-hidden" id="step-3">
+<h2 class="font-headline-lg text-headline-lg mb-2">Property Type</h2>
+<p class="text-on-surface-variant mb-8">Refine the classification of your property.</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="property-type-grid">
+<!-- Dynamic content based on Step 1 selection -->
+</div>
+</section>
+<!-- STEP 4: DYNAMIC FORM FIELDS -->
+<section class="step-transition step-hidden" id="step-4">
+<h2 class="font-headline-lg text-headline-lg mb-2">Specifications</h2>
+<p class="text-on-surface-variant mb-8">Provide the technical details of your listing.</p>
+<div class="space-y-6" id="specs-container">
+<!-- Dynamic fields for Res/Com -->
+</div>
+</section>
+<!-- Navigation Buttons -->
+<div class="flex justify-between items-center pt-8 border-t border-outline-variant">
+<button class="px-8 py-3 rounded-full border border-outline text-on-surface-variant font-bold hover:bg-surface-container transition-all invisible" id="prevBtn" type="button">Back</button>
+<button class="px-10 py-3 rounded-full bg-primary text-on-primary font-bold hover:opacity-90 transition-all flex items-center gap-2" id="nextBtn" type="button">
+                    Next
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</form>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest border-t border-outline-variant py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-2">
+<span class="font-title-md text-title-md font-bold text-primary mb-4 block">PROPATI</span>
+<p class="text-body-sm text-on-surface-variant max-w-sm mb-6">Professional real estate standards assured. Connecting premium landlords with verified tenants across residential and commercial sectors.</p>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-bold text-primary mb-2">Company</span>
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-bold text-primary mb-2">Resources</span>
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Professional Standards</a>
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+</div>
+<div class="mt-12 text-center text-body-sm text-on-surface-variant px-margin-desktop max-w-container-max mx-auto">
+            © 2024 PROPATI Real Estate. Professional Standards Assured.
+        </div>
+</footer>
+<script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        const form = document.getElementById('listingForm');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        const sectorOptions = {
+            residential: {
+                listingTypes: ['Rent', 'Sale', 'Short-let', 'Room Share'],
+                propertyTypes: ['Apartment', 'Bungalow', 'Duplex', 'Penthouse', 'Studio', 'Terrace'],
+                specs: [
+                    { label: 'Bedrooms', type: 'number', placeholder: 'e.g. 3' },
+                    { label: 'Bathrooms', type: 'number', placeholder: 'e.g. 2' },
+                    { label: 'Parking Spaces', type: 'number', placeholder: 'e.g. 1' }
+                ]
+            },
+            commercial: {
+                listingTypes: ['Lease', 'Sale', 'Joint Venture'],
+                propertyTypes: ['Office', 'Retail', 'Warehouse', 'Land', 'Industrial', 'Healthcare'],
+                specs: [
+                    { label: 'Square Meters (sqm)', type: 'number', placeholder: 'e.g. 450' },
+                    { label: 'Business Type', type: 'text', placeholder: 'e.g. Logistics' },
+                    { label: 'Loading Bays', type: 'number', placeholder: 'e.g. 2' }
+                ]
+            }
+        };
+
+        function updateDynamicSteps() {
+            const sector = form.sector.value;
+            const config = sectorOptions[sector];
+            
+            // Step 2: Listing Types
+            const listingContainer = document.getElementById('listing-type-container');
+            listingContainer.innerHTML = config.listingTypes.map(type => `
+                <div class="relative">
+                    <input type="checkbox" name="listing_type" id="type_${type}" value="${type}" class="hidden peer">
+                    <label for="type_${type}" class="flex items-center justify-between p-4 border border-outline-variant rounded-lg cursor-pointer hover:border-primary peer-checked:border-primary peer-checked:bg-surface-container">
+                        <span class="font-bold">${type}</span>
+                        <span class="material-symbols-outlined text-primary opacity-0 peer-checked:opacity-100">check_circle</span>
+                    </label>
+                </div>
+            `).join('');
+
+            // Step 3: Property Types
+            const propertyGrid = document.getElementById('property-type-grid');
+            propertyGrid.innerHTML = config.propertyTypes.map(type => `
+                <div class="relative">
+                    <input type="radio" name="property_subtype" id="sub_${type}" value="${type}" class="hidden peer">
+                    <label for="sub_${type}" class="flex flex-col items-center justify-center p-6 border border-outline-variant rounded-xl cursor-pointer hover:border-primary peer-checked:border-primary peer-checked:bg-surface-container h-full transition-all text-center">
+                        <h4 class="font-body-sm font-bold">${type}</h4>
+                    </label>
+                </div>
+            `).join('');
+
+            // Step 4: Specifications
+            const specsContainer = document.getElementById('specs-container');
+            specsContainer.innerHTML = config.specs.map(spec => `
+                <div class="space-y-2">
+                    <label class="block font-bold text-on-surface-variant">${spec.label}</label>
+                    <input type="${spec.type}" placeholder="${spec.placeholder}" class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                </div>
+            `).join('');
+        }
+
+        function navigate(direction) {
+            const currentSection = document.getElementById(`step-${currentStep}`);
+            
+            // Validation (Basic)
+            if (direction === 1) {
+                if (currentStep === 1 && !form.sector.value) {
+                    alert('Please select a sector');
+                    return;
+                }
+                if (currentStep === 1) updateDynamicSteps();
+            }
+
+            currentSection.classList.remove('step-active');
+            currentSection.classList.add('step-hidden');
+
+            currentStep += direction;
+
+            const nextSection = document.getElementById(`step-${currentStep}`);
+            nextSection.classList.remove('step-hidden');
+            nextSection.classList.add('step-active');
+
+            updateUI();
+        }
+
+        function updateUI() {
+            // Update Buttons
+            prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = 'Complete Listing <span class="material-symbols-outlined">done_all</span>';
+            } else {
+                nextBtn.innerHTML = 'Next <span class="material-symbols-outlined">arrow_forward</span>';
+            }
+
+            // Update Stepper
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < currentStep) {
+                    dot.classList.remove('bg-surface-container-highest', 'border-outline-variant', 'text-on-surface-variant', 'bg-primary', 'text-on-primary');
+                    dot.classList.add('bg-primary-container', 'text-on-primary-container');
+                    dot.innerHTML = '<span class="material-symbols-outlined text-sm">check</span>';
+                } else if (i === currentStep) {
+                    dot.classList.remove('bg-surface-container-highest', 'border-outline-variant', 'text-on-surface-variant', 'bg-primary-container', 'text-on-primary-container');
+                    dot.classList.add('bg-primary', 'text-on-primary');
+                    dot.innerHTML = i;
+                } else {
+                    dot.classList.remove('bg-primary', 'text-on-primary', 'bg-primary-container', 'text-on-primary-container');
+                    dot.classList.add('bg-surface-container-highest', 'border-2', 'border-outline-variant', 'text-on-surface-variant');
+                    dot.innerHTML = i;
+                }
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                navigate(1);
+            } else {
+                // Final Submit Action
+                nextBtn.innerHTML = 'Saving...';
+                nextBtn.disabled = true;
+                setTimeout(() => {
+                    alert('Listing Submitted Successfully!');
+                    window.location.reload();
+                }, 1500);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) navigate(-1);
+        });
+
+        // Initialize micro-interactions
+        document.querySelectorAll('input[name="sector"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Visual feedback for selection
+            });
+        });
+    </script>
+</body></html>

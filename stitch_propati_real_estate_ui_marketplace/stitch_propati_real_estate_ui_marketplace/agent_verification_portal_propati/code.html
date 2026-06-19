@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agent Verification Portal - Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .progress-shimmer {
+            background: linear-gradient(90deg, rgba(254, 174, 44, 0.1) 0%, rgba(254, 174, 44, 0.4) 50%, rgba(254, 174, 44, 0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        body {
+            background-color: #f9f9ff;
+            color: #161c27;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e3e8f9",
+                        "primary": "#000f22",
+                        "on-background": "#161c27",
+                        "on-error": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "secondary": "#835500",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "on-secondary-container": "#6b4500",
+                        "inverse-surface": "#2a303d",
+                        "inverse-on-surface": "#ecf0ff",
+                        "on-tertiary-container": "#009e6f",
+                        "secondary-fixed": "#ffddb4",
+                        "surface-tint": "#49607e",
+                        "on-surface-variant": "#43474d",
+                        "secondary-container": "#feae2c",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d4daea",
+                        "on-secondary-fixed": "#291800",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#001209",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "tertiary-fixed": "#71fbc0",
+                        "surface-container-highest": "#dde2f3",
+                        "on-tertiary-fixed": "#002114",
+                        "tertiary-container": "#002a1b",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f1f3ff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#161c27",
+                        "background": "#f9f9ff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "surface-variant": "#dde2f3",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e8eeff",
+                        "secondary-fixed-dim": "#ffb955",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "primary-container": "#0a2540",
+                        "on-primary-container": "#768dad",
+                        "inverse-primary": "#b0c8eb",
+                        "outline": "#74777e",
+                        "outline-variant": "#c4c6ce",
+                        "on-primary-fixed": "#001c37",
+                        "on-primary-fixed-variant": "#314865",
+                        "surface-bright": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin-desktop": "64px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "body-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen bg-primary fixed left-0 top-0 w-64 shadow-xl z-50">
+<div class="p-lg">
+<h1 class="text-headline-md font-headline-md text-secondary-container">Agent Portal</h1>
+<p class="text-on-primary-container font-label-sm text-label-sm uppercase tracking-wider mt-1 opacity-70">Verified Workspace</p>
+</div>
+<nav class="flex-1 mt-md">
+<!-- Active Tab: Overview -->
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed font-bold border-l-4 border-secondary-fixed bg-primary-container/50 transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container/80 hover:text-on-primary hover:bg-primary-container/30 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md">Identity</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container/80 hover:text-on-primary hover:bg-primary-container/30 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-body-md">Professional License</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container/80 hover:text-on-primary hover:bg-primary-container/30 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body-md">Office Verification</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container/80 hover:text-on-primary hover:bg-primary-container/30 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">info</span>
+<span class="font-body-md">Status</span>
+</a>
+</nav>
+<div class="p-md mt-auto mb-lg">
+<button class="w-full py-3 px-4 bg-secondary-container text-primary font-bold rounded-lg hover:opacity-90 active:scale-95 transition-all">
+                Submit for Review
+            </button>
+</div>
+<div class="px-md pb-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-secondary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a real estate agent with a confident smile, wearing a sharp navy blue suit and a white shirt. The background is a blurred high-end office environment with warm sunlight filtering through. The visual style is premium and corporate, aligning with a high-trust Nigerian fintech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw9sI8zFUY312Md-GzzeuFNavjJwKY4RtMkfiBVUt0HP8SJeE28O6rb15B69ZL938QrVXFBQTYwvC7f0R1n2MeqRqQw9NHNPd6x_-fhZ-fUj4KOo3rve5JTaLidZSLdNWHbvzxH5RgtAqwCTpWAZVmMHwUIxcXOG5Pw-vKKYts8mKHn0F2ZKvFjJFORxEbErz3vL-iWW7lWYXNeGsfpJ5Y4Ni8KthuQrGBTRiXKBUz3PhqvjaRXUcCe_hymXcYHAj5Nmnq1tBYeTM"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-primary font-bold text-body-sm leading-tight">Chidi Okoro</span>
+<span class="text-on-primary-container text-[12px] opacity-70">Senior Partner</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-margin-desktop ml-64 w-[calc(100%-16rem)] bg-surface shadow-sm fixed top-0 z-40">
+<div class="flex items-center gap-lg">
+<span class="text-headline-sm font-headline-sm text-primary">Overview</span>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg w-64 focus:ring-2 focus:ring-primary focus:border-primary text-body-sm transition-all" placeholder="Search verification data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-primary">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2">
+<div class="text-right">
+<p class="text-label-sm font-label-sm text-primary leading-none">ID: PROP-8291</p>
+<p class="text-[10px] text-on-tertiary-container font-bold uppercase tracking-widest mt-1">Tier 2 Verified</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-lg bg-background min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-12 gap-lg">
+<!-- Hero Section: Verification Progress -->
+<section class="col-span-12 lg:col-span-8">
+<div class="glass-card rounded-xl p-lg shadow-sm relative overflow-hidden h-full flex flex-col justify-between">
+<div class="absolute top-0 right-0 p-lg opacity-10">
+<span class="material-symbols-outlined text-[120px]">verified</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-primary">Verification Status</h2>
+<p class="text-on-surface-variant text-body-md mt-1">Complete your profile to unlock premium marketplace listings.</p>
+</div>
+<div class="text-right">
+<span class="text-headline-xl font-headline-xl text-secondary">60%</span>
+<p class="text-label-sm font-label-sm uppercase tracking-tighter text-on-surface-variant">Profile Progress</p>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-4 bg-surface-container-high rounded-full overflow-hidden mt-lg relative">
+<div class="h-full bg-secondary-container w-[60%] rounded-full relative">
+<div class="absolute inset-0 progress-shimmer opacity-30"></div>
+</div>
+</div>
+<!-- Stepper -->
+<div class="grid grid-cols-5 gap-xs mt-lg">
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-on-tertiary-container text-on-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Identity</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-on-tertiary-container text-on-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] text-center font-bold text-on-surface-variant uppercase">License</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">pending</span>
+</div>
+<span class="text-[10px] text-center font-bold text-primary uppercase">Office</span>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<span class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Inspection</span>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+</div>
+<span class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Clearance</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Action Card -->
+<section class="col-span-12 lg:col-span-4">
+<div class="bg-primary text-on-primary rounded-xl p-lg shadow-lg h-full flex flex-col">
+<h3 class="text-headline-sm font-headline-sm text-secondary-fixed">Next Priority Action</h3>
+<p class="text-body-md mt-md opacity-80">Upload your Office Verification documents to schedule your mandatory physical site inspection.</p>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-secondary-container text-primary font-bold py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all">
+                            Complete Office Verification
+                        </button>
+</div>
+</div>
+</section>
+<!-- Main Workspace Bento Grid -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Module 1: Identity -->
+<div class="glass-card p-lg rounded-xl flex flex-col hover:shadow-md transition-all cursor-pointer group">
+<div class="flex justify-between items-center mb-md">
+<div class="p-2 bg-surface-container-high rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">fingerprint</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> Verified
+                        </span>
+</div>
+<h4 class="text-headline-sm font-headline-sm text-primary">Identity &amp; Biometrics</h4>
+<p class="text-body-sm text-on-surface-variant mt-2 flex-1">NIN and facial recognition biometric data have been successfully cross-referenced.</p>
+<div class="mt-lg flex items-center text-primary font-bold text-body-sm">
+                        View Details <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Module 2: Professional Licensing -->
+<div class="glass-card p-lg rounded-xl flex flex-col hover:shadow-md transition-all cursor-pointer group border-l-4 border-secondary-container">
+<div class="flex justify-between items-center mb-md">
+<div class="p-2 bg-surface-container-high rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary-container font-label-sm text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span> Pending Review
+                        </span>
+</div>
+<h4 class="text-headline-sm font-headline-sm text-primary">Professional Licensing</h4>
+<p class="text-body-sm text-on-surface-variant mt-2 flex-1">Estate Agent Registry (EAR) certificate #88120 is currently undergoing verification.</p>
+<div class="mt-lg flex items-center text-primary font-bold text-body-sm">
+                        Check Status <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Module 3: Office Verification -->
+<div class="glass-card p-lg rounded-xl flex flex-col hover:shadow-md transition-all cursor-pointer group border-dashed border-2 border-outline-variant">
+<div class="flex justify-between items-center mb-md">
+<div class="p-2 bg-surface-container-high rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-[12px]">
+                            Not Started
+                        </span>
+</div>
+<h4 class="text-headline-sm font-headline-sm text-primary">Office Verification</h4>
+<p class="text-body-sm text-on-surface-variant mt-2 flex-1">Provide business premises address and ownership documents to proceed.</p>
+<div class="mt-lg">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-bold text-body-sm flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+                            Start Process <span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Side Panel: Recent Activity -->
+<section class="col-span-12 lg:col-span-4">
+<div class="glass-card rounded-xl p-lg h-full">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="text-headline-sm font-headline-sm text-primary">Recent Activity</h3>
+<span class="material-symbols-outlined text-on-surface-variant">history</span>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4 relative">
+<div class="absolute left-4 top-8 bottom-0 w-[1px] bg-outline-variant h-[calc(100%+24px)]"></div>
+<div class="z-10 w-8 h-8 rounded-full bg-on-tertiary-container flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined text-sm">upload_file</span>
+</div>
+<div>
+<p class="font-bold text-body-sm text-primary">EAR License Uploaded</p>
+<p class="text-body-sm text-on-surface-variant">Document EAR-88120-NIG submitted for review.</p>
+<span class="text-[10px] font-label-sm text-on-surface-variant/60">Oct 24, 2024 • 14:32</span>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="absolute left-4 top-8 bottom-0 w-[1px] bg-outline-variant h-[calc(100%+24px)]"></div>
+<div class="z-10 w-8 h-8 rounded-full bg-on-tertiary-container flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div>
+<p class="font-bold text-body-sm text-primary">Identity Verified</p>
+<p class="text-body-sm text-on-surface-variant">NIN Biometric match confirmed via NIMC gateway.</p>
+<span class="text-[10px] font-label-sm text-on-surface-variant/60">Oct 22, 2024 • 09:15</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="z-10 w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">person_add</span>
+</div>
+<div>
+<p class="font-bold text-body-sm text-primary">Account Created</p>
+<p class="text-body-sm text-on-surface-variant">New Agent Onboarding initiated.</p>
+<span class="text-[10px] font-label-sm text-on-surface-variant/60">Oct 21, 2024 • 16:45</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg py-2 border border-outline-variant rounded-lg text-body-sm font-medium hover:bg-surface-container-low transition-colors">
+                        View All Activity
+                    </button>
+</div>
+</section>
+<!-- Verification Map / Office Preview -->
+<section class="col-span-12 lg:col-span-8">
+<div class="glass-card rounded-xl overflow-hidden relative min-h-[300px]">
+<div class="absolute inset-0 z-0 bg-surface-container-high">
+<div class="w-full h-full opacity-50 grayscale hover:grayscale-0 transition-all duration-700" data-alt="A stylized digital map of Lagos, Nigeria, with professional overlays and pin markers indicating real estate office locations. The map uses a sophisticated dark-mode aesthetic with clean lines and primary navy tones, reflecting a high-tech verification ecosystem. Subtle glowing paths connect different verification points across the city." data-location="Lagos, Nigeria" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHbG7sChs3svEJdjwrgTk7CjYkvqU5je7N0nbtQzYP8rzPNkqjhx2f3e5p7q5oIh6zuK04x_ZTljQNfHZSKH0-nBXONMUToGstx5rvFB_Az7MYhVujbTsaMEXMccIm5ZKW958kLRlpV9wyp5efMPlu8VjmWoKQ-g4j1V0MABd04gu-3JHefHAyht1mFaKduV7EXHpUU8KuS2eht7J5Rsu_P4Ty-G3z90dLCA8UXS6oa95VWWAQxrGDiWBwhR0KDJeceCyGUA0HaxM')"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<div class="absolute bottom-0 left-0 p-lg z-20 text-on-primary">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary-container">location_on</span>
+<span class="text-label-md font-label-md uppercase tracking-widest text-secondary-container">Next Phase: Site Inspection</span>
+</div>
+<h4 class="text-headline-md font-headline-md">Lagos Regional Office Network</h4>
+<p class="text-body-sm opacity-80 max-w-md">Once office documents are verified, an inspector will be dispatched to your primary place of business in Lagos Mainland.</p>
+</div>
+<div class="absolute top-4 right-4 z-20">
+<div class="bg-white/90 backdrop-blur-md p-md rounded-lg shadow-lg border border-outline-variant">
+<p class="text-label-sm font-label-sm text-primary">EXPECTED LEAD TIME</p>
+<p class="text-headline-sm font-headline-sm text-secondary">3-5 Working Days</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="flex justify-between items-center ml-64 w-[calc(100%-16rem)] py-sm px-margin-desktop bg-surface-container-low border-t border-outline-variant text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-4">
+<span class="text-label-md font-label-md text-primary">Propati Portal</span>
+<span>© 2024 Propati Nigeria. All Rights Reserved. Professional Agent Network.</span>
+</div>
+<div class="flex gap-lg">
+<a class="hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="hover:text-primary underline transition-all" href="#">Terms of Service</a>
+<a class="hover:text-primary underline transition-all" href="#">Compliance Standards</a>
+<a class="hover:text-primary underline transition-all text-primary font-medium" href="#">Support</a>
+</div>
+</footer>
+<script>
+        // Simple interactivity for verification status clicks
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('translate-y-[-4px]');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('translate-y-[-4px]');
+            });
+        });
+    </script>
+</body></html>

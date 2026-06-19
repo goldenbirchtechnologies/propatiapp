@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Submitted | EstateVerify</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#d2e4ff",
+                      "primary-container": "#0a2540",
+                      "tertiary-container": "#002a1b",
+                      "inverse-on-surface": "#ecf0ff",
+                      "surface-variant": "#dde2f3",
+                      "surface-container": "#e8eeff",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#291800",
+                      "on-error": "#ffffff",
+                      "surface": "#f9f9ff",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#b0c8eb",
+                      "surface-container-low": "#f1f3ff",
+                      "on-primary-fixed": "#001c37",
+                      "surface-bright": "#f9f9ff",
+                      "surface-container-high": "#e3e8f9",
+                      "on-surface-variant": "#43474d",
+                      "surface-container-highest": "#dde2f3",
+                      "secondary-fixed-dim": "#ffb955",
+                      "on-background": "#161c27",
+                      "background": "#f9f9ff",
+                      "surface-dim": "#d4daea",
+                      "secondary-container": "#feae2c",
+                      "on-primary-container": "#768dad",
+                      "tertiary-fixed-dim": "#50dea5",
+                      "secondary-fixed": "#ffddb4",
+                      "outline-variant": "#c4c6ce",
+                      "outline": "#74777e",
+                      "on-tertiary-fixed": "#002114",
+                      "primary-fixed-dim": "#b0c8eb",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005137",
+                      "on-tertiary-container": "#009e6f",
+                      "on-secondary-container": "#6b4500",
+                      "tertiary": "#001209",
+                      "surface-tint": "#49607e",
+                      "on-primary": "#ffffff",
+                      "secondary": "#835500",
+                      "primary": "#000f22",
+                      "on-primary-fixed-variant": "#314865",
+                      "on-surface": "#161c27",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed": "#71fbc0",
+                      "on-secondary-fixed-variant": "#633f00",
+                      "inverse-surface": "#2a303d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "lg": "24px",
+                      "gutter": "24px",
+                      "xl": "32px",
+                      "sm": "8px",
+                      "base": "4px",
+                      "margin-mobile": "16px",
+                      "xs": "4px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Bricolage Grotesque"],
+                      "headline-xl": ["Bricolage Grotesque"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Bricolage Grotesque"],
+                      "headline-sm": ["Bricolage Grotesque"],
+                      "body-lg": ["Inter"],
+                      "headline-xl-mobile": ["Bricolage Grotesque"],
+                      "body-sm": ["Inter"],
+                      "headline-lg": ["Bricolage Grotesque"],
+                      "label-sm": ["JetBrains Mono"],
+                      "label-md": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .certified-shimmer {
+            background: linear-gradient(90deg, #6b21a8 0%, #a855f7 25%, #d8b4fe 50%, #a855f7 75%, #6b21a8 100%);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite linear;
+        }
+
+        .celebration-canvas {
+            background-image: radial-gradient(circle at 50% 50%, rgba(176, 200, 235, 0.1) 0%, transparent 80%);
+        }
+
+        .confetti-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar (Fixed) -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[64px] bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="text-headline-sm font-headline-sm font-black text-primary-container">EstateVerify</span>
+</div>
+<div class="hidden md:flex gap-lg items-center">
+<a class="text-on-surface-variant font-label-md hover:text-secondary transition-colors" href="#">Rent</a>
+<a class="text-on-surface-variant font-label-md hover:text-secondary transition-colors" href="#">Buy</a>
+<a class="text-on-surface-variant font-label-md hover:text-secondary transition-colors" href="#">Short-let</a>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional user avatar for a high-end real estate portal. The image features a polished, friendly young Nigerian man in business-casual attire, set against a clean, minimalist studio background with soft cinematic lighting. The aesthetic is modern corporate, emphasizing trust, professionalism, and the clean light-mode visual tokens of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsKOUjFqyKlyhMJwRZ284-8QiSfPQ9fcptHj2vW7uwggh-dx5rxKVcDjcyL0R-gArTQCyGiaqptq0WJDcSdn_okBizrQEtvN7GN0XBiZ4-O1Bc02cW6ysbRMMtxRC4Eb5beXfPl_0pPtjJQXIQpCMC3BOFQmK7efpePABOIjSO5hGa2t3WwqbYMbyMJbtde9IHZ0xcWpjA5rUTyHvOm5pbpswAssMvRGz5a2SanlT1n25skRTEg3M2Jy_6kH_EPbnKxs9lnEJWzrQ"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-[64px] min-h-screen flex items-center justify-center celebration-canvas px-margin-mobile">
+<div class="max-w-3xl w-full py-xl flex flex-col items-center">
+<!-- Progress Stepper (Step 5 of 5) -->
+<div class="w-full mb-xl">
+<div class="flex items-center justify-between relative px-2">
+<!-- Progress Line -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-tertiary-fixed-dim -translate-y-1/2 -z-10"></div>
+<!-- Steps -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-on-surface-variant hidden md:block">Identity</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-on-surface-variant hidden md:block">Ownership</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-on-surface-variant hidden md:block">Site Visit</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-on-surface-variant hidden md:block">Documents</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-tertiary-container border-4 border-tertiary-fixed-dim flex items-center justify-center text-tertiary-fixed shadow-md animate-pulse">
+<span class="material-symbols-outlined text-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-primary font-bold">Review</span>
+</div>
+</div>
+</div>
+<!-- Central Content Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg md:p-xl w-full shadow-lg text-center flex flex-col items-center transition-all hover:shadow-xl relative overflow-hidden">
+<!-- Background Decoration -->
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-12 -left-12 w-48 h-48 bg-secondary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="mb-lg relative">
+<!-- Shimmering Certified Badge -->
+<div class="certified-shimmer px-8 py-3 rounded-full flex items-center gap-2 shadow-xl transform transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-md text-white font-bold uppercase tracking-widest">Certified</span>
+</div>
+<!-- Status Indicator Pulse -->
+<div class="absolute -top-2 -right-2 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-tertiary-fixed-dim border-2 border-surface-container-lowest"></span>
+</div>
+</div>
+<h1 class="font-headline-lg text-headline-lg md:text-headline-xl text-primary-container mb-md">Verification Submitted</h1>
+<div class="max-w-lg mb-xl space-y-md">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Verification in Progress. Your property is being reviewed by our compliance team.
+                    </p>
+<div class="bg-surface-container-low rounded-lg p-md inline-block border border-primary-fixed/30">
+<p class="font-label-md text-on-surface">
+                            Current Status: <span class="text-tertiary-container font-bold">Under Review</span>
+</p>
+<p class="font-body-sm text-on-surface-variant mt-1">
+                            Expected completion: <span class="font-label-sm">48 hours</span>
+</p>
+</div>
+</div>
+<!-- Action Button -->
+<a class="inline-flex items-center justify-center h-[48px] px-xl bg-primary-container text-white font-label-md rounded-xl hover:bg-primary transition-all active:scale-95 shadow-md" href="#">
+                    Return to Dashboard
+                </a>
+<!-- Helper Footer -->
+<div class="mt-xl pt-lg border-t border-outline-variant w-full flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-md">help_outline</span>
+<span class="font-body-sm">Need help? <a class="text-secondary font-bold underline" href="#">Contact Support</a></span>
+</div>
+<div class="font-label-sm text-outline">Ref ID: EV-2940-NG</div>
+</div>
+</div>
+<!-- Dashboard Summary Preview (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md w-full mt-lg">
+<div class="bg-primary-container text-white p-lg rounded-xl flex items-center justify-between">
+<div>
+<p class="font-label-sm text-primary-fixed opacity-70">Application Score</p>
+<h3 class="font-headline-sm text-headline-sm">98% Verified</h3>
+</div>
+<div class="w-16 h-16 rounded-full border-4 border-tertiary-fixed-dim border-t-transparent flex items-center justify-center animate-spin-slow">
+<span class="material-symbols-outlined text-xl">speed</span>
+</div>
+</div>
+<div class="bg-surface-container-highest p-lg rounded-xl flex items-center gap-lg">
+<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary-container">description</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant">Documents Verified</p>
+<h3 class="font-headline-sm text-headline-sm text-primary">12/12 Complete</h3>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg bg-primary-container text-on-primary">
+<div class="md:col-span-1">
+<span class="font-headline-sm text-headline-sm text-secondary-fixed">EstateVerify</span>
+<p class="font-body-sm text-on-primary-container mt-md">Nigeria's most trusted real estate verification engine.</p>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-secondary-fixed mb-base">Company</span>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">About Us</a>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Careers</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-secondary-fixed mb-base">Support</span>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Contact Support</a>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Help Center</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-secondary-fixed mb-base">Legal</span>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Privacy Policy</a>
+</div>
+<div class="md:col-span-4 pt-lg border-t border-on-primary-container/20">
+<p class="font-label-sm text-on-primary-container text-center">© 2024 EstateVerify Nigeria. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Simple confetti effect for celebration
+        function createConfetti() {
+            const colors = ['#feae2c', '#71fbc0', '#d2e4ff', '#ffb955', '#a855f7'];
+            const container = document.querySelector('main');
+            
+            for (let i = 0; i < 40; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'confetti-dot';
+                dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = '-10px';
+                dot.style.opacity = Math.random();
+                dot.style.transform = `scale(${Math.random() * 1.5})`;
+                
+                container.appendChild(dot);
+                
+                const animation = dot.animate([
+                    { top: '-10px', transform: `translateX(0px) rotate(0deg)` },
+                    { top: '100vh', transform: `translateX(${(Math.random() - 0.5) * 200}px) rotate(${Math.random() * 720}deg)` }
+                ], {
+                    duration: 3000 + Math.random() * 3000,
+                    easing: 'cubic-bezier(.37,0,.63,1)',
+                    delay: Math.random() * 2000
+                });
+                
+                animation.onfinish = () => dot.remove();
+            }
+        }
+
+        // Trigger confetti on load
+        window.addEventListener('DOMContentLoaded', () => {
+            createConfetti();
+        });
+    </script>
+</body></html>

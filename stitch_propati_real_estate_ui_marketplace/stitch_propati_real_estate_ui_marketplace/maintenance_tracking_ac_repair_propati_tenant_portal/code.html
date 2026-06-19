@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Request Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Bricolage+Grotesque:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#835500",
+                    "surface-variant": "#dde2f3",
+                    "secondary-container": "#feae2c",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "primary": "#000f22",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "secondary-fixed-dim": "#ffb955",
+                    "surface-dim": "#d4daea",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f9f9ff",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#002a1b",
+                    "on-primary-container": "#768dad",
+                    "surface-container-high": "#e3e8f9",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "on-tertiary-container": "#009e6f",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c27",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "outline": "#74777e",
+                    "tertiary": "#001209",
+                    "surface-container-low": "#f1f3ff",
+                    "outline-variant": "#c4c6ce",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#b0c8eb",
+                    "secondary-fixed": "#ffddb4",
+                    "background": "#f9f9ff",
+                    "on-secondary-container": "#6b4500",
+                    "on-tertiary-fixed": "#002114",
+                    "on-primary-fixed": "#001c37",
+                    "inverse-surface": "#2a303d",
+                    "surface-container-highest": "#dde2f3",
+                    "surface-tint": "#49607e",
+                    "on-surface": "#161c27",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#71fbc0",
+                    "on-surface-variant": "#43474d",
+                    "surface-container": "#e8eeff",
+                    "surface": "#f9f9ff",
+                    "on-secondary-fixed": "#291800"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-sm": ["Inter"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-completed { @apply text-secondary; }
+        .step-active { @apply text-primary-fixed; }
+        
+        /* Subtle texture for cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .premium-shadow {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-primary-container flex justify-between items-center w-full px-margin-desktop h-16 docked full-width top-0 border-b border-outline-variant dark:border-outline shadow-sm z-50 sticky">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">PROPATI</span>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed font-bold border-b-2 border-secondary-container" href="#">Properties</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Maintenance</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Financials</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary-container p-2 hover:bg-surface-container rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-primary-container p-2 hover:bg-surface-container rounded-full transition-all">settings</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-outline-variant cursor-pointer hover:scale-95 duration-150">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a premium real estate platform user, looking confident and approachable. The lighting is soft and studio-quality, emphasizing a professional corporate aesthetic. The background is a clean, neutral office environment with subtle blue tones, matching the PROPATI brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI2s-xQ4uyc-BdEJ4dLix1RQZUZoM12s0_kEHYRDud1dj0Enm29at-oenjz9HG7jxU0SVN1r-faHUeiCzNerorSUYtlf_7I5lrVPiFNWFRbjGnE_zySHV5FaaBUBW-6PhFYOJSaATSxyFvAimFJd3bMNh31VZbh0qw53EFt8lPYdaXpoNvirFU1L9vlDl2zxItPyX-j50gSspdSAqa0VVbFAA82MgImTGTmb0VUSgf0HGOTubqI_Yg"/>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-20 pb-8 bg-primary dark:bg-primary-container docked left-0 h-full w-64 shadow-xl hidden lg:flex">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">corporate_fare</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-black text-on-primary">Hub</h3>
+<p class="text-[10px] text-on-primary/60 uppercase tracking-widest">Verified Management</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span> Overview
+                </a>
+<a class="flex items-center gap-md text-secondary-fixed-dim border-l-4 border-secondary-container bg-on-primary-fixed-variant/10 px-md py-sm font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">build</span> Requests
+                </a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">engineering</span> Technicians
+                </a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">calendar_today</span> Schedule
+                </a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span> Reports
+                </a>
+</nav>
+<div class="mt-auto px-md pt-lg border-t border-on-primary/10">
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">help</span> Help Center
+                </a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm font-label-md text-label-md hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 px-margin-mobile md:px-margin-desktop py-lg">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-lg">
+<span class="text-on-surface-variant font-label-sm text-label-sm">MAINTENANCE</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-label-sm text-label-sm">#REQ-2024-0892</span>
+</nav>
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">Kitchen Plumbing Repair</h1>
+<div class="flex items-center gap-sm">
+<span class="px-3 py-1 bg-surface-container-high text-primary rounded-full font-label-sm text-label-sm">Urgent</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Submitted Oct 24, 2024</span>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="px-lg py-[10px] bg-primary text-on-primary rounded-xl font-body-md hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Lifecycle Tracker (Full Width) -->
+<section class="col-span-12 glass-card rounded-xl p-xl mb-base">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xl">Request Lifecycle</h3>
+<div class="relative">
+<!-- Connecting Line -->
+<div class="absolute top-5 left-0 w-full h-[2px] bg-surface-variant -z-10"></div>
+<div class="absolute top-5 left-0 w-[50%] h-[2px] bg-secondary-container -z-10"></div>
+<div class="flex justify-between items-start">
+<!-- Step 1: Submitted -->
+<div class="flex flex-col items-center text-center max-w-[120px]">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-primary flex items-center justify-center mb-sm shadow-md">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Submitted</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Oct 24, 09:15</span>
+</div>
+<!-- Step 2: Assigned -->
+<div class="flex flex-col items-center text-center max-w-[120px]">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-primary flex items-center justify-center mb-sm shadow-md">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Assigned</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Oct 24, 14:30</span>
+</div>
+<!-- Step 3: Visit Scheduled -->
+<div class="flex flex-col items-center text-center max-w-[120px]">
+<div class="w-10 h-10 rounded-full bg-primary-container text-primary-fixed flex items-center justify-center mb-sm ring-4 ring-primary-container/20 shadow-md">
+<span class="material-symbols-outlined text-base">event</span>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">Visit Scheduled</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Oct 28, 10:00</span>
+</div>
+<!-- Step 4: Work in Progress -->
+<div class="flex flex-col items-center text-center max-w-[120px]">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-base">engineering</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">In Progress</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/50 mt-1">Pending</span>
+</div>
+<!-- Step 5: Resolved -->
+<div class="flex flex-col items-center text-center max-w-[120px]">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-base">task_alt</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Resolved</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/50 mt-1">Pending</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Left Column: Technician & Appointment -->
+<div class="col-span-12 lg:col-span-5 space-y-gutter">
+<!-- Technician Profile Card -->
+<div class="glass-card rounded-xl p-lg premium-shadow transition-transform hover:scale-[1.02] duration-300">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary">Technician</h3>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span> VERIFIED
+                            </span>
+</div>
+<div class="flex items-center gap-md mb-lg">
+<div class="w-16 h-16 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a professional African maintenance technician wearing a neat, navy-blue utility uniform with a subtle company logo. He has a friendly, professional expression. The background is a brightly lit, clean interior environment with modern industrial aesthetics. Sharp focus, professional photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4o9GYVsItYfNkE6vM__XRQLAATff_q-PXIdFablzlb_ka_5ncHsHg3x015RPIDBf9wC0ata4iKkmYG7gK5r4SqzxNu8C8tem-yHT5AR4ULJTKyIzpXitKYP5vo4mbdyOoSUFy3jkvHspVh8GghIkl-km_5fR2n8tnh8Y_0I0gQMt3_3ucOyZ-KczKYdqNJcOAjJ7ok-MuKudMFKejSEBb3XLLoNhb7DrFxUVs4A56Ihr0nESp2vrj"/>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-primary font-bold">Chidi Nwosu</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Plumbing Specialist • 4.9 ★</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 px-md py-[10px] bg-primary text-on-primary rounded-xl font-body-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+                                Message
+                            </button>
+<button class="w-12 h-11 border border-outline-variant rounded-xl flex items-center justify-center hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-primary">call</span>
+</button>
+</div>
+</div>
+<!-- Appointment Details -->
+<div class="glass-card rounded-xl p-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-md">Appointment</h3>
+<div class="bg-surface-container-low rounded-lg p-md space-y-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase">Scheduled Date</p>
+<p class="text-primary font-body-md font-bold">Monday, Oct 28, 2024</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">schedule</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase">Time Window</p>
+<p class="text-primary font-body-md font-bold">10:00 AM - 12:00 PM</p>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm mt-md">
+<span class="material-symbols-outlined text-[16px] align-middle mr-1">info</span>
+                            Technician will arrive within the first 30 mins of the window.
+                        </p>
+</div>
+</div>
+<!-- Right Column: Report Summary & Media -->
+<div class="col-span-12 lg:col-span-7 space-y-gutter">
+<!-- Report Summary -->
+<div class="glass-card rounded-xl p-lg h-full">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary">Report Summary</h3>
+<button class="text-primary font-label-md text-label-md underline">Edit Details</button>
+</div>
+<div class="space-y-lg">
+<div>
+<h5 class="text-on-surface-variant font-label-sm text-label-sm uppercase mb-xs">Description</h5>
+<p class="text-primary font-body-md leading-relaxed">
+                                    Leaking pipe under the kitchen island sink. The leak started after running the dishwasher last night. There is visible water damage to the wood base and a constant drip even when faucets are off.
+                                </p>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<h5 class="text-on-surface-variant font-label-sm text-label-sm uppercase mb-xs">Property</h5>
+<p class="text-primary font-body-md font-bold">Azure Heights, Unit 402</p>
+</div>
+<div>
+<h5 class="text-on-surface-variant font-label-sm text-label-sm uppercase mb-xs">Location</h5>
+<p class="text-primary font-body-md font-bold">Lagos, VI</p>
+</div>
+</div>
+<div>
+<h5 class="text-on-surface-variant font-label-sm text-label-sm uppercase mb-md">Attached Photos</h5>
+<div class="grid grid-cols-3 gap-sm">
+<div class="aspect-square rounded-lg overflow-hidden border border-outline-variant hover:border-secondary transition-all cursor-zoom-in group">
+<img class="w-full h-full object-cover group-hover:scale-110 duration-500" data-alt="A clear, well-lit photo showing a leak under a modern kitchen sink. Droplets of water are visible on a PVC pipe. The surrounding wooden cabinet shows slight moisture. Premium home interior aesthetic, professional clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD001SShWrCYBMlLSIR9oc5Ah6hgfg3o3EF7weRCOTxhc8qqXSX2fnFu9Sd13pupnXCxX4sNvvoIxhVUbGXcD5NdeBEh12F6Q9ZV6nb7Gj9EXRBimlyjlr2h219CBJ6byhpLGT6z80cjXDAT6iQpy9dPWF-NS2hUPSL_f4xImlR4x67PC_LRd8i9_OIRUcT0E629BcXA1ULBgnSrOeofvthGQVCiuHRalgsBl79fRU7vXYwwUGpsaAs"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden border border-outline-variant hover:border-secondary transition-all cursor-zoom-in group">
+<img class="w-full h-full object-cover group-hover:scale-110 duration-500" data-alt="A detail shot of water damage on the interior floor of a high-end kitchen cabinet. The wood texture is dark and wet, emphasizing the urgency of repair. Soft lighting from an overhead source. Crisp, detailed macro photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8qjU_TdrG7ywQ--LGOWTJZC3giOuUuaHN6ots830auCVNwbA2KGBlRJhEPMus2f_p3xrcsJEOlaB3JLa0MueJoiQJqbuIXDaCletCsT8eJ-6vwuNDoVJbKjio4U292l3Sslv3hL3DjMyIAgMPVre5w5-dKSi8czBG6CooWlE8u7Ud48O_eJ_gkNwKFDj97cy-WIJrUXdWWDRttse4dJXGHgJDzfG4INzx-hagIrin92lmovkUQ2ba"/>
+</div>
+<div class="aspect-square rounded-lg bg-surface-container-highest flex flex-col items-center justify-center border-2 border-dashed border-outline hover:bg-surface-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-1">add_a_photo</span>
+<span class="font-label-sm text-label-sm">Add more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Help / Action -->
+<div class="mt-xl flex flex-col items-center justify-center p-xl bg-surface-container-low rounded-2xl border border-outline-variant">
+<p class="text-primary font-headline-sm mb-sm">Need to reschedule this visit?</p>
+<p class="text-on-surface-variant text-center max-w-md mb-lg">You can change your appointment time up to 24 hours before the scheduled slot without any additional fees.</p>
+<button class="px-xl py-md border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary transition-all">
+                    Reschedule Appointment
+                </button>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] px-md h-16 flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-settings-'FILL'-1">build</span>
+<span class="text-[10px] font-bold">Requests</span>
+</button>
+<div class="relative -top-6 w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg ring-4 ring-background">
+<span class="material-symbols-outlined">add</span>
+</div>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px]">Schedule</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for button presses
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+
+        // Hover effect for technician card
+        const techCard = document.querySelector('.premium-shadow');
+        if (techCard) {
+            techCard.addEventListener('mousemove', (e) => {
+                const rect = techCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                techCard.style.setProperty('--mouse-x', `${x}px`);
+                techCard.style.setProperty('--mouse-y', `${y}px`);
+            });
+        }
+    </script>
+</body></html>

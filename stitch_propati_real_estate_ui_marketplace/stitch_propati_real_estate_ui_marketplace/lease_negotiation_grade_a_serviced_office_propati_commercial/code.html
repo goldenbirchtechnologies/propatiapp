@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lease Negotiation Workspace | PROPATI Commercial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001c37",
+                "inverse-surface": "#2a303d",
+                "surface-tint": "#49607e",
+                "secondary": "#835500",
+                "on-secondary-container": "#6b4500",
+                "surface-container": "#e8eeff",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed-variant": "#633f00",
+                "on-error-container": "#93000a",
+                "outline": "#74777e",
+                "on-primary": "#ffffff",
+                "surface-container-low": "#f1f3ff",
+                "secondary-fixed": "#ffddb4",
+                "on-tertiary-fixed-variant": "#005137",
+                "on-secondary-fixed": "#291800",
+                "tertiary-fixed": "#71fbc0",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed-variant": "#314865",
+                "inverse-on-surface": "#ecf0ff",
+                "primary-fixed-dim": "#b0c8eb",
+                "surface-container-high": "#e3e8f9",
+                "surface-variant": "#dde2f3",
+                "primary-container": "#0a2540",
+                "tertiary-fixed-dim": "#50dea5",
+                "on-primary-container": "#768dad",
+                "primary": "#000f22",
+                "surface-dim": "#d4daea",
+                "on-tertiary-container": "#009e6f",
+                "primary-fixed": "#d2e4ff",
+                "on-secondary": "#ffffff",
+                "surface": "#f9f9ff",
+                "outline-variant": "#c4c6ce",
+                "on-background": "#161c27",
+                "background": "#f9f9ff",
+                "tertiary-container": "#002a1b",
+                "error-container": "#ffdad6",
+                "tertiary": "#001209",
+                "surface-container-highest": "#dde2f3",
+                "secondary-fixed-dim": "#ffb955",
+                "on-tertiary-fixed": "#002114",
+                "on-surface-variant": "#43474d",
+                "on-surface": "#161c27",
+                "inverse-primary": "#b0c8eb",
+                "on-error": "#ffffff",
+                "secondary-container": "#feae2c",
+                "surface-bright": "#f9f9ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "xs": "4px",
+                "gutter": "24px",
+                "md": "16px",
+                "sm": "8px",
+                "margin-mobile": "16px",
+                "margin-desktop": "64px",
+                "base": "4px",
+                "xl": "32px",
+                "lg": "24px"
+            },
+            "fontFamily": {
+                "headline-sm": ["Bricolage Grotesque"],
+                "body-lg": ["Inter"],
+                "label-sm": ["JetBrains Mono"],
+                "body-sm": ["Inter"],
+                "body-md": ["Inter"],
+                "label-md": ["JetBrains Mono"],
+                "headline-xl": ["Bricolage Grotesque"],
+                "headline-lg": ["Bricolage Grotesque"],
+                "headline-md": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dde2f3; border-radius: 10px; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-background text-on-background overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="fixed h-full w-64 left-0 top-0 bg-primary border-r-4 border-secondary-container shadow-xl flex flex-col h-screen overflow-y-auto z-50">
+<div class="p-lg">
+<h1 class="font-headline-lg text-headline-lg font-black text-secondary-container leading-none">PROPATI</h1>
+<p class="font-label-md text-label-md text-on-primary-fixed-variant mt-xs opacity-80 uppercase tracking-widest">Commercial</p>
+</div>
+<div class="mt-md px-md">
+<div class="flex items-center gap-3 p-3 bg-primary-container/30 rounded-lg">
+<img class="w-10 h-10 rounded-full object-cover border border-secondary-container" data-alt="Close up of a premium executive headshot, a professional real estate agent with a warm smile, wearing a sharp navy suit, soft cinematic lighting against a blurred modern office background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM3PU1VwsiNRMhNm1W8lkHxf75OQ3K30DWm8NgerOWz-MPmcHaPHWhzgVYMBfizVY2ak9E29nzBZYJFiEgWnlUeVnF7-4CUGepPiviT6QPBYVrtyYbOa4Cmwp_Mre9mL6PWV3I64eDMC6CW56z4Clp1maHDoV_wrKv-ETN4A8u1gt6HKCd5jrb07usRj6MyuxuFjp8YTfhQLUVCSplddlIqRE_hL3FeJcZi0NpL1zhsWt84Zz5Gh7E"/>
+<div>
+<p class="font-headline-sm text-[14px] text-on-primary font-bold">Gold Verified Agent</p>
+<p class="text-[12px] text-on-primary-fixed-variant opacity-70">Agent Profile</p>
+</div>
+</div>
+</div>
+<nav class="mt-lg flex-1">
+<a class="flex items-center gap-4 px-6 py-4 text-secondary-container border-l-4 border-secondary-container bg-primary-container/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-label-md text-label-md">Workspace</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Agreements</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="move_to_inbox">move_to_inbox</span>
+<span class="font-label-md text-label-md">Move-in</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+</nav>
+<div class="p-lg mt-auto">
+<button class="w-full py-3 bg-secondary-container text-primary font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-md">New Negotiation</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-64 w-[calc(100%-16rem)] h-screen flex flex-col">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-outline-variant z-40">
+<div class="flex items-center gap-lg">
+<div class="relative w-64">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined text-[20px]" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Search portfolio..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-md">
+<a class="font-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Listings</a>
+<a class="font-label-md text-primary border-b-2 border-secondary py-1" href="#">Portfolio</a>
+</nav>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-colors active:scale-95">
+                    Sign Document
+                </button>
+<div class="w-10 h-10 rounded-full border-2 border-secondary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional avatar of a real estate executive, polished appearance, high resolution, soft lighting, wearing business formal attire, clean neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS1XYolROlhn2EpcSB6oRx6pH5gCfblJCgp8rmNvC4UXtlxxfiCpos1uXR309TX2yFRU5W_xPDmIVewLTwhqj5N_Plj2CmEsI5r6OAwiC30Zcylwe7OY2xV_jMWaEefMK0C0JWveBDhCrmo3QtwjpkoeFHGJUhBkD-s1cmpPgFUp-CMrRb39SfsQveCuKCk3sOkYnXUSlByHx1g1jt0RJ0j6G7jjqhN7MoyCUF12asIhfeqN5IqG9O"/>
+</div>
+</div>
+</header>
+<!-- Workspace Canvas -->
+<div class="flex-1 overflow-hidden flex flex-row p-gutter gap-lg">
+<!-- Comparison View Section -->
+<section class="flex-[3] flex flex-col gap-lg overflow-y-auto custom-scrollbar pr-2">
+<div class="flex items-center justify-between mb-2">
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-primary">Grade A Serviced Office</h2>
+<img alt="PROPATI VERIFIED" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuDeLGxym8znS3g2QGdVzh9JP0LthBylNMkYY6vL6h9m0zRsf-JXExa3WDvQNxo9f0SYRe2gbFpTQRM1UlfvxWOHOqM9ZtSR4fD6ylNkgSHKFprW8gemTGRvwxkoIYploK3gQ6VqN7GNRPNv7vEFpsv-SKQpq2Fx95SzhReaQZA2MC07ZJlCGroQAoq0fdJystg4E2G1RTVRW7Xf2d9L6vtqDqizGVe0-fGx4TFdk5COzc9sfeuLPEwxMg"/>
+</div>
+<p class="font-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+                            Victoria Island, Lagos, Nigeria
+                        </p>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-4 py-1 bg-secondary-container/20 text-secondary border border-secondary rounded-full font-label-sm">Active Negotiation</span>
+<p class="text-label-sm text-on-surface-variant mt-1">Ref ID: PR-1092-VI</p>
+</div>
+</div>
+<!-- Bento Term Sheet Grid -->
+<div class="grid grid-cols-2 gap-md">
+<!-- Term Sheet Header -->
+<div class="col-span-2 grid grid-cols-3 gap-md bg-primary-container p-lg rounded-xl text-on-primary border border-outline/20">
+<div class="font-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                            Key Terms
+                        </div>
+<div class="text-center font-label-md opacity-70">Original Listing</div>
+<div class="text-center font-label-md text-secondary-container">Proposed Counter</div>
+</div>
+<!-- Comparison Row: Rent -->
+<div class="col-span-2 group">
+<div class="grid grid-cols-3 gap-md p-lg bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-lg transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-headline-sm text-[16px] text-primary">Annual Rent</span>
+<span class="text-label-sm text-on-surface-variant">Per Square Meter</span>
+</div>
+<div class="flex items-center justify-center font-label-md text-on-surface-variant">
+                                ₦120,000 /sqm
+                            </div>
+<div class="flex items-center justify-center font-headline-sm text-[18px] text-secondary bg-secondary-container/10 border border-secondary/20 rounded-lg">
+                                ₦105,000 /sqm
+                            </div>
+</div>
+</div>
+<!-- Comparison Row: Lease Duration -->
+<div class="col-span-2">
+<div class="grid grid-cols-3 gap-md p-lg bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-lg transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-headline-sm text-[16px] text-primary">Lease Duration</span>
+<span class="text-label-sm text-on-surface-variant">Commitment Period</span>
+</div>
+<div class="flex items-center justify-center font-label-md text-on-surface-variant">
+                                2 Years (Minimum)
+                            </div>
+<div class="flex items-center justify-center font-headline-sm text-[18px] text-secondary bg-secondary-container/10 border border-secondary/20 rounded-lg">
+                                3 Years (Fixed)
+                            </div>
+</div>
+</div>
+<!-- Comparison Row: Service Charge -->
+<div class="col-span-2">
+<div class="grid grid-cols-3 gap-md p-lg bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-lg transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-headline-sm text-[16px] text-primary">Service Charge</span>
+<span class="text-label-sm text-on-surface-variant">Facility Management</span>
+</div>
+<div class="flex items-center justify-center font-label-md text-on-surface-variant">
+                                ₦25,000 /sqm
+                            </div>
+<div class="flex items-center justify-center font-label-md text-on-surface-variant border border-outline-variant rounded-lg border-dashed">
+                                Unchanged
+                            </div>
+</div>
+</div>
+<!-- Comparison Row: Escalation Clause -->
+<div class="col-span-2">
+<div class="grid grid-cols-3 gap-md p-lg bg-surface-container-lowest border border-outline-variant rounded-xl hover:shadow-lg transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-headline-sm text-[16px] text-primary">Escalation Clause</span>
+<span class="text-label-sm text-on-surface-variant">Annual Increase</span>
+</div>
+<div class="flex items-center justify-center font-label-md text-on-surface-variant">
+                                10% Annually
+                            </div>
+<div class="flex items-center justify-center font-headline-sm text-[18px] text-secondary bg-secondary-container/10 border border-secondary/20 rounded-lg">
+                                5% Annually
+                            </div>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="mt-lg p-lg bg-surface-container border-2 border-primary/10 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-primary text-white rounded-xl">
+<span class="material-symbols-outlined" data-icon="draw">draw</span>
+</div>
+<div>
+<p class="font-headline-sm text-[18px]">Finalize Negotiation</p>
+<p class="text-body-sm text-on-surface-variant">Review the terms before proceeding to legal drafting.</p>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="px-8 py-3 font-bold text-primary border border-primary rounded-xl hover:bg-primary/5 transition-colors">
+                            Submit Counter-Offer
+                        </button>
+<button class="px-8 py-3 font-bold bg-primary text-on-primary rounded-xl shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
+                            Accept Proposed Terms
+                        </button>
+</div>
+</div>
+</section>
+<!-- Messaging Sidebar -->
+<aside class="flex-1 flex flex-col bg-white border border-outline-variant rounded-2xl shadow-sm overflow-hidden">
+<div class="p-lg bg-primary-container text-on-primary border-b border-white/10">
+<h3 class="font-headline-sm text-[18px] flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container" data-icon="forum">forum</span>
+                        Negotiation History
+                    </h3>
+</div>
+<div class="flex-1 p-md overflow-y-auto custom-scrollbar flex flex-col gap-md">
+<!-- Date Separator -->
+<div class="flex items-center justify-center my-2">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant">October 24, 2023</span>
+</div>
+<!-- Message Item: Counter -->
+<div class="bg-surface-container-low p-md rounded-xl border-l-4 border-secondary">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-primary font-bold">You (Proposed)</span>
+<span class="text-[10px] text-on-surface-variant">14:20 PM</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Based on the current market data for VI, we are proposing a 5% escalation instead of 10% for a longer 3-year term.</p>
+</div>
+<!-- Message Item: Landlord -->
+<div class="bg-primary/5 p-md rounded-xl border-l-4 border-primary">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-primary font-bold">Landlord Agent</span>
+<span class="text-[10px] text-on-surface-variant">15:45 PM</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">The landlord is reviewing the request for 5% escalation. They value the 3-year commitment but need to offset facility costs.</p>
+</div>
+<!-- Status Update -->
+<div class="flex items-center gap-2 px-md py-2 bg-secondary-container/10 border border-secondary-container/30 rounded-lg italic text-[12px] text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]" data-icon="sync">sync</span>
+                        Terms updated to 'Proposed Counter' status.
+                    </div>
+</div>
+<!-- Message Input -->
+<div class="p-md bg-surface-container-lowest border-t border-outline-variant">
+<div class="relative">
+<textarea class="w-full p-md bg-surface border border-outline-variant rounded-xl text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none" placeholder="Type a message or adjustment..." rows="3"></textarea>
+<button class="absolute bottom-3 right-3 p-2 bg-primary text-on-primary rounded-lg hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+<div class="flex gap-sm mt-md">
+<button class="flex-1 py-2 text-label-sm text-on-surface-variant bg-surface-container-high rounded-lg hover:bg-surface-variant transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="attach_file">attach_file</span>
+                            Attach File
+                        </button>
+<button class="flex-1 py-2 text-label-sm text-on-surface-variant bg-surface-container-high rounded-lg hover:bg-surface-variant transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="history_edu">history_edu</span>
+                            Draft Memo
+                        </button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+        // Micro-interaction for hover depth
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('.bg-surface-container-lowest').style.transform = 'translateY(-2px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('.bg-surface-container-lowest').style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

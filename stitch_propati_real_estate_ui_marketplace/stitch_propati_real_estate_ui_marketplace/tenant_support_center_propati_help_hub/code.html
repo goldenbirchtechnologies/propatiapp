@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tenant Support | PROPATI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#009e6f",
+                        "on-primary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "secondary-container": "#feae2c",
+                        "primary": "#000f22",
+                        "secondary-fixed": "#ffddb4",
+                        "primary-fixed": "#d2e4ff",
+                        "secondary": "#835500",
+                        "primary-container": "#0a2540",
+                        "surface-container-highest": "#dde2f3",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f9f9ff",
+                        "tertiary-container": "#002a1b",
+                        "on-secondary-container": "#6b4500",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6ce",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "background": "#f9f9ff",
+                        "tertiary-fixed": "#71fbc0",
+                        "outline": "#74777e",
+                        "secondary-fixed-dim": "#ffb955",
+                        "inverse-on-surface": "#ecf0ff",
+                        "on-background": "#161c27",
+                        "surface-container-low": "#f1f3ff",
+                        "on-surface-variant": "#43474d",
+                        "inverse-surface": "#2a303d",
+                        "on-primary-container": "#768dad",
+                        "on-primary-fixed": "#001c37",
+                        "tertiary": "#001209",
+                        "on-tertiary-fixed": "#002114",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "surface-tint": "#49607e",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b0c8eb",
+                        "surface-variant": "#dde2f3",
+                        "surface-container-high": "#e3e8f9",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "surface-container": "#e8eeff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#291800",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "on-surface": "#161c27",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#314865",
+                        "surface-dim": "#d4daea"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(#dde2f3 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .property-card-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .property-card-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar Implementation -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface-container-lowest border-b border-outline-variant">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary">PROPATI</span>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Marketplace</a>
+<a class="text-primary font-bold border-b-2 border-secondary font-label-md" href="#">Support</a>
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Properties</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">help</span>
+</button>
+<button class="p-sm hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="flex items-center gap-sm pl-sm py-xs pr-md bg-surface-container rounded-full">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-label-md text-primary font-bold">Tenant Profile</span>
+</button>
+</div>
+</nav>
+<!-- Sidebar Integration -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-primary flex flex-col py-lg shadow-md z-40 hidden lg:flex">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-md mb-lg">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">support_agent</span>
+</div>
+<div>
+<p class="font-label-md text-on-primary font-bold">Tenant Support</p>
+<p class="text-[10px] text-primary-fixed-dim uppercase tracking-widest font-bold">Verified Marketplace</p>
+</div>
+</div>
+<button class="w-full py-md bg-secondary-container text-primary font-bold font-label-md rounded-lg hover:bg-secondary-fixed transition-colors">
+                New Support Ticket
+            </button>
+</div>
+<nav class="flex-1 space-y-base">
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-label-md">Maintenance</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md">Lease</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md">Moving In/Out</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md">Community</span>
+</a>
+</nav>
+<div class="border-t border-primary-container pt-lg">
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container px-md py-sm hover:bg-primary-container/50 transition-all" href="#">
+<span class="material-symbols-outlined text-error-container">logout</span>
+<span class="font-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-16 min-h-screen">
+<!-- Header Section -->
+<section class="relative bg-surface-container-low hero-pattern overflow-hidden py-24 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-4xl mx-auto text-center relative z-10">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-md">How can we help you?</h1>
+<p class="font-body-lg text-on-surface-variant mb-xl max-w-2xl mx-auto">Access 24/7 support, track your requests, and manage your tenancy with Nigeria's most trusted property platform.</p>
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/5 blur-2xl rounded-full scale-90 group-focus-within:scale-100 transition-transform"></div>
+<div class="relative flex items-center bg-white rounded-xl shadow-xl border border-outline-variant p-2 overflow-hidden focus-within:ring-2 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-on-surface-variant px-md">search</span>
+<input class="flex-1 border-none focus:ring-0 font-body-md py-md text-primary" placeholder="Search for payments, maintenance, lease terms..." type="text"/>
+<button class="bg-primary text-white px-xl py-md rounded-lg font-bold font-label-md hover:opacity-90 transition-opacity">Search Help</button>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary-container/10 rounded-full blur-3xl"></div>
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+</section>
+<!-- Main Categories Bento-style Grid -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Payments & Billing -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-secondary-container">
+<span class="material-symbols-outlined text-[32px]">payments</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Payments &amp; Billing</h3>
+<p class="font-body-sm text-on-surface-variant">Rent status, auto-pay setup, and payment history.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        View Billing <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+<!-- Maintenance Requests -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer border-l-4 border-l-on-tertiary-container">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container flex items-center justify-center text-tertiary-fixed">
+<span class="material-symbols-outlined text-[32px]">build</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Maintenance Requests</h3>
+<p class="font-body-sm text-on-surface-variant">Report issues, track repairs, and view schedules.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        Track Repairs <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+<!-- Lease & Agreements -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]">description</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Lease &amp; Agreements</h3>
+<p class="font-body-sm text-on-surface-variant">Renewals, digital contracts, and terms of use.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        Access Documents <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+<!-- Move-in/Move-out -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]">local_shipping</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Move-in / Move-out</h3>
+<p class="font-body-sm text-on-surface-variant">Checklists, key collection, and deposit returns.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        View Checklist <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+<!-- Community & Rules -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]">groups</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Community &amp; Rules</h3>
+<p class="font-body-sm text-on-surface-variant">Building policies, parking, and neighbor relations.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        Read Guidelines <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+<!-- Account & Security -->
+<div class="property-card-lift glass-card p-lg rounded-xl flex flex-col items-start gap-md group cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]">security</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-xs">Account &amp; Security</h3>
+<p class="font-body-sm text-on-surface-variant">Profile updates, password reset, and MFA settings.</p>
+</div>
+<div class="mt-auto pt-md flex items-center text-primary font-bold font-label-md group-hover:gap-md transition-all">
+                        Manage Security <span class="material-symbols-outlined ml-xs">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Layout: FAQ & Emergency -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl bg-white">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- FAQ List -->
+<div class="lg:col-span-2">
+<div class="flex items-center justify-between mb-lg">
+<h2 class="font-headline-md text-headline-md text-primary">Frequently Asked Questions</h2>
+<a class="text-on-primary-container font-label-md hover:underline" href="#">See all articles</a>
+</div>
+<div class="space-y-md">
+<div class="p-md rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-md text-primary font-medium">How do I set up Auto-Pay for my monthly rent?</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="p-md rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-md text-primary font-medium">What is the policy for late rent payments?</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="p-md rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-md text-primary font-medium">How can I request an early lease termination?</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+<div class="p-md rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer group flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-md text-primary font-medium">Who is responsible for air conditioning maintenance?</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Emergency Contact Card -->
+<div class="bg-error-container/50 border-2 border-error p-lg rounded-xl flex flex-col h-full">
+<div class="flex items-center gap-sm mb-md text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">report</span>
+<span class="font-label-md font-bold uppercase tracking-wider">Emergency 24/7</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-error-container mb-md">Urgent Maintenance Issue?</h3>
+<p class="font-body-sm text-on-error-container mb-xl">For immediate safety concerns, flooding, or security breaches, please use our priority emergency line.</p>
+<div class="mt-auto">
+<button class="w-full bg-error text-white font-bold py-md rounded-lg flex items-center justify-center gap-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">call</span>
+                            Call Now
+                        </button>
+<p class="text-center font-label-sm text-on-error-container mt-md">Available 24 hours a day, 7 days a week.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row items-center justify-between gap-xl">
+<div class="max-w-xl">
+<h2 class="font-headline-md text-headline-md text-primary mb-sm">Nigeria's Safest Marketplace</h2>
+<p class="font-body-md text-on-surface-variant">Our support center is backed by certified property managers and verified legal frameworks to ensure your tenant rights are always protected.</p>
+</div>
+<div class="flex-shrink-0">
+<img alt="PROPATI VERIFIED Badge" class="w-48 h-48 object-contain drop-shadow-xl animate-pulse-slow" src="https://lh3.googleusercontent.com/aida/AP1WRLuDeLGxym8znS3g2QGdVzh9JP0LthBylNMkYY6vL6h9m0zRsf-JXExa3WDvQNxo9f0SYRe2gbFpTQRM1UlfvxWOHOqM9ZtSR4fD6ylNkgSHKFprW8gemTGRvwxkoIYploK3gQ6VqN7GNRPNv7vEFpsv-SKQpq2Fx95SzhReaQZA2MC07ZJlCGroQAoq0fdJystg4E2G1RTVRW7Xf2d9L6vtqDqizGVe0-fGx4TFdk5COzc9sfeuLPEwxMg"/>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-center gap-md border-t border-outline-variant bg-surface-container-low">
+<div class="flex flex-col gap-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">PROPATI</span>
+<p class="font-body-sm text-on-surface-variant">© 2024 PROPATI Property Marketplace. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Support</a>
+<a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Security</a>
+</div>
+</footer>
+</main>
+<!-- Live Chat Widget -->
+<div class="fixed bottom-xl right-xl z-[100]">
+<div class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-xl shadow-2xl border border-outline-variant flex flex-col overflow-hidden" id="chat-popover">
+<div class="bg-primary p-md text-white flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 bg-on-tertiary-container rounded-full animate-pulse"></div>
+<span class="font-label-md font-bold">Support Agent Online</span>
+</div>
+<button class="material-symbols-outlined text-white/70 hover:text-white" onclick="toggleChat()">close</button>
+</div>
+<div class="h-64 p-md bg-surface-container-lowest overflow-y-auto space-y-md">
+<div class="bg-surface-container-low p-sm rounded-lg text-body-sm text-on-surface max-w-[85%]">
+                    Hello! I'm David from PROPATI Support. How can I assist you with your property today?
+                </div>
+</div>
+<div class="p-md border-t border-outline-variant flex gap-sm">
+<input class="flex-1 text-sm border-outline-variant rounded-md focus:ring-primary focus:border-primary" placeholder="Type a message..." type="text"/>
+<button class="material-symbols-outlined bg-primary text-white p-sm rounded-md">send</button>
+</div>
+</div>
+<button class="flex items-center gap-md bg-primary-container text-white px-lg py-md rounded-full shadow-xl hover:scale-105 transition-transform active:scale-95 group" onclick="toggleChat()">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">chat_bubble</span>
+<span class="font-label-md font-bold">Chat with Support</span>
+</button>
+</div>
+<script>
+        function toggleChat() {
+            const popover = document.getElementById('chat-popover');
+            popover.classList.toggle('hidden');
+        }
+
+        // Simple interactive effect for search bar
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            console.log('User is seeking help...');
+        });
+
+        // Add slow pulse animation via style
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes pulse-slow {
+                0%, 100% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.03); opacity: 0.9; }
+            }
+            .animate-pulse-slow {
+                animation: pulse-slow 4s ease-in-out infinite;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body></html>

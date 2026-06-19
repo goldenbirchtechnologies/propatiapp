@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Professional License Upload | Propati Agent Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#161c27",
+                    "on-surface-variant": "#43474d",
+                    "background": "#f9f9ff",
+                    "secondary-container": "#feae2c",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "surface-container": "#e8eeff",
+                    "surface-bright": "#f9f9ff",
+                    "tertiary-fixed": "#71fbc0",
+                    "surface-tint": "#49607e",
+                    "inverse-on-surface": "#ecf0ff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary-fixed": "#002114",
+                    "on-surface": "#161c27",
+                    "primary-container": "#0a2540",
+                    "outline": "#74777e",
+                    "primary-fixed": "#d2e4ff",
+                    "on-primary-fixed-variant": "#314865",
+                    "surface-variant": "#dde2f3",
+                    "inverse-primary": "#b0c8eb",
+                    "surface-container-low": "#f1f3ff",
+                    "primary": "#000f22",
+                    "secondary-fixed": "#ffddb4",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-primary-fixed": "#001c37",
+                    "surface-container-high": "#e3e8f9",
+                    "outline-variant": "#c4c6ce",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2a303d",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#dde2f3",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#009e6f",
+                    "on-secondary": "#ffffff",
+                    "surface-dim": "#d4daea",
+                    "on-secondary-fixed": "#291800",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#768dad",
+                    "on-secondary-container": "#6b4500",
+                    "secondary": "#835500",
+                    "tertiary-container": "#002a1b",
+                    "tertiary": "#001209"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "margin-desktop": "64px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .drag-active {
+            border-color: #feae2c !important;
+            background-color: rgba(254, 174, 44, 0.05) !important;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-primary-container shadow-md flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h1 class="text-headline-sm font-headline-sm text-on-primary font-bold">Agent Portal</h1>
+<p class="text-label-sm font-label-sm text-on-primary-container">Verified Professional</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-md py-3 text-surface-variant hover:text-on-primary-fixed-variant hover:bg-primary/50 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center px-md py-3 text-surface-variant hover:text-on-primary-fixed-variant hover:bg-primary/50 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">badge</span>
+<span class="font-label-md text-label-md">Identity</span>
+</a>
+<!-- Active Tab: Professional License -->
+<a class="flex items-center px-md py-3 border-l-4 border-secondary-container text-secondary-container bg-on-primary-fixed-variant font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3">verified_user</span>
+<span class="font-label-md text-label-md">Professional License</span>
+</a>
+<a class="flex items-center px-md py-3 text-surface-variant hover:text-on-primary-fixed-variant hover:bg-primary/50 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">location_city</span>
+<span class="font-label-md text-label-md">Office Verification</span>
+</a>
+<a class="flex items-center px-md py-3 text-surface-variant hover:text-on-primary-fixed-variant hover:bg-primary/50 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md">Status</span>
+</a>
+</nav>
+<div class="px-md mt-auto">
+<button class="w-full bg-secondary-container text-primary-container py-3 rounded-lg font-bold hover:brightness-110 transition-transform active:scale-95">
+                List Property
+            </button>
+<div class="mt-6 flex items-center gap-3">
+<img class="w-10 h-10 rounded-full border-2 border-secondary-container object-cover" data-alt="Close-up professional portrait of a confident Nigerian real estate agent in a tailored navy blazer, smiling warmly against a blurred modern office backdrop. The lighting is soft and professional, with a high-trust, premium corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQCLGPXHU15LBbMLc0zbhQqgzOQYnJ084-mSGE0GYV0GG7Y7DUBIapWbXXc30z3Rj6mEpPpavqqILWlZVimyK2b7IWx86m6iDpPvPe4c8OeSydj9sjlsPBBAE03C63OqoM_uJyTvl7oMD005fdEvsdofqbYm0PiK-XwtTAVQS6eywDv4DqZxqHVk-c8nV0Sk-rIvB048vg8p8bSt2D0kDGmRvkgwhI4u84r-HH0YpUEnCK503QOqJa"/>
+<div class="overflow-hidden">
+<p class="text-on-primary text-sm font-bold truncate">Oluwaseun Adeyemi</p>
+<p class="text-on-primary-container text-xs">ID: PROP-8821</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full h-16 px-md bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center z-40 shadow-sm">
+<div class="flex items-center gap-4">
+<span class="font-headline-sm text-headline-sm text-primary font-extrabold">Marketplace Admin</span>
+<div class="relative flex items-center focus-within:ring-2 focus-within:ring-primary rounded-lg ml-8 bg-surface-container-low transition-all">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 pl-10 pr-4 py-2 w-64 text-body-sm" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary-container rounded-full border border-surface-container-lowest"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small circular avatar of a professional male agent with a friendly expression, captured in high-resolution photography with balanced studio lighting. The background is a clean, neutral gray tone that emphasizes the professional nature of the Propati platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6bkcHOrFBTDX36bBUU4zSkC23fLGluIu7E943Jb_jChi0gXO2Giy42pVZjvCSHmDfkixvj8VPyjWuAIfqALy5D1DLfzj1yD_wUmfciyZlHFcPJ7ZzY-W35RhptRhHuWeKKrlbuch1AuoW_eruAXLlgf8_hyPv620p7mJ7uBIO1g1c3mIyTimKelmtGgnyKV77Q6EXEVAE_dSAZCw8LtuyIPRMYDhwxj3EhUXbqrxwJfqsJTxfo2dP"/>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-lg max-w-7xl mx-auto space-y-lg">
+<!-- Header & Verification Tracker -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-lg">
+<div class="space-y-2">
+<h2 class="font-headline-lg text-headline-lg text-primary">Professional License</h2>
+<p class="text-on-surface-variant max-w-2xl">To ensure the integrity of our marketplace, all agents must provide valid regulatory documentation. Verified agents receive a 'Certified' badge on all listings.</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high px-lg py-md rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Current Status</span>
+<span class="flex items-center gap-2 text-primary font-bold">
+<span class="w-2 h-2 bg-secondary-container rounded-full animate-pulse"></span>
+                            Under Review
+                        </span>
+</div>
+<div class="h-10 w-[1px] bg-outline-variant"></div>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Last Update</span>
+<span class="text-primary font-bold">Oct 24, 2023</span>
+</div>
+</div>
+</div>
+<!-- Main Workspace Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Form & Upload (Left Side) -->
+<div class="lg:col-span-8 space-y-lg">
+<!-- Step 1: Category & Details -->
+<section class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center gap-3 mb-lg">
+<span class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm">1</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">License Details</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-2">
+<label class="text-label-md font-label-md text-primary">License Type</label>
+<select class="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg px-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container text-body-md transition-all">
+<option>Estate Agent Registry (EAR)</option>
+<option>NIESV Membership Certificate</option>
+<option>ESVARBON Registration</option>
+<option>Lagos State Real Estate Regulatory Authority (LASRERA)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-label-md text-primary">License Number</label>
+<input class="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg px-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container text-body-md transition-all" placeholder="e.g. EAR/2023/8892" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-label-md text-primary">Issuing Authority</label>
+<input class="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg px-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container text-body-md transition-all" placeholder="e.g. EAR Council of Nigeria" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-label-md font-label-md text-primary">Expiry Date</label>
+<div class="relative">
+<input class="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg px-3 focus:ring-2 focus:ring-primary-container focus:border-primary-container text-body-md transition-all" type="date"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 2: Upload Area -->
+<section class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center gap-3 mb-lg">
+<span class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm">2</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">File Upload</h3>
+</div>
+<div class="relative group cursor-pointer border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center bg-surface-container-low hover:border-secondary-container hover:bg-secondary-container/5 transition-all duration-300" id="drop-zone">
+<input accept=".pdf,.png,.jpg,.jpeg" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<div class="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-container text-3xl">upload_file</span>
+</div>
+<p class="font-headline-sm text-primary mb-1">Drag & drop your certificate</p>
+<p class="text-on-surface-variant text-body-sm text-center">Support for PDF, PNG, or JPEG. Maximum file size 5MB.</p>
+<button class="mt-lg px-lg py-2 rounded-lg border border-primary-container text-primary-container font-bold hover:bg-primary-container hover:text-on-primary transition-all">
+                                Browse Files
+                            </button>
+</div>
+<!-- File Preview Placeholder (Hidden by default) -->
+<div class="mt-lg hidden p-md bg-secondary-container/10 border border-secondary-container/30 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">description</span>
+<div>
+<p class="text-primary font-bold text-sm">NIESV_Cert_Adeyemi.pdf</p>
+<p class="text-on-surface-variant text-xs">2.4 MB • Ready to upload</p>
+</div>
+</div>
+<button class="text-error hover:bg-error/10 p-1 rounded transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="mt-xl flex justify-end gap-4">
+<button class="px-xl py-3 rounded-xl border border-outline-variant font-bold text-primary hover:bg-surface-container-low transition-all">Save Draft</button>
+<button class="px-xl py-3 rounded-xl bg-primary-container text-on-primary font-bold shadow-lg hover:-translate-y-1 transition-all active:scale-95">Submit for Verification</button>
+</div>
+</section>
+</div>
+<!-- Guidance & Status (Right Side) -->
+<div class="lg:col-span-4 space-y-lg">
+<!-- Validation Guidance Card -->
+<section class="bg-primary-container text-on-primary p-lg rounded-xl shadow-lg relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container opacity-10 rounded-full blur-2xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-secondary-container">verified</span>
+<h3 class="font-headline-sm text-headline-sm text-secondary-container">Verification Tips</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xl mt-1">check_circle</span>
+<p class="text-body-sm text-on-primary/80"><strong class="text-on-primary">Clear Legibility:</strong> Ensure all text, seal stamps, and signatures are clearly visible without glare.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xl mt-1">check_circle</span>
+<p class="text-body-sm text-on-primary/80"><strong class="text-on-primary">No Expiration:</strong> The license must be valid for at least 3 months from today's date.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xl mt-1">check_circle</span>
+<p class="text-body-sm text-on-primary/80"><strong class="text-on-primary">Full Document:</strong> Upload the full page. Cropped photos of just the badge/logo will be rejected.</p>
+</li>
+</ul>
+<div class="mt-lg p-md bg-white/5 rounded-lg border border-white/10">
+<p class="text-xs italic text-on-primary/60">Verification typically takes 24-48 business hours. You'll receive a push notification once approved.</p>
+</div>
+</div>
+</section>
+<!-- Verification Steps Visualizer -->
+<section class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-lg">Process Journey</h3>
+<div class="space-y-6 relative">
+<div class="absolute left-[15px] top-2 bottom-2 w-[2px] bg-surface-container-high"></div>
+<div class="flex gap-4 relative z-10">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-primary-container flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-sm">done</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Upload Document</p>
+<p class="text-xs text-on-surface-variant">Completed Oct 12</p>
+</div>
+</div>
+<div class="flex gap-4 relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center ring-4 ring-background animate-pulse">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">hourglass_empty</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Authority Review</p>
+<p class="text-xs text-on-surface-variant">In progress</p>
+</div>
+</div>
+<div class="flex gap-4 relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+<div>
+<p class="text-sm font-bold text-outline">Certified Badge Issued</p>
+<p class="text-xs text-on-surface-variant">Pending review</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Submission History Table -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-lg py-md bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-primary">Submission History</h3>
+<button class="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">download</span> Export Log
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-lg py-3 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">License Type</th>
+<th class="px-lg py-3 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Submitted</th>
+<th class="px-lg py-3 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Reference ID</th>
+<th class="px-lg py-3 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-3 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">picture_as_pdf</span>
+</div>
+<span class="text-body-md font-medium text-primary">EAR Registry 2023</span>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-lg py-4 font-label-sm text-label-sm text-primary">#REF-9201</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-xs font-bold border border-secondary-container/30 uppercase tracking-tighter">Under Review</span>
+</td>
+<td class="px-lg py-4">
+<button class="text-primary-container hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">image</span>
+</div>
+<span class="text-body-md font-medium text-primary">LASRERA Card (Front)</span>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm text-on-surface-variant">Sep 15, 2023</td>
+<td class="px-lg py-4 font-label-sm text-label-sm text-primary">#REF-1102</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container text-xs font-bold border border-on-tertiary-container/30 uppercase tracking-tighter">Verified</span>
+</td>
+<td class="px-lg py-4">
+<button class="text-primary-container hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-error/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+</div>
+<span class="text-body-md font-medium text-primary">NIESV Certificate</span>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm text-on-surface-variant">Aug 02, 2023</td>
+<td class="px-lg py-4 font-label-sm text-label-sm text-primary">#REF-0482</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-bold border border-error/20 uppercase tracking-tighter">Rejected</span>
+</td>
+<td class="px-lg py-4">
+<button class="text-error hover:underline text-sm font-bold">Fix & Re-upload</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB for quick upload -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary-container text-on-primary rounded-full shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 md:hidden">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+<script>
+        // Simple drag and drop visual interaction
+        const dropZone = document.getElementById('drop-zone');
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-active');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            console.log('Files dropped:', files);
+            // File handling logic would go here
+        });
+    </script>
+</body></html>

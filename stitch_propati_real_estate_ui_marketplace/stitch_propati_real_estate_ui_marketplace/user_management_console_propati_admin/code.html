@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Management | PROPATI Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#835500",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-secondary-container": "#6b4500",
+                    "inverse-surface": "#2a303d",
+                    "inverse-on-surface": "#ecf0ff",
+                    "on-tertiary-container": "#009e6f",
+                    "surface-container-high": "#e3e8f9",
+                    "primary": "#000f22",
+                    "on-background": "#161c27",
+                    "on-error": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "surface-dim": "#d4daea",
+                    "on-secondary-fixed": "#291800",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#001209",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "tertiary-fixed": "#71fbc0",
+                    "surface-container-highest": "#dde2f3",
+                    "on-tertiary-fixed": "#002114",
+                    "tertiary-container": "#002a1b",
+                    "secondary-fixed": "#ffddb4",
+                    "surface-tint": "#49607e",
+                    "on-surface-variant": "#43474d",
+                    "secondary-container": "#feae2c",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f1f3ff",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#161c27",
+                    "background": "#f9f9ff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "surface-variant": "#dde2f3",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "outline": "#74777e",
+                    "outline-variant": "#c4c6ce",
+                    "on-primary-fixed": "#001c37",
+                    "on-primary-fixed-variant": "#314865",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container": "#e8eeff",
+                    "secondary-fixed-dim": "#ffb955",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "primary-container": "#0a2540",
+                    "on-primary-container": "#768dad",
+                    "inverse-primary": "#b0c8eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "margin-desktop": "64px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4c6ce;
+            border-radius: 10px;
+        }
+        .verification-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .row-hover-effect:hover {
+            background-color: rgba(232, 238, 255, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary-container z-50 flex flex-col border-r border-outline-variant/10">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-container rounded-lg flex items-center justify-center text-primary font-bold">P</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-primary tracking-tight">PROPATI</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-primary-container font-label-md">Admin Console</p>
+</div>
+</div>
+<nav class="flex-1 px-3 mt-4 space-y-1 custom-scrollbar overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+                Verification Queues
+            </a>
+<!-- Active Navigation State for User Management -->
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-container text-secondary-container bg-on-primary-container/10 font-label-md text-label-md rounded-r-lg transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+                User Management
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">domain</span>
+                Property Listings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">payments</span>
+                Transactions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="p-4 bg-on-primary-container/5 m-4 rounded-xl border border-outline-variant/10">
+<button class="w-full bg-secondary-container text-primary font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                Add New User
+            </button>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 border-b border-outline-variant bg-surface flex justify-between items-center h-16 px-6">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search for users, IDs, or activity..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/50 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer p-1 rounded-lg hover:bg-surface-container-high transition-colors">
+<div class="text-right">
+<p class="text-label-md font-bold text-primary">Admin_Tolu</p>
+<p class="text-[10px] text-on-surface-variant">Super Admin</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-[12px] font-bold">TA</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="mt-16 p-lg space-y-lg flex-1 overflow-y-auto custom-scrollbar bg-surface-bright">
+<!-- Summary Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
+<div class="p-3 bg-primary-container/5 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[32px]">group</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Total Users</p>
+<h2 class="text-headline-md font-bold text-primary">24,502</h2>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
+<div class="p-3 bg-tertiary-container/5 rounded-lg text-on-tertiary-container">
+<span class="material-symbols-outlined text-[32px]">bolt</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Active Today</p>
+<h2 class="text-headline-md font-bold text-on-tertiary-container">1,240</h2>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
+<div class="p-3 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined text-[32px]">verified_user</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Pending Verification</p>
+<h2 class="text-headline-md font-bold text-secondary">84</h2>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
+<div class="p-3 bg-error-container rounded-lg text-error">
+<span class="material-symbols-outlined text-[32px]">report</span>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant">Flagged Accounts</p>
+<h2 class="text-headline-md font-bold text-error">12</h2>
+</div>
+</div>
+</div>
+<!-- Management Table Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- Filters Header -->
+<div class="p-lg border-b border-outline-variant bg-white flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-wrap items-center gap-4">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none" placeholder="Name or Email" type="text"/>
+</div>
+<select class="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
+<option value="">All Roles</option>
+<option>Tenant</option>
+<option>Landlord</option>
+<option>Agent</option>
+<option>Estate Manager</option>
+</select>
+<select class="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
+<option value="">Verification Level</option>
+<option>Level 1</option>
+<option>Level 2</option>
+<option>Level 3</option>
+<option>Level 4</option>
+<option>Level 5</option>
+</select>
+<select class="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
+<option value="">Status</option>
+<option>Active</option>
+<option>Suspended</option>
+<option>Inactive</option>
+</select>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md transition-all active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Advanced Filters
+                    </button>
+</div>
+<!-- Table Content -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant border-b border-outline-variant">
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Verification</th>
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined Date</th>
+<th class="px-lg py-md font-label-md text-label-sm uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="row-hover-effect transition-all duration-200">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary-container font-bold">CO</div>
+<div>
+<p class="font-bold text-primary">Chidi Okoro</p>
+<p class="text-body-sm text-on-surface-variant">chidi.okoro@example.ng</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Landlord</span>
+</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-2 text-on-tertiary-container font-medium">
+<span class="w-2 h-2 bg-on-tertiary-container rounded-full"></span>
+                                        Active
+                                    </div>
+</td>
+<td class="px-lg py-4">
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+                                        Level 5
+                                    </div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant text-body-sm">
+                                    Oct 12, 2023
+                                </td>
+<td class="px-lg py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="row-hover-effect transition-all duration-200">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">AA</div>
+<div>
+<p class="font-bold text-primary">Amina Abubakar</p>
+<p class="text-body-sm text-on-surface-variant">a.abubakar@realestate.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Agent</span>
+</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-2 text-secondary font-medium">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                                        Suspended
+                                    </div>
+</td>
+<td class="px-lg py-4">
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                                        Level 3
+                                    </div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant text-body-sm">
+                                    Jan 05, 2024
+                                </td>
+<td class="px-lg py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="row-hover-effect transition-all duration-200">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-on-surface-variant font-bold">EM</div>
+<div>
+<p class="font-bold text-primary">Emeka Mensah</p>
+<p class="text-body-sm text-on-surface-variant">emeka.m@gmail.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Tenant</span>
+</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-2 text-on-surface-variant font-medium">
+<span class="w-2 h-2 bg-outline rounded-full"></span>
+                                        Inactive
+                                    </div>
+</td>
+<td class="px-lg py-4">
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock_open</span>
+                                        Level 1
+                                    </div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant text-body-sm">
+                                    Mar 22, 2024
+                                </td>
+<td class="px-lg py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="row-hover-effect transition-all duration-200">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed font-bold">SJ</div>
+<div>
+<p class="font-bold text-primary">Sarah Johnson</p>
+<p class="text-body-sm text-on-surface-variant">s.johnson@propati.manager</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Estate Manager</span>
+</td>
+<td class="px-lg py-4">
+<div class="flex items-center gap-2 text-on-tertiary-container font-medium">
+<span class="w-2 h-2 bg-on-tertiary-container rounded-full"></span>
+                                        Active
+                                    </div>
+</td>
+<td class="px-lg py-4">
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20 relative overflow-hidden">
+<div class="verification-shimmer absolute inset-0 opacity-20"></div>
+<span class="material-symbols-outlined text-[14px]">workspace_premium</span>
+                                        Level 4
+                                    </div>
+</td>
+<td class="px-lg py-4 text-on-surface-variant text-body-sm">
+                                    Nov 30, 2023
+                                </td>
+<td class="px-lg py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-lg border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+<p class="text-body-sm text-on-surface-variant">Showing <span class="font-bold text-on-surface">1 - 10</span> of 24,502 users</p>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold shadow-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">245</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Floating Action Button (for specific tasks only) -->
+<!-- Suppressed per Relevance Check: Primary action 'Add New User' is in Sidebar and Header logic could handle it, but adding a subtle FAB for 'Support/Reports' could be valid if allowed, however we will follow the suppression rule for Details/Transactional. -->
+</main>
+<script>
+        // Micro-interactions for interactive elements
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.97)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = '';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = '';
+            });
+        });
+
+        // Search Bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        if(searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('ring-2', 'ring-primary-container/20');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('ring-2', 'ring-primary-container/20');
+            });
+        }
+    </script>
+</body></html>

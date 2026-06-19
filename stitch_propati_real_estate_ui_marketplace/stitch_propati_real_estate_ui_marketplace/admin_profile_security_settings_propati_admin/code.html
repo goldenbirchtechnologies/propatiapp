@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI Admin - Profile & Security</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9ff;
+        }
+        .font-headline { font-family: 'Bricolage Grotesque', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#002a1b",
+                      "tertiary": "#001209",
+                      "secondary": "#835500",
+                      "on-primary-container": "#768dad",
+                      "on-secondary-container": "#6b4500",
+                      "on-secondary-fixed": "#291800",
+                      "surface-dim": "#d4daea",
+                      "on-error": "#ffffff",
+                      "on-tertiary-container": "#009e6f",
+                      "on-secondary": "#ffffff",
+                      "inverse-surface": "#2a303d",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#dde2f3",
+                      "surface-container-high": "#e3e8f9",
+                      "outline-variant": "#c4c6ce",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#001c37",
+                      "primary-fixed-dim": "#b0c8eb",
+                      "primary": "#000f22",
+                      "secondary-fixed": "#ffddb4",
+                      "inverse-primary": "#b0c8eb",
+                      "surface-variant": "#dde2f3",
+                      "surface-container-low": "#f1f3ff",
+                      "primary-container": "#0a2540",
+                      "outline": "#74777e",
+                      "on-primary-fixed-variant": "#314865",
+                      "primary-fixed": "#d2e4ff",
+                      "surface": "#f9f9ff",
+                      "on-tertiary-fixed": "#002114",
+                      "on-surface": "#161c27",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed-variant": "#633f00",
+                      "tertiary-fixed": "#71fbc0",
+                      "surface-tint": "#49607e",
+                      "inverse-on-surface": "#ecf0ff",
+                      "tertiary-fixed-dim": "#50dea5",
+                      "surface-container": "#e8eeff",
+                      "surface-bright": "#f9f9ff",
+                      "secondary-fixed-dim": "#ffb955",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#feae2c",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#005137",
+                      "on-background": "#161c27",
+                      "background": "#f9f9ff",
+                      "on-surface-variant": "#43474d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "xl": "32px",
+                      "margin-desktop": "64px",
+                      "md": "16px",
+                      "base": "4px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Bricolage Grotesque"],
+                      "headline-xl": ["Bricolage Grotesque"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-md": ["Bricolage Grotesque"],
+                      "headline-sm": ["Bricolage Grotesque"],
+                      "headline-xl-mobile": ["Bricolage Grotesque"],
+                      "label-sm": ["JetBrains Mono"],
+                      "body-lg": ["Inter"],
+                      "headline-lg-mobile": ["Bricolage Grotesque"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="flex min-h-screen overflow-hidden">
+<!-- SideNavBar (Authority: JSON & Context) -->
+<aside class="flex flex-col h-screen py-lg fixed left-0 top-0 w-64 bg-primary-container dark:bg-tertiary-container shadow-md z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container font-bold">domain</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed leading-none">PROPATI</h1>
+<p class="text-on-primary-container/60 text-[10px] uppercase tracking-widest font-bold">Admin Suite</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Properties</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">User Management</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-label-md text-label-md">Security Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-primary hover:text-on-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<div class="px-4 py-2 mb-4">
+<div class="bg-primary/30 rounded-lg p-3 flex items-center gap-2 border border-secondary-container/20">
+<div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+<span class="text-on-primary-container text-xs font-medium">System Status: Healthy</span>
+</div>
+</div>
+<a class="flex items-center gap-sm text-secondary-container font-bold border-l-4 border-secondary-container bg-primary/20 py-3 px-4" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-primary-container/70 font-medium py-3 px-4 hover:bg-error/10 hover:text-error transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 overflow-y-auto h-screen">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-black text-primary">Admin Profile</h2>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Listings</a>
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Users</a>
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="relative group hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 rounded-lg bg-surface-container-low border-none focus:ring-2 ring-primary w-64 text-body-sm transition-all" placeholder="Search resources..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Close-up professional headshot of a middle-aged Nigerian man with a warm smile, wearing a sharp charcoal grey suit and a white shirt. The background is a soft-focus corporate office with warm lighting and a high-end, premium aesthetic consistent with a luxury real estate brand. Sharp focus on eyes and skin texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX8kwIiSDUwxvHSh214cvtEPMZqoSSmErUsY5cU_noV0kSDY-Grc-VVsX4IfGU0VQXbW_LdylHCVa0I6sWYhNqONDP5aW1DJkbJKWxrmhhFAwlOcdawuvbjPVjZhGub33O-O8SGO1SDmC1lQ32HD4ZAQeJA9LMMi8Gu22LxbocEirOggSjeHTOUprnXKlG5wX9Xj7mbaBGHILg1O0i-JeXOgABG2x83-fh0B4Q0uFef2tbx46lyP_KyAg60WrgUI0sOa4SL1XcLGg"/>
+</div>
+</div>
+</div>
+</header>
+<div class="p-margin-desktop space-y-gutter max-w-7xl mx-auto">
+<!-- Section 1: Profile Overview (Bento Style) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant flex flex-col md:flex-row gap-8 items-center md:items-start relative overflow-hidden">
+<!-- Subtle background decoration -->
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
+<div class="relative group">
+<div class="w-32 h-32 rounded-2xl overflow-hidden border-4 border-white shadow-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional studio portrait of an administrative executive, Ade Ben-G., featuring confident posture and soft, professional lighting. The image maintains the brand's premium aesthetic with high-quality textures and a clean, sophisticated atmosphere suitable for a high-stakes real estate fintech platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzJdCgsEd4j5tDEETrQKsocY3MM4zLUViPHSRUcTC1IUaeWjw8Mm_YbIJDsxI1ZFAEaoQMqHGVr-cWWge0xIvK31upjouaqv5FnH41z7wJdmBmJiwL5FqDeLU3Y211YD7w4XUccHMf9cPmuD6oygHKup0SpKDCsMPJe19wrH0dHrQz0GTv0YwK_Ohg3lJ_aDzAuBCcjDldSud1hC1kLuBCQycV8bSdEIXQcoSBwzXx-6g6SvLwLDhAvCkaj_-WJjhiBLz7BdzDi90"/>
+</div>
+<button class="absolute -bottom-2 -right-2 bg-primary text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<div class="flex-1 space-y-4 text-center md:text-left">
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+<h3 class="font-headline-lg text-headline-lg text-primary">Ade Ben-G.</h3>
+<span class="px-3 py-1 rounded-full bg-emerald-600 text-white font-label-md text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span> Verified
+                            </span>
+<span class="px-3 py-1 rounded-full bg-primary-container text-white font-label-md text-[10px]">Super Admin</span>
+</div>
+<p class="text-on-surface-variant text-body-md max-w-lg">Overseeing regional operations and high-value asset verification across West Africa. Active member since January 2023.</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-4">
+<button class="px-6 py-2.5 bg-primary text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-md">Edit Profile</button>
+<button class="px-6 py-2.5 border border-primary text-primary rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-white transition-all">Download Bio</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 bg-primary-container text-white rounded-xl p-lg shadow-lg flex flex-col justify-between overflow-hidden relative">
+<div class="z-10">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-sm text-headline-sm text-secondary-fixed">Account Security</h4>
+<span class="material-symbols-outlined text-secondary-container">shield_with_heart</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-2 border-b border-on-primary-container/30">
+<span class="text-on-primary-container font-label-md text-label-md">Status</span>
+<span class="text-emerald-400 font-bold">Optimal</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-on-primary-container/30">
+<span class="text-on-primary-container font-label-md text-label-md">Last Login</span>
+<span class="font-label-md text-label-md">24m ago</span>
+</div>
+</div>
+</div>
+<div class="z-10 mt-6">
+<p class="text-xs text-on-primary-container mb-4">Your security level is at 94%. Enabling Biometric login will reach 100%.</p>
+<div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[94%]"></div>
+</div>
+</div>
+<!-- Decorative element -->
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-[160px]">lock</span>
+</div>
+</div>
+</section>
+<!-- Section 2 & 3: Forms & Security (Two Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Personal Information -->
+<section class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Personal Information</h4>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-label-md font-mono text-on-surface-variant mb-2">FULL NAME</label>
+<input class="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none" type="text" value="Ade Ben-G."/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-label-md font-mono text-on-surface-variant mb-2">EMAIL ADDRESS</label>
+<input class="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none" type="email" value="ade.b@propati.ng"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-label-md font-mono text-on-surface-variant mb-2">PHONE NUMBER</label>
+<input class="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none" type="tel" value="+234 812 345 6789"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-label-md font-mono text-on-surface-variant mb-2">OFFICE LOCATION</label>
+<select class="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none bg-white">
+<option>Lagos HQ, Victoria Island</option>
+<option>Abuja Hub, Garki</option>
+<option>Port Harcourt Branch</option>
+</select>
+</div>
+</div>
+<div class="pt-4 flex justify-end">
+<button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-all shadow-md active:scale-95" type="submit">Save Changes</button>
+</div>
+</form>
+</section>
+<!-- Security & Authentication -->
+<section class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant flex flex-col">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">security</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Security & Authentication</h4>
+</div>
+<div class="space-y-6 flex-1">
+<!-- Password -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">lock_reset</span>
+<div>
+<p class="font-bold text-primary text-body-md">Password Management</p>
+<p class="text-xs text-on-surface-variant">Last changed 2 days ago</p>
+</div>
+</div>
+<button class="px-4 py-2 text-primary font-bold text-label-sm border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">CHANGE</button>
+</div>
+<!-- 2FA -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-emerald-600">verified_user</span>
+<div>
+<div class="flex items-center gap-2">
+<p class="font-bold text-primary text-body-md">Two-Factor Auth (2FA)</p>
+<span class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Enabled</span>
+</div>
+<p class="text-xs text-on-surface-variant">Using Google Authenticator App</p>
+</div>
+</div>
+<button class="px-4 py-2 text-primary font-bold text-label-sm border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">MANAGE</button>
+</div>
+<!-- Biometrics -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">fingerprint</span>
+<div>
+<p class="font-bold text-primary text-body-md">Biometric Login</p>
+<p class="text-xs text-on-surface-variant">Touch ID / Face ID for faster access</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Section 4 & 5: Sessions & Log (Horizontal Bento) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Active Sessions -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">devices</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Active Sessions</h4>
+</div>
+<button class="text-error font-bold text-label-sm hover:underline">Logout All Devices</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between py-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">laptop_mac</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<p class="font-bold text-primary">MacBook Pro - 16"</p>
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">THIS DEVICE</span>
+</div>
+<p class="text-xs text-on-surface-variant font-mono uppercase">Lagos, NG • 102.89.23.41</p>
+</div>
+</div>
+<span class="text-xs font-medium text-on-surface-variant italic">Active now</span>
+</div>
+<div class="flex items-center justify-between py-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">smartphone</span>
+</div>
+<div>
+<p class="font-bold text-primary">iPhone 15 Pro</p>
+<p class="text-xs text-on-surface-variant font-mono uppercase">Abuja, NG • 197.210.64.12</p>
+</div>
+</div>
+<button class="text-error font-bold text-label-sm px-4 py-2 hover:bg-error/5 rounded-lg transition-colors">LOGOUT</button>
+</div>
+</div>
+</div>
+<!-- Security Audit Log (Personal) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Security Audit Log</h4>
+</div>
+<div class="space-y-6 relative before:content-[''] before:absolute before:left-4 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant">
+<div class="relative pl-10">
+<div class="absolute left-2.5 top-1 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-sm"></div>
+<p class="font-bold text-body-sm text-primary">Password changed successfully</p>
+<p class="text-xs text-on-surface-variant">2 days ago • IP: 102.89.23.41</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-2.5 top-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
+<p class="font-bold text-body-sm text-primary">2FA verified at 09:41 AM</p>
+<p class="text-xs text-on-surface-variant">Today • iPhone 15 Pro</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-2.5 top-1 w-3 h-3 bg-secondary-container rounded-full border-2 border-white shadow-sm"></div>
+<p class="font-bold text-body-sm text-primary">New device login detected</p>
+<p class="text-xs text-on-surface-variant">Yesterday • Lagos, Nigeria</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-2.5 top-1 w-3 h-3 bg-outline-variant rounded-full border-2 border-white shadow-sm"></div>
+<p class="font-bold text-body-sm text-primary">Recovery codes viewed</p>
+<p class="text-xs text-on-surface-variant">Oct 12, 2023 • MacBook Pro</p>
+</div>
+</div>
+<button class="w-full mt-8 py-3 border border-outline-variant rounded-xl text-label-sm font-bold text-primary hover:bg-surface-container-low transition-all">View Full Security Log</button>
+</div>
+</section>
+</div>
+<!-- Sticky Footer for Mobile Actions -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-outline-variant flex gap-3 z-50">
+<button class="flex-1 py-3 bg-primary text-white rounded-xl font-bold shadow-lg">Save All Changes</button>
+<button class="w-14 h-14 bg-surface-container-high text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</main>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple hover lift animation for cards
+        const cards = document.querySelectorAll('section > div');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if(!card.classList.contains('lg:col-span-12')) { // Only on smaller blocks
+                   // card.style.transform = 'translateY(-4px)';
+                   // card.style.transition = 'transform 0.3s ease';
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+               // card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Toggle state simulation for biometric switch
+        const toggle = document.querySelector('input[type="checkbox"]');
+        if(toggle) {
+            toggle.addEventListener('change', (e) => {
+                if(e.target.checked) {
+                    console.log('Biometrics enabled');
+                }
+            });
+        }
+    </script>
+</body></html>

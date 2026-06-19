@@ -282,13 +282,6 @@ enum UnitOccupancy {
   NOTICE_GIVEN
 }
 
-enum StampDutyStatus {
-  pending
-  paid
-  certificate_issued
-  failed
-}
-
 // ===========================================================================
 // CORE AUTHENTICATION (4 tables)
 // ===========================================================================

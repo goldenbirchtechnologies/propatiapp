@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Settings &amp; Configuration | PROPATI Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .settings-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .settings-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#43474d",
+                      "background": "#f9f9ff",
+                      "on-background": "#161c27",
+                      "on-tertiary-fixed-variant": "#005137",
+                      "error": "#ba1a1a",
+                      "secondary-container": "#feae2c",
+                      "secondary-fixed-dim": "#ffb955",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#50dea5",
+                      "surface-container": "#e8eeff",
+                      "surface-bright": "#f9f9ff",
+                      "tertiary-fixed": "#71fbc0",
+                      "surface-tint": "#49607e",
+                      "inverse-on-surface": "#ecf0ff",
+                      "on-secondary-fixed-variant": "#633f00",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#f9f9ff",
+                      "on-tertiary-fixed": "#002114",
+                      "on-surface": "#161c27",
+                      "primary-fixed": "#d2e4ff",
+                      "on-primary-fixed-variant": "#314865",
+                      "primary-container": "#0a2540",
+                      "outline": "#74777e",
+                      "surface-container-low": "#f1f3ff",
+                      "surface-variant": "#dde2f3",
+                      "inverse-primary": "#b0c8eb",
+                      "secondary-fixed": "#ffddb4",
+                      "primary": "#000f22",
+                      "primary-fixed-dim": "#b0c8eb",
+                      "on-primary-fixed": "#001c37",
+                      "on-primary": "#ffffff",
+                      "surface-container-high": "#e3e8f9",
+                      "outline-variant": "#c4c6ce",
+                      "surface-container-highest": "#dde2f3",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#2a303d",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#009e6f",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d4daea",
+                      "on-secondary-fixed": "#291800",
+                      "on-secondary-container": "#6b4500",
+                      "on-primary-container": "#768dad",
+                      "secondary": "#835500",
+                      "tertiary-container": "#002a1b",
+                      "tertiary": "#001209"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "12px",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "xl": "32px",
+                      "margin-desktop": "64px",
+                      "md": "16px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Bricolage Grotesque"],
+                      "headline-lg": ["Bricolage Grotesque"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-md": ["Bricolage Grotesque"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-sm": ["Bricolage Grotesque"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased overflow-x-hidden">
+<!-- SIDEBAR NAVIGATION (Immutable Content from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary-container z-50 flex flex-col py-6 shadow-md transition-all duration-300">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-extrabold text-secondary-container">PROPATI</h1>
+<p class="font-label-sm text-label-sm text-on-primary-container/70 uppercase tracking-widest mt-1">Admin Console</p>
+</div>
+<nav class="flex-grow flex flex-col gap-1">
+<!-- Dashboard -->
+<div class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<!-- Verification Queues -->
+<div class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-md text-label-md">Verification Queues</span>
+</div>
+<!-- User Management -->
+<div class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">User Management</span>
+</div>
+<!-- Property Listings -->
+<div class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md text-label-md">Property Listings</span>
+</div>
+<!-- Transactions -->
+<div class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed/70 hover:text-on-primary hover:bg-on-primary-fixed-variant/5 transition-colors duration-200 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Transactions</span>
+</div>
+<!-- Settings (ACTIVE) -->
+<div class="flex items-center gap-3 px-4 py-3 text-secondary-container border-l-4 border-secondary-container bg-on-primary-fixed-variant/10 cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</div>
+</nav>
+<div class="px-6 pt-6 border-t border-on-primary-fixed-variant/20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary font-bold">JD</div>
+<div>
+<p class="font-body-sm text-on-primary font-semibold">Jane Doe</p>
+<p class="text-[10px] text-on-primary-container/70">Master Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TOP APP BAR -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex justify-between items-center px-gutter">
+<div class="flex items-center gap-4 flex-grow max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/10 text-body-md" placeholder="Search parameters, rules, or keys..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all relative">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface-container-lowest"></span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined text-primary" data-icon="help">help</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-2 cursor-pointer hover:bg-surface-container-low p-1 pr-3 rounded-full transition-all">
+<div class="w-8 h-8 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean, professional headshot of a female tech executive with a confident smile, wearing a modern navy blazer, set against a blurred office background with warm lighting. The image follows a high-end corporate photography style with crisp detail and natural skin tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN_D0V3U-7Fs7MRCTyMn0-7K1aIE-X8C5fpZA37rm2i2iwHwKoZ-sVjoXGd639DQHXmqpq58OXSJ76xM7XLFI0_XuOKMs6XYJ7Q70KOS5HjVHSK-DVPkuL1aZL5dbr5xZnlS2WC0YZGRPuaNttGaISJwKT0NlWyc_4OlfYMqcgaDG8XzVD6qFbcN4tBT2Dk4bwOpFKlbYdwqbpb6FEXM38kRa6bfrQTN9N5wEu1OaP_WW_85v8winclSagiM_pwr1lNtqKpEm1JsY"/>
+</div>
+<span class="font-label-md text-label-md text-primary">Admin Profile</span>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-64 mt-16 p-gutter pb-24">
+<!-- Header Section -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Global Settings &amp; Configuration</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mt-2">Manage the foundational logic of the PROPATI ecosystem. Changes to these parameters impact all active listings and financial settlements.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 rounded-lg border border-primary text-primary font-semibold hover:bg-primary/5 transition-all active:scale-95">Discard Changes</button>
+<button class="px-8 py-2 rounded-lg bg-primary text-on-primary font-semibold shadow-md hover:translate-y-[-1px] transition-all active:scale-95">Publish Updates</button>
+</div>
+</div>
+<!-- Settings Grid (Bento Style) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Sidebar Selection (Internal Page Nav) -->
+<div class="col-span-3 flex flex-col gap-2">
+<button class="group text-left px-5 py-4 bg-surface-container-lowest rounded-lg border-l-4 border-primary shadow-sm hover:shadow-md transition-all flex items-center justify-between" onclick="scrollToSection('platform')">
+<div>
+<p class="font-headline-sm text-headline-sm text-primary">Platform Parameters</p>
+<p class="text-xs text-on-surface-variant font-medium">Commissions &amp; Escrow</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-50 group-hover:opacity-100" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="group text-left px-5 py-4 bg-surface-container-lowest rounded-lg border-l-4 border-transparent shadow-sm hover:shadow-md hover:border-outline-variant transition-all flex items-center justify-between" onclick="scrollToSection('verification')">
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Verification Rules</p>
+<p class="text-xs text-on-surface-variant font-medium">Listing Standards</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="group text-left px-5 py-4 bg-surface-container-lowest rounded-lg border-l-4 border-transparent shadow-sm hover:shadow-md hover:border-outline-variant transition-all flex items-center justify-between" onclick="scrollToSection('security')">
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Security &amp; Access</p>
+<p class="text-xs text-on-surface-variant font-medium">RBAC &amp; Enforcement</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="group text-left px-5 py-4 bg-surface-container-lowest rounded-lg border-l-4 border-transparent shadow-sm hover:shadow-md hover:border-outline-variant transition-all flex items-center justify-between" onclick="scrollToSection('notifications')">
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface">Notifications &amp; API</p>
+<p class="text-xs text-on-surface-variant font-medium">External Integrations</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Configuration Forms -->
+<div class="col-span-9 space-y-8">
+<!-- SECTION: Platform Parameters -->
+<section class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/30 shadow-sm" id="platform">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Platform Parameters</h3>
+<p class="text-body-sm text-on-surface-variant">Configure core business logic and transaction mechanics.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Primary Sales Commission</label>
+<div class="relative">
+<input class="w-full h-[44px] rounded-lg border-outline-variant border px-4 focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none font-semibold" type="number" value="2.5"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">%</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1.5 px-1">Applied to the total transaction value of verified sales.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Escrow Holding Period</label>
+<div class="relative">
+<input class="w-full h-[44px] rounded-lg border-outline-variant border px-4 focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none font-semibold" type="number" value="14"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-md">DAYS</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1.5 px-1">Mandatory buffer before funds release to sellers.</p>
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Rental Service Fee</label>
+<div class="relative">
+<input class="w-full h-[44px] rounded-lg border-outline-variant border px-4 focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none font-semibold" type="number" value="5.0"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">%</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1.5 px-1">Standard processing fee for automated rent collection.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Min. Verification Level (Public)</label>
+<select class="w-full h-[44px] rounded-lg border-outline-variant border px-4 focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none font-semibold appearance-none bg-no-repeat bg-[right_1rem_center]">
+<option>Level 3 - Inspected</option>
+<option selected="">Level 4 - Verified Gold</option>
+<option>Level 5 - Platinum Certified</option>
+</select>
+<p class="text-[11px] text-on-surface-variant mt-1.5 px-1">Threshold for property listings to appear in public search.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: Verification Rules (Bento Grid Internal) -->
+<section class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/30 shadow-sm relative overflow-hidden" id="verification">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Verification Rules</h3>
+<p class="text-body-sm text-on-surface-variant">Global thresholds for fraud detection and document integrity.</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<!-- Rule Card -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant/50">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 bg-on-tertiary-container/10 text-on-tertiary-container text-[10px] font-bold rounded uppercase tracking-wider">Automated</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Suspicious Listing Flag</h4>
+<p class="text-xs text-on-surface-variant mb-4">Price variance threshold against market average.</p>
+<div class="flex items-center gap-2">
+<input class="w-16 h-8 text-center rounded border-outline-variant border text-sm font-bold" type="number" value="30"/>
+<span class="text-sm font-medium">% variance</span>
+</div>
+</div>
+<!-- Rule Card -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant/50">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 bg-secondary-container/20 text-secondary text-[10px] font-bold rounded uppercase tracking-wider">Document</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Expiry Notifications</h4>
+<p class="text-xs text-on-surface-variant mb-4">Alert period for land title re-validation.</p>
+<div class="flex items-center gap-2">
+<input class="w-16 h-8 text-center rounded border-outline-variant border text-sm font-bold" type="number" value="90"/>
+<span class="text-sm font-medium">days before</span>
+</div>
+</div>
+<!-- Rule Card -->
+<div class="p-4 bg-primary text-on-primary rounded-lg shadow-lg">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 bg-white/20 text-white text-[10px] font-bold rounded uppercase tracking-wider">Premium</span>
+<span class="material-symbols-outlined text-secondary-container" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<h4 class="font-label-md text-label-md mb-1">AI-Photo Analysis</h4>
+<p class="text-xs text-on-primary/70 mb-4">Auto-reject listings with stock images or heavy watermarks.</p>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full w-[85%]"></div>
+</div>
+<p class="text-[10px] mt-2 opacity-80">85% Accuracy Confidence Required</p>
+</div>
+</div>
+</section>
+<!-- SECTION: Security & Access -->
+<section class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/30 shadow-sm" id="security">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-on-error-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="security">security</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Security &amp; Access</h3>
+<p class="text-body-sm text-on-surface-variant">Restrict administrative access and enforce authentication protocols.</p>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg border border-outline-variant/20">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="key">key</span>
+<div>
+<p class="font-body-md text-on-surface font-semibold">Two-Factor Authentication (2FA)</p>
+<p class="text-xs text-on-surface-variant">Enforce biometric or TOTP authentication for all Admin levels.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-8">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Admin IP Whitelist</label>
+<textarea class="w-full rounded-lg border-outline-variant border p-4 font-label-md text-label-md focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none" placeholder="192.168.1.1, 45.32.11.200 (Separated by commas)" rows="3">192.168.1.1, 102.176.4.55, 102.176.4.56</textarea>
+<p class="text-[11px] text-on-surface-variant mt-2 italic">Only requests from these IP addresses will be granted access to the /admin route.</p>
+</div>
+<div class="col-span-4 flex flex-col justify-end">
+<button class="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-primary text-primary font-bold hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                                    Detect Current IP
+                                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: Notifications & API -->
+<section class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/30 shadow-sm" id="notifications">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant" data-icon="api">api</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Notifications &amp; API</h3>
+<p class="text-body-sm text-on-surface-variant">Bridge the platform with global identity and land registry systems.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="border border-outline-variant rounded-lg p-5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-lg" data-icon="integration_instructions">integration_instructions</span>
+</div>
+<p class="font-label-md text-label-md">NIMC Identity API</p>
+</div>
+<span class="px-2 py-0.5 bg-on-tertiary-container/20 text-on-tertiary-container text-[10px] font-bold rounded">CONNECTED</span>
+</div>
+<div class="space-y-3">
+<div class="relative">
+<input class="w-full bg-surface text-xs font-label-md p-3 border border-outline-variant/50 rounded pr-10" readonly="" type="password" value="sk_test_4eC39HqLyjWDarjtT1zdp7dc"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="content_copy">content_copy</button>
+</div>
+<div class="flex justify-between">
+<span class="text-[10px] text-on-surface-variant font-medium">Last Ping: 2m ago</span>
+<span class="text-[10px] text-on-tertiary-container font-bold">Latency: 45ms</span>
+</div>
+</div>
+</div>
+<div class="border border-outline-variant rounded-lg p-5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-lg" data-icon="webhook">webhook</span>
+</div>
+<p class="font-label-md text-label-md">Webhooks (Global)</p>
+</div>
+<span class="px-2 py-0.5 bg-outline-variant/20 text-on-surface-variant text-[10px] font-bold rounded uppercase">7 Active</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-xs p-2 bg-surface rounded">
+<span class="font-medium text-primary">transaction.success</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant cursor-pointer" data-icon="edit">edit</span>
+</div>
+<div class="flex items-center justify-between text-xs p-2 bg-surface rounded">
+<span class="font-medium text-primary">listing.flagged</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant cursor-pointer" data-icon="edit">edit</span>
+</div>
+<button class="w-full py-1 text-[10px] font-bold text-center border border-dashed border-outline-variant rounded hover:bg-surface-container-low transition-colors">Add Webhook Secret</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: Data Map Integration (Mockup) -->
+<section class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/30 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="map">map</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Regional Jurisdiction Map</h3>
+<p class="text-body-sm text-on-surface-variant">Active integration regions for Nigerian Land Registries.</p>
+</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-lg text-body-sm font-semibold hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                            Coverage Report
+                        </button>
+</div>
+<div class="w-full h-64 bg-surface-container rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover grayscale opacity-60" data-location="Lagos, Nigeria" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJA_bc_EeapztB2A5CPUWfmWaE6vTnSiwVA1wpS4Nvsivsb1U2Kx5qdD861gYTtqo3_euD5j5aZgaTjKNdP7PYWFVmPVw1mUtoK4i_klWeWnXDPGeXf71GkPHWo_8_W3r52HyWNDz0U5qsEfFJrRJnB9GiPOqfZM2w9E4WuK_H72yoaXb4M6KS6Z8AO2bpwsr65yHmsJ6y-wD7GIGYucSpAmuk3sAHfOxX318qqKP4VVtEj_3xQ-NAmClMNhu8OrnRTWQwdl51K2I"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="w-4 h-4 bg-secondary-container rounded-full animate-ping absolute"></div>
+<div class="w-4 h-4 bg-secondary-container rounded-full relative shadow-[0_0_10px_rgba(254,174,44,0.8)]"></div>
+</div>
+<div class="absolute bottom-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">LAGOS: INTEGRATED</span>
+<span class="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">ABUJA: PENDING</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Fixed Save Bar -->
+<div class="fixed bottom-0 left-64 right-0 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant py-4 px-gutter flex justify-between items-center z-40">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-body-sm text-on-surface-variant">System-wide auto-save enabled. Last saved <span class="font-bold text-primary">12 seconds ago</span>.</p>
+</div>
+<div class="flex items-center gap-3">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest mr-4">Revision History: V4.1.09</p>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="cloud_upload">cloud_upload</span>
+                Sync to Global Edge
+            </button>
+</div>
+</div>
+<script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+
+            // Update UI Active State logic (simplified for prototype)
+            const buttons = document.querySelectorAll('.col-span-3 button');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-primary', 'bg-surface-container-lowest', 'text-primary');
+                btn.classList.add('border-transparent', 'text-on-surface');
+            });
+            event.currentTarget.classList.add('border-primary', 'bg-surface-container-lowest', 'text-primary');
+            event.currentTarget.classList.remove('border-transparent', 'text-on-surface');
+        }
+
+        // Simple parallax effect for map
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const map = document.querySelector('[data-location]');
+            if (map) {
+                map.style.transform = `translateY(${scroll * 0.05}px)`;
+            }
+        });
+    </script>
+</body></html>

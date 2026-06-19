@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Verification Checklist</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "secondary-fixed": "#ffddb4",
+                "on-error": "#ffffff",
+                "surface-container-high": "#e3e8f9",
+                "on-primary-container": "#768dad",
+                "on-surface": "#161c27",
+                "tertiary": "#001209",
+                "surface-container-low": "#f1f3ff",
+                "surface-container-highest": "#dde2f3",
+                "on-secondary-fixed": "#291800",
+                "error": "#ba1a1a",
+                "on-secondary-fixed-variant": "#633f00",
+                "secondary-container": "#feae2c",
+                "primary": "#000f22",
+                "on-tertiary-container": "#009e6f",
+                "on-primary-fixed-variant": "#314865",
+                "inverse-surface": "#2a303d",
+                "primary-fixed-dim": "#b0c8eb",
+                "surface-tint": "#49607e",
+                "on-background": "#161c27",
+                "tertiary-container": "#002a1b",
+                "surface-bright": "#f9f9ff",
+                "primary-container": "#0a2540",
+                "tertiary-fixed-dim": "#50dea5",
+                "outline": "#74777e",
+                "surface-dim": "#d4daea",
+                "surface-container": "#e8eeff",
+                "surface": "#f9f9ff",
+                "on-surface-variant": "#43474d",
+                "on-tertiary-fixed-variant": "#005137",
+                "surface-variant": "#dde2f3",
+                "inverse-primary": "#b0c8eb",
+                "on-error-container": "#93000a",
+                "background": "#f9f9ff",
+                "tertiary-fixed": "#71fbc0",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed": "#002114",
+                "secondary-fixed-dim": "#ffb955",
+                "outline-variant": "#c4c6ce",
+                "primary-fixed": "#d2e4ff",
+                "on-primary-fixed": "#001c37",
+                "inverse-on-surface": "#ecf0ff",
+                "secondary": "#835500",
+                "error-container": "#ffdad6",
+                "on-secondary-container": "#6b4500",
+                "on-tertiary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "12px",
+                "xl": "0.75rem",
+                "full": "999px"
+        },
+        "spacing": {
+                "margin-desktop": "64px",
+                "lg": "24px",
+                "xs": "4px",
+                "gutter": "24px",
+                "xl": "32px",
+                "sm": "8px",
+                "margin-mobile": "16px",
+                "md": "16px",
+                "base": "4px"
+        },
+        "fontFamily": {
+                "headline-sm": ["Bricolage Grotesque"],
+                "headline-lg": ["Bricolage Grotesque"],
+                "headline-md": ["Bricolage Grotesque"],
+                "body-sm": ["Inter"],
+                "label-sm": ["JetBrains Mono"],
+                "body-md": ["Inter"],
+                "headline-xl-mobile": ["Bricolage Grotesque"],
+                "headline-lg-mobile": ["Bricolage Grotesque"],
+                "label-md": ["JetBrains Mono"],
+                "headline-xl": ["Bricolage Grotesque"],
+                "body-lg": ["Inter"]
+        },
+        "fontSize": {
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        .document-grid-bg {
+            background-color: #f9f9ff;
+            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .custom-checkbox:checked + label .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verified-seal {
+            background: linear-gradient(135deg, #009e6f 0%, #002a1b 100%);
+        }
+        @media print {
+            .no-print { display: none; }
+            .document-canvas { box-shadow: none; margin: 0; width: 100%; border: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-surface-container-low min-h-screen">
+<!-- Top Navigation Bar (Shared Component Logic) -->
+<header class="fixed top-0 w-full z-50 bg-primary shadow-md no-print">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-on-primary">VeriLand Nigeria</span>
+<nav class="hidden md:flex items-center gap-6 ml-8">
+<a class="font-headline-sm text-headline-sm text-on-primary/70 hover:text-on-primary transition-colors" href="#">Dashboard</a>
+<a class="font-headline-sm text-headline-sm text-secondary-fixed border-b-2 border-secondary-fixed pb-1" href="#">Verify</a>
+<a class="font-headline-sm text-headline-sm text-on-primary/70 hover:text-on-primary transition-colors" href="#">Listings</a>
+<a class="font-headline-sm text-headline-sm text-on-primary/70 hover:text-on-primary transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-lg font-label-md hover:bg-secondary-fixed transition-colors">
+                    New Verification
+                </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional studio headshot of a Nigerian real estate verification officer wearing a navy blazer, looking confident and approachable against a clean, light gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqxmQsrf8Bc6q9tBYjTk3G7TqCjK1Mw1N-ocSB305t9920pX92afYulT2Ahydq3RVqaOusIXtNWj-wfPamBNz51UQekbnD2vpdCjoDKJykS_YI7OZ6P-brsT3AtLbhJMWsDroBuxSB30dtHrKSsUUb1W82X3amnUFoX5K2HBXSgjK7WP3bCu9now6nmQGi0Z7LuipaaDTryFPG6y14s51DgwgetH2tyaccK1mZ5gJb5M_buAGwK-rAhylxTQJu9dLsn-YC-FfyhYA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Action Bar (Floating) -->
+<div class="fixed right-8 top-32 flex flex-col gap-4 no-print z-40">
+<button class="group flex items-center justify-center w-14 h-14 bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant hover:border-primary hover:text-primary transition-all" onclick="window.print()">
+<span class="material-symbols-outlined">print</span>
+<span class="absolute right-16 bg-primary text-on-primary px-3 py-1 rounded text-xs opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap font-label-sm">Print Document</span>
+</button>
+<button class="group flex items-center justify-center w-14 h-14 bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">download</span>
+<span class="absolute right-16 bg-primary text-on-primary px-3 py-1 rounded text-xs opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap font-label-sm">Download PDF</span>
+</button>
+<button class="group flex items-center justify-center w-14 h-14 bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">share</span>
+<span class="absolute right-16 bg-primary text-on-primary px-3 py-1 rounded text-xs opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap font-label-sm">Share Resource</span>
+</button>
+</div>
+<!-- Main Workspace -->
+<main class="pt-32 pb-20 px-4 md:px-0 document-grid-bg min-h-screen flex justify-center">
+<!-- Document Canvas -->
+<article class="document-canvas w-full max-w-[850px] bg-surface-container-lowest shadow-2xl rounded-sm p-12 md:p-16 border border-outline-variant relative overflow-hidden">
+<!-- Subtle Watermark -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.03] select-none">
+<span class="font-headline-xl text-[120px] -rotate-45 uppercase font-black">PROPATI</span>
+</div>
+<!-- Document Header -->
+<header class="relative z-10 border-b-4 border-primary pb-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-primary text-on-primary px-3 py-1 rounded font-label-sm text-xs">OFFICIAL RESOURCE</span>
+<span class="font-label-sm text-on-surface-variant">VERSION 2.4</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary leading-tight">Property Verification Checklist</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Nigerian Land Registry & Legal Compliance Standard</p>
+</div>
+<div class="flex flex-col items-end">
+<div class="w-16 h-16 bg-primary flex items-center justify-center rounded-lg mb-2">
+<span class="material-symbols-outlined text-on-primary text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-xs tracking-widest text-primary">SECURE SEARCH</span>
+</div>
+</header>
+<!-- Layered Content Sections -->
+<div class="space-y-12 relative z-10">
+<!-- Section 1: Document Review -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">01</span>
+<h2 class="font-headline-md text-headline-md text-primary">Phase 1: Document Review</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Checkbox Items -->
+<div class="group flex items-center gap-4 p-4 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="c_of_o" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="c_of_o">Certificate of Occupancy (C of O)</label>
+</div>
+<div class="group flex items-center gap-4 p-4 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="gov_consent" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="gov_consent">Governor's Consent</label>
+</div>
+<div class="group flex items-center gap-4 p-4 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="reg_deed" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="reg_deed">Registered Deed of Assignment</label>
+</div>
+<div class="group flex items-center gap-4 p-4 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="survey_plan" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="survey_plan">Survey Plan (Approved)</label>
+</div>
+<div class="group flex items-center gap-4 p-4 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors col-span-full">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="building_app" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="building_app">Building Approval Documents (LASPPPA)</label>
+</div>
+</div>
+</section>
+<!-- Section 2: Identity Verification -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">02</span>
+<h2 class="font-headline-md text-headline-md text-primary">Phase 2: Identity Verification</h2>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="nin" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="nin">
+<strong>Landlord/Owner Identity (NIN/Passport)</strong>
+<span class="block text-xs text-on-surface-variant font-label-sm mt-1">Cross-reference with NIMC database</span>
+</label>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="agent" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="agent">
+<strong>Agent/Solicitor License Verification</strong>
+<span class="block text-xs text-on-surface-variant font-label-sm mt-1">Valid Nigerian Bar Association or Estate Agent Registry</span>
+</label>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant">
+<input class="w-6 h-6 rounded border-outline-variant text-primary focus:ring-primary" id="cac" type="checkbox"/>
+<label class="font-body-md text-on-surface flex-1 cursor-pointer" for="cac">
+<strong>Corporate CAC Registration</strong>
+<span class="block text-xs text-on-surface-variant font-label-sm mt-1">For corporate-owned property entities</span>
+</label>
+</div>
+</div>
+</section>
+<!-- Section 3: Site Inspection (Bento Style) -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">03</span>
+<h2 class="font-headline-md text-headline-md text-primary">Phase 3: Site Inspection</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 p-6 bg-surface-bright rounded-xl border-2 border-dashed border-outline-variant flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">GPS Coordinate Verification</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Confirming onsite beacons match official survey plan coordinates.</p>
+</div>
+<input class="w-8 h-8 rounded-full border-outline-variant text-on-tertiary-container focus:ring-on-tertiary-container" type="checkbox"/>
+</div>
+<div class="mt-6 p-4 bg-surface-container-highest rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="font-label-md text-sm">Lat: 6.5244° N, Long: 3.3792° E</span>
+</div>
+</div>
+<div class="p-6 bg-surface-bright rounded-xl border-2 border-dashed border-outline-variant flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Boundary Match</h3>
+<input class="w-8 h-8 rounded-full border-outline-variant text-on-tertiary-container focus:ring-on-tertiary-container mt-2" type="checkbox"/>
+</div>
+<span class="material-symbols-outlined text-5xl text-on-surface-variant/30 self-end">straighten</span>
+</div>
+<div class="p-6 bg-tertiary-container text-on-tertiary-container rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-tertiary-fixed mb-2">Omonile Risk</h3>
+<p class="text-xs opacity-80">Community lineage claim assessment.</p>
+</div>
+<div class="flex items-center gap-2 mt-4">
+<input class="w-6 h-6 rounded border-tertiary-fixed text-tertiary-fixed focus:ring-tertiary-fixed bg-transparent" type="checkbox"/>
+<span class="font-label-sm">LOW RISK</span>
+</div>
+</div>
+<div class="md:col-span-2 p-6 bg-surface-bright rounded-xl border-2 border-dashed border-outline-variant flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Structural Integrity Check</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Visual inspection of foundation and load-bearing walls.</p>
+</div>
+<input class="w-8 h-8 rounded-full border-outline-variant text-on-tertiary-container focus:ring-on-tertiary-container" type="checkbox"/>
+</div>
+</div>
+</section>
+<!-- Section 4 & 5: Search & Clearance (Split) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">04</span>
+<h2 class="font-headline-md text-headline-md text-primary">Legal Search</h2>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Alausa Registry Search</span>
+</li>
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Litigation Search (High Court)</span>
+</li>
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Zoning Verification</span>
+</li>
+</ul>
+</section>
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">05</span>
+<h2 class="font-headline-md text-headline-md text-primary">Final Clearance</h2>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Tax Clearance (3 Years)</span>
+</li>
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Verification of Signature</span>
+</li>
+<li class="flex items-center gap-3">
+<input class="w-5 h-5 rounded border-outline-variant text-primary" type="checkbox"/>
+<span class="font-body-md text-on-surface">Final PROPATI Seal</span>
+</li>
+</ul>
+</section>
+</div>
+</div>
+<!-- Verified Seal Section -->
+<footer class="mt-20 pt-12 border-t border-outline-variant flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+<div class="max-w-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mb-4">"This document serves as a preliminary verification guide and does not replace professional legal advice or formal title searches conducted by qualified legal practitioners."</p>
+<div class="flex gap-4">
+<div class="border-b border-on-surface w-48 h-10 flex items-end pb-1 font-label-sm text-xs text-on-surface-variant">Authorized Signature</div>
+<div class="border-b border-on-surface w-32 h-10 flex items-end pb-1 font-label-sm text-xs text-on-surface-variant">Date</div>
+</div>
+</div>
+<div class="verified-seal p-8 rounded-full flex flex-col items-center justify-center text-center shadow-xl transform rotate-12 hover:rotate-0 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-white text-5xl mb-1" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-secondary-fixed text-[10px] tracking-[0.2em]">VERIFIED STATUS</span>
+<span class="font-headline-sm text-white text-sm">ISSUANCE PENDING</span>
+</div>
+</footer>
+</article>
+</main>
+<!-- Shared Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant no-print">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-8 w-full gap-4">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold text-primary">VeriLand Nigeria</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 VeriLand Nigeria. Federal Land Registry Compliant.</span>
+</div>
+<div class="flex gap-6">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Registry Partners</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Update Seal when all checkboxes in a section are checked
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const total = document.querySelectorAll('input[type="checkbox"]').length;
+                const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                const seal = document.querySelector('.verified-seal span:last-child');
+                
+                if(checked === total) {
+                    seal.textContent = "CERTIFIED SECURE";
+                    document.querySelector('.verified-seal').style.background = "linear-gradient(135deg, #835500 0%, #000f22 100%)";
+                } else if (checked > 0) {
+                    seal.textContent = `PROGRESS: ${Math.round((checked/total)*100)}%`;
+                } else {
+                    seal.textContent = "ISSUANCE PENDING";
+                }
+            });
+        });
+    </script>
+</body></html>

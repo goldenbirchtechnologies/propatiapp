@@ -95,13 +95,14 @@
       "Bash(cp -rv \"/c/Users/USER/Documents/NEWPROPATI/.claude/worktrees/agent-a54fd18b4abd9bcd1/src/app/api/disputes\" \"src/app/api/\")",
       "Bash(export DIRECT_URL=\"postgresql://postgres.qpoorimlcoxgxttkuyln:06xlXxKCk977gflC@aws-1-eu-west-2.pooler.supabase.com:5432/postgres\")",
       "Bash(git checkout *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(npx next *)"
     ]
-  },
-  "enabledPlugins": {
-    "security-guidance@claude-plugins-official": true
   },
   "disabledMcpjsonServers": [
     "supabase"
-  ]
+  ],
+  "enabledPlugins": {
+    "security-guidance@claude-plugins-official": true
+  }
 }

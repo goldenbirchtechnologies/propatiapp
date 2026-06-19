@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EstateVerify - Verification Wizard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d2e4ff",
+                    "primary-container": "#0a2540",
+                    "tertiary-container": "#002a1b",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-variant": "#dde2f3",
+                    "surface-container": "#e8eeff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#291800",
+                    "on-error": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b0c8eb",
+                    "surface-container-low": "#f1f3ff",
+                    "on-primary-fixed": "#001c37",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container-high": "#e3e8f9",
+                    "on-surface-variant": "#43474d",
+                    "surface-container-highest": "#dde2f3",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-background": "#161c27",
+                    "background": "#f9f9ff",
+                    "surface-dim": "#d4daea",
+                    "secondary-container": "#feae2c",
+                    "on-primary-container": "#768dad",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "secondary-fixed": "#ffddb4",
+                    "outline-variant": "#c4c6ce",
+                    "outline": "#74777e",
+                    "on-tertiary-fixed": "#002114",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-tertiary-container": "#009e6f",
+                    "on-secondary-container": "#6b4500",
+                    "tertiary": "#001209",
+                    "surface-tint": "#49607e",
+                    "on-primary": "#ffffff",
+                    "secondary": "#835500",
+                    "primary": "#000f22",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-surface": "#161c27",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#71fbc0",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "inverse-surface": "#2a303d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "label-md": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .upload-zone:hover {
+            border-color: #feae2c;
+            background-color: rgba(254, 174, 44, 0.05);
+        }
+        .stepper-line {
+            background: linear-gradient(to bottom, #feae2c 0%, #feae2c 20%, #dde2f3 20%, #dde2f3 100%);
+        }
+        .glass-sidebar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar (Simplified for focused journey) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[64px] bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="text-headline-sm font-headline-sm font-black text-primary-container">EstateVerify</span>
+<div class="hidden md:flex h-6 w-[1px] bg-outline-variant mx-sm"></div>
+<span class="hidden md:block font-label-md text-label-md text-on-surface-variant">Landlord Verification</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</button>
+<button class="p-sm rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-[64px] min-h-screen pb-32">
+<div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop mt-xl">
+<!-- Page Header -->
+<div class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">Verify Your Property - The Obsidian Penthouse</h1>
+<p class="text-on-surface-variant">Complete the 5-step verification to list your property as a <span class="text-secondary font-bold">Certified Partner</span>.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Stepper Column (Left) -->
+<aside class="lg:col-span-3">
+<nav class="sticky top-[96px] flex flex-col gap-base">
+<!-- Step 1: Active -->
+<div class="relative flex items-start gap-md group">
+<div class="absolute left-4 top-10 bottom-0 w-[2px] bg-outline-variant z-0 stepper-line"></div>
+<div class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-bold text-sm">1</div>
+<div class="pb-10">
+<p class="font-label-md text-label-md text-secondary-container">L1 Documents</p>
+<p class="text-body-sm text-on-surface-variant">Current Step</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-start gap-md group">
+<div class="absolute left-4 top-10 bottom-0 w-[2px] bg-outline-variant z-0"></div>
+<div class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-outline font-bold text-sm">2</div>
+<div class="pb-10">
+<p class="font-label-md text-label-md text-outline">L2 Identity</p>
+<p class="text-body-sm text-on-surface-variant">Awaiting</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex items-start gap-md group">
+<div class="absolute left-4 top-10 bottom-0 w-[2px] bg-outline-variant z-0"></div>
+<div class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-outline font-bold text-sm">3</div>
+<div class="pb-10">
+<p class="font-label-md text-label-md text-outline">L3 Video</p>
+<p class="text-body-sm text-on-surface-variant">Awaiting</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative flex items-start gap-md group">
+<div class="absolute left-4 top-10 bottom-0 w-[2px] bg-outline-variant z-0"></div>
+<div class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-outline font-bold text-sm">4</div>
+<div class="pb-10">
+<p class="font-label-md text-label-md text-outline">L4 Inspection</p>
+<p class="text-body-sm text-on-surface-variant">Awaiting</p>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="relative flex items-start gap-md group">
+<div class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-outline font-bold text-sm">5</div>
+<div class="pb-2">
+<p class="font-label-md text-label-md text-outline">L5 Certified</p>
+<p class="text-body-sm text-on-surface-variant">Awaiting</p>
+</div>
+</div>
+</nav>
+</aside>
+<!-- Content Column (Middle) -->
+<section class="lg:col-span-6">
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant">
+<div class="flex items-center gap-sm mb-lg">
+<span class="px-md py-xs bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-full">LEVEL 1</span>
+<h2 class="font-headline-md text-headline-md text-primary">Document Verification</h2>
+</div>
+<p class="text-on-surface-variant mb-xl">Please upload high-resolution scans of the following legal documents. Ensure all edges are visible and text is legible.</p>
+<!-- Upload Zone 1: Title Deed -->
+<div class="mb-lg">
+<label class="block font-label-md text-label-md text-primary mb-xs">Title Deed / C of O (Certificate of Occupancy)</label>
+<div class="upload-zone group cursor-pointer border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center text-center transition-all">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-md group-hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary text-[32px]">description</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-xs">Click or drag to upload Title Deed</h4>
+<p class="text-body-sm text-on-surface-variant mb-md">Supports PDF, PNG, JPG (Max 10MB)</p>
+<button class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Select File</button>
+</div>
+</div>
+<!-- Upload Zone 2: Utility Bill -->
+<div class="mb-xl">
+<label class="block font-label-md text-label-md text-primary mb-xs">Utility Bill (Last 3 Months)</label>
+<div class="upload-zone group cursor-pointer border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center text-center transition-all">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-md group-hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary text-[32px]">receipt_long</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-xs">Click or drag to upload Utility Bill</h4>
+<p class="text-body-sm text-on-surface-variant mb-md">NEPA bill, Water bill, or Waste management</p>
+<button class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Select File</button>
+</div>
+</div>
+<!-- Verification Progress -->
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary-container">verified_user</span>
+<div>
+<p class="font-label-md text-label-md text-primary">Secure Transmission</p>
+<p class="text-body-sm text-on-surface-variant">Your documents are encrypted using AES-256 and only viewed by certified inspectors.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Information Column (Right) -->
+<aside class="lg:col-span-3">
+<div class="glass-sidebar p-lg rounded-xl flex flex-col gap-lg">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-sm">Why Verify?</h3>
+<div class="space-y-md">
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-tertiary-container mt-1">check_circle</span>
+<p class="text-body-sm text-on-surface-variant"><span class="font-bold text-primary">Eliminating Ghosts:</span> Verification proves the property exists and belongs to you, protecting you from fraud.</p>
+</div>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-tertiary-container mt-1">check_circle</span>
+<p class="text-body-sm text-on-surface-variant"><span class="font-bold text-primary">Building Trust:</span> Verified properties receive 4x more inquiries and close 30% faster on our platform.</p>
+</div>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-tertiary-container mt-1">check_circle</span>
+<p class="text-body-sm text-on-surface-variant"><span class="font-bold text-primary">Premium Status:</span> Access the "Certified" badge, exclusive to top-tier verified landlords in Nigeria.</p>
+</div>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant w-full"></div>
+<div class="relative w-full aspect-square rounded-lg overflow-hidden group">
+<img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" data-alt="A premium high-rise luxury penthouse in Victoria Island, Lagos, captured during the golden hour with warm sunlight reflecting off the expansive glass windows. The building stands as a testament to modern Nigerian architecture, surrounded by lush tropical landscaping and a clear blue sky. The photo is high-contrast, clean, and evokes a sense of extreme wealth and security." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0s9N7xWK6lydn-0lRAV1ARQJP17c_PyiL7w_QBSzt8OU9VlyL1xHk-FTj3US8BDsNfsaGVxLjODQOerKsxvtXLjA6-c9g3V3ktgwwR1wPexw8UiD_3v7aoHOne1u9E3xVLfnjwh0Bg2MRsU0rXktyX0Kw2_2kcHCnwiv4l7u6TeehsrKVOPr7ob4uNlqTGAq21XrQfZDjBIkCcemL3FZGbLZxRjje_KNhfjKvyCIBUGrwCYu7Drkvx89sXn4J7kDYZVm_bCyyPvM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent flex flex-col justify-end p-md">
+<p class="font-label-sm text-label-sm text-secondary-fixed">PROPERTY PREVIEW</p>
+<p class="font-headline-sm text-headline-sm text-white">The Obsidian Penthouse</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Fixed Wizard Footer -->
+<footer class="fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant px-margin-mobile md:px-margin-desktop py-md z-50">
+<div class="max-w-[1440px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<p class="text-body-sm text-on-surface-variant">Progress: 20% complete</p>
+<div class="w-32 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-1/5 h-full bg-secondary-container"></div>
+</div>
+</div>
+<div class="flex items-center gap-md w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-xl py-3 border border-primary text-primary font-bold rounded-xl hover:bg-primary/5 transition-colors">Save Draft</button>
+<button class="flex-1 sm:flex-none px-xl py-3 bg-primary-container text-on-primary font-bold rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-sm">
+                    Continue to Identity
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for upload zones
+        document.querySelectorAll('.upload-zone').forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('border-secondary-container', 'bg-secondary-fixed/10');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('border-secondary-container', 'bg-secondary-fixed/10');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('border-secondary-container', 'bg-secondary-fixed/10');
+                const file = e.dataTransfer.files[0];
+                if(file) {
+                    const statusText = zone.querySelector('h4');
+                    statusText.innerText = `File: ${file.name} (Ready)`;
+                    statusText.classList.add('text-on-tertiary-container');
+                    zone.querySelector('.material-symbols-outlined').innerText = 'check_circle';
+                    zone.querySelector('.material-symbols-outlined').classList.add('text-on-tertiary-container');
+                }
+            });
+
+            zone.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if(file) {
+                        const statusText = zone.querySelector('h4');
+                        statusText.innerText = `File: ${file.name} (Ready)`;
+                        statusText.classList.add('text-on-tertiary-container');
+                        zone.querySelector('.material-symbols-outlined').innerText = 'check_circle';
+                        zone.querySelector('.material-symbols-outlined').classList.add('text-on-tertiary-container');
+                    }
+                };
+                input.click();
+            });
+        });
+    </script>
+</body></html>

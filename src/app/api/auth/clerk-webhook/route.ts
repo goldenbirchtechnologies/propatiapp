@@ -76,7 +76,12 @@ async function handleUserCreated(data: Record<string, unknown>) {
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
   const publicMetadata = data.public_metadata as Record<string, unknown>;
-  const role = (publicMetadata?.role as string) || 'tenant';
+  
+  // Validate role against allowed enum values
+  const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
+  type AllowedRole = typeof allowedRoles[number];
+  const rawRole = publicMetadata?.role;
+  const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
   if (!email) {
     console.warn('User created without email:', clerkId);
@@ -90,7 +95,7 @@ async function handleUserCreated(data: Record<string, unknown>) {
       fullName: `${firstName || ''} ${lastName || ''}`.trim(),
       avatarUrl: imageUrl,
       phone: phoneNumber || null,
-      role: role as 'landlord' | 'tenant' | 'agent' | 'admin' | 'estate_manager',
+      role,
     },
     create: {
       clerkId,
@@ -98,7 +103,7 @@ async function handleUserCreated(data: Record<string, unknown>) {
       fullName: `${firstName || ''} ${lastName || ''}`.trim(),
       avatarUrl: imageUrl,
       phone: phoneNumber || null,
-      role: role as 'landlord' | 'tenant' | 'agent' | 'admin' | 'estate_manager',
+      role,
       password: 'clerk_managed',
       isActive: true,
     },
@@ -115,7 +120,12 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
   const publicMetadata = data.public_metadata as Record<string, unknown>;
-  const role = (publicMetadata?.role as string) || 'tenant';
+  
+  // Validate role against allowed enum values
+  const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
+  type AllowedRole = typeof allowedRoles[number];
+  const rawRole = publicMetadata?.role;
+  const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
   await prisma.user.update({
     where: { clerkId },
@@ -124,7 +134,7 @@ async function handleUserUpdated(data: Record<string, unknown>) {
       fullName: `${firstName || ''} ${lastName || ''}`.trim() || undefined,
       avatarUrl: imageUrl,
       phone: phoneNumber || null,
-      role: role as 'landlord' | 'tenant' | 'agent' | 'admin' | 'estate_manager',
+      role,
     },
   });
 

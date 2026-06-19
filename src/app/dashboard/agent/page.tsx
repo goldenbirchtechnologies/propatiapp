@@ -1,145 +1,360 @@
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
-import { AGENT_NAVIGATION } from '@/lib/navigation';
+'use client';
 
-export default async function AgentDashboardPage() {
-  const { userId } = await auth();
+import React, { useState, useEffect } from 'react';
 
-  if (!userId) {
-    redirect('/sign-in');
-  }
+// Type definitions
+interface StatCardProps {
+  icon: string;
+  label: string;
+  value: string | number;
+  trend?: {
+    value: string;
+    isPositive: boolean;
+  };
+  color: 'teal' | 'gold';
+}
 
-  const user = await getCurrentUserWithProfile();
+interface PipelineColumnProps {
+  stage: string;
+  count: number;
+  deals: Array<{
+    id: string;
+    property: string;
+    client: string;
+    value: string;
+  }>;
+}
 
-  if (!user || user.role !== 'agent') {
-    redirect('/dashboard');
-  }
+interface QuickActionCardProps {
+  icon: string;
+  title: string;
+  description: string;
+  onClick: () => void;
+}
+
+// Skeleton loading components
+const SkeletonCard = () => (
+  <div className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+    <div className="flex items-start justify-between">
+      <div className="flex-1">
+        <div className="h-4 bg-gray-200 rounded w-24 mb-3"></div>
+        <div className="h-8 bg-gray-200 rounded w-16 mb-2"></div>
+        <div className="h-3 bg-gray-200 rounded w-20"></div>
+      </div>
+      <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
+    </div>
+  </div>
+);
+
+const SkeletonPipelineColumn = () => (
+  <div className="bg-gray-50 rounded-lg p-4 animate-pulse">
+    <div className="h-5 bg-gray-200 rounded w-24 mb-4"></div>
+    <div className="space-y-3">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-lg p-3 border border-gray-200">
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Stat Card Component
+const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color }) => {
+  const colorClasses = {
+    teal: 'text-residential-teal hover:border-residential-teal',
+    gold: 'text-commercial-gold hover:border-commercial-gold'
+  };
 
   return (
-    <DashboardShell
-      navigation={AGENT_NAVIGATION}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <div className="space-y-8">
-        <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
-            Welcome back, {user.fullName.split(' ')[0]}! 🤝
-          </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-            Manage your pipeline and close more deals.
-          </p>
+    <div className={`bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out
+      hover:scale-105 hover:shadow-card-hover ${colorClasses[color]} cursor-pointer group`}>
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <p className="text-sm text-gray-600 mb-2 font-medium">{label}</p>
+          <h3 className="text-3xl font-bold text-gray-900 mb-1">{value}</h3>
+          {trend && (
+            <div className="flex items-center gap-1">
+              <span className={`material-symbols-outlined text-sm ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                {trend.isPositive ? 'trending_up' : 'trending_down'}
+              </span>
+              <span className={`text-xs font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                {trend.value}
+              </span>
+            </div>
+          )}
         </div>
-
-        {/* Pipeline Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <StatCard label="Enquiries" value="24" icon={<MailIcon />} />
-          <StatCard label="Viewings" value="8" icon={<EyeIcon />} />
-          <StatCard label="Offers" value="3" icon={<HandshakeIcon />} />
-          <StatCard label="Agreements" value="2" icon={<FileIcon />} />
-          <StatCard label="Closed" value="1" icon={<CheckIcon />} trendPositive />
+        <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${
+          color === 'teal' ? 'from-residential-teal/10 to-residential-teal/20' : 'from-commercial-gold/10 to-commercial-gold/20'
+        } flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
+          <span className={`material-symbols-outlined text-2xl ${colorClasses[color]}`}>{icon}</span>
         </div>
+      </div>
+    </div>
+  );
+};
 
-        {/* Pipeline Kanban */}
-        <section>
-          <h2 className="font-heading font-bold mb-6" style={{ color: 'var(--text)' }}>Deal Pipeline</h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {[
-              { title: 'Enquiries', count: 24, color: 'var(--blue)', items: ['John - 3 Bed Lekki', 'Mary - 2 Bed Ikeja'] },
-              { title: 'Viewings', count: 8, color: 'var(--amber)', items: ['Peter - 4 Bed VI'] },
-              { title: 'Offers', count: 3, color: 'var(--green)', items: ['Sarah - Duplex Ajah'] },
-              { title: 'Agreements', count: 2, colorVar: 'var(--accent)', items: ['Mike - House Surulere'] },
-              { title: 'Closed', count: 1, color: 'var(--green)', items: ['Done - Apartment Yaba'] },
-            ].map((stage) => (
-              <PipelineColumn key={stage.title} {...stage} />
+// Pipeline Column Component
+const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) => (
+  <div className="bg-gray-50 rounded-lg p-4 min-h-[300px] transition-all duration-300 hover:bg-gray-100">
+    <div className="flex items-center justify-between mb-4">
+      <h4 className="font-semibold text-gray-900">{stage}</h4>
+      <span className="bg-residential-teal text-white text-xs font-bold px-2 py-1 rounded-full">{count}</span>
+    </div>
+    <div className="space-y-3">
+      {deals.length > 0 ? (
+        deals.map((deal) => (
+          <div
+            key={deal.id}
+            className="bg-white rounded-lg p-3 border border-gray-200 shadow-sm cursor-grab
+              transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-residential-teal"
+          >
+            <h5 className="font-medium text-gray-900 text-sm mb-1 truncate">{deal.property}</h5>
+            <p className="text-xs text-gray-600 mb-2 truncate">{deal.client}</p>
+            <p className="text-sm font-bold text-residential-teal">{deal.value}</p>
+          </div>
+        ))
+      ) : (
+        <div className="text-center py-8 text-gray-400">
+          <span className="material-symbols-outlined text-3xl mb-2 block">inbox</span>
+          <p className="text-xs">No deals in this stage</p>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+// Quick Action Card Component
+const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
+  <button
+    onClick={onClick}
+    className="bg-white rounded-lg border border-gray-200 p-6 text-left w-full
+      transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-residential-teal group"
+  >
+    <div className="flex items-start gap-4">
+      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-residential-teal/10 to-residential-teal/20
+        flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
+        <span className="material-symbols-outlined text-2xl text-residential-teal">{icon}</span>
+      </div>
+      <div className="flex-1">
+        <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-residential-teal transition-colors duration-300">
+          {title}
+        </h4>
+        <p className="text-sm text-gray-600">{description}</p>
+      </div>
+    </div>
+  </button>
+);
+
+// Main Agent Dashboard Component
+export default function AgentDashboardPage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Mock data
+  const stats = [
+    {
+      icon: 'person_raised_hand',
+      label: 'Active Listings',
+      value: 12,
+      trend: { value: '+2 this week', isPositive: true },
+      color: 'teal' as const
+    },
+    {
+      icon: 'visibility',
+      label: 'Property Views',
+      value: '1,247',
+      trend: { value: '+18% vs last month', isPositive: true },
+      color: 'teal' as const
+    },
+    {
+      icon: 'handshake',
+      label: 'Active Deals',
+      value: 8,
+      trend: { value: '+3 this month', isPositive: true },
+      color: 'teal' as const
+    },
+    {
+      icon: 'verified',
+      label: 'Closed Deals',
+      value: 23,
+      trend: { value: '+5 vs last quarter', isPositive: true },
+      color: 'gold' as const
+    }
+  ];
+
+  const pipelineStages = [
+    {
+      stage: 'Lead',
+      count: 5,
+      deals: [
+        { id: '1', property: '4BR Duplex - Lekki Phase 1', client: 'Mr. Adebayo Okon', value: '₦45,000,000' },
+        { id: '2', property: '3BR Apartment - Victoria Island', client: 'Mrs. Chioma Nwankwo', value: '₦32,500,000' }
+      ]
+    },
+    {
+      stage: 'Viewing',
+      count: 3,
+      deals: [
+        { id: '3', property: '5BR Estate Home - Ikoyi', client: 'Dr. Emeka Obi', value: '₦125,000,000' }
+      ]
+    },
+    {
+      stage: 'Offer',
+      count: 2,
+      deals: [
+        { id: '4', property: 'Commercial Plot - Abuja CBD', client: 'Zenith Investments Ltd', value: '₦250,000,000' }
+      ]
+    },
+    {
+      stage: 'Negotiation',
+      count: 1,
+      deals: [
+        { id: '5', property: '2BR Condo - Banana Island', client: 'Ms. Aisha Bello', value: '₦55,000,000' }
+      ]
+    },
+    {
+      stage: 'Closing',
+      count: 1,
+      deals: [
+        { id: '6', property: 'Office Space - Lagos Island', client: 'TechHub Nigeria', value: '₦180,000,000' }
+      ]
+    }
+  ];
+
+  const quickActions = [
+    {
+      icon: 'calendar_add_on',
+      title: 'Schedule Property Viewing',
+      description: 'Book appointments with clients for property tours'
+    },
+    {
+      icon: 'view_kanban',
+      title: 'Update Deal Stage',
+      description: 'Move deals through your sales pipeline'
+    },
+    {
+      icon: 'payments',
+      title: 'Request Commission',
+      description: 'Submit commission requests for closed deals'
+    },
+    {
+      icon: 'add_circle',
+      title: 'Add New Property',
+      description: 'List a new property on the marketplace'
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-residential-teal to-residential-teal/90 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">Agent Dashboard</h1>
+              <p className="text-residential-teal-100 text-sm sm:text-base">
+                Welcome back! Here's your performance overview
+              </p>
+            </div>
+            <div className="hidden sm:flex items-center gap-3">
+              <span className="material-symbols-outlined text-4xl">real_estate_agent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Grid */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Performance Metrics</h2>
+          {loading ? (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {[1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {stats.map((stat, index) => (
+                <StatCard key={index} {...stat} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Commission Summary */}
+        <section className="mb-8">
+          <div className="bg-gradient-to-r from-commercial-gold to-commercial-gold/90 rounded-lg p-6 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Commission Summary</h2>
+              <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div>
+                <p className="text-commercial-gold-100 text-sm mb-1">Total Earned (YTD)</p>
+                <p className="text-2xl font-bold">₦12,450,000</p>
+              </div>
+              <div>
+                <p className="text-commercial-gold-100 text-sm mb-1">Pending Payment</p>
+                <p className="text-2xl font-bold">₦3,200,000</p>
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <p className="text-commercial-gold-100 text-sm mb-1">Next Payment</p>
+                <p className="text-2xl font-bold">Jun 30, 2026</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Deal Pipeline */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Sales Pipeline</h2>
+          {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {[1, 2, 3, 4, 5].map((i) => <SkeletonPipelineColumn key={i} />)}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto">
+              {pipelineStages.map((stage, index) => (
+                <PipelineColumn key={index} {...stage} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Quick Actions */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {quickActions.map((action, index) => (
+              <QuickActionCard
+                key={index}
+                {...action}
+                onClick={() => console.log(`Action clicked: ${action.title}`)}
+              />
             ))}
           </div>
         </section>
-      </div>
-    </DashboardShell>
-  );
-}
 
-function StatCard({
-  label,
-  value,
-  icon: Icon,
-  trendPositive = false,
-}: {
-  label: string;
-  value: string | number;
-  icon: React.ReactNode;
-  trendPositive?: boolean;
-}) {
-  return (
-    <div className="card p-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-medium" style={{ color: 'var(--muted)' }}>{label}</p>
-          <p className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
-        </div>
-        <div className="p-2 rounded-lg" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
-          {Icon}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PipelineColumn({
-  title,
-  count,
-  color,
-  colorVar,
-  items,
-}: {
-  title: string;
-  count: number;
-  color?: string;
-  colorVar?: string;
-  items: string[];
-}) {
-  const resolvedColor = color || colorVar || 'var(--accent)';
-  return (
-    <div className="card" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-      <div className="card-head" style={{ background: `linear-gradient(135deg, ${resolvedColor}22, ${resolvedColor}11)` }}>
-        <h3 className="font-heading font-bold" style={{ color: resolvedColor }}>{title}</h3>
-        <span className="text-xl font-bold" style={{ color: resolvedColor }}>{count}</span>
-      </div>
-      <div className="card-body p-4 space-y-3">
-        {items.map((item, i) => (
-          <div key={i} className="p-3 rounded-lg cursor-grab hover:shadow-md transition-shadow" style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}>
-            <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{item}</p>
+        {/* Recent Activity */}
+        <section>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+            <span className="material-symbols-outlined text-5xl text-gray-300 mb-3 block">history</span>
+            <p className="text-gray-500 mb-1 font-medium">No recent activity</p>
+            <p className="text-sm text-gray-400">Your activity feed will appear here</p>
           </div>
-        ))}
-        {items.length === 0 && (
-          <p className="text-center text-sm" style={{ color: 'var(--muted)' }}>No deals in this stage</p>
-        )}
+        </section>
       </div>
     </div>
   );
-}
-
-// Icons
-function MailIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
-}
-
-function EyeIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>;
-}
-
-function HandshakeIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 10a2 2 0 0 1 2-2 2 2 0 0 1 2 2"/><path d="M4.68 2.44 4 9.22"/><path d="m8 18 3 3 8-8.04L19 10"/><path d="M17.32 5 21 9.3a10 10 0 1 1-7.47 6.85 2.56 2.56 0 0 1 0-2.38l2.26-2.26"/><path d="M21 21v-4.86a2.56 2.56 0 0 0-1.17-2.04"/></svg>;
-}
-
-function FileIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>;
-}
-
-function CheckIcon() {
-  return <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>;
 }

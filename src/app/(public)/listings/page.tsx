@@ -51,7 +51,7 @@ const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => ({
   location: i % 3 === 0 ? 'Lekki Phase 1, Lagos' : i % 3 === 1 ? 'Victoria Island, Lagos' : 'Ikeja GRA, Lagos',
   price: (i + 1) * 5000000,
   pricePeriod: 'year' as const,
-  category: (i % 2 === 0 ? 'residential' : 'commercial') as const,
+  category: (i % 2 === 0 ? 'residential' : 'commercial') as 'residential' | 'commercial',
   verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
   listingType: (['rent', 'lease', 'sale'][i % 3]) as ListingType,
   image: `https://picsum.photos/seed/${i + 1}/800/600`,

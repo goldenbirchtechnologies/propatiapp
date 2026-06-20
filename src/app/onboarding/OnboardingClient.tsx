@@ -96,6 +96,9 @@ export default function OnboardingClient({ initialRole, initialName }: Props) {
     setError('');
     setLoading(true);
     try {
+      if (!selectedRole) {
+        throw new Error('Please select a role.');
+      }
       await patchProfile({ role: selectedRole });
       setStep(2);
     } catch (e: unknown) {
@@ -543,7 +546,69 @@ function StepProfile({
   );
 }
 
-function StepDone({ role, router }: { role: Role; router: ReturnType<typeof useRouter> }) {
+function StepDoneDuplicate({ role, router }: { role: Role; router: ReturnType<typeof useRouter> }) {
+  const next = roleNextStep[role];
+  const dashboard = roleDashboard[role];
++
++  // Automatically navigate to the next step after a short delay
++  useEffect(() => {
++    const timer = setTimeout(() => {
++      // Prefer navigating to the role-specific next action (e.g., add property, search, etc.)
++      router.replace(next.href);
++    }, 1500); // 1.5 seconds gives user a brief success visual
++    return () => clearTimeout(timer);
++  }, [next.href, router]);
+ 
+   return (
+     <div className="text-center space-y-6">
+       <div className="flex justify-center">
+         <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+           <CheckCircle2 size={40} className="text-primary" />
+         </div>
+       </div>
+       <div>
+         <h2 className="text-xl font-bold text-foreground mb-2">Welcome to PROPATI!</h2>
+         <p className="text-muted-foreground text-sm">
+           Your profile is complete. You&apos;re ready to get started.
+         </p>
+       </div>
+-       <div className="flex flex-col gap-3">
+-         <button
+-           type="button"
+-           onClick={() => router.push(next.href)}
+-           className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground py-3.5 text-sm font-semibold hover:bg-primary/90 transition-colors"
+-         >
+-           {next.label}
+-           <ArrowRight size={16} />
+-         </button>
+-         <Link
+-           href={dashboard}
+-           className="w-full flex items-center justify-center rounded-xl border border-border bg-background text-foreground py-3.5 text-sm font-medium hover:bg-muted transition-colors"
+-         >
+-           Go to Dashboard
+-         </Link>
+-       </div>
++       {/* The explicit navigation buttons are retained for users who prefer manual control */}
++       <div className="flex flex-col gap-3">
++         <button
++           type="button"
++           onClick={() => router.push(next.href)}
++           className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground py-3.5 text-sm font-semibold hover:bg-primary/90 transition-colors"
++         >
++           {next.label}
++           <ArrowRight size={16} />
++         </button>
++         <Link
++           href={dashboard}
++           className="w-full flex items-center justify-center rounded-xl border border-border bg-background text-foreground py-3.5 text-sm font-medium hover:bg-muted transition-colors"
++         >
++           Go to Dashboard
++         </Link>
++       </div>
+     </div>
+   );
+ }
+
   const next = roleNextStep[role];
   const dashboard = roleDashboard[role];
 

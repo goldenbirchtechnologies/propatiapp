@@ -15,9 +15,16 @@ export default async function UserDetailPage({ params }: { params: { id: string 
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'admin') {
-    redirect('/dashboard');
-  }
+  const rolePaths: Record<string, string> = {
+    landlord: '/dashboard/landlord',
+    tenant: '/dashboard/tenant',
+    agent: '/dashboard/agent',
+    admin: '/admin',
+    estate_manager: '/dashboard/estate-manager',
+  };
+  const roleRedirect = (u: typeof user) =>
+    rolePaths[u.role] ?? '/dashboard/tenant';
+  if (!user || user.role !== 'admin') redirect(roleRedirect(user));
 
   // Fetch user details
   const targetUser = await prisma.user.findUnique({

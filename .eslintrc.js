@@ -15,7 +15,7 @@ export default tseslint.config(
       ecmaFeatures: { jsx: true },
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json'],
       },
     },
     settings: {
@@ -30,6 +30,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       next: nextPlugin,
     },
+    ignores: ['.next/', 'node_modules/', 'out/', 'build/', 'dist/', '*.config.js', '*.config.ts'],
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
@@ -38,6 +39,5 @@ export default tseslint.config(
       'react/no-unescaped-entities': 'off',
       'jsx-a11y/anchor-is-valid': 'off',
     },
-    ignores: ['.next/', 'node_modules/', 'out/', 'build/', 'dist/', '*.config.js', '*.config.ts'],
-  }
+  },
 );

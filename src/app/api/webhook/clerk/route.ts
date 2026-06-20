@@ -89,6 +89,7 @@ async function handleUserCreated(data: UserJSON) {
     image_url,
     phone_numbers,
     public_metadata,
+    unsafe_metadata,
     created_at,
     updated_at,
   } = data;
@@ -102,9 +103,10 @@ async function handleUserCreated(data: UserJSON) {
     return;
   }
 
-  // Extract role from metadata (set during Clerk onboarding or via admin)
-  const meta = public_metadata as Record<string, unknown> | null ?? {};
-  const role = (meta.role as Role) || 'tenant';
+  // Extract role from metadata (check unsafeMetadata first, then publicMetadata)
+  const unsafeMeta = unsafe_metadata as Record<string, unknown> | null ?? {};
+  const publicMeta = public_metadata as Record<string, unknown> | null ?? {};
+  const role = (unsafeMeta.role as Role) || (publicMeta.role as Role) || 'tenant';
 
   const ninVerified = (meta.ninVerified as boolean) || false;
   const phoneVerified = (meta.phoneVerified as boolean) || false;
@@ -146,6 +148,7 @@ async function handleUserUpdated(data: UserJSON) {
     image_url,
     phone_numbers,
     public_metadata,
+    unsafe_metadata,
     updated_at,
   } = data;
 
@@ -158,8 +161,9 @@ async function handleUserUpdated(data: UserJSON) {
     return;
   }
 
-  const meta = public_metadata as Record<string, unknown> | null ?? {};
-  const role = (meta.role as Role) || 'tenant';
+  const unsafeMeta = unsafe_metadata as Record<string, unknown> | null ?? {};
+  const publicMeta = public_metadata as Record<string, unknown> | null ?? {};
+  const role = (unsafeMeta.role as Role) || (publicMeta.role as Role) || 'tenant';
 
   const ninVerified = (meta.ninVerified as boolean) || false;
   const phoneVerified = (meta.phoneVerified as boolean) || false;

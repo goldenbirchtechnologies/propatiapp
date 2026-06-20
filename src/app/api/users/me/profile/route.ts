@@ -42,7 +42,7 @@ export async function PATCH(request: NextRequest) {
     if (profileBio !== undefined) data.profileBio = profileBio ? String(profileBio) : null;
     if (agentBio !== undefined) data.agentBio = agentBio ? String(agentBio) : null;
     if (agentAreas !== undefined) data.agentAreas = agentAreas;
-    if (companyName !== undefined) data.profileBio = data.profileBio ?? (profileBio ? String(profileBio) : null);
+    if (companyName !== undefined) data.companyName = companyName ? String(companyName) : null;
 
     if (employmentStatus !== undefined) {
       const validStatuses: EmploymentStatus[] = [

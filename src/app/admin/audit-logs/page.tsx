@@ -14,9 +14,15 @@ export default async function AuditLogsPage() {
 
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'admin') {
-    redirect('/dashboard');
-  }
+  const rolePaths: Record<string, string> = {
+    landlord: '/dashboard/landlord',
+    tenant: '/dashboard/tenant',
+    agent: '/dashboard/agent',
+    admin: '/admin',
+    estate_manager: '/dashboard/estate-manager',
+  };
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect(rolePaths[user.role]);
 
   // Mock audit logs data - In production, this would come from a database
   const mockAuditLogs = [

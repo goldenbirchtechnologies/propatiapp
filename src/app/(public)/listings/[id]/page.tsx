@@ -100,7 +100,8 @@ function ImageGallery({ images, title }: { images: any[]; title: string }) {
         <Image
           src={currentImage.url}
           alt={`${title} - Image ${currentIndex + 1}`}
-          fill
+          width={1280}
+          height={720}
           className="object-cover"
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"

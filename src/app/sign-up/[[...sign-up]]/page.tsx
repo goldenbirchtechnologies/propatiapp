@@ -72,6 +72,9 @@ export default function SignUpPage() {
             routing="path"
             path="/sign-up"
             redirectUrl="/onboarding"
+            unsafeMetadata={{
+              role: selectedRole,
+            }}
           />
           <p className="text-center text-sm mt-6 text-muted-foreground">
             Already have an account?{' '}

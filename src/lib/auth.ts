@@ -55,7 +55,10 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
   }
 
   // Determine role from Clerk metadata or default to tenant
-  const role = (clerkUser.publicMetadata?.role as UserRole) ?? 'tenant';
+  // Check unsafeMetadata first (user-submitted during signup), then publicMetadata (admin-set)
+  const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
+               (clerkUser.publicMetadata?.role as UserRole) ??
+               'tenant';
 
   return prisma.user.create({
     data: {
@@ -79,7 +82,7 @@ export function getRoleRedirectPath(role: UserRole): string {
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  return paths[role] ?? '/dashboard';
+  return paths[role] ?? '/dashboard/tenant';
 }
 
 export async function getCurrentUserWithProfile() {

@@ -5,7 +5,7 @@ import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Building2, Search, Handshake, Building, CheckCircle2 } from 'lucide-react';
 
-type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
+type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager' | 'realtor';
 
 const roles: {
   id: Role;
@@ -36,6 +36,12 @@ const roles: {
     label: 'Estate Manager',
     subtitle: 'I manage property portfolios',
     Icon: Building,
+  },
+  {
+    id: 'realtor',
+    label: 'Realtor',
+    subtitle: 'I buy and sell properties',
+    Icon: Handshake,
   },
 ];
 

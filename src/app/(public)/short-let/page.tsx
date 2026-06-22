@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { useSearchParams } from 'next/navigation';
 import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,7 +24,6 @@ const MOCK_SHORTLETS = Array.from({ length: 8 }, (_, i) => ({
 }));
 
 export default function ShortLetListingsPage() {
-  const searchParams = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [nightCount, setNightCount] = useState(1);
@@ -118,7 +116,7 @@ export default function ShortLetListingsPage() {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-slate-100">
                   <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
                   <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-slate-900">
-                    {item.listingType || 'short_let'}
+                    short let
                   </span>
                 </div>
                 <div className="p-4">

@@ -1,0 +1,323 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Zap, Plus, Filter } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+
+interface UtilityAllocationItem {
+  id: string;
+  type: string;
+  reading?: number;
+  amount: number;
+  currency: string;
+  billingPeriod: string;
+  dueDate: string;
+  status: string;
+  unit: {
+    unitNumber: string;
+    buildingName: string;
+    organization: { name: string };
+  };
+}
+
+const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
+  draft: { class: 'bg-gray-50 text-gray-700 border-gray-200', label: 'Draft' },
+  sent: { class: 'bg-blue-50 text-blue-700 border-blue-200', label: 'Sent' },
+  paid: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Paid' },
+  overdue: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Overdue' },
+  cancelled: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Cancelled' },
+};
+
+const utilityTypeLabels: Record<string, string> = {
+  electricity: 'Electricity',
+  water: 'Water',
+  waste: 'Waste',
+  security: 'Security',
+  other: 'Other',
+};
+
+export default function UtilitiesPage() {
+  const [allocations, setAllocations] = useState<UtilityAllocationItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const { toast } = useToast();
+
+  const fetchAllocations = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/utilities');
+      const json = await res.json();
+      setAllocations(json.allocations || []);
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Failed to load utility allocations',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllocations();
+  }, []);
+
+  const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      unitId: formData.get('unitId') as string,
+      type: formData.get('type') as string,
+      reading: formData.get('reading') ? parseFloat(formData.get('reading') as string) : undefined,
+      amount: parseFloat(formData.get('amount') as string),
+      currency: formData.get('currency') as string || 'NGN',
+      billingPeriod: formData.get('billingPeriod') as string,
+      dueDate: formData.get('dueDate') as string,
+    };
+
+    try {
+      const res = await fetch('/api/utilities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to create');
+      }
+
+      toast({ title: 'Success', description: 'Utility allocation created' });
+      setIsCreateDialogOpen(false);
+      fetchAllocations();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to create utility allocation';
+      toast({ title: 'Error', description: message, variant: 'destructive' });
+    }
+  };
+
+  const filtered = allocations.filter((a) => {
+    const matchesStatus = statusFilter === 'all' || a.status === statusFilter;
+    const matchesType = typeFilter === 'all' || a.type === typeFilter;
+    return matchesStatus && matchesType;
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1
+            className="font-heading font-bold"
+            style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+          >
+            Utility Allocations
+          </h1>
+          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            View and manage utility allocations for your portfolio
+          </p>
+        </div>
+        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Utility Allocation
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Utility Allocation</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleCreate} className="space-y-4">
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Unit ID
+                </label>
+                <Input name="unitId" placeholder="Unit ID" required />
+              </div>
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Type
+                </label>
+                <select
+                  name="type"
+                  defaultValue="electricity"
+                  className="mt-1 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                  style={{ color: 'var(--text)' }}
+                >
+                  <option value="electricity">Electricity</option>
+                  <option value="water">Water</option>
+                  <option value="waste">Waste</option>
+                  <option value="security">Security</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Reading
+                </label>
+                <Input name="reading" type="number" placeholder="Reading (optional)" />
+              </div>
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Amount
+                </label>
+                <Input name="amount" type="number" placeholder="Amount" required />
+              </div>
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Billing Period
+                </label>
+                <Input name="billingPeriod" placeholder="e.g. 2024-01" required />
+              </div>
+              <div>
+                <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                  Due Date
+                </label>
+                <Input name="dueDate" type="date" required />
+              </div>
+              <Button type="submit" className="w-full">
+                Create
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <div className="card p-4 flex flex-wrap items-center gap-4 border-b" style={{ borderColor: 'var(--border)' }}>
+        <Filter className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+            <SelectItem value="sent">Sent</SelectItem>
+            <SelectItem value="paid">Paid</SelectItem>
+            <SelectItem value="overdue">Overdue</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Utility Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="electricity">Electricity</SelectItem>
+            <SelectItem value="water">Water</SelectItem>
+            <SelectItem value="waste">Waste</SelectItem>
+            <SelectItem value="security">Security</SelectItem>
+            <SelectItem value="other">Other</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="card overflow-hidden">
+        {loading ? (
+          <div className="p-4 space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-12 w-full" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-12">
+            <Zap className="mx-auto h-12 w-12 text-muted-foreground opacity-50" />
+            <p className="mt-2 text-muted-foreground">No utility allocations found</p>
+          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
+                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Unit
+                </th>
+                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Type
+                </th>
+                <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Amount
+                </th>
+                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Billing Period
+                </th>
+                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Due Date
+                </th>
+                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((allocation) => {
+                const sc = invoiceStatusSchema[allocation.status] || {
+                  class: '',
+                  label: allocation.status,
+                };
+                return (
+                  <tr
+                    key={allocation.id}
+                    className="border-b transition-colors hover:bg-muted/30"
+                    style={{ borderColor: 'var(--border)' }}
+                  >
+                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                      <span className="font-medium">{allocation.unit?.unitNumber}</span>
+                      <p className="text-xs text-muted-foreground">
+                        {allocation.unit?.buildingName}
+                      </p>
+                    </td>
+                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                      {utilityTypeLabels[allocation.type] || allocation.type}
+                    </td>
+                    <td className="p-4 text-sm text-right font-medium" style={{ color: 'var(--text)' }}>
+                      ₦{Number(allocation.amount).toLocaleString()}
+                    </td>
+                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                      {allocation.billingPeriod}
+                    </td>
+                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                      {new Date(allocation.dueDate).toLocaleDateString('en-NG', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </td>
+                    <td className="p-4">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${sc.class}`}
+                      >
+                        {sc.label}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}

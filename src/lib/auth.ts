@@ -79,6 +79,7 @@ export function getRoleRedirectPath(role: UserRole): string {
     landlord: '/dashboard/landlord',
     tenant: '/dashboard/tenant',
     agent: '/dashboard/agent',
+    realtor: '/dashboard/realtor',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };

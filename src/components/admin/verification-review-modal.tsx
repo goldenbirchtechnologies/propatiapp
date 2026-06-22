@@ -30,15 +30,14 @@ interface VerificationData {
   owner: {
     fullName: string;
     email: string;
-    phone: string;
+    phone?: string;
   };
   currentLayer: number;
   overallStatus: string;
   documents?: {
     id: string;
     documentType: string;
-    fileUrl: string;
-    status: string;
+    url: string;
   }[];
   layer2Status?: string;
   layer3VideoUrl?: string;
@@ -226,10 +225,10 @@ export function VerificationReviewModal({
                                 {doc.documentType.replace('_', ' ')}
                               </span>
                             </div>
-                            <Badge className={getStatusColor(doc.status)}>{doc.status}</Badge>
+                            <Badge className={getStatusColor('uploaded')}>Uploaded</Badge>
                           </div>
                           <a
-                            href={doc.fileUrl}
+                            href={doc.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm flex items-center gap-1"

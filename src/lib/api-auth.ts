@@ -70,6 +70,7 @@ export const requireAgent = requireRole(['agent', 'admin']);
 export const requireEstateManager = requireRole(['estate_manager', 'admin']);
 export const requireLandlord = requireRole(['landlord', 'admin']);
 export const requireTenant = requireRole(['tenant', 'admin']);
+export const requireRealtor = requireRole(['realtor', 'admin']);
 
 // Helper to create standardized API responses
 export function successResponse<T>(data: T, message?: string) {

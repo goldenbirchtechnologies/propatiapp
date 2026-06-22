@@ -21,6 +21,7 @@ export default async function AdminVerificationsPage() {
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
+    realtor: '/dashboard/realtor',
   };
   const roleRedirect = (u: typeof user) =>
     rolePaths[u.role] ?? '/dashboard/tenant';
@@ -29,7 +30,7 @@ export default async function AdminVerificationsPage() {
   // Fetch all verifications with listing and owner data
   const verifications = await prisma.verification.findMany({
     where: {
-      overallStatus: { in: ['in_progress', 'pending_review'] },
+      overallStatus: { in: ['in_progress', 'not_started'] },
     },
     include: {
       listing: {
@@ -55,8 +56,7 @@ export default async function AdminVerificationsPage() {
         select: {
           id: true,
           documentType: true,
-          fileUrl: true,
-          status: true,
+          url: true,
         },
       },
     },

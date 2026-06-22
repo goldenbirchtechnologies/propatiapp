@@ -18,7 +18,7 @@ export const createUserSchema = z.object({
   email: emailSchema,
   phone: phoneSchema.optional(),
   password: passwordSchema,
-  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']),
+  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']),
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
   avatarUrl: urlSchema.optional(),
 });
@@ -452,8 +452,16 @@ export const rejectVerificationSchema = z.object({
   layer: z.number().min(1).max(5).optional(),
 });
 
+export const approveBusinessVerificationSchema = z.object({
+  notes: z.string().max(1000).optional(),
+});
+
+export const rejectBusinessVerificationSchema = z.object({
+  reason: z.string().min(10).max(1000),
+});
+
 export const updateUserAdminSchema = z.object({
-  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']).optional(),
+  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']).optional(),
   status: z.enum(['active', 'suspended', 'banned']).optional(),
   phoneVerified: z.boolean().optional(),
   emailVerified: z.boolean().optional(),
@@ -495,7 +503,7 @@ export const auditLogFiltersSchema = paginationSchema.extend({
 });
 
 export const adminUserFiltersSchema = paginationSchema.extend({
-  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']).optional(),
+  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']).optional(),
   status: z.enum(['active', 'suspended', 'banned']).optional(),
   search: z.string().optional(),
 });
@@ -513,6 +521,8 @@ export const flaggedListingsFiltersSchema = paginationSchema.extend({
 // Type exports for Phase G
 export type ApproveVerificationInput = z.infer<typeof approveVerificationSchema>;
 export type RejectVerificationInput = z.infer<typeof rejectVerificationSchema>;
+export type ApproveBusinessVerificationInput = z.infer<typeof approveBusinessVerificationSchema>;
+export type RejectBusinessVerificationInput = z.infer<typeof rejectBusinessVerificationSchema>;
 export type UpdateUserAdminInput = z.infer<typeof updateUserAdminSchema>;
 export type SuspendUserInput = z.infer<typeof suspendUserSchema>;
 export type BanUserInput = z.infer<typeof banUserSchema>;

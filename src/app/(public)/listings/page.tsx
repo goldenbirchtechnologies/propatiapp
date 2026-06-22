@@ -24,8 +24,8 @@ import { FilterIcon, XIcon, MapPinIcon, SearchIcon } from 'lucide-react';
 // ============================================================================
 
 type VerificationTier = 'basic' | 'verified' | 'inspected' | 'certified';
-type PropertyType = 'apartment' | 'house' | 'duplex' | 'townhouse' | 'land' | 'shop' | 'office' | 'warehouse';
-type ListingType = 'rent' | 'lease' | 'sale';
+type PropertyType = 'apartment' | 'house' | 'duplex' | 'land' | 'shop' | 'office' | 'warehouse';
+type ListingType = 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
 type SortOption = 'verification' | 'newest' | 'price_asc' | 'price_desc';
 
 interface Filters {
@@ -54,7 +54,7 @@ const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => ({
   pricePeriod: 'year' as const,
   category: (i % 2 === 0 ? 'residential' : 'commercial') as 'residential' | 'commercial',
   verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
-  listingType: (['rent', 'lease', 'sale'][i % 3]) as ListingType,
+  listingType: (['rent', 'sale', 'short_let'][i % 3]) as ListingType,
   image: `https://picsum.photos/seed/${i + 1}/800/600`,
   specs: i % 2 === 0
     ? { beds: 3, baths: 2, sqm: 120 }
@@ -73,7 +73,7 @@ const AMENITIES = [
   'Playground',
 ];
 
-const RESIDENTIAL_TYPES: PropertyType[] = ['apartment', 'house', 'duplex', 'townhouse', 'land'];
+const RESIDENTIAL_TYPES: PropertyType[] = ['apartment', 'house', 'duplex', 'land'];
 const COMMERCIAL_TYPES: PropertyType[] = ['shop', 'office', 'warehouse'];
 
 // ============================================================================

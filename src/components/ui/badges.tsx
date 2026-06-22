@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 // ListingTypeBadge Component
-export type ListingType = 'rent' | 'lease' | 'sale' | 'short_let' | 'room_share';
+export type ListingType = 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
 
 interface ListingTypeBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   type: ListingType;
@@ -16,10 +16,6 @@ const listingTypeConfig: Record<
     label: 'For Rent',
     colorClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
   },
-  lease: {
-    label: 'For Lease',
-    colorClass: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
-  },
   sale: {
     label: 'For Sale',
     colorClass: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
@@ -28,9 +24,13 @@ const listingTypeConfig: Record<
     label: 'Short Let',
     colorClass: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
   },
-  room_share: {
+  share: {
     label: 'Room Share',
     colorClass: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
+  },
+  commercial: {
+    label: 'Commercial',
+    colorClass: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
   },
 };
 

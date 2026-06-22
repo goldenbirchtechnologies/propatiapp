@@ -15,7 +15,7 @@ export interface PropertyCardProps {
   pricePeriod?: 'month' | 'year' | 'once';
   category: 'residential' | 'commercial';
   verificationTier: 'basic' | 'verified' | 'inspected' | 'certified';
-  listingType: 'rent' | 'lease' | 'sale';
+  listingType: 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
   image: string;
   specs?: {
     beds?: number;
@@ -43,14 +43,18 @@ const verificationColors = {
 
 const listingTypeColors = {
   rent: 'bg-blue-50 text-type-rent border-type-rent/20',
-  lease: 'bg-purple-50 text-type-lease border-type-lease/20',
   sale: 'bg-green-50 text-type-sale border-type-sale/20',
+  short_let: 'bg-purple-50 text-type-short-let border-type-short-let/20',
+  share: 'bg-orange-50 text-type-share border-type-share/20',
+  commercial: 'bg-yellow-50 text-type-commercial border-type-commercial/20',
 } as const;
 
 const listingTypeLabels = {
   rent: 'For Rent',
-  lease: 'For Lease',
   sale: 'For Sale',
+  short_let: 'Short Let',
+  share: 'Room Share',
+  commercial: 'Commercial',
 } as const;
 
 const verificationLabels = {

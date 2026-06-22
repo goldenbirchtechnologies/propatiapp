@@ -14,6 +14,7 @@ export default function RoleLayout({ children }: { children: ReactNode }) {
             <Link href="/dashboard/landlord" className="hover:underline">Landlord</Link>
             <Link href="/dashboard/tenant" className="hover:underline">Tenant</Link>
             <Link href="/dashboard/estate-manager" className="hover:underline">Estate Manager</Link>
+            <Link href="/dashboard/realtor" className="hover:underline">Realtor</Link>
           </nav>
         </div>
       </header>

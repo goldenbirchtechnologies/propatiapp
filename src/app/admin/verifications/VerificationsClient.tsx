@@ -32,8 +32,7 @@ interface Verification {
   documents?: {
     id: string;
     documentType: string;
-    fileUrl: string;
-    status: string;
+    url: string;
   }[];
   layer2Status?: string | null;
   layer3VideoUrl?: string | null;
@@ -120,7 +119,6 @@ export default function VerificationsClient({ verifications: initialVerification
       case 'certified':
         return 'tag-green';
       case 'in_progress':
-      case 'pending_review':
         return 'tag-amber';
       case 'rejected':
         return 'tag-red';
@@ -272,7 +270,7 @@ export default function VerificationsClient({ verifications: initialVerification
 
           <TabsContent value="pending" className="mt-6">
             {renderVerificationTable(
-              verifications.filter((v) => v.overallStatus === 'pending_review')
+              verifications.filter((v) => v.overallStatus === 'in_progress')
             )}
           </TabsContent>
         </Tabs>

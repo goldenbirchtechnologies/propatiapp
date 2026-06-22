@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback, ReactNode } from 'react';
+import { useEffect, useState, useRef, useCallback, ReactNode, CSSProperties } from 'react';
 
 // ==================== RESPONSIVE BREAKPOINT CONSTANTS ====================
 
@@ -30,7 +30,7 @@ export const RECOMMENDED_TOUCH_TARGET_SIZE = 48;
  * Ensures an element meets minimum touch target size
  * Returns inline styles to apply to the element
  */
-export function getTouchTargetStyles(minSize: number = MIN_TOUCH_TARGET_SIZE): React.CSSProperties {
+export function getTouchTargetStyles(minSize: number = MIN_TOUCH_TARGET_SIZE): CSSProperties {
   return {
     minWidth: `${minSize}px`,
     minHeight: `${minSize}px`,

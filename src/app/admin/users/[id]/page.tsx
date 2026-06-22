@@ -21,6 +21,7 @@ export default async function UserDetailPage({ params }: { params: { id: string 
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
+    realtor: '/dashboard/realtor',
   };
   const roleRedirect = (u: typeof user) =>
     rolePaths[u.role] ?? '/dashboard/tenant';

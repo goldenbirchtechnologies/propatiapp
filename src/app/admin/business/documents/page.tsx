@@ -1,10 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { Badge } from '@/components/ui/badge';
 
 type Document = {
   id: string;
   type: string;
+  version: number;
   name: string;
   url: string;
   uploadedById: string;
@@ -27,7 +29,10 @@ export default function AdminDocuments() {
       {documents.isError ? <p className="text-red-600">Failed to load documents.</p> : null}
       {documents.data?.documents.map((doc) => (
         <div key={doc.id} className="rounded border p-3">
-          <div className="font-semibold">{doc.name}</div>
+          <div className="flex items-center justify-between gap-2">
+            <div className="font-semibold">{doc.name}</div>
+            <Badge variant="outline" className="text-xs">v{doc.version}</Badge>
+          </div>
           <div className="text-sm text-gray-500">{doc.type}</div>
           <a href={doc.url} className="text-sm text-blue-600" target="_blank" rel="noreferrer">
             View Document

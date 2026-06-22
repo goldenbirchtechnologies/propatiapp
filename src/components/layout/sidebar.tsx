@@ -77,6 +77,14 @@ const roleNavigation: Record<string, NavItem[]> = {
     { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart className="h-5 w-5" /> },
     { label: 'Subscription', href: '/dashboard/estate-manager/subscription', icon: <CreditCard className="h-5 w-5" /> },
   ],
+  realtor: [
+    { label: 'Dashboard', href: '/dashboard/realtor', icon: <LayoutDashboard className="h-5 w-5" /> },
+    { label: 'Buy Pipeline', href: '/dashboard/realtor/buy', icon: <BarChart className="h-5 w-5" /> },
+    { label: 'Sell Pipeline', href: '/dashboard/realtor/sell', icon: <BarChart className="h-5 w-5" /> },
+    { label: 'My Listings', href: '/dashboard/realtor/listings', icon: <Building className="h-5 w-5" /> },
+    { label: 'My Profile', href: '/dashboard/realtor/profile', icon: <User className="h-5 w-5" /> },
+    { label: 'Messages', href: '/dashboard/realtor/messages', icon: <Mail className="h-5 w-5" /> },
+  ],
 };
 
 import { User, ClipboardList, Flag, Gavel } from 'lucide-react';

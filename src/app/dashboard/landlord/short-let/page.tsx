@@ -2,11 +2,10 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { DashboardShell } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
 import { Plus, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 
 type CalendarStatus = 'available' | 'booked' | 'blocked';
@@ -17,6 +16,15 @@ const STATUS_COLORS: Record<CalendarStatus, string> = {
   blocked: 'bg-slate-200 text-slate-700',
 };
 
+const LANDLORD_NAVIGATION = [
+  { label: 'Overview', href: '/dashboard/landlord' },
+  { label: 'Properties', href: '/dashboard/landlord/properties' },
+  { label: 'Short-let Calendar', href: '/dashboard/landlord/short-let' },
+  { label: 'Messages', href: '/dashboard/landlord/messages' },
+  { label: 'Payments', href: '/dashboard/landlord/payments' },
+  { label: 'Profile', href: '/dashboard/landlord/profile' },
+];
+
 export default function LandlordShortLetPage() {
   const today = new Date();
   const [startDate, setStartDate] = useState<Date | undefined>(new Date(today.getFullYear(), today.getMonth(), 1));
@@ -26,7 +34,11 @@ export default function LandlordShortLetPage() {
   const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
   return (
-    <DashboardShell title="Short-let Calendar" breadcrumbs={['Dashboard', 'Short-let Calendar']}>
+    <DashboardShell
+      navigation={LANDLORD_NAVIGATION}
+      userRole="landlord"
+      userName="Landlord User"
+    >
       <div className="space-y-6">
         <div className="flex items-center justify-between gap-4">
           <div>

@@ -1,22 +1,36 @@
 import { z } from 'zod';
 import { uuidSchema } from './validators';
 
-export const turnoverStatusSchema = z.enum(['pending', 'in_progress', 'completed', 'cancelled']);
+export const turnoverStatusSchema = z.enum(['pending', 'assigned', 'in_progress', 'completed', 'cancelled']);
 
-export const turnoverTypeSchema = z.enum(['cleaning', 'inspection', 'maintenance', 'other']);
+export const turnoverPrioritySchema = z.enum(['low', 'medium', 'high', 'urgent']);
 
 export const createTurnoverTaskSchema = z.object({
-  bookingId: uuidSchema,
-  type: turnoverTypeSchema,
-  assignedTo: z.string().optional(),
+  bookingId: uuidSchema.optional(),
+  propertyId: z.string().uuid().optional(),
+  listingId: uuidSchema.optional(),
+  assignedToUserId: uuidSchema.optional(),
+  priority: turnoverPrioritySchema.default('medium'),
+  scheduledStart: z.string().datetime().optional(),
+  scheduledEnd: z.string().datetime().optional(),
   notes: z.string().max(1000).optional(),
+  checklist: z.record(z.any()).optional(),
+  photos: z.array(z.string()).optional(),
 });
 
 export const updateTurnoverTaskSchema = z.object({
   status: turnoverStatusSchema.optional(),
-  type: turnoverTypeSchema.optional(),
-  assignedTo: z.string().optional(),
+  priority: turnoverPrioritySchema.optional(),
+  assignedToUserId: uuidSchema.optional(),
+  scheduledStart: z.string().datetime().optional(),
+  scheduledEnd: z.string().datetime().optional(),
+  actualStart: z.string().datetime().optional(),
+  actualEnd: z.string().datetime().optional(),
   notes: z.string().max(1000).optional(),
+  checklist: z.record(z.any()).optional(),
+  photos: z.array(z.string()).optional(),
+  propertyId: z.string().uuid().optional(),
+  listingId: uuidSchema.optional(),
 });
 
 export const businessProfileStatusSchema = z.enum(['pending', 'verified', 'rejected']);

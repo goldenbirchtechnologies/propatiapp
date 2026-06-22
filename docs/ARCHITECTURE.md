@@ -820,3 +820,19 @@ Each Vercel serverless function invocation creates at most 1 connection. PgBounc
 ---
 
 *This architecture document describes the production Next.js 14 system. The previous vanilla JS/Express architecture is documented in `oldpropati/` for historical reference only.*
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

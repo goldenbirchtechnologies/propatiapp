@@ -240,3 +240,19 @@ For migration issues:
 - React Hooks: `src/hooks/useUnits.ts`
 - CSV Parser: `src/lib/csv-parser.ts`
 - Documentation: `docs/UNITS_CSV_FORMAT.md`
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

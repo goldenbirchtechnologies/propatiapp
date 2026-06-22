@@ -1440,3 +1440,19 @@ Content-Type: application/json
 ---
 
 *This reference documents the Next.js 14 API. Endpoints are subject to change during active development — check `BUILD_PLAN.md` for implementation status of each phase.*
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

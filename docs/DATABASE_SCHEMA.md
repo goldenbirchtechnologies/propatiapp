@@ -803,3 +803,23 @@ try {
 ---
 
 *This schema reference is the authoritative source for all database interactions. Update `migrate_v4.js` for new columns/tables.*
+
+## 8. OS Expansion Gaps (Schema Evolution)
+
+The following tables/models are required to fully realize `docs/PROPTECH.md` but are not yet in `schema.prisma`:
+
+| Missing Model | Purpose | Status | Key Fields |
+|---------------|---------|--------|------------|
+| `LawFirm` | Embedded legal network partners | Done | `id`, `name`, `cacNumber`, `email`, `jurisdiction`, `verified`, `rating` |
+| `LawFirmCase` | Dispute/arbitration routing | Done | `disputeId`, `firmId`, `status`, `fee`, `assignedAt`, `resolvedAt` |
+| `EvidencePack` | Court-ready evidence export | Planned | `id`, `disputeId`, `contracts`, `payments`, `messages`, `auditLogs` (JSON) |
+| `TurnoverTask` | Cleaning/maintenance scheduling | Planned | `id`, `bookingId`, `status`, `assignedTo`, `completedAt` |
+| `BusinessProfile` | CAC verification for companies | Planned | `id`, `userId`, `cacNumber`, `rcNumber`, `verified` |
+| `Document` | Version-controlled docs | Planned | `id`, `listingId`, `type`, `version`, `url`, `accessControl` |
+
+**Recommended migration order:**
+1. `Booking` + `CalendarSlot` + `PricingRule` (short-let ops) — **done**
+2. `LawFirm` + `LawFirmCase` (legal network) — **done**
+3. `ServiceCharge` + `UtilityAllocation` (commercial specifics) — **done**
+4. `Document` + `EvidencePack` (evidence layer) — planned
+5. `SubscriptionPlan` + `UserSubscription` (revenue model) — planned

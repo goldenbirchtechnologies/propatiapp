@@ -40,6 +40,14 @@ PROPATI is Nigeria's first **verified property platform** — a unified marketpl
 
 The **5-Layer Trust Verification System** addresses Nigeria's primary property problem — fraud and misrepresentation:
 
+### Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
 | Layer | Mechanism | Who Reviews |
 |-------|-----------|-------------|
 | L1 | Document upload (C of O, Deed, Survey, Gov. Consent) | Admin |
@@ -1266,3 +1274,23 @@ Designed but not yet built. Architecture decision: use **Supabase branching** (s
 ---
 
 *This TRD is the single source of truth for PROPATI technical implementation. It describes the **Next.js 14 App Router** stack. The previous Express/vanilla JS TRD has been superseded. Update this document when architecture decisions change.*
+
+## 16. OS Gap Assessment (Aligned with `docs/PROPTECH.md`)
+
+=== "Current coverage: ~75% of OS thesis"
+
+| OS Layer | Status | Notes |
+|----------|--------|-------|
+| Marketplace | Partial | Residential/short-let/commercial search works; missing buy/sell pipeline |
+| Financial infra | Partial | Rent + escrow built; missing booking payments, service-charge billing, split payouts |
+| Legal infra | Partial | Stamp duty + law-firm network + commercial billing built; missing evidence packs |
+| Identity | Complete | 5-layer verification built (L1-L5) |
+| Property mgmt | Partial | Residential/pm built; missing turnover scheduling |
+| Enforcement | Partial | Basic audit + disputes; missing court-ready packs, structured evidence |
+
+### Recommended next schema migrations
+1. `Booking`, `CalendarSlot`, `PricingRule` — short-let engine (`done`)
+2. `LawFirm`, `LawFirmCase` — legal network (`done`)
+3. `ServiceCharge`, `UtilityAllocation` — commercial ops (`done`)
+4. `Document`, `EvidencePack` — evidence layer
+5. `SubscriptionPlan`, `UserSubscription` — revenue model expansion

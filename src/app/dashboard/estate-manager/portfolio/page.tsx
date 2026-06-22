@@ -80,7 +80,7 @@ export default function PortfolioPage() {
   const vacantUnits = totalUnits - occupiedUnits;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fadeIn">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -104,8 +104,8 @@ export default function PortfolioPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-3 animate-fadeIn">
+        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Units</CardTitle>
             <Home className="h-4 w-4 text-muted-foreground" />
@@ -115,7 +115,7 @@ export default function PortfolioPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Occupied</CardTitle>
             <Building2 className="h-4 w-4 text-green-600" />
@@ -125,7 +125,7 @@ export default function PortfolioPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Vacant</CardTitle>
             <Building2 className="h-4 w-4 text-orange-600" />

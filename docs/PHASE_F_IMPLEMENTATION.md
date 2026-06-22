@@ -115,3 +115,19 @@
 4. **Webhook Separation**: Created dedicated `/api/webhooks/paystack-subscriptions` endpoint separate from the general Paystack webhook to handle subscription-specific events.
 
 5. **Frontend Not Included**: As per requirements, no frontend UI components were built. Only API routes and React hooks for data fetching.
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

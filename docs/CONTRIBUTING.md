@@ -530,3 +530,19 @@ pnpm prisma generate
 ### "Clerk webhook events not reaching localhost"
 
 Make sure ngrok is running and the tunnel URL is registered in Clerk Dashboard. Clerk webhooks will fail silently if the endpoint returns non-2xx. Check the Clerk webhook logs in the dashboard for delivery status and error codes.
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

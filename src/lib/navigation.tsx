@@ -3,6 +3,7 @@ import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield,
+  CalendarDays, Clock,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -17,6 +18,7 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Rent Collection', href: '/dashboard/landlord/rent', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Add Listing', href: '/dashboard/landlord/listing/new', icon: <Plus className="h-5 w-5" /> },
+  { label: 'Short-let Calendar', href: '/dashboard/landlord/short-let', icon: <CalendarDays className="h-5 w-5" /> },
   { label: 'Screening Calls', href: '/dashboard/landlord/screening', icon: <Phone className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/landlord/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/landlord/messages', icon: <MessageSquare className="h-5 w-5" /> },

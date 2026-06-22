@@ -368,3 +368,18 @@ When building new features, these are the files most likely to be touched:
 - AES-256-GCM for sensitive PII (NIN/BVN) — compliant with Nigerian data protection
 - Railway + Vercel + Supabase — fully managed, zero DevOps overhead
 - ID prefixing convention enables debugging and log correlation
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

@@ -375,6 +375,11 @@ model User {
   landlordApplications  Application[]  @relation("LandlordApplications")
   currentlyRentingUnits Unit[]       @relation("UnitCurrentTenant")
   adminAuditLogs        AdminAuditLog[] @relation("AdminAuditLogs")
+  guestBookings         Booking[]    @relation("BookingGuest")
+  managedServiceCharges ServiceCharge[] @relation("ServiceChargeManager")
+  businessProfiles      BusinessProfile[]
+  documents             Document[]
+  subscriptions         UserSubscription[]
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -468,6 +473,11 @@ model Listing {
   disputes             Dispute[]
   units                Unit[]
   applications         Application[]
+  calendarSlots        CalendarSlot[]
+  pricingRules         PricingRule[]
+  bookings             Booking[]
+  serviceCharges       ServiceCharge[]
+  documents           Document[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([status], map: "idx_listings_status")
@@ -612,6 +622,9 @@ model Transaction {
   agent            User?            @relation("TransactionAgent", fields: [agentId], references: [id])
   agreements       Agreement[]      @relation("TransactionAgreements")
   rentSchedule     RentSchedule?
+  bookings         Booking[]
+  serviceCharges   ServiceCharge[]
+  utilityAllocations UtilityAllocation[]
 
   @@map("transactions")
 }
@@ -771,6 +784,7 @@ model Organisation {
   maintenanceTickets  MaintenanceTicket[]
   subscription        OrgSubscription?
   units               Unit[]
+  serviceCharges      ServiceCharge[]
 
   @@map("organisations")
 }
@@ -871,6 +885,8 @@ model Dispute {
   listing     Listing?       @relation(fields: [listingId], references: [id])
   raisedByUser User          @relation("DisputeRaisedBy", fields: [raisedBy], references: [id])
   admin       User?          @relation("DisputeAdmin", fields: [adminId], references: [id])
+  lawFirmCase LawFirmCase?   @relation("DisputeLawFirmCase")
+  evidencePack EvidencePack?
 
   @@map("disputes")
 }
@@ -966,6 +982,8 @@ model Unit {
   lastMaintenanceDate DateTime?   @map("last_maintenance_date")
   nextMaintenanceDate DateTime?   @map("next_maintenance_date")
 
+  utilityAllocations  UtilityAllocation[]
+
   createdAt         DateTime      @default(now()) @map("created_at")
   updatedAt         DateTime      @updatedAt @map("updated_at")
 
@@ -1026,4 +1044,316 @@ model StampDuty {
   @@index([status])
   @@index([remitaRrr])
   @@map("stamp_duty")
+}
+
+// ===========================================================================
+// SHORT-LET ENGINE (3 tables)
+// ===========================================================================
+
+model CalendarSlot {
+  id         String    @id @default(cuid()) @map("id") // 'csl_' + 12 chars
+  listingId  String    @map("listing_id")
+  date       String    @map("date") // 'YYYY-MM-DD'
+  status     String    @default("available") // available, booked, blocked
+  price      Decimal?  @db.Decimal(12, 2) // override price for this date
+  reason     String?   // e.g. maintenance, owner block
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, date])
+  @@index([listingId], map: "idx_calendar_listing")
+  @@map("calendar_slots")
+}
+
+model PricingRule {
+  id            String    @id @default(cuid()) @map("id") // 'pri_' + 12 chars
+  listingId     String    @map("listing_id")
+  name          String?   // e.g. "Weekend markup", "Last minute discount"
+  ruleType      String    @map("rule_type") // seasonal, weekend, last_minute, early_bird, custom
+  priority      Int       @default(0)
+  multiplier    Decimal?  @db.Decimal(5, 2) // e.g. 1.2 (+20%), 0.8 (-20%)
+  fixedPrice    Decimal?  @db.Decimal(12, 2) @map("fixed_price")
+  dayOfWeek     Int?      @map("day_of_week") // 0-6 for weekend rules
+  minNights     Int?      @map("min_nights")
+  maxNights     Int?      @map("max_nights")
+  advanceDays   Int?      @map("advance_days") // for last_minute / early_bird
+  startDate     String?   @map("start_date")
+  endDate       String?   @map("end_date")
+  isActive      Boolean   @default(true) @map("is_active")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  listing    Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId], map: "idx_pricing_listing")
+  @@index([ruleType], map: "idx_pricing_rule_type")
+  @@map("pricing_rules")
+}
+
+model Booking {
+  id            String         @id @default(cuid()) @map("id") // 'bok_' + 12 chars
+  listingId     String         @map("listing_id")
+  guestId       String         @map("guest_id")
+  checkIn       String         @map("check_in") // 'YYYY-MM-DD'
+  checkOut      String         @map("check_out") // 'YYYY-MM-DD'
+  nights        Int
+  basePrice     Decimal        @db.Decimal(12, 2) @map("base_price")
+  totalPrice    Decimal        @db.Decimal(12, 2) @map("total_price")
+  status        String         @default("pending") // pending, confirmed, cancelled, completed
+  paymentStatus String         @default("pending") @map("payment_status") // pending, paid, refunded
+  transactionId String?        @unique @map("transaction_id") // reference to Transaction
+  guestName     String?        @map("guest_name")
+  guestPhone    String?        @map("guest_phone")
+  guestEmail    String?        @map("guest_email")
+  specialRequests String?      @map("special_requests")
+  cancelledAt   DateTime?      @map("cancelled_at")
+  checkedInAt   DateTime?      @map("checked_in_at")
+  checkedOutAt  DateTime?      @map("checked_out_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  listing    Listing       @relation(fields: [listingId], references: [id])
+  guest      User          @relation("BookingGuest", fields: [guestId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+  turnoverTasks TurnoverTask[]
+
+  @@index([listingId], map: "idx_bookings_listing")
+  @@index([guestId], map: "idx_bookings_guest")
+  @@index([status], map: "idx_bookings_status")
+  @@index([checkIn, checkOut], map: "idx_bookings_dates")
+  @@map("bookings")
+}
+
+// ===========================================================================
+// LAW-FIRM NETWORK (2 tables)
+// ===========================================================================
+
+enum LawFirmCaseStatus {
+  assigned
+  in_progress
+  resolved
+  cancelled
+}
+
+model LawFirm {
+  id           String    @id @default(cuid()) @map("id") // 'lf_' + 12 chars
+  name         String
+  cacNumber    String    @unique @map("cac_number")
+  email        String
+  phone        String?
+  address      String?
+  jurisdiction Json      // array of states or specific jurisdictions
+  verified     Boolean   @default(false)
+  rating       Decimal?  @db.Decimal(3, 2)
+  reviewCount  Int       @default(0) @map("review_count")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  cases        LawFirmCase[]
+
+  @@map("law_firms")
+}
+
+model LawFirmCase {
+  id          String          @id @default(cuid()) @map("id") // 'lfc_' + 12 chars
+  disputeId   String          @unique @map("dispute_id")
+  firmId      String          @map("firm_id")
+  status      LawFirmCaseStatus @default(assigned)
+  fee         Decimal?        @db.Decimal(12, 2)
+  feeCurrency String?         @default("NGN") @map("fee_currency")
+  assignedAt  DateTime        @default(now()) @map("assigned_at")
+  resolvedAt  DateTime?       @map("resolved_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  firm     LawFirm   @relation(fields: [firmId], references: [id])
+  dispute  Dispute   @relation("DisputeLawFirmCase", fields: [disputeId], references: [id])
+
+  @@index([firmId], map: "idx_law_firm_cases_firm")
+  @@index([status], map: "idx_law_firm_cases_status")
+  @@map("law_firm_cases")
+}
+
+// ===========================================================================
+// COMMERCIAL / OFFICE BILLING (2 tables)
+// ===========================================================================
+
+enum InvoiceStatus {
+  draft
+  sent
+  paid
+  overdue
+  cancelled
+}
+
+enum UtilityType {
+  electricity
+  water
+  waste
+  security
+  other
+}
+
+model ServiceCharge {
+  id             String          @id @default(cuid()) @map("id") // 'svc_' + 12 chars
+  listingId      String          @map("listing_id")
+  organizationId String          @map("organization_id")
+  estateManagerId String?        @map("estate_manager_id")
+  period         String          // e.g., "2024-Q1", "2024-01"
+  amount         Decimal         @db.Decimal(12, 2)
+  currency       String          @default("NGN")
+  dueDate        DateTime        @map("due_date")
+  status         InvoiceStatus   @default(draft)
+  description    String?
+  paidAt         DateTime?       @map("paid_at")
+  transactionId  String?         @unique @map("transaction_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  listing         Listing         @relation(fields: [listingId], references: [id])
+  organization    Organisation    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  estateManager   User?           @relation("ServiceChargeManager", fields: [estateManagerId], references: [id], onDelete: SetNull)
+  transaction     Transaction?    @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+
+  @@index([organizationId], map: "idx_service_charges_org")
+  @@index([listingId], map: "idx_service_charges_listing")
+  @@index([status], map: "idx_service_charges_status")
+  @@map("service_charges")
+}
+
+model UtilityAllocation {
+  id             String          @id @default(cuid()) @map("id") // 'utt_' + 12 chars
+  unitId         String          @map("unit_id")
+  type           UtilityType
+  reading        Decimal?        @db.Decimal(10, 2)
+  amount         Decimal         @db.Decimal(12, 2)
+  currency       String          @default("NGN")
+  billingPeriod  String          @map("billing_period") // e.g., "2024-01"
+  dueDate        DateTime        @map("due_date")
+  status         InvoiceStatus   @default(draft)
+  paidAt         DateTime?       @map("paid_at")
+  transactionId  String?         @unique @map("transaction_id")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  unit           Unit            @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  transaction    Transaction?    @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+
+  @@index([unitId], map: "idx_utility_allocations_unit")
+  @@index([status], map: "idx_utility_allocations_status")
+  @@map("utility_allocations")
+}
+
+// ===========================================================================
+// PROPERTY MANAGEMENT / EVIDENCE / REVENUE (7 tables)
+// ===========================================================================
+
+model TurnoverTask {
+  id          String    @id @default(cuid()) @map("id") // 'trn_' + 12 chars
+  bookingId   String?   @map("booking_id")
+  status      String    @default("pending") // pending, in_progress, completed, cancelled
+  type        String    // cleaning, inspection, maintenance, other
+  assignedTo  String?
+  notes       String?
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  booking Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@index([bookingId], map: "idx_turnover_tasks_booking")
+  @@index([status], map: "idx_turnover_tasks_status")
+  @@map("turnover_tasks")
+}
+
+model BusinessProfile {
+  id           String    @id @default(cuid()) @map("id") // 'biz_' + 12 chars
+  userId       String    @unique @map("user_id")
+  cacNumber    String    @unique @map("cac_number")
+  rcNumber     String?   @unique @map("rc_number")
+  companyName  String?   @map("company_name")
+  verified     Boolean   @default(false)
+  verifiedAt   DateTime? @map("verified_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([cacNumber], map: "idx_business_profiles_cac")
+  @@map("business_profiles")
+}
+
+model EvidencePack {
+  id            String    @id @default(cuid()) @map("id") // 'evp_' + 12 chars
+  disputeId     String    @unique @map("dispute_id")
+  contracts     Json      // URLs / hashes of contract artifacts
+  payments      Json      // payment records
+  messages      Json      // relevant message threads
+  auditLogs     Json      // audit log entries
+  metadata      Json?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  dispute Dispute @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+
+  @@map("evidence_packs")
+}
+
+model Document {
+  id            String    @id @default(cuid()) @map("id") // 'doc_' + 12 chars
+  listingId     String?   @map("listing_id")
+  uploadedById  String    @map("uploaded_by_id")
+  type          String    // agreement, receipt, verification, other
+  version       Int       @default(1)
+  url           String
+  name          String
+  mimeType      String?   @map("mime_type")
+  sizeBytes     BigInt?   @map("size_bytes")
+  accessControl String    @default("private") @map("access_control")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  uploadedBy User   @relation(fields: [uploadedById], references: [id])
+
+  @@index([listingId], map: "idx_documents_listing")
+  @@index([type], map: "idx_documents_type")
+  @@map("documents")
+}
+
+model SubscriptionPlan {
+  id          String    @id @default(cuid()) @map("id") // 'sub_' + 12 chars
+  name        String    @unique
+  price       Decimal   @db.Decimal(10, 2)
+  currency    String    @default("NGN")
+  interval    String    // month, year
+  features    Json
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  subscriptions UserSubscription[]
+
+  @@index([isActive], map: "idx_subscription_plans_active")
+  @@map("subscription_plans")
+}
+
+model UserSubscription {
+  id                String    @id @default(cuid()) @map("id") // 'usb_' + 12 chars
+  userId            String    @map("user_id")
+  planId            String    @map("plan_id")
+  paystackSubId     String?   @unique @map("paystack_sub_id")
+  status            String    @default("active") // active, cancelled, past_due, expired
+  currentPeriodEnd  DateTime  @map("current_period_end")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user   User           @relation(fields: [userId], references: [id])
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  @@index([userId], map: "idx_user_subscriptions_user")
+  @@index([planId], map: "idx_user_subscriptions_plan")
+  @@map("user_subscriptions")
 }

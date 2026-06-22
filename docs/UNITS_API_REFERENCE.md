@@ -478,3 +478,19 @@ Currently not implemented. Future versions may include:
 - [CSV Format Guide](./UNITS_CSV_FORMAT.md)
 - [Migration Guide](./PHASE_F_MIGRATION.md)
 - [React Hooks Reference](../src/hooks/useUnits.ts)
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

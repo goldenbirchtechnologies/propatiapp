@@ -11,6 +11,14 @@
 ### 1.1 Product Vision
 PROPATI is Nigeria's first **verified property platform** combining a consumer marketplace (rent, buy, short-let, share, commercial) with property management infrastructure (rent collection, tenant screening, digital agreements, maintenance tracking) and a B2B SaaS layer for estate management companies.
 
+### Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
 ### 1.2 Core Differentiator
 **5-Layer Trust Verification System** — solves Nigeria's #1 property problem: fraud and misrepresentation.
 - Layer 1: Document verification (C of O, Deed, Survey, Governor's Consent)
@@ -198,3 +206,18 @@ PROPATI is Nigeria's first **verified property platform** combining a consumer m
 ---
 
 *This PRD reflects the current production codebase. Update when features change.*
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

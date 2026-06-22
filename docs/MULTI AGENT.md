@@ -84,3 +84,19 @@
 
 # Use code with caution.4. Running at Global Production Scale: Best PracticesEnforce Strict Typing: Do not let the agents write plain JavaScript or Python. Force them to use TypeScript or Go/Rust. The compiler acting as an independent validation layer catches LLM hallucination bugs instantly.Automated CI/CD Feedback Loop: Configure a local script or hook that automatically runs tests (npm test or go test) right after the \[CORE\_DEVELOPER] finishes a file. If the test fails, feed the terminal error back into Hermes under a \[QA\_ENGINEER] profile to fix it before moving to the next Kanban item.Stubbing and Mocking: When building a massive system, instruct the \[SOFTWARE\_ARCHITECT] to use mocks for global infrastructure (like AWS SQS, Kubernetes configurations, or DynamoDB) so individual modules can be coded and validated locally without stalling the agent execution flow.
 
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

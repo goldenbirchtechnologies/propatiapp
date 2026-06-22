@@ -772,3 +772,18 @@ function computeFees(type, amount) {
 ---
 
 *Generated from `oldpropati/BACKEND_STRUCTURE.md` — 22 tables (plus 2 auxiliary), 100+ endpoints across 7 domains*
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

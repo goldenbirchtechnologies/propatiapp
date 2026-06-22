@@ -1,0 +1,78 @@
+// ===========================================================================
+// SHORT-LET ENGINE (3 tables)
+// ===========================================================================
+
+model CalendarSlot {
+  id         String    @id @default(cuid()) @map("id") // 'csl_' + 12 chars
+  listingId  String    @map("listing_id")
+  date       String    @map("date") // 'YYYY-MM-DD'
+  status     String    @default("available") // available, booked, blocked
+  price      Decimal?  @db.Decimal(12, 2) // override price for this date
+  reason     String?   // e.g. maintenance, owner block
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, date])
+  @@index([listingId], map: "idx_calendar_listing")
+  @@map("calendar_slots")
+}
+
+model PricingRule {
+  id            String    @id @default(cuid()) @map("id") // 'pri_' + 12 chars
+  listingId     String    @map("listing_id")
+  name          String?   // e.g. "Weekend markup", "Last minute discount"
+  ruleType      String    @map("rule_type") // seasonal, weekend, last_minute, early_bird, custom
+  priority      Int       @default(0)
+  multiplier    Decimal?  @db.Decimal(5, 2) // e.g. 1.2 (+20%), 0.8 (-20%)
+  fixedPrice    Decimal?  @db.Decimal(12, 2) @map("fixed_price")
+  dayOfWeek     Int?      @map("day_of_week") // 0-6 for weekend rules
+  minNights     Int?      @map("min_nights")
+  maxNights     Int?      @map("max_nights")
+  advanceDays   Int?      @map("advance_days") // for last_minute / early_bird
+  startDate     String?   @map("start_date")
+  endDate       String?   @map("end_date")
+  isActive      Boolean   @default(true) @map("is_active")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  listing    Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId], map: "idx_pricing_listing")
+  @@index([ruleType], map: "idx_pricing_rule_type")
+  @@map("pricing_rules")
+}
+
+model Booking {
+  id            String         @id @default(cuid()) @map("id") // 'bok_' + 12 chars
+  listingId     String         @map("listing_id")
+  guestId       String         @map("guest_id")
+  checkIn       String         @map("check_in") // 'YYYY-MM-DD'
+  checkOut      String         @map("check_out") // 'YYYY-MM-DD'
+  nights        Int
+  basePrice     Decimal        @db.Decimal(12, 2) @map("base_price")
+  totalPrice    Decimal        @db.Decimal(12, 2) @map("total_price")
+  status        String         @default("pending") // pending, confirmed, cancelled, completed
+  paymentStatus String         @default("pending") @map("payment_status") // pending, paid, refunded
+  transactionId String?        @unique @map("transaction_id") // reference to Transaction
+  guestName     String?        @map("guest_name")
+  guestPhone    String?        @map("guest_phone")
+  guestEmail    String?        @map("guest_email")
+  specialRequests String?      @map("special_requests")
+  cancelledAt   DateTime?      @map("cancelled_at")
+  checkedInAt   DateTime?      @map("checked_in_at")
+  checkedOutAt  DateTime?      @map("checked_out_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  listing    Listing       @relation(fields: [listingId], references: [id])
+  guest      User          @relation(fields: [guestId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+
+  @@index([listingId], map: "idx_bookings_listing")
+  @@index([guestId], map: "idx_bookings_guest")
+  @@index([status], map: "idx_bookings_status")
+  @@index([checkIn, checkOut], map: "idx_bookings_dates")
+  @@map("bookings")
+}

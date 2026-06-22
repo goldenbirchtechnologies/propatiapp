@@ -57,7 +57,7 @@ export default function MaintenancePage() {
 
   if (orgsLoading || ticketsLoading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fadeIn">
         <Skeleton className="h-10 w-64" />
         <div className="grid gap-4 md:grid-cols-4">
           {[...Array(4)].map((_, i) => (
@@ -236,7 +236,7 @@ export default function MaintenancePage() {
       {/* Kanban Board */}
       <div className="grid gap-4 md:grid-cols-4">
         {columns.map(({ status, label, color }) => (
-          <Card key={status} className={`${color}`}>
+          <Card key={status} className={`bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 ${color} animate-fadeIn`}>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-semibold flex items-center justify-between">
                 <span>{label}</span>

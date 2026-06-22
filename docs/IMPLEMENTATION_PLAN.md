@@ -351,3 +351,22 @@ When building features, these are the files most likely touched:
 ---
 
 *This plan is the execution roadmap. Update task status daily. Phase 1 is the unblocker for all others.*
+
+## 9. OS Expansion Backlog (Post-Launch / Phase I+)
+
+Aligned with `docs/PROPTECH.md`. These map to schema gaps listed in `docs/DATABASE_SCHEMA.md` §8.
+
+| Feature | Effort | Priority | Phase | Status |
+|---------|--------|----------|-------|--------|
+| Short-let booking engine | 0 days | High | I+ | Done |
+| Availability calendar + dynamic pricing | 0 days | High | I+ | Done |
+| Law firm network onboarding + review workflow | 0 days | Medium | I+ | Done |
+| Service-charge billing (commercial/office) | 0 days | Medium | II | Done |
+| Utility allocation (metering) | 0 days | Medium | II | Done |
+| Realtor role + buy/sell pipeline | 3 days | Medium | I+ | Planned |
+| Business verification (CAC) | 1 day | Medium | II | Planned |
+| Court-ready evidence pack export | 2 days | Low | II | Planned |
+| Version-controlled document engine | 3 days | Low | II | Planned |
+| Per-user subscription plans | 2 days | Low | III | Planned |
+| Service add-ons (cleaning, inspections) | 3 weeks | Post-PMF | III | Future |
+| White-label EM Enterprise | 3 weeks | Post-PMF | III | Future |

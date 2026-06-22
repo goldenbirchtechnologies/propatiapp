@@ -144,7 +144,7 @@ export default function SubscriptionPage() {
       </div>
 
       {/* Current Plan */}
-      <Card>
+      <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
         <CardHeader>
           <CardTitle>Current Plan</CardTitle>
           <CardDescription>

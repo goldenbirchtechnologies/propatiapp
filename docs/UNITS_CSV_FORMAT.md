@@ -166,3 +166,19 @@ You can download a pre-formatted CSV template:
 - [Estate Manager B2B Guide](./ESTATE_MANAGER_GUIDE.md)
 - [Portfolio Management](./PORTFOLIO_MANAGEMENT.md)
 - [API Reference](./API_REFERENCE.md)
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

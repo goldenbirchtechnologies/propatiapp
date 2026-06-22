@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  
-**Current State:** Vanilla JS/Express (single-file SPA) → **Full Rewrite**  
+**Current State:** Next.js 14 rewrite in advanced stage — marketplace, payments, agreements, 5-layer verification, estate-manager B2B, notifications, and admin console are functionally built. **Short-let engine:** schema (`Booking`, `CalendarSlot`, `PricingRule`), API routes, and basic UI are implemented. **OS gap remaining:** law-firm network, realtor role, commercial-specific workflows, and revenue model expansion (subscriptions, service add-ons).  
 **Timeline:** 10-12 weeks (2-3 developers)
 
 ---
@@ -495,6 +495,14 @@ jobs:
 | Verification state machine bugs | Medium | High | Unit test every transition; integration test |
 | Image upload limits (Cloudinary) | Low | Medium | Client-side compression, chunked upload |
 | Nigerian SMS delivery (Termii) | Medium | Medium | Fallback to Twilio WhatsApp; status callbacks |
+| ESLint flat config broken | High | High | Complete migration to flat config or pin ESLint 8; blocking CI |
+| Build times out / fails | High | High | Investigate bundle size, prune unused routes/components, disable heavy pages in build |
+| Worktree metadata in docs | Medium | Low | Clean untracked/doc files before commit; add to .gitignore if needed |
+| Short-let engine | Done | Done | Schema, API routes, public + landlord UI |
+| Law-firm network | Done | High | Schema + API routes; UI pending |
+| Commercial billing | Done | High | Schema + API routes; UI pending |
+| Realtor role | Planned | Medium | Post-law-firm |
+| Subscription revenue | Planned | Medium | Post-launch |
 | SEO for SPA-like dashboard | Low | Medium | Static params for public pages; Clerk for private |
 
 ---
@@ -532,3 +540,16 @@ jobs:
 ---
 
 *This build plan is the execution roadmap for the Next.js 14 rewrite. Update weekly. Phase gates at Week 2 (infra), Week 5 (listings+verify), Week 8 (payments+agreements), Week 10 (full product).*
+
+## 12. OS Expansion Gaps (Post-Launch / Phase I+)
+
+The following areas from `docs/PROPTECH.md` are not yet implemented:
+
+| OS Layer | Current State | Gap |
+|----------|---------------|-----|
+| **Actors** | landlord, tenant, agent, admin, estate_manager | Missing `realtor` role (buy/sell pipeline) and `law_firm` network partners |
+| **Short-let Operations** | `short_let` exists as a `ListingType` | Missing booking engine, availability calendar, dynamic pricing, instant booking, check-in/out workflow, damage deposit, cleaning/turnover scheduling, revenue split |
+| **Commercial / Office / Industrial** | `commercial`, `office`, `shop`, `warehouse` as `PropertyType` | Missing service-charge billing, utility allocation, business verification (CAC), workspace configuration, logistics/compliance metadata |
+| **Legal Network** | Stamp duty (Remita) + basic disputes | Missing law-firm review/certification workflow, multi-firm routing, arbitration records, court-ready evidence packs |
+| **Revenue Model** | Rent/booking fees + org subscriptions | Missing per-user subscriptions, legal marketplace fees, document-generation fees, service add-ons |
+| **Evidence Layer** | Basic audit logs + disputes table | Missing structured legal evidence collection, exportable court packs |

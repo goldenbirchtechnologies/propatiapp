@@ -490,3 +490,19 @@ await notificationService.notify({
 2. **Create cron jobs** for rent reminders (use Vercel Cron or Next.js API routes)
 3. **Add user preferences** to control notification channels (Phase I)
 4. **Implement push notifications** for mobile (Phase I)
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

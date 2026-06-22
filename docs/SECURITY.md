@@ -618,3 +618,19 @@ We do not have a formal bug bounty programme at this time.
 ---
 
 *This document is reviewed quarterly and updated after any security incident. All engineering team members must read and acknowledge this policy before contributing to the codebase.*
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer
+
+## Core Platform Concept
+- Property marketplace (residential, commercial, industrial, short-let)
+- Financial infrastructure (rent + booking payments)
+- Legal infrastructure (law firm network)
+- Identity verification system
+- Property management system
+- Enforcement and compliance layer

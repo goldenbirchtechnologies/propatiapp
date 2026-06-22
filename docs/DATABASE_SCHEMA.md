@@ -812,14 +812,19 @@ The following tables/models are required to fully realize `docs/PROPTECH.md` but
 |---------------|---------|--------|------------|
 | `LawFirm` | Embedded legal network partners | Done | `id`, `name`, `cacNumber`, `email`, `jurisdiction`, `verified`, `rating` |
 | `LawFirmCase` | Dispute/arbitration routing | Done | `disputeId`, `firmId`, `status`, `fee`, `assignedAt`, `resolvedAt` |
-| `EvidencePack` | Court-ready evidence export | Planned | `id`, `disputeId`, `contracts`, `payments`, `messages`, `auditLogs` (JSON) |
-| `TurnoverTask` | Cleaning/maintenance scheduling | Planned | `id`, `bookingId`, `status`, `assignedTo`, `completedAt` |
-| `BusinessProfile` | CAC verification for companies | Planned | `id`, `userId`, `cacNumber`, `rcNumber`, `verified` |
-| `Document` | Version-controlled docs | Planned | `id`, `listingId`, `type`, `version`, `url`, `accessControl` |
+|| `EvidencePack` | Court-ready evidence export | **Done** | `id`, `disputeId`, `firmId`, `status`, `fileUrls`, `payments`, `messages`, `auditLogs`, `metadata` (JSON) |
+| `TurnoverTask` | Cleaning/maintenance scheduling | **Done** | `id`, `bookingId`, `propertyId`, `listingId`, `assignedToUserId`, `status`, `priority`, `scheduledStart`, `scheduledEnd`, `actualStart`, `actualEnd`, `notes`, `checklist`, `photos` (JSON) |
+| `BusinessProfile` | CAC verification for companies | Done | `id`, `userId`, `cacNumber`, `rcNumber`, `verified` |
+| `BusinessVerification` | Admin review of CAC submissions | Done | `entityType`, `entityId`, `status`, `cacNumber`, `documents` |
+|| `Document` | Version-controlled docs | Done | `id`, `listingId`, `uploadedById`, `type`, `version`, `url`, `accessControl` ||
+|| `SubscriptionPlan` | User subscription pricing tiers | Done | `id`, `name`, `priceMonthly`, `priceYearly`, `currency`, `features`, `maxListings`, `maxUsers`, `maxProperties`, `isActive` ||
+|| `UserSubscription` | User subscription lifecycle tracking | Done | `id`, `userId`, `planId`, `status`, `currentPeriodStart`, `currentPeriodEnd`, `paystackCustomerId`, `paystackSubscriptionCode` ||
 
 **Recommended migration order:**
 1. `Booking` + `CalendarSlot` + `PricingRule` (short-let ops) — **done**
 2. `LawFirm` + `LawFirmCase` (legal network) — **done**
 3. `ServiceCharge` + `UtilityAllocation` (commercial specifics) — **done**
-4. `Document` + `EvidencePack` (evidence layer) — planned
-5. `SubscriptionPlan` + `UserSubscription` (revenue model) — planned
+4. `Document` + `BusinessProfile` + `BusinessVerification` (versioned docs + CAC workflow) — **done**
+5. `EvidencePack` (court-ready evidence export) — **done**
+6. `TurnoverTask` (maintenance scheduling) — **done**
+7. `SubscriptionPlan` + `UserSubscription` (revenue model) — **done**

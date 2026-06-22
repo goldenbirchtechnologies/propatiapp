@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
-  Eye, Users, Star, Flag, Gavel, Cog, Shield,
-  CalendarDays, Clock,
+  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale,
+  CalendarDays, Clock, Zap,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -23,6 +23,7 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'Agreements', href: '/dashboard/landlord/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/landlord/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'Verify Property', href: '/dashboard/landlord/verify', icon: <Shield className="h-5 w-5" /> },
+  { label: 'Turnover', href: '/dashboard/landlord/turnover', icon: <Wrench className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
 ];
 
@@ -50,11 +51,22 @@ export const AGENT_NAVIGATION: NavItem[] = [
   { label: 'Messages', href: '/dashboard/agent/messages', icon: <MessageSquare className="h-5 w-5" /> },
 ];
 
+export const REALTOR_NAVIGATION: NavItem[] = [
+  { label: 'Dashboard', href: '/dashboard/realtor', icon: <Home className="h-5 w-5" /> },
+  { label: 'Buy Pipeline', href: '/dashboard/realtor/buy', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Sell Pipeline', href: '/dashboard/realtor/sell', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'My Listings', href: '/dashboard/realtor/listings', icon: <Building2 className="h-5 w-5" /> },
+  { label: 'My Profile', href: '/dashboard/realtor/profile', icon: <User className="h-5 w-5" /> },
+  { label: 'Messages', href: '/dashboard/realtor/messages', icon: <MessageSquare className="h-5 w-5" /> },
+];
+
 export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Dashboard', href: '/admin', icon: <ChartNoAxesCombined className="h-5 w-5" /> },
   { label: 'Verifications', href: '/admin/verifications', icon: <Shield className="h-5 w-5" /> },
   { label: 'Flagged Listings', href: '/admin/flagged-listings', icon: <Flag className="h-5 w-5" /> },
   { label: 'Users', href: '/admin/users', icon: <Users className="h-5 w-5" /> },
+  { label: 'Disputes', href: '/admin/disputes', icon: <Gavel className="h-5 w-5" /> },
+  { label: 'Evidence Packs', href: '/admin/evidence-packs', icon: <Scale className="h-5 w-5" /> },
   { label: 'Revenue', href: '/admin/revenue', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Audit Logs', href: '/admin/audit-logs', icon: <FileText className="h-5 w-5" /> },
 ];
@@ -62,6 +74,8 @@ export const ADMIN_NAVIGATION: NavItem[] = [
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Home', href: '/dashboard/estate-manager', icon: <Home className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
+  { label: 'Service Charges', href: '/dashboard/estate-manager/service-charges', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Utilities', href: '/dashboard/estate-manager/utilities', icon: <Zap className="h-5 w-5" /> },
   { label: 'Rent Ledger', href: '/dashboard/estate-manager/ledger', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Bulk Import', href: '/dashboard/estate-manager/bulk-import', icon: <Plus className="h-5 w-5" /> },
@@ -69,6 +83,7 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
   { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Turnover', href: '/dashboard/estate-manager/turnover', icon: <Wrench className="h-5 w-5" /> },
 ];
 
 /**
@@ -82,6 +97,8 @@ export function getNavigationForRole(role: string): NavItem[] {
       return TENANT_NAVIGATION;
     case 'agent':
       return AGENT_NAVIGATION;
+    case 'realtor':
+      return REALTOR_NAVIGATION;
     case 'admin':
       return ADMIN_NAVIGATION;
     case 'estate_manager':

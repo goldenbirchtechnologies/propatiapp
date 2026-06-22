@@ -22,6 +22,7 @@ enum UserRole {
   landlord
   tenant
   agent
+  realtor
   admin
   estate_manager
 }
@@ -162,6 +163,12 @@ enum OrgMemberStatus {
   removed
 }
 
+enum BusinessVerificationStatus {
+  pending
+  approved
+  rejected
+}
+
 enum MaintenanceCategory {
   plumbing
   electrical
@@ -188,8 +195,10 @@ enum MaintenanceStatus {
 
 enum SubscriptionStatus {
   active
-  paused
+  trialing
+  past_due
   cancelled
+  paused
 }
 
 enum DisputeType {
@@ -380,6 +389,7 @@ model User {
   businessProfiles      BusinessProfile[]
   documents             Document[]
   subscriptions         UserSubscription[]
+  assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -478,6 +488,7 @@ model Listing {
   bookings             Booking[]
   serviceCharges       ServiceCharge[]
   documents           Document[]
+  turnoverTasks       TurnoverTask[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([status], map: "idx_listings_status")
@@ -771,6 +782,8 @@ model Organisation {
   billingEmail        String?         @map("billing_email")
   address             String?
   cacNumber           String?         @map("cac_number")
+  verified            Boolean         @default(false)
+  verifiedAt          DateTime?       @map("verified_at")
   planTier            OrgPlanTier     @default(starter) @map("plan_tier")
   maxUnits            Int             @default(20) @map("max_units")
   maxSeats            Int             @default(1) @map("max_seats")
@@ -785,6 +798,7 @@ model Organisation {
   subscription        OrgSubscription?
   units               Unit[]
   serviceCharges      ServiceCharge[]
+  evidencePacks      EvidencePack[]
 
   @@map("organisations")
 }
@@ -1246,25 +1260,52 @@ model UtilityAllocation {
   @@map("utility_allocations")
 }
 
+enum TurnoverTaskStatus {
+  pending
+  assigned
+  in_progress
+  completed
+  cancelled
+}
+
+enum TurnoverTaskPriority {
+  low
+  medium
+  high
+  urgent
+}
+
 // ===========================================================================
 // PROPERTY MANAGEMENT / EVIDENCE / REVENUE (7 tables)
 // ===========================================================================
 
 model TurnoverTask {
-  id          String    @id @default(cuid()) @map("id") // 'trn_' + 12 chars
-  bookingId   String?   @map("booking_id")
-  status      String    @default("pending") // pending, in_progress, completed, cancelled
-  type        String    // cleaning, inspection, maintenance, other
-  assignedTo  String?
-  notes       String?
-  completedAt DateTime? @map("completed_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  id               String              @id @default(cuid()) @map("id") // 'trn_' + 12 chars
+  bookingId        String?             @map("booking_id")
+  propertyId       String?             @map("property_id")
+  listingId        String?             @map("listing_id")
+  assignedToUserId String?             @map("assigned_to_user_id")
+  status           TurnoverTaskStatus  @default(pending)
+  priority         TurnoverTaskPriority @default(medium)
+  scheduledStart   DateTime?           @map("scheduled_start")
+  scheduledEnd     DateTime?           @map("scheduled_end")
+  actualStart      DateTime?           @map("actual_start")
+  actualEnd        DateTime?           @map("actual_end")
+  notes            String?
+  checklist        Json?
+  photos           Json?
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
 
-  booking Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  booking         Booking?      @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  listing         Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  assignedToUser  User?         @relation("TurnoverTaskAssignee", fields: [assignedToUserId], references: [id], onDelete: SetNull)
 
   @@index([bookingId], map: "idx_turnover_tasks_booking")
+  @@index([listingId], map: "idx_turnover_tasks_listing")
+  @@index([assignedToUserId], map: "idx_turnover_tasks_assignee")
   @@index([status], map: "idx_turnover_tasks_status")
+  @@index([priority], map: "idx_turnover_tasks_priority")
   @@map("turnover_tasks")
 }
 
@@ -1285,18 +1326,45 @@ model BusinessProfile {
   @@map("business_profiles")
 }
 
+model BusinessVerification {
+  id            String                 @id @default(cuid()) @map("id") // 'bvr_' + 12 chars
+  entityType    String                 @map("entity_type") // 'law_firm' | 'organisation' | 'business_profile'
+  entityId      String                 @map("entity_id")
+  status        BusinessVerificationStatus @default(pending) @map("status")
+  cacNumber     String                 @map("cac_number")
+  companyName   String?                @map("company_name")
+  contactEmail  String?                @map("contact_email")
+  contactPhone  String?                @map("contact_phone")
+  address       String?
+  documents     Json?                  // [{name, url, type}]
+  submittedAt   DateTime               @default(now()) @map("submitted_at")
+  reviewedBy    String?                @map("reviewed_by")
+  reviewedAt    DateTime?              @map("reviewed_at")
+  adminNotes    String?                @map("admin_notes")
+  createdAt     DateTime               @default(now()) @map("created_at")
+  updatedAt     DateTime               @updatedAt @map("updated_at")
+
+  @@index([entityType, entityId], map: "idx_business_verifications_entity")
+  @@index([status], map: "idx_business_verifications_status")
+  @@index([cacNumber], map: "idx_business_verifications_cac")
+  @@map("business_verifications")
+}
+
 model EvidencePack {
   id            String    @id @default(cuid()) @map("id") // 'evp_' + 12 chars
   disputeId     String    @unique @map("dispute_id")
-  contracts     Json      // URLs / hashes of contract artifacts
-  payments      Json      // payment records
+  firmId        String?   @map("firm_id")
+  status        String    @default("draft") @map("status") // draft | final | sealed | revoked
+  fileUrls      Json      // URLs + checksums of contract / evidence artifacts
+  payments      Json      // payment records included in pack
   messages      Json      // relevant message threads
-  auditLogs     Json      // audit log entries
+  auditLogs     Json      // audit log entries included in pack
   metadata      Json?
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  dispute Dispute @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+  dispute  Dispute    @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+  firm     Organisation? @relation(fields: [firmId], references: [id], onDelete: SetNull)
 
   @@map("evidence_packs")
 }
@@ -1324,15 +1392,20 @@ model Document {
 }
 
 model SubscriptionPlan {
-  id          String    @id @default(cuid()) @map("id") // 'sub_' + 12 chars
-  name        String    @unique
-  price       Decimal   @db.Decimal(10, 2)
-  currency    String    @default("NGN")
-  interval    String    // month, year
-  features    Json
-  isActive    Boolean   @default(true) @map("is_active")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  id            String    @id @default(cuid()) @map("id") // 'sub_' + 12 chars
+  name          String    @unique
+  description   String?
+  priceMonthly  Decimal   @db.Decimal(10, 2) @map("price_monthly")
+  priceYearly   Decimal   @db.Decimal(10, 2) @map("price_yearly")
+  currency      String    @default("NGN")
+  features      Json
+  maxListings   Int       @default(0) @map("max_listings")
+  maxUsers      Int       @default(1) @map("max_users")
+  maxProperties Int       @default(0) @map("max_properties")
+  supportLevel  String?   @map("support_level")
+  isActive      Boolean   @default(true) @map("is_active")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
   subscriptions UserSubscription[]
 
@@ -1341,16 +1414,21 @@ model SubscriptionPlan {
 }
 
 model UserSubscription {
-  id                String    @id @default(cuid()) @map("id") // 'usb_' + 12 chars
-  userId            String    @map("user_id")
-  planId            String    @map("plan_id")
-  paystackSubId     String?   @unique @map("paystack_sub_id")
-  status            String    @default("active") // active, cancelled, past_due, expired
-  currentPeriodEnd  DateTime  @map("current_period_end")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
+  id                      String    @id @default(cuid()) @map("id") // 'usb_' + 12 chars
+  userId                  String    @map("user_id")
+  planId                  String    @map("plan_id")
+  status                  SubscriptionStatus @default(active)
+  currentPeriodStart      DateTime  @default(now()) @map("current_period_start")
+  currentPeriodEnd        DateTime  @map("current_period_end")
+  cancelAtPeriodEnd       Boolean   @default(false) @map("cancel_at_period_end")
+  cancelledAt             DateTime? @map("cancelled_at")
+  endedAt                 DateTime? @map("ended_at")
+  paystackCustomerId      String?   @unique @map("paystack_customer_id")
+  paystackSubscriptionCode String?  @map("paystack_subscription_code")
+  createdAt               DateTime  @default(now()) @map("created_at")
+  updatedAt               DateTime  @updatedAt @map("updated_at")
 
-  user   User           @relation(fields: [userId], references: [id])
+  user   User            @relation(fields: [userId], references: [id])
   plan   SubscriptionPlan @relation(fields: [planId], references: [id])
 
   @@index([userId], map: "idx_user_subscriptions_user")

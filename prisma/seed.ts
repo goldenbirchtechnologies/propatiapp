@@ -986,6 +986,87 @@ async function main() {
 
   console.log('✅ Created maintenance ticket\n');
 
+  // ---------------------------------------------------------------------------
+  // 11. SEED SUBSCRIPTION PLANS + SAMPLE SUBSCRIPTIONS
+  // ---------------------------------------------------------------------------
+  console.log('📦 Seeding subscription plans...');
+
+  const starterPlan = await prisma.subscriptionPlan.create({
+    data: {
+      name: 'Starter',
+      description: 'For new landlords getting started on Propati.',
+      priceMonthly: new Prisma.Decimal(4999),
+      priceYearly: new Prisma.Decimal(49990),
+      currency: 'NGN',
+      features: {
+        maxListings: 3,
+        supportLevel: 'community',
+        highlights: ['Up to 3 listings', 'Basic verification', 'Community support'],
+      },
+      maxListings: 3,
+      maxUsers: 1,
+      maxProperties: 3,
+      supportLevel: 'community',
+      isActive: true,
+    },
+  });
+
+  const growthPlan = await prisma.subscriptionPlan.create({
+    data: {
+      name: 'Growth',
+      description: 'For active landlords and small agencies.',
+      priceMonthly: new Prisma.Decimal(14999),
+      priceYearly: new Prisma.Decimal(149990),
+      currency: 'NGN',
+      features: {
+        maxListings: 10,
+        supportLevel: 'priority',
+        highlights: ['Up to 10 listings', 'Priority support', 'Analytics dashboard'],
+      },
+      maxListings: 10,
+      maxUsers: 3,
+      maxProperties: 10,
+      supportLevel: 'priority',
+      isActive: true,
+    },
+  });
+
+  const enterprisePlan = await prisma.subscriptionPlan.create({
+    data: {
+      name: 'Enterprise',
+      description: 'For estate managers and large portfolios.',
+      priceMonthly: new Prisma.Decimal(49999),
+      priceYearly: new Prisma.Decimal(499990),
+      currency: 'NGN',
+      features: {
+        maxListings: 50,
+        supportLevel: 'dedicated',
+        highlights: ['Up to 50 listings', 'Dedicated manager', 'Custom integrations'],
+      },
+      maxListings: 50,
+      maxUsers: 10,
+      maxProperties: 50,
+      supportLevel: 'dedicated',
+      isActive: true,
+    },
+  });
+
+  console.log('✅ Created 3 subscription plans\n');
+
+  await prisma.userSubscription.create({
+    data: {
+      userId: landlordUser.id,
+      planId: growthPlan.id,
+      status: 'active',
+      currentPeriodStart: new Date(),
+      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      paystackCustomerId: 'CUS_seed_001',
+      paystackSubscriptionCode: 'SUB_seed_001',
+    },
+  });
+
+  console.log('✅ Created sample user subscription\n');
+
   console.log('🎉 Database seeding completed successfully!\n');
 
   // ---------------------------------------------------------------------------

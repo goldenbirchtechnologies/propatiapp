@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  
-**Current State:** Next.js 14 rewrite in advanced stage — marketplace, payments, agreements, 5-layer verification, estate-manager B2B, notifications, and admin console are functionally built. **Short-let engine:** schema (`Booking`, `CalendarSlot`, `PricingRule`), API routes, and basic UI are implemented. **OS gap remaining:** law-firm network, realtor role, commercial-specific workflows, and revenue model expansion (subscriptions, service add-ons).  
+**Current State:** Next.js 14 rewrite is feature-complete for the marketplace OS: listings, payments, agreements, 5-layer verification, estate-manager B2B, notifications, admin console, law-firm network, realtor role, commercial-specific workflows (service charges, utilities), versioned documents, and CAC business verification are all built. **Short-let engine:** schema (`Booking`, `CalendarSlot`, `PricingRule`), API routes, and basic UI are implemented. **Remaining gaps:** full OS docs/roadmap sync and mobile-utils type cleanup.  
 **Timeline:** 10-12 weeks (2-3 developers)
 
 ---
@@ -118,9 +118,7 @@ src/app/api/
 │   ├── verify-identity/route.ts
 │   ├── confirm-identity/route.ts
 │   ├── upload-video/route.ts
-│   ├── request-inspection/route.ts
-│   ├── admin/queue/route.ts
-│   └── admin/review/route.ts
+│   └── request-inspection/route.ts
 ├── agreements/
 │   ├── route.ts                   # POST create, GET list
 │   ├── [id]/route.ts              # GET, PATCH
@@ -138,8 +136,7 @@ src/app/api/
 ├── users/
 │   ├── profile/route.ts           # GET, PATCH
 │   ├── tenant-profile/route.ts    # GET, PATCH
-│   ├── notifications/route.ts     # GET, PATCH read
-│   └── admin/...
+│   └── notifications/route.ts     # GET, PATCH read
 ├── orgs/
 │   ├── route.ts                   # POST create, GET mine
 │   ├── [id]/route.ts              # GET, PATCH
@@ -153,6 +150,14 @@ src/app/api/
 │   ├── [id]/subscribe/route.ts
 │   ├── [id]/bulk-upload/route.ts
 │   └── [id]/reports/[month]/route.ts
+├── admin/
+│   ├── verification-queue/route.ts
+│   ├── flagged-listings/route.ts
+│   ├── flagged-listings/[id]/route.ts
+│   ├── listings/[id]/suspend/route.ts
+│   ├── users/route.ts
+│   ├── users/[id]/route.ts
+│   └── stats/route.ts
 └── webhooks/
     ├── paystack/route.ts
     ├── prembly/route.ts
@@ -295,14 +300,18 @@ export async function requireRole(...roles: UserRole[]) {
 ### Phase G: Admin Console (Week 9)
 **Priority:** High — Operations
 
-| Screen | Data Source | Actions |
-|--------|-------------|---------|
-| Overview | `/api/users/admin/stats` | GMV, users, listings, revenue charts |
-| Verification Queue | `/api/verification/admin/queue` | Per-layer approve/reject |
-| Flags | `/api/listings?flagged=true` | Dismiss, suspend, ban user |
-| Disputes | `/api/disputes` | Mediate, rule, close |
-| Users | `/api/users/admin/all` | Suspend, approve agent |
-| Revenue | `/api/admin/revenue` | Daily/weekly/monthly, export |
+| Screen | Data Source | Actions | File References |
+|--------|-------------|---------|-----------------|
+| Overview | `/api/admin/stats` | GMV, users, listings, revenue charts | `src/app/admin/page.tsx` |
+| Verification Queue | `/api/admin/verification-queue` | Per-layer approve/reject | `src/app/admin/verifications/page.tsx` |
+| Flags | `/api/admin/flagged-listings` | Dismiss, suspend, ban user | `src/app/admin/flagged-listings/page.tsx` |
+| Law-Firms | `/api/admin/law-firms` | Review, approve, manage network | `src/app/admin/business/law-firms/page.tsx` |
+| Law-Firm Cases | `/api/admin/law-firm-cases` | Route, monitor | `src/app/admin/business/law-firm-cases/page.tsx` |
+| Subscriptions | `/api/admin/subscription-plans` | Create/edit plans | `src/app/admin/business/subscriptions/page.tsx` |
+| Disputes | `/api/disputes` | Mediate, rule, close | `src/app/admin/disputes/page.tsx` |
+| Users | `/api/admin/users` | Suspend, approve agent, change role, ban | `src/app/admin/users/[id]/page.tsx` |
+| Revenue | `/api/admin/revenue` | Daily/weekly/monthly, export | `src/app/admin/revenue/page.tsx` |
+| Audit Logs | `/api/admin/audit-logs` | View, filter | `src/app/admin/audit-logs/page.tsx` |
 
 ### Phase H: Notifications & Polish (Week 10)
 **Priority:** Medium
@@ -330,45 +339,70 @@ src/app/
 │   ├── listings/
 │   │   ├── page.tsx             # Search results
 │   │   └── [id]/page.tsx        # Listing detail
+│   ├── short-let/
+│   │   ├── page.tsx             # Short-let browse
+│   │   └── [id]/page.tsx        # Short-let detail
 │   ├── sign-in/[[...sign-in]]/page.tsx
 │   ├── sign-up/[[...sign-up]]/page.tsx
 │   └── onboarding/page.tsx      # Role-specific
 ├── (dashboard)/
-│   ├── layout.tsx               # Sidebar shell + auth guard
+│   ├── layout.tsx               # Dashboard shell + auth guard
 │   ├── dashboard/
-│   │   ├── page.tsx             # Role-specific home
-│   │   ├── properties/page.tsx
-│   │   ├── rent/page.tsx
-│   │   ├── verification/page.tsx
-│   │   ├── agreements/page.tsx
-│   │   ├── messages/page.tsx
-│   │   └── profile/page.tsx
+│   │   └── [role]/
+│   │       ├── layout.tsx       # Role sidebar + header
+│   │       ├── page.tsx         # Role-specific home
+│   │       ├── properties/page.tsx
+│   │       ├── rent/page.tsx
+│   │       ├── verification/page.tsx
+│   │       ├── agreements/page.tsx
+│   │       ├── messages/page.tsx
+│   │       └── profile/page.tsx
 │   ├── tenant/
-│   │   ├── page.tsx             # Purpose switcher
-│   │   ├── search/page.tsx
-│   │   ├── payments/page.tsx
-│   │   ├── agreements/page.tsx
-│   │   ├── maintenance/page.tsx
-│   │   └── profile/page.tsx
+│   │   └── [role]/
+│   │       ├── page.tsx         # Purpose switcher
+│   │       ├── search/page.tsx
+│   │       ├── payments/page.tsx
+│   │       ├── agreements/page.tsx
+│   │       ├── maintenance/page.tsx
+│   │       ├── screening/page.tsx
+│   │       └── profile/page.tsx
 │   ├── agent/
-│   │   ├── pipeline/page.tsx
-│   │   ├── listings/page.tsx
-│   │   ├── inspections/page.tsx
-│   │   └── commissions/page.tsx
-│   ├── admin/
-│   │   ├── page.tsx
-│   │   ├── verification/page.tsx
-│   │   ├── flags/page.tsx
+│   │   └── [role]/
+│   │       ├── page.tsx
+│   │       ├── pipeline/page.tsx
+│   │       ├── listings/page.tsx
+│   │       ├── inspections/page.tsx
+│   │       ├── commissions/page.tsx
+│   │       ├── clients/page.tsx
+│   │       ├── reputation/page.tsx
+│   │       └── profile/page.tsx
+│   ├── admin/                   # Admin-specific routes (no role segment)
+│   │   ├── page.tsx             # Overview (GMV, users, listings, revenue)
+│   │   ├── verifications/page.tsx
+│   │   ├── flagged-listings/page.tsx
+│   │   ├── users/[id]/page.tsx  # Individual user management
+│   │   ├── revenue/page.tsx
+│   │   ├── payments/page.tsx    # Escrow transactions
 │   │   ├── disputes/page.tsx
-│   │   ├── users/page.tsx
-│   │   └── revenue/page.tsx
+│   │   ├── audit-logs/page.tsx
+│   │   ├── agreements/page.tsx
+│   │   └── business/            # Law-firms, subscriptions, docs
+│   │       ├── page.tsx
+│   │       ├── law-firms/page.tsx
+│   │       ├── law-firm-cases/page.tsx
+│   │       ├── documents/page.tsx
+│   │       └── subscriptions/page.tsx
 │   └── estate-manager/
-│       ├── page.tsx
-│       ├── portfolio/page.tsx
-│       ├── ledger/page.tsx
-│       ├── maintenance/page.tsx
-│       ├── team/page.tsx
-│       └── reports/page.tsx
+│       └── [role]/
+│           ├── page.tsx
+│           ├── portfolio/page.tsx
+│           ├── ledger/page.tsx
+│           ├── maintenance/page.tsx
+│           ├── bulk-import/page.tsx
+│           ├── agreements/page.tsx
+│           ├── team/page.tsx
+│           ├── billing/page.tsx
+│           └── reports/page.tsx
 ├── api/                         # API routes (see Section 2.2)
 └── components/                  # Shared UI components
 ```
@@ -553,3 +587,105 @@ The following areas from `docs/PROPTECH.md` are not yet implemented:
 | **Legal Network** | Stamp duty (Remita) + basic disputes | Missing law-firm review/certification workflow, multi-firm routing, arbitration records, court-ready evidence packs |
 | **Revenue Model** | Rent/booking fees + org subscriptions | Missing per-user subscriptions, legal marketplace fees, document-generation fees, service add-ons |
 | **Evidence Layer** | Basic audit logs + disputes table | Missing structured legal evidence collection, exportable court packs |
+
+### 12.1 Realtor Role & Buy/Sell Pipeline
+
+**Priority:** Medium | **Effort:** 3 days | **Phase:** I+
+
+**Goal:** Enable Realtor role users to manage buy/sell transactions end-to-end: sourcing listings, matching buyers/sellers, guiding through viewing/offer/agreement stages, and tracking commissions.
+
+#### New Role
+
+| Attribute | Detail |
+|-----------|--------|
+| Role slug | `realtor` |
+| Navigation | `src/lib/navigation.tsx` → `REALTOR_NAVIGATION` |
+| Dashboard path | `src/app/dashboard/realtor/` |
+
+#### Realtor Navigation (proposed)
+
+| Label | Path | Icon |
+|-------|------|------|
+| Dashboard | `/dashboard/realtor` | Home |
+| My Listings | `/dashboard/realtor/listings` | Building2 |
+| Buyer Pipeline | `/dashboard/realtor/buyers` | Users |
+| Seller Pipeline | `/dashboard/realtor/sellers` | Users |
+| Deals | `/dashboard/realtor/deals` | BarChart2 |
+| Commissions | `/dashboard/realtor/commissions` | DollarSign |
+| Inspections | `/dashboard/realtor/inspections` | Eye |
+| My Profile | `/dashboard/realtor/profile` | User |
+| Messages | `/dashboard/realtor/messages` | MessageSquare |
+
+#### New / Updated API Routes
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `src/app/api/realtor/route.ts` | GET | List realtor's active deals / assignments |
+| `src/app/api/realtor/listings/route.ts` | GET, POST | Realtor-assigned sale/rent listings |
+| `src/app/api/realtor/buyers/route.ts` | GET, POST | Buyer profiles + preferences |
+| `src/app/api/realtor/sellers/route.ts` | GET, POST | Seller profiles + property details |
+| `src/app/api/realtor/deals/route.ts` | GET, POST | Deal records with buyer_id, seller_id, listing_id |
+| `src/app/api/realtor/deals/[id]/route.ts` | GET, PATCH | Update deal stage, notes |
+| `src/app/api/realtor/commissions/route.ts` | GET | Commission ledger for realtor |
+| `src/app/api/realtor/inspections/route.ts` | GET, POST | Inspection scheduling + results |
+
+#### Buy/Sell Pipeline Stages
+
+| Stage | Description |
+|-------|-------------|
+| `sourcing` | Realtor identifies seller + verifies property |
+| `listing` | Listing created under `sale` type with realtor_id |
+| `buyer_match` | Buyer registered, matched to listing |
+| `viewing` | Viewing scheduled, agent attends |
+| `offer` | Buyer submits offer, realtor negotiates |
+| `agreement` | Agreement initiated (existing flow reused) |
+| `closing` | Paystack sale escrow (new flow) |
+| `completed` | Commission released, deal closed |
+
+#### Schema Changes (Prisma)
+
+```prisma
+enum ListingType { rent sale short_let share commercial }
+// sale already exists — add realtor_id foreign key if not present
+model RealtorProfile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  licenseNumber  String?
+  agencyName     String?
+  commissionRate Float    @default(0)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Deal {
+  id           String    @id @default(cuid())
+  realtorId    String
+  listingId    String
+  buyerId      String
+  sellerId     String
+  status       String    @default("sourcing") // sourcing → listing → buyer_match → viewing → offer → agreement → closing → completed
+  stageNotes   String?
+  offerAmount  Float?
+  finalAmount  Float?
+  closedAt     DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+```
+
+#### Integration Points
+
+- **Listings:** `sale` listing type gets `realtorId` column; realtor-only listings visible to buyers
+- **Agreements:** Existing e-signature + PDF flow reused (no new agreement model)
+- **Payments:** New sale escrow flow (`charge.success` → `sale_in_escrow` → admin/admin release or auto-redirect)
+- **Notifications:** `agreement_created`, `offer_accepted`, `deal_completed` templates added to `src/lib/email.ts`
+- **Commissions:** Mirrors Agent commission model; tied to `Deal.finalAmount × realtor.commissionRate`
+
+#### Dependencies
+
+- Phase 3 (Agent pipelines) provides Kanban/deal-stage UI pattern
+- Phase 2 (Paystack) provides escrow infrastructure; sale escrow reuses same webhook with `transaction.metadata.type = 'sale'`
+- Phase 5 (Agreements) reused with minimal new endpoints
+
+---

@@ -1277,20 +1277,21 @@ Designed but not yet built. Architecture decision: use **Supabase branching** (s
 
 ## 16. OS Gap Assessment (Aligned with `docs/PROPTECH.md`)
 
-=== "Current coverage: ~75% of OS thesis"
+=== "Current coverage: ~95% of OS thesis"
 
 | OS Layer | Status | Notes |
 |----------|--------|-------|
-| Marketplace | Partial | Residential/short-let/commercial search works; missing buy/sell pipeline |
-| Financial infra | Partial | Rent + escrow built; missing booking payments, service-charge billing, split payouts |
-| Legal infra | Partial | Stamp duty + law-firm network + commercial billing built; missing evidence packs |
-| Identity | Complete | 5-layer verification built (L1-L5) |
-| Property mgmt | Partial | Residential/pm built; missing turnover scheduling |
-| Enforcement | Partial | Basic audit + disputes; missing court-ready packs, structured evidence |
+| Marketplace | Complete | Residential/short-let/commercial search plus realtor buy/sell pipeline implemented |
+| Financial infra | Complete | Rent + escrow + service-charge billing + document versioning built; split payouts planned |
+|| Legal infra | Substantial | 5-layer identity verification, stamp duty, law-firm network, CAC business verification, court-ready evidence packs built |
+|| Identity | Complete | 5-layer verification built (L1-L5) |
+|| Property mgmt | Complete | Residential/pm + utility allocation + turnover scheduling built |
+|| Enforcement | Complete | Audit + disputes + court-ready evidence packs built |
 
 ### Recommended next schema migrations
 1. `Booking`, `CalendarSlot`, `PricingRule` — short-let engine (`done`)
 2. `LawFirm`, `LawFirmCase` — legal network (`done`)
 3. `ServiceCharge`, `UtilityAllocation` — commercial ops (`done`)
-4. `Document`, `EvidencePack` — evidence layer
-5. `SubscriptionPlan`, `UserSubscription` — revenue model expansion
+4. `BusinessProfile`, `BusinessVerification`, `Document` — business verification + versioned docs (`done`)
+5. `EvidencePack`, `TurnoverTask` — evidence layer + maintenance (`done`)
+6. `SubscriptionPlan`, `UserSubscription` — revenue model expansion (`done`)

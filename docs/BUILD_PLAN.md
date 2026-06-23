@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  
-**Current State:** Next.js 14 rewrite is feature-complete for the marketplace OS: listings, payments, agreements, 5-layer verification, estate-manager B2B, notifications, admin console, law-firm network, realtor role, commercial-specific workflows (service charges, utilities), versioned documents, and CAC business verification are all built. **Short-let engine:** schema (`Booking`, `CalendarSlot`, `PricingRule`), API routes, and basic UI are implemented. **Remaining gaps:** full OS docs/roadmap sync and mobile-utils type cleanup.  
+**Current State:** Next.js 14 rewrite has core infrastructure implemented: App Router pages, Prisma schema, Clerk auth, Paystack webhooks, Termii/Twilio notifications, Cloudinary uploads, and 5-layer verification flow are all functional. Several screens and flows still require implementation or hardening. See `docs/IMPLEMENTATION_PLAN.md` for the phase-by-phase gap list. The codebase is not feature-complete; estimated 14–18 working days remain to readiness.  
 **Timeline:** 10-12 weeks (2-3 developers)
 
 ---
@@ -65,14 +65,14 @@ export const config = { matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trp
 ```bash
 # .env
 DATABASE_URL="postgresql://..."
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[REPLA...OKABLE]
+CLERK_SECRET_KEY=***                          # never commit real value
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 
-PAYSTACK_SECRET_KEY=sk_test_...
+PAYSTACK_SECRET_KEY=***                       # NEVER commit real value
 PAYSTACK_PUBLIC_KEY=pk_test_...
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_test_...
 PAYSTACK_WEBHOOK_SECRET=whsec_...

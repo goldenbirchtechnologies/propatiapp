@@ -534,6 +534,149 @@ a:hover {
   outline-offset: 2px;
 }
 
+/* === SKELETON LOADING PATTERNS (CSS-only, no JS required) === */
+.skel-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  padding: var(--space-lg);
+  animation: skel-pulse 1.6s ease-in-out infinite;
+}
+.skel-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.skel-card-line {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+  width: 100%;
+}
+.skel-card-line.w-3-4 { width: 75%; }
+.skel-card-line.w-1-2 { width: 50%; }
+.skel-card-line.w-1-4 { width: 25%; }
+.skel-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-btn);
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+
+@keyframes skel-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+@keyframes skel-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Table-row skeleton */
+.skel-table-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--border);
+  animation: skel-pulse 1.6s ease-in-out infinite;
+}
+.skel-table-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+.skel-table-cells { flex: 1; display: flex; flex-direction: column; gap: var(--space-sm); }
+.skel-table-cell {
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+.skel-table-cell.w-3-4 { width: 75%; }
+.skel-table-cell.w-1-2 { width: 50%; }
+.skel-table-badge {
+  width: 64px;
+  height: 22px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+
+/* List-item skeleton */
+.skel-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  animation: skel-pulse 1.6s ease-in-out infinite;
+}
+.skel-list-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-avatar);
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+.skel-list-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.skel-list-line {
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--border) 0%, var(--surface-elevated) 50%, var(--border) 100%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.6s linear infinite;
+}
+.skel-list-line.w-3-4 { width: 75%; }
+.skel-list-line.w-1-2 { width: 50%; }
+
+/* State-driven skeleton visibility on dashboard sections */
+.sd-section-loading .section-skeleton,
+.sd-section-loading .skeleton-card,
+.sd-section-loading .skeleton-table,
+.sd-section-loading .skeleton-list { display: contents; }
+
+.sd-section-loading .section-content { display: none; }
+.sd-section-error .section-skeleton,
+.sd-section-error .skeleton-card,
+.sd-section-error .skeleton-table,
+.sd-section-error .skeleton-list { display: none; }
+.sd-section-error .section-content { display: none; }
+.sd-section-empty .section-skeleton,
+.sd-section-empty .skeleton-card,
+.sd-section-empty .skeleton-table,
+.sd-section-empty .skeleton-list { display: none; }
+.sd-section-empty .section-content { display: none; }
+.sd-section-empty .section-empty-msg { display: flex; }
+
+.section-empty-msg { display: none; }
+
+/* Mobile drawer z-index ordering - delta layer between sidebar (100) and
+   overlay (99). Ensures the drawer is above the backdrop but below modals. */
+@media (max-width: 768px) {
+  .sidebar-overlay.open { z-index: 99; }
+  .sidebar.open       { z-index: 100; }
+}
+
 /* Selection */
 ::selection {
   background: var(--accent-bg);

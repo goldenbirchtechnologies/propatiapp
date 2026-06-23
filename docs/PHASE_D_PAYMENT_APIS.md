@@ -576,9 +576,9 @@ ngrok http 3000
 Add to `.env`:
 ```bash
 # Paystack
-PAYSTACK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_test_...
-PAYSTACK_WEBHOOK_SECRET=whsec_...  # Optional, uses SECRET_KEY if not set
+PAYSTACK_SECRET_KEY=[REPLACE...RET]  # use sk_test_... in dev
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=[REPLA...OKABLE]
+PAYSTACK_WEBHOOK_SECRET=[REPLA...RET]  # Optional, uses SECRET_KEY if not set
 
 # App
 NEXT_PUBLIC_APP_URL=http://localhost:3000

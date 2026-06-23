@@ -2,11 +2,34 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import { ChevronRight, ChevronDown, LogOut, LayoutDashboard, Home, Building, Users, FileText, DollarSign, Settings, Bell, Shield, BarChart, Truck, Package, CreditCard, HelpCircle, Mail, Phone, MapPin, Key, Award } from 'lucide-react';
+import {
+  ChevronRight,
+  ChevronDown,
+  LogOut,
+  LayoutDashboard,
+  Home,
+  Building,
+  Users,
+  FileText,
+  DollarSign,
+  Settings,
+  Bell,
+  Shield,
+  BarChart,
+  Truck,
+  Package,
+  CreditCard,
+  HelpCircle,
+  Mail,
+  Phone,
+  MapPin,
+  Key,
+  Award,
+} from 'lucide-react';
 
 export interface NavItem {
   label: string;
@@ -30,6 +53,8 @@ interface SidebarProps {
   mobileOpen?: boolean;
   onMobileClose?: () => void;
   className?: string;
+  /** When true, render skeleton placeholders instead of nav items */
+  isLoading?: boolean;
 }
 
 const roleNavigation: Record<string, NavItem[]> = {
@@ -89,6 +114,58 @@ const roleNavigation: Record<string, NavItem[]> = {
 
 import { User, ClipboardList, Flag, Gavel } from 'lucide-react';
 
+// ─── Skeleton nav item (shown when isLoading=true) ───────────────────────────
+function SkeletonNavItem({ level = 0 }: { level?: number }) {
+  const indent = level === 0 ? '0' : 'var(--space-md)';
+  return (
+    <div
+      className="animate-pulse flex items-center gap-3 rounded-md"
+      style={{ padding: `var(--space-base) var(--space-md)`, marginLeft: indent, height: 44 }}
+    >
+      <div
+        className="rounded-md flex-shrink-0"
+        style={{ width: 20, height: 20, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+      />
+      <div
+        className="rounded flex-1"
+        style={{ height: 13, width: '60%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+      />
+    </div>
+  );
+}
+
+// ─── Skeleton user card ──────────────────────────────────────────────────────
+function SkeletonUserCard({ collapsed }: { collapsed: boolean }) {
+  if (collapsed) {
+    return (
+      <div className="flex justify-center py-4">
+        <div
+          className="rounded-full"
+          style={{ width: 36, height: 36, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+        />
+      </div>
+    );
+  }
+  return (
+    <div className="flex items-center gap-3 animate-pulse">
+      <div
+        className="rounded-full flex-shrink-0"
+        style={{ width: 40, height: 40, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+      />
+      <div className="flex-1 space-y-2">
+        <div
+          className="rounded"
+          style={{ height: 13, width: '70%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+        />
+        <div
+          className="rounded"
+          style={{ height: 10, width: '45%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function NavItemComponent({
   item,
   isActive,
@@ -100,7 +177,9 @@ function NavItemComponent({
   sidebarCollapsed: boolean;
   level?: number;
 }) {
-  const [expanded, setExpanded] = React.useState(item.children?.some((c) => c.href === window.location.pathname) || false);
+  const [expanded, setExpanded] = React.useState(
+    item.children?.some((c) => c.href === window.location.pathname) || false
+  );
   const pathname = usePathname();
   const childActive = item.children?.some((c) => pathname?.startsWith(c.href)) || false;
   const active = isActive || childActive;
@@ -112,7 +191,7 @@ function NavItemComponent({
       <Link
         href={item.children?.[0]?.href || item.href}
         className={cn(
-          'nav-item flex items-center justify-center',
+          'nav-item flex items-center justify-center relative',
           active && 'active'
         )}
         style={{
@@ -206,10 +285,7 @@ function NavItemComponent({
   return (
     <Link
       href={item.href}
-      className={cn(
-        'nav-item flex items-center gap-3',
-        active && 'active'
-      )}
+      className={cn('nav-item flex items-center gap-3', active && 'active')}
       style={{
         padding: 'var(--space-base) var(--space-md)',
         borderRadius: 'var(--radius-btn)',
@@ -233,6 +309,70 @@ function NavItemComponent({
   );
 }
 
+// ─── Skeleton overview: aria-busy replaces content so screen readers announce ── function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
+  // Placeholder nav items matching the role-navigation count (average ~7)
+  const placeholderItems: NavItem[] = [
+    { label: '', href: '#', icon: <LayoutDashboard className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <Building className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <DollarSign className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <Shield className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <FileText className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <Mail className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <Settings className="h-5 w-5" /> },
+  ];
+
+  return (
+    <aside
+      className="sidebar"
+      role="navigation"
+      aria-label="Main navigation"
+      aria-busy="true"
+      style={{
+        width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
+        background: 'var(--surface)',
+        borderRight: '1px solid var(--border)',
+      }}
+    >
+      <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
+        <div className="flex items-center gap-2">
+          <div
+            className="rounded-md flex-shrink-0"
+            style={{
+              width: collapsed ? 36 : 80,
+              height: 20,
+              background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)',
+              backgroundSize: '200% 100%',
+              animation: 'skel-shimmer 1.6s linear infinite',
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}>
+        <SkeletonUserCard collapsed={collapsed} />
+      </div>
+
+      <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-hidden="true">
+        <ul className="space-y-1" role="list">
+          {placeholderItems.map((item, i) => (
+            <li key={i}>
+              <SkeletonNavItem />
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
+        <div
+          className="rounded-md"
+          style={{ height: 36, width: '100%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
+        />
+      </div>
+    </aside>
+  );
+}
+
+// ─── Main Sidebar ────────────────────────────────────────────────────────────
 export function Sidebar({
   navigation,
   userRole,
@@ -244,7 +384,13 @@ export function Sidebar({
   mobileOpen = false,
   onMobileClose,
   className,
+  isLoading = false,
 }: SidebarProps) {
+  // While loading, show skeleton so layout is stable; guard against SSR window
+  if (typeof window === 'undefined' || isLoading) {
+    return <LoadingSidebarSkeleton collapsed={collapsed} />;
+  }
+
   const roleThemeClass = `theme-${userRole.toLowerCase().replace('_', '-')}`;
   const pathname = usePathname();
   const navItems = navigation.length > 0 ? navigation : roleNavigation[userRole.toLowerCase()] || roleNavigation.landlord;
@@ -253,6 +399,16 @@ export function Sidebar({
     if (href === '/dashboard') return pathname === '/dashboard';
     return pathname?.startsWith(href) || false;
   };
+
+  // Lock body scroll when mobile drawer is open; restore on close / unmount
+  React.useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
 
   return (
     <aside
@@ -269,6 +425,12 @@ export function Sidebar({
         width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
         background: 'var(--surface)',
         borderRight: '1px solid var(--border)',
+        // Mobile drawer: fixed positioning for slide-from-left behavior;
+        // desktop keeps flex-shrink via globals.css
+        position: 'fixed',
+        zIndex: 100,
+        transition: 'transform var(--transition-base) var(--easing-standard), width var(--transition-base) var(--easing-standard)',
+        transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
       }}
     >
       <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
@@ -286,8 +448,10 @@ export function Sidebar({
 
       <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}>
         <div className="flex items-center gap-3 min-w-0">
-          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center font-heading font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}>
+          <div
+            className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center font-heading font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+          >
             {userAvatar ? (
               <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full" />
             ) : (

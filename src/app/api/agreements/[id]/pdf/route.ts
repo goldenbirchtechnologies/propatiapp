@@ -49,7 +49,6 @@ export async function GET(
       );
     }
 
-    // Check if PDF already exists
     const templateVars = agreement.templateVars as { pdfUrl?: string; pdfPublicId?: string } | null;
     let pdfUrl = templateVars?.pdfUrl;
 
@@ -59,8 +58,35 @@ export async function GET(
       pdfUrl = result.url;
     }
 
-    // Redirect to the PDF URL
-    return NextResponse.redirect(pdfUrl);
+    // Try to return direct PDF bytes with correct Content-Type
+    if (pdfUrl) {
+      try {
+        const pdfResponse = await fetch(pdfUrl);
+
+        if (pdfResponse.ok && pdfResponse.headers.get('content-type')?.includes('pdf')) {
+          const pdfBuffer = await pdfResponse.arrayBuffer();
+          return new NextResponse(pdfBuffer, {
+            headers: {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': `attachment; filename="agreement-${id}.pdf"`,
+              'Cache-Control': 'no-store',
+            },
+          });
+        }
+
+        // Fallback to redirect when direct bytes are not feasible
+        return NextResponse.redirect(pdfUrl);
+      } catch {
+        // If fetching direct bytes fails, redirect to Cloudinary
+        return NextResponse.redirect(pdfUrl);
+      }
+    }
+
+    // If we somehow cannot obtain a PDF URL, return an error
+    return NextResponse.json(
+      { error: 'Failed to generate or retrieve PDF' },
+      { status: 500 }
+    );
   } catch (error) {
     console.error('Agreement PDF error:', error);
     return NextResponse.json(

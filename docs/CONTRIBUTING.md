@@ -509,8 +509,8 @@ Check that `DATABASE_URL` uses port 6543 (PgBouncer), not 5432 (direct). For mig
 
 ### "Clerk: Invalid JWT" or "No session found"
 
-1. Verify `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` starts with `pk_test_` (development key)
-2. Verify `CLERK_SECRET_KEY` starts with `sk_test_`
+1. Verify `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is set (check Clerk dashboard)
+2. Verify `CLERK_SECRET_KEY` is set (from Clerk dashboard)
 3. Clear browser cookies and log in again
 4. Restart the dev server (Clerk keys are baked in at start)
 

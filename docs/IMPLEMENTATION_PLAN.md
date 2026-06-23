@@ -263,7 +263,7 @@ CREATE INDEX idx_applications_listing ON applications(listing_id);
 | Task ID | Task | Status | File References | Owner |
 |---------|------|--------|-----------------|-------|
 | 10.1 | CAC Registration: PROPATI Technologies Ltd | ☐ | Legal/offline | Owner |
-| 10.2 | Paystack live mode activation — `sk_live_...` in env | ☐ | Railway / Vercel env vars | Owner |
+|| 10.2 | Paystack live mode activation — secret key in env (managed via secrets manager) | ☐ | Railway / Vercel env vars | Owner |
 | 10.3 | Custom domain: `propati.ng` → Vercel, `api.propati.ng` → Railway | ☐ | Vercel/Railway config, `FRONTEND_URL`, CORS | Owner |
 | 10.4 | SSL certificates (auto via Vercel/Railway) | ☐ | Vercel/Railway | Owner |
 | 10.5 | Monitoring: Railway alerts, Sentry (frontend + backend), Supabase monitoring | ☐ | External services | Backend |
@@ -381,15 +381,15 @@ Aligned with `docs/PROPTECH.md`. These map to schema gaps listed in `docs/DATABA
 
 | Feature | Effort | Priority | Phase | Status |
 |---------|--------|----------|-------|--------|
-| Short-let booking engine | 0 days | High | I+ | Done |
-| Availability calendar + dynamic pricing | 0 days | High | I+ | Done |
-| Law firm network onboarding + review workflow | 0 days | Medium | I+ | Done |
-| Service-charge billing (commercial/office) | 0 days | Medium | II | Done |
-| Utility allocation (metering) | 0 days | Medium | II | Done |
-| **Realtor Role + Buy/Sell Pipeline** | **3 days** | **Medium** | **I+** | **Done** |
-| Business verification (CAC) | 1 day | Medium | II | Done |
-|| Court-ready evidence pack export | 2 days | Low | II | Done |
-| Version-controlled document engine | 3 days | Low | II | Done |
+|| Short-let booking engine | 4 days | High | I+ | Planned |
+|| Availability calendar + dynamic pricing | 3 days | High | I+ | Planned |
+|| Law firm network onboarding + review workflow | 2 days | Medium | I+ | Planned |
+|| Service-charge billing (commercial/office) | 3 days | Medium | II | Planned |
+|| Utility allocation (metering) | 3 days | Medium | II | Planned |
+|| **Realtor Role + Buy/Sell Pipeline** | **4 days** | **Medium** | **I+** | **Planned** |
+|| Business verification (CAC) | 2 days | Medium | II | Planned |
+|| Court-ready evidence pack export | 3 days | Low | II | Planned |
+|| Version-controlled document engine | 4 days | Low | II | Planned |
 | Per-user subscription plans | 2 days | Low | III | Planned |
 | Service add-ons (cleaning, inspections) | 3 weeks | Post-PMF | III | Future |
 | White-label EM Enterprise | 3 weeks | Post-PMF | III | Future |

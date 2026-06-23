@@ -16,23 +16,29 @@ const isPublic = createRouteMatcher([
 const isClerkConfigured =
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY !== 'pk_test_your_key_here' &&
-  process.env.CLERK_SECRET_KEY &&
-  process.env.CLERK_SECRET_KEY !== 'sk_test_your_secret_here';
+  process.env.CLERK_SECRET_KEY;
 
+// At runtime this will throw if the key is missing or the
+// placeholder string above is still in the .env; hault early
+// so the failure is loud and obvious.
 export default isClerkConfigured
   ? clerkMiddleware((auth, req) => {
       if (!isPublic(req)) {
         auth().protect();
+        return undefined;
       }
+      return undefined;
     })
-  : (req: any) => {
-      // Clerk not configured - allow all public routes, block protected routes
-      if (isPublic(req)) {
-        return NextResponse.next();
-      }
-      // Redirect protected routes to sign-in page
-      return NextResponse.redirect(new URL('/sign-in', req.url));
-    };
+  : new Proxy(
+      {},
+      {
+        get: () => {
+          throw new Error(
+            'Clerk is not configured: set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY',
+          );
+        },
+      },
+    );
 
 export const config = {
   matcher: [

@@ -113,7 +113,7 @@ render() →
 ```bash
 # Required
 NODE_ENV=production
-DATABASE_URL=postgresql://postgres.xxx:***@aws-0-eu-west-2.pooler.supabase.com:5432/postgres
+DATABASE_URL=postgresql://YOUR_HOST:YOUR_PORT/YOUR_DB_NAME   # see cloud provider connection string
 JWT_SECRET=                    # 64-char hex (32 bytes)
 JWT_REFRESH_SECRET=            # 64-char hex, different from JWT_SECRET
 ENCRYPTION_KEY=                # 64-char hex (32 bytes for AES-256)
@@ -126,11 +126,11 @@ CLOUDINARY_API_SECRET=
 CLOUDINARY_FOLDER=propati      # optional, defaults to 'propati'
 
 # Payments
-PAYSTACK_SECRET_KEY=sk_live_... # or sk_test_ for development
+PAYSTACK_SECRET_KEY=[REPLACE_WITH_YOUR_PAYSTACK_SECRET]  # start with sk_test_ in dev; NEVER commit real value
 
 # Email (one of these)
 GMAIL_USER=hello@propati.ng
-GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
+GMAIL_APP_PASSWORD=[REPLACE_WITH_16_CHAR_APP_PASSWORD]
 # OR
 SMTP_HOST=smtp.example.com
 SMTP_PORT=587
@@ -315,7 +315,7 @@ Generated: `'prefix_' + uuidv4().replace(/-/g,'').slice(0,12)`
 | Task | Status | File References |
 |------|--------|-----------------|
 | CAC Registration (PROPATI Technologies Ltd) | ☐ | Legal/offline |
-| Paystack live mode activation | ☐ | Railway: `PAYSTACK_SECRET_KEY=sk_live_...` |
+|| Paystack live mode activation | ☐ | Railway: `PAYSTACK_SECRET_KEY=[REPLACE...RET]` |
 | Custom domain: `propati.ng` → Vercel, `api.propati.ng` → Railway | ☐ | Vercel/Railway config, `FRONTEND_URL`, CORS |
 | Monitoring: Railway alerts, Sentry, Supabase monitoring | ☐ | External services |
 | Production data seeding (admin, 10-20 listings, agents) | ☐ | Database scripts |

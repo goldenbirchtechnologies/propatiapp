@@ -1160,18 +1160,18 @@ DIRECT_URL=postgresql://postgres.[ref]:[password]@aws-0-eu-west-2.supabase.com:5
 # DIRECT_URL used by Prisma migrate (bypasses PgBouncer)
 
 # ─── Clerk ────────────────────────────────────────────────
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...
-CLERK_SECRET_KEY=sk_live_...
-CLERK_WEBHOOK_SECRET=whsec_...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[REPLA...OKABLE]
+CLERK_SECRET_KEY=[REPLA...RET]       # NEVER commit this
+CLERK_WEBHOOK_SECRET=[REPLA...RET]   # from Paystack dashboard
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 
 # ─── Paystack ─────────────────────────────────────────────
-PAYSTACK_SECRET_KEY=sk_live_...
+PAYSTACK_SECRET_KEY=***                       # NEVER log or commit; use secrets manager in production
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_...
-PAYSTACK_WEBHOOK_SECRET=             # Raw value from Paystack dashboard
+PAYSTACK_WEBHOOK_SECRET=[REPLA...RET]  # raw value from Paystack dashboard — NEVER commit
 
 # ─── Cloudinary ───────────────────────────────────────────
 CLOUDINARY_CLOUD_NAME=propati

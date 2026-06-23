@@ -217,7 +217,7 @@ Paystack → **Settings → API Keys & Webhooks**:
 
 1. Complete Paystack business verification at [paystack.com](https://paystack.com)
 2. Get live keys → **Settings → API Keys**
-3. Update Vercel env vars: `sk_live_...` and `pk_live_...`
+3. Update Vercel env vars: `[REPLACE_WITH_YOUR_PAYSTACK_SECRET]` and public key — never store real secrets in code or docs
 4. Update webhook URL in Paystack to `https://propati.ng/api/webhook/paystack`
 5. Do one real ₦50 test transaction before announcing
 

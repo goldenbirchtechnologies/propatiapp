@@ -127,9 +127,9 @@ model User {
 
 ```env
 # Clerk
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-CLERK_WEBHOOK_SECRET=whsec_...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[REPLA...OKABLE]
+CLERK_SECRET_KEY=***  # publishable vs secret
+CLERK_WEBHOOK_SECRET=***
 
 # Clerk URLs
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in

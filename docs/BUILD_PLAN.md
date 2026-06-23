@@ -1,9 +1,41 @@
 # PROPATI — Next.js 14 Build Plan (Production Rewrite)
 
-**Version:** 1.0  
-**Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  
-**Current State:** Next.js 14 rewrite has core infrastructure implemented: App Router pages, Prisma schema, Clerk auth, Paystack webhooks, Termii/Twilio notifications, Cloudinary uploads, and 5-layer verification flow are all functional. Several screens and flows still require implementation or hardening. See `docs/IMPLEMENTATION_PLAN.md` for the phase-by-phase gap list. The codebase is not feature-complete; estimated 14–18 working days remain to readiness.  
-**Timeline:** 10-12 weeks (2-3 developers)
+**Version:** 1.0  \
+**Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  \
+**Current Phase:** Phase 10 — Launch Preparation  \
+**Estimated Remaining:** 14–18 working days to full readiness (per earlier estimate); high-priority gap fill (~2–3 days) before launch gate  \
+**Codebase Completeness:** ~85% (134 API routes · 95 pages · 70 components · 49 lib files · 1,436-line Prisma schema)
+
+---
+
+## Remaining Work Status
+
+| Area | Status | Notes |
+|------|--------|-------|
+| Core Infrastructure (Phase 1–2) | ✅ Done | App Router, Prisma, Clerk, Paystack, Notifications, Verification all functional |
+| Agent Listings Screen (Phase 3) | ⚠️ Partial | Agent pipeline screens exist; realtor buy/sell pages missing |
+| Admin Console (Phase 4) | ⚠️ Partial | Most admin pages wired; `admin/agreements` page absent |
+| PDF Reports & Agreements (Phase 5) | ✅ Done | AgreementPDF, ReceiptPDF, EM monthly reports implemented |
+| Notifications System (Phase 6) | ✅ Done | Bell, email/SMS, cron jobs active |
+| Prembly NIN Production (Phase 7) | ⚠️ Needs Credentials | Code ready; production keys must be set in Railway env |
+| Tenant Application Flow (Phase 8) | ✅ Done | Apply → landlord review → agreement draft functional |
+| Performance & Polish (Phase 9) | ⚠️ Partial | Skeletons, SEO, error boundaries in place; Lighthouse audit pending |
+| **Test Infrastructure** | ❌ Missing | Vitest + Playwright not configured (high launch risk) |
+| **CI/CD Pipeline** | ❌ Missing | GitHub Actions + Vercel deploy not yet verified |
+| **Missing Migrations** | ❌ Unverified | Schema drift possible — `prisma migrate diff` pending |
+| **Realtor Dashboard Pages** | ❌ Missing | 5 pages: buy pipeline, sell pipeline, listings, profile, messages |
+| **Screening-Calls API** | ❌ Missing | Schema exists; no CRUD routes |
+| **Launch Gate (Phase 10)** | 🔄 In Progress | CAC, domain, SSL, monitoring, smoke test, env secrets |
+
+---
+
+## Legend
+| Symbol | Meaning |
+|--------|---------|
+| ✅ Done | Implemented and functional |
+| ⚠️ Partial / Needs X | Code present but requires credentials, audit, or missing sub-component |
+| ❌ Missing | Not built; explicit blocker |
+| 🔄 In Progress | Active current phase
 
 ---
 

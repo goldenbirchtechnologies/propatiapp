@@ -118,7 +118,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
         );
 
         if (type === 'accept') {
-          toast.success('Application accepted. Conversation created.');
+          toast.success('Application accepted. Conversation and agreement draft created.');
         } else if (type === 'reject') {
           toast.success('Application rejected.');
         } else {

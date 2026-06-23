@@ -162,11 +162,12 @@ function SkeletonUserCard({ collapsed }: { collapsed: boolean }) {
           style={{ height: 10, width: '45%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
         />
       </div>
-    </div>
+    </aside>
   );
 }
 
-function NavItemComponent({
+// ─── Main Sidebar ────────────────────────────────────────────────────────────
+export function Sidebar({
   item,
   isActive,
   sidebarCollapsed,
@@ -374,6 +375,7 @@ function NavItemComponent({
 
 // ─── Main Sidebar ────────────────────────────────────────────────────────────
 export function Sidebar({
+export function Sidebar({
   navigation,
   userRole,
   userName,
@@ -503,7 +505,8 @@ export function Sidebar({
   );
 }
 
-export function SidebarMobileTrigger({
+// ─── Main Sidebar ────────────────────────────────────────────────────────────
+export function Sidebar({
   mobileOpen,
   onToggle,
 }: {
@@ -522,12 +525,13 @@ export function SidebarMobileTrigger({
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="18" x2="21" y2="18" />
-      </svg>
-    </button>
+      </div>
+    </aside>
   );
 }
 
-export function SidebarOverlay({
+// ─── Main Sidebar ────────────────────────────────────────────────────────────
+export function Sidebar({
   isOpen,
   onClose,
 }: {

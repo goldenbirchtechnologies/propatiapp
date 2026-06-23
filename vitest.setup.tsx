@@ -1,5 +1,12 @@
-import '@testing-library/jest-dom';
 import { vi } from 'vitest';
+
+// DOM-dependent polyfill — only load when jsdom is available
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('@testing-library/jest-dom');
+} catch {
+  // ignore in node environment
+}
 
 // Mock next/navigation
 vi.mock('next/navigation', () => ({

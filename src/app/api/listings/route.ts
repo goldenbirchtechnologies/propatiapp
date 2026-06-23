@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const params = Object.fromEntries(searchParams.entries());
 
     const validated = listingFilterSchema.parse(params);
-    const { page, limit, sortBy, order, q, ...filters } = validated;
+    const { page, limit, sortBy, order, q, ownerId, ...filters } = validated;
     const skip = (page - 1) * limit;
     const take = limit;
 
@@ -30,6 +30,14 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {
       status: 'active',
     };
+
+    if (ownerId === 'me') {
+      const auth = await withAuth(request);
+      if (auth instanceof NextResponse) return auth;
+      where.ownerId = auth.user.id;
+    } else if (ownerId) {
+      where.ownerId = ownerId;
+    }
 
     // Text search across title, description, and area
     if (q) {

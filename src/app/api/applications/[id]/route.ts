@@ -95,7 +95,19 @@ export async function PATCH(
     const application = await prisma.application.findUnique({
       where: { id },
       include: {
-        listing: { select: { id: true, title: true } },
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            area: true,
+            listingType: true,
+            price: true,
+            pricePeriod: true,
+            cautionDeposit: true,
+            serviceCharge: true,
+            agentId: true,
+          },
+        },
         tenant: { select: { id: true, fullName: true } },
       },
     });
@@ -163,12 +175,52 @@ export async function PATCH(
         });
       }
 
+      // Create agreement draft when application is accepted
+      const typeMap: Record<string, string> = {
+        rent: 'rental',
+        sale: 'sale',
+        short_let: 'short_let',
+        share: 'share',
+      };
+      const periodMap: Record<string, string> = {
+        month: 'monthly',
+        year: 'yearly',
+        night: 'monthly',
+        total: 'monthly',
+      };
+
+      const now = new Date();
+      const oneYearLater = new Date(now);
+      oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+      await prisma.agreement.create({
+        data: {
+          listingId: application.listingId,
+          tenantId: application.tenantId,
+          landlordId: application.landlordId,
+          agentId: application.listing.agentId ?? null,
+          type: typeMap[application.listing.listingType] || 'rental',
+          status: 'draft',
+          startDate: now,
+          endDate: oneYearLater,
+          rentAmount: application.listing.price,
+          rentPeriod: periodMap[application.listing.pricePeriod || ''] || 'monthly',
+          cautionDeposit: application.listing.cautionDeposit
+            ? Number(application.listing.cautionDeposit)
+            : undefined,
+          serviceCharge: application.listing.serviceCharge
+            ? Number(application.listing.serviceCharge)
+            : undefined,
+          noticePeriodDays: 30,
+        },
+      });
+
       await prisma.notification.create({
         data: {
           userId: application.tenantId,
           type: 'screening',
           title: 'Application Accepted',
-          body: `Your application for ${application.listing.title} has been accepted. A conversation has been created.`,
+          body: `Your application for ${application.listing.title} has been accepted. A conversation and agreement draft have been created.`,
           data: { applicationId: id, listingId: application.listingId },
         },
       });

@@ -3,7 +3,7 @@ import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale,
-  CalendarDays, Clock, Zap,
+  CalendarDays, Clock, Zap, CreditCard, Briefcase, Landmark, FileCheck,
 } from 'lucide-react';
 
 export interface NavItem {

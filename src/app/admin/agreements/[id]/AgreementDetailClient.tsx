@@ -23,7 +23,7 @@ interface AgreementDetail {
   riskTier: string | null;
   jurisdictionState: string | null;
   governingStatute: string | null;
-  headTenantVerified: boolean;
+  headTenantVerified: boolean | null;
   lockStatus: string;
   finalizedAt: Date | null;
   createdAt: Date;

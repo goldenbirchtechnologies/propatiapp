@@ -35,7 +35,7 @@ export default function PublicLayout({
   // Try to use Clerk hooks, fall back to null if not available
   let userId = null;
   let isLoaded = true;
-  let user = null;
+  let user: any = null;
 
   try {
     const auth = useAuth();

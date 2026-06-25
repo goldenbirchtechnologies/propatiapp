@@ -1,0 +1,10 @@
+--- AgreementDetailClient.tsx
++++ AgreementDetailClient.tsx
+@@ -28,6 +28,7 @@ interface AgreementDetail {
+   createdAt: Date;
+   listing: {
+     id: string;
++    
+ 
+ 
+ 

@@ -25,7 +25,6 @@ interface AgreementDetail {
   lockStatus: string;
   finalizedAt: Date | null;
   createdAt: Date;
-  pdfUrl: string | null;
   listing: {
     id: string;
     title: string;

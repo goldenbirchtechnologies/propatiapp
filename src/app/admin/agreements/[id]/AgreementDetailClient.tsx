@@ -35,7 +35,7 @@ interface AgreementDetail {
     area: string;
     state: string;
     price: Decimal;
-    propertyType: string;
+    propertyType: string | null;
     images: { url: string }[];
   } | null;
   landlord: {

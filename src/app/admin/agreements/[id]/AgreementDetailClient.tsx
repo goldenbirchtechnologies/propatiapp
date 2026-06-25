@@ -63,7 +63,7 @@ interface AgreementDetail {
   }[];
   stampDuty: {
     id: string;
-    amount: bigint;
+    amount: Decimal;
     status: string;
     remitaRrr: string | null;
     certificateHash: string | null;
@@ -72,7 +72,7 @@ interface AgreementDetail {
   } | null;
   rentSchedule: {
     id: string;
-    amount: bigint;
+    amount: Decimal;
     dueDate: Date;
     paidAt: Date | null;
     status: string;
@@ -182,7 +182,7 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
                 {agreement.listing.state} • {agreement.listing.propertyType}
               </p>
               <p className="text-lg font-bold mt-2" style={{ color: 'var(--text)' }}>
-                ₦{agreement.listing.price.toLocaleString()}
+                ₦{Number(agreement.listing.price).toLocaleString()}
                 {agreement.type === 'rental' ? `/${agreement.rentPeriod || 'month'}` : ''}
               </p>
             </div>
@@ -324,6 +324,12 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
                 {agreement.stampDuty.remitaRrr || '—'}
               </p>
             </div>
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Certificate</p>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>
+                {agreement.stampDuty.certificateHash ? 'Issued' : 'Pending'}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -399,10 +405,12 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
             </Button>
           </a>
         )}
-        <Button variant="outline" onClick={() => router.push(`/listings/${agreement.listing?.id}`)}>
-          <Eye className="h-4 w-4 mr-2" />
-          View Listing
-        </Button>
+        {agreement.listing?.id && (
+          <Button variant="outline" onClick={() => router.push(`/listings/${agreement.listing!.id}`)}>
+            <Eye className="h-4 w-4 mr-2" />
+            View Listing
+          </Button>
+        )}
       </div>
     </div>
   );

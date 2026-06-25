@@ -23,14 +23,32 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  const roleRedirect = (u: typeof user) =>
-    rolePaths[u.role] ?? '/dashboard/tenant';
-  if (!user || user.role !== 'admin') redirect(roleRedirect(user));
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch agreement with all related data
   const agreement = await prisma.agreement.findUnique({
     where: { id: params.id },
-    include: {
+    select: {
+      id: true,
+      type: true,
+      status: true,
+      startDate: true,
+      endDate: true,
+      rentAmount: true,
+      rentPeriod: true,
+      cautionDeposit: true,
+      serviceCharge: true,
+      noticePeriodDays: true,
+      specialClauses: true,
+      riskTier: true,
+      jurisdictionState: true,
+      governingStatute: true,
+      headTenantVerified: true,
+      lockStatus: true,
+      finalizedAt: true,
+      createdAt: true,
+      pdfUrl: true,
       listing: {
         select: {
           id: true,
@@ -62,9 +80,10 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
           id: true,
           amount: true,
           status: true,
-          remitaRequestId: true,
+          remitaRrr: true,
           certificateHash: true,
           agreementPdfHash: true,
+          linkageHash: true,
         },
       },
       rentSchedule: {
@@ -72,7 +91,7 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
           id: true,
           amount: true,
           dueDate: true,
-          paidDate: true,
+          paidAt: true,
           status: true,
         },
         orderBy: { dueDate: 'asc' },
@@ -92,7 +111,6 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
       },
     },
   });
-
   if (!agreement) {
     redirect('/admin/agreements');
   }

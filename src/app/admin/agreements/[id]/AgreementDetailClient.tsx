@@ -1,5 +1,7 @@
 'use client';
 
+import { Decimal } from '@prisma/client/runtime/library';
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,10 +14,10 @@ interface AgreementDetail {
   status: string;
   startDate: Date | null;
   endDate: Date | null;
-  rentAmount: number | null;
+  rentAmount: Decimal | null;
   rentPeriod: string | null;
-  cautionDeposit: number | null;
-  serviceCharge: number | null;
+  cautionDeposit: Decimal | null;
+  serviceCharge: Decimal | null;
   noticePeriodDays: number;
   specialClauses: string | null;
   riskTier: string | null;
@@ -32,7 +34,7 @@ interface AgreementDetail {
     address: string;
     area: string;
     state: string;
-    price: number;
+    price: Decimal;
     propertyType: string;
     images: { url: string }[];
   } | null;
@@ -61,21 +63,23 @@ interface AgreementDetail {
   }[];
   stampDuty: {
     id: string;
-    amount: number;
+    amount: bigint;
     status: string;
-    remitaRequestId: string | null;
+    remitaRrr: string | null;
     certificateHash: string | null;
+    agreementPdfHash: string | null;
+    linkageHash: string | null;
   } | null;
   rentSchedule: {
     id: string;
-    amount: number;
+    amount: bigint;
     dueDate: Date;
-    paidDate: Date | null;
+    paidAt: Date | null;
     status: string;
   }[];
   transactions: {
     id: string;
-    amount: number;
+    amount: bigint;
     status: string;
     type: string;
     createdAt: Date;
@@ -317,7 +321,7 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
             <div>
               <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Remita Request</p>
               <p className="font-medium" style={{ color: 'var(--text)' }}>
-                {agreement.stampDuty.remitaRequestId || '—'}
+                {agreement.stampDuty.remitaRrr || '—'}
               </p>
             </div>
           </div>
@@ -358,7 +362,7 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
                       ₦{Number(rs.amount).toLocaleString()}
                     </td>
                     <td className="p-3" style={{ color: 'var(--text)' }}>
-                      {rs.paidDate ? new Date(rs.paidDate).toLocaleDateString() : '—'}
+                      {rs.paidAt ? new Date(rs.paidAt).toLocaleDateString() : '—'}
                     </td>
                     <td className="p-3">
                       <Badge className={rs.status === 'paid' ? 'tag-green' : 'tag-amber'}>

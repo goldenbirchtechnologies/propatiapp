@@ -27,7 +27,8 @@ export default async function AdminEvidencePacksPage() {
   };
   const roleRedirect = (u: typeof user) =>
     rolePaths[u.role] ?? '/dashboard/tenant';
-  if (!user || user.role !== 'admin') redirect(roleRedirect(user));
+  if (!user) redirect("/sign-in");
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Load all open / in_progress disputes for the create dropdown
   const openDisputes = await prisma.dispute.findMany({

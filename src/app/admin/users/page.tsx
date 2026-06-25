@@ -25,7 +25,8 @@ export default async function UsersManagementPage() {
   };
   const roleRedirect = (u: typeof user) =>
     rolePaths[u.role] ?? '/dashboard/tenant';
-  if (!user || user.role !== 'admin') redirect(roleRedirect(user));
+  if (!user) redirect("/sign-in");
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch all users with stats
   const users = await prisma.user.findMany({

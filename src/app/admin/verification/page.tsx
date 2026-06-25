@@ -25,7 +25,8 @@ export default async function AdminVerificationPage() {
   };
   const roleRedirect = (u: typeof user) =>
     rolePaths[u.role] ?? '/dashboard/tenant';
-  if (!user || user.role !== 'admin') redirect(roleRedirect(user));
+  if (!user) redirect("/sign-in");
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch verification queue stats
   const [pendingCount, inProgressCount, approvedCount, rejectedCount] = await Promise.all([

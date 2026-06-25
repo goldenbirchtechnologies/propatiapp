@@ -24,7 +24,8 @@ export default async function AdminAgreementsPage() {
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  const roleRedirect = (u: typeof user) => rolePaths[u.role] ?? '/dashboard/tenant';
+  if (!user) redirect("/sign-in");
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
   if (!user || user.role !== 'admin') redirect(roleRedirect(user));
 
   const agreements = await prisma.agreement.findMany({

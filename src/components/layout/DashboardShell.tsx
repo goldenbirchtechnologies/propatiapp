@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
-import { Sidebar, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
+import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 export interface NavItem {
   label: string;
@@ -534,7 +535,6 @@ export function DashboardShell({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const { user } = useUser();
 
   // Role-based theme class

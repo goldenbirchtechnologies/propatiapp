@@ -64,6 +64,7 @@ export const updateListingSchema = createListingSchema.partial().extend({
   status: listingStatusSchema.optional(),
   verificationTier: verificationTierSchema.optional(),
   isFeatured: z.boolean().optional(),
+  allowShortlet: z.boolean().optional(),
 });
 
 export const listingFilterSchema = paginationSchema.extend({
@@ -247,13 +248,17 @@ export const createAgreementSchema = z.object({
   startDate: z.string().datetime(),
   endDate: z.string().datetime(),
   rentAmount: z.number().positive('Rent amount must be positive'),
-  paymentSchedule: z.enum(['monthly', 'quarterly', 'annually']),
+  rentPeriod: z.enum(['monthly', 'quarterly', 'annually']),
   cautionDeposit: z.number().nonnegative().optional(),
   serviceCharge: z.number().nonnegative().optional(),
-  terms: z.string().optional(),
   noticePeriodDays: z.number().int().positive().default(30),
   specialClauses: z.string().optional(),
   templateVars: z.record(z.string()).optional(),
+  riskTier: z.enum(['self_serve', 'review_required']).optional(),
+  jurisdictionState: z.string().optional(),
+  governingStatute: z.string().optional(),
+  headTenantVerified: z.boolean().optional(),
+  finalizedAt: z.string().datetime().optional(),
 }).refine((data) => {
   const start = new Date(data.startDate);
   const end = new Date(data.endDate);
@@ -391,6 +396,19 @@ export const updateScreeningSchema = z.object({
   screeningId: uuidSchema,
   status: z.enum(['scheduled', 'completed', 'cancelled', 'no_show']).optional(),
   notes: z.string().optional(),
+});
+
+// Tenant shortlets (sublet requests)
+export const tenantShortletStatusSchema = z.enum(['pending', 'approved', 'rejected', 'revoked', 'withdrawn']);
+
+export const requestTenantShortletSchema = z.object({
+  listingId: uuidSchema,
+  notes: z.string().max(500).optional(),
+});
+
+export const updateTenantShortletSchema = z.object({
+  status: tenantShortletStatusSchema,
+  notes: z.string().max(500).optional(),
 });
 
 // Disputes
@@ -575,4 +593,160 @@ export const markNotificationReadSchema = z.object({
 export type NotificationTypeEnum = z.infer<typeof notificationTypeSchema>;
 export type CreateNotificationInput = z.infer<typeof createNotificationSchema>;
 export type NotificationFilters = z.infer<typeof notificationFiltersSchema>;
+
+// ===========================================================================
+// LEGAL INTEGRITY & DISPUTE ROUTING VALIDATORS
+// ===========================================================================
+
+export const documentVersionSchema = z.object({
+  documentId: uuidSchema,
+  version: z.number().int().positive(),
+  url: z.string().url(),
+  sizeBytes: z.number().int().nonnegative().optional(),
+  mimeType: z.string().optional(),
+  contentHash: z.string().regex(/^sha256:[a-f0-9]{64}$/i, 'Invalid SHA-256 hash format'),
+  chainHash: z.string().regex(/^sha256:[a-f0-9]{64}$/i).optional(),
+  approvedBy: z.string().cuid().optional(),
+});
+
+export const documentAccessActionSchema = z.enum(['view', 'download', 'print', 'share']);
+
+export const documentAccessLogSchema = z.object({
+  documentId: uuidSchema,
+  userId: uuidSchema,
+  action: documentAccessActionSchema,
+  ipAddress: z.string().ip().optional(),
+  userAgent: z.string().optional(),
+});
+
+export const agreementLockStatusSchema = z.enum(['mutable', 'locked', 'immutable']);
+
+export const agreementFinalizeSchema = z.object({});
+
+export const evidencePackSealStatusSchema = z.enum(['draft', 'pending_review', 'sealed', 'revoked']);
+
+export const evidenceExhibitSchema = z.object({
+  packId: uuidSchema,
+  exhibitNumber: z.string().min(1),
+  category: z.enum(['agreement', 'signature', 'stamp_certificate', 'payment', 'message', 'audit_log', 'other']),
+  contentHash: z.string().regex(/^sha256:[a-f0-9]{64}$/i).optional(),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  url: z.string().url().optional(),
+  sourceRecordId: z.string().optional(),
+  sourceTable: z.string().optional(),
+  sortOrder: z.number().int().nonnegative().default(0),
+});
+
+export const evidencePackSealSchema = z.object({
+  packId: uuidSchema,
+  note: z.string().optional(),
+});
+
+export const evidencePackRevokeSchema = z.object({
+  packId: uuidSchema,
+  reason: z.string().min(5, 'Reason is required'),
+});
+
+export const disputeTypeSchema = z.enum([
+  'tenancy_non_delivery', 'tenancy_habitability', 'tenancy_illegal_eviction',
+  'tenancy_rent_dispute', 'tenancy_utility_dispute', 'tenancy_security_deposit',
+  'tenancy_disturbance', 'sale_agreement_breach', 'sale_fraudulent_misrepresentation',
+  'sale_title_dispute', 'sale_payment_dispute', 'paystack_chargeback', 'other',
+]);
+
+export const disputeStatusSchema = z.enum([
+  'open', 'investigating', 'routed', 'consent_required', 'consent_granted',
+  'conflict_check', 'engaged', 'mediated', 'resolved', 'closed',
+]);
+
+export const lawyerVerificationStatusSchema = z.enum(['pending', 'under_review', 'verified', 'rejected', 'suspended']);
+
+export const engagementTypeSchema = z.enum(['full_representation', 'advisory_only', 'document_review', 'limited_scope']);
+
+export const engagementStatusSchema = z.enum([
+  'draft', 'sent_to_client', 'consent_pending', 'consent_rejected',
+  'consent_accepted', 'active', 'completed', 'withdrawn',
+]);
+
+export const conflictCheckStatusSchema = z.enum(['not_checked', 'clear', 'conflict', 'waived']);
+
+export const lawyerProfileSchema = z.object({
+  lawFirmId: uuidSchema,
+  userId: uuidSchema.optional(),
+  fullName: z.string().min(2),
+  email: z.string().email(),
+  callToBarNumber: z.string().min(1),
+  yearOfCall: z.number().int().positive(),
+  nbaNumber: z.string().optional(),
+  nbaYear: z.number().int().optional(),
+  specializationAreas: z.array(z.string()),
+  isPrincipalPartner: z.boolean().default(false),
+  isActive: z.boolean().default(true),
+});
+
+export const lawyerProfileUpdateSchema = lawyerProfileSchema.partial().extend({
+  lawFirmId: uuidSchema.optional(),
+});
+
+export const engagementSchema = z.object({
+  caseId: uuidSchema,
+  type: engagementTypeSchema,
+  scopeOfWork: z.string().min(20, 'Scope must be at least 20 characters'),
+  feeModel: z.object({
+    type: z.enum(['fixed', 'hourly', 'retainer', 'contingency']).optional(),
+    amount: z.number().positive().optional(),
+    currency: z.string().default('NGN'),
+    billingFrequency: z.string().optional(),
+    scope: z.string().optional(),
+  }).passthrough(),
+  disbursements: z.array(z.object({ item: z.string(), estimate: z.number().optional() })).optional(),
+  estimatedDuration: z.string().optional(),
+  advancePaymentRequired: z.boolean().default(false),
+  advancePaymentAmount: z.number().nonnegative().optional(),
+  clientConsentText: z.string().min(10, 'Consent text must be at least 10 characters'),
+});
+
+export const engagementConsentSchema = z.object({
+  consented: z.boolean(),
+});
+
+export const lawyerReviewSchema = z.object({
+  status: z.enum(['approved', 'rejected']),
+  notes: z.string().optional(),
+});
+
+export const conflictCheckSchema = z.object({
+  caseId: uuidSchema,
+  lawFirmId: uuidSchema,
+  lawyerProfileId: uuidSchema.optional(),
+  adversePartyType: z.enum(['landlord', 'tenant', 'organisation', 'user']),
+  adversePartyId: uuidSchema,
+  adversePartyName: z.string().min(1),
+});
+
+export const lawyerDocumentSchema = z.object({
+  engagementId: uuidSchema,
+  documentId: uuidSchema,
+  reviewStatus: z.enum(['pending', 'approved', 'rejected', 'amended']).default('pending'),
+  lawyerNotes: z.string().optional(),
+  redlinedUrl: z.string().url().optional(),
+});
+
+// Type exports
+export type DocumentVersionInput = z.infer<typeof documentVersionSchema>;
+export type DocumentAccessLogInput = z.infer<typeof documentAccessLogSchema>;
+export type AgreementFinalizeInput = z.infer<typeof agreementFinalizeSchema>;
+export type EvidenceExhibitInput = z.infer<typeof evidenceExhibitSchema>;
+export type EvidencePackSealInput = z.infer<typeof evidencePackSealSchema>;
+export type EvidencePackRevokeInput = z.infer<typeof evidencePackRevokeSchema>;
+export type DisputeInput = z.infer<typeof createDisputeSchema>;
+export type LawyerProfileInput = z.infer<typeof lawyerProfileSchema>;
+export type LawyerProfileUpdateInput = z.infer<typeof lawyerProfileUpdateSchema>;
+export type EngagementInput = z.infer<typeof engagementSchema>;
+export type EngagementConsentInput = z.infer<typeof engagementConsentSchema>;
+export type LawyerReviewInput = z.infer<typeof lawyerReviewSchema>;
+export type ConflictCheckInput = z.infer<typeof conflictCheckSchema>;
+export type LawyerDocumentInput = z.infer<typeof lawyerDocumentSchema>;
+
 export type MarkNotificationReadInput = z.infer<typeof markNotificationReadSchema>;

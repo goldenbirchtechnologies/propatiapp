@@ -1,6 +1,18 @@
 // Simple in-memory rate limiter for development
 // Can be swapped for @vercel/rate-limiter + @vercel/kv in production
 
+// ===========================================================================
+// PRODUCTION WARNING: The in-memory Map is invalid in serverless / edge
+// runtimes (Vercel Edge Functions, Node.js Workers, Lambda, Cloud Run, etc.).
+// Each invocation may land on a fresh isolate with no shared memory, so the
+// limit state is lost after every request.
+//
+// To harden for production, swap the underlying store without changing the
+// consumer API by using the exported stub createRateLimiterVercelKV() below
+// (or an Upstash / Redis equivalent).  No new external dependencies are
+// introduced in this file until you are ready to deploy.
+// ===========================================================================
+
 interface RateLimitRecord {
   count: number;
   resetTime: number;
@@ -36,7 +48,7 @@ export function createRateLimiter(config: RateLimiterConfig) {
     async limit(key: string): Promise<RateLimitResult> {
       const now = Date.now();
       const record = rateLimitStore.get(key);
-      
+
       if (!record || record.resetTime < now) {
         // New window
         rateLimitStore.set(key, {
@@ -50,7 +62,7 @@ export function createRateLimiter(config: RateLimiterConfig) {
           reset: now + config.windowMs,
         };
       }
-      
+
       if (record.count >= config.max) {
         return {
           success: false,
@@ -59,7 +71,7 @@ export function createRateLimiter(config: RateLimiterConfig) {
           reset: record.resetTime,
         };
       }
-      
+
       record.count++;
       return {
         success: true,
@@ -69,6 +81,60 @@ export function createRateLimiter(config: RateLimiterConfig) {
       };
     },
   };
+}
+
+// ---------------------------------------------------------------------------
+// ── Vercel KV stub (drop-in production replacement) ────────────────────────
+// Install: npm install @vercel/kv
+// Configure your Vercel KV store in the Vercel dashboard.
+//
+// Returns the same `{ limit(): Promise<RateLimitResult> }` shape as
+// createRateLimiter, so withRateLimit can pivot between drivers with a
+// single env flag (e.g. RATE_LIMIT_DRIVER=vercel_kv) without changing
+// downstream call sites.
+// ---------------------------------------------------------------------------
+
+export type RateLimiterDriver = 'memory' | 'vercel_kv';
+
+export async function createRateLimiterVercelKV(config: RateLimiterConfig) {
+  // TODO: Uncomment and implement after @vercel/kv is installed.
+  //
+  //   import { kv } from '@vercel/kv';
+  //
+  //   return {
+  //     async limit(key: string): Promise<RateLimitResult> {
+  //       const redisKey = `rate-limit:${key}`;
+  //       const current = await kv.get<number>(redisKey) ?? 0;
+  //
+  //       if (current >= config.max) {
+  //         const ttl = await kv.ttl(redisKey);
+  //         return {
+  //           success: false,
+  //           limit: config.max,
+  //           remaining: 0,
+  //           reset: Date.now() + (ttl ?? config.windowMs / 1000) * 1000,
+  //         };
+  //       }
+  //
+  //       const remaining = config.max - current - 1;
+  //       if (current === 0) {
+  //         await kv.set(redisKey, 1, { ex: Math.ceil(config.windowMs / 1000) });
+  //       } else {
+  //         await kv.incr(redisKey);
+  //       }
+  //
+  //       return {
+  //         success: true,
+  //         limit: config.max,
+  //         remaining,
+  //         reset: Date.now() + config.windowMs,
+  //       };
+  //     },
+  //   };
+  //
+  throw new Error(
+    'Vercel KV rate limiter not yet implemented — install @vercel/kv and uncomment the example above.'
+  );
 }
 
 // General API rate limiter: 100 requests per minute

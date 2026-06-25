@@ -1,126 +1,127 @@
-import { GET } from '@/app/api/orgs/[id]/reports/route'
-import { NextRequest } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock the auth middleware
-jest.mock('@/lib/api-auth', () => ({
-  withAuth: jest.fn().mockResolvedValue({ user: { id: 'test-user-id' } }),
-}))
+// --- Mocks (must be at top-level so Vitest can hoist them before imports) ---
 
-// Mock prisma
-jest.mock('@/lib/prisma', () => ({
+vi.mock('@/lib/api-auth', () => {
+  const mockWithAuth = vi.fn();
+  return {
+    withAuth: (...args: unknown[]) => mockWithAuth(...args),
+    errorResponse: vi.fn(),
+  };
+});
+
+const mockPrisma$queryRaw = vi.fn();
+const mockOrgMemberFindUnique = vi.fn();
+const mockOrganisationFindUnique = vi.fn();
+const mockOrgListingFindMany = vi.fn();
+const mockListingFindMany = vi.fn();
+const mockListingGroupBy = vi.fn();
+const mockTransactionFindMany = vi.fn();
+const mockTransactionGroupBy = vi.fn();
+const mockMaintenanceTicketFindMany = vi.fn();
+const mockMaintenanceTicketGroupBy = vi.fn();
+const mockAgreementFindMany = vi.fn();
+const mockAgreementCount = vi.fn();
+
+vi.mock('@/lib/prisma', () => ({
   prisma: {
-    orgMember: {
-      findUnique: jest.fn().mockResolvedValue({ role: 'manager', status: 'active' }),
-    },
-    organisation: {
-      findUnique: jest.fn().mockResolvedValue({ ownerId: 'test-user-id' }),
-    },
-    orgListing: {
-      findMany: jest.fn().mockResolvedValue([
-        { listingId: 'listing-1' },
-        { listingId: 'listing-2' },
-      ]),
-    },
-    listing: {
-      findMany: jest.fn().mockResolvedValue([]),
-      groupBy: jest.fn().mockResolvedValue([]),
-    },
-    transaction: {
-      findMany: jest.fn().mockResolvedValue([]),
-      groupBy: jest.fn().mockResolvedValue([]),
-    },
-    maintenanceTicket: {
-      findMany: jest.fn().mockResolvedValue([]),
-      groupBy: jest.fn().mockResolvedValue([]),
-    },
-    agreement: {
-      findMany: jest.fn().mockResolvedValue([]),
-      count: jest.fn().mockResolvedValue(0),
-    },
-    $queryRaw: jest.fn().mockResolvedValue([]),
+    orgMember: { findUnique: mockOrgMemberFindUnique },
+    organisation: { findUnique: mockOrganisationFindUnique },
+    orgListing: { findMany: mockOrgListingFindMany },
+    listing: { findMany: mockListingFindMany, groupBy: mockListingGroupBy },
+    transaction: { findMany: mockTransactionFindMany, groupBy: mockTransactionGroupBy },
+    maintenanceTicket: { findMany: mockMaintenanceTicketFindMany, groupBy: mockMaintenanceTicketGroupBy },
+    agreement: { findMany: mockAgreementFindMany, count: mockAgreementCount },
+    $queryRaw: mockPrisma$queryRaw,
   },
-}))
+}));
 
-describe('Organisation Reports API - SQL Injection Prevention', () => {
-  const createRequest = (params: Record<string, string> = {}) => {
-    const searchParams = new URLSearchParams(params)
-    return new NextRequest(`http://localhost/api/orgs/org-1/reports?${searchParams}`)
-  }
+const mockWithAuth = vi.fn() as ReturnType<typeof vi.fn>;
 
+// The mock factory above doesn't expose mockWithAuth to this module scope, so
+// we need a re-export from the mocked module. Use a separate import that Vitest
+// resolves to the already-mocked version.
+import { withAuth } from '@/lib/api-auth';
+
+// Now import the route under test (after mocks are registered)
+import { GET } from '@/app/api/orgs/[id]/reports/route';
+import { NextRequest } from 'next/server';
+import { Prisma } from '@prisma/client';
+
+function createRequest(params: Record<string, string> = {}) {
+  const searchParams = new URLSearchParams(params);
+  return new NextRequest(`http://localhost/api/orgs/org-1/reports?${searchParams}`);
+}
+
+describe('Organisation Reports API — SQL Injection Prevention', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    vi.clearAllMocks();
+    mockWithAuth.mockResolvedValue({ user: { id: 'test-user-id' } });
+    mockOrgMemberFindUnique.mockResolvedValue({ role: 'manager', status: 'active' });
+    mockOrganisationFindUnique.mockResolvedValue({ ownerId: 'test-user-id' });
+    mockOrgListingFindMany.mockResolvedValue([{ listingId: 'listing-1' }, { listingId: 'listing-2' }]);
+    mockPrisma$queryRaw.mockReset();
+  });
 
-  test('should reject SQL injection attempt via listingIds in financial report', async () => {
-    // The actual vulnerability was in $queryRaw with string interpolation
-    // Test that Prisma.join is used instead of string interpolation
-    const request = createRequest({ type: 'financial' })
-    
-    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) })
-    
-    // Should succeed (not crash from SQL injection)
-    expect(response.status).toBe(200)
-    
-    // Verify $queryRaw was called with Prisma.Sql (not raw string)
-    const queryRawCalls = (prisma.$queryRaw as jest.Mock).mock.calls
-    const financialQuery = queryRawCalls.find(call => 
-      String(call[0]).includes('DATE_TRUNC') && String(call[0]).includes('month')
-    )
-    
-    if (financialQuery) {
-      // The query should be a Prisma.Sql object, not a string with interpolated values
-      expect(financialQuery[0]).toBeInstanceOf(Object) // Prisma.Sql is an object
-    }
-  })
+  test('financial report uses Prisma tagged templates, not string interpolation', async () => {
+    mockListingFindMany.mockResolvedValue([]);
+    mockTransactionFindMany.mockResolvedValue([]);
+    mockTransactionGroupBy.mockResolvedValue([]);
+    mockPrisma$queryRaw.mockResolvedValue([]);
 
-  test('should reject SQL injection attempt via listingIds in maintenance report', async () => {
-    const request = createRequest({ type: 'maintenance' })
-    
-    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) })
-    
-    expect(response.status).toBe(200)
-    
-    // Verify maintenance $queryRaw call
-    const queryRawCalls = (prisma.$queryRaw as jest.Mock).mock.calls
-    const maintenanceQuery = queryRawCalls.find(call => 
-      String(call[0]).includes('avg_hours')
-    )
-    
-    if (maintenanceQuery) {
-      expect(maintenanceQuery[0]).toBeInstanceOf(Object)
-    }
-  })
+    const request = createRequest({ type: 'financial' });
+    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) });
 
-  test('should reject SQL injection attempt via listingIds in revenue report', async () => {
-    const request = createRequest({ type: 'revenue' })
-    
-    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) })
-    
-    expect(response.status).toBe(200)
-    
-    // Verify revenue $queryRaw call
-    const queryRawCalls = (prisma.$queryRaw as jest.Mock).mock.calls
-    const revenueQuery = queryRawCalls.find(call => 
-      String(call[0]).includes('total_revenue') && String(call[0]).includes('net_revenue')
-    )
-    
-    if (revenueQuery) {
-      expect(revenueQuery[0]).toBeInstanceOf(Object)
-    }
-  })
+    expect(response.status).toBe(200);
+    expect(mockPrisma$queryRaw).toHaveBeenCalledTimes(1);
+    // The first argument of $queryRaw must be a Prisma.Sql object instance,
+    // not a plain string that could carry injected values.
+    const firstArg = mockPrisma$queryRaw.mock.calls[0][0];
+    expect(firstArg).toBeInstanceOf(Object);
+  });
 
-  test('should not execute arbitrary SQL from malicious listingIds', async () => {
-    // This test verifies the FIX - that malicious input in listingIds 
-    // cannot inject SQL because Prisma.join parameterizes the values
-    
-    const request = createRequest({ type: 'financial' })
-    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) })
-    
-    // The key assertion: no SQL injection occurs
-    // If the old vulnerable code was running, malicious listingIds like 
-    // "'; DROP TABLE users; --" would have been interpolated directly
-    // With Prisma.join, they're treated as literal string values
-    expect(response.status).toBe(200)
-  })
-})
+  test('maintenance report uses Prisma.Sql for avg computation', async () => {
+    mockMaintenanceTicketFindMany.mockResolvedValue([]);
+    mockMaintenanceTicketGroupBy.mockResolvedValue([]);
+    mockPrisma$queryRaw.mockResolvedValue([{ avg_hours: 2.5 }]);
+
+    const request = createRequest({ type: 'maintenance' });
+    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) });
+
+    expect(response.status).toBe(200);
+    expect(mockPrisma$queryRaw).toHaveBeenCalledTimes(1);
+    const firstArg = mockPrisma$queryRaw.mock.calls[0][0];
+    expect(firstArg).toBeInstanceOf(Object);
+  });
+
+  test('revenue report uses Prisma.Sql for revenue aggregation', async () => {
+    mockListingFindMany.mockResolvedValue([]);
+    mockTransactionFindMany.mockResolvedValue([]);
+    mockTransactionGroupBy.mockResolvedValue([]);
+    mockPrisma$queryRaw.mockResolvedValue([]);
+
+    const request = createRequest({ type: 'revenue' });
+    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) });
+
+    expect(response.status).toBe(200);
+    expect(mockPrisma$queryRaw).toHaveBeenCalledTimes(1);
+    const firstArg = mockPrisma$queryRaw.mock.calls[0][0];
+    expect(firstArg).toBeInstanceOf(Object);
+  });
+
+  test('malicious listingIds cannot inject SQL via Prisma.join', async () => {
+    mockOrgListingFindMany.mockResolvedValue([{ listingId: "'; DROP TABLE listings; --" }]);
+    mockPrisma$queryRaw.mockResolvedValue([]);
+
+    const request = createRequest({ type: 'financial' });
+    const response = await GET(request, { params: Promise.resolve({ id: 'org-1' }) });
+
+    // The route should still succeed and not propagate raw SQL
+    expect(response.status).toBe(200);
+    // Verify $queryRaw was invoked (route didn't abort early)
+    expect(mockPrisma$queryRaw).toHaveBeenCalled();
+    // Verify the argument is a Prisma.Sql object, which escapes the value
+    const queryArg = mockPrisma$queryRaw.mock.calls[0][0];
+    expect(queryArg).toBeInstanceOf(Object);
+  });
+});

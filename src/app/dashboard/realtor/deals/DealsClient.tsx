@@ -7,49 +7,65 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Search } from 'lucide-react';
 
+type Deal = {
+  id: string;
+  title: string;
+  property: string;
+  value: number;
+  client: string;
+  status: string;
+};
+
 type Tab = 'buy' | 'sell';
 
-const LISTING_TYPE_SALE = 'sale';
+type Stage = {
+  id: string;
+  title: string;
+  count: number;
+};
 
 const pipelineStages = [
-  { id: 'enquiries', title: 'Enquiries', count: 0 },
-  { id: 'viewings', title: 'Viewings', count: 0 },
-  { id: 'offers', title: 'Offers', count: 0 },
-  { id: 'agreements', title: 'Agreements', count: 0 },
-  { id: 'closed', title: 'Closed', count: 0 },
+  { id: 'enquiries', title: 'Enquiries' },
+  { id: 'viewings', title: 'Viewings' },
+  { id: 'offers', title: 'Offers' },
+  { id: 'agreements', title: 'Agreements' },
+  { id: 'closed', title: 'Closed' },
 ] as const;
 
-const mockBuyDeals: Record<string, Array<{ id: string; title: string; property: string; value: number; client: string }>> = {
-  enquiries: [
-    { id: 'b1', title: 'John Doe - 3 Bed', property: 'Lekki Phase 1', value: 2500000, client: 'John Doe' },
-  ],
-  viewings: [],
-  offers: [],
-  agreements: [],
-  closed: [],
+const statusToStage: Record<string, string> = {
+  draft: 'enquiries',
+  pending_landlord: 'viewings',
+  pending_tenant: 'offers',
+  tenant_signed: 'agreements',
+  landlord_signed: 'agreements',
+  fully_signed: 'closed',
+  terminated: 'closed',
+  expired: 'closed',
 };
 
-const mockSellDeals: Record<string, Array<{ id: string; title: string; property: string; value: number; client: string }>> = {
-  enquiries: [],
-  viewings: [],
-  offers: [],
-  agreements: [],
-  closed: [],
-};
-
-export default function DealsClient() {
+export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) {
   const [activeTab, setActiveTab] = useState<Tab>('buy');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const currentDeals = activeTab === 'buy' ? mockBuyDeals : mockSellDeals;
+  const dealsByStage = useMemo(() => {
+    const map: Record<string, Deal[]> = {};
+    pipelineStages.forEach((s) => (map[s.id] = []));
+    initialDeals.forEach((d) => {
+      const stage = statusToStage[d.status] || 'enquiries';
+      if (stage in map) map[stage].push(d);
+    });
+    return map;
+  }, [initialDeals]);
+
+  const currentDeals = activeTab === 'buy' ? dealsByStage : dealsByStage;
 
   const totalValue = useMemo(() => {
     const all = Object.values(currentDeals).flat();
     return all.reduce((sum, d) => sum + d.value, 0);
-  }, [activeTab]);
+  }, [currentDeals]);
 
   const filteredStages = useMemo(() => {
-    if (!searchQuery) return pipelineStages;
+    if (!searchQuery) return pipelineStages.map((s) => ({ ...s, count: currentDeals[s.id]?.length || 0 }));
     const q = searchQuery.toLowerCase();
     return pipelineStages
       .map((stage) => {
@@ -59,9 +75,9 @@ export default function DealsClient() {
             d.client.toLowerCase().includes(q) ||
             d.property.toLowerCase().includes(q)
         );
-        return { ...stage, deals, count: deals.length };
+        return { ...stage, count: deals.length };
       })
-      .filter((stage) => stage.count > 0 || !searchQuery);
+      .filter((stage) => stage.count > 0);
   }, [currentDeals, searchQuery]);
 
   return (
@@ -72,7 +88,7 @@ export default function DealsClient() {
             Deal Pipeline
           </h1>
           <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-            Track your buy and sell deals. Listing type: {LISTING_TYPE_SALE}.
+            Track your buy and sell deals.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -86,9 +102,7 @@ export default function DealsClient() {
               className="inp-field pl-10 w-64"
             />
           </div>
-          <Button>
-            <Plus className="w-4 h-4 mr-2" /> New Deal
-          </Button>
+          <Button>+ New Deal</Button>
         </div>
       </div>
 
@@ -130,13 +144,11 @@ export default function DealsClient() {
             </p>
           </CardContent>
         </Card>
-        {pipelineStages.map((stage) => (
+        {filteredStages.map((stage) => (
           <Card key={stage.id}>
             <CardContent className="p-6">
               <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{stage.title}</p>
-              <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>
-                {filteredStages.find((s) => s.id === stage.id)?.count ?? stage.count}
-              </p>
+              <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{stage.count}</p>
             </CardContent>
           </Card>
         ))}
@@ -151,31 +163,16 @@ export default function DealsClient() {
                   <CardTitle className="text-base" style={{ color: 'var(--text)' }}>
                     {stage.title}
                   </CardTitle>
-                  <Badge variant="secondary" className="text-xs font-bold">
-                    {stage.count}
-                  </Badge>
+                  <Badge variant="secondary" className="text-xs font-bold">{stage.count}</Badge>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 p-0">
-                <div
-                  className="p-3 space-y-3 min-h-[400px]"
-                  style={{ background: 'var(--surface)' }}
-                >
+                <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'var(--surface)' }}>
                   {(currentDeals[stage.id] || []).map((deal) => (
-                    <Card
-                      key={deal.id}
-                      className="p-3 cursor-pointer transition-all hover:shadow-md"
-                      style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}
-                    >
-                      <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
-                        {deal.title}
-                      </p>
-                      <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                        Client: {deal.client}
-                      </p>
-                      <p className="text-sm font-bold mt-2" style={{ color: 'var(--text)' }}>
-                        ₦{deal.value.toLocaleString()}
-                      </p>
+                    <Card key={deal.id} className="p-3 cursor-pointer transition-all hover:shadow-md" style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}>
+                      <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{deal.title}</p>
+                      <p className="text-xs" style={{ color: 'var(--muted)' }}>Client: {deal.client}</p>
+                      <p className="text-sm font-bold mt-2" style={{ color: 'var(--text)' }}>₦{deal.value.toLocaleString()}</p>
                     </Card>
                   ))}
                   {(currentDeals[stage.id] || []).length === 0 && (

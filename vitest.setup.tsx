@@ -46,8 +46,8 @@ vi.mock('@/lib/prisma', () => ({
 }));
 
 // Mock environment variables
-vi.stubEnv('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', 'pk_test_...');
-vi.stubEnv('CLERK_SECRET_KEY', 'sk_test_...');
+vi.stubEnv('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', 'pk_test_abc123');
+vi.stubEnv('CLERK_SECRET_KEY', 'sk_test_abc123');
 vi.stubEnv('DATABASE_URL', 'postgresql://test:test@localhost:5432/test');
 vi.stubEnv('PAYSTACK_SECRET_KEY', 'sk_test_...');
 vi.stubEnv('CLOUDINARY_CLOUD_NAME', 'test');

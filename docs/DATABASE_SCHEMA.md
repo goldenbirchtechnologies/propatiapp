@@ -335,11 +335,14 @@ CREATE TABLE transactions (
   type             TEXT CHECK IN ('rent','caution','sale','short_let','subscription'),
   status           TEXT CHECK IN ('pending','in_escrow','released','failed','refunded'),
   amount           BIGINT NOT NULL,           -- kobo (integer)
+  currency         TEXT DEFAULT 'NGN',        -- ISO-4217 currency code
   platform_fee     BIGINT DEFAULT 0,         -- kobo
   agent_commission BIGINT DEFAULT 0,         -- kobo
   payee_amount     BIGINT,                   -- kobo (amount - fees)
+  paystack_ref     TEXT,                     -- Paystack transaction reference (transaction id)
   description      TEXT,
   paystack_data    JSONB,                    -- full webhook payload
+  paid_at          TIMESTAMPTZ,
   created_at       TIMESTAMPTZ DEFAULT NOW(),
   updated_at       TIMESTAMPTZ DEFAULT NOW()
 );
@@ -385,26 +388,69 @@ CREATE TABLE agreements (
   special_clauses     TEXT,
   landlord_signed_at  TIMESTAMPTZ,
   tenant_signed_at    TIMESTAMPTZ,
+  pdf_url             TEXT,                     -- Cloudinary PDF URL; NULL until PDF generated
   template_vars       JSONB,                    -- for PDF generation
+  -- Legal redesign – agreement integrity fields
+  risk_tier           TEXT DEFAULT 'standard' CHECK IN ('standard','elevated','high'),
+  jurisdiction_state  TEXT,                     -- Nigerian state binding this agreement
+  governing_statute  TEXT,                     -- Full citation of enabling legislation
+  head_tenant_verified BOOLEAN DEFAULT FALSE,   -- Head-of-household NIN/BVN/JAMB verified
+  pdf_content_hash    TEXT,                      -- SHA-256 of final PDF bytes (tamper-evident)
+  finalized_at        TIMESTAMPTZ,               -- Set when last signature captured
+  lock_status         TEXT DEFAULT 'editable' CHECK IN ('editable','pending_approval','locked','expired_locked'),
+  integrity_chain_hash TEXT,                     -- SHA-256(pdf_url || pdf_content_hash || sigs_flat ) – chain record
   created_at          TIMESTAMPTZ DEFAULT NOW(),
   updated_at          TIMESTAMPTZ DEFAULT NOW()
 );
 ```
 
-**Status Machine:**
-```mermaid
-stateDiagram-v2
-    draft --> pending_landlord : landlord creates
-    pending_landlord --> pending_tenant : landlord signs
-    pending_tenant --> tenant_signed : tenant signs
-    pending_tenant --> landlord_signed : landlord signs first (rare)
-    tenant_signed --> fully_signed : landlord signs
-    landlord_signed --> fully_signed : tenant signs
-    fully_signed --> terminated : notice given
-    fully_signed --> expired : end_date passed
-```
+**New Field Purposes (Legal Redesign):**
+- `risk_tier`: `standard | elevated | high` — routes agreement to appropriate counsel queue.
+- `jurisdiction_state`: Binds the agreement to a state for local statutory compliance.
+- `governing_statute`: Human-readable cite of the Rent Control / Tenancy Act in force.
+- `head_tenant_verified`: True once primary signatory NIN is matched via Prembly.
+- `pdf_content_hash`: Re-derivable hash — cross-checks PDF stored at `pdf_url` on demand.
+- `finalized_at`: Captures exact timestamp of last signature; drives B2B settlement cron.
+- `lock_status`: Prevents overwriting the PDF after execution; `expired_locked` when tenancy ends.
+- `integrity_chain_hash`: Composite SHA-256 over `pdf_url + pdf_content_hash + ordered_signature_checksums` — evidential chain.
 
 ---
+
+#### `stamp_duty` — State Stamp Duty & Certificate Ledger
+```sql
+CREATE TABLE stamp_duty (
+  id               TEXT PRIMARY KEY,         -- 'sd_' + 12 chars
+  agreement_id     TEXT UNIQUE REFERENCES agreements(id) ON DELETE CASCADE,
+  -- Remita certification payload
+  agreement_pdf_hash   TEXT,                  -- SHA-256 of same PDF bytes as agreements.pdf_content_hash
+  certificate_hash     TEXT,                  -- Remita cert unique reference / document hash
+  linkage_hash         TEXT,                  -- Proprietary cross-link to Property Registry / LIS
+  paid             BOOLEAN DEFAULT FALSE,
+  payment_reference TEXT,                    -- Remita RRR
+  certified_at     TIMESTAMPTZ,
+  created_at       TIMESTAMPTZ DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_stamp_duty_agreement ON stamp_duty(agreement_id);
+```
+
+**Note:** `stamp_duty` links 1:1 to `agreements`. On `fully_signed` + `paystack_released`, trigger sets `agreementPdfHash` from `agreements.pdf_content_hash` and opens Remita certification flow.
+
+**Agreement Status Machine (Legal Redesign – lockStatus overlay):**
+```mermaid
+stateDiagram-v2
+    draft --> pending_landlord     : landlord creates
+    pending_landlord --> pending_tenant  : landlord signs
+    pending_tenant --> tenant_signed     : tenant signs
+    pending_tenant --> landlord_signed  : landlord signs first (rare)
+    tenant_signed --> fully_signed      : landlord countersigns
+    landlord_signed --> fully_signed    : tenant countersigns
+    fully_signed --> stamp_duty.pending : fully_signed → open Remita flow
+    stamp_duty.pending --> stamp_duty.paid  : certificate received
+    stamp_duty.paired --> terminated  : notice given
+    fully_signed --> expired           : end_date + grace period passed
+    fully_signed --> locked            : lock_status=locked (enforce read-only)
+```
 
 #### `agreement_signatures` — E-Signature Audit Trail
 ```sql
@@ -648,7 +694,40 @@ CREATE TABLE org_subscriptions (
 
 ---
 
-### 2.6 Auxiliary Tables (2 tables)
+### 2.6 Auxiliary Tables (4 tables)
+
+#### `law_firms` — Legal Practice Network
+```sql
+CREATE TABLE law_firms (
+  id           TEXT PRIMARY KEY,              -- 'lf_' + 12 chars
+  name         TEXT NOT NULL,
+  cac_number   TEXT UNIQUE,                   -- Corporate Affairs Commission reg
+  email        TEXT NOT NULL,
+  phone        TEXT,
+  address      TEXT,
+  billing_email TEXT,                         -- invoicing contact
+  jurisdiction Json,                          -- array of states or specific jurisdictions
+  verified     BOOLEAN DEFAULT FALSE,
+  rating       NUMERIC(3,2),
+  created_at   TIMESTAMPTZ DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+#### `law_firm_cases` — Dispute Assignments to Firms
+```sql
+CREATE TABLE law_firm_cases (
+  id              TEXT PRIMARY KEY,           -- 'lfc_' + 12 chars
+  dispute_id      TEXT UNIQUE REFERENCES disputes(id),
+  firm_id         TEXT REFERENCES law_firms(id),
+  status          TEXT DEFAULT 'assigned' CHECK IN ('assigned','in_progress','resolved','closed'),
+  fee             NUMERIC(12,2),
+  fee_currency    TEXT DEFAULT 'NGN',
+  assigned_at     TIMESTAMPTZ DEFAULT NOW(),
+  resolved_at     TIMESTAMPTZ,
+  created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+```
 
 #### `disputes` — Transaction Disputes
 ```sql
@@ -712,7 +791,9 @@ CREATE TABLE email_log (
 | `idx_conversations_tenant` | conversations | tenant_id | Tenant inbox |
 | `idx_messages_conv` | messages | (conversation_id, created_at DESC) | Polling query |
 | `idx_messages_sender` | messages | sender_id | Sent messages |
-| `idx_notifications_user` | notifications | (user_id, read) | Notification badge |
+|| `idx_notifications_user` | notifications | (user_id, read) | Notification badge |
+|| `idx_transactions_paystack_ref` | transactions | paystack_ref | Paystack lookup |
+|| `idx_transactions_paid_at`    | transactions | paid_at    | Paid-date range queries |
 
 **Implicit Indexes:** All PKs, FKs, and UNIQUE constraints
 
@@ -725,9 +806,13 @@ CREATE TABLE email_log (
 | `migrate_v1.js` | Initial schema (users, listings, auth) | 8 |
 | `migrate_v2.js` | Verification, agreements, messages | +9 |
 | `migrate_v3.js` | Organisations, tickets, subscriptions, fees | +9 |
+| `20260623_schema_drift_fix` | Add pdf_url, currency, paystack_ref, paid_at, billing_email | agreements, transactions, law_firms +2 |
+| `20260624_schema_expansion` | Add 8 new models: DocumentVersion, DocumentAccessLog, EvidenceExhibit, EvidenceCustodyEntry, Engagement, ConflictCheck, LawyerProfile, LawyerDocument | +8 |
+| `20260624_legal_redesign` | Agreement: +8 legal-redesign fields; StampDuty: new table + 3 fields | agreements +1 (stamp_duty) |
+| `20260624_stamp_duty_expansion` | Add agreementPdfHash, certificateHash, linkageHash to stamp_duty | stamp_duty |
 
-**Current:** `migrate_v3.js` (24 tables)  
-**Next:** `migrate_v4.js` — `applications` table (Phase 8)
+**Current:** `20260624_stamp_duty_expansion` (30 tables post-additions)  
+**Next:** `20260625_lawyer_workspace` — add lawyer access-control view + API routes
 
 ---
 
@@ -808,17 +893,27 @@ try {
 
 The following tables/models are required to fully realize `docs/PROPTECH.md` but are not yet in `schema.prisma`:
 
-| Missing Model | Purpose | Status | Key Fields |
-|---------------|---------|--------|------------|
-| `LawFirm` | Embedded legal network partners | Done | `id`, `name`, `cacNumber`, `email`, `jurisdiction`, `verified`, `rating` |
-| `LawFirmCase` | Dispute/arbitration routing | Done | `disputeId`, `firmId`, `status`, `fee`, `assignedAt`, `resolvedAt` |
-|| `EvidencePack` | Court-ready evidence export | **Done** | `id`, `disputeId`, `firmId`, `status`, `fileUrls`, `payments`, `messages`, `auditLogs`, `metadata` (JSON) |
-| `TurnoverTask` | Cleaning/maintenance scheduling | **Done** | `id`, `bookingId`, `propertyId`, `listingId`, `assignedToUserId`, `status`, `priority`, `scheduledStart`, `scheduledEnd`, `actualStart`, `actualEnd`, `notes`, `checklist`, `photos` (JSON) |
-| `BusinessProfile` | CAC verification for companies | Done | `id`, `userId`, `cacNumber`, `rcNumber`, `verified` |
-| `BusinessVerification` | Admin review of CAC submissions | Done | `entityType`, `entityId`, `status`, `cacNumber`, `documents` |
-|| `Document` | Version-controlled docs | Done | `id`, `listingId`, `uploadedById`, `type`, `version`, `url`, `accessControl` ||
-|| `SubscriptionPlan` | User subscription pricing tiers | Done | `id`, `name`, `priceMonthly`, `priceYearly`, `currency`, `features`, `maxListings`, `maxUsers`, `maxProperties`, `isActive` ||
-|| `UserSubscription` | User subscription lifecycle tracking | Done | `id`, `userId`, `planId`, `status`, `currentPeriodStart`, `currentPeriodEnd`, `paystackCustomerId`, `paystackSubscriptionCode` ||
+|| Missing Model | Purpose | Status | Key Fields |
+||---------------|---------|--------|------------|
+|| `LawFirm` | Embedded legal network partners | Done | `id`, `name`, `cacNumber`, `email`, `jurisdiction`, `verified`, `rating` |
+|| `LawFirmCase` | Dispute/arbitration routing | Done | `disputeId`, `firmId`, `status`, `fee`, `assignedAt`, `resolvedAt` |
+||| `EvidencePack` | Court-ready evidence export | **Done** | `id`, `disputeId`, `firmId`, `status`, `fileUrls`, `payments`, `messages`, `auditLogs`, `metadata` (JSON) |
+|| `TurnoverTask` | Cleaning/maintenance scheduling | **Done** | `id`, `bookingId`, `propertyId`, `listingId`, `assignedToUserId`, `status`, `priority`, `scheduledStart`, `scheduledEnd`, `actualStart`, `actualEnd`, `notes`, `checklist`, `photos` (JSON) |
+|| `BusinessProfile` | CAC verification for companies | Done | `id`, `userId`, `cacNumber`, `rcNumber`, `verified` |
+|| `BusinessVerification` | Admin review of CAC submissions | Done | `entityType`, `entityId`, `status`, `cacNumber`, `documents` |
+||| `Document` | Version-controlled docs | Done | `id`, `listingId`, `uploadedById`, `type`, `version`, `url`, `accessControl` ||
+||| `SubscriptionPlan` | User subscription pricing tiers | Done | `id`, `name`, `priceMonthly`, `priceYearly`, `currency`, `features`, `maxListings`, `maxUsers`, `maxProperties`, `isActive` ||
+||| `UserSubscription` | User subscription lifecycle tracking | Done | `id`, `userId`, `planId`, `status`, `currentPeriodStart`, `currentPeriodEnd`, `paystackCustomerId`, `paystackSubscriptionCode` ||
+|| `DocumentVersion` | Version history + body hash for Document | **Done** | `id`, `documentId`, `version`, `contentHash`, `url`, `uploadedById`, `changeNote`, `createdAt` |
+|| `DocumentAccessLog` | Gated-access audit trail for Document | **Done** | `id`, `documentId`, `userId`, `action`, `ipAddress`, `userAgent`, `createdAt` |
+|| `EvidenceExhibit` | Legal exhibit item (photo, doc, video) bound to Engagement | **Done** | `id`, `engagementId`, `sequence`, `type`, `caption`, `fileUrl`, `fileHash`, `uploadedAt` |
+|| `EvidenceCustodyEntry` | Chain-of-custody event for an exhibit | **Done** | `id`, `exhibitId`, `fromUserId`, `toUserId`, `disposition`, `notes`, `createdAt` |
+|| `Engagement` | Legal instruction / engagement record for an agreement or dispute | **Done** | `id`, `agreementId`, `disputeId`, `lawyerProfileId`, `engagementRef`, `scope`, `status`, `commencedAt`, `completedAt` |
+|| `ConflictCheck` | Duplicate-check / conflict-of-interest record per engagement | **Done** | `id`, `engagementId`, `checkedLawyerProfileId`, `status`, `matchScore`, `discloserId`, `resolvedAt` |
+|| `LawyerProfile` | Counsel record (Bar, chambers, specialisation) | **Done** | `id`, `userId`, `callToBarNumber`, `yearOfCall`, `specialisation`, `chambersAddress`, `verified`, `rating` |
+|| `LawyerDocument` | Counsel-authored or -custodied document | **Done** | `id`, `engagementId`, `lawyerProfileId`, `type`, `version`, `contentHash`, `fileUrl`, `locked`, `createdAt`, `updatedAt` |
+|| `Agreement` (expanded) | 8 legal-redesign fields added | **Done** | `riskTier`, `jurisdictionState`, `governingStatute`, `headTenantVerified`, `pdfContentHash`, `finalizedAt`, `lockStatus`, `integrityChainHash` |
+|| `StampDuty` (new) | State stamp-duty ledger | **Done** | `agreementPdfHash`, `certificateHash`, `linkageHash`, `paid`, `certifiedAt` |
 
 **Recommended migration order:**
 1. `Booking` + `CalendarSlot` + `PricingRule` (short-let ops) — **done**
@@ -828,3 +923,8 @@ The following tables/models are required to fully realize `docs/PROPTECH.md` but
 5. `EvidencePack` (court-ready evidence export) — **done**
 6. `TurnoverTask` (maintenance scheduling) — **done**
 7. `SubscriptionPlan` + `UserSubscription` (revenue model) — **done**
+8. `DocumentVersion` + `DocumentAccessLog` (document versioning + audit) — **done**
+9. `EvidenceExhibit` + `EvidenceCustodyEntry` (legal evidence chain of custody) — **done**
+10. `Engagement` + `ConflictCheck` (legal instruction lifecycle) — **done**
+11. `LawyerProfile` + `LawyerDocument` (counsel workspace) — **done**
+12. `Agreement` legal-redesign fields + `StampDuty` table (legal integrity layer) — **done**

@@ -61,6 +61,19 @@ export async function GET(
     });
     const listingIds = orgListingIds.map(l => l.listingId);
 
+    // Hardening: user-controlled filter type is not validated by zod here;
+    // enforce an explicit allowlist before any data access.
+    const ALLOWED_REPORT_TYPES = new Set([
+      'portfolio',
+      'financial',
+      'maintenance',
+      'occupancy',
+      'revenue',
+    ]);
+    if (!ALLOWED_REPORT_TYPES.has(type)) {
+      return NextResponse.json({ error: 'Invalid report type' }, { status: 400 });
+    }
+
     if (listingIds.length === 0) {
       return NextResponse.json({
         success: true,
@@ -105,6 +118,58 @@ export async function GET(
           const createdAt = transactionWhere.createdAt as Record<string, Date>;
           if (startDate) createdAt.gte = new Date(startDate);
           if (endDate) createdAt.lte = new Date(endDate);
+        }
+
+        // ===================================================================
+        // HARDENING: strict allowlist for tables/columns referenced in raw SQL.
+        // The user-controlled `type` parameter selects a report path whose
+        // $queryRaw may touch specific tables and columns.  Reject anything
+        // outside the allowlist here.  Values stay parameterized via Prisma.sql
+        // and Prisma.join.
+        // ===================================================================
+        {
+          const ALLOWED_TABLES = new Set([
+            'transactions',
+            'maintenanceTickets',
+            'agreements',
+            'orgListings',
+          ]);
+          const ALLOWED_COLUMNS = new Set([
+            'createdAt',
+            'type',
+            'amount',
+            'platformFee',
+            'agentCommission',
+            'payeeAmount',
+            'status',
+          ]);
+
+          const REPORT_TYPE_TO_TABLE: Record<string, string> = {
+            financial: 'transactions',
+            maintenance: 'maintenanceTickets',
+            occupancy: 'agreements',
+            revenue: 'transactions',
+          };
+
+          const selectedTable = REPORT_TYPE_TO_TABLE[type];
+          if (!selectedTable || !ALLOWED_TABLES.has(selectedTable)) {
+            return NextResponse.json({ error: 'Invalid report type' }, { status: 400 });
+          }
+
+          const REQUIRED_COLUMNS = [
+            'createdAt',
+            'type',
+            'amount',
+            'platformFee',
+            'agentCommission',
+            'payeeAmount',
+            'status',
+          ];
+          for (const col of REQUIRED_COLUMNS) {
+            if (!ALLOWED_COLUMNS.has(col)) {
+              return NextResponse.json({ error: 'Invalid column reference' }, { status: 400 });
+            }
+          }
         }
 
         const [transactions, typeSummaries, statusSummaries, monthlyRevenue] = await Promise.all([

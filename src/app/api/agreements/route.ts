@@ -71,7 +71,8 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Agreements GET error:', error);
     if (error instanceof Error && error.name === 'ZodError') {
-      return NextResponse.json({ error: 'Invalid query parameters', details: error }, { status: 400 });
+      console.error('Zod validation details:', (error as any).details);
+      return NextResponse.json({ error: 'Invalid query parameters' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -83,8 +84,13 @@ export async function POST(request: NextRequest) {
   const { user } = authResult;
 
   try {
+    // Back-compat: older clients may send paymentSchedule
     const body = await request.json();
-    const validated = createAgreementSchema.parse(body);
+    const raw = body as Record<string, unknown>;
+    if (!raw.rentPeriod && raw.paymentSchedule) {
+      raw.rentPeriod = raw.paymentSchedule;
+    }
+    const validated = createAgreementSchema.parse(raw);
 
     // Verify listing exists and user has permission
     const listing = await prisma.listing.findUnique({

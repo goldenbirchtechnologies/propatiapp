@@ -169,7 +169,7 @@ export default function AgreementsPage() {
                       <p className="text-lg font-bold text-primary">
                         {formatCurrency(agreement.rentAmount || 0)}
                         <span className="text-sm font-normal text-muted-foreground">
-                          /{agreement.paymentSchedule || 'month'}
+                          /{agreement.rentPeriod || 'month'}
                         </span>
                       </p>
                     </div>

@@ -48,11 +48,11 @@ npx tsx prisma/seed.ts
 
 | Role            | Email                  | Password     | Full Name          |
 |-----------------|------------------------|--------------|-------------------|
-| Landlord        | landlord@propati.ng    | Test123!@#   | Chukwudi Okonkwo  |
-| Tenant          | tenant@propati.ng      | Test123!@#   | Amina Bello       |
-| Agent           | agent@propati.ng       | Test123!@#   | Tunde Adeyemi     |
-| Admin           | admin@propati.ng       | Test123!@#   | Ngozi Eze         |
-| Estate Manager  | manager@propati.ng     | Test123!@#   | Oluwaseun Adeleke |
+| Landlord        | landlord@propati.ng    | Propati123@  | Chukwudi Okonkwo  |
+| Tenant          | tenant@propati.ng      | Propati123@  | Amina Bello       |
+| Agent           | agent@propati.ng       | Propati123@  | Tunde Adeyemi     |
+| Admin           | admin@propati.ng       | Propati123@  | Ngozi Eze         |
+| Estate Manager  | manager@propati.ng     | Propati123@  | Oluwaseun Adeleke |
 
 **Tenant Profile Features:**
 - Employment: Senior Banking Officer at Zenith Bank PLC
@@ -211,7 +211,7 @@ After seeding, you can log in with any of the test accounts to explore different
 ```typescript
 // Example: Login as tenant
 email: "tenant@propati.ng"
-password: "Test123!@#"
+password: "Propati123@"
 ```
 
 ### Prisma Studio

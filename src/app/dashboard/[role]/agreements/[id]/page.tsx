@@ -246,7 +246,7 @@ export default function AgreementDetailPage() {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Payment Schedule</p>
-            <p className="font-medium capitalize">{agreement.paymentSchedule || 'Monthly'}</p>
+            <p className="font-medium capitalize">{agreement.rentPeriod || 'Monthly'}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Rent Amount</p>

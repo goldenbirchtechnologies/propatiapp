@@ -334,11 +334,17 @@ listings ──────────── listing_images (1:N)
 
 agreements ─────────── agreement_signatures (1:N)
             ─────────── rent_schedule (1:N)
+            ─────────── stamp_duty (1:0..1)
+            ─────────── evidence_packs (1:N) [via Dispute]
+            ─────────── law_firm_cases (1:N from dispute)
 
 organisations ──────── org_members (1:N)
+               ──────── org_subscriptions (1:1)
                ──────── org_listings (1:N)
                ──────── maintenance_tickets (1:N)
-               ──────── org_subscriptions (1:1)
+
+disputes ──────────── law_firm_cases (1:1)
+            ─────────── evidence_packs (1:0..1)
 ```
 
 ### 4.2 Prisma Schema
@@ -398,6 +404,12 @@ npx prisma db push
 ```
 
 All migrations tracked in `prisma/migrations/`. Never edit a migration after it is applied. Create a new migration for corrections.
+
+**Migration generated 2026-06-23:** `prisma/migrations/20260623_schema_drift_fix/`
+- Adds `agreements.pdf_url` (Cloudinary URL for generated PDF)
+- Adds `transactions.currency`, `transactions.paystack_ref`, `transactions.paid_at`
+- Adds `law_firms.billing_email`
+- Run `npx prisma migrate deploy` to apply in production.
 
 ---
 
@@ -1277,21 +1289,25 @@ Designed but not yet built. Architecture decision: use **Supabase branching** (s
 
 ## 16. OS Gap Assessment (Aligned with `docs/PROPTECH.md`)
 
-=== "Current coverage: ~95% of OS thesis"
+=== "Current coverage: ~100% of OS thesis — schema complete as of 2026-06-24"
 
 | OS Layer | Status | Notes |
 |----------|--------|-------|
 | Marketplace | Complete | Residential/short-let/commercial search plus realtor buy/sell pipeline implemented |
-| Financial infra | Complete | Rent + escrow + service-charge billing + document versioning built; split payouts planned |
-|| Legal infra | Substantial | 5-layer identity verification, stamp duty, law-firm network, CAC business verification, court-ready evidence packs built |
-|| Identity | Complete | 5-layer verification built (L1-L5) |
-|| Property mgmt | Complete | Residential/pm + utility allocation + turnover scheduling built |
-|| Enforcement | Complete | Audit + disputes + court-ready evidence packs built |
+| Financial infra | Complete | Rent + escrow + service-charge billing + document versioning + stamp duty built; split payouts planned |
+| Legal infra | Complete | 5-layer identity verification, law-firm network, CAC business verification, court-ready evidence packs, engagement/conflict-check/lawyer-workspace APIs, agreement legal-redesign fields, stamp_duty ledger all built and migrated |
+| Identity | Complete | 5-layer verification built (L1-L5) |
+| Property mgmt | Complete | Residential/pm + utility allocation + turnover scheduling built |
+| Enforcement | Complete | Audit + disputes + court-ready evidence packs built |
+| Document & Evidence Mgmt | Complete | DocumentVersion, DocumentAccessLog, EvidenceExhibit, EvidenceCustodyEntry — fully wired and migrated |
+| Legal Workspace | Complete | Engagement, ConflictCheck, LawyerProfile, LawyerDocument — schema + API layer ready |
 
-### Recommended next schema migrations
-1. `Booking`, `CalendarSlot`, `PricingRule` — short-let engine (`done`)
-2. `LawFirm`, `LawFirmCase` — legal network (`done`)
-3. `ServiceCharge`, `UtilityAllocation` — commercial ops (`done`)
-4. `BusinessProfile`, `BusinessVerification`, `Document` — business verification + versioned docs (`done`)
-5. `EvidencePack`, `TurnoverTask` — evidence layer + maintenance (`done`)
-6. `SubscriptionPlan`, `UserSubscription` — revenue model expansion (`done`)
+### Migration status (2026-06-24)
+
+| # | Migration | Status |
+|---|-----------|--------|
+| 1–7 | Pre-20260624 migrations (v1–v3, schema_drift_fix, booking/law-firm, service-charge, versioned docs, evidence/turnover, subscriptions) | ✅ Done |
+| 8 | `20260624_schema_expansion` — DocumentVersion, DocumentAccessLog, EvidenceExhibit, EvidenceCustodyEntry, Engagement, ConflictCheck, LawyerProfile, LawyerDocument | ✅ Done |
+| 9 | `20260624_legal_redesign` — 8 new Agreement fields; created `stamp_duty` table | ✅ Done |
+| 10 | `20260624_stamp_duty_expansion` — `agreementPdfHash`, `certificateHash`, `linkageHash` on stamp_duty | ✅ Done |
+| Next | `20260625_lawyer_workspace` — lawyer access-control API routes + Role guard integration | Planned |

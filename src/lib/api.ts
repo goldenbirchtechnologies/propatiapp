@@ -263,7 +263,7 @@ export interface Agreement {
   endDate?: string | null;
   rentAmount?: number | null;
   monthlyRent?: number | null; // Legacy field - use rentAmount
-  paymentSchedule?: 'monthly' | 'quarterly' | 'annually' | null;
+  rentPeriod?: 'monthly' | 'quarterly' | 'annually' | null;
   cautionDeposit?: number | null;
   serviceCharge?: number | null;
   terms?: string | null;

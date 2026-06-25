@@ -1,0 +1,10 @@
+# This file is a "migration lock". It helps Prisma Migrate understand the state of
+# the migration history in case the user runs into issues and asks for support.
+#
+# It is recommended to treat this file as source control and not edit it.
+#
+# support: https://pris.ly/d/contact-support
+
+[prisma]
+  Version = "5.22.0"
+  Schema = "prisma/schema.prisma"

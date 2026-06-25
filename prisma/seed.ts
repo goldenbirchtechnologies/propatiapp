@@ -64,7 +64,7 @@ async function main() {
   // ---------------------------------------------------------------------------
   console.log('👥 Creating test users...');
 
-  const hashedPassword = await hashPassword('Test123!@#');
+  const hashedPassword = await hashPassword('Propati123@');
 
   const landlordUser = await prisma.user.create({
     data: {
@@ -1092,7 +1092,7 @@ async function main() {
   console.log('═══════════════════════════════════════════════════════════');
   console.log('\n✨ Test credentials:');
   console.log('   Email: [role]@propati.ng (e.g., tenant@propati.ng)');
-  console.log('   Password: Test123!@#');
+  console.log('   Password: Propati123@');
   console.log('═══════════════════════════════════════════════════════════\n');
 }
 

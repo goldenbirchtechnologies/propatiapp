@@ -7,30 +7,78 @@ on:
     branches: [main, develop]
 
 jobs:
-  lint-typecheck-build-test:
+  install:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
+      - run: npm ci
+      - uses: actions/cache/save@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-      - name: Install dependencies
-        run: npm ci
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    env:
+      NEXT_ESLINT_USE_FLAT_CONFIG: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      - run: npm run lint
 
-      - name: Lint
-        run: npm run lint
+  typecheck:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      - run: npx tsc --noEmit
 
-      - name: Typecheck
-        run: npx tsc --noEmit
+  build:
+    needs: [lint, typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      - run: npm run build
 
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm run test
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      - run: npm run test

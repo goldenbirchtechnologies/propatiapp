@@ -33,7 +33,7 @@ The codebase is now **Next.js 14 (App Router) + TypeScript + Clerk Auth**. All r
 ||-------|-------|----------|----------|--------------|--------|
 || 1 | Critical Bugs & Stability | 1-2 days | **Critical** | — | ✅ Done |
 || 2 | Paystack Rent Collection | 2-3 days | **High** | Phase 1 | ✅ Done |
-|| 3 | Agent Listings Screen | 1 day | **High** | Phase 1 | ⚠️ Partial (agent done; realtor pages missing) |
+|| 3 | Agent Listings Screen | 1 day | **High** | Phase 1 | ✅ Done |
 || 4 | Admin Console Real Data | 2 days | **High** | Phase 1 | ⚠️ Partial (`admin/agreements` page missing) |
 || 5 | PDF Reports & Agreements | 2 days | **Medium** | Phase 2 | ✅ Done |
 || 6 | Notifications System | 1 day | **Medium** | Phase 1 | ✅ Done |
@@ -391,8 +391,16 @@ Aligned with `docs/PROPTECH.md`. These map to schema gaps listed in `docs/DATABA
 || **Realtor Role + Buy/Sell Pipeline** | **4 days** | **Medium** | **I+** | **Planned** |
 || Business verification (CAC) | 2 days | Medium | II | Planned |
 || Court-ready evidence pack export | 3 days | Low | II | Planned |
-|| Version-controlled document engine | 4 days | Low | II | Planned |
-| Per-user subscription plans | 2 days | Low | III | Planned |
+||| Version-controlled document engine | 4 days | Low | II | Planned |
+||| DocumentVersion (versioned docs) | 1 day | High | Schema | ✅ Done |
+||| DocumentAccessLog (gated access audit) | 1 day | High | Schema | ✅ Done |
+||| EvidenceExhibit (legal exhibits) | 1 day | Medium | Schema | ✅ Done |
+||| EvidenceCustodyEntry (chain of custody) | 1 day | Medium | Schema | ✅ Done |
+||| Engagement (instruction lifecycle) | 1 day | Medium | Schema | ✅ Done |
+||| ConflictCheck (duplicate-check workflow) | 1 day | Medium | Schema | ✅ Done |
+||| LawyerProfile (counsel record) | 1 day | Medium | Schema | ✅ Done |
+||| LawyerDocument (counsel docs) | 1 day | Medium | Schema | ✅ Done |
+|| Per-user subscription plans | 2 days | Low | III | Planned |
 | Service add-ons (cleaning, inspections) | 3 weeks | Post-PMF | III | Future |
 | White-label EM Enterprise | 3 weeks | Post-PMF | III | Future |
 

@@ -5,7 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { Building2 as BuildingIcon, CheckCircle as CheckCircleIcon, FileText as FileIcon, ShieldCheck as ShieldCheckIcon, Eye as EyeIcon, Plus as PlusIcon, Edit as EditIcon, Shield as ShieldIcon } from 'lucide-react';
+import { Building2 as BuildingIcon, CheckCircle as CheckCircleIcon, FileText as FileIcon, ShieldCheck as ShieldCheckIcon, Eye as EyeIcon, Plus as PlusIcon, Edit as EditIcon, Shield as ShieldIcon, ToggleLeft as ToggleLeftIcon } from 'lucide-react';
 
 export default async function LandlordPropertiesPage() {
   const { userId } = await auth();
@@ -39,13 +39,13 @@ export default async function LandlordPropertiesPage() {
     >
       <div className="space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
               My Properties
             </h1>
             <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-              Manage your property listings and verification status
+              Manage your property listings and short-let access
             </p>
           </div>
           <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
@@ -106,6 +106,7 @@ export default async function LandlordPropertiesPage() {
                     <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Verification</th>
                     <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Price</th>
                     <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Views</th>
+                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Short-let</th>
                     <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
                   </tr>
                 </thead>
@@ -145,6 +146,15 @@ export default async function LandlordPropertiesPage() {
                         ₦{Number(listing.price).toLocaleString()}/{listing.pricePeriod || 'month'}
                       </td>
                       <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.viewsCount.toLocaleString()}</td>
+                      <td className="p-4">
+                        <label className="inline-flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" className="sr-only" defaultChecked={!!listing.allowShortlet} />
+                          <ToggleLeftIcon
+                            className={`h-5 w-5 ${listing.allowShortlet ? 'text-emerald-600' : 'text-slate-300'}`}
+                          />
+                          <span className="text-xs text-slate-600">{listing.allowShortlet ? 'Enabled' : 'Off'}</span>
+                        </label>
+                      </td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <Link
@@ -228,4 +238,3 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
   const cfg = config[verification.overallStatus] || config.not_started;
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
-

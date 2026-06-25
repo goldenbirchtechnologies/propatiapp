@@ -94,7 +94,7 @@ export default function SignInPage() {
             }}
             routing="path"
             path="/sign-in"
-            redirectUrl={redirectUrl}
+            fallbackRedirectUrl={redirectUrl}
           />
         </div>
 

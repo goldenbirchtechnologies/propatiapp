@@ -117,8 +117,6 @@ export {
   useMarkConversationRead,
   useTypingIndicator,
 } from './useConversations';
-export type { Conversation, Message, CreateConversationInput, SendMessageInput } from './useConversations';
-
 // Payments hooks
 export {
   paymentsKeys,
@@ -127,8 +125,6 @@ export {
   useWallet,
   useInitiatePayment,
   useVerifyPayment,
-  useRequestRefund,
-  useWithdraw,
   usePaymentStatus,
   usePaymentBreakdown,
 } from './usePayments';
@@ -214,6 +210,5 @@ export {
   useUnreadCount,
   useMarkNotificationRead,
   useMarkAllRead,
-  useMarkAsRead,
 } from './useNotifications';
 export type { Notification, NotificationsResponse } from './useNotifications';

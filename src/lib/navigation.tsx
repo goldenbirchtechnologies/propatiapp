@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
-  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale,
-  CalendarDays, Clock, Zap, CreditCard, Briefcase, Landmark, FileCheck,
+  Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
+  ClipboardList, CalendarDays,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -65,10 +65,15 @@ export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Verifications', href: '/admin/verifications', icon: <Shield className="h-5 w-5" /> },
   { label: 'Flagged Listings', href: '/admin/flagged-listings', icon: <Flag className="h-5 w-5" /> },
   { label: 'Users', href: '/admin/users', icon: <Users className="h-5 w-5" /> },
+  { label: 'Agreements', href: '/admin/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Disputes', href: '/admin/disputes', icon: <Gavel className="h-5 w-5" /> },
   { label: 'Evidence Packs', href: '/admin/evidence-packs', icon: <Scale className="h-5 w-5" /> },
   { label: 'Revenue', href: '/admin/revenue', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Audit Logs', href: '/admin/audit-logs', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Law Firms', href: '/admin/business/law-firms', icon: <Briefcase className="h-5 w-5" /> },
+  { label: 'Law Firm Cases', href: '/admin/business/law-firm-cases', icon: <ClipboardList className="h-5 w-5" /> },
+  { label: 'Conflict Checks', href: '/admin/conflict-checks', icon: <Gavel className="h-5 w-5" /> },
+  { label: 'Engagements', href: '/admin/engagements', icon: <Briefcase className="h-5 w-5" /> },
 ];
 
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [

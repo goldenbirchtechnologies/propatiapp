@@ -1,6 +1,6 @@
 /**
  * Agreement HTML Templates
- * Templates for different types of rental agreements
+ * Nigerian statutory-compliant templates for rental, sale, short-let and share agreements.
  */
 
 export interface StampDutyEndorsement {
@@ -11,6 +11,10 @@ export interface StampDutyEndorsement {
 
 export interface AgreementTemplateData {
   agreementId: string;
+  agreementType: 'rental' | 'sale' | 'short_let' | 'share';
+  riskTier: 'self_serve' | 'review_required';
+  jurisdictionState?: string | null;
+  governingStatute?: string | null;
   agreementDate: string;
   listingTitle: string;
   listingArea: string;
@@ -31,438 +35,368 @@ export interface AgreementTemplateData {
   cautionDeposit: string;
   serviceCharge: string;
   noticePeriodDays: number;
+  noticePeriodText?: string;
   specialClauses: string;
+  headTenantVerified?: boolean;
   stampDuty?: StampDutyEndorsement;
 }
 
-function renderStampDutyEndorsement(sd: StampDutyEndorsement): string {
-  const formattedDate = sd.paidAt.toLocaleDateString('en-NG', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-  const formattedAmount = new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: 'NGN',
-    maximumFractionDigits: 0,
-  }).format(sd.amountPaid);
-
+function meta(): string {
   return `
-  <div style="margin-top:60px;padding:24px;border:2px solid #1a5276;border-radius:8px;background:#eaf4fb;">
-    <h2 style="text-align:center;color:#1a5276;letter-spacing:2px;margin-bottom:16px;">ELECTRONIC STAMP DUTY CERTIFICATE</h2>
-    <table style="width:100%;border-collapse:collapse;font-size:14px;">
-      <tr>
-        <td style="padding:8px;font-weight:bold;color:#555;width:40%;">Certificate Number:</td>
-        <td style="padding:8px;font-family:monospace;color:#1a5276;font-weight:bold;">${sd.certificateNumber}</td>
-      </tr>
-      <tr style="background:#d6eaf8;">
-        <td style="padding:8px;font-weight:bold;color:#555;">Amount Paid:</td>
-        <td style="padding:8px;">${formattedAmount}</td>
-      </tr>
-      <tr>
-        <td style="padding:8px;font-weight:bold;color:#555;">Date of Payment:</td>
-        <td style="padding:8px;">${formattedDate}</td>
-      </tr>
-    </table>
-    <p style="margin-top:16px;font-size:12px;color:#555;text-align:center;font-style:italic;">
-      This agreement has been duly stamped in accordance with the Stamp Duties Act, CAP S8, LFN 2004
-    </p>
-  </div>`;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 24px; line-height: 1.6; color: #1f2937; }
+  h1 { text-align: center; color: #0f172a; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-top: 0; }
+  h2 { color: #0f172a; margin-top: 28px; font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .section { margin: 20px 0; }
+  .party { background: #f8fafc; padding: 16px; margin: 10px 0; border-left: 4px solid #0f172a; }
+  .term-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+  .term-label { font-weight: 600; color: #374151; }
+  .term-value { color: #1f2937; }
+  .clauses { background: #fffbeb; padding: 16px; border-radius: 8px; margin: 20px 0; border: 1px solid #fcd34d; }
+  .footer { margin-top: 40px; text-align: center; color: #6b7280; font-size: 13px; }
+  .agreement-id { text-align: center; color: #9ca3af; font-size: 12px; margin-top: 10px; }
+  .notice-box { background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #2563eb; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: 14px; color: #1e3a8a; }
+  .statute-note { font-size: 12px; color: #6b7280; font-style: italic; margin-top: 4px; }
+  .banner { padding: 10px 14px; border-radius: 6px; font-weight: 600; margin: 16px 0; font-size: 13px; }
+  .banner.self-serve { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+  .banner.review-required { background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  .signature-block { margin-top: 48px; }
+  .signature-row { display: flex; justify-content: space-between; gap: 24px; }
+  .signature-box { width: 45%; }
+  .signature-line { border-top: 2px solid #0f172a; padding-top: 10px; }
+  .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-rental { background: #dbeafe; color: #1e40af; }
+  .badge-sale { background: #dcfce7; color: #14532d; }
+  .badge-short-let { background: #fef3c7; color: #92400e; }
+  .badge-share { background: #f3e8ff; color: #4c1d95; }
+</style>
+</head>
+<body>`;
 }
 
-export const residentialRentTemplate = (data: AgreementTemplateData) => `
-<!DOCTYPE html>
+function header(data: AgreementTemplateData, title: string, badgeClass: string, badgeLabel: string): string {
+  return `
+<h1>${title}</h1>
+<div class="agreement-id">Agreement ID: ${data.agreementId} · Type: <span class="badge ${badgeClass}">${badgeLabel}</span></div>
+<p style="text-align:center;color:#6b7280;">Date: ${data.agreementDate}</p>
+<div class="banner ${data.riskTier === 'self_serve' ? 'self-serve' : 'review-required'}">
+  Tier: ${data.riskTier === 'self_serve' ? 'Self-Serve' : 'Lawyer Review Required'}${data.governingStatute ? ` · Governed by: ${data.governingStatute}` : ''}
+</div>`;
+}
+
+function partiesBlock(data: AgreementTemplateData): string {
+  return `
+<div class="section">
+  <h2>PARTIES TO THIS AGREEMENT</h2>
+  <div class="party">
+    <strong>LANDLORD</strong><br/>
+    Name: ${data.landlordName}<br/>
+    Email: ${data.landlordEmail}<br/>
+    Phone: ${data.landlordPhone}
+  </div>
+  <div class="party">
+    <strong>TENANT / FIRST PARTY</strong><br/>
+    Name: ${data.tenantName}<br/>
+    Email: ${data.tenantEmail}<br/>
+    Phone: ${data.tenantPhone}
+  </div>
+  ${data.agentName !== 'N/A' && data.agentName ? `
+  <div class="party">
+    <strong>AGENT (WHERE APPLICABLE)</strong><br/>
+    Name: ${data.agentName}<br/>
+    Email: ${data.agentEmail}
+  </div>` : ''}
+</div>`;
+}
+
+function propertyBlock(data: AgreementTemplateData): string {
+  return `
+<div class="section">
+  <h2>PROPERTY DETAILS</h2>
+  <div class="term-row">
+    <span class="term-label">Property:</span>
+    <span class="term-value">${data.listingTitle}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Address:</span>
+    <span class="term-value">${data.listingAddress}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Area / State:</span>
+    <span class="term-value">${data.listingArea}, ${data.listingState}</span>
+  </div>
+</div>`;
+}
+
+function termsBlock(data: AgreementTemplateData): string {
+  return `
+<div class="section">
+  <h2>AGREEMENT TERMS</h2>
+  <div class="term-row">
+    <span class="term-label">Start Date:</span>
+    <span class="term-value">${data.startDate}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">End Date:</span>
+    <span class="term-value">${data.endDate}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Rent Amount:</span>
+    <span class="term-value">₦${data.rentAmount} per ${data.rentPeriod}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Caution Deposit:</span>
+    <span class="term-value">₦${data.cautionDeposit}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Service Charge:</span>
+    <span class="term-value">₦${data.serviceCharge}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Notice Period:</span>
+    <span class="term-value">${data.noticePeriodDays} days</span>
+  </div>
+</div>`;
+}
+
+function statutoryRentalClauses(noticePeriodDays: number): string {
+  return `
+<div class="section">
+  <h2>STATUTORY TERMS & CONDITIONS</h2>
+  <ol style="padding-left:20px;">
+    <li>The Tenant is entitled to <strong>quiet enjoyment</strong> of the premises during the tenancy.</li>
+    <li>Rent increases shall require at least ${noticePeriodDays} days written notice and shall comply with the Tenancy Law of the applicable state.</li>
+    <li>The Landlord shall not disturb the Tenant’s peaceful possession; illegal eviction and self-help remedies are prohibited.</li>
+    <li>Distress (seizure) of Tenant property for rent arrears must follow applicable Nigerian court process.</li>
+    <li>Habitability standards: the Landlord shall maintain the premises in a fit and proper state for habitation.</li>
+    <li>The Tenant shall use the property for lawful residential purposes only.</li>
+    <li>Minor repairs shall be borne by the Tenant; major structural repairs by the Landlord.</li>
+    <li>The Tenant may not sublet or assign without the Landlord’s prior written consent.</li>
+    <li>The caution deposit shall be refundable within 30 days of vacation, subject to fair wear and tear.</li>
+    <li>Any dispute shall be resolved in good faith and, where unresolved, may be referred to the appropriate Nigerian court or landlord-tenant tribunal.</li>
+    <li><em>Disclaimer:</em> This agreement does not override the provisions of any applicable Rent Control or Tenancy Law.</li>
+  </ol>
+  <p class="statute-note">Tenancy Law ${noticePeriodDays} days · Stamp Duties Act CAP S8 LFN 2004 · Common law covenants apply where not inconsistent.</p>
+</div>`;
+}
+
+function signatureBlock(landlordName: string, tenantName: string): string {
+  return `
+<div class="signature-block">
+  <h2>SIGNATURES</h2>
+  <p style="font-size:13px;color:#4b5563;">By signing below, the parties confirm they have read, understood, and agree to be bound by the terms of this agreement.</p>
+  <div class="signature-row">
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${landlordName}</strong><br/>
+        Landlord
+      </div>
+    </div>
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${tenantName}</strong><br/>
+        Tenant
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+export const residentialRentTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-    h1 { text-align: center; color: #333; border-bottom: 3px solid #0066cc; padding-bottom: 10px; }
-    h2 { color: #0066cc; margin-top: 30px; }
-    .section { margin: 20px 0; }
-    .party { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 4px solid #0066cc; }
-    .terms { margin: 20px 0; }
-    .term-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-    .term-label { font-weight: bold; color: #555; }
-    .term-value { color: #333; }
-    .clauses { background: #fff9e6; padding: 15px; border-radius: 5px; margin: 20px 0; }
-    .footer { margin-top: 40px; text-align: center; color: #777; font-size: 14px; }
-    .agreement-id { text-align: center; color: #999; font-size: 12px; margin-top: 10px; }
-  </style>
+${meta()}
 </head>
 <body>
-  <h1>RESIDENTIAL RENTAL AGREEMENT</h1>
-  <div class="agreement-id">Agreement ID: ${data.agreementId}</div>
-  <p style="text-align: center; color: #777;">Date: ${data.agreementDate}</p>
-
-  <div class="section">
-    <h2>PARTIES TO THIS AGREEMENT</h2>
-    <div class="party">
-      <strong>LANDLORD (Property Owner)</strong><br/>
-      Name: ${data.landlordName}<br/>
-      Email: ${data.landlordEmail}<br/>
-      Phone: ${data.landlordPhone}
-    </div>
-    <div class="party">
-      <strong>TENANT</strong><br/>
-      Name: ${data.tenantName}<br/>
-      Email: ${data.tenantEmail}<br/>
-      Phone: ${data.tenantPhone}
-    </div>
-    ${data.agentName !== 'N/A' ? `
-    <div class="party">
-      <strong>AGENT</strong><br/>
-      Name: ${data.agentName}<br/>
-      Email: ${data.agentEmail}
-    </div>
-    ` : ''}
+${header(data, 'RESIDENTIAL TENANCY AGREEMENT', 'badge-rental', 'RENTAL')}
+${partiesBlock(data)}
+${propertyBlock(data)}
+${termsBlock(data)}
+${statutoryRentalClauses(data.noticePeriodDays)}
+${data.specialClauses ? `
+<div class="section">
+  <h2>SPECIAL CLAUSES</h2>
+  <div class="clauses">
+    ${data.specialClauses.split('\n').map((clause) => `<p>${clause}</p>`).join('')}
   </div>
-
-  <div class="section">
-    <h2>PROPERTY DETAILS</h2>
-    <div class="terms">
-      <div class="term-row">
-        <span class="term-label">Property:</span>
-        <span class="term-value">${data.listingTitle}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Address:</span>
-        <span class="term-value">${data.listingAddress}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Area:</span>
-        <span class="term-value">${data.listingArea}, ${data.listingState}</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>RENTAL TERMS</h2>
-    <div class="terms">
-      <div class="term-row">
-        <span class="term-label">Lease Start Date:</span>
-        <span class="term-value">${data.startDate}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Lease End Date:</span>
-        <span class="term-value">${data.endDate}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Rent Amount:</span>
-        <span class="term-value">₦${data.rentAmount} per ${data.rentPeriod}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Caution Deposit:</span>
-        <span class="term-value">₦${data.cautionDeposit}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Service Charge:</span>
-        <span class="term-value">₦${data.serviceCharge}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Notice Period:</span>
-        <span class="term-value">${data.noticePeriodDays} days</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>TERMS AND CONDITIONS</h2>
-    <ol style="padding-left: 20px;">
-      <li>The Tenant agrees to pay rent on or before the due date each ${data.rentPeriod}.</li>
-      <li>The Tenant shall use the property solely for residential purposes.</li>
-      <li>The Tenant is responsible for minor repairs and maintenance of the property.</li>
-      <li>The Landlord is responsible for major structural repairs.</li>
-      <li>The Tenant shall not sublet the property without written consent from the Landlord.</li>
-      <li>Either party may terminate this agreement by giving ${data.noticePeriodDays} days written notice.</li>
-      <li>The caution deposit shall be refunded within 30 days after the tenant vacates, subject to deductions for damages.</li>
-      <li>All disputes shall be resolved through mediation or in accordance with Nigerian law.</li>
-    </ol>
-  </div>
-
-  ${data.specialClauses ? `
-  <div class="section">
-    <h2>SPECIAL CLAUSES</h2>
-    <div class="clauses">
-      ${data.specialClauses.split('\n').map(clause => `<p>${clause}</p>`).join('')}
-    </div>
-  </div>
-  ` : ''}
-
-  <div class="section" style="margin-top: 60px;">
-    <h2>SIGNATURES</h2>
-    <p>By signing this agreement, all parties confirm that they have read, understood, and agree to be bound by the terms and conditions outlined above.</p>
-    <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-      <div style="width: 45%;">
-        <div style="border-top: 2px solid #333; padding-top: 10px;">
-          <strong>Landlord Signature</strong><br/>
-          ${data.landlordName}<br/>
-          Date: _________________
-        </div>
-      </div>
-      <div style="width: 45%;">
-        <div style="border-top: 2px solid #333; padding-top: 10px;">
-          <strong>Tenant Signature</strong><br/>
-          ${data.tenantName}<br/>
-          Date: _________________
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>This agreement is facilitated by PROPATI - Nigeria's Verified Property Marketplace</p>
-    <p>www.propati.ng</p>
-  </div>
-
-  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
+</div>` : ''}
+${signatureBlock(data.landlordName, data.tenantName)}
+<div class="footer">
+  <p>This agreement is facilitated by PROPATI – Nigeria's Verified Property Marketplace</p>
+  <p>www.propati.ng</p>
+</div>
+${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
-</html>
-`;
+</html>`;
 
-export const commercialRentTemplate = (data: AgreementTemplateData) => `
-<!DOCTYPE html>
+export const commercialRentTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-    h1 { text-align: center; color: #333; border-bottom: 3px solid #0066cc; padding-bottom: 10px; }
-    h2 { color: #0066cc; margin-top: 30px; }
-    .section { margin: 20px 0; }
-    .party { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 4px solid #0066cc; }
-    .terms { margin: 20px 0; }
-    .term-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-    .term-label { font-weight: bold; color: #555; }
-    .term-value { color: #333; }
-  </style>
+${meta()}
 </head>
 <body>
-  <h1>COMMERCIAL LEASE AGREEMENT</h1>
-  <div style="text-align: center; color: #999; font-size: 12px; margin-top: 10px;">Agreement ID: ${data.agreementId}</div>
-  <p style="text-align: center; color: #777;">Date: ${data.agreementDate}</p>
-
-  <div class="section">
-    <h2>PARTIES</h2>
-    <div class="party">
-      <strong>LANDLORD</strong><br/>
-      ${data.landlordName} (${data.landlordEmail})
-    </div>
-    <div class="party">
-      <strong>TENANT</strong><br/>
-      ${data.tenantName} (${data.tenantEmail})
-    </div>
+${header(data, 'COMMERCIAL LEASE AGREEMENT', 'badge-rental', 'RENTAL')}
+${partiesBlock(data)}
+${propertyBlock(data)}
+${termsBlock(data)}
+<div class="section">
+  <h2>COMMERCIAL TENANCY TERMS</h2>
+  <ol style="padding-left:20px;">
+    <li>The Tenant shall use the premises solely for commercial activities as agreed.</li>
+    <li>The Tenant shall comply with all zoning, environment, and fire-safety regulations of the relevant state.</li>
+    <li>Assignment and subletting of the lease require the Landlord’s prior written consent.</li>
+    <li>The Tenant is responsible for insurance of business equipment and contents.</li>
+    <li>Arrears of rent to a 30-day period entitles the Landlord to terminate per Lagos State Tenancy Law or applicable statute.</li>
+  </ol>
+  <div class="notice-box">
+    <strong>Jurisdiction:</strong> ${data.jurisdictionState || 'Applicable state tenancy/county law'}.
+    ${data.governingStatute ? ` ${data.governingStatute} governs interpretation.` : ''}
   </div>
-
-  <div class="section">
-    <h2>COMMERCIAL PROPERTY</h2>
-    <p><strong>Property:</strong> ${data.listingTitle}</p>
-    <p><strong>Location:</strong> ${data.listingAddress}, ${data.listingArea}, ${data.listingState}</p>
+</div>
+${data.specialClauses ? `
+<div class="section">
+  <h2>SPECIAL CONDITIONS</h2>
+  <div class="clauses">
+    ${data.specialClauses.split('\n').map((clause) => `<p>${clause}</p>`).join('')}
   </div>
-
-  <div class="section">
-    <h2>LEASE TERMS</h2>
-    <div class="terms">
-      <div class="term-row">
-        <span class="term-label">Lease Period:</span>
-        <span class="term-value">${data.startDate} to ${data.endDate}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Rent:</span>
-        <span class="term-value">₦${data.rentAmount} per ${data.rentPeriod}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Security Deposit:</span>
-        <span class="term-value">₦${data.cautionDeposit}</span>
-      </div>
-      <div class="term-row">
-        <span class="term-label">Service Charge:</span>
-        <span class="term-value">₦${data.serviceCharge}</span>
-      </div>
-    </div>
-  </div>
-
-  ${data.specialClauses ? `
-  <div class="section">
-    <h2>SPECIAL CONDITIONS</h2>
-    <div style="background: #fff9e6; padding: 15px; border-radius: 5px;">
-      ${data.specialClauses.split('\n').map(clause => `<p>${clause}</p>`).join('')}
-    </div>
-  </div>
-  ` : ''}
-
-  <div class="section" style="margin-top: 60px;">
-    <p>IN WITNESS WHEREOF, the parties have executed this Commercial Lease Agreement.</p>
-  </div>
-
-  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
+</div>` : ''}
+${signatureBlock(data.landlordName, data.tenantName)}
+<div class="footer">
+  <p>www.propati.ng</p>
+</div>
+${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
-</html>
-`;
+</html>`;
 
-export const shortLetTemplate = (data: AgreementTemplateData) => `
-<!DOCTYPE html>
+export const shortLetTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-    h1 { text-align: center; color: #333; border-bottom: 3px solid #ff6b6b; padding-bottom: 10px; }
-    h2 { color: #ff6b6b; margin-top: 30px; }
-    .section { margin: 20px 0; }
-    .party { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 4px solid #ff6b6b; }
-    .terms { margin: 20px 0; }
-    .term-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-  </style>
+${meta()}
 </head>
 <body>
-  <h1>SHORT-LET AGREEMENT</h1>
-  <div style="text-align: center; color: #999; font-size: 12px;">Agreement ID: ${data.agreementId}</div>
-  <p style="text-align: center; color: #777;">Date: ${data.agreementDate}</p>
-
-  <div class="section">
-    <h2>BOOKING DETAILS</h2>
-    <div class="party">
-      <strong>HOST:</strong> ${data.landlordName} (${data.landlordEmail})
+${header(data, 'SHORT-LET / HOLIDAY LET AGREEMENT', 'badge-short-let', 'SHORT-LET')}
+${partiesBlock(data)}
+${propertyBlock(data)}
+<div class="section">
+  <h2>BOOKING & PAYMENT TERMS</h2>
+  <div class="term-row">
+    <span class="term-label">Check-in:</span>
+    <span class="term-value">${data.startDate}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Check-out:</span>
+    <span class="term-value">${data.endDate}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Booking Rate:</span>
+    <span class="term-value">₦${data.rentAmount} per ${data.rentPeriod}</span>
+  </div>
+  <div class="term-row">
+    <span class="term-label">Security Deposit:</span>
+    <span class="term-value">₦${data.cautionDeposit}</span>
+  </div>
+</div>
+<div class="section">
+  <h2>HOUSE RULES & GUEST RESPONSIBILITIES</h2>
+  <ol style="padding-left:20px;">
+    <li>No smoking inside the property.</li>
+    <li>No loud noise after 10 PM.</li>
+    <li>Guest is liable for any damages or shortages.</li>
+    <li>Check-out must be completed by 12 PM on the final day unless otherwise agreed.</li>
+    <li>This agreement is jurisdiction-specific: ${data.jurisdictionState || 'N/A'}.</li>
+  </ol>
+  <p class="statute-note">Stamp Duties Act CAP S8 LFN 2004 applies to consideration where payable.</p>
+</div>
+${data.specialClauses ? `
+<div class="section">
+  <h2>ADDITIONAL TERMS</h2>
+  <div class="clauses">
+    ${data.specialClauses.split('\n').map((clause) => `<p>${clause}</p>`).join('')}
+  </div>
+</div>` : ''}
+<div class="signature-block">
+  <h2>ACKNOWLEDGEMENT</h2>
+  <div class="signature-row">
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${data.landlordName}</strong><br/>
+        Host / Landlord
+      </div>
     </div>
-    <div class="party">
-      <strong>GUEST:</strong> ${data.tenantName} (${data.tenantEmail})
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>PROPERTY</h2>
-    <p><strong>${data.listingTitle}</strong></p>
-    <p>${data.listingArea}, ${data.listingState}</p>
-  </div>
-
-  <div class="section">
-    <h2>STAY DETAILS</h2>
-    <div class="terms">
-      <div class="term-row">
-        <span style="font-weight: bold;">Check-in:</span>
-        <span>${data.startDate}</span>
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${data.tenantName}</strong><br/>
+        Guest / Tenant
       </div>
-      <div class="term-row">
-        <span style="font-weight: bold;">Check-out:</span>
-        <span>${data.endDate}</span>
-      </div>
-      <div class="term-row">
-        <span style="font-weight: bold;">Rate:</span>
-        <span>₦${data.rentAmount} per night</span>
-      </div>
-      <div class="term-row">
-        <span style="font-weight: bold;">Security Deposit:</span>
-        <span>₦${data.cautionDeposit}</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>HOUSE RULES</h2>
-    <ul>
-      <li>No smoking inside the property</li>
-      <li>No loud noise after 10 PM</li>
-      <li>Guest is liable for any damages to the property</li>
-      <li>Check-out must be completed by 12 PM on the final day</li>
-    </ul>
-  </div>
-
-  ${data.specialClauses ? `
-  <div class="section">
-    <h2>ADDITIONAL TERMS</h2>
-    <div style="background: #fff9e6; padding: 15px; border-radius: 5px;">
-      ${data.specialClauses.split('\n').map(clause => `<p>${clause}</p>`).join('')}
     </div>
   </div>
-  ` : ''}
+</div>
+<div class="footer">
+  <p>www.propati.ng</p>
+</div>
+${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
-</html>
-`;
+</html>`;
 
-export const saleAgreementTemplate = (data: AgreementTemplateData) => `
-<!DOCTYPE html>
+export const shareAgreementTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-    h1 { text-align: center; color: #333; border-bottom: 3px solid #28a745; padding-bottom: 10px; }
-    h2 { color: #28a745; margin-top: 30px; }
-    .section { margin: 20px 0; }
-    .party { background: #f5f5f5; padding: 15px; margin: 10px 0; border-left: 4px solid #28a745; }
-    .terms { margin: 20px 0; }
-    .term-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-  </style>
+${meta()}
 </head>
 <body>
-  <h1>PROPERTY SALE AGREEMENT</h1>
-  <div style="text-align: center; color: #999; font-size: 12px;">Agreement ID: ${data.agreementId}</div>
-  <p style="text-align: center; color: #777;">Date: ${data.agreementDate}</p>
-
-  <div class="section">
-    <h2>PARTIES</h2>
-    <div class="party">
-      <strong>SELLER:</strong> ${data.landlordName} (${data.landlordEmail})
-    </div>
-    <div class="party">
-      <strong>BUYER:</strong> ${data.tenantName} (${data.tenantEmail})
-    </div>
+${header(data, 'SHARED ACCOMMODATION AGREEMENT', 'badge-share', 'SHARE')}
+${partiesBlock(data)}
+${propertyBlock(data)}
+${termsBlock(data)}
+<div class="section">
+  <h2>SHARED OCCUPANCY TERMS</h2>
+  <ol style="padding-left:20px;">
+    <li>All parties share common areas equally unless otherwise stated in special clauses.</li>
+    <li>Utilities shall be allocated as per the schedule in special clauses or equally where not specified.</li>
+    <li>No party may assign or sublet their share without unanimous written consent of the others.</li>
+    <li>Either party may seek inclusion of a replacement tenant agreeable to all parties.</li>
+    <li>Landlord obligations of quiet enjoyment and habitability apply equally to each occupant.</li>
+  </ol>
+</div>
+<div class="notice-box">
+  <strong>Sharing Risk Notice:</strong> Shared occupancy carries additional operational risks compared to single-occupancy tenancies. Ensure you have read the ${data.jurisdictionState || 'state'} shared-occupancy guidance before signing.
+  ${data.headTenantVerified ? ' All signatories have been verified as authorised occupants.' : ''}
+</div>
+${data.specialClauses ? `
+<div class="section">
+  <h2>SPECIAL CLAUSES</h2>
+  <div class="clauses">
+    ${data.specialClauses.split('\n').map((clause) => `<p>${clause}</p>`).join('')}
   </div>
-
-  <div class="section">
-    <h2>PROPERTY BEING SOLD</h2>
-    <p><strong>Property:</strong> ${data.listingTitle}</p>
-    <p><strong>Address:</strong> ${data.listingAddress}, ${data.listingArea}, ${data.listingState}</p>
-  </div>
-
-  <div class="section">
-    <h2>SALE TERMS</h2>
-    <div class="terms">
-      <div class="term-row">
-        <span style="font-weight: bold;">Sale Price:</span>
-        <span>₦${data.rentAmount}</span>
-      </div>
-      <div class="term-row">
-        <span style="font-weight: bold;">Deposit Paid:</span>
-        <span>₦${data.cautionDeposit}</span>
-      </div>
-      <div class="term-row">
-        <span style="font-weight: bold;">Completion Date:</span>
-        <span>${data.endDate}</span>
+</div>` : ''}
+<div class="section">
+  <h2>ALL PARTIES</h2>
+  <div class="signature-row">
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${data.landlordName}</strong><br/>
+        Landlord
       </div>
     </div>
-  </div>
-
-  <div class="section">
-    <h2>TERMS & CONDITIONS</h2>
-    <ol>
-      <li>The Seller warrants that they have good title to the property and the right to sell it.</li>
-      <li>The Buyer agrees to pay the full purchase price on or before the completion date.</li>
-      <li>All necessary documentation will be prepared and executed upon completion.</li>
-      <li>The Seller will deliver vacant possession on the completion date.</li>
-      <li>This agreement is governed by the laws of the Federal Republic of Nigeria.</li>
-    </ol>
-  </div>
-
-  ${data.specialClauses ? `
-  <div class="section">
-    <h2>SPECIAL CONDITIONS</h2>
-    <div style="background: #e8f5e9; padding: 15px; border-radius: 5px;">
-      ${data.specialClauses.split('\n').map(clause => `<p>${clause}</p>`).join('')}
+    <div class="signature-box">
+      <div class="signature-line">
+        <strong>${data.tenantName}</strong><br/>
+        Occupant 1
+      </div>
     </div>
   </div>
-  ` : ''}
-
-  ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
+</div>
+<div class="footer">
+  <p>www.propati.ng</p>
+</div>
+${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
 </body>
-</html>
-`;
+</html>`;
 
-export function renderAgreementTemplate(
-  type: string,
-  data: AgreementTemplateData
-): string {
+export function renderAgreementTemplate(type: string, data: AgreementTemplateData): string {
   switch (type) {
     case 'rental':
       return residentialRentTemplate(data);
@@ -471,8 +405,45 @@ export function renderAgreementTemplate(
     case 'short_let':
       return shortLetTemplate(data);
     case 'share':
-      return residentialRentTemplate(data); // Use same template for shared accommodation
+      return shareAgreementTemplate(data);
     default:
       return residentialRentTemplate(data);
   }
 }
+
+export const saleAgreementTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
+<html>
+<head>
+${meta()}
+</head>
+<body>
+${header(data, 'PROPERTY SALE AGREEMENT', 'badge-sale', 'SALE')}
+${partiesBlock(data)}
+${propertyBlock(data)}
+${termsBlock(data)}
+<div class="section">
+  <h2>STATUTORY SALE TERMS</h2>
+  <ol style="padding-left:20px;">
+    <li>The Seller warrants they have good title to the property and the right to sell it.</li>
+    <li>The Buyer agrees to pay the purchase price on or before the completion date stated above.</li>
+    <li>All necessary documentation (including consent, title documents and transfer instruments) shall be prepared and executed on completion.</li>
+    <li>The Seller shall deliver vacant possession on the completion date.</li>
+    <li>Risk passes to the Buyer on completion; title remains with the Seller until executed where legally required.</li>
+    <li>Stamp duty and registration costs shall be borne in accordance with applicable Nigerian law or as otherwise agreed.</li>
+    <li>This agreement is governed by the laws of the Federal Republic of Nigeria ${data.governingStatute ? `with specific reference to ${data.governingStatute}` : ''} and the parties submit to the jurisdiction of the ${data.jurisdictionState || 'Federal High Court (Property Division)'}.</li>
+  </ol>
+</div>
+${data.specialClauses ? `
+<div class="section">
+  <h2>SPECIAL CONDITIONS</h2>
+  <div class="clauses">
+    ${data.specialClauses.split('\n').map((clause) => `<p>${clause}</p>`).join('')}
+  </div>
+</div>` : ''}
+${signatureBlock(data.landlordName, data.tenantName)}
+<div class="footer">
+  <p>www.propati.ng</p>
+</div>
+${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}
+</body>
+</html>`;

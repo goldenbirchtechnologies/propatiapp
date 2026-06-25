@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import AuditLogsClient from './AuditLogsClient';
 
 export default async function AuditLogsPage() {
@@ -25,49 +26,20 @@ export default async function AuditLogsPage() {
   if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user.role]);
 
-  // Mock audit logs data - In production, this would come from a database
-  const mockAuditLogs = [
-    {
-      id: '1',
-      admin: 'Admin User',
-      action: 'Verified Listing',
-      target: 'Listing #12345',
-      details: 'Approved Layer 5 verification',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30),
-    },
-    {
-      id: '2',
-      admin: 'Admin User',
-      action: 'Suspended User',
-      target: 'User #67890',
-      details: 'Reason: Fraudulent activity',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60),
-    },
-    {
-      id: '3',
-      admin: 'Admin User',
-      action: 'Dismissed Flags',
-      target: 'Listing #54321',
-      details: 'All flags were invalid',
-      timestamp: new Date(Date.now() - 1000 * 60 * 120),
-    },
-    {
-      id: '4',
-      admin: 'Admin User',
-      action: 'Changed Role',
-      target: 'User #11111',
-      details: 'Changed from tenant to agent',
-      timestamp: new Date(Date.now() - 1000 * 60 * 180),
-    },
-    {
-      id: '5',
-      admin: 'Admin User',
-      action: 'Rejected Verification',
-      target: 'Listing #99999',
-      details: 'Invalid documentation provided',
-      timestamp: new Date(Date.now() - 1000 * 60 * 240),
-    },
-  ];
+  const auditLogs = await prisma.adminAuditLog.findMany({
+    include: { admin: { select: { id: true, fullName: true } } },
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  });
+
+  const formattedLogs = auditLogs.map((log) => ({
+    id: log.id,
+    admin: log.admin.fullName,
+    action: log.action,
+    target: log.targetId,
+    details: log.details || '—',
+    timestamp: log.createdAt,
+  }));
 
   return (
     <DashboardShell
@@ -76,7 +48,7 @@ export default async function AuditLogsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AuditLogsClient auditLogs={mockAuditLogs} />
+      <AuditLogsClient auditLogs={formattedLogs} />
     </DashboardShell>
   );
 }

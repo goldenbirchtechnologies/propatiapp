@@ -76,3 +76,40 @@ export async function sendEmail(params: SendEmailParams): Promise<void> {
     throw new Error(`Failed to send email: ${error}`);
   }
 }
+
+// ===========================================================================
+// PASSWORD RESET EMAIL
+// ===========================================================================
+
+export interface SendPasswordResetEmailParams {
+  to: string;
+  userName: string;
+  resetToken: string;
+}
+
+export async function sendPasswordResetEmail(params: SendPasswordResetEmailParams): Promise<void> {
+  const { to, userName, resetToken } = params;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const resetUrl = `${appUrl}/reset-password?token=${resetToken}`;
+
+  const html = `
+    <html>
+      <body>
+        <p>Hello ${userName},</p>
+        <p>An administrator has requested a password reset for your account.</p>
+        <p>Click the link below to set a new password:</p>
+        <p><a href="${resetUrl}">Reset your password</a></p>
+        <p>If you did not anticipate this email, please contact support.</p>
+      </body>
+    </html>
+  `;
+
+  const text = `Hello ${userName},\n\nAn administrator has requested a password reset for your account.\n\nCopy and paste this link into your browser to set a new password:\n${resetUrl}\n\nIf you did not anticipate this email, please contact support.`;
+
+  await sendEmail({
+    to,
+    subject: 'Password Reset Request',
+    html,
+    text,
+  });
+}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
+import { sendPasswordResetEmail } from '@/lib/email/email-service';
 
 export async function POST(
   req: NextRequest,
@@ -33,10 +34,24 @@ export async function POST(
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // TODO: Implement password reset email logic
-    // In production, this would trigger a password reset email via your email service
-    // For now, we'll just return success
-    console.log(`Password reset requested for user: ${targetUser.email}`);
+    // Generate a secure random reset token.
+    const resetToken = crypto.randomUUID();
+
+    // Send real password reset email. Do not return success until the send
+    // is awaited (or fail with 501 if the service is unavailable).
+    try {
+      await sendPasswordResetEmail(targetUser.email, targetUser.email, resetToken);
+    } catch (error) {
+      console.error('Error sending reset password email:', error);
+      return NextResponse.json(
+        { error: 'Failed to send reset password email' },
+        { status: 500 }
+      );
+    }
+
+    // TODO: Persist resetToken with expiry in DB once a reset-token model exists.
+    // For now the token is ephemeral; the email notifies the user an admin
+    // initiated a reset and includes a fallback contact-support message.
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -77,7 +77,7 @@ export default function SignUpPage() {
             }}
             routing="path"
             path="/sign-up"
-            redirectUrl="/onboarding"
+            fallbackRedirectUrl="/onboarding"
             unsafeMetadata={{
               role: selectedRole,
             }}

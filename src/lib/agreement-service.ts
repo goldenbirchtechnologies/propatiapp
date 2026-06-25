@@ -1,16 +1,20 @@
 import { prisma } from './prisma';
 import { AgreementType, AgreementStatus } from '@prisma/client';
-import { renderAgreementTemplate } from './agreement-templates';
+import { renderAgreementTemplate, type AgreementTemplateData } from './agreement-templates';
 
 interface AgreementTerms {
   startDate: Date;
   endDate: Date;
   rentAmount: number;
+  rentPeriod: string;
   cautionDeposit?: number;
   serviceCharge?: number;
-  rentPeriod: 'monthly' | 'yearly';
   noticePeriodDays?: number;
+  noticePeriodText?: string;
   specialClauses?: string;
+  riskTier?: 'self_serve' | 'review_required';
+  jurisdictionState?: string | null;
+  governingStatute?: string | null;
 }
 
 interface GenerateAgreementParams {
@@ -20,6 +24,7 @@ interface GenerateAgreementParams {
   agentId?: string;
   type: AgreementType;
   terms: AgreementTerms;
+  headTenantVerified?: boolean;
 }
 
 class AgreementService {
@@ -68,6 +73,10 @@ class AgreementService {
         rentPeriod: terms.rentPeriod,
         noticePeriodDays: terms.noticePeriodDays || 30,
         specialClauses: terms.specialClauses || null,
+        riskTier: terms.riskTier || 'review_required',
+        jurisdictionState: terms.jurisdictionState || null,
+        governingStatute: terms.governingStatute || null,
+        headTenantVerified: params.headTenantVerified || false,
         templateVars: {
           listingTitle: listing.title,
           listingArea: listing.area,
@@ -92,7 +101,13 @@ class AgreementService {
   async renderAgreement(agreementId: string): Promise<string> {
     const agreement = await prisma.agreement.findUnique({
       where: { id: agreementId },
-      include: {
+      select: {
+        id: true,
+        type: true,
+        riskTier: true,
+        jurisdictionState: true,
+        governingStatute: true,
+        headTenantVerified: true,
         listing: { select: { id: true, title: true, area: true, state: true, address: true } },
         landlord: { select: { id: true, fullName: true, email: true, phone: true } },
         tenant: { select: { id: true, fullName: true, email: true, phone: true } },
@@ -106,6 +121,10 @@ class AgreementService {
 
     const templateData = {
       agreementId: agreement.id,
+      agreementType: agreement.type as AgreementTemplateData['agreementType'],
+      riskTier: (agreement.riskTier as 'self_serve' | 'review_required') || 'review_required',
+      jurisdictionState: agreement.jurisdictionState,
+      governingStatute: agreement.governingStatute,
       agreementDate: new Date().toLocaleDateString('en-NG', {
         day: 'numeric',
         month: 'long',

@@ -115,7 +115,7 @@ const roleNavigation: Record<string, NavItem[]> = {
 import { User, ClipboardList, Flag, Gavel } from 'lucide-react';
 
 // ─── Skeleton nav item (shown when isLoading=true) ───────────────────────────
-function SkeletonNavItem({ level = 0 }: { level?: number }) {
+export function SkeletonNavItem({ level = 0 }: { level?: number }) {
   const indent = level === 0 ? '0' : 'var(--space-md)';
   return (
     <div
@@ -162,12 +162,12 @@ function SkeletonUserCard({ collapsed }: { collapsed: boolean }) {
           style={{ height: 10, width: '45%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
         />
       </div>
-    </aside>
+    </div>
   );
 }
 
 // ─── Main Sidebar ────────────────────────────────────────────────────────────
-export function Sidebar({
+export function NavItemComponent({
   item,
   isActive,
   sidebarCollapsed,
@@ -310,7 +310,8 @@ export function Sidebar({
   );
 }
 
-// ─── Skeleton overview: aria-busy replaces content so screen readers announce ── function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
+// ─── Skeleton overview: aria-busy replaces content so screen readers announce ──
+function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
   // Placeholder nav items matching the role-navigation count (average ~7)
   const placeholderItems: NavItem[] = [
     { label: '', href: '#', icon: <LayoutDashboard className="h-5 w-5" /> },
@@ -374,7 +375,6 @@ export function Sidebar({
 }
 
 // ─── Main Sidebar ────────────────────────────────────────────────────────────
-export function Sidebar({
 export function Sidebar({
   navigation,
   userRole,
@@ -506,7 +506,7 @@ export function Sidebar({
 }
 
 // ─── Main Sidebar ────────────────────────────────────────────────────────────
-export function Sidebar({
+export function SidebarMobileTrigger({
   mobileOpen,
   onToggle,
 }: {
@@ -525,13 +525,13 @@ export function Sidebar({
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="18" x2="21" y2="18" />
-      </div>
-    </aside>
+      </svg>
+    </button>
   );
 }
 
 // ─── Main Sidebar ────────────────────────────────────────────────────────────
-export function Sidebar({
+export function SidebarOverlay({
   isOpen,
   onClose,
 }: {

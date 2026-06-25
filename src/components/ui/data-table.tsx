@@ -524,5 +524,3 @@ export function DataTable<T>({
 }
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-export { DataTable };

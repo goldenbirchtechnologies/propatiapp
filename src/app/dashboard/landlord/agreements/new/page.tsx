@@ -41,7 +41,7 @@ export default function NewAgreementPage() {
     resolver: zodResolver(createAgreementSchema),
     defaultValues: {
       type: 'rental',
-      paymentSchedule: 'monthly',
+      rentPeriod: 'monthly',
       noticePeriodDays: 30,
     },
   });
@@ -85,8 +85,8 @@ export default function NewAgreementPage() {
     const end = new Date(watchedValues.endDate);
     let currentDate = new Date(start);
 
-    const interval = watchedValues.paymentSchedule === 'monthly' ? 1 :
-                     watchedValues.paymentSchedule === 'quarterly' ? 3 : 12;
+    const interval = watchedValues.rentPeriod === 'monthly' ? 1 :
+                     watchedValues.rentPeriod === 'quarterly' ? 3 : 12;
 
     while (currentDate <= end) {
       schedule.push({
@@ -266,10 +266,10 @@ export default function NewAgreementPage() {
               </div>
 
               <div>
-                <Label htmlFor="paymentSchedule">Payment Schedule *</Label>
+                <Label htmlFor="rentPeriod">Payment Schedule *</Label>
                 <Select
-                  value={watchedValues.paymentSchedule}
-                  onValueChange={(value) => setValue('paymentSchedule', value as any)}
+                  value={watchedValues.rentPeriod}
+                  onValueChange={(value) => setValue('rentPeriod', value as any)}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -280,8 +280,8 @@ export default function NewAgreementPage() {
                     <SelectItem value="annually">Annually</SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.paymentSchedule && (
-                  <p className="text-sm text-red-600 mt-1">{errors.paymentSchedule.message}</p>
+                {errors.rentPeriod && (
+                  <p className="text-sm text-red-600 mt-1">{errors.rentPeriod.message}</p>
                 )}
               </div>
 
@@ -339,7 +339,7 @@ export default function NewAgreementPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Payment Schedule</p>
-                  <p className="font-medium capitalize">{watchedValues.paymentSchedule}</p>
+                  <p className="font-medium capitalize">{watchedValues.rentPeriod}</p>
                 </div>
               </div>
 

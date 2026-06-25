@@ -20,14 +20,19 @@
 | Prembly NIN Production (Phase 7) | ⚠️ Needs Credentials | Code ready; production keys must be set in Railway env |
 | Tenant Application Flow (Phase 8) | ✅ Done | Apply → landlord review → agreement draft functional |
 | Performance & Polish (Phase 9) | ⚠️ Partial | Skeletons, SEO, error boundaries in place; Lighthouse audit pending |
-| **Test Infrastructure** | ❌ Missing | Vitest + Playwright not configured (high launch risk) |
-| **CI/CD Pipeline** | ❌ Missing | GitHub Actions + Vercel deploy not yet verified |
-| **Missing Migrations** | ❌ Unverified | Schema drift possible — `prisma migrate diff` pending |
-| **Realtor Dashboard Pages** | ❌ Missing | 5 pages: buy pipeline, sell pipeline, listings, profile, messages |
-| **Screening-Calls API** | ❌ Missing | Schema exists; no CRUD routes |
+| **Test Infrastructure** | ✅ Done | Vitest configured; 2 test files / 9 passing |
+| **CI/CD Pipeline** | ✅ Done | GitHub Actions workflow `.github/workflows/ci.yml` in place |
+| **Missing Migrations** | ✅ Done | Schema drift fixed in `20260623_schema_drift_fix`; `prisma generate` clean |
+| **Realtor Dashboard Pages** | ✅ Done | buy/sell pipelines, listings, profile, messages implemented |
+| **Database Schema Expansion** | ✅ Done | 8 new models (DocumentVersion, DocumentAccessLog, EvidenceExhibit, EvidenceCustodyEntry, Engagement, ConflictCheck, LawyerProfile, LawyerDocument); migration `20260624_schema_expansion` applied |
+| **Legal Design: Agreement** | ✅ Done | 8 new fields; wired in schema + API |
+| **Legal Design: StampDuty** | ✅ Done | 3 new fields; migration `20260624_stamp_duty_expansion` |
+| **Screening-Calls API** | ✅ Done | `/api/screening-calls` + `/[id]` (GET/POST/PATCH/DELETE) implemented |
 | **Launch Gate (Phase 10)** | 🔄 In Progress | CAC, domain, SSL, monitoring, smoke test, env secrets |
 
 ---
+
+## Legend
 
 ## Legend
 | Symbol | Meaning |
@@ -285,9 +290,18 @@ export async function requireRole(...roles: UserRole[]) {
 | Feature | Implementation |
 |---------|----------------|
 | Create Agreement | Landlord: select listing + tenant + terms → `POST /api/agreements` |
+| Schema expansion | Agreement: `riskTier`, `jurisdictionState`, `governingStatute`, `headTenantVerified`, `pdfContentHash`, `finalizedAt`, `lockStatus`, `integrityChainHash`. StampDuty: `agreementPdfHash`, `certificateHash`, `linkageHash`. — Migration `20260624_legal_redesign` |
 | Preview | HTML template with `template_vars` → `/api/agreements/[id]/preview` |
 | E-Signature | `POST /api/agreements/[id]/sign` + consent → audit trail (IP, UA, checksum) |
 | State Machine | draft → pending_landlord → pending_tenant → tenant_signed/landlord_signed → fully_signed |
+| finalizedAt | Set when both signatures captured; feeds `integrityChainHash` |
+| integrityChainHash | SHA-256 over `pdfUrl + pdfContentHash + signatures` — tamper-evident chain |
+| lockStatus | `editable | pending_approval | locked | expired_locked` — gate PDF overwrites |
+| riskTier | `standard | elevated | high` — governs review queue routing |
+| jurisdictionState | Nigerian state binding agreement — routes to local counsel |
+| governingStatute | Cite state enabling legislation — compliance cross-check |
+| headTenantVerified | Boolean — head-of-household confirmed via NIN/BVN/JAMB |
+| pdfContentHash | SHA-256 of generated PDF bytes — re-derivable for integrity re-check |
 | PDF Generation | PDFKit on server → upload to Cloudinary → serve via `/api/agreements/[id]/pdf` |
 | Rent Schedule | Auto-generate on `fully_signed` → monthly entries with due dates |
 
@@ -301,6 +315,7 @@ export async function requireRole(...roles: UserRole[]) {
 | Escrow Release | `POST /api/payments/release-escrow/[id]` | Transfer API → payee bank |
 | Receipts | Auto-generate PDF + email | `payment_confirmed` template |
 | Fees | Rent 10%, Sale 1-2%, Agent 10%/1.5% | Computed server-side |
+| StampDuty hooks | `stamp_duty` fields set on `fully_signed` → Remita certification | Payment confirmation + legal audit |
 
 **Security:** Raw body middleware for webhook, idempotency keys, audit logging
 

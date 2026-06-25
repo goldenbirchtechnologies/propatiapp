@@ -8,12 +8,14 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Download, Eye, Building2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+type AnyDate = Date | string | null;
+
 interface AgreementDetail {
   id: string;
   type: string;
   status: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: AnyDate;
+  endDate: AnyDate;
   rentAmount: Decimal | null;
   rentPeriod: string | null;
   cautionDeposit: Decimal | null;
@@ -25,8 +27,8 @@ interface AgreementDetail {
   governingStatute: string | null;
   headTenantVerified: boolean | null;
   lockStatus: string;
-  finalizedAt: Date | null;
-  createdAt: Date;
+  finalizedAt: AnyDate;
+  createdAt: AnyDate;
   pdfUrl: string | null;
   listing: {
     id: string;
@@ -58,7 +60,7 @@ interface AgreementDetail {
   signatures: {
     id: string;
     role: string;
-    signedAt: Date;
+    signedAt: AnyDate;
     signer: { fullName: string; email: string };
   }[];
   stampDuty: {
@@ -73,8 +75,8 @@ interface AgreementDetail {
   rentSchedule: {
     id: string;
     amount: Decimal;
-    dueDate: Date;
-    paidAt: Date | null;
+    dueDate: AnyDate;
+    paidAt: AnyDate;
     status: string;
   }[];
   transactions: {
@@ -82,7 +84,7 @@ interface AgreementDetail {
     amount: bigint;
     status: string;
     type: string;
-    createdAt: Date;
+    createdAt: AnyDate;
     payer: { fullName: string };
     payee: { fullName: string };
   }[];
@@ -132,9 +134,10 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
     return config[status] || 'tag-gray';
   };
 
+  const toDate = (value: AnyDate) => (value instanceof Date ? value : new Date(value as string));
+
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -284,10 +287,12 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
               <div key={sig.id} className="flex items-center justify-between p-3 rounded-lg bg-[var(--surface-elevated)]">
                 <div>
                   <p className="font-medium" style={{ color: 'var(--text)' }}>{sig.signer.fullName}</p>
-                  <p className="text-sm" style={{ color: 'var(--muted)' }}>{sig.signer.email} · {sig.role}</p>
+                  <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                    {sig.signer.email} · {sig.role}
+                  </p>
                 </div>
                 <Badge className="tag-green">
-                  Signed {new Date(sig.signedAt).toLocaleDateString()}
+                  Signed {toDate(sig.signedAt).toLocaleDateString()}
                 </Badge>
               </div>
             ))}
@@ -362,13 +367,13 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
                 {agreement.rentSchedule.map((rs) => (
                   <tr key={rs.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
                     <td className="p-3" style={{ color: 'var(--text)' }}>
-                      {new Date(rs.dueDate).toLocaleDateString()}
+                      {toDate(rs.dueDate).toLocaleDateString()}
                     </td>
                     <td className="p-3" style={{ color: 'var(--text)' }}>
                       ₦{Number(rs.amount).toLocaleString()}
                     </td>
                     <td className="p-3" style={{ color: 'var(--text)' }}>
-                      {rs.paidAt ? new Date(rs.paidAt).toLocaleDateString() : '—'}
+                      {rs.paidAt ? toDate(rs.paidAt).toLocaleDateString() : '—'}
                     </td>
                     <td className="p-3">
                       <Badge className={rs.status === 'paid' ? 'tag-green' : 'tag-amber'}>
@@ -395,7 +400,6 @@ export default function AgreementDetailClient({ agreement }: AgreementDetailClie
         </div>
       )}
 
-      {/* Actions */}
       <div className="flex gap-3">
         {agreement.pdfUrl && (
           <a href={`/api/agreements/${agreement.id}/pdf`} target="_blank" rel="noopener noreferrer">

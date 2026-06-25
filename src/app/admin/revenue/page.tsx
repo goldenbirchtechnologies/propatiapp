@@ -24,7 +24,7 @@ export default async function RevenueReportsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role]);
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Default to current month
   const currentMonthStart = new Date();

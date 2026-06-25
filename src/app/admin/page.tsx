@@ -35,7 +35,7 @@ export default async function AdminDashboardPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role]);
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Get current month start date
   const currentMonthStart = new Date();

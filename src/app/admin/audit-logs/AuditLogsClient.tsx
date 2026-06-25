@@ -18,7 +18,7 @@ interface AuditLog {
   admin: string;
   action: string;
   target: string;
-  details: string;
+  details: string | number | boolean | object;
   timestamp: Date;
 }
 
@@ -40,7 +40,7 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
         log.admin.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.target.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.details.toLowerCase().includes(searchTerm.toLowerCase());
+        typeof log.details === "string" ? typeof log.details === "string" ? log.details.toLowerCase() : String(log.details) : String(log.details).includes(searchTerm.toLowerCase());
 
       const matchesAction = actionFilter === 'all' || log.action === actionFilter;
 
@@ -212,7 +212,7 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
                       </td>
                       <td className="p-4">
                         <p className="text-sm max-w-md" style={{ color: 'var(--muted)' }}>
-                          {log.details}
+                          {typeof log.details === "string" ? log.details : JSON.stringify(log.details)}
                         </p>
                       </td>
                       <td className="p-4">

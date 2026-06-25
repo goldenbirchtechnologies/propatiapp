@@ -25,6 +25,17 @@ type LawFirm = {
   principalPartnerCall?: string;
 };
 
+interface VerificationForm {
+  callToBarNumber: string;
+  yearOfCall: string | number;
+  nbaEnrollmentNumber: string;
+  nbaEnrollmentYear: string | number;
+  principalPartnerName: string;
+  principalPartnerCall: string;
+  verified: boolean;
+  verificationStatus: string;
+}
+
 export default function AdminLawFirmsClient() {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({
@@ -41,7 +52,7 @@ export default function AdminLawFirmsClient() {
     mode: 'verify' | 'create' | null;
     firm?: LawFirm;
   }>({ open: false, mode: null });
-  const [verificationForm, setVerificationForm] = useState({
+  const [verificationForm, setVerificationForm] = useState<VerificationForm>({
     callToBarNumber: '',
     yearOfCall: '',
     nbaEnrollmentNumber: '',
@@ -145,12 +156,13 @@ export default function AdminLawFirmsClient() {
     verifyMutation.mutate({
       firmId: drawer.firm.id,
       callToBarNumber: verificationForm.callToBarNumber,
-      yearOfCall: Number(verificationForm.yearOfCall),
+      yearOfCall: Number(verificationForm.yearOfCall) as number,
       nbaEnrollmentNumber: verificationForm.nbaEnrollmentNumber,
-      nbaEnrollmentYear: Number(verificationForm.nbaEnrollmentYear),
+      nbaEnrollmentYear: Number(verificationForm.nbaEnrollmentYear) as number,
       principalPartnerName: verificationForm.principalPartnerName,
       principalPartnerCall: verificationForm.principalPartnerCall,
       verified: verificationForm.verified,
+      verificationStatus: verificationForm.verificationStatus,
     });
   };
 

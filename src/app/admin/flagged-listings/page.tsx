@@ -24,7 +24,7 @@ export default async function FlaggedListingsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role]);
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch flagged listings
   const flaggedListings = await prisma.listing.findMany({

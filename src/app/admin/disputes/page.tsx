@@ -24,7 +24,7 @@ export default async function DisputesPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role]);
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   const [open, investigating, mediated, resolved, closed] = await Promise.all([
     prisma.dispute.count({ where: { status: 'open' } }),

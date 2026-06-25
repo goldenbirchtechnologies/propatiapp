@@ -23,9 +23,7 @@ export default async function AdminVerificationsPage() {
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  const roleRedirect = (u: typeof user) =>
-    rolePaths[u.role] ?? '/dashboard/tenant';
-  if (!user) redirect("/sign-in");
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch all verifications with listing and owner data

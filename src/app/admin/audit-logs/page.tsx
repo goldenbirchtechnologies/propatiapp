@@ -24,7 +24,7 @@ export default async function AuditLogsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role]);
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   const auditLogs = await prisma.adminAuditLog.findMany({
     include: { admin: { select: { id: true, fullName: true } } },

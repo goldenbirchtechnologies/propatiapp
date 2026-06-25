@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
-type LawFirm = { id: string; name: string };
+type LawFirm = { id: string; name: string; cacNumber: string };
 type Dispute = { id: string; type: string; status: string };
 type LawFirmCase = {
   id: string;

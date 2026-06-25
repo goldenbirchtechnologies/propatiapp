@@ -23,7 +23,8 @@ export default async function AdminSubscriptionsPage() {
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user || user.role !== 'admin') redirect(rolePaths[user?.role ?? 'tenant']);
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
 
   // Fetch initial data server-side so the page hydrates with real data
   const [plans, subscriptions] = await Promise.all([

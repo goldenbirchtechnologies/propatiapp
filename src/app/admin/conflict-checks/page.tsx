@@ -11,7 +11,8 @@ export default async function AdminConflictChecksPage() {
   if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-  if (!user || user.role !== 'admin') redirect('/dashboard/tenant');
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   return (
     <DashboardShell

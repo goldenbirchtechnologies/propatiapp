@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, errorResponse } from '@/lib/api-auth';
+import { prisma } from '@/lib/prisma';
+import { updatePricingRuleSchema } from '@/lib/validators.short-let';
 export async function PATCH(request: NextRequest, { params }: { params: { id: string; ruleId: string } }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;

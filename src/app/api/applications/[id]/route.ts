@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { updateApplicationSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { AgreementType } from '@prisma/client';
 
 export async function GET(
   request: NextRequest,
@@ -199,7 +200,7 @@ export async function PATCH(
           tenantId: application.tenantId,
           landlordId: application.landlordId,
           agentId: application.listing.agentId ?? null,
-          type: typeMap[application.listing.listingType] || 'rental',
+          type: (typeMap[application.listing.listingType] || 'rental') as AgreementType,
           status: 'draft',
           startDate: now,
           endDate: oneYearLater,

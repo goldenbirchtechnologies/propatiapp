@@ -151,6 +151,13 @@ export function canProgressToNextLayer(verification: Verification): boolean {
 }
 
 /**
+ * Check if verification is frozen
+ */
+export function isFrozen(verification: Verification): boolean {
+  return verification.overallStatus === 'frozen';
+}
+
+/**
  * Get verification tier based on completed layers
  */
 export function getVerificationTierFromProgress(verification: Verification): 'basic' | 'verified' | 'inspected' | 'certified' {
@@ -233,6 +240,10 @@ export function hasRejectedLayers(verification: Verification): boolean {
 export function getStatusMessage(verification: Verification): string {
   if (verification.overallStatus === 'certified') {
     return 'Your property is fully certified!';
+  }
+
+  if (verification.overallStatus === 'frozen') {
+    return `Verification is frozen. Reason: ${verification.frozenReason || 'Not specified'}. Please contact support.`;
   }
 
   if (verification.overallStatus === 'rejected') {

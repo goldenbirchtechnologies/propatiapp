@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       pagination: { page: Number(page) || 1, limit: take, total, totalPages: Math.ceil(total / take) },
     });
   } catch (error) {
-    return errorResponse(error);
+    return errorResponse(error instanceof Error ? error.message : 'Failed to fetch bookings', 500);
   }
 }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         listingId: validated.listingId,
         status: { not: 'cancelled' },
         OR: [
-          { checkIn: { lt: checkOut }, checkOut: { gt: checkIn } },
+        { checkIn: { lt: checkOut.toISOString().slice(0, 10) }, checkOut: { gt: checkIn.toISOString().slice(0, 10) } },
         ],
       },
     });
@@ -115,6 +115,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {
-    return errorResponse(error);
+    return errorResponse(error instanceof Error ? error.message : 'Failed to create booking', 500);
   }
 }

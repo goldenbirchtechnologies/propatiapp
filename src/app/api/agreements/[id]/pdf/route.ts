@@ -42,7 +42,7 @@ export async function GET(
     }
 
     // Only allow PDF download for fully signed agreements
-    if (agreement.status !== 'fully_signed' && agreement.status !== 'active' && agreement.status !== 'terminated') {
+    if (agreement.status !== 'fully_signed' && agreement.status !== 'terminated') {
       return NextResponse.json(
         { error: 'PDF is only available for fully signed agreements' },
         { status: 400 }

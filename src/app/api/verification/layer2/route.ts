@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
-import { verifyIdentitySchema } from '@/lib/validators';
+import { layer2IdentitySchema } from '@/lib/validators';
 import { verificationService } from '@/lib/verification';
 
 export async function POST(request: NextRequest) {
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const validated = verifyIdentitySchema.parse(body);
+    const validated = layer2IdentitySchema.parse(body);
 
     const verification = await verificationService.submitLayer2(
       validated.listingId,

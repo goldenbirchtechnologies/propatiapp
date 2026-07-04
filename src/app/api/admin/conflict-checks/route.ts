@@ -37,8 +37,6 @@ export async function GET(request: NextRequest) {
           case: {
             select: {
               id: true,
-              caseNumber: true,
-              title: true,
               status: true,
             },
           },
@@ -79,7 +77,7 @@ export async function POST(request: NextRequest) {
     // Verify case exists and get its firm
     const lawFirmCase = await prisma.lawFirmCase.findUnique({
       where: { id: validated.caseId },
-      select: { id: true, lawFirmId: true },
+      select: { id: true, firmId: true },
     });
 
     if (!lawFirmCase) {
@@ -109,8 +107,7 @@ export async function POST(request: NextRequest) {
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
+            status: true,
           },
         },
         lawFirm: {

@@ -24,7 +24,7 @@ export default async function EstateManagerAgreementsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect("/sign-in");
-  if (user.role !== 'estate_manager') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'estate_manager') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   const agreements = await prisma.agreement.findMany({
     include: {
@@ -43,7 +43,7 @@ export default async function EstateManagerAgreementsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <EstateManagerAgreementsClient initialAgreements={agreements} />
+      <EstateManagerAgreementsClient initialAgreements={agreements as any} />
     </DashboardShell>
   );
 }

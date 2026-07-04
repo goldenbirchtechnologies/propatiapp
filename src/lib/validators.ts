@@ -126,6 +126,11 @@ export const verifyIdentitySchema = z.object({
   lastName: z.string().min(2),
 });
 
+export const layer2IdentitySchema = z.object({
+  listingId: uuidSchema,
+  idType: z.enum(['nin', 'bvn']),
+});
+
 export const oldVerifyIdentitySchema = z.object({
   listingId: uuidSchema,
   idType: idTypeSchema,
@@ -273,6 +278,7 @@ export const signAgreementSchema = z.object({
   consentGiven: z.boolean().refine((val) => val === true, {
     message: 'You must consent to sign the agreement',
   }),
+  consentText: z.string().optional(),
   ipAddress: z.string().optional(),
   userAgent: z.string().optional(),
 });

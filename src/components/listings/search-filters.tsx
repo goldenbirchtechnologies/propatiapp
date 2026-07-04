@@ -369,7 +369,7 @@ export function SearchFilters({
             selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
             onChange={(v) => onChange({ listingType: v[0] as any || 'all' })}
             placeholder="All Types"
-            icon={<Home className="h-4 w-4" />}
+            icon={<Home className="h-4 w-4" /> as any}
           />
           <MultiSelectDropdown
             label="Property Type"
@@ -377,7 +377,7 @@ export function SearchFilters({
             selectedValues={filters.propertyType || []}
             onChange={(v) => onChange({ propertyType: v })}
             placeholder="All Types"
-            icon={<Building className="h-4 w-4" />}
+            icon={<Building className="h-4 w-4" /> as any}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -452,7 +452,7 @@ export function SearchFilters({
         {/* Location Filters */}
         <FilterSection
           title="Location"
-          icon={<MapPin className="h-4 w-4" />}
+          icon={<MapPin className="h-4 w-4" /> as any}
           isOpen={expandedSections.location}
           onToggle={() => toggleSection('location')}
         >
@@ -557,7 +557,7 @@ export function SearchFilters({
         {/* Price Range */}
         <FilterSection
           title="Price Range"
-          icon={<DollarSign className="h-4 w-4" />}
+          icon={<DollarSign className="h-4 w-4" /> as any}
           isOpen={expandedSections.price}
           onToggle={() => toggleSection('price')}
         >
@@ -572,7 +572,7 @@ export function SearchFilters({
         {/* Property Type & Listing Type */}
         <FilterSection
           title="Property Type"
-          icon={<Home className="h-4 w-4" />}
+          icon={<Home className="h-4 w-4" /> as any}
           isOpen={expandedSections.property}
           onToggle={() => toggleSection('property')}
         >
@@ -583,7 +583,7 @@ export function SearchFilters({
               selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
               onChange={(v) => onChange({ listingType: v[0] as any || 'all' })}
               placeholder="All Types"
-              icon={<Home className="h-4 w-4" />}
+              icon={<Home className="h-4 w-4" /> as any}
             />
             <MultiSelectDropdown
               label="Property Type"
@@ -591,7 +591,7 @@ export function SearchFilters({
               selectedValues={filters.propertyType || []}
               onChange={(v) => onChange({ propertyType: v })}
               placeholder="All Types"
-              icon={<Building className="h-4 w-4" />}
+              icon={<Building className="h-4 w-4" /> as any}
             />
           </div>
         </FilterSection>
@@ -599,7 +599,7 @@ export function SearchFilters({
         {/* Bedrooms & Bathrooms */}
         <FilterSection
           title="Rooms"
-          icon={<Bed className="h-4 w-4" />}
+          icon={<Bed className="h-4 w-4" /> as any}
           isOpen={expandedSections.features}
           onToggle={() => toggleSection('features')}
         >
@@ -706,7 +706,7 @@ export function SearchFilters({
         {/* Verification Tier */}
         <FilterSection
           title="Verification"
-          icon={<Shield className="h-4 w-4" />}
+          icon={<Shield className="h-4 w-4" /> as any}
           isOpen={expandedSections.verification}
           onToggle={() => toggleSection('verification')}
         >
@@ -716,14 +716,14 @@ export function SearchFilters({
             selectedValues={filters.verificationTier || []}
             onChange={(v) => onChange({ verificationTier: v as any })}
             placeholder="All Tiers"
-            icon={<Shield className="h-4 w-4" />}
+            icon={<Shield className="h-4 w-4" /> as any}
           />
         </FilterSection>
 
         {/* Amenities */}
         <FilterSection
           title="Amenities"
-          icon={<Square className="h-4 w-4" />}
+          icon={<Square className="h-4 w-4" /> as any}
           isOpen={expandedSections.more}
           onToggle={() => toggleSection('more')}
         >
@@ -733,7 +733,7 @@ export function SearchFilters({
             selectedValues={filters.amenities || []}
             onChange={(v) => onChange({ amenities: v })}
             placeholder="Select amenities"
-            icon={<Square className="h-4 w-4" />}
+            icon={<Square className="h-4 w-4" /> as any}
           />
         </FilterSection>
 

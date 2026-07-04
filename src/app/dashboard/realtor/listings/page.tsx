@@ -27,8 +27,8 @@ export default async function RealtorListingsPage() {
       address: true,
       price: true,
       status: true,
-      type: true,
-      viewCount: true,
+      listingType: true,
+      viewsCount: true,
       images: { where: { isCover: true }, take: 1 },
     },
     orderBy: { createdAt: 'desc' },
@@ -41,8 +41,8 @@ export default async function RealtorListingsPage() {
     location: l.address,
     price: Number(l.price),
     status: l.status,
-    type: l.type,
-    views: l.viewCount,
+    type: l.listingType,
+    views: l.viewsCount,
   }));
 
   return (

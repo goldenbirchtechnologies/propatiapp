@@ -24,7 +24,7 @@ export default async function AdminVerificationsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch all verifications with listing and owner data
   const verifications = await prisma.verification.findMany({
@@ -37,7 +37,6 @@ export default async function AdminVerificationsPage() {
           id: true,
           title: true,
           address: true,
-          city: true,
           state: true,
           propertyType: true,
           price: true,
@@ -59,7 +58,7 @@ export default async function AdminVerificationsPage() {
         },
       },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { updatedAt: 'desc' },
   });
 
   return (

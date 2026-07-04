@@ -8,7 +8,8 @@ export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
+  const userId = user.id;
 
   try {
     const user = await prisma.user.findUnique({
@@ -67,7 +68,8 @@ export async function PATCH(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
+  const userId = user.id;
 
   try {
     const body = await request.json();

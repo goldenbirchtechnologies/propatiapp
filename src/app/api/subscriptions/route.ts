@@ -120,7 +120,10 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        return successResponse({ subscription }, action === 'upgrade' ? 'Plan upgraded successfully' : 'Subscription created successfully', 201);
+        return NextResponse.json(
+          { subscription },
+          { status: 201, statusText: action === 'upgrade' ? 'Plan upgraded successfully' : 'Subscription created successfully' }
+        );
       }
 
       case 'cancel': {

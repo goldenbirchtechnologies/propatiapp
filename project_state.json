@@ -3,7 +3,6 @@
   "current_milestone": "Phase 1 — Critical Bugs & Stability",
   "kanban_board": {
     "todo": [
-      { "task_id": "DOC-001", "title": "Create Technical Requirements Document (TRD) - enterprise production spec", "phase": "Documentation", "priority": "Critical", "assigned_to": "SoftwareArchitectAgent", "dependencies": [] },
       { "task_id": "DOC-002", "title": "Create User Journey Flows document - all 5 roles with flowcharts", "phase": "Documentation", "priority": "Critical", "assigned_to": "SoftwareArchitectAgent", "dependencies": [] },
       { "task_id": "DOC-003", "title": "Create UI/UX Design Brief - design tokens, components, screens", "phase": "Documentation", "priority": "Critical", "assigned_to": "SoftwareArchitectAgent", "dependencies": [] },
       { "task_id": "DOC-004", "title": "Create Database Schema Reference - complete ERD, tables, indexes", "phase": "Documentation", "priority": "Critical", "assigned_to": "SoftwareArchitectAgent", "dependencies": [] },
@@ -21,15 +20,35 @@
       { "task_id": "TASK-011", "title": "Notification bell: topbar bell icon → dropdown via GET /api/users/notifications, mark-as-read, unread count badge", "phase": "Phase 6", "priority": "Medium", "assigned_to": "DatabaseArchitectAgent", "dependencies": [] },
       { "task_id": "TASK-012", "title": "Prembly NIN verification production: activate credentials, error handling, retry logic, audit logging", "phase": "Phase 7", "priority": "High", "assigned_to": "DatabaseArchitectAgent", "dependencies": [] }
     ],
-    "in_progress": {
-    "task_id": "DOC-001",
-    "title": "Create Technical Requirements Document (TRD) - enterprise production spec",
-    "phase": "Documentation",
-    "priority": "Critical",
-    "assigned_to": "SoftwareArchitectAgent",
-    "dependencies": [],
-    "started_at": "2026-06-16T14:00:00Z"
-  },
-    "done": []
+    "in_progress": null,
+    "done": [
+      {
+        "task_id": "DOC-001",
+        "title": "Create Technical Requirements Document (TRD) - enterprise production spec",
+        "phase": "Documentation",
+        "priority": "Critical",
+        "assigned_to": "SoftwareArchitectAgent",
+        "dependencies": [],
+        "completed_at": "2026-07-02T14:12:30+01:00"
+      },
+      {
+        "task_id": "DOC-004",
+        "title": "Create Database Schema Reference - complete ERD, tables, indexes",
+        "phase": "Documentation",
+        "priority": "Critical",
+        "assigned_to": "SoftwareArchitectAgent",
+        "dependencies": [],
+        "completed_at": "2026-07-02T14:20:00+01:00"
+      },
+      {
+        "task_id": "DOC-005",
+        "title": "Create Implementation Plan - phased, with file references from oldpropati",
+        "phase": "Documentation",
+        "priority": "Critical",
+        "assigned_to": "SoftwareArchitectAgent",
+        "dependencies": [],
+        "completed_at": "2026-07-02T14:22:00+01:00"
+      }
+    ]
   }
 }

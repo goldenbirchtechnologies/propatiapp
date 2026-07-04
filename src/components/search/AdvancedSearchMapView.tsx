@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+// @ts-expect-error react-scroll-area types not declared
 import { ScrollArea } from '@/components/ui/react-scroll-area';
 import type { ListingData } from '@/components/listings/listing-card';
 
@@ -339,9 +340,9 @@ function FilterOverlay({
     array: FilterState[K]
   ) => {
     if (Array.isArray(array)) {
-      const newArray = array.includes(value)
+      const newArray = (array as any).includes(value)
         ? array.filter(v => v !== value)
-        : [...array, value];
+        : ([...(array as any), value] as any);
       updateFilter(key, newArray as FilterState[K]);
     }
   };

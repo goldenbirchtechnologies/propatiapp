@@ -82,7 +82,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    let updateData: Record<string, unknown> = {};
+    const updateData: Record<string, unknown> = {};
 
     if (status && ['active', 'archived', 'blocked'].includes(status)) {
       updateData.status = status;

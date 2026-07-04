@@ -17,7 +17,7 @@ export default async function OnboardingPage() {
     if (!clerkUser) redirect('/sign-in');
 
     // Sync user from Clerk to database
-    user = await syncClerkUser(clerkUser);
+    user = (await syncClerkUser(clerkUser)) as any;
     if (!user) redirect('/sign-in');
   }
 

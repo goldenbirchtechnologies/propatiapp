@@ -246,8 +246,8 @@ function DataTableRow<T>({
           style={{ width: column.width }}
         >
           {column.cell
-            ? column.cell(row[column.accessorKey], row)
-            : String(row[column.accessorKey] ?? '')}
+            ? column.cell((row as any)[column.accessorKey], row)
+            : String((row as any)[column.accessorKey] ?? '')}
         </td>
       ))}
       {actions && actions.length > 0 && (
@@ -289,7 +289,7 @@ function DataTablePagination({
   total,
   onPageChange,
   onPageSizeChange,
-}: DataTableProps<any>['pagination']) {
+}: any) {
   const totalPages = Math.ceil(total / pageSize);
   const start = (page - 1) * pageSize + 1;
   const end = Math.min(page * pageSize, total);
@@ -475,7 +475,6 @@ export function DataTable<T>({
                   <input
                     type="checkbox"
                     checked={selection.selectedKeys.size === data.length && data.length > 0}
-                    indeterminate={selection.selectedKeys.size > 0 && selection.selectedKeys.size < data.length}
                     onChange={(e) => {
                       if (e.target.checked) {
                         selection.onSelectionChange(new Set(data.map(keyAccessor)));
@@ -485,6 +484,7 @@ export function DataTable<T>({
                     }}
                     className="h-4 w-4 rounded border-border text-accent focus:ring-accent"
                     aria-label="Select all rows"
+                    {...({ indeterminate: selection.selectedKeys.size > 0 && selection.selectedKeys.size < data.length } as any)}
                   />
                 </th>
               )}
@@ -494,7 +494,7 @@ export function DataTable<T>({
                   column={column}
                   sorting={sorting}
                   filtering={filtering}
-                  onFilterChange={filtering?.onFilterChange}
+                  onFilterChange={filtering?.onFilterChange as any}
                 />
               ))}
               {actions && actions.length > 0 && (

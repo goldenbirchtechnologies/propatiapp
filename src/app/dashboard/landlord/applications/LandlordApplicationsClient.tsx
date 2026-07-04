@@ -13,6 +13,13 @@ import {
 import { Building2, Users, Clock, CheckCircle, XCircle, Loader2, ShieldCheck, BadgeCheck } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+export function EmptyState() {
+  return (
+    <div className="rounded-lg border border-dashed border-border bg-muted/40 p-8 text-center text-muted-foreground">
+      No applications yet.
+    </div>
+  );
+}
 import { useRouter } from 'next/navigation';
 
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
@@ -263,14 +270,15 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </p>
                       </td>
                       <td className="p-4">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => openReview(app)}
-                          disabled={!isActionable}
-                        >
-                          {isActionable ? 'Review' : 'View'}
-                        </Button>
+                        <Link href={`/dashboard/landlord/applications/${app.id}`}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={!isActionable}
+                          >
+                            {isActionable ? 'Review' : 'View'}
+                          </Button>
+                        </Link>
                       </td>
                     </tr>
                   );

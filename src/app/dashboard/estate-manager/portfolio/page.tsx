@@ -35,10 +35,11 @@ export default function PortfolioPage() {
   const org = orgsData?.data?.[0];
   const orgId = org?.id;
 
+  // Only fetch listings when we have a valid organization ID to avoid repeated requests
   const { data: listingsData, isLoading: listingsLoading } = useOrganizationListings(
-    orgId || '',
+    orgId ?? '',
     { limit: 100 },
-    !!orgId
+    Boolean(orgId)
   );
 
   const listings = listingsData?.data || [];

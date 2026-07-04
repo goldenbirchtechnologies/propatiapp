@@ -19,6 +19,8 @@ export default async function AgentPipelinePage() {
     redirect('/dashboard');
   }
 
+  const STAGE_COLORS: any = {};
+
   const agentId = user.id;
 
   const [
@@ -109,6 +111,7 @@ export default async function AgentPipelinePage() {
     {
       id: 'enquiries',
       title: 'Enquiries',
+      color: STAGE_COLORS.enquiries,
       deals: enquiries.map((l) => ({
         id: l.id,
         title: l.title,
@@ -122,6 +125,7 @@ export default async function AgentPipelinePage() {
     {
       id: 'viewings',
       title: 'Viewings',
+      color: STAGE_COLORS.viewings,
       deals: viewings.map((v) => ({
         id: v.id,
         title: `Inspection - ${v.listing.title}`,
@@ -135,6 +139,7 @@ export default async function AgentPipelinePage() {
     {
       id: 'offers',
       title: 'Offers',
+      color: STAGE_COLORS.offers,
       deals: offers.map((a) => ({
         id: a.id,
         title: `${a.type} - ${a.listing.title}`,
@@ -148,6 +153,7 @@ export default async function AgentPipelinePage() {
     {
       id: 'agreements',
       title: 'Agreements',
+      color: STAGE_COLORS.agreements,
       deals: agreements.map((a) => ({
         id: a.id,
         title: `${a.type} - ${a.listing.title}`,
@@ -161,6 +167,7 @@ export default async function AgentPipelinePage() {
     {
       id: 'closed',
       title: 'Closed',
+      color: STAGE_COLORS.closed,
       deals: closed.map((a) => ({
         id: a.id,
         title: `${a.type} - ${a.listing.title}`,

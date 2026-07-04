@@ -76,7 +76,7 @@ export async function POST(
     // Note: In production, you'd need to have recipient codes set up for payee and agent
     // For now, we'll just update the status and create transfer records
 
-    const transferResults = [];
+    const transferResults: Array<{ to: string; transferId: string; amount: bigint | number | null }> = [];
 
     // Transfer to payee (landlord)
     if (validated.releaseTo === 'payee' || validated.releaseTo === 'split') {

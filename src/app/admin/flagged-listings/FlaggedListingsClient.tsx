@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ActionConfirmationDialog } from '@/components/admin/action-confirmation-dialog';
-import { ExternalLink, XCircle, AlertTriangle, Ban } from 'lucide-react';
+import Link from 'next/link';
+import { ExternalLink, XCircle, AlertTriangle, Ban, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
@@ -19,11 +20,11 @@ interface FlaggedListing {
   };
   flags: {
     id: string;
-    reason: string;
+    reason?: string | null;
     details: string | null;
     status: string;
     createdAt: Date;
-    flagger: {
+    flaggedByUser: {
       id: string;
       fullName: string;
       email: string;
@@ -208,9 +209,11 @@ export default function FlaggedListingsClient({
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => window.open(`/listings/${listing.id}`, '_blank')}
+                        asChild
                       >
-                        <ExternalLink className="h-4 w-4" />
+                        <Link href={`/admin/flagged-listings/${listing.id}`}>
+                          <Eye className="h-4 w-4 mr-1" /> Review
+                        </Link>
                       </Button>
                       <Button
                         size="sm"

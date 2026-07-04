@@ -58,7 +58,7 @@ export default function TeamManagementPage() {
   `}</style>
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState<string>('maintenance');
+  const [inviteRole, setInviteRole] = useState<'manager' | 'accountant' | 'maintenance' | 'owner_view'>('maintenance');
   const [memberToRemove, setMemberToRemove] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -216,7 +216,7 @@ export default function TeamManagementPage() {
               </div>
               <div>
                 <Label>Role</Label>
-                <Select value={inviteRole} onValueChange={setInviteRole}>
+                <Select value={inviteRole} onValueChange={(value) => setInviteRole(value as 'manager' | 'accountant' | 'maintenance' | 'owner_view')}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

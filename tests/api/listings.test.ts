@@ -38,9 +38,9 @@ vi.mock('@/lib/rate-limit', () => {
   mockGetRateLimitHeaders = vi.fn(() => ({}));
 
   return {
-    withRateLimit: (...args: unknown[]) => mockWithRateLimit(...args),
+    withRateLimit: (...args: unknown[]) => (mockWithRateLimit as any)(...args),
     apiRateLimiter: {},
-    getRateLimitHeaders: (...args: unknown[]) => mockGetRateLimitHeaders(...args),
+    getRateLimitHeaders: (...args: unknown[]) => (mockGetRateLimitHeaders as any)(...args),
   };
 });
 
@@ -49,7 +49,7 @@ vi.mock('@/lib/api-auth', () => {
   mockWithAuth = vi.fn();
 
   return {
-    withAuth: (...args: unknown[]) => mockWithAuth(...args),
+    withAuth: (...args: unknown[]) => (mockWithAuth as any)(...args),
     errorResponse: vi.fn(),
   };
 });
@@ -59,13 +59,12 @@ vi.mock('@/lib/fees', () => {
   mockFormatCurrencyKobo = vi.fn((amount: number) => `${amount / 100}`);
 
   return {
-    formatCurrencyKobo: (...args: unknown[]) => mockFormatCurrencyKobo(...args),
+    formatCurrencyKobo: (...args: unknown[]) => (mockFormatCurrencyKobo as any)(...args),
   };
 });
 
 import { GET, POST } from '@/app/api/listings/route';
 import { NextRequest } from 'next/server';
-import { listingFilterSchema } from '@/lib/validators';
 
 // --- Helpers ---
 

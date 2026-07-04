@@ -11,7 +11,7 @@ export async function PATCH(
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
   const notificationId = params.id;
 
   try {
@@ -27,7 +27,7 @@ export async function PATCH(
       );
     }
 
-    if (notification.userId !== userId) {
+    if (notification.userId !== user.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 403 }

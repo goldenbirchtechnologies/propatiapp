@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { computeFees } from './fees';
+import { createHmac } from 'crypto';
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const PAYSTACK_BASE_URL = 'https://api.paystack.co';
@@ -331,9 +332,7 @@ class PaystackClient {
 
   // Webhook verification
   verifyWebhookSignature(payload: string, signature: string): boolean {
-    const crypto = require('crypto');
-    const hash = crypto
-      .createHmac('sha512', this.secretKey)
+    const hash = createHmac('sha512', this.secretKey)
       .update(payload)
       .digest('hex');
     return hash === signature;

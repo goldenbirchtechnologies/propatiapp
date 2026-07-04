@@ -22,15 +22,14 @@ interface VerificationData {
   listing: {
     title: string;
     address: string;
-    city: string;
     state: string;
-    propertyType: string;
-    price: number;
+    propertyType: string | null;
+    price: any;
   };
   owner: {
     fullName: string;
     email: string;
-    phone?: string;
+    phone?: string | null;
   };
   currentLayer: number;
   overallStatus: string;
@@ -39,12 +38,12 @@ interface VerificationData {
     documentType: string;
     url: string;
   }[];
-  layer2Status?: string;
-  layer3VideoUrl?: string;
-  layer3Status?: string;
-  layer4InspectionReport?: string;
-  layer4Status?: string;
-  adminNotes?: string;
+  layer2Status?: string | null;
+  layer3VideoUrl?: string | null;
+  layer3Status?: string | null;
+  layer4InspectionReport?: string | null;
+  layer4Status?: string | null;
+  adminNotes?: string | null;
 }
 
 interface VerificationReviewModalProps {
@@ -80,10 +79,10 @@ export function VerificationReviewModal({
     }
   };
 
-  const handleReject = async (reason: string) => {
+  const handleReject = async (reason?: string | undefined) => {
     setLoading(true);
     try {
-      await onReject(verification.id, reason);
+      await onReject(verification.id, (reason as any) ?? '');
       setNotes('');
       onOpenChange(false);
     } finally {
@@ -143,7 +142,7 @@ export function VerificationReviewModal({
                 <div>
                   <span style={{ color: 'var(--muted)' }}>City/State:</span>
                   <p style={{ color: 'var(--text)' }}>
-                    {verification.listing.city}, {verification.listing.state}
+                    {verification.listing.address}, {verification.listing.state}
                   </p>
                 </div>
                 <div>
@@ -378,7 +377,7 @@ export function VerificationReviewModal({
         title="Reject Verification"
         description="Please provide a reason for rejecting this verification. The landlord will be notified."
         confirmText="Reject"
-        onConfirm={handleReject}
+        onConfirm={handleReject as any}
         danger={true}
         requireReason={true}
         reasonLabel="Rejection Reason"

@@ -39,6 +39,7 @@ export const updateUtilityAllocationSchema = z.object({
   reading: z.number().nonnegative().optional(),
   amount: z.number().nonnegative().optional(),
   currency: z.string().optional(),
+  billingPeriod: z.string().min(4).max(20).optional(),
   dueDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   status: invoiceStatusSchema.optional(),
 });

@@ -23,69 +23,90 @@ export default async function UserDetailPage({ params }: { params: { id: string 
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user) redirect("/sign-in");
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
-  // Fetch user details
-  const targetUser = await prisma.user.findUnique({
-    where: { id: params.id },
-    include: {
-      ownedListings: {
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          title: true,
-          propertyType: true,
-          price: true,
-          status: true,
-          createdAt: true,
+  try {
+    const [targetUser, revenueData] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: params.id },
+        include: {
+          ownedListings: {
+            take: 10,
+            orderBy: { createdAt: 'desc' },
+            select: {
+              id: true,
+              title: true,
+              propertyType: true,
+              price: true,
+              status: true,
+              createdAt: true,
+            },
+          },
+          _count: true,
         },
-      },
-      participatedTransactions: {
-        take: 10,
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          type: true,
-          amount: true,
-          status: true,
-          createdAt: true,
-        },
-      },
-      _count: {
-        select: {
-          ownedListings: true,
-          participatedTransactions: true,
-        },
-      },
-    },
-  });
+      }),
+      prisma.transaction.aggregate({
+        where: { payerId: params.id, status: 'released' },
+        _sum: { amount: true, platformFee: true },
+      }),
+    ]);
 
-  if (!targetUser) {
-    redirect('/admin/users');
+    if (!targetUser) {
+      redirect('/admin/users');
+    }
+
+    const normalizedRevenue = {
+      _sum: {
+        amount: typeof revenueData._sum.amount === 'bigint' ? Number(revenueData._sum.amount) : (revenueData._sum.amount ?? null),
+        platformFee: typeof revenueData._sum.platformFee === 'bigint' ? Number(revenueData._sum.platformFee) : (revenueData._sum.platformFee ?? null),
+      },
+    };
+
+    return (
+      <DashboardShell
+        navigation={ADMIN_NAVIGATION}
+        userRole={user.role}
+        userName={user.fullName}
+        userAvatar={user.avatarUrl || undefined}
+      >
+        <UserDetailClient
+          user={{
+            ...targetUser,
+            ownedListings: targetUser.ownedListings.map((listing) => ({
+              ...listing,
+              propertyType: listing.propertyType ?? '',
+              price: typeof listing.price === 'number' ? listing.price : Number(listing.price),
+            })),
+          }}
+          revenueData={normalizedRevenue}
+        />
+      </DashboardShell>
+    );
+  } catch (error) {
+    return (
+      <DashboardShell
+        navigation={ADMIN_NAVIGATION}
+        userRole={user.role}
+        userName={user.fullName}
+        userAvatar={user.avatarUrl || undefined}
+      >
+        <UserDetailClient
+          user={{
+            id: params.id,
+            fullName: 'Unknown',
+            email: '',
+            phone: null,
+            role: 'tenant',
+            isActive: false,
+            createdAt: new Date(),
+            ownedListings: [],
+            _count: { ownedListings: 0, participatedTransactions: 0 },
+          }}
+          revenueData={{ _sum: { amount: null, platformFee: null } }}
+          initialError={error instanceof Error ? error.message : 'Failed to load user details'}
+        />
+      </DashboardShell>
+    );
   }
-
-  // Calculate total revenue from user's transactions
-  const revenueData = await prisma.transaction.aggregate({
-    where: {
-      payerId: params.id,
-      status: 'released',
-    },
-    _sum: {
-      amount: true,
-      platformFee: true,
-    },
-  });
-
-  return (
-    <DashboardShell
-      navigation={ADMIN_NAVIGATION}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <UserDetailClient user={targetUser} revenueData={revenueData} />
-    </DashboardShell>
-  );
 }

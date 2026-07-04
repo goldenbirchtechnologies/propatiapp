@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -169,11 +170,13 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
               <CardContent className="flex-1 p-0">
                 <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'var(--surface)' }}>
                   {(currentDeals[stage.id] || []).map((deal) => (
-                    <Card key={deal.id} className="p-3 cursor-pointer transition-all hover:shadow-md" style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}>
-                      <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{deal.title}</p>
-                      <p className="text-xs" style={{ color: 'var(--muted)' }}>Client: {deal.client}</p>
-                      <p className="text-sm font-bold mt-2" style={{ color: 'var(--text)' }}>₦{deal.value.toLocaleString()}</p>
-                    </Card>
+                    <Link key={deal.id} href={`/dashboard/realtor/deals/${deal.id}`} className="block">
+                      <Card className="p-3 cursor-pointer transition-all hover:shadow-md" style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}>
+                        <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{deal.title}</p>
+                        <p className="text-xs" style={{ color: 'var(--muted)' }}>Client: {deal.client}</p>
+                        <p className="text-sm font-bold mt-2" style={{ color: 'var(--text)' }}>₦{deal.value.toLocaleString()}</p>
+                      </Card>
+                    </Link>
                   ))}
                   {(currentDeals[stage.id] || []).length === 0 && (
                     <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed var(--border)' }}>

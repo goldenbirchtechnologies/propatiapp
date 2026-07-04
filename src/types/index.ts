@@ -14,10 +14,12 @@ declare module '@clerk/nextjs/server' {
     agentAreas?: string[];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface UserPrivateMetadata {
     // Private metadata (not exposed to client)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface UserUnsafeMetadata {
     // Unsafe metadata (can be modified from client)
   }

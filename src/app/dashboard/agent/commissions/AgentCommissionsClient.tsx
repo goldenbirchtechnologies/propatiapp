@@ -1,99 +1,329 @@
 'use client';
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { DollarSign, TrendingUp, Download } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { cn, formatCurrency } from '@/lib/utils';
+import {
+  DollarSign,
+  TrendingUp,
+  Download,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  Table2,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { FailureState } from '@/components/feedback/FailureState';
+import { LoadingState } from '@/components/feedback/LoadingState';
 
-type Commission = {
+// ─── Types ────────────────────────────────────────────────────────────────────
+type CommissionStatus = 'paid' | 'pending' | 'cancelled';
+
+interface Commission {
   id: string;
   deal: string;
   amount: number;
   rate: string;
   date: string;
-  status: string;
+  status: CommissionStatus;
   client: string;
+}
+
+// ─── Props ────────────────────────────────────────────────────────────────────
+interface AgentCommissionsClientProps {
+  initialCommissions: Commission[];
+  totalEarned: number;
+  totalPaid: number;
+  totalPending: number;
+  onRetry?: () => void;
+}
+
+// ─── Status config ────────────────────────────────────────────────────────────
+const statusConfig: Record<CommissionStatus, { class: string; label: string }> = {
+  paid: { class: 'tag-green', label: 'Paid' },
+  pending: { class: 'tag-amber', label: 'Pending' },
+  cancelled: { class: 'tag-red', label: 'Cancelled' },
 };
 
-const statusConfig: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Paid' },
-  pending: { class: 'bg-amber-50 text-amber-700 border-amber-200', label: 'Pending' },
-  cancelled: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Cancelled' },
-};
+// ─── Skeleton helpers ─────────────────────────────────────────────────────────
+const SkeletonStat = () => (
+  <div className="card p-5">
+    <Skeleton className="h-3 w-20 mb-2" />
+    <Skeleton className="h-8 w-24" />
+  </div>
+);
 
+const SkeletonRow = () => (
+  <div className="card">
+    <div className="p-5 flex items-center gap-4">
+      <Skeleton className="h-4 w-1/3 flex-shrink-0" />
+      <Skeleton className="h-4 w-20 flex-shrink-0" />
+      <Skeleton className="h-4 w-24 flex-shrink-0" />
+      <Skeleton className="h-5 w-16 rounded-full flex-shrink-0" />
+      <Skeleton className="h-4 w-20 flex-shrink-0 hidden lg:block" />
+    </div>
+  </div>
+);
+
+// ─── Stat Card ────────────────────────────────────────────────────────────────
+function CommissionStatCard({
+  label,
+  value,
+  icon: Icon,
+  accent,
+}: {
+  label: string;
+  value: number;
+  icon: React.ReactNode;
+  accent?: string;
+}) {
+  return (
+    <div className="card p-5">
+      <div className="flex items-center gap-3">
+        <div
+          className="p-2 rounded-full flex-shrink-0"
+          style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}
+        >
+          {Icon}
+        </div>
+        <div>
+          <p className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+            {label}
+          </p>
+          <p
+            className="text-2xl font-heading font-bold"
+            style={{
+              color: accent || 'var(--text)',
+            }}
+          >
+            {formatCurrency(value)}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Empty State ──────────────────────────────────────────────────────────────
+function EmptyState() {
+  return (
+    <div className="card p-12 text-center">
+      <DollarSign className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.4 }} />
+      <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+        No commissions yet
+      </h3>
+      <p className="text-sm mb-6 max-w-sm mx-auto" style={{ color: 'var(--muted)' }}>
+        Your earnings will appear here when deals are closed and transactions are released for you.
+      </p>
+      <Button variant="outline" asChild>
+        <a href="/dashboard/agent/pipeline">View Deal Pipeline</a>
+      </Button>
+    </div>
+  );
+}
+
+// ─── Commission Row ───────────────────────────────────────────────────────────
+function CommissionRow({ commission }: { commission: Commission }) {
+  const sc = statusConfig[commission.status] || statusConfig.pending;
+
+  const labelClass = cn(
+    'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border',
+    sc.class
+  );
+
+  return (
+    <div className="card">
+      <div className="p-5 flex flex-wrap items-center gap-4">
+        {/* Deal */}
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+            {commission.deal}
+          </p>
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+            Client: {commission.client}
+          </p>
+        </div>
+
+        {/* Amount */}
+        <div className="text-right flex-shrink-0">
+          <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>
+            {formatCurrency(commission.amount)}
+          </p>
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+            @ {commission.rate}
+          </p>
+        </div>
+
+        {/* Status badge */}
+        <span className={labelClass}>{sc.label}</span>
+
+        {/* Date */}
+        <div className="hidden lg:block flex-shrink-0" style={{ minWidth: 70 }}>
+          <p
+            className="text-sm"
+            style={{ color: 'var(--muted)' }}
+          >
+            {new Date(commission.date).toLocaleDateString('en-NG', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Filter bar sub-component ─────────────────────────────────────────────────
+function FilterBar({
+  filter,
+  setFilter,
+  counts,
+}: {
+  filter: string;
+  setFilter: (v: string) => void;
+  counts: { all: number; paid: number; pending: number; cancelled: number };
+}) {
+  return (
+    <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+          <Table2 className="w-3.5 h-3.5 inline mr-1" />
+          Filter
+        </span>
+        {[
+          { value: 'all', label: 'All' },
+          { value: 'paid', label: 'Paid' },
+          { value: 'pending', label: 'Pending' },
+          { value: 'cancelled', label: 'Cancelled' },
+        ].map((f) => (
+          <button
+            key={f.value}
+            onClick={() => setFilter(f.value)}
+            className={cn(
+              'px-3 py-1.5 rounded-md text-sm font-medium border transition-all',
+              filter === f.value
+                ? 'bg-accent/10 text-accent border-accent/30'
+                : 'border-transparent hover:bg-muted/50'
+            )}
+          >
+            {f.label}
+            <Badge
+              variant="secondary"
+              className="ml-2 text-xs px-1.5 py-0 min-w-[20px]"
+            >
+              {counts[f.value as keyof typeof counts]}
+            </Badge>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Client Component ────────────────────────────────────────────────────
 export default function AgentCommissionsClient({
   initialCommissions,
   totalEarned,
   totalPaid,
   totalPending,
-}: {
-  initialCommissions: Commission[];
-  totalEarned: number;
-  totalPaid: number;
-  totalPending: number;
-}) {
-  const [filter, setFilter] = useState('all');
-  const filtered = filter === 'all' ? initialCommissions : initialCommissions.filter((c) => c.status === filter);
+  onRetry,
+}: AgentCommissionsClientProps) {
+  const [error, setError] = useState<Error | null>(null);
+  const [filter, setFilter] = useState<string>('all');
+
+  const retry = useCallback(() => {
+    setError(null);
+    onRetry?.();
+  }, [onRetry]);
+
+  // Stats (static from server pre-fetch)
+  const commissions = initialCommissions;
+  const counts = {
+    all: commissions.length,
+    paid: commissions.filter((c) => c.status === 'paid').length,
+    pending: commissions.filter((c) => c.status === 'pending').length,
+    cancelled: commissions.filter((c) => c.status === 'cancelled').length,
+  };
+
+  const filtered =
+    filter === 'all'
+      ? commissions
+      : commissions.filter((c) => c.status === filter);
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <PageHeader />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <CommissionStatCard label="Total Earned" value={0} icon={<DollarSign className="w-5 h-5" />} />
+          <CommissionStatCard label="Paid Out" value={0} icon={<CheckCircle2 className="w-5 h-5" />} accent="var(--text, #16a34a)" />
+          <CommissionStatCard label="Pending" value={0} icon={<Clock className="w-5 h-5" />} accent="var(--text, #d97706)" />
+        </div>
+        <FailureState
+          title="Unable to load commissions"
+          description={error.message}
+          onRetry={retry}
+          className="py-12"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Commissions</h1>
-        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Track earnings and payouts per deal</p>
-      </div>
+      <PageHeader />
 
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="card p-4">
-          <p className="text-xs" style={{ color: 'var(--muted)' }}>Total Earned</p>
-          <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>₦{totalEarned.toLocaleString()}</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-xs text-green-600">Paid Out</p>
-          <p className="text-2xl font-bold text-green-600">₦{totalPaid.toLocaleString()}</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-xs text-amber-600">Pending</p>
-          <p className="text-2xl font-bold text-amber-600">₦{totalPending.toLocaleString()}</p>
-        </div>
+        <CommissionStatCard label="Total Earned" value={totalEarned} icon={<DollarSign className="w-5 h-5" />} />
+        <CommissionStatCard label="Paid Out" value={totalPaid} icon={<CheckCircle2 className="w-5 h-5" />} />
+        <CommissionStatCard label="Pending" value={totalPending} icon={<Clock className="w-5 h-5" />} />
       </div>
 
-      <div className="card p-4 flex flex-wrap gap-4 items-center justify-between">
-        <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>Commission summary</p>
-        <button className="btn btn-outline inline-flex items-center gap-2"><Download className="w-4 h-4" /> Export CSV</button>
+      {/* Export bar */}
+      <div className="card p-4 flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+          Commission summary
+        </p>
+        <Button variant="outline" className="gap-2" asChild>
+          <a href="#" onClick={(e) => e.preventDefault()}>
+            <Download className="w-4 h-4" />
+            Export CSV
+          </a>
+        </Button>
       </div>
 
-      <div className="card overflow-hidden">
+      {/* Filter */}
+      <FilterBar filter={filter} setFilter={setFilter} counts={counts} />
+
+      {/* List */}
+      <div className="space-y-3">
         {filtered.length === 0 ? (
-          <div className="card-body text-center py-16">
-            <p style={{ color: 'var(--muted)' }}>No commissions yet</p>
-          </div>
+          <EmptyState />
         ) : (
-          <table className="w-full">
-            <thead><tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Deal</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Client</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Amount</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Rate</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Date</th>
-            </tr></thead>
-            <tbody>
-              {filtered.map((c) => {
-                const sc = statusConfig[c.status] || statusConfig.pending;
-                return (
-                  <tr key={c.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'var(--border)' }}>
-                    <td className="p-4 font-medium text-sm" style={{ color: 'var(--text)' }}>{c.deal}</td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{c.client}</td>
-                    <td className="p-4 text-sm font-bold" style={{ color: 'var(--text)' }}>₦{c.amount.toLocaleString()}</td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{c.rate}</td>
-                    <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{new Date(c.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          filtered.map((c) => <CommissionRow key={c.id} commission={c} />)
         )}
       </div>
+    </div>
+  );
+}
+
+// ─── Page Header ─────────────────────────────────────────────────────────────
+function PageHeader() {
+  return (
+    <div>
+      <h1
+        className="font-heading font-bold"
+        style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+      >
+        Commissions
+      </h1>
+      <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+        Track earnings and payouts per deal
+      </p>
     </div>
   );
 }

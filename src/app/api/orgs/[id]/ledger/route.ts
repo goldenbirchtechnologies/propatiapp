@@ -157,7 +157,15 @@ export async function GET(
     }, {} as Record<string, unknown>);
 
     // Get unit-based rent ledger if requested
-    let unitRentData = null;
+    let unitRentData: Array<{
+      unitId: string;
+      unitNumber: string;
+      buildingName: string | null;
+      rent: number;
+      status: string;
+      occupancy: string;
+      tenant: { id: string; email: string; phone: string | null; fullName: string } | null;
+    }> | null = null;
     if (unitId || exportFormat === 'csv') {
       const units = await prisma.unit.findMany({
         where: {

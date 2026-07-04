@@ -126,7 +126,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify agreement if provided
-    let agreement = null;
+    let agreement: {
+      id: string;
+      status: string;
+      tenantId: string;
+      landlordId: string;
+      agentId: string | null;
+    } | null = null;
     if (validated.agreementId) {
       agreement = await prisma.agreement.findUnique({
         where: { id: validated.agreementId },

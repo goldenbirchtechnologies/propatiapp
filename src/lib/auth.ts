@@ -2,13 +2,54 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { prisma } from './prisma';
 import { UserRole } from '@prisma/client';
 
+async function ensurePrismaUserFromClerk() {
+  const clerkUser = await currentUser();
+  if (!clerkUser) return null;
+
+  const email = clerkUser.emailAddresses[0]?.emailAddress ?? '';
+  const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
+               (clerkUser.publicMetadata?.role as UserRole) ??
+               'tenant';
+  const fullName = `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || email;
+  const phone = clerkUser.phoneNumbers[0]?.phoneNumber ?? null;
+
+  const commonData = {
+    email,
+    fullName,
+    avatarUrl: clerkUser.imageUrl,
+    phone,
+    role,
+  };
+
+  const byClerkId = await prisma.user.findUnique({ where: { clerkId: clerkUser.id } });
+  if (byClerkId) {
+    return prisma.user.update({ where: { clerkId: clerkUser.id }, data: commonData });
+  }
+
+  const byEmail = email ? await prisma.user.findFirst({ where: { email } }) : null;
+  if (byEmail) {
+    return prisma.user.update({ where: { id: byEmail.id }, data: { ...commonData, clerkId: clerkUser.id } });
+  }
+
+  return prisma.user.create({
+    data: {
+      clerkId: clerkUser.id,
+      ...commonData,
+      isActive: true,
+      isBanned: false,
+    },
+  });
+}
+
 export async function getCurrentUser() {
   const { userId } = await auth();
   if (!userId) return null;
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-  });
+  let user = await prisma.user.findUnique({ where: { clerkId: userId } });
+
+  if (!user) {
+    user = await ensurePrismaUserFromClerk();
+  }
 
   return user;
 }
@@ -37,16 +78,16 @@ export async function getCurrentUserId() {
 export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof currentUser>>) {
   if (!clerkUser) return null;
 
-  const existingUser = await prisma.user.findUnique({
-    where: { clerkId: clerkUser.id },
-  });
+  const email = clerkUser.emailAddresses[0]?.emailAddress ?? '';
+  const fullName = `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || email;
 
-  if (existingUser) {
+  const existing = await prisma.user.findUnique({ where: { clerkId: clerkUser.id } });
+  if (existing) {
     return prisma.user.update({
       where: { clerkId: clerkUser.id },
       data: {
-        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
-        fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim(),
+        email,
+        fullName,
         avatarUrl: clerkUser.imageUrl,
         phone: clerkUser.phoneNumbers[0]?.phoneNumber ?? null,
         updatedAt: new Date(),
@@ -54,8 +95,21 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
     });
   }
 
-  // Determine role from Clerk metadata or default to tenant
-  // Check unsafeMetadata first (user-submitted during signup), then publicMetadata (admin-set)
+  const byEmail = email ? await prisma.user.findFirst({ where: { email } }) : null;
+  if (byEmail) {
+    return prisma.user.update({
+      where: { id: byEmail.id },
+      data: {
+        clerkId: clerkUser.id,
+        email,
+        fullName,
+        avatarUrl: clerkUser.imageUrl,
+        phone: clerkUser.phoneNumbers[0]?.phoneNumber ?? null,
+        updatedAt: new Date(),
+      },
+    });
+  }
+
   const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
                (clerkUser.publicMetadata?.role as UserRole) ??
                'tenant';
@@ -63,12 +117,12 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
   return prisma.user.create({
     data: {
       clerkId: clerkUser.id,
-      email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
-      fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim(),
+      email,
+      fullName,
       avatarUrl: clerkUser.imageUrl,
       phone: clerkUser.phoneNumbers[0]?.phoneNumber ?? null,
       role,
-      password: 'clerk_managed', // Placeholder since Clerk handles auth
+      password: 'clerk_managed',
       isActive: true,
     },
   });
@@ -90,7 +144,7 @@ export async function getCurrentUserWithProfile() {
   const { userId } = await auth();
   if (!userId) return null;
 
-  const user = await prisma.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: { clerkId: userId },
     include: {
       ownedOrganisations: true,
@@ -100,6 +154,20 @@ export async function getCurrentUserWithProfile() {
       },
     },
   });
+
+  if (!user) {
+    await ensurePrismaUserFromClerk();
+    user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        ownedOrganisations: true,
+        orgMemberships: {
+          where: { status: 'active' },
+          include: { org: true },
+        },
+      },
+    });
+  }
 
   return user;
 }

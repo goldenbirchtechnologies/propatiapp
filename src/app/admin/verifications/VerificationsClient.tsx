@@ -13,15 +13,14 @@ interface Verification {
   listingId: string;
   currentLayer: number;
   overallStatus: string;
-  createdAt: Date;
+  updatedAt: Date;
   listing: {
     id: string;
     title: string;
     address: string;
-    city: string;
     state: string;
-    propertyType: string;
-    price: number;
+    propertyType: string | null;
+    price: any;
   };
   owner: {
     id: string;
@@ -172,7 +171,7 @@ export default function VerificationsClient({ verifications: initialVerification
                       {verification.listing.title}
                     </p>
                     <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                      {verification.listing.city}, {verification.listing.state}
+                      {verification.listing.state}
                     </p>
                   </div>
                 </td>
@@ -187,7 +186,7 @@ export default function VerificationsClient({ verifications: initialVerification
                   </div>
                 </td>
                 <td className="p-4" style={{ color: 'var(--text)' }}>
-                  {new Date(verification.createdAt).toLocaleDateString()}
+                  {new Date(verification.updatedAt).toLocaleDateString()}
                 </td>
                 <td className="p-4">
                   <Badge className={getStatusBadge(verification.overallStatus)}>

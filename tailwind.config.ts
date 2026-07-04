@@ -61,30 +61,51 @@ const config: Config = {
         },
         success: 'hsl(var(--success))',
         warning: 'hsl(var(--warning))',
+        frozen: {
+          DEFAULT: 'hsl(var(--frozen))',
+          foreground: 'hsl(var(--on-frozen))',
+        },
 
-        // Stitch Design Tokens - Surface Colors
+        // Reference surface tokens (RGB values match ui_design_reference)
         surface: {
           DEFAULT: '#f9f9ff',
           dim: '#cfdaf2',
           bright: '#f9f9ff',
           container: {
             lowest: '#ffffff',
-            low: '#f0f3ff',
-            DEFAULT: '#e7eeff',
-            high: '#dee8ff',
-            highest: '#d8e3fb',
+            low: '#f1f3ff',
+            DEFAULT: '#e8eeff',
+            high: '#e3e8f9',
+            highest: '#dde2f3',
           },
-          variant: '#d8e3fb',
+          variant: '#dde2f3',
           tint: '#006b5b',
         },
         'on-surface': {
-          DEFAULT: '#111c2d',
-          variant: '#3e4946',
+          DEFAULT: '#161c27',
+          variant: '#43474d',
         },
         'inverse-surface': '#263143',
         'inverse-on-surface': '#ecf1ff',
 
-        // Stitch Design Tokens - Primary (Residential Teal)
+        // Reference primary / dark shell
+        'primary-dark': '#000f22',
+        'primary-container': '#0a2540',
+
+        // Reference indicator / gold
+        'secondary-amber': '#F5A623',
+        'secondary-container': '#feae2c',
+        'on-secondary-container': '#725000',
+
+        // Tertiary trust green
+        tertiary: {
+          DEFAULT: '#001209',
+          'on-tertiary': '#ffffff',
+          container: '#002a1b',
+          'on-container': '#009e6f',
+        },
+
+        // Legacy role colors (kept for backward compat during migration)
         'residential-teal': {
           DEFAULT: '#0e7c6a',
           soft: 'rgba(14, 124, 106, 0.1)',
@@ -97,7 +118,7 @@ const config: Config = {
         },
         'inverse-primary': '#7bd7c2',
 
-        // Stitch Design Tokens - Commercial Gold
+        // Commercial gold
         'commercial-gold': {
           DEFAULT: '#c9952a',
           soft: 'rgba(201, 149, 42, 0.1)',
@@ -109,27 +130,7 @@ const config: Config = {
           'on-fixed-variant': '#5e4200',
         },
 
-        // Stitch Design Tokens - Tertiary
-        tertiary: {
-          DEFAULT: '#88412f',
-          'on-tertiary': '#ffffff',
-          container: '#a65845',
-          'on-container': '#ffeeea',
-          fixed: '#ffdad2',
-          'fixed-dim': '#ffb4a2',
-          'on-fixed': '#3c0801',
-          'on-fixed-variant': '#753222',
-        },
-
-        // Stitch Design Tokens - Error
-        error: {
-          DEFAULT: '#ba1a1a',
-          'on-error': '#ffffff',
-          container: '#ffdad6',
-          'on-container': '#93000a',
-        },
-
-        // Stitch Design Tokens - Listing Types
+        // Listing types
         'type-rent': '#3b82f6',
         'type-lease': '#8b5cf6',
         'type-sale': '#10b981',
@@ -138,39 +139,41 @@ const config: Config = {
 
         // Outline
         outline: {
-          DEFAULT: '#6e7a76',
-          variant: '#bdc9c4',
+          DEFAULT: '#74777e',
+          variant: '#c4c6ce',
         },
       },
       borderRadius: {
-        sm: '0.125rem',
-        DEFAULT: '0.25rem',
-        md: '0.375rem',
-        lg: '0.5rem',
-        xl: '0.75rem',
-        full: '9999px',
+        sm: 'var(--radius-sm)',
+        DEFAULT: 'var(--radius-md)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
+        xl: 'var(--radius-xl)',
+        full: 'var(--radius-full)',
       },
-      fontFamily: {
-        sans: ['var(--font-hanken-grotesk)', 'Hanken Grotesk', 'system-ui', 'sans-serif'],
-        display: ['var(--font-hanken-grotesk)', 'Hanken Grotesk', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains-mono)', 'JetBrains Mono', 'monospace'],
-      },
+      // Custom typography tokens
+      'font-body': 'var(--font-inter), system-ui, sans-serif',
+      'font-display': 'hanken grotesk, var(--font-inter), system-ui, sans-serif',
+      'font-mono': 'JetBrains Mono, var(--font-jetbrains-mono), monospace',
       fontSize: {
-        'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' }],
-        'headline-lg': ['32px', { lineHeight: '40px', fontWeight: '600' }],
+        'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '800' }],
+        'headline-xl': ['36px', { lineHeight: '44px', letterSpacing: '-0.01em', fontWeight: '700' }],
+        'headline-lg': ['32px', { lineHeight: '40px', fontWeight: '700' }],
         'headline-lg-mobile': ['24px', { lineHeight: '32px', fontWeight: '600' }],
         'title-md': ['20px', { lineHeight: '28px', fontWeight: '600' }],
-        'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+        'body-lg': ['18px', { lineHeight: '28px', fontWeight: '400' }],
+        'body-lg-mono': ['14px', { lineHeight: '20px', fontWeight: '500', letterSpacing: '0.02em' }],
+        'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
         'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }],
         'label-caps': ['12px', { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '500' }],
       },
       spacing: {
-        'gutter': '24px',
-        'margin-desktop': '48px',
+        gutter: '24px',
+        'margin-desktop': '64px',
         'margin-mobile': '16px',
       },
       maxWidth: {
-        'container': '1280px',
+        container: '1280px',
       },
       keyframes: {
         'accordion-down': {
@@ -197,6 +200,10 @@ const config: Config = {
           from: { opacity: '1' },
           to: { opacity: '0' },
         },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -205,11 +212,16 @@ const config: Config = {
         'slide-in-from-bottom': 'slide-in-from-bottom 0.3s ease-out',
         'fade-in': 'fade-in 0.2s ease-out',
         'fade-out': 'fade-out 0.2s ease-out',
+        shimmer: 'shimmer 2s infinite linear',
       },
       boxShadow: {
         'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        'elevated': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        elevated: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        '1': 'var(--elevation-1)',
+        '2': 'var(--elevation-2)',
+        '3': 'var(--elevation-3)',
+        '4': 'var(--elevation-4)',
       },
     },
   },

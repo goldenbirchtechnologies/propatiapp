@@ -333,7 +333,7 @@ async function handleDisputeCreate(data: any) {
     data: {
       listingId: transaction.listingId,
       raisedBy: transaction.payerId,
-      type: 'refund',
+      type: 'paystack_chargeback',
       status: 'open',
       description: `Paystack chargeback dispute: ${reason || 'No reason provided'}`,
     },

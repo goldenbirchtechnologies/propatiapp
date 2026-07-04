@@ -16,8 +16,8 @@ type BusinessVerification = {
   contactPhone: string | null;
   address: string | null;
   documents: unknown;
-  submittedAt: string;
-  reviewedAt: string | null;
+  submittedAt: Date | string;
+  reviewedAt: Date | null;
   adminNotes: string | null;
 };
 

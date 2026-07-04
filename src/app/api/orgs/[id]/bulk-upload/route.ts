@@ -125,7 +125,7 @@ export async function POST(
               results.failed.push({
                 row: i + results.created.length + 1,
                 errors: [`Unit ${unitData.unitNumber} already exists in ${unitData.buildingName || 'building'}`],
-                data: unitData as Record<string, unknown>,
+                data: unitData as unknown as Record<string, unknown>,
               });
               continue;
             }
@@ -143,7 +143,7 @@ export async function POST(
                 results.failed.push({
                   row: i + results.created.length + 1,
                   errors: ['Listing does not belong to this organization'],
-                  data: unitData as Record<string, unknown>,
+                  data: unitData as unknown as Record<string, unknown>,
                 });
                 continue;
               }
@@ -177,7 +177,7 @@ export async function POST(
             results.failed.push({
               row: i + results.created.length + 1,
               errors: ['Creation failed'],
-              data: unitData as Record<string, unknown>,
+              data: unitData as unknown as Record<string, unknown>,
             });
           }
         }

@@ -27,7 +27,7 @@ interface User {
   createdAt: Date;
   _count: {
     ownedListings: number;
-    participatedTransactions: number;
+    participatedTransactions?: number;
   };
 }
 
@@ -238,7 +238,7 @@ export default function UsersManagementClient({ users: initialUsers }: UsersMana
                       {user._count.ownedListings} listings
                     </p>
                     <p style={{ color: 'var(--muted)' }}>
-                      {user._count.participatedTransactions} transactions
+                      {user._count.participatedTransactions ?? 0} transactions
                     </p>
                   </div>
                 </td>

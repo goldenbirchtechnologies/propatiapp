@@ -149,7 +149,7 @@ export async function DELETE(
     }
 
     // Only allow deletion before fully signed
-    if (agreement.status === 'fully_signed' || agreement.status === 'active') {
+    if (agreement.status === 'fully_signed' || agreement.status === 'terminated') {
       return NextResponse.json(
         { error: 'Cannot delete fully signed or active agreements' },
         { status: 400 }

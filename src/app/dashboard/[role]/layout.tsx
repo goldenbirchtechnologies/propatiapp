@@ -1,26 +1,68 @@
-// src/app/dashboard/[role]/layout.tsx
-import { ReactNode } from 'react';
-import Link from 'next/link';
+'use client';
 
-export default function RoleLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-gradient-to-r from-residential-teal to-residential-teal-fixed text-white py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Propati Dashboard</h1>
-          <nav className="flex gap-4 text-sm">
-            <Link href="/dashboard/admin" className="hover:underline">Admin</Link>
-            <Link href="/dashboard/agent" className="hover:underline">Agent</Link>
-            <Link href="/dashboard/landlord" className="hover:underline">Landlord</Link>
-            <Link href="/dashboard/tenant" className="hover:underline">Tenant</Link>
-            <Link href="/dashboard/estate-manager" className="hover:underline">Estate Manager</Link>
-            <Link href="/dashboard/realtor" className="hover:underline">Realtor</Link>
-          </nav>
-        </div>
-      </header>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
+import { getNavigationForRole, type NavItem } from '@/lib/navigation';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { Button } from '@/components/ui/button';
+import { Lock } from 'lucide-react';
+
+export default function RoleLayout({
+  children,
+  role,
+}: {
+  children: React.ReactNode;
+  role?: string;
+}) {
+  const [hydrating, setHydrating] = useState(true);
+  const { user, isLoaded } = useUser();
+  const router = useRouter();
+
+  const expectedRole = (role || 'tenant').toLowerCase();
+  const mappedRole = expectedRole === 'estate-manager' ? 'estate_manager' : expectedRole;
+  const userRole = typeof user?.publicMetadata?.role === 'string' ? user.publicMetadata.role : '';
+  const allowed = !!user && mappedRole === userRole;
+  const navigation = getNavigationForRole(allowed ? userRole : mappedRole);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    setHydrating(false);
+  }, [isLoaded]);
+
+  if (!isLoaded || hydrating) {
+    return (
+      <DashboardShell navigation={navigation} userRole={mappedRole} shellLoading>
         {children}
-      </main>
-    </div>
+      </DashboardShell>
+    );
+  }
+
+  if (!user || !allowed) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="max-w-md w-full rounded-xl border border-border bg-card p-8 text-center">
+          <Lock className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <h1 className="text-xl font-bold text-foreground">Restricted Access</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Your role doesn&apos;t allow access to this dashboard area.
+          </p>
+          <Button className="mt-6" onClick={() => router.push('/dashboard')}>
+            Back to dashboard
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <DashboardShell
+      navigation={navigation}
+      userRole={mappedRole}
+      userName={(user.fullName as string | undefined) || (user.firstName as string) || 'User'}
+      userAvatar={user.imageUrl}
+    >
+      {children}
+    </DashboardShell>
   );
 }

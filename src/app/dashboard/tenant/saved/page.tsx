@@ -422,12 +422,6 @@ export default function SavedPropertiesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Material Symbols */}
-      <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        rel="stylesheet"
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Header */}
         <div className="mb-6 md:mb-8">

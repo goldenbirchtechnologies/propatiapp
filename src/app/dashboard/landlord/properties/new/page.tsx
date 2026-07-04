@@ -82,7 +82,7 @@ export default function NewListingPage() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof createListingSchema>>({
-    resolver: zodResolver(createListingSchema),
+    resolver: zodResolver(createListingSchema) as any,
     defaultValues: {
       title: '',
       description: '',
@@ -273,7 +273,7 @@ export default function NewListingPage() {
               {step === 1 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="title"
                     render={({ field }) => (
                       <FormItem>
@@ -290,7 +290,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="listingType"
                     render={({ field }) => (
                       <FormItem>
@@ -315,7 +315,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="propertyType"
                     render={({ field }) => (
                       <FormItem>
@@ -342,7 +342,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="description"
                     render={({ field }) => (
                       <FormItem>
@@ -368,7 +368,7 @@ export default function NewListingPage() {
               {step === 2 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="state"
                     render={({ field }) => (
                       <FormItem>
@@ -393,7 +393,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="area"
                     render={({ field }) => (
                       <FormItem>
@@ -407,7 +407,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="address"
                     render={({ field }) => (
                       <FormItem>
@@ -422,7 +422,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="bedrooms"
                       render={({ field }) => (
                         <FormItem>
@@ -442,7 +442,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="bathrooms"
                       render={({ field }) => (
                         <FormItem>
@@ -462,7 +462,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="toilets"
                       render={({ field }) => (
                         <FormItem>
@@ -484,7 +484,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="sizeSqm"
                       render={({ field }) => (
                         <FormItem>
@@ -504,7 +504,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="floorLevel"
                       render={({ field }) => (
                         <FormItem>
@@ -533,7 +533,7 @@ export default function NewListingPage() {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="price"
                       render={({ field }) => (
                         <FormItem>
@@ -553,7 +553,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="pricePeriod"
                       render={({ field }) => (
                         <FormItem>
@@ -579,7 +579,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="cautionDeposit"
                       render={({ field }) => (
                         <FormItem>
@@ -599,7 +599,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="serviceCharge"
                       render={({ field }) => (
                         <FormItem>
@@ -620,7 +620,7 @@ export default function NewListingPage() {
                   </div>
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="availableFrom"
                     render={({ field }) => (
                       <FormItem>
@@ -635,7 +635,7 @@ export default function NewListingPage() {
 
                   {listingType === 'short_let' && (
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="minimumStay"
                       render={({ field }) => (
                         <FormItem>
@@ -662,7 +662,7 @@ export default function NewListingPage() {
               {step === 4 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="furnished"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
@@ -678,7 +678,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="parkingSpaces"
                     render={({ field }) => (
                       <FormItem>
@@ -699,7 +699,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="amenities"
                     render={() => (
                       <FormItem>
@@ -711,7 +711,7 @@ export default function NewListingPage() {
                           {AMENITIES.map((amenity) => (
                             <FormField
                               key={amenity.id}
-                              control={form.control}
+                              control={form.control as any}
                               name="amenities"
                               render={({ field }) => {
                                 return (

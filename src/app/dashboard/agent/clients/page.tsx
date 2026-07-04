@@ -19,27 +19,33 @@ export default async function AgentClientsPage() {
     redirect('/dashboard');
   }
 
-  const agreements = await prisma.agreement.findMany({
-    where: { agentId: { not: null }, status: { not: 'draft' } },
-    include: {
-      tenant: { select: { id: true, fullName: true, phone: true } },
-      listing: { select: { id: true, title: true, type: true } },
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  });
+  let clients: { id: string; name: string; phone: string; type: string; minBudget: number; maxBudget: number; lastContact: string; createdAt: string }[] = [];
+  try {
+    const agreements = await prisma.agreement.findMany({
+      where: { agentId: { not: null }, status: { not: 'draft' } },
+      include: {
+        tenant: { select: { id: true, fullName: true, phone: true } },
+        listing: { select: { id: true, title: true, listingType: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
 
-  const clients = agreements
-    .filter((a) => a.tenant)
-    .map((a) => ({
-      id: a.id,
-      name: a.tenant.fullName,
-      phone: a.tenant.phone || '—',
-      type: a.listing?.type === 'sale' ? 'Buyer' : 'Renter',
-      minBudget: Number(a.rentAmount || 0),
-      maxBudget: Number(a.rentAmount || 0) * 1.5,
-      lastContact: a.createdAt,
-    }));
+    clients = agreements
+      .filter((a) => a.tenant)
+      .map((a) => ({
+        id: a.id,
+        name: a.tenant.fullName,
+        phone: a.tenant.phone || '—',
+        type: a.listing?.listingType === 'sale' ? 'Buyer' : 'Renter',
+        minBudget: Number(a.rentAmount || 0),
+        maxBudget: Number(a.rentAmount || 0) * 1.5,
+        lastContact: a.createdAt.toISOString(),
+        createdAt: a.createdAt.toISOString(),
+      }));
+  } catch {
+    // leave clients as empty array on error
+  }
 
   return (
     <DashboardShell
@@ -48,7 +54,12 @@ export default async function AgentClientsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AgentClientsClient initialClients={clients} />
+      <AgentClientsClient
+        initialClients={clients}
+        onRetry={() => {
+          window.location.reload();
+        }}
+      />
     </DashboardShell>
   );
 }

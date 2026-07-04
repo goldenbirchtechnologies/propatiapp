@@ -37,18 +37,18 @@ import { useRouter } from 'next/navigation';
 export interface SubscriptionPlan {
   id: string;
   name: string;
-  description?: string;
-  priceMonthly: number;
-  priceYearly: number;
+  description?: string | null;
+  priceMonthly: any;
+  priceYearly: any;
   currency: string;
-  features: Record<string, unknown>;
+  features: any;
   maxListings: number;
   maxUsers: number;
   maxProperties: number;
-  supportLevel?: string;
+  supportLevel?: string | null;
   isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   _count?: { subscriptions: number };
 }
 
@@ -57,20 +57,20 @@ export interface UserSubscription {
   userId: string;
   planId: string;
   status: string;
-  currentPeriodStart: string;
-  currentPeriodEnd: string;
+  currentPeriodStart: Date | string;
+  currentPeriodEnd: Date | string;
   cancelAtPeriodEnd: boolean;
-  cancelledAt?: string;
-  endedAt?: string;
-  paystackCustomerId?: string;
-  paystackSubscriptionCode?: string;
-  createdAt: string;
-  updatedAt: string;
+  cancelledAt?: Date | null;
+  endedAt?: Date | null;
+  paystackCustomerId?: string | null;
+  paystackSubscriptionCode?: string | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   plan: {
     id: string;
     name: string;
-    priceMonthly: number;
-    priceYearly: number;
+    priceMonthly: any;
+    priceYearly: any;
     currency: string;
   };
   user: {

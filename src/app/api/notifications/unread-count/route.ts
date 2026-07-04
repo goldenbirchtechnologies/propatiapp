@@ -7,12 +7,12 @@ export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
 
   try {
     const count = await prisma.notification.count({
       where: {
-        userId,
+        userId: user.id,
         read: false,
       },
     });

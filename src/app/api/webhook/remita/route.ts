@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     if (
       stampDuty.status === 'paid' ||
-      stampDuty.status === 'certificate_issued'
+      stampDuty.status === 'issued'
     ) {
       return NextResponse.json({ received: true });
     }
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
         await prisma.stampDuty.update({
           where: { id: stampDuty.id },
           data: {
-            status: 'certificate_issued',
+            status: 'issued',
             issuedAt: new Date(),
           },
         });

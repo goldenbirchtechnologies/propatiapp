@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import { Building2, Plus, Eye, Edit, Trash2, ShieldCheck, Shield } from 'lucide-react';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
@@ -78,9 +79,11 @@ export default function AgentListingsClient({ initialListings }: { initialListin
                   <td className="p-4 text-sm text-right" style={{ color: 'var(--text)' }}>{l.views.toLocaleString()}</td>
                   <td className="p-4 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <button className="p-2 rounded-md hover:bg-muted/50"><Eye className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
+                      <Link href={`/dashboard/agent/listings/${l.id}`} className="p-2 rounded-md hover:bg-muted/50">
+                        <Eye className="w-4 h-4" style={{ color: 'var(--muted)' }} />
+                      </Link>
                       <button className="p-2 rounded-md hover:bg-muted/50"><Edit className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                      <button className="p-2 rounded-md hover:bg-muted/50"><Trash2 className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
+                      <button className="p-2 rounded-md hover:bg-red-50"><Trash2 className="w-4 h-4" style={{ color: 'var(--red)' }} /></button>
                     </div>
                   </td>
                 </tr>

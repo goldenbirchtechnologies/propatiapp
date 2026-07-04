@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return successResponse({ plan }, 'Plan created successfully', 201);
+    return NextResponse.json({ success: true, data: plan, message: 'Plan created successfully' }, { status: 201 });
   } catch (error: any) {
     console.error('Admin create plan error:', error);
     if (error.code === 'P2002') {

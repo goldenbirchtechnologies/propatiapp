@@ -24,20 +24,19 @@ export async function GET(
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
             status: true,
-            client: { select: { fullName: true, email: true } },
           },
         },
         firm: {
           select: { id: true, name: true, verified: true, cacNumber: true },
         },
         documents: {
-          include: {
-            document: {
-              select: { id: true, fileName: true, fileUrl: true, documentType: true },
-            },
+          select: {
+            id: true,
+            documentId: true,
+            reviewStatus: true,
+            redlinedUrl: true,
+            approvedAt: true,
           },
         },
       },
@@ -116,8 +115,7 @@ export async function PATCH(
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
+            status: true,
           },
         },
         firm: {

@@ -252,7 +252,7 @@ function ListingsPageInner() {
 
     // Sort
     switch (sortBy) {
-      case 'verification':
+      case 'verification': {
         const tierOrder: Record<VerificationTier, number> = {
           certified: 4,
           inspected: 3,
@@ -261,6 +261,7 @@ function ListingsPageInner() {
         };
         results.sort((a, b) => tierOrder[b.verificationTier] - tierOrder[a.verificationTier]);
         break;
+      }
       case 'newest':
         // In real app, sort by date
         break;

@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
               },
             },
           },
-          firm: {
+          lawFirm: {
             select: { id: true, name: true, cacNumber: true },
           },
         },
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { disputeId, firmId, metadata } = body;
+    const { disputeId, lawFirmId, metadata } = body;
 
     if (!disputeId) {
       return errorResponse('disputeId is required', 400);
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
               select: {
                 id: true,
                 senderId: true,
-                body: true,
+                content: true,
                 attachmentUrl: true,
                 createdAt: true,
                 sender: { select: { fullName: true, email: true } },
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
         messageId: m.id,
         conversationId: c.id,
         sender: m.sender,
-        body: m.body,
+        body: m.content,
         attachment: m.attachmentUrl,
         timestamp: m.createdAt,
       }))
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
     const pack = await prisma.evidencePack.create({
       data: {
         disputeId,
-        firmId: firmId || null,
+        lawFirmId: lawFirmId || null,
         status: 'draft',
         fileUrls,
         payments: payments.map((p) => ({ ...p, amount: Number(p.amount) })),
@@ -201,7 +201,7 @@ export async function POST(request: NextRequest) {
             raisedByUser: { select: { fullName: true, email: true, phone: true } },
           },
         },
-        firm: {
+        lawFirm: {
           select: { id: true, name: true, cacNumber: true },
         },
       },

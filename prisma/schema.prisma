@@ -78,6 +78,7 @@ enum VerificationOverallStatus {
   in_progress
   certified
   rejected
+  frozen
 }
 
 enum TransactionType {
@@ -650,6 +651,9 @@ model Verification {
   adminNotes        String?                  @map("admin_notes")
   reviewedBy        String?                  @map("reviewed_by")
   reviewedAt        DateTime?                @map("reviewed_at")
+  frozenReason      String?                  @map("frozen_reason")
+  frozenAt          DateTime?                @map("frozen_at")
+  frozenBy          String?                  @map("frozen_by")
   updatedAt         DateTime                 @updatedAt @map("updated_at")
 
   listing           Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)

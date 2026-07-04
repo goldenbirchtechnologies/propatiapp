@@ -23,7 +23,7 @@ export default async function EscrowManagementPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   const navigation = getNavigationForRole(user.role);
 

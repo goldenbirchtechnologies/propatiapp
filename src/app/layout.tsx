@@ -1,14 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import '@/styles/globals.css';
-import '@/styles/animations.css';
 import { Providers } from '@/components/providers';
 import { Toaster } from '@/components/ui/toaster';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
+const inter = localFont({
+  src: [
+    { path: './fonts/inter-latin-400-normal.27ae72da.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/inter-latin-600-normal.87d718a2.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/inter-latin-ext-400-normal.5b02c69a.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/inter-latin-ext-600-normal.88feb9e4.woff2', weight: '600', style: 'normal' },
+  ],
   variable: '--font-inter',
+  display: 'swap',
+  fallback: ['system-ui', 'ui-sans-serif', 'sans-serif'],
 });
 
 export const metadata: Metadata = {
@@ -75,8 +80,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`} suppressHydrationWarning>
-      <body className="bg-surface text-on-surface font-body min-h-screen flex flex-col antialiased">
+    <html
+      lang="en"
+      className={`${inter.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
         <Providers>
           {children}
           <Toaster />

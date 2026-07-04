@@ -1,52 +1,61 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, expect, vi, beforeEach, test } from 'vitest';
 
 // --- Mocks (must be at top-level so Vitest can hoist them before imports) ---
 
 vi.mock('@/lib/api-auth', () => {
-  const mockWithAuth = vi.fn();
+  mockWithAuth = vi.fn() as any;
   return {
-    withAuth: (...args: unknown[]) => mockWithAuth(...args),
+    withAuth: (...args: unknown[]) => (mockWithAuth as any)(...args),
     errorResponse: vi.fn(),
   };
 });
 
-const mockPrisma$queryRaw = vi.fn();
-const mockOrgMemberFindUnique = vi.fn();
-const mockOrganisationFindUnique = vi.fn();
-const mockOrgListingFindMany = vi.fn();
-const mockListingFindMany = vi.fn();
-const mockListingGroupBy = vi.fn();
-const mockTransactionFindMany = vi.fn();
-const mockTransactionGroupBy = vi.fn();
-const mockMaintenanceTicketFindMany = vi.fn();
-const mockMaintenanceTicketGroupBy = vi.fn();
-const mockAgreementFindMany = vi.fn();
-const mockAgreementCount = vi.fn();
+var mockPrisma$queryRaw: ReturnType<typeof vi.fn>;
+var mockOrgMemberFindUnique: ReturnType<typeof vi.fn>;
+var mockOrganisationFindUnique: ReturnType<typeof vi.fn>;
+var mockOrgListingFindMany: ReturnType<typeof vi.fn>;
+var mockListingFindMany: ReturnType<typeof vi.fn>;
+var mockListingGroupBy: ReturnType<typeof vi.fn>;
+var mockTransactionFindMany: ReturnType<typeof vi.fn>;
+var mockTransactionGroupBy: ReturnType<typeof vi.fn>;
+var mockMaintenanceTicketFindMany: ReturnType<typeof vi.fn>;
+var mockMaintenanceTicketGroupBy: ReturnType<typeof vi.fn>;
+var mockAgreementFindMany: ReturnType<typeof vi.fn>;
+var mockAgreementCount: ReturnType<typeof vi.fn>;
+var mockWithAuth: ReturnType<typeof vi.fn>;
 
-vi.mock('@/lib/prisma', () => ({
-  prisma: {
-    orgMember: { findUnique: mockOrgMemberFindUnique },
-    organisation: { findUnique: mockOrganisationFindUnique },
-    orgListing: { findMany: mockOrgListingFindMany },
-    listing: { findMany: mockListingFindMany, groupBy: mockListingGroupBy },
-    transaction: { findMany: mockTransactionFindMany, groupBy: mockTransactionGroupBy },
-    maintenanceTicket: { findMany: mockMaintenanceTicketFindMany, groupBy: mockMaintenanceTicketGroupBy },
-    agreement: { findMany: mockAgreementFindMany, count: mockAgreementCount },
-    $queryRaw: mockPrisma$queryRaw,
-  },
-}));
-
-const mockWithAuth = vi.fn() as ReturnType<typeof vi.fn>;
+vi.mock('@/lib/prisma', () => {
+  mockPrisma$queryRaw = vi.fn();
+  mockOrgMemberFindUnique = vi.fn();
+  mockOrganisationFindUnique = vi.fn();
+  mockOrgListingFindMany = vi.fn();
+  mockListingFindMany = vi.fn();
+  mockListingGroupBy = vi.fn();
+  mockTransactionFindMany = vi.fn();
+  mockTransactionGroupBy = vi.fn();
+  mockMaintenanceTicketFindMany = vi.fn();
+  mockMaintenanceTicketGroupBy = vi.fn();
+  mockAgreementFindMany = vi.fn();
+  mockAgreementCount = vi.fn();
+  return {
+    prisma: {
+      orgMember: { findUnique: mockOrgMemberFindUnique },
+      organisation: { findUnique: mockOrganisationFindUnique },
+      orgListing: { findMany: mockOrgListingFindMany },
+      listing: { findMany: mockListingFindMany, groupBy: mockListingGroupBy },
+      transaction: { findMany: mockTransactionFindMany, groupBy: mockTransactionGroupBy },
+      maintenanceTicket: { findMany: mockMaintenanceTicketFindMany, groupBy: mockMaintenanceTicketGroupBy },
+      agreement: { findMany: mockAgreementFindMany, count: mockAgreementCount },
+      $queryRaw: mockPrisma$queryRaw,
+    },
+  };
+});
 
 // The mock factory above doesn't expose mockWithAuth to this module scope, so
 // we need a re-export from the mocked module. Use a separate import that Vitest
 // resolves to the already-mocked version.
-import { withAuth } from '@/lib/api-auth';
-
-// Now import the route under test (after mocks are registered)
 import { GET } from '@/app/api/orgs/[id]/reports/route';
 import { NextRequest } from 'next/server';
-import { Prisma } from '@prisma/client';
 
 function createRequest(params: Record<string, string> = {}) {
   const searchParams = new URLSearchParams(params);

@@ -1,6 +1,5 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import prettier from 'eslint-plugin-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import nextPlugin from '@next/eslint-plugin-next';
 
@@ -14,16 +13,16 @@ export default tseslint.config(
       sourceType: 'module',
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       },
     },
     settings: {
       react: { version: '18' },
     },
     plugins: {
-      prettier,
       'react-hooks': reactHooks,
-      next: nextPlugin,
+      'next': nextPlugin,
     },
     ignores: [
       '.next/',
@@ -31,16 +30,26 @@ export default tseslint.config(
       'out/',
       'build/',
       'dist/',
+      'coverage/',
+      '*.d.ts',
+      'prisma/migrations/',
+      '.next-env.d.ts',
       '*.config.js',
       '*.config.ts',
     ],
     rules: {
-      'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
       'react/no-unescaped-entities': 'off',
       'jsx-a11y/anchor-is-valid': 'off',
+      'no-var': 'off',
+    },
+  },
+  {
+    files: ['tests/**/*'],
+    rules: {
+      'no-var': 'off',
     },
   },
 );

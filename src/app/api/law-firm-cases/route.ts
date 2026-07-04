@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
       data: {
         disputeId: validated.disputeId,
         firmId: validated.firmId,
+        feeModel: { type: 'fixed', amount: validated.fee ?? 0 },
         fee: validated.fee,
         feeCurrency: validated.feeCurrency,
       },

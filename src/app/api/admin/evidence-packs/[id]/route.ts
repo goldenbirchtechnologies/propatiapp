@@ -45,12 +45,12 @@ export async function GET(
                 id: true,
                 status: true,
                 fee: true,
-                lawFirm: { select: { id: true, name: true, cacNumber: true } },
+                firm: { select: { id: true, name: true, cacNumber: true } },
               },
             },
           },
         },
-        firm: {
+        lawFirm: {
           select: { id: true, name: true, cacNumber: true, address: true, billingEmail: true },
         },
       },
@@ -113,12 +113,14 @@ export async function PATCH(
             raisedByUser: { select: { fullName: true, email: true } },
             lawFirmCase: {
               select: {
-                lawFirm: { select: { id: true, name: true } },
+                id: true,
+                status: true,
+                firm: { select: { id: true, name: true } },
               },
             },
           },
         },
-        firm: {
+        lawFirm: {
           select: { id: true, name: true },
         },
       },
@@ -127,6 +129,74 @@ export async function PATCH(
     return successResponse(pack, 'Evidence pack updated');
   } catch {
     return errorResponse('Failed to update evidence pack', 500);
+  }
+}
+
+/**
+ * POST /api/admin/evidence-packs/[id]
+ * Add a chain-of-custody entry to the evidence pack
+ * Body: { action: string, note?: string, exhibitRef?: string, ipAddress?: string }
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const authResult = await withAuth(request, ['admin']);
+  if (authResult instanceof NextResponse) return authResult;
+  const { user } = authResult;
+
+  try {
+    const body = await request.json();
+    const { action, note, exhibitRef, ipAddress } = body as {
+      action?: string;
+      note?: string;
+      exhibitRef?: string;
+      ipAddress?: string;
+    };
+
+    if (!action || typeof action !== 'string') {
+      return errorResponse('Field "action" is required', 400);
+    }
+
+    const pack = await prisma.evidencePack.findUnique({
+      where: { id: params.id },
+      select: { id: true, chainHash: true },
+    });
+
+    if (!pack) {
+      return errorResponse('Evidence pack not found', 404);
+    }
+
+    const clientIp = (ipAddress || request.headers.get('x-forwarded-for') || 'unknown') as string;
+    const createdAt = new Date();
+
+    // Build a simple deterministic state-hash for this entry.
+    // NOTE: Replace with a real HMAC/hash-chain scheme in production.
+    const hashInput = `${pack.id}:${action}:${createdAt.toISOString()}:${clientIp}:${note ?? ''}:${exhibitRef ?? ''}:${pack.chainHash ?? ''}`;
+    const stateHash = Buffer.from(hashInput).toString('base64').slice(0, 32);
+
+    // Persist the custody entry
+    const entry = await prisma.evidenceCustodyEntry.create({
+      data: {
+        packId: params.id,
+        action,
+        note: note ?? null,
+        exhibitRef: exhibitRef ?? null,
+        ipAddress: clientIp,
+        stateHash,
+        createdAt,
+      },
+    });
+
+    // Update the pack's chainHash to the new head
+    await prisma.evidencePack.update({
+      where: { id: params.id },
+      data: { chainHash: stateHash, updatedAt: createdAt },
+    });
+
+    return successResponse(entry, 'Chain-of-custody entry added');
+  } catch {
+    return errorResponse('Failed to add custody entry', 500);
   }
 }
 

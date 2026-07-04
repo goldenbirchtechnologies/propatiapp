@@ -24,15 +24,21 @@ export default async function LandlordVerifyPage() {
     include: {
       listing: { select: { id: true, title: true, address: true } },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { updatedAt: 'desc' },
     take: 100,
   });
 
   const initialVerifications = verifications.map((v) => ({
     id: v.id,
+    listingId: v.listingId,
     listing: { title: v.listing.title, address: v.listing.address },
     currentLayer: v.currentLayer,
-    status: v.l1Status,
+    overallStatus: v.overallStatus,
+    l1Status: v.l1Status,
+    l2Status: v.l2Status,
+    l3Status: v.l3Status,
+    l4Status: v.l4Status,
+    l5Status: v.l5Status,
   }));
 
   return (

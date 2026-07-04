@@ -26,7 +26,7 @@ export default async function AdminEvidencePacksPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect("/sign-in");
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Load all open / in_progress disputes for the create dropdown
   const openDisputes = await prisma.dispute.findMany({
@@ -64,12 +64,12 @@ export default async function AdminEvidencePacksPage() {
             select: {
               id: true,
               status: true,
-              lawFirm: { select: { id: true, name: true } },
+              firm: { select: { id: true, name: true } },
             },
           },
         },
       },
-      firm: {
+      lawFirm: {
         select: { id: true, name: true, cacNumber: true },
       },
     },

@@ -1,10 +1,12 @@
-import React from 'react';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
-import AdminConflictChecksClient from './ConflictChecksClient';
+import { prisma } from '@/lib/prisma';
+import ConflictChecksClient from './ConflictChecksClient';
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminConflictChecksPage() {
   const { userId } = await auth();
@@ -14,6 +16,34 @@ export default async function AdminConflictChecksPage() {
   if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
+  const checks = await prisma.conflictCheck.findMany({
+    include: {
+      case: {
+        select: { id: true, status: true },
+      },
+      lawFirm: {
+        select: { id: true, name: true, cacNumber: true },
+      },
+      lawyerProfile: {
+        select: { id: true, fullName: true, callToBarNumber: true },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  });
+
+  const mapped = checks.map((c) => ({
+    id: c.id,
+    status: c.status,
+    adversePartyType: c.adversePartyType,
+    adversePartyName: c.adversePartyName,
+    conflictRationale: c.conflictRationale,
+    createdAt: c.createdAt.toISOString(),
+    case: c.case,
+    lawFirm: c.lawFirm,
+    lawyerProfile: c.lawyerProfile,
+  }));
+
   return (
     <DashboardShell
       navigation={ADMIN_NAVIGATION}
@@ -21,17 +51,7 @@ export default async function AdminConflictChecksPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="space-y-6">
-        <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
-            Conflict Checks
-          </h1>
-          <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-            Manage conflict-of-interest checks for law firm engagements.
-          </p>
-        </div>
-        <AdminConflictChecksClient />
-      </div>
+      <ConflictChecksClient conflictChecks={mapped} />
     </DashboardShell>
   );
 }

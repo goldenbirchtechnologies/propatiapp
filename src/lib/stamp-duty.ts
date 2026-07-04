@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client";
 import axios, { AxiosInstance } from 'axios';
 import crypto from 'crypto';
 
@@ -12,7 +13,7 @@ const STAMP_DUTY_THRESHOLD = 10000;
 
 export interface StampDutyInitiateParams {
   agreementId: string;
-  amount: number;
+  amount: number | Decimal;
   payerName: string;
   payerEmail: string;
   payerPhone: string;
@@ -25,7 +26,7 @@ export interface StampDutyInitiateParams {
 export interface StampDutyInitiateResult {
   rrr: string;
   paymentUrl: string;
-  amount: number;
+  amount: number | Decimal;
 }
 
 export interface StampDutyVerifyResult {
@@ -233,7 +234,7 @@ export async function embedStampCertificate(params: EmbedCertificateParams): Pro
     certificateNumber: params.certificateNumber,
     certificateUrl: params.certificateUrl,
     paidAt: params.paidAt,
-    amount: amountPaid?.amount ?? 0,
+    amount: amountPaid?.amount ? Number(amountPaid.amount) : 0,
     agreementId: params.agreementId,
     landlordName: agreement.landlord.fullName,
     tenantName: agreement.tenant.fullName,

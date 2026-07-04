@@ -32,10 +32,10 @@ export function LandingPage() {
 
             {/* Auth Buttons */}
             <div className="flex items-center gap-3">
-              <SignInButton mode="modal" className="btn btn-ghost text-sm">
+              <SignInButton>
                 Sign In
               </SignInButton>
-              <SignUpButton mode="modal" className="btn btn-primary text-sm">
+              <SignUpButton>
                 Get Started
               </SignUpButton>
             </div>
@@ -84,7 +84,7 @@ export function LandingPage() {
                 and professional agents across Lagos, Abuja, and major Nigerian cities.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <SignUpButton mode="modal" className="btn btn-primary text-lg px-8 py-4 w-full sm:w-auto" style={{ fontSize: '1rem' }}>
+                <SignUpButton>
                   Start Free →
                 </SignUpButton>
                 <Link href="/properties" className="btn btn-secondary text-lg px-8 py-4 w-full sm:w-auto" style={{ fontSize: '1rem' }}>
@@ -188,7 +188,7 @@ export function LandingPage() {
               <p className="mb-8" style={{ color: 'rgba(26, 26, 26, 0.8)', fontSize: '1.1rem' }}>
                 Join thousands of Nigerians who trust PROPATI for their property needs.
               </p>
-              <SignUpButton mode="modal" className="btn btn-primary text-lg px-10 py-4" style={{ background: '#1a1a1a', color: 'var(--accent)' }}>
+              <SignUpButton>
                 Create Free Account
               </SignUpButton>
             </div>

@@ -8,6 +8,12 @@ import { BarChart3, TrendingUp, Download, Filter } from 'lucide-react';
 export default function EstateManagerReportsPage() {
   const [period, setPeriod] = useState('month');
 
+  const mockBills = [
+    { id: '1', description: 'Unit 101 Service Charge', ref: 'TX-1044', amount: 120000, date: '2026-06-01' },
+    { id: '2', description: 'Unit 204 Rent', ref: 'TX-1045', amount: 350000, date: '2026-06-02' },
+    { id: '3', description: 'Unit 307 Rent', ref: 'TX-1046', amount: 420000, date: '2026-06-03' },
+  ];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

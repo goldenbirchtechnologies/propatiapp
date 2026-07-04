@@ -58,15 +58,11 @@ export async function POST(request: NextRequest) {
 
     const listing = await prisma.listing.findUnique({
       where: { id: validated.listingId },
-      select: { id: true, organizationId: true },
+      select: { id: true },
     });
 
-    if (!listing || !listing.organizationId) {
-      return NextResponse.json({ error: 'Listing not found or has no organisation' }, { status: 404 });
-    }
-
-    if (validated.organizationId !== listing.organizationId) {
-      return NextResponse.json({ error: 'Listing does not belong to the provided organisation' }, { status: 400 });
+    if (!listing) {
+      return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
     }
 
     const charge = await prisma.serviceCharge.create({

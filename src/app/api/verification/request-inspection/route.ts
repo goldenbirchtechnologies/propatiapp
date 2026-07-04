@@ -98,7 +98,6 @@ export async function POST(request: NextRequest) {
         agentApproved: true,
         isActive: true,
         agentAreas: {
-          path: '$[*]',
           array_contains: verification.listing.area,
         },
       },

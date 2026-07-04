@@ -36,14 +36,15 @@ vi.mock('@clerk/nextjs', () => ({
 }));
 
 // Mock Prisma
-vi.mock('@/lib/prisma', () => ({
-  prisma: {
+vi.mock('@/lib/prisma', () => {
+  const mockPrisma: any = {
     user: { findUnique: vi.fn(), findMany: vi.fn(), create: vi.fn(), update: vi.fn() },
     listing: { findUnique: vi.fn(), findMany: vi.fn(), create: vi.fn(), update: vi.fn() },
     transaction: { findUnique: vi.fn(), findMany: vi.fn(), create: vi.fn(), update: vi.fn() },
-    $transaction: vi.fn((fn) => fn(prisma)),
-  },
-}));
+    $transaction: vi.fn((fn: (x: any) => any) => fn(mockPrisma)),
+  };
+  return { prisma: mockPrisma };
+});
 
 // Mock environment variables
 vi.stubEnv('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', 'pk_test_abc123');

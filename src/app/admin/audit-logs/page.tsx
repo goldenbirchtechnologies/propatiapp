@@ -6,38 +6,30 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AuditLogsClient from './AuditLogsClient';
 
-export default async function AuditLogsPage() {
-  const { userId } = await auth();
+export const dynamic = 'force-dynamic';
 
-  if (!userId) {
-    redirect('/sign-in');
-  }
+export default async function AdminAuditLogsPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-
-  const rolePaths: Record<string, string> = {
-    landlord: '/dashboard/landlord',
-    tenant: '/dashboard/tenant',
-    agent: '/dashboard/agent',
-    admin: '/admin',
-    estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/realtor',
-  };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect('/dashboard/tenant');
 
-  const auditLogs = await prisma.adminAuditLog.findMany({
-    include: { admin: { select: { id: true, fullName: true } } },
+  const logs = await prisma.adminAuditLog.findMany({
+    include: {
+      admin: { select: { fullName: true } },
+    },
     orderBy: { createdAt: 'desc' },
-    take: 100,
+    take: 200,
   });
 
-  const formattedLogs = auditLogs.map((log) => ({
+  const mapped = logs.map((log) => ({
     id: log.id,
     admin: log.admin.fullName,
     action: log.action,
-    target: log.targetId,
-    details: log.details || '—',
+    target: `${log.targetType}:${log.targetId}`,
+    details: log.details,
     timestamp: log.createdAt,
   }));
 
@@ -48,7 +40,7 @@ export default async function AuditLogsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AuditLogsClient auditLogs={formattedLogs} />
+      <AuditLogsClient auditLogs={mapped} />
     </DashboardShell>
   );
 }

@@ -205,6 +205,19 @@ function signatureBlock(landlordName: string, tenantName: string): string {
 </div>`;
 }
 
+export function renderStampDutyEndorsement(stampDuty: import('./agreement-templates').StampDutyEndorsement): string {
+  if (!stampDuty) return '';
+  return `
+<div class="section">
+  <h2>STAMP DUTY ENDORSEMENT</h2>
+  <div class="party">
+    <p><strong>Certificate Number:</strong> ${stampDuty.certificateNumber}</p>
+    <p><strong>Amount Paid:</strong> ${Number(stampDuty.amountPaid).toLocaleString()}</p>
+    <p><strong>Date Paid:</strong> ${stampDuty.paidAt.toLocaleDateString('en-NG')}</p>
+  </div>
+</div>`;
+}
+
 export const residentialRentTemplate = (data: AgreementTemplateData) => `<!DOCTYPE html>
 <html>
 <head>

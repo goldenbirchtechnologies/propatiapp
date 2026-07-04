@@ -11,12 +11,12 @@ export async function GET(_request: NextRequest, { params }: { params: { orgId: 
       where: { id: params.memberId },
       include: {
         user: { select: { id: true, fullName: true, email: true, role: true, avatarUrl: true } },
-        organisation: { select: { id: true, name: true } },
+        org: { select: { id: true, name: true } },
       },
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.organisationId !== params.orgId) {
+    if (member.orgId !== params.orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 
@@ -33,11 +33,11 @@ export async function PATCH(request: NextRequest, { params }: { params: { orgId:
   try {
     const member = await prisma.orgMember.findUnique({
       where: { id: params.memberId },
-      select: { id: true, organisationId: true },
+      select: { id: true, orgId: true },
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.organisationId !== params.orgId) {
+    if (member.orgId !== params.orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 
@@ -63,11 +63,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { orgId
   try {
     const member = await prisma.orgMember.findUnique({
       where: { id: params.memberId },
-      select: { id: true, organisationId: true },
+      select: { id: true, orgId: true },
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.organisationId !== params.orgId) {
+    if (member.orgId !== params.orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 

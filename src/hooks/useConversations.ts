@@ -111,7 +111,7 @@ export function useConversations(params?: { page?: number; limit?: number }) {
       const searchParams = new URLSearchParams(
         params ? (Object.fromEntries(
           Object.entries(params).filter(([_, v]) => v !== undefined)
-        ) as Record<string, string>) : {}
+        ) as any) : {}
       );
       const response = await fetch(`/api/conversations?${searchParams}`, {
         headers: { 'Content-Type': 'application/json' },
@@ -162,7 +162,7 @@ export function useMessages(
       const searchParams = new URLSearchParams(
         params ? (Object.fromEntries(
           Object.entries(params).filter(([_, v]) => v !== undefined)
-        ) as Record<string, string>) : {}
+        ) as any) : {}
       );
       const response = await fetch(
         `/api/conversations/${conversationId}/messages?${searchParams}`,
@@ -322,10 +322,10 @@ export function useSendMessage(conversationId: string) {
     },
     onError: (err, newMessage, context) => {
       // Rollback on error
-      if (context?.previousMessages) {
+      if ((context as any)?.previousMessages) {
         queryClient.setQueryData(
           conversationsKeys.messages(conversationId, { page: 1, limit: 50 }),
-          context.previousMessages
+          (context as any).previousMessages
         );
       }
     },

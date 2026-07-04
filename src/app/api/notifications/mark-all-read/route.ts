@@ -7,12 +7,12 @@ export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
 
   try {
     const result = await prisma.notification.updateMany({
       where: {
-        userId,
+        userId: user.id,
         read: false,
       },
       data: {

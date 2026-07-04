@@ -63,14 +63,14 @@ export async function POST(request: NextRequest) {
 
     const listing = await prisma.listing.findUnique({
       where: { id: validated.listingId },
-      select: { id: true, landlordId: true, status: true },
+      select: { id: true, ownerId: true, status: true },
     });
 
     if (!listing || listing.status !== 'active') {
       return NextResponse.json({ error: 'Listing not found or inactive' }, { status: 404 });
     }
 
-    if (listing.landlordId !== authResult.user.id && authResult.user.role !== 'admin') {
+    if (listing.ownerId !== authResult.user.id && authResult.user.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     const call = await prisma.screeningCall.create({
       data: {
         listingId: validated.listingId,
-        landlordId: listing.landlordId,
+        landlordId: listing.ownerId,
         tenantId: validated.tenantId,
         scheduledAt,
         status: 'scheduled',

@@ -77,7 +77,7 @@ export function successResponse<T>(data: T, message?: string) {
   return NextResponse.json({ success: true, data, message });
 }
 
-export function errorResponse(message: string, status = 400, details?: unknown) {
+export function errorResponse(message: string | unknown, status = 400, details?: unknown) {
   return NextResponse.json({ success: false, error: message, details, statusCode: status }, { status });
 }
 

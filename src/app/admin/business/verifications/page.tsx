@@ -24,7 +24,7 @@ export default async function AdminBusinessVerificationsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect("/sign-in");
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch pending business verifications
   const verifications = await prisma.businessVerification.findMany({

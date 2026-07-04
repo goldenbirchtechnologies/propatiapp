@@ -24,7 +24,7 @@ export default async function UsersManagementPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect("/sign-in");
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch all users with stats
   const users = await prisma.user.findMany({
@@ -32,7 +32,6 @@ export default async function UsersManagementPage() {
       _count: {
         select: {
           ownedListings: true,
-          participatedTransactions: true,
         },
       },
     },

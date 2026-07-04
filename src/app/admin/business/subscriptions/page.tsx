@@ -24,7 +24,7 @@ export default async function AdminSubscriptionsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch initial data server-side so the page hydrates with real data
   const [plans, subscriptions] = await Promise.all([
@@ -66,8 +66,19 @@ export default async function AdminSubscriptionsPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <AdminSubscriptionsClient
-        initialPlans={plans}
-        initialSubscriptions={subscriptions}
+        initialPlans={plans.map(({ _count, ...p }) => ({
+          ...p,
+          createdAt: p.createdAt instanceof Date ? p.createdAt.toISOString() : p.createdAt,
+          updatedAt: p.updatedAt instanceof Date ? p.updatedAt.toISOString() : p.updatedAt,
+          features: typeof p.features === 'object' ? p.features : {}
+        }))}
+        initialSubscriptions={subscriptions.map(s => ({
+          ...s,
+          createdAt: s.createdAt instanceof Date ? s.createdAt.toISOString() : s.createdAt,
+          updatedAt: s.updatedAt instanceof Date ? s.updatedAt.toISOString() : s.updatedAt,
+          currentPeriodStart: s.currentPeriodStart instanceof Date ? s.currentPeriodStart.toISOString() : s.currentPeriodStart,
+          currentPeriodEnd: s.currentPeriodEnd instanceof Date ? s.currentPeriodEnd.toISOString() : s.currentPeriodEnd,
+        }))}
       />
     </DashboardShell>
   );

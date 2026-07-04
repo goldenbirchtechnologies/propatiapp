@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { VerificationLayerStatus, VerificationOverallStatus, VerificationTier } from '@prisma/client';
+import { VerificationLayerStatus, VerificationOverallStatus, VerificationTier, IdType } from '@prisma/client';
 import { sendEmail, emailTemplates } from './email';
 import { getVerificationTierFromProgress } from './verification-helpers';
 
@@ -41,11 +41,18 @@ const VALID_TRANSITIONS: LayerTransition[] = [
 ];
 
 export class VerificationService {
+  static isFrozen(status: VerificationOverallStatus): boolean {
+    return status === 'frozen';
+  }
+
   static getTransition(
     currentStatus: VerificationOverallStatus,
     currentLayer: number,
     action: LayerAction
   ): LayerTransition | null {
+    if (currentStatus === 'frozen') {
+      return null; // Frozen verifications cannot proceed without unfreezing
+    }
     return (
       VALID_TRANSITIONS.find(
         (t) => t.from === currentStatus && t.layer === currentLayer && t.action === action
@@ -166,7 +173,7 @@ export class VerificationService {
     }
   }
 
-  static async submitLayer2(listingId: string, idType: string, userId: string) {
+  static async submitLayer2(listingId: string, idType: IdType, userId: string) {
     const verification = await prisma.verification.findUnique({
       where: { listingId },
     });
@@ -179,7 +186,7 @@ export class VerificationService {
     return prisma.verification.update({
       where: { id: verification.id },
       data: {
-        l2IdType: idType,
+        l2IdType: idType as IdType,
         l2Status: 'pending',
       },
     });
@@ -380,12 +387,65 @@ export class VerificationService {
     }
   }
 
+  static async freezeVerification(listingId: string, reason: string, reviewerId?: string) {
+    const verification = await prisma.verification.findUnique({
+      where: { listingId },
+      include: { listing: true, owner: true },
+    });
+
+    if (!verification) throw new Error('Verification not found');
+
+    const updated = await prisma.verification.update({
+      where: { id: verification.id },
+      data: {
+        overallStatus: 'frozen',
+        frozenReason: reason,
+        frozenAt: new Date(),
+        frozenBy: reviewerId,
+      },
+    });
+
+    await sendEmail({
+      to: verification.owner.email,
+      subject: `Verification Frozen: ${verification.listing.title}`,
+      html: emailTemplates.verificationUpdate(
+        verification.owner.fullName,
+        verification.listing.title,
+        0,
+        'frozen',
+        `Your verification has been temporarily frozen. Reason: ${reason}. Please contact support for further assistance.`
+      ).html,
+    });
+
+    return updated;
+  }
+
+  static async unfreezeVerification(listingId: string, reviewerId?: string) {
+    const verification = await prisma.verification.findUnique({
+      where: { listingId },
+    });
+
+    if (!verification) throw new Error('Verification not found');
+
+    return prisma.verification.update({
+      where: { id: verification.id },
+      data: {
+        overallStatus: 'in_progress',
+        frozenReason: null,
+        frozenAt: null,
+        frozenBy: null,
+        reviewedBy: reviewerId,
+        reviewedAt: new Date(),
+      },
+    });
+  }
+
   static async getVerificationStatus(listingId: string) {
     return prisma.verification.findUnique({
       where: { listingId },
       include: {
         listing: {
-          select: { id: true, title: true, verificationTier: true },
+          select: { id: true, title: true, verificationTier: true, agentId: true },
         },
       },
     });

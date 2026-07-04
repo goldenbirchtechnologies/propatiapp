@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     if (
       agreement.stampDuty?.status === 'paid' ||
-      agreement.stampDuty?.status === 'certificate_issued'
+      agreement.stampDuty?.status === 'processing'
     ) {
       return NextResponse.json(
         { error: 'Stamp duty has already been paid for this agreement' },

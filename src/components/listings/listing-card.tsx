@@ -66,7 +66,7 @@ interface ListingCardProps {
   className?: string;
 }
 
-const propertyTypeIcons: Record<ListingData['propertyType'], React.ReactNode> = {
+const propertyTypeIcons: Record<NonNullable<ListingData['propertyType']>, React.ReactNode> = {
   apartment: <Square className="h-4 w-4" />,
   house: <Home className="h-4 w-4" />,
   duplex: <LayoutDashboard className="h-4 w-4" />,

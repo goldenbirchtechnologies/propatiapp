@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Download, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface AuditLog {
@@ -18,7 +18,7 @@ interface AuditLog {
   admin: string;
   action: string;
   target: string;
-  details: string | number | boolean | object;
+  details: string | number | boolean | object | null;
   timestamp: Date;
 }
 
@@ -31,6 +31,8 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
   const [logs] = useState(initialLogs);
   const [searchTerm, setSearchTerm] = useState('');
   const [actionFilter, setActionFilter] = useState('all');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -40,13 +42,21 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
         log.admin.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.target.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        typeof log.details === "string" ? typeof log.details === "string" ? log.details.toLowerCase() : String(log.details) : String(log.details).includes(searchTerm.toLowerCase());
+        typeof log.details === "string"
+          ? typeof log.details === "string"
+            ? log.details.toLowerCase().includes(searchTerm.toLowerCase())
+            : String(log.details).toLowerCase().includes(searchTerm.toLowerCase())
+          : String(log.details).includes(searchTerm.toLowerCase());
 
       const matchesAction = actionFilter === 'all' || log.action === actionFilter;
 
-      return matchesSearch && matchesAction;
+      const logDate = log.timestamp instanceof Date ? log.timestamp : new Date(log.timestamp);
+      const matchesStart = !startDate || logDate >= new Date(startDate);
+      const matchesEnd = !endDate || logDate <= new Date(endDate + 'T23:59:59');
+
+      return matchesSearch && matchesAction && matchesStart && matchesEnd;
     });
-  }, [logs, searchTerm, actionFilter]);
+  }, [logs, searchTerm, actionFilter, startDate, endDate]);
 
   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
   const paginatedLogs = filteredLogs.slice(
@@ -61,20 +71,48 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
         log.admin,
         log.action,
         log.target,
-        log.details,
-        log.timestamp.toISOString(),
+        typeof log.details === 'string' ? log.details : JSON.stringify(log.details),
+        log.timestamp instanceof Date ? log.timestamp.toISOString() : new Date(log.timestamp).toISOString(),
       ]),
     ];
 
-    const csvContent = csvData.map((row) => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const csvContent = csvData.map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `audit-logs-${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
+    window.URL.revokeObjectURL(url);
 
-    toast({ title: 'Success', description: 'Audit logs exported' });
+    toast({ title: 'Success', description: 'Audit logs exported as CSV' });
+  };
+
+  const handleExportMockJSON = () => {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      dateRange: { start: startDate || null, end: endDate || null },
+      filters: { action: actionFilter, search: searchTerm || null },
+      total: filteredLogs.length,
+      logs: filteredLogs.map((log) => ({
+        id: log.id,
+        admin: log.admin,
+        action: log.action,
+        target: log.target,
+        details: typeof log.details === 'string' ? log.details : JSON.stringify(log.details),
+        timestamp: log.timestamp instanceof Date ? log.timestamp.toISOString() : new Date(log.timestamp).toISOString(),
+      })),
+    };
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `audit-logs-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+
+    toast({ title: 'Success', description: 'Audit logs exported as JSON' });
   };
 
   const getActionColor = (action: string) => {
@@ -122,10 +160,16 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
             Track all admin actions and platform activity.
           </p>
         </div>
-        <Button onClick={handleExportCSV} variant="outline">
-          <Download className="h-4 w-4 mr-2" />
-          Export CSV
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={handleExportCSV} variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
+          </Button>
+          <Button onClick={handleExportMockJSON} variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Export JSON
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -158,6 +202,38 @@ export default function AuditLogsClient({ auditLogs: initialLogs }: AuditLogsCli
               ))}
             </SelectContent>
           </Select>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <Input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="pl-10"
+                placeholder="Start date"
+              />
+            </div>
+            <span style={{ color: 'var(--muted)' }}>–</span>
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="pl-10"
+                placeholder="End date"
+              />
+            </div>
+            {(startDate || endDate) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => { setStartDate(''); setEndDate(''); }}
+              >
+                Clear
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 

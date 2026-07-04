@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     if (
       agreement.stampDuty.status === 'paid' ||
-      agreement.stampDuty.status === 'certificate_issued'
+      agreement.stampDuty.status === 'issued'
     ) {
       return NextResponse.json({
         success: true,
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
         await prisma.stampDuty.update({
           where: { agreementId },
           data: {
-            status: 'certificate_issued',
+            status: 'issued',
             certificateUrl: result.certificateUrl,
             issuedAt: new Date(),
           },

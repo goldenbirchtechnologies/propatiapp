@@ -58,7 +58,7 @@ export function useNotifications(params?: {
         searchParams.append('unreadOnly', 'true');
       }
 
-      const response = await api.get(`/api/notifications?${searchParams}`);
+      const response: any = await api.get(`/api/notifications?${searchParams}`);
       return response.data as NotificationsResponse;
     },
     refetchInterval: 30000, // Poll every 30 seconds
@@ -73,7 +73,7 @@ export function useUnreadCount() {
   return useQuery({
     queryKey: ['notifications', 'unread-count'],
     queryFn: async () => {
-      const response = await api.get('/api/notifications/unread-count');
+      const response: any = await api.get('/api/notifications/unread-count');
       return response.data.count as number;
     },
     refetchInterval: 30000, // Poll every 30 seconds
@@ -89,7 +89,7 @@ export function useMarkNotificationRead() {
 
   return useMutation({
     mutationFn: async (params: { id: string; read: boolean }) => {
-      const response = await api.patch(
+      const response: any = await api.patch(
         `/api/notifications/${params.id}/read`,
         {
           read: params.read,
@@ -112,7 +112,7 @@ export function useMarkAllRead() {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await api.post('/api/notifications/mark-all-read');
+      const response: any = await api.post('/api/notifications/mark-all-read');
       return response.data;
     },
     onSuccess: () => {

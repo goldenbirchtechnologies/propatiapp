@@ -126,25 +126,19 @@ function ThemeToggle() {
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioItem
-          value="light"
-          checked={theme === 'light'}
-          onCheckedChange={() => setTheme('light')}
+          {...{ value: 'light', checked: theme === 'light', onCheckedChange: () => setTheme('light') } as any}
         >
           <Sun className="mr-2 h-4 w-4" />
           Light
         </DropdownMenuRadioItem>
         <DropdownMenuRadioItem
-          value="dark"
-          checked={theme === 'dark'}
-          onCheckedChange={() => setTheme('dark')}
+          {...{ value: 'dark', checked: theme === 'dark', onCheckedChange: () => setTheme('dark') } as any}
         >
           <Moon className="mr-2 h-4 w-4" />
           Dark
         </DropdownMenuRadioItem>
         <DropdownMenuRadioItem
-          value="system"
-          checked={theme === 'system'}
-          onCheckedChange={() => setTheme('system')}
+          {...{ value: 'system', checked: theme === 'system', onCheckedChange: () => setTheme('system') } as any}
         >
           <Monitor className="mr-2 h-4 w-4" />
           System

@@ -30,7 +30,7 @@ export async function GET(
             phoneVerified: true,
             email: true,
             role: true,
-            profileImage: true,
+            avatarUrl: true,
           },
         },
         agent: {
@@ -39,11 +39,11 @@ export async function GET(
             fullName: true,
             phone: true,
             email: true,
-            profileImage: true,
+            avatarUrl: true,
           },
         },
         images: {
-          orderBy: { order: 'asc' },
+          orderBy: { sortOrder: 'asc' },
         },
         verification: true,
       },
@@ -90,8 +90,12 @@ export async function GET(
           ? {
               overallStatus: listing.verification.overallStatus,
               currentLayer: listing.verification.currentLayer,
-              rejectedAt: listing.verification.rejectedAt,
-              completedAt: listing.verification.completedAt,
+              l1Status: listing.verification.l1Status,
+              l2Status: listing.verification.l2Status,
+              l3Status: listing.verification.l3Status,
+              l4Status: listing.verification.l4Status,
+              l5Status: listing.verification.l5Status,
+              reviewedAt: listing.verification.reviewedAt,
             }
           : null,
       },

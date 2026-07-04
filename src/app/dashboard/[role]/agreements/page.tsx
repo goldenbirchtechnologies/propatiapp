@@ -28,17 +28,17 @@ export default function AgreementsPage() {
   };
 
   const filterAgreements = (status: AgreementStatus) => {
-    if (!agreements) return [];
-    if (status === 'all') return agreements;
+    if (!agreements?.data) return [];
+    if (status === 'all') return agreements.data;
     if (status === 'pending') {
-      return agreements.filter((a) =>
+      return agreements.data.filter((a) =>
         ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(a.status)
       );
     }
     if (status === 'active') {
-      return agreements.filter((a) => a.status === 'fully_signed');
+      return agreements.data.filter((a) => a.status === 'fully_signed');
     }
-    return agreements.filter((a) => a.status === status);
+    return agreements.data.filter((a) => a.status === status);
   };
 
   const filteredAgreements = filterAgreements(activeTab);

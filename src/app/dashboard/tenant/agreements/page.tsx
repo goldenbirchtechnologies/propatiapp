@@ -19,25 +19,31 @@ export default async function TenantAgreementsPage() {
     redirect('/dashboard');
   }
 
-  const agreements = await prisma.agreement.findMany({
-    where: { tenantId: user.id },
-    include: {
-      listing: {
-        select: {
-          id: true,
-          title: true,
-          area: true,
-          state: true,
-          images: { where: { isCover: true }, take: 1 },
+  // ─── Pre-fetch agreements on the server ─────────────────────────────────────
+  let agreements;
+  try {
+    agreements = await prisma.agreement.findMany({
+      where: { tenantId: user.id },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            area: true,
+            state: true,
+            images: { where: { isCover: true }, take: 1 },
+          },
         },
+        landlord: { select: { id: true, fullName: true } },
+        agent: { select: { id: true, fullName: true } },
+        signatures: { include: { signer: { select: { id: true, fullName: true } } } },
       },
-      landlord: { select: { id: true, fullName: true } },
-      agent: { select: { id: true, fullName: true } },
-      signatures: { include: { signer: { select: { id: true, fullName: true } } } },
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  });
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+  } catch {
+    agreements = [];
+  }
 
   return (
     <DashboardShell
@@ -46,7 +52,13 @@ export default async function TenantAgreementsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantAgreementsClient initialAgreements={agreements} />
+      <TenantAgreementsClient
+        initialAgreements={agreements}
+        onRetry={() => {
+          // Retry forces a soft re-render (client re-fetches via polling / manual trigger)
+          window.location.reload();
+        }}
+      />
     </DashboardShell>
   );
 }

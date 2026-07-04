@@ -108,12 +108,12 @@ async function handleUserCreated(data: UserJSON) {
   const publicMeta = public_metadata as Record<string, unknown> | null ?? {};
   const role = (unsafeMeta.role as Role) || (publicMeta.role as Role) || 'tenant';
 
-  const ninVerified = (meta.ninVerified as boolean) || false;
-  const phoneVerified = (meta.phoneVerified as boolean) || false;
-  const idVerified = (meta.idVerified as boolean) || false;
-  const profileCompleted = (meta.profileCompleted as boolean) || false;
-  const agentTier = (meta.agentTier as AgentTier) || 'standard';
-  const agentApproved = (meta.agentApproved as boolean) || false;
+  const ninVerified = (unsafeMeta.ninVerified as boolean) || false;
+  const phoneVerified = (unsafeMeta.phoneVerified as boolean) || false;
+  const idVerified = (unsafeMeta.idVerified as boolean) || false;
+  const profileCompleted = (unsafeMeta.profileCompleted as boolean) || false;
+  const agentTier = (unsafeMeta.agentTier as AgentTier) || 'standard';
+  const agentApproved = (unsafeMeta.agentApproved as boolean) || false;
 
   await prisma.user.create({
     data: {
@@ -165,12 +165,12 @@ async function handleUserUpdated(data: UserJSON) {
   const publicMeta = public_metadata as Record<string, unknown> | null ?? {};
   const role = (unsafeMeta.role as Role) || (publicMeta.role as Role) || 'tenant';
 
-  const ninVerified = (meta.ninVerified as boolean) || false;
-  const phoneVerified = (meta.phoneVerified as boolean) || false;
-  const idVerified = (meta.idVerified as boolean) || false;
-  const profileCompleted = (meta.profileCompleted as boolean) || false;
-  const agentTier = (meta.agentTier as AgentTier) || 'standard';
-  const agentApproved = (meta.agentApproved as boolean) || false;
+  const ninVerified = (unsafeMeta.ninVerified as boolean) || false;
+  const phoneVerified = (unsafeMeta.phoneVerified as boolean) || false;
+  const idVerified = (unsafeMeta.idVerified as boolean) || false;
+  const profileCompleted = (unsafeMeta.profileCompleted as boolean) || false;
+  const agentTier = (unsafeMeta.agentTier as AgentTier) || 'standard';
+  const agentApproved = (unsafeMeta.agentApproved as boolean) || false;
 
   await prisma.user.upsert({
     where: { clerkId: clerkId as string },

@@ -25,7 +25,7 @@ export async function POST(
     const engagement = await prisma.engagement.findUnique({
       where: { id: params.id },
       include: {
-        case: { select: { id: true, caseNumber: true } },
+        case: { select: { id: true, status: true } },
       },
     });
 
@@ -42,7 +42,7 @@ export async function POST(
         lawyerReviewedAt: new Date(),
       },
       include: {
-        case: { select: { id: true, caseNumber: true, title: true } },
+        case: { select: { id: true, status: true } },
         firm: { select: { id: true, name: true } },
       },
     });

@@ -82,8 +82,9 @@ export async function PATCH(
         select: { ownerId: true, units: { select: { organization: { select: { ownerId: true } } } } },
       });
       isAuthorized =
-        listing?.ownerId === user.id ||
-        listing?.units.some((u) => u.organization.ownerId === user.id);
+        (listing?.ownerId === user.id ||
+          listing?.units.some((u) => u.organization.ownerId === user.id)) ??
+        false;
     } else if (user.role === 'landlord') {
       const listing = await prisma.listing.findUnique({
         where: { id: existing.listingId ?? undefined },
@@ -169,8 +170,9 @@ export async function DELETE(
         select: { ownerId: true, units: { select: { organization: { select: { ownerId: true } } } } },
       });
       isAuthorized =
-        listing?.ownerId === user.id ||
-        listing?.units.some((u) => u.organization.ownerId === user.id);
+        (listing?.ownerId === user.id ||
+          listing?.units.some((u) => u.organization.ownerId === user.id)) ??
+        false;
     } else if (user.role === 'landlord') {
       const listing = await prisma.listing.findUnique({
         where: { id: existing.listingId ?? undefined },

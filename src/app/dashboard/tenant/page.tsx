@@ -34,40 +34,40 @@ export default function TenantDashboardLanding() {
           <Link
             key={href}
             href={href}
-            className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition hover:border-primary/60 hover:shadow-sm"
+            className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition hover:border-primary hover:shadow-md"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <Icon size={18} />
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Icon size={20} />
             </span>
-            <span className="text-sm font-medium text-foreground">{label}</span>
+            <span className="text-sm font-semibold text-foreground">{label}</span>
           </Link>
         ))}
         <Link
           href="/dashboard/messages"
-          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition hover:border-primary/60 hover:shadow-sm"
+          className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition hover:border-primary hover:shadow-md"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <MessageSquare size={18} />
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <MessageSquare size={20} />
           </span>
-          <span className="text-sm font-medium text-foreground">Messages</span>
+          <span className="text-sm font-semibold text-foreground">Messages</span>
         </Link>
         <Link
           href="/dashboard/notifications"
-          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition hover:border-primary/60 hover:shadow-sm"
+          className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition hover:border-primary hover:shadow-md"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <Bell size={18} />
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <Bell size={20} />
           </span>
-          <span className="text-sm font-medium text-foreground">Notifications</span>
+          <span className="text-sm font-semibold text-foreground">Notifications</span>
         </Link>
         <Link
           href="/dashboard/settings/notifications"
-          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition hover:border-primary/60 hover:shadow-sm"
+          className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition hover:border-primary hover:shadow-md"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <Settings size={18} />
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <Settings size={20} />
           </span>
-          <span className="text-sm font-medium text-foreground">Settings</span>
+          <span className="text-sm font-semibold text-foreground">Settings</span>
         </Link>
       </section>
     </div>

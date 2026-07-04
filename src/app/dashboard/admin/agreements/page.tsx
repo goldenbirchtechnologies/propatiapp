@@ -1,10 +1,11 @@
 // src/app/dashboard/admin/agreements/page.tsx
 'use client';
-import RoleLayout from '../../[role]/layout';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ADMIN_NAVIGATION } from '@/lib/navigation';
 
 export default function AdminAgreementsPage() {
   return (
-    <RoleLayout>
+    <DashboardShell navigation={ADMIN_NAVIGATION}>
       <section className="space-y-6">
         <h1 className="text-3xl font-bold text-foreground">Admin – Agreements</h1>
         <p className="text-muted-foreground">Manage platform agreements, terms, and contracts.</p>
@@ -13,6 +14,6 @@ export default function AdminAgreementsPage() {
           <p className="text-gray-600">No agreements found. Create a new agreement to get started.</p>
         </div>
       </section>
-    </RoleLayout>
+    </DashboardShell>
   );
 }

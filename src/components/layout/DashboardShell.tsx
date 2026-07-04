@@ -7,6 +7,7 @@ import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface NavItem {
@@ -19,16 +20,13 @@ export interface NavItem {
 interface DashboardShellProps {
   children: React.ReactNode;
   navigation: NavItem[];
-  userRole: string;
-  userName: string;
+  userRole?: string;
+  userName?: string;
   userAvatar?: string;
   /** Set true during the initial shell hydration/sidebar data fetch.
    *  When true, renders the skeleton shell so layout never flashes empty. */
   shellLoading?: boolean;
 }
-
-// ─── CSS-grid responsive skeleton containers ─────────────────────────────────
-// All use CSS-only shimmer via cls injected inline style; no extra TS files needed.
 
 function StatCardSkeleton() {
   return (
@@ -246,7 +244,6 @@ function ListRowSkeleton() {
   );
 }
 
-// ─── Loading shell (full-page skeleton) ──────────────────────────────────────
 function LoadingShell() {
   return (
     <div
@@ -262,7 +259,7 @@ function LoadingShell() {
         aria-label="Loading navigation"
         style={{
           width: 'var(--sidebar-width)',
-          background: 'var(--surface)',
+          background: 'hsl(var(--primary-dark) / 1)',
           borderRight: '1px solid var(--border)',
         }}
       >
@@ -314,11 +311,7 @@ function LoadingShell() {
             </div>
           </div>
         </div>
-        <nav
-          className="sb-nav"
-          style={{ padding: 'var(--space-md)' }}
-          aria-hidden="true"
-        >
+        <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-hidden="true">
           <ul className="space-y-1" role="list">
             {[...Array(7)].map((_, i) => (
               <li key={i}>
@@ -342,7 +335,7 @@ function LoadingShell() {
           style={{
             height: 'var(--topbar-height)',
             padding: '0 var(--space-xxl)',
-            background: 'var(--surface)',
+            background: 'hsl(var(--surface-container-lowest) / 1)',
             borderBottom: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
@@ -365,7 +358,7 @@ function LoadingShell() {
               className="rounded-md hidden md:block"
               style={{
                 height: 36,
-                width: 36,
+                width: 240,
                 background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)',
                 backgroundSize: '200% 100%',
                 animation: 'skel-shimmer 1.6s linear infinite',
@@ -373,6 +366,7 @@ function LoadingShell() {
             />
           </div>
           <div className="flex items-center gap-3">
+            <div className="rounded-full" style={{ width: 32, height: 32, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }} />
             <div className="rounded-full" style={{ width: 32, height: 32, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }} />
             <div className="rounded-full" style={{ width: 32, height: 32, background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }} />
           </div>
@@ -386,7 +380,7 @@ function LoadingShell() {
             padding: 'var(--content-padding-desktop)',
           }}
         >
-          {/* Stat cards grid — collapses 3→2→1 via inline responsive classes */}
+          {/* Stat cards grid */}
           <div
             className="grid gap-4 sm:gap-6"
             style={{
@@ -402,26 +396,17 @@ function LoadingShell() {
                 .shell-loading-grid { grid-template-columns: 1fr !important; }
               }
             `}</style>
-            {/* Force class to scope the media rules to just this grid */}
             {[...Array(6)].map((_, i) => (
               <StatCardSkeleton key={i} />
             ))}
           </div>
 
-          {/* Action cards grid */}
-          <div
-            className="shell-loading-grid grid gap-4 sm:gap-6 mt-6"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-            }}
-          >
+          <div className="shell-loading-grid grid gap-4 sm:gap-6 mt-6" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
             {[...Array(3)].map((_, i) => (
               <ActionCardSkeleton key={i} />
             ))}
           </div>
 
-          {/* Table skeleton */}
           <div className="mt-6 space-y-2" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
             <div className="flex items-center justify-between mb-4">
               <div
@@ -453,24 +438,6 @@ function LoadingShell() {
       </main>
     </div>
   );
-}
-
-// ─── Section guard: loading / empty / error states per content block ──────────
-interface DashboardSectionProps {
-  /** When true, show skeleton placeholder in this section (cards/table/list slots) */
-  loading?: boolean;
-  /** Error returned from the data-fetch for this section */
-  error?: Error | null;
-  /** Fallback message when data is empty */
-  emptyMessage?: string;
-  /** Skeleton slot: shown only when loading=true */
-  skeleton?: React.ReactNode;
-  /** Actual loaded content */
-  children: React.ReactNode;
-  /** Optional CSS class override for the skeleton container */
-  className?: string;
-  /** onRetry handler when an error is shown */
-  onRetry?: () => void;
 }
 
 export function DashboardSection({
@@ -518,7 +485,23 @@ export function DashboardSection({
   );
 }
 
-// ─── Main shell ──────────────────────────────────────────────────────────────
+interface DashboardSectionProps {
+  /** When true, show skeleton placeholder in this section (cards/table/list slots) */
+  loading?: boolean;
+  /** Error returned from the data-fetch for this section */
+  error?: Error | null;
+  /** Fallback message when data is empty */
+  emptyMessage?: string;
+  /** Skeleton slot: shown only when loading=true */
+  skeleton?: React.ReactNode;
+  /** Actual loaded content */
+  children: React.ReactNode;
+  /** Optional CSS class override for the skeleton container */
+  className?: string;
+  /** onRetry handler when an error is shown */
+  onRetry?: () => void;
+}
+
 export function DashboardShell({
   children,
   navigation,
@@ -527,7 +510,6 @@ export function DashboardShell({
   userAvatar,
   shellLoading = false,
 }: DashboardShellProps) {
-  // Full-page skeleton during initial hydration prevents layout shift / inf-load flash
   if (shellLoading) {
     return <LoadingShell />;
   }
@@ -537,8 +519,8 @@ export function DashboardShell({
   const pathname = usePathname();
   const { user } = useUser();
 
-  // Role-based theme class
-  const roleThemeClass = `theme-${userRole.toLowerCase().replace('_', '-')}`;
+  const roleThemeClass = `theme-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
+  const roleClass = `shell-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';
@@ -546,47 +528,48 @@ export function DashboardShell({
   };
 
   return (
-    <div className={`app-layout ${roleThemeClass}`}>
-      {/* Mobile Sidebar Overlay */}
+    <div className={`app-layout ${roleThemeClass} ${roleClass}`}>
       <SidebarOverlay isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Sidebar — on mobile, drawer is driven by the `open` class + inline
-          `position:fixed; transform:translateX(...)` set in Sidebar component */}
       <aside
         className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${sidebarOpen ? 'open' : ''}`}
         role="navigation"
         aria-label="Main navigation"
+        style={{
+          background: 'hsl(var(--primary-dark) / 1)',
+          borderRight: '1px solid hsl(var(--primary-container) / 1)',
+        }}
       >
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
           <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>
+            <span className="text-xl font-display font-black tracking-tight" style={{ color: 'hsl(var(--secondary-container) / 1)' }}>
               PROPATI
             </span>
             {!sidebarCollapsed && (
-              <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+              <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'hsl(0 0% 100% / 0.7)' }}>
                 Dashboard
               </span>
             )}
           </Link>
         </div>
 
-        <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}>
+        <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid hsl(var(--primary-container) / 1)' }}>
           <div className="flex items-center gap-3 min-w-0">
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center font-heading font-bold text-white"
-              style={{ background: `linear-gradient(135deg, var(--accent), var(--accent2))` }}
+              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white"
+              style={{ background: 'hsl(var(--secondary-container) / 1)', color: 'hsl(var(--on-secondary-container) / 1)' }}
             >
               {userAvatar ? (
-                <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full" />
+                <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
               ) : (
-                userName.charAt(0).toUpperCase()
+                (userName || 'U').charAt(0).toUpperCase()
               )}
             </div>
             {!sidebarCollapsed && (
               <div className="min-w-0">
-                <p className="font-medium truncate" style={{ color: 'var(--text)' }}>{userName}</p>
-                <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
-                  {userRole.charAt(0) + userRole.slice(1).toLowerCase().replace('_', ' ')}
+                <p className="font-medium truncate text-white">{userName || (user?.fullName || 'User')}</p>
+                <p className="text-xs truncate text-white/60">
+                  {(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}
                 </p>
               </div>
             )}
@@ -595,71 +578,82 @@ export function DashboardShell({
 
         <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-label="Dashboard navigation">
           <ul className="space-y-1" role="list">
-            {navigation.map((item) => (
-              <li key={item.href}>
-                {item.children ? (
-                  <CollapsibleNavItem
-                    item={item}
-                    isActive={item.children.some((c) => isActive(c.href))}
-                    sidebarCollapsed={sidebarCollapsed}
-                  />
-                ) : (
-                  <Link
-                    href={item.href}
-                    className={`nav-item flex items-center gap-3 ${isActive(item.href) ? 'active' : ''}`}
-                    style={{
-                      padding: 'var(--space-base) var(--space-md)',
-                      borderRadius: 'var(--radius-btn)',
-                      fontSize: 'var(--text-body)',
-                      fontWeight: 500,
-                      minHeight: '44px',
-                      color: isActive(item.href) ? 'var(--accent)' : 'var(--text)',
-                      backgroundColor: isActive(item.href) ? 'var(--accent-bg)' : 'transparent',
-                      transition: 'all var(--transition-fast)',
-                    }}
-                    onClick={() => setSidebarOpen(false)}
-                  >
-                    {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
-                    {!sidebarCollapsed && <span>{item.label}</span>}
-                  </Link>
-                )}
-              </li>
-            ))}
+            {navigation.map((item) => {
+              const itemActive = item.children
+                ? item.children.some((c) => isActive(c.href))
+                : isActive(item.href);
+              return (
+                <li key={item.href}>
+                  {item.children ? (
+                    <CollapsibleNavItem
+                      item={item}
+                      isActive={itemActive}
+                      sidebarCollapsed={sidebarCollapsed}
+                    />
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="nav-item flex items-center gap-3"
+                      style={{
+                        padding: 'var(--space-base) var(--space-md)',
+                        borderRadius: 'var(--radius-btn)',
+                        fontSize: 'var(--text-body)',
+                        fontWeight: 500,
+                        minHeight: '44px',
+                        color: itemActive ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
+                        backgroundColor: itemActive ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
+                        borderLeft: itemActive ? '3px solid hsl(var(--secondary-container) / 1)' : '3px solid transparent',
+                        transition: 'all var(--transition-fast)',
+                      }}
+                      onClick={() => setSidebarOpen(false)}
+                    >
+                      {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+                      {!sidebarCollapsed && <span>{item.label}</span>}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
-        <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
-          <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>
-            <span>v1.0.0</span>
-            <span style={{ flex: 1 }} />
-            <SignOutButton>
-              <button
-                className="btn btn-ghost text-sm w-full justify-center"
-                style={{ padding: 'var(--space-sm) var(--space-md)' }}
-              >
-                {!sidebarCollapsed && 'Sign Out'}
-                {sidebarCollapsed && (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                )}
-              </button>
-            </SignOutButton>
-          </div>
+        <div
+          className="sb-footer"
+          style={{
+            padding: 'var(--space-lg)',
+            borderTop: '1px solid hsl(var(--primary-container) / 1)',
+            marginTop: 'auto',
+            color: 'hsl(0 0% 100% / 0.5)',
+            fontSize: 'var(--text-tag)',
+          }}
+        >
+          <SignOutButton>
+            <button
+              className="flex w-full items-center justify-center gap-2 rounded-lg py-2 text-sm transition hover:bg-white/10"
+              style={{
+                padding: 'var(--space-sm) var(--space-md)',
+                color: 'hsl(0 0% 100% / 0.85)',
+              }}
+            >
+              {!sidebarCollapsed && 'Sign Out'}
+              {sidebarCollapsed && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+              )}
+            </button>
+          </SignOutButton>
         </div>
       </aside>
 
-      {/* Main Area */}
       <main className="main-area">
-        {/* Topbar */}
         <header className="topbar">
           <div className="flex items-center gap-4">
-            {/* Mobile hamburger — opens drawer */}
             <button
               className="md:hidden p-2 rounded-lg"
-              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+              style={{ background: 'hsl(var(--surface-container-low) / 1)', color: 'hsl(var(--foreground) / 1)' }}
               onClick={() => setSidebarOpen(true)}
               aria-label="Open menu"
             >
@@ -669,10 +663,9 @@ export function DashboardShell({
                 <line x1="3" y1="18" x2="21" y2="18" />
               </svg>
             </button>
-            {/* Desktop collapse toggle */}
             <button
               className="hidden md:flex p-2 rounded-lg"
-              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+              style={{ background: 'hsl(var(--surface-container-low) / 1)', color: 'hsl(var(--foreground) / 1)' }}
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
               aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
@@ -690,11 +683,23 @@ export function DashboardShell({
                 )}
               </svg>
             </button>
+
+            {/* Search pill */}
+            <div className="hidden md:flex flex-1 max-w-md items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'hsl(var(--border) / 1)', background: 'hsl(var(--surface-container-low) / 1)' }}>
+              <Search size={16} style={{ color: 'hsl(var(--muted-foreground) / 1)' }} />
+              <span className="text-sm" style={{ color: 'hsl(var(--muted-foreground) / 1)' }}>Search...</span>
+            </div>
           </div>
 
           <div className="flex-1" />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
+              aria-label="Help"
+            >
+              <HelpCircle size={20} style={{ color: 'hsl(var(--muted-foreground) / 1)' }} />
+            </button>
             <NotificationsBell position="right" userRole={userRole} />
             <UserButton
               afterSignOutUrl="/"
@@ -709,28 +714,21 @@ export function DashboardShell({
           </div>
         </header>
 
-        {/* Content */}
         <div className="content-area">{children}</div>
       </main>
+
+      {/* Mobile bottom nav + FAB */}
+      <MobileBottomNav navigation={navigation} userRole={userRole} />
     </div>
   );
 }
 
-// ─── Collapsible Nav Item (internal, used by shell) ─────────────────────────
-function CollapsibleNavItem({
-  item,
-  isActive,
-  sidebarCollapsed,
-}: {
-  item: NavItem;
-  isActive: boolean;
-  sidebarCollapsed: boolean;
-}) {
+function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavItem; isActive: boolean; sidebarCollapsed?: string }) {
   const [expanded, setExpanded] = useState(isActive);
 
   if (!item.children || item.children.length === 0) return null;
 
-  if (sidebarCollapsed) {
+  if (sidebarCollapsed === 'true') {
     return (
       <Link
         href={item.children[0]?.href || '#'}
@@ -738,8 +736,8 @@ function CollapsibleNavItem({
         style={{
           padding: 'var(--space-base)',
           borderRadius: 'var(--radius-btn)',
-          color: isActive ? 'var(--accent)' : 'var(--text)',
-          backgroundColor: isActive ? 'var(--accent-bg)' : 'transparent',
+          color: isActive ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
+          backgroundColor: isActive ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
         }}
         title={item.label}
         aria-label={item.label}
@@ -759,8 +757,9 @@ function CollapsibleNavItem({
           fontSize: 'var(--text-body)',
           fontWeight: 500,
           minHeight: '44px',
-          color: isActive || expanded ? 'var(--accent)' : 'var(--text)',
-          backgroundColor: isActive || expanded ? 'var(--accent-bg)' : 'transparent',
+          color: isActive || expanded ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
+          backgroundColor: isActive || expanded ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
+          borderLeft: isActive || expanded ? '3px solid hsl(var(--secondary-container) / 1)' : '3px solid transparent',
           transition: 'all var(--transition-fast)',
           textAlign: 'left',
         }}
@@ -777,7 +776,7 @@ function CollapsibleNavItem({
           stroke="currentColor"
           strokeWidth="2"
           className={`transition-transform ${expanded ? 'rotate-180' : ''}`}
-          style={{ color: 'var(--muted)' }}
+          style={{ color: 'hsl(0 0% 100% / 0.6)' }}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
@@ -792,7 +791,7 @@ function CollapsibleNavItem({
                 style={{
                   padding: 'var(--space-sm) var(--space-md)',
                   borderRadius: 'var(--radius-btn-sm)',
-                  color: 'var(--muted)',
+                  color: 'hsl(0 0% 100% / 0.7)',
                 }}
               >
                 {child.icon && <span className="flex-shrink-0">{child.icon}</span>}
@@ -805,3 +804,57 @@ function CollapsibleNavItem({
     </div>
   );
 }
+
+function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; userRole?: string }) {
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname.startsWith(href);
+
+  const top = navigation.slice(0, 4);
+
+  return (
+    <>
+      <nav
+        className="fixed inset-x-0 bottom-0 z-50 hidden h-16 items-center justify-around border-t md:hidden"
+        style={{
+          background: 'hsl(var(--surface-container-lowest) / 1)',
+          borderTopColor: 'hsl(var(--border) / 1)',
+        }}
+        aria-label="Mobile navigation"
+      >
+        {top.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center gap-1 px-2 py-1"
+              style={{
+                color: active ? 'hsl(var(--secondary-container) / 1)' : 'hsl(var(--muted-foreground) / 1)',
+                transition: 'color var(--transition-fast)',
+              }}
+            >
+              <span className={cn('transition-transform', active && 'scale-110')}>{item.icon}</span>
+              <span className="text-[10px] font-medium leading-none">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+      <Link
+        href="/dashboard"
+        aria-label="Dashboard"
+        className="fixed bottom-6 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg md:hidden"
+        style={{
+          background: 'hsl(var(--secondary-container) / 1)',
+          color: 'hsl(var(--on-secondary-container) / 1)',
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      </Link>
+    </>
+  );
+}
+
+export { CollapsibleNavItem };

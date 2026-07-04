@@ -55,6 +55,7 @@ import { cn } from '@/lib/utils';
 
 interface Dispute {
   id: string;
+  type: string;
   listing: { id: string; title: string } | null;
   raisedByUser: { id: string; fullName: string; email: string };
 }
@@ -68,26 +69,26 @@ interface Firm {
 interface EvidencePackData {
   id: string;
   disputeId: string;
-  firmId: string | null;
+  lawFirmId: string | null;
   status: string;
   fileUrls: unknown;
   payments: unknown;
   messages: unknown;
-  auditLogs: unknown;
+  auditLogs: any;
   metadata: unknown;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   dispute: {
     id: string;
     type: string;
     status: string;
     description: string;
-    createdAt: string;
+    createdAt: Date | string;
     listing: { id: string; title: string } | null;
     raisedByUser: { id: string; fullName: string; email: string };
-    lawFirmCase: { id: string; status: string; lawFirm: { id: string; name: string } } | null;
+    lawFirmCase: { id: string; status: string; firm: { id: string; name: string } } | null;
   };
-  firm: Firm | null;
+  lawFirm: Firm | null;
 }
 
 interface EvidencePacksClientProps {
@@ -106,7 +107,7 @@ const STATUS_COLORS: Record<string, string> = {
   revoked: 'bg-red-100 text-red-700',
 };
 
-function renderJsonSection(title: string, data: unknown, icon: React.ReactNode) {
+function renderJsonSection(title: string, data: any, icon: React.ReactNode) {
   const jsonStr = JSON.stringify(data, null, 2);
   return (
     <div className="space-y-2">
@@ -327,7 +328,7 @@ export default function EvidencePacksClient({
                         {pack.dispute.listing?.title || '(no listing)'}
                       </TableCell>
                       <TableCell className="text-sm">
-                        {pack.firm?.name || '—'}
+                        {pack.lawFirm?.name || '—'}
                       </TableCell>
                       <TableCell>
                         <Badge className={cn('text-xs', STATUS_COLORS[pack.status] ?? '')}>
@@ -458,7 +459,7 @@ export default function EvidencePacksClient({
                     </div>
                     <div>
                       <span style={{ color: 'var(--muted)' }}>Firm</span>
-                      <p>{selectedPack.firm?.name || '—'}</p>
+                      <p>{selectedPack.lawFirm?.name || '—'}</p>
                     </div>
                     <div>
                       <span style={{ color: 'var(--muted)' }}>Created</span>
@@ -476,7 +477,7 @@ export default function EvidencePacksClient({
                       <div>
                         <span style={{ color: 'var(--muted)' }}>Law Firm Case</span>
                         <p className="text-sm">
-                          {selectedPack.dispute.lawFirmCase.lawFirm.name} —{' '}
+                          {selectedPack.dispute.lawFirmCase.firm.name} —{' '}
                           {selectedPack.dispute.lawFirmCase.status}
                         </p>
                       </div>
@@ -504,11 +505,11 @@ export default function EvidencePacksClient({
                     <MessageSquare className="h-4 w-4" />
                   )}
                   <Separator />
-                  {renderJsonSection(
+                  {(renderJsonSection(
                     'Audit Log Entries',
-                    selectedPack.auditLogs,
+                    selectedPack.auditLogs as any,
                     <ScrollText className="h-4 w-4" />
-                  )}
+                  ) as any)}
                   <Separator />
                   {selectedPack.metadata && (
                     <>

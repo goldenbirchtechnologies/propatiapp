@@ -24,7 +24,7 @@ export default async function AdminVerificationPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect("/sign-in");
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch verification queue stats
   const [pendingCount, inProgressCount, approvedCount, rejectedCount] = await Promise.all([

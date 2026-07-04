@@ -24,14 +24,14 @@ export default async function AgentInspectionsPage() {
     include: {
       listing: { select: { id: true, title: true, address: true } },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { updatedAt: 'desc' },
     take: 100,
   });
 
   const initialInspections = inspections.map((v) => ({
     id: v.id,
-    listing: { title: v.listing.title, address: v.listing.address },
-    scheduledAt: v.l4ScheduledAt?.toISOString() || v.createdAt.toISOString(),
+    listing: v.listing.title,
+    scheduledAt: v.l4ScheduledAt?.toISOString() || v.updatedAt.toISOString(),
     status: v.l4Status,
     reportUrl: v.l4ReportUrl,
   }));
@@ -43,7 +43,7 @@ export default async function AgentInspectionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AgentInspectionsClient initialInspections={initialInspections} />
+      <AgentInspectionsClient initialInspections={initialInspections as any} />
     </DashboardShell>
   );
 }

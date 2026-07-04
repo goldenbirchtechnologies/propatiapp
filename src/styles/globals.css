@@ -4,54 +4,70 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Match ui_design_reference tokens exactly */
+    --background: 240 100% 99%;
+    --foreground: 218 28% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 28% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 215 84% 28%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 215 84% 28%;
-    --radius: 0.5rem;
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
+    --popover-foreground: 218 28% 12%;
+    --primary: 218 100% 7%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 37 100% 25%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 20% 96%;
+    --muted-foreground: 220 5% 30%;
+    --accent: 37 92% 61%;
+    --accent-foreground: 218 100% 7%;
+    --destructive: 0 74% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --frozen: 220 9% 46%;
+    --on-frozen: 0 0% 100%;
+    --border: 230 2% 78%;
+    --input: 230 2% 78%;
+    --ring: 37 92% 54%;
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1.25rem;
+    --radius-xl: 1.75rem;
+    --radius-full: 9999px;
+    --success: 159 84% 39%;
+    --warning: 30 92% 50%;
     --verification-basic: 215 16% 47%;
-    --verification-verified: 142 76% 36%;
-    --verification-inspected: 45 93% 47%;
-    --verification-certified: 262 83% 58%;
+    --verification-verified: 218 100% 7%;
+    --verification-inspected: 37 92% 54%;
+    --verification-certified: 159 84% 39%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 215 84% 40%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 215 84% 40%;
+    --background: 220 17% 7%;
+    --foreground: 220 14% 96%;
+    --card: 222 19% 11%;
+    --card-foreground: 220 14% 96%;
+    --popover: 222 19% 11%;
+    --popover-foreground: 220 14% 96%;
+    --primary: 159 71% 45%;
+    --primary-foreground: 166 91% 9%;
+    --secondary: 38 92% 50%;
+    --secondary-foreground: 15 75% 28%;
+    --muted: 222 15% 17%;
+    --muted-foreground: 218 11% 65%;
+    --accent: 222 15% 17%;
+    --accent-foreground: 220 14% 96%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --frozen: 216 12% 84%;
+    --on-frozen: 222 15% 17%;
+    --border: 222 15% 17%;
+    --input: 222 15% 17%;
+    --ring: 159 71% 45%;
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1.25rem;
+    --radius-xl: 1.75rem;
+    --radius-full: 9999px;
   }
 }
 
@@ -75,35 +91,35 @@
   .container-padded {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
+
   .section-spacing {
     @apply py-12 sm:py-16 lg:py-20;
   }
-  
+
   .card-hover {
     @apply transition-shadow duration-200 hover:shadow-card-hover;
   }
-  
+
   .input-error {
     @apply border-destructive focus-visible:ring-destructive;
   }
-  
+
   .btn-primary {
     @apply bg-primary text-primary-foreground hover:bg-primary/90;
   }
-  
+
   .btn-secondary {
     @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
   }
-  
+
   .btn-outline {
     @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
   }
-  
+
   .btn-ghost {
     @apply hover:bg-accent hover:text-accent-foreground;
   }
-  
+
   .btn-destructive {
     @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
   }
@@ -139,6 +155,17 @@
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

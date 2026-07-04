@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 interface ModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title?: string;
   description?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -32,7 +32,7 @@ interface BottomSheetProps extends Omit<ModalProps, 'variant'> {
   disableDrag?: boolean;
 }
 
-const Modal = React.forwardRef<HTMLDialogElement, ModalProps>(
+const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
   ({ open, onOpenChange, children, title, description, size = 'md', variant = 'default', showClose = true, closeOnOverlayClick = true, closeOnEscape = true, className, contentClassName, headerClassName, footerClassName, footer }, ref) => {
     const sizeClasses = {
       sm: 'max-w-[380px]',
@@ -73,7 +73,7 @@ const Modal = React.forwardRef<HTMLDialogElement, ModalProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref}
+          ref={ref as any}
           className={cn(
             'fixed z-50 bg-background border border-border',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
@@ -227,7 +227,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref}
+          ref={ref as any}
           className={cn(
             'fixed z-50 bottom-0 left-0 right-0 bg-background border-t border-border',
             'rounded-t-[20px] rounded-t-[20px] shadow-2xl',
@@ -335,7 +335,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref}
+          ref={ref as any}
           className={cn(
             'fixed z-50 right-0 top-0 bottom-0 bg-background border-l border-border',
             'shadow-2xl',

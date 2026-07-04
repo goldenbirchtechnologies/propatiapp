@@ -28,7 +28,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     return NextResponse.json({ booking });
   } catch (error) {
-    return errorResponse(error);
+    return errorResponse(error instanceof Error ? error.message : 'Failed to fetch booking', 500);
   }
 }
 
@@ -72,7 +72,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     return NextResponse.json({ booking });
   } catch (error) {
-    return errorResponse(error);
+    return errorResponse(error instanceof Error ? error.message : 'Failed to update booking', 500);
   }
 }
 
@@ -102,6 +102,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return errorResponse(error);
+    return errorResponse(error instanceof Error ? error.message : 'Failed to cancel booking', 500);
   }
 }

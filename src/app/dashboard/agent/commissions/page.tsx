@@ -21,40 +21,61 @@ export default async function AgentCommissionsPage() {
 
   const agentId = user.id;
 
-  const agreements = await prisma.agreement.findMany({
-    where: { agentId: { not: null } },
-    include: {
-      listing: { select: { id: true, title: true, address: true } },
-      tenant: { select: { id: true, fullName: true } },
-      transactions: {
-        where: { status: 'released' },
-        select: { amount: true, paidAt: true },
-      },
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  });
+  let commissions: {
+    id: string;
+    deal: string;
+    amount: number;
+    rate: string;
+    date: string;
+    status: string;
+    client: string;
+  }[] = [];
+  let totalEarned = 0;
+  let totalPaid = 0;
+  let totalPending = 0;
 
-  const commissions = agreements
-    .filter((a) => a.agentId === agentId)
-    .map((a) => {
-      const totalPaid = a.transactions.reduce((sum, t) => sum + Number(t.amount), 0);
-      const commissionRate = 0.05;
-      const amount = totalPaid * commissionRate;
-      return {
-        id: a.id,
-        deal: `${a.type} - ${a.listing?.title || 'Unknown'}`,
-        amount,
-        rate: '5%',
-        date: a.createdAt,
-        status: amount > 0 ? 'paid' : 'pending',
-        client: a.tenant?.fullName || '—',
-      };
+  try {
+    const agreements = await prisma.agreement.findMany({
+      where: { agentId: { not: null } },
+      include: {
+        listing: { select: { id: true, title: true, address: true } },
+        tenant: { select: { id: true, fullName: true } },
+        transactions: {
+          where: { status: 'released' },
+          select: { amount: true, paidAt: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
     });
 
-  const totalEarned = commissions.reduce((s, c) => s + c.amount, 0);
-  const totalPaid = commissions.filter((c) => c.status === 'paid').reduce((s, c) => s + c.amount, 0);
-  const totalPending = commissions.filter((c) => c.status === 'pending').reduce((s, c) => s + c.amount, 0);
+    commissions = agreements
+      .filter((a) => a.agentId === agentId)
+      .map((a) => {
+        const totalPaidAmt = a.transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+        const commissionRate = 0.05;
+        const amount = totalPaidAmt * commissionRate;
+        return {
+          id: a.id,
+          deal: `${a.type} – ${a.listing?.title || 'Unknown'}`,
+          amount,
+          rate: '5%',
+          date: a.createdAt.toISOString(),
+          status: amount > 0 ? 'paid' : 'pending',
+          client: a.tenant?.fullName || '—',
+        };
+      });
+
+    totalEarned = commissions.reduce((s, c) => s + c.amount, 0);
+    totalPaid = commissions
+      .filter((c) => c.status === 'paid')
+      .reduce((s, c) => s + c.amount, 0);
+    totalPending = commissions
+      .filter((c) => c.status === 'pending')
+      .reduce((s, c) => s + c.amount, 0);
+  } catch {
+    // leave as empty on error
+  }
 
   return (
     <DashboardShell
@@ -64,10 +85,13 @@ export default async function AgentCommissionsPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <AgentCommissionsClient
-        initialCommissions={commissions}
+        initialCommissions={commissions as any}
         totalEarned={totalEarned}
         totalPaid={totalPaid}
         totalPending={totalPending}
+        onRetry={() => {
+          window.location.reload();
+        }}
       />
     </DashboardShell>
   );

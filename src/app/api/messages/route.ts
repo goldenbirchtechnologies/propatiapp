@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Check if this is creating a conversation or sending a message
-    if ('tenantId' in body && 'listingId' in body) {
+    if ('participantId' in body && 'listingId' in body) {
       // Create conversation
       const validated = createConversationSchema.parse(body);
 
@@ -159,9 +159,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
       }
 
-      // Verify tenant exists and is a tenant
+      // Verify participant exists and is a tenant
       const tenant = await prisma.user.findUnique({
-        where: { id: validated.tenantId },
+        where: { id: validated.participantId },
         select: { id: true, role: true, fullName: true },
       });
 
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
         where: {
           landlordId_tenantId_listingId: {
             landlordId: listing.ownerId,
-            tenantId: validated.tenantId,
+            tenantId: validated.participantId,
             listingId: validated.listingId,
           },
         },
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
         data: {
           listingId: validated.listingId,
           landlordId: listing.ownerId,
-          tenantId: validated.tenantId,
+          tenantId: validated.participantId,
           subject: validated.subject,
         },
         include: {
@@ -213,10 +213,11 @@ export async function POST(request: NextRequest) {
     } else {
       // Send message - would need sendMessageSchema validation
       const { sendMessageSchema } = await import('@/lib/validators');
-      const validated = sendMessageSchema.parse(body);
+      const { conversationId, ...rest } = body;
+      const validated = sendMessageSchema.parse(rest);
 
       const conversation = await prisma.conversation.findUnique({
-        where: { id: validated.conversationId },
+        where: { id: conversationId },
         select: { id: true, landlordId: true, tenantId: true, listingId: true },
       });
 
@@ -230,7 +231,7 @@ export async function POST(request: NextRequest) {
 
       const message = await prisma.message.create({
         data: {
-          conversationId: validated.conversationId,
+          conversationId,
           senderId: user.id,
           content: validated.content,
           attachmentUrl: validated.attachmentUrl,
@@ -244,7 +245,7 @@ export async function POST(request: NextRequest) {
       // Update conversation
       const recipientId = conversation.landlordId === user.id ? conversation.tenantId : conversation.landlordId;
       await prisma.conversation.update({
-        where: { id: validated.conversationId },
+        where: { id: conversationId },
         data: {
           lastMessage: validated.content.substring(0, 200),
           lastMessageAt: new Date(),
@@ -260,7 +261,7 @@ export async function POST(request: NextRequest) {
           type: 'message',
           title: 'New Message',
           body: `${user.fullName}: ${validated.content.substring(0, 100)}...`,
-          data: { conversationId: validated.conversationId, messageId: message.id },
+          data: { conversationId, messageId: message.id },
         },
       });
 

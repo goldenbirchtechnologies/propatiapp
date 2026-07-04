@@ -448,12 +448,12 @@ export function getViewportHeight(): number {
  * Lock orientation (if supported)
  */
 export async function lockOrientation(orientation: 'portrait' | 'landscape'): Promise<boolean> {
-  if (typeof screen === 'undefined' || !screen.orientation || !screen.orientation.lock) {
+  if (typeof screen === 'undefined' || !screen.orientation || !(screen.orientation as any).lock) {
     return false;
   }
 
   try {
-    await screen.orientation.lock(orientation);
+    await (screen.orientation as any).lock(orientation);
     return true;
   } catch (error) {
     console.warn('Orientation lock failed:', error);

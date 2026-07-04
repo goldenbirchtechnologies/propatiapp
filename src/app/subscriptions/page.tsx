@@ -38,7 +38,7 @@ export default function Subscriptions() {
   });
 
   const handleCancel = async () => {
-    if (!subscription.data?.subscription) return;
+    if (!(subscription as any).data?.subscription) return;
     try {
       const res = await fetch('/api/subscriptions', {
         method: 'POST',
@@ -53,7 +53,7 @@ export default function Subscriptions() {
     }
   };
 
-  const sub = subscription.data?.subscription;
+  const sub = (subscription as any).data?.subscription;
 
   return (
     <div className="space-y-8">

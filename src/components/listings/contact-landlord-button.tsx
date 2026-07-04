@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 interface ContactLandlordButtonProps {
   listingId: string;
   listingTitle: string;
-  tenantId: string;
+  participantId: string;
   userRole: string;
   existingConversationId?: string | null;
   variant?: 'default' | 'outline' | 'ghost';
@@ -21,7 +21,7 @@ interface ContactLandlordButtonProps {
 export function ContactLandlordButton({
   listingId,
   listingTitle,
-  tenantId,
+  participantId,
   userRole,
   existingConversationId,
   variant = 'default',
@@ -45,7 +45,7 @@ export function ContactLandlordButton({
     try {
       const response = await createConversation.mutateAsync({
         listingId,
-        tenantId,
+        participantId,
         subject: `Inquiry about ${listingTitle}`,
       });
 

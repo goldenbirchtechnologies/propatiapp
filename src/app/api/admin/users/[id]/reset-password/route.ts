@@ -40,7 +40,11 @@ export async function POST(
     // Send real password reset email. Do not return success until the send
     // is awaited (or fail with 501 if the service is unavailable).
     try {
-      await sendPasswordResetEmail(targetUser.email, targetUser.email, resetToken);
+      await sendPasswordResetEmail({
+        to: targetUser.email,
+        userName: targetUser.email,
+        resetToken,
+      });
     } catch (error) {
       console.error('Error sending reset password email:', error);
       return NextResponse.json(

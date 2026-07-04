@@ -258,4 +258,3 @@ class PremblyClient {
 }
 
 export const prembly = new PremblyClient();
-export type { PremblyError };

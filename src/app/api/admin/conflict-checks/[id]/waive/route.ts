@@ -34,7 +34,7 @@ export async function POST(
     const check = await prisma.conflictCheck.findUnique({
       where: { id: params.id },
       include: {
-        case: { select: { id: true, caseNumber: true } },
+        case: { select: { id: true, status: true } },
         lawFirm: { select: { id: true, name: true } },
       },
     });
@@ -60,8 +60,7 @@ export async function POST(
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
+            status: true,
           },
         },
         lawFirm: {

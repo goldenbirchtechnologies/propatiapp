@@ -1,10 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Users, Plus, Phone, Mail, Eye } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { cn, formatCurrency } from '@/lib/utils';
+import {
+  Users,
+  Plus,
+  Phone,
+  Mail,
+  Eye,
+  Building2,
+  UserPlus,
+  CheckCircle2,
+  ShoppingBag,
+  Home as HomeIcon,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { FailureState } from '@/components/feedback/FailureState';
+import { LoadingState } from '@/components/feedback/LoadingState';
+import Link from 'next/link';
 
-type Client = {
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface Client {
   id: string;
   name: string;
   phone: string;
@@ -12,71 +30,297 @@ type Client = {
   minBudget: number;
   maxBudget: number;
   lastContact: string;
-};
+  createdAt: string;
+}
 
-export default function AgentClientsClient({ initialClients }: { initialClients: Client[] }) {
-  const [filter, setFilter] = useState('all');
-  const filtered = filter === 'all' ? initialClients : initialClients.filter((c) => c.type.toLowerCase() === filter);
+type ClientFilter = 'all' | 'Buyer' | 'Renter';
+
+// ─── Props ────────────────────────────────────────────────────────────────────
+interface AgentClientsClientProps {
+  initialClients: Client[];
+  onRetry?: () => void;
+}
+
+// ─── Skeleton helpers ─────────────────────────────────────────────────────────
+const SkeletonStat = () => (
+  <div className="card p-5">
+    <Skeleton className="h-3 w-20 mb-2" />
+    <Skeleton className="h-8 w-10" />
+  </div>
+);
+
+const SkeletonRow = () => (
+  <div className="card p-5">
+    <div className="flex items-center gap-4">
+      <Skeleton className="h-10 w-10 rounded-full flex-shrink-0" />
+      <div className="flex-1 space-y-2">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-3 w-48" />
+      </div>
+      <Skeleton className="h-6 w-16 rounded-full flex-shrink-0" />
+      <Skeleton className="h-8 w-28 rounded-md flex-shrink-0" />
+    </div>
+  </div>
+);
+
+// ─── Stat Card ────────────────────────────────────────────────────────────────
+function ClientStatCard({ label, value, icon: Icon, color }: { label: string; value: number; icon: React.ReactNode; color?: string }) {
+  return (
+    <div className="card p-5">
+      <div className="flex items-start gap-3">
+        <div
+          className="p-2 rounded-full flex-shrink-0"
+          style={{
+            background: 'var(--accent-bg)',
+            color: 'var(--accent)',
+          }}
+        >
+          {Icon}
+        </div>
+        <div>
+          <p className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+            {label}
+          </p>
+          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>
+            {value}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Empty State ──────────────────────────────────────────────────────────────
+function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
+  return (
+    <div className="card p-12 text-center">
+      <Users className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.4 }} />
+      <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+        No clients yet
+      </h3>
+      <p className="text-sm mb-6 max-w-sm mx-auto" style={{ color: 'var(--muted)' }}>
+        Your client portfolio is empty. Start by adding buyers or sellers to track your deals and relationships.
+      </p>
+      <Button onClick={onAdd} className="gap-2">
+        <UserPlus className="w-4 h-4" />
+        Add First Client
+      </Button>
+    </div>
+  );
+}
+
+// ─── Client Row ───────────────────────────────────────────────────────────────
+function ClientRow({ client }: { client: Client }) {
+  return (
+    <div className="card p-5">
+      <div className="flex items-center gap-4">
+        {/* Avatar */}
+        <div
+          className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
+          style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}
+        >
+          <Users className="h-4 w-4" />
+        </div>
+
+        {/* Info */}
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+            {client.name}
+          </p>
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+            {client.phone}
+          </p>
+        </div>
+
+        {/* Type badge */}
+        <span
+          className={cn(
+            'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0',
+            client.type === 'Buyer'
+              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+              : 'bg-purple-50 text-purple-700 border border-purple-200'
+          )}
+        >
+          {client.type}
+        </span>
+
+        {/* Budget */}
+        <div className="text-right hidden md:block flex-shrink-0">
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>Budget</p>
+          <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+            {formatCurrency(client.minBudget)} – {formatCurrency(client.maxBudget)}
+          </p>
+        </div>
+
+        {/* Last contact */}
+        <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 90 }}>
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>Last Contact</p>
+          <p className="text-sm" style={{ color: 'var(--text)' }}>
+            {new Date(client.lastContact).toLocaleDateString('en-NG', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <Link
+            href={`tel:${client.phone}`}
+            className="p-2 rounded-md hover:bg-muted/50"
+            title="Call"
+          >
+            <Phone className="w-4 h-4" style={{ color: 'var(--muted)' }} />
+          </Link>
+          <Link
+            href={`mailto:${client.name.replace(/\s+/g, '.').toLowerCase()}@example.com`}
+            className="p-2 rounded-md hover:bg-muted/50"
+            title="Email"
+          >
+            <Mail className="w-4 h-4" style={{ color: 'var(--muted)' }} />
+          </Link>
+          <Link
+            href={`/dashboard/agent/pipeline?clientId=${client.id}`}
+            className="p-2 rounded-md hover:bg-muted/50"
+            title="View Deal"
+          >
+            <Eye className="w-4 h-4" style={{ color: 'var(--muted)' }} />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Client Component ────────────────────────────────────────────────────
+export default function AgentClientsClient({
+  initialClients,
+  onRetry,
+}: AgentClientsClientProps) {
+  const [clients] = useState(initialClients);
+  const [error, setError] = useState<Error | null>(null);
+  const [filter, setFilter] = useState<ClientFilter>('all');
+
+  const retry = useCallback(() => {
+    setError(null);
+    onRetry?.();
+  }, [onRetry]);
+
+  // Derived stats
+  const total = clients.length;
+  const buyers = clients.filter((c) => c.type === 'Buyer').length;
+  const renters = clients.filter((c) => c.type === 'Renter').length;
+
+  const filtered =
+    filter === 'all' ? clients : clients.filter((c) => c.type === filter);
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <PageHeader />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <ClientStatCard label="Total" value={0} icon={<Users className="w-5 h-5" />} />
+          <ClientStatCard label="Buyers" value={0} icon={<ShoppingBag className="w-5 h-5" />} />
+          <ClientStatCard label="Renters" value={0} icon={<HomeIcon className="w-5 h-5" />} />
+          <ClientStatCard label="Active" value={0} icon={<CheckCircle2 className="w-5 h-5" />} />
+        </div>
+        <FailureState
+          title="Unable to load clients"
+          description={error.message}
+          onRetry={retry}
+          className="py-12"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>My Clients</h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Manage lead relationships and budgets</p>
-        </div>
-        <button className="btn btn-primary inline-flex items-center gap-2"><Plus className="w-4 h-4" /> Add Client</button>
-      </div>
+      <PageHeader />
 
+      {/* Stats grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="card p-4"><p className="text-xs" style={{ color: 'var(--muted)' }}>Total Clients</p><p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{initialClients.length}</p></div>
-        <div className="card p-4"><p className="text-xs" style={{ color: 'var(--muted)' }}>Buyers</p><p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{initialClients.filter((c) => c.type === 'Buyer').length}</p></div>
-        <div className="card p-4"><p className="text-xs" style={{ color: 'var(--muted)' }}>Renters</p><p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{initialClients.filter((c) => c.type === 'Renter').length}</p></div>
-        <div className="card p-4"><p className="text-xs text-green-600">Active</p><p className="text-2xl font-bold text-green-600">{initialClients.length}</p></div>
+        <ClientStatCard label="Total Clients" value={total} icon={<Users className="w-5 h-5" />} />
+        <ClientStatCard label="Buyers" value={buyers} icon={<ShoppingBag className="w-5 h-5" />} />
+        <ClientStatCard label="Renters" value={renters} icon={<HomeIcon className="w-5 h-5" />} />
+        <ClientStatCard label="Active" value={total} icon={<CheckCircle2 className="w-5 h-5" />} />
       </div>
 
-      <div className="card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b" style={{ borderColor: 'var(--border)' }}>
-          {['all', 'buyer', 'renter'].map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'border-transparent hover:bg-muted/50')}>{f}</button>
+      {/* Filters */}
+      <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+            <Building2 className="w-3.5 h-3.5 inline mr-1" />
+            Filter
+          </span>
+          {(['all', 'Buyer', 'Renter'] as ClientFilter[]).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={cn(
+                'px-3 py-1.5 rounded-md text-sm font-medium border transition-all capitalize',
+                filter === f
+                  ? 'bg-accent/10 text-accent border-accent/30'
+                  : 'border-transparent hover:bg-muted/50'
+              )}
+            >
+              {f}
+              {f !== 'all' && (
+                <Badge
+                  variant="secondary"
+                  className="ml-2 text-xs px-1.5 py-0 min-w-[20px]"
+                >
+                  {f === 'Buyer' ? buyers : renters}
+                </Badge>
+              )}
+            </button>
           ))}
         </div>
-        {filtered.length === 0 ? (
-          <div className="card-body text-center py-16"><Users className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} /><h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No clients</h3><p style={{ color: 'var(--muted)' }}>Add your first client.</p></div>
+      </div>
+
+      {/* List */}
+      <div className="space-y-3">
+        {/* Skeleton is shown only on the very first load, controlled by parent page.tsx */}
+        {clients.length === 0 ? (
+          <EmptyClientsState onAdd={() => {}} />
+        ) : filtered.length === 0 ? (
+          <div className="card p-12 text-center">
+            <Users className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--muted)', opacity: 0.4 }} />
+            <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+              No clients in this category
+            </p>
+            <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+              Try clearing the filter to see all clients.
+            </p>
+          </div>
         ) : (
-          <table className="w-full">
-            <thead><tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Client</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Type</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Budget (₦)</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Last Contact</th>
-              <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
-            </tr></thead>
-            <tbody>
-              {filtered.map((c) => (
-                <tr key={c.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'var(--border)' }}>
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}><Users className="w-4 h-4" /></div>
-                      <div><p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{c.name}</p><p className="text-xs" style={{ color: 'var(--muted)' }}>{c.phone}</p></div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>{c.type}</td>
-                  <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>₦{c.minBudget.toLocaleString()} — ₦{c.maxBudget.toLocaleString()}</td>
-                  <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{new Date(c.lastContact).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
-                  <td className="p-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <button className="p-2 rounded-md hover:bg-muted/50"><Phone className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                      <button className="p-2 rounded-md hover:bg-muted/50"><Mail className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                      <button className="p-2 rounded-md hover:bg-muted/50"><Eye className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          filtered.map((client) => <ClientRow key={client.id} client={client} />)
         )}
       </div>
+    </div>
+  );
+}
+
+// ─── Page Header sub-component ────────────────────────────────────────────────
+function PageHeader() {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h1
+          className="font-heading font-bold"
+          style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+        >
+          My Clients
+        </h1>
+        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          Manage lead relationships and budgets
+        </p>
+      </div>
+      <Button className="gap-2">
+        <Plus className="w-4 h-4" />
+        Add Client
+      </Button>
     </div>
   );
 }

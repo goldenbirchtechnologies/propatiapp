@@ -23,8 +23,6 @@ export async function GET(
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
             status: true,
           },
         },
@@ -96,8 +94,7 @@ export async function PATCH(
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
+            status: true,
           },
         },
         lawFirm: {

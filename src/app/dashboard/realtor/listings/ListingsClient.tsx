@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import { Search, Plus, Eye, Edit, Trash2 } from 'lucide-react';
 
 type Listing = {
@@ -109,7 +110,9 @@ export default function ListingsClient({ initialListings }: { initialListings: L
                     <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.views.toLocaleString()}</td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 rounded-md hover:bg-muted/50 transition-colors" style={{ color: 'var(--muted)' }}><Eye className="w-4 h-4" /></button>
+                        <Link href={`/dashboard/realtor/listings/${listing.id}`} className="p-1.5 rounded-md hover:bg-muted/50 transition-colors" style={{ color: 'var(--muted)' }}>
+                          <Eye className="w-4 h-4" />
+                        </Link>
                         <button className="p-1.5 rounded-md hover:bg-muted/50 transition-colors" style={{ color: 'var(--muted)' }}><Edit className="w-4 h-4" /></button>
                         <button className="p-1.5 rounded-md hover:bg-red-50 transition-colors" style={{ color: 'var(--red)' }}><Trash2 className="w-4 h-4" /></button>
                       </div>

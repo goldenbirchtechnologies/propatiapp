@@ -24,7 +24,7 @@ export default async function FlaggedListingsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch flagged listings
   const flaggedListings = await prisma.listing.findMany({
@@ -36,7 +36,7 @@ export default async function FlaggedListingsPage() {
     include: {
       flags: {
         include: {
-          flagger: {
+          flaggedByUser: {
             select: {
               id: true,
               fullName: true,
@@ -64,7 +64,7 @@ export default async function FlaggedListingsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <FlaggedListingsClient flaggedListings={flaggedListings} />
+      <FlaggedListingsClient flaggedListings={flaggedListings.map(l => ({ ...l, flags: l.flags.map(f => ({ ...f, reason: (f as any).description || '', details: (f as any).description })) }))} />
     </DashboardShell>
   );
 }

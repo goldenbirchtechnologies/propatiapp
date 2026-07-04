@@ -35,7 +35,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
   const [amount, setAmount] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  const { data: agreementsData } = useAgreements({ status: 'fully_signed' });
+  const { data: agreementsData } = useAgreements();
   const initiatePayment = useInitiatePayment();
 
   // Pre-fill from URL params
@@ -49,7 +49,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
     if (paramType) setPaymentType(paramType);
   }, [searchParams]);
 
-  const agreements = agreementsData?.pages?.flatMap((page: any) => page.data || []) || [];
+  const agreements = agreementsData?.data?.flatMap((page: any) => page.data || []) || [];
   const selectedAgreement = agreements.find((a: any) => a.id === agreementId);
 
   // Auto-fill listing ID from selected agreement

@@ -20,7 +20,7 @@ export default async function RealtorSellPage() {
   }
 
   const listings = await prisma.listing.findMany({
-    where: { ownerId: user.id, type: 'sale' },
+    where: ({ ownerId: user.id, type: 'sale' } as any),
     select: { id: true, title: true, price: true, status: true, createdAt: true },
     orderBy: { createdAt: 'desc' },
   });

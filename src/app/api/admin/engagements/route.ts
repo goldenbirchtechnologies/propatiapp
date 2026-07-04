@@ -37,10 +37,7 @@ export async function GET(request: NextRequest) {
           case: {
             select: {
               id: true,
-              caseNumber: true,
-              title: true,
               status: true,
-              client: { select: { fullName: true, email: true } },
             },
           },
           firm: {
@@ -77,7 +74,7 @@ export async function POST(request: NextRequest) {
     // Verify case exists
     const lawFirmCase = await prisma.lawFirmCase.findUnique({
       where: { id: validated.caseId },
-      select: { id: true, lawFirmId: true },
+      select: { id: true, firmId: true },
     });
 
     if (!lawFirmCase) {
@@ -90,19 +87,18 @@ export async function POST(request: NextRequest) {
         type: validated.type,
         scopeOfWork: validated.scopeOfWork,
         feeModel: validated.feeModel as any,
-        disbursements: validated.disbursements || null,
+        disbursements: validated.disbursements as any,
         estimatedDuration: validated.estimatedDuration || null,
         advancePaymentRequired: validated.advancePaymentRequired,
         advancePaymentAmount: validated.advancePaymentAmount ? validated.advancePaymentAmount as any : null,
         clientConsentText: validated.clientConsentText,
-        firmId: lawFirmCase.lawFirmId,
+        firmId: lawFirmCase.firmId,
       },
       include: {
         case: {
           select: {
             id: true,
-            caseNumber: true,
-            title: true,
+            status: true,
           },
         },
         firm: {

@@ -24,7 +24,7 @@ export default async function RevenueReportsPage() {
     realtor: '/dashboard/realtor',
   };
   if (!user) redirect('/sign-in');
-  if (user.role !== 'admin') redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+  if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Default to current month
   const currentMonthStart = new Date();
@@ -50,7 +50,7 @@ export default async function RevenueReportsPage() {
       _sum: {
         amount: true,
         platformFee: true,
-        agentFee: true,
+        agentCommission: true,
       },
       _count: true,
       _avg: {
@@ -111,9 +111,9 @@ export default async function RevenueReportsPage() {
   ]);
 
   const revenueData = {
-    totalRevenue: transactionsData._sum.amount || 0,
-    platformFees: transactionsData._sum.platformFee || 0,
-    agentCommissions: transactionsData._sum.agentFee || 0,
+    totalRevenue: Number(transactionsData._sum.amount || 0),
+    platformFees: Number(transactionsData._sum.platformFee || 0),
+    agentCommissions: Number(transactionsData._sum.agentCommission || 0),
     transactionCount: transactionsData._count,
     averageTransaction: transactionsData._avg.amount || 0,
   };
@@ -128,8 +128,21 @@ export default async function RevenueReportsPage() {
       <RevenueReportsClient
         initialData={{
           revenueData,
-          revenueByType,
-          topListings,
+          revenueByType: revenueByType.map(r => ({
+            ...r,
+            _sum: {
+              amount: Number(r._sum.amount || 0),
+              platformFee: Number(r._sum.platformFee || 0),
+            },
+          })),
+          topListings: topListings.map(l => ({
+            ...l,
+            propertyType: (l as any).propertyType || (l as any).property_type || '',
+            transactions: (l as any).transactions.map((t: any) => ({
+              amount: Number(t.amount || 0),
+              platformFee: Number(t.platformFee || 0),
+            })),
+          })),
         }}
         dateRange={{
           from: currentMonthStart,

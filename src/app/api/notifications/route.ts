@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { NotificationType } from '@prisma/client';
 
 // GET /api/notifications - Get user's notifications
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
-  const { userId } = authResult;
+  const { user } = authResult;
 
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     const where: any = {
-      userId,
+      userId: user.id,
     };
 
     if (unreadOnly) {
@@ -73,7 +74,10 @@ export async function POST(request: NextRequest) {
     const validated = schema.parse(body);
 
     const notification = await prisma.notification.create({
-      data: validated,
+      data: {
+        ...validated,
+        type: validated.type as NotificationType,
+      },
     });
 
     return NextResponse.json({

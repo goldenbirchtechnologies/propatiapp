@@ -32,7 +32,7 @@ export default function UnitDetailPage() {
   const orgId = org?.id;
 
   const { data: listingData, isLoading } = useListings({ limit: 1 });
-  const listing = listingData?.data?.find((l: any) => l.id === unitId);
+  const listing = listingData?.pages?.[0]?.data?.find((l: any) => l.id === unitId);
 
   const { data: ticketsData } = useOrganizationTickets(
     orgId || '',

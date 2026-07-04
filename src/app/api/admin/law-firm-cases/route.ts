@@ -15,7 +15,12 @@ async function postHandler(request: NextRequest) {
   const { disputeId, firmId, status } = body;
 
   const case_ = await prisma.lawFirmCase.create({
-    data: { disputeId, firmId, status: status || 'assigned' },
+    data: {
+      dispute: { connect: { id: disputeId } },
+      firm: { connect: { id: firmId } },
+      status: status || 'assigned',
+      feeModel: { type: 'fixed', amount: 0 },
+    },
     include: { firm: true, dispute: { select: { id: true, type: true, status: true } } },
   });
   return NextResponse.json({ case: case_ }, { status: 201 });

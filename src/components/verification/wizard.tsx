@@ -38,6 +38,7 @@ export interface VerificationRequirement {
   url?: string;
   fileName?: string;
   fileSize?: number;
+  rejectionReason?: string;
 }
 
 export interface VerificationAction {
@@ -415,10 +416,10 @@ function StepContent({
             key={requirement.id}
             requirement={requirement}
             layer={step.layer}
-            onUpload={(reqId, file) => onDocumentUpload?.(step.layer, reqId, file)}
-            onRemove={(reqId) => onDocumentRemove?.(step.layer, reqId)}
-            onRecord={() => onVideoRecord?.(step.layer)}
-            onSchedule={(data) => onScheduleInspection?.(step.layer, data)}
+            onUpload={(reqId, file) => onDocumentUpload?.(step.layer, reqId, file) ?? Promise.resolve()}
+            onRemove={(reqId) => onDocumentRemove?.(step.layer, reqId) ?? Promise.resolve()}
+            onRecord={() => onVideoRecord?.(step.layer) ?? Promise.resolve()}
+            onSchedule={(data) => onScheduleInspection?.(step.layer, data) ?? Promise.resolve()}
             isSubmitting={isSubmitting}
           />
         ))}

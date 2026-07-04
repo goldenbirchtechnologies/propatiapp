@@ -28,14 +28,11 @@ export default async function AgentListingsPage() {
     take: 100,
   });
 
-  const initialListings = listings.map((l) => ({
-    id: l.id,
-    title: l.title,
-    landlord: l.owner.fullName,
-    type: l.type,
-    status: l.status,
-    views: l.viewCount,
-    verified: l.verificationTier !== 'basic',
+  const initialListings = listings.map((listing) => ({ id: listing.id, title: listing.title, landlord: listing.owner.fullName, listingType: listing.listingType,
+    propertyType: listing.propertyType ?? null,
+    status: listing.status,
+    views: listing.viewsCount,
+    verified: listing.verificationTier !== 'basic',
   }));
 
   return (
@@ -45,7 +42,7 @@ export default async function AgentListingsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AgentListingsClient initialListings={initialListings} />
+      <AgentListingsClient initialListings={initialListings as any} />
     </DashboardShell>
   );
 }

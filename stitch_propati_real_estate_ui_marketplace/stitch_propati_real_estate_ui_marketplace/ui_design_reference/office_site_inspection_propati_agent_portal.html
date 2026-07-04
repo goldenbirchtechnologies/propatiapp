@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Office Site Inspection | PROPATI Agent Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#e8eeff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#43474d",
+                    "on-background": "#161c27",
+                    "outline-variant": "#c4c6ce",
+                    "surface-dim": "#d4daea",
+                    "inverse-on-surface": "#ecf0ff",
+                    "error-container": "#ffdad6",
+                    "background": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#009e6f",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "primary": "#000f22",
+                    "on-primary-container": "#768dad",
+                    "surface": "#f9f9ff",
+                    "primary-container": "#0a2540",
+                    "on-surface": "#161c27",
+                    "surface-container-highest": "#dde2f3",
+                    "tertiary-fixed": "#71fbc0",
+                    "secondary-container": "#feae2c",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "inverse-surface": "#2a303d",
+                    "secondary-fixed": "#ffddb4",
+                    "on-primary-fixed": "#001c37",
+                    "surface-container-low": "#f1f3ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-container": "#6b4500",
+                    "secondary": "#835500",
+                    "on-secondary-fixed": "#291800",
+                    "error": "#ba1a1a",
+                    "tertiary": "#001209",
+                    "surface-container-high": "#e3e8f9",
+                    "on-primary-fixed-variant": "#314865",
+                    "inverse-primary": "#b0c8eb",
+                    "on-primary": "#ffffff",
+                    "outline": "#74777e",
+                    "secondary-fixed-dim": "#ffb955",
+                    "tertiary-container": "#002a1b",
+                    "surface-variant": "#dde2f3",
+                    "on-tertiary-fixed": "#002114"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "12px",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "margin-desktop": "64px",
+                    "xs": "4px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-day {
+            box-shadow: 0 0 0 2px #feae2c;
+        }
+        .stepper-line {
+            background: linear-gradient(to right, #009e6f 25%, #dde2f3 25%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dde2f3;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar (Authority: Shared Components JSON) -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col w-64 py-lg z-40 bg-primary-container dark:bg-primary-container">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional real estate agency logo for PROPATI, featuring a minimalist gold monogram of the letters PR inside a deep navy circular badge, set against a clean white background with a corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASe2CW4TWT4BVeCogEcGyIWlMHSrjmwgm6pNHi7gyNBgh5GkyNRSbq3s_z0FJjTfmlYmGyvQf623Zu2iZecpxSA8w3MlKansczbJKjInVZsjQWGe5Sgz1hFfO9m7c4jS0fFHdrGFqiTjHN6ocEnBo5cJx6CMtTcaONNPeG9r2Wod6VvY6D8RPX8xwFaWiKWHqWfZYkFy-nuzSEda_GFF-7xVAaVnI3KoQwE6CnsMptqPHKJR5acriu"/>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-secondary-fixed leading-tight">Agent Portal</h1>
+<p class="font-label-sm text-label-sm text-on-primary-container/60">Verification ID: PR-9021</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-on-primary-fixed-variant/10 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-on-primary-fixed-variant/10 transition-all" href="#">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="font-label-md text-label-md">Identity</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-on-primary-fixed-variant/10 transition-all" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-label-md text-label-md">Professional License</span>
+</a>
+<!-- Active Tab: Office Verification -->
+<a class="flex items-center gap-3 text-secondary-fixed font-bold border-l-4 border-secondary-fixed bg-on-primary-fixed-variant/20 px-4 py-3 transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">apartment</span>
+<span class="font-label-md text-label-md">Office Verification</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-on-primary-fixed-variant/10 transition-all" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md text-label-md">Status</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-lg hover:scale-105 transition-transform active:scale-95 duration-150 shadow-md">
+                Request Inspection
+            </button>
+<div class="border-t border-on-primary-container/10 pt-4">
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar (Authority: Shared Components JSON) -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 bg-surface border-b border-outline-variant shadow-sm sticky top-0 z-30">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-extrabold text-primary">PROPATI</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 focus:ring-2 focus:ring-primary/20 text-body-sm transition-all" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary font-medium text-body-md transition-colors">Support</button>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a real estate agent for the PROPATI portal. A Nigerian male in a tailored navy blue blazer, smiling confidently with a blurred office background, soft corporate lighting, and a high-end professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvZnUy0zxrNP1q8vTeLmRd_jPBo2FZq8SKSVrXjWnf90smgPEZxXxGkIfu6T5kYRaQPxK8glSUwXHCD5eXfVSTGdgvJ7H2o_hQQA5QPSQlm5CAswwS0T2SWEYKvZxSvvX6JDxU3Mp7tDdAHYoqkyc84_clmW9cvp6yyRnELdxeri1kGxeV8krq8hPnixG1kajxVnWQWRcB63RhtDC9PvPA3Zmelg4-cbf94FEde-5Cp5oBD5vpLWb7"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="p-margin-desktop space-y-8 flex-1 overflow-y-auto custom-scrollbar">
+<!-- Page Header & Status Tracker -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Office Site Inspection</h2>
+<p class="text-body-lg text-on-surface-variant">Schedule your physical premises verification to achieve <span class="text-secondary font-bold">Tier 2 Verified</span> status.</p>
+</div>
+<!-- Status Tracker Pill -->
+<div class="bg-surface-container rounded-xl p-4 border border-outline-variant w-full max-w-xl">
+<div class="flex justify-between mb-4 px-2">
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Submitted
+                        </span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Scheduled</span>
+<span class="font-label-sm text-label-sm text-outline">Visit</span>
+<span class="font-label-sm text-label-sm text-outline">Report</span>
+</div>
+<div class="relative h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="absolute h-full w-[45%] bg-gradient-to-right from-on-tertiary-container to-secondary-container"></div>
+</div>
+</div>
+</div>
+<!-- Main Interactive Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Scheduler (7 cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Date & Time Picker Section -->
+<section class="bg-white rounded-lg border border-outline-variant p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg">event</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Select Preferred Date &amp; Time</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Simple Calendar Mock -->
+<div>
+<div class="flex justify-between items-center mb-4">
+<span class="font-bold text-primary">October 2024</span>
+<div class="flex gap-2">
+<button class="p-1 hover:bg-surface-container rounded-md"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-1 hover:bg-surface-container rounded-md"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 text-center text-label-sm font-bold text-outline mb-2">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center font-body-sm">
+<!-- Week 1-4 placeholder logic -->
+<div class="p-2 text-outline">28</div><div class="p-2 text-outline">29</div><div class="p-2 text-outline">30</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">1</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">2</div><div class="p-2 text-outline">3</div><div class="p-2 text-outline">4</div>
+<div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">5</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">6</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">7</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">8</div><div class="p-2 bg-primary text-white rounded-md font-bold active-day">9</div><div class="p-2 text-outline">10</div><div class="p-2 text-outline">11</div>
+<div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">12</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">13</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">14</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">15</div><div class="p-2 hover:bg-surface-container rounded-md cursor-pointer transition-colors">16</div><div class="p-2 text-outline">17</div><div class="p-2 text-outline">18</div>
+</div>
+</div>
+<!-- Time Slots -->
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant block uppercase tracking-wider">Select Time Slot</label>
+<div class="space-y-3">
+<button class="w-full flex items-center justify-between p-4 rounded-lg border-2 border-primary bg-primary-fixed/30 text-primary font-bold transition-all">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">wb_sunny</span>
+<span>Morning: 09:00 - 12:00</span>
+</div>
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 rounded-lg border border-outline-variant hover:border-primary/50 transition-all text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">light_mode</span>
+<span>Afternoon: 14:00 - 17:00</span>
+</div>
+</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary">info</span>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">Verification officers usually arrive within the first hour of the selected slot.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Preparation Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<section class="bg-white rounded-lg border border-outline-variant p-lg shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-tertiary-container">fact_check</span>
+                                Requirements
+                            </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">check</span>
+                                    Original CAC business registration docs.
+                                </li>
+<li class="flex items-start gap-3 text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">check</span>
+                                    Valid, signed lease or ownership title.
+                                </li>
+<li class="flex items-start gap-3 text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">check</span>
+                                    Visible external office signage present.
+                                </li>
+<li class="flex items-start gap-3 text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">check</span>
+                                    Primary Agent must be physically available.
+                                </li>
+</ul>
+</section>
+<section class="bg-primary-container text-white rounded-lg p-lg shadow-sm overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="font-headline-sm text-headline-sm text-secondary-fixed mb-4">What to Expect</h3>
+<p class="text-body-sm text-primary-fixed leading-relaxed mb-4">
+                                    The 30-minute walkthrough includes:
+                                </p>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-secondary text-primary-container flex items-center justify-center font-bold shrink-0">1</div>
+<p class="text-body-sm">Physical sighting of all original documentation.</p>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-secondary text-primary-container flex items-center justify-center font-bold shrink-0">2</div>
+<p class="text-body-sm">Verification of office operational capacity and staff.</p>
+</div>
+</div>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]">visibility</span>
+</div>
+</section>
+</div>
+</div>
+<!-- Right Column: Summary & Actions (5 cols) -->
+<aside class="lg:col-span-5 space-y-6">
+<!-- Booking Summary Card -->
+<div class="bg-white rounded-lg border border-outline-variant overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.12)]">
+<div class="bg-primary px-lg py-4 flex justify-between items-center">
+<h3 class="text-white font-bold font-headline-sm">Inspection Summary</h3>
+<span class="bg-secondary text-primary px-3 py-1 rounded-full text-label-sm font-bold">Tier 2</span>
+</div>
+<div class="p-lg space-y-6">
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg">
+<div class="p-2 bg-white rounded shadow-sm">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+</div>
+<div>
+<p class="text-label-sm text-outline uppercase font-bold">Date</p>
+<p class="font-bold text-primary">Wednesday, Oct 9th, 2024</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg">
+<div class="p-2 bg-white rounded shadow-sm">
+<span class="material-symbols-outlined text-primary">schedule</span>
+</div>
+<div>
+<p class="text-label-sm text-outline uppercase font-bold">Time Window</p>
+<p class="font-bold text-primary">09:00 AM - 12:00 PM</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 bg-surface-container-low rounded-lg">
+<div class="p-2 bg-white rounded shadow-sm">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div class="flex-1">
+<p class="text-label-sm text-outline uppercase font-bold">Inspection Address</p>
+<p class="font-bold text-primary leading-tight">Plot 102, Adeola Odeku St, Victoria Island, Lagos, Nigeria.</p>
+<button class="text-primary-fixed-dim text-label-sm font-bold underline mt-2 hover:text-primary transition-colors">Change Address</button>
+</div>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-lg hover:translate-y-[-2px] transition-all hover:shadow-lg active:scale-95 duration-150 mb-4">
+                                    Confirm Schedule
+                                </button>
+<p class="text-center text-body-sm text-on-surface-variant">
+                                    By confirming, you agree to our <a class="underline font-medium" href="#">Verification Terms</a>.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Trust Seal / Support Card -->
+<div class="bg-on-tertiary-container/5 border border-on-tertiary-container/20 rounded-lg p-lg">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h4 class="font-bold text-on-tertiary-container">Why verify?</h4>
+</div>
+<p class="text-body-sm text-on-tertiary-container/80 leading-relaxed">
+                            Verified agents receive 3x more property inquiries and gain access to the "Verified Prime" filter on the PROPATI consumer portal.
+                        </p>
+</div>
+<!-- Map/Location Preview -->
+<div class="rounded-lg border border-outline-variant h-48 relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist architectural map view of Victoria Island, Lagos, showing street grids in soft grays and blues, with a glowing gold pin marking a location on Adeola Odeku Street. The style is professional and informative, like a premium real estate tool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIl3V3h55C6hQH9vbOQ_T3oh9HkFskegyNMltRv4ObP_pCJ8dnvTLzsWmPA8oqbvj_2ZYWmGxrGgKuFpZ279W_pfmDxvF8o5H1ttl7Sjm3WQTZAyzVqGAiYs7UJpVLqXhjgSqXco_YK7cqEzSRoUzrB6E7sX25SGwoi90yztKYf9iAfRWz7fkp8w1e2ifo_hFjk3FhGox8awtGnNZ7h0V0V_udI6be9yGdgurx-hIDXBv9IBoNal9L"/>
+<div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-all"></div>
+<div class="absolute bottom-4 left-4 bg-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+<span class="text-label-sm font-bold text-primary">Agent HQ Location</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Success Modal Interaction Overlay (Hidden by Default) -->
+<div class="fixed inset-0 bg-primary-container/60 backdrop-blur-sm z-[100] items-center justify-center hidden" id="success-modal">
+<div class="bg-white rounded-xl max-w-md w-full p-xl text-center shadow-2xl scale-95 opacity-0 transition-all duration-300 transform" id="modal-content">
+<div class="w-20 h-20 bg-on-tertiary-container rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-white text-[48px]">check_circle</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Inspection Scheduled!</h3>
+<p class="text-body-md text-on-surface-variant mb-8">Your physical verification has been set for October 9th, 2024. A confirmation email has been sent to your primary address.</p>
+<button class="w-full bg-primary text-white font-bold py-3 rounded-lg" onclick="toggleModal()">Return to Dashboard</button>
+</div>
+</div>
+<script>
+        function toggleModal() {
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('modal-content');
+            if(modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            } else {
+                content.classList.add('scale-95', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }, 300);
+            }
+        }
+
+        // Attach to primary button for demonstration
+        document.querySelector('button.bg-primary.text-white.font-bold.py-4').addEventListener('click', toggleModal);
+    </script>
+</body></html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Tenant Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#006b5b",
+                        "on-primary-fixed": "#00201a",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-highest": "#d8e3fb",
+                        "inverse-on-surface": "#ecf1ff",
+                        "primary": "#006152",
+                        "on-secondary-container": "#725000",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#fcc355",
+                        "primary-fixed": "#98f4dd",
+                        "on-tertiary-fixed": "#3c0801",
+                        "surface-container-high": "#dee8ff",
+                        "on-background": "#111c2d",
+                        "background": "#f9f9ff",
+                        "primary-container": "#0e7c6a",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#7bd7c2",
+                        "surface": "#f9f9ff",
+                        "inverse-primary": "#7bd7c2",
+                        "on-tertiary-fixed-variant": "#753222",
+                        "type-roomshare": "#ec4899",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e7eeff",
+                        "on-primary-container": "#bdffed",
+                        "commercial-gold": "#c9952a",
+                        "on-error-container": "#93000a",
+                        "type-shortlet": "#f59e0b",
+                        "on-primary-fixed-variant": "#005144",
+                        "outline-variant": "#bdc9c4",
+                        "outline": "#6e7a76",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#5e4200",
+                        "secondary-fixed": "#ffdea8",
+                        "surface-bright": "#f9f9ff",
+                        "on-tertiary-container": "#ffeeea",
+                        "type-sale": "#10b981",
+                        "surface-container-low": "#f0f3ff",
+                        "on-surface": "#111c2d",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#3e4946",
+                        "commercial-gold-soft": "rgba(201, 149, 42, 0.1)",
+                        "type-lease": "#8b5cf6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#271900",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdad2",
+                        "type-rent": "#3b82f6",
+                        "residential-teal-soft": "rgba(14, 124, 106, 0.1)",
+                        "tertiary": "#88412f",
+                        "secondary": "#7c5800",
+                        "surface-dim": "#cfdaf2",
+                        "tertiary-container": "#a65845",
+                        "tertiary-fixed-dim": "#ffb4a2",
+                        "secondary-fixed-dim": "#f6bd50",
+                        "residential-teal": "#0e7c6a",
+                        "inverse-surface": "#263143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base-unit": "4px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "title-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-glow {
+            box-shadow: 0 0 15px rgba(14, 124, 106, 0.15);
+        }
+        .glass-header {
+            backdrop-filter: blur(8px);
+            background: rgba(249, 249, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-lg">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm glass-header">
+<div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary-fixed">PROPATI</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 font-body-lg" href="#">Browse</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-lg" href="#">Listings</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-lg" href="#">Insights</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-all">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-all">favorite</span>
+</div>
+<!-- Profile Switcher Dropdown -->
+<div class="relative group cursor-pointer">
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a verified real estate agent, Damilola Ade, with a warm and confident expression. She is wearing professional corporate attire in a modern, brightly lit office environment with soft bokeh background. High-trust, professional aesthetic aligned with the residential teal color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAcyrftrn-gocBgGVb_TezNqpzpIH8FXHglziKqRl7xrVIni_bOdx7xzPdqtIGYtgvs8f2d2lKfwClCvNSizJOLhUX2AKbQdtEiA4mISicpqV30KS50YWS-oZyh73emr_2tXQj66b5nISR-lwkFAQOs33kkIz5KRneXrEATovuU-NvaDIkY-yThthgOZTFQl9ukmaSsVWZl8S9ya1Yg1dHghycL6nO_24etsw-xgGQxuzw5tAh15Qa"/>
+</div>
+<div class="hidden lg:block">
+<p class="font-bold text-body-sm leading-none">Damilola Ade</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-label-caps">Verified Agent</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Dropdown Menu -->
+<div class="absolute right-0 top-full mt-2 w-48 bg-surface border border-outline-variant shadow-lg rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all transform origin-top-right">
+<div class="p-2 space-y-1">
+<div class="p-3 bg-residential-teal-soft rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-body-sm font-semibold text-primary">Tenant View</span>
+</div>
+<div class="p-3 hover:bg-surface-container-high rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">business_center</span>
+<span class="text-body-sm">Agent View</span>
+</div>
+<div class="p-3 hover:bg-surface-container-high rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">apartment</span>
+<span class="text-body-sm">Landlord View</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-20">
+<!-- SideNavBar -->
+<aside class="h-[calc(100vh-80px)] w-64 sticky left-0 top-20 bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant dark:border-outline flex flex-col p-base-unit space-y-2">
+<div class="px-4 py-6">
+<p class="text-[11px] font-label-caps text-outline uppercase tracking-[0.1em] mb-4">Residential Management</p>
+<div class="space-y-1" id="dynamic-sidebar">
+<a class="flex items-center gap-3 p-3 bg-residential-teal-soft text-primary font-bold rounded-xl active-tab-glow" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-sm">My Applications</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-sm">Rent &amp; Payments</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-body-sm">Maintenance</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-body-sm">Messages</span>
+</a>
+</div>
+</div>
+<div class="mt-auto px-4 py-6 border-t border-outline-variant/30">
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold font-body-sm mb-4 hover:bg-primary-container transition-all">
+                    Switch to Landlord
+                </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 p-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 p-2 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-body-sm">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-margin-desktop bg-surface">
+<!-- Category Switcher Section -->
+<section class="max-w-5xl mx-auto mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="font-display-lg text-headline-lg text-on-surface mb-2">My Property Search</h1>
+<p class="text-on-surface-variant max-w-lg">Find your next perfect space. Switch between residential comfort or professional commercial locations.</p>
+</div>
+<!-- Purpose Switcher -->
+<div class="inline-flex p-1 bg-surface-container rounded-full border border-outline-variant">
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-primary shadow-sm font-bold transition-all" id="btn-res" onclick="switchCategory('residential')">
+<span class="material-symbols-outlined text-[20px]">home</span>
+                            Residential
+                        </button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface transition-all" id="btn-com" onclick="switchCategory('commercial')">
+<span class="material-symbols-outlined text-[20px]">business</span>
+                            Commercial
+                        </button>
+</div>
+</div>
+<!-- Dynamic Grid Area -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter transition-all duration-500 opacity-100" id="listing-grid">
+<!-- Cards will be injected by JS -->
+</div>
+</section>
+<!-- Quick Stats Bento -->
+<section class="max-w-5xl mx-auto mt-16">
+<h2 class="font-title-md text-title-md mb-6">Recent Activity Overview</h2>
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant p-8 rounded-xl shadow-sm hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-bold text-lg">Application Timeline</h3>
+<p class="text-body-sm text-on-surface-variant">Last 3 months activity</p>
+</div>
+<button class="text-primary font-bold text-sm">View Full History</button>
+</div>
+<div class="h-48 flex items-end gap-4">
+<!-- Simple custom CSS-based sparkline simulation -->
+<div class="flex-1 bg-surface-container h-[40%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-all rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container h-[65%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-all rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-primary h-[85%] rounded-t-lg relative">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded font-label-caps">ACTIVE</div>
+</div>
+<div class="flex-1 bg-surface-container h-[30%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-all rounded-t-lg"></div>
+</div>
+<div class="flex-1 bg-surface-container h-[50%] rounded-t-lg relative group">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-all rounded-t-lg"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[11px] font-label-caps text-on-surface-variant">
+<span>January</span>
+<span>February</span>
+<span>March (Current)</span>
+<span>April</span>
+<span>May</span>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<div class="bg-residential-teal-soft p-6 rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary mb-2">account_balance_wallet</span>
+<h3 class="font-bold text-on-surface">Next Rent Due</h3>
+<p class="font-label-caps text-2xl text-primary mt-1">₦ 450,000</p>
+<p class="text-body-sm text-on-surface-variant mt-2">Due in 14 days • <span class="font-semibold text-primary cursor-pointer underline">Pay now</span></p>
+</div>
+<div class="bg-white border border-outline-variant p-6 rounded-xl shadow-sm">
+<h3 class="font-bold text-on-surface mb-4">Saved Searches</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-type-rent"></div>
+<span class="text-body-sm">2BR Apartment, Lekki</span>
+</div>
+<span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-all">chevron_right</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-commercial-gold"></div>
+<span class="text-body-sm">Office Space, Victoria Island</span>
+</div>
+<span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-all">chevron_right</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+<div>
+<span class="font-title-md text-title-md font-bold text-primary dark:text-primary-fixed mb-6 block">PROPATI</span>
+<p class="text-on-surface-variant text-body-sm leading-relaxed mb-4">Professional real estate standards assured for Africa's growing marketplace.</p>
+</div>
+<div class="flex flex-col gap-3">
+<p class="font-bold text-primary mb-2">Residential</p>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Residential Rent</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Residential Buy</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Short-let</a>
+</div>
+<div class="flex flex-col gap-3">
+<p class="font-bold text-primary mb-2">Commercial</p>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Commercial Lease</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Commercial Buy</a>
+</div>
+<div class="flex flex-col gap-3">
+<p class="font-bold text-primary mb-2">Support</p>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Help Center</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm transition-colors" href="#">Professional Standards</a>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop mt-12 pt-8 border-t border-outline-variant/30 flex justify-between items-center">
+<p class="text-on-surface-variant text-body-sm">© 2024 PROPATI Real Estate. Professional Standards Assured.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</footer>
+<script>
+        const categories = {
+            residential: [
+                { id: 'rent', label: 'Rent', icon: 'key', active: true, color: 'bg-type-rent' },
+                { id: 'buy', label: 'Buy', icon: 'shopping_bag', color: 'bg-type-sale' },
+                { id: 'shortlet', label: 'Short-let', icon: 'schedule', color: 'bg-type-shortlet' },
+                { id: 'roomshare', label: 'Room Share', icon: 'group', color: 'bg-type-roomshare' }
+            ],
+            commercial: [
+                { id: 'lease', label: 'Lease', icon: 'contract', active: true, color: 'bg-type-lease' },
+                { id: 'buy_com', label: 'Buy', icon: 'store', color: 'bg-commercial-gold' },
+                { id: 'shortlet_com', label: 'Short-let', icon: 'business_center', color: 'bg-type-shortlet' }
+            ]
+        };
+
+        const sidebarItems = {
+            residential: [
+                { label: 'Dashboard', icon: 'dashboard', active: true },
+                { label: 'My Applications', icon: 'description' },
+                { label: 'Rent & Payments', icon: 'payments' },
+                { label: 'Maintenance', icon: 'build' },
+                { label: 'Messages', icon: 'mail' }
+            ],
+            commercial: [
+                { label: 'Commercial Hub', icon: 'business', active: true },
+                { label: 'Asset Portfolio', icon: 'inventory' },
+                { label: 'Lease Tracker', icon: 'history_edu' },
+                { label: 'Compliance', icon: 'verified_user' },
+                { label: 'Messages', icon: 'mail' }
+            ]
+        };
+
+        function switchCategory(cat) {
+            const grid = document.getElementById('listing-grid');
+            const btnRes = document.getElementById('btn-res');
+            const btnCom = document.getElementById('btn-com');
+            const sidebar = document.getElementById('dynamic-sidebar');
+
+            // Fade out
+            grid.classList.add('opacity-0');
+
+            setTimeout(() => {
+                // Update Buttons UI
+                if (cat === 'residential') {
+                    btnRes.className = 'flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-primary shadow-sm font-bold transition-all';
+                    btnCom.className = 'flex items-center gap-2 px-6 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface transition-all';
+                } else {
+                    btnCom.className = 'flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-commercial-gold shadow-sm font-bold transition-all';
+                    btnRes.className = 'flex items-center gap-2 px-6 py-2.5 rounded-full text-on-surface-variant hover:text-on-surface transition-all';
+                }
+
+                // Render Grid
+                grid.innerHTML = categories[cat].map(item => `
+                    <div class="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-all cursor-pointer relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 ${item.color} opacity-5 -translate-y-1/2 translate-x-1/2 rounded-full group-hover:scale-150 transition-transform"></div>
+                        <div class="w-12 h-12 ${item.active ? item.color : 'bg-surface-container'} ${item.active ? 'text-white' : 'text-on-surface-variant'} rounded-lg flex items-center justify-center mb-4 transition-colors">
+                            <span class="material-symbols-outlined" ${item.active ? 'style="font-variation-settings: \'FILL\' 1;"' : ''}>${item.icon}</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-1">${item.label}</h4>
+                        <p class="text-on-surface-variant text-body-sm">Explore available ${item.label.toLowerCase()} listings in prime locations.</p>
+                        ${item.active ? '<div class="mt-4 flex items-center text-[10px] font-label-caps text-primary bg-residential-teal-soft px-2 py-1 rounded w-max">Active Filter</div>' : ''}
+                    </div>
+                `).join('');
+
+                // Render Sidebar
+                sidebar.innerHTML = sidebarItems[cat].map(item => `
+                    <a href="#" class="flex items-center gap-3 p-3 ${item.active ? (cat === 'residential' ? 'bg-residential-teal-soft text-primary font-bold' : 'bg-commercial-gold-soft text-commercial-gold font-bold') : 'text-on-surface-variant hover:bg-surface-container-high'} rounded-xl transition-all ${item.active ? 'active-tab-glow' : ''}">
+                        <span class="material-symbols-outlined" ${item.active ? 'style="font-variation-settings: \'FILL\' 1;"' : ''}>${item.icon}</span>
+                        <span class="font-body-sm">${item.label}</span>
+                    </a>
+                `).join('');
+
+                // Fade back in
+                grid.classList.remove('opacity-0');
+            }, 300);
+        }
+
+        // Initialize with Residential
+        window.onload = () => switchCategory('residential');
+    </script>
+</body></html>

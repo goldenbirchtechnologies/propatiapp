@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Payment Method | PROPATI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c6ce",
+                    "on-primary": "#ffffff",
+                    "on-background": "#161c27",
+                    "surface-variant": "#dde2f3",
+                    "tertiary-fixed": "#71fbc0",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#161c27",
+                    "on-secondary-container": "#6b4500",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-container-high": "#e3e8f9",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#b0c8eb",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f1f3ff",
+                    "inverse-surface": "#2a303d",
+                    "surface-dim": "#d4daea",
+                    "tertiary": "#001209",
+                    "secondary-fixed": "#ffddb4",
+                    "surface-container-highest": "#dde2f3",
+                    "secondary-fixed-dim": "#ffb955",
+                    "outline": "#74777e",
+                    "secondary": "#835500",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary-fixed": "#002114",
+                    "surface-tint": "#49607e",
+                    "on-primary-container": "#768dad",
+                    "primary-fixed": "#d2e4ff",
+                    "on-error-container": "#93000a",
+                    "background": "#f9f9ff",
+                    "on-surface-variant": "#43474d",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#314865",
+                    "surface-container": "#e8eeff",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "tertiary-container": "#002a1b",
+                    "surface": "#f9f9ff",
+                    "on-secondary-fixed": "#291800",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-primary-fixed": "#001c37",
+                    "secondary-container": "#feae2c",
+                    "primary-container": "#0a2540",
+                    "primary": "#000f22",
+                    "on-tertiary-container": "#009e6f",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "margin-desktop": "64px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "headline-md": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+            background-color: rgba(0, 15, 34, 0.6);
+        }
+        .card-network-icon {
+            filter: grayscale(1) opacity(0.5);
+            transition: all 0.3s ease;
+        }
+        .card-network-icon.active {
+            filter: grayscale(0) opacity(1);
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(10, 37, 64, 0.1);
+        }
+        .tab-active {
+            @apply border-primary text-primary;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- Mock Background: Tenant Portal Dashboard Content -->
+<div class="fixed inset-0 z-0 flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 bg-primary dark:bg-primary-container h-screen w-64 hidden md:flex flex-col shadow-md">
+<div class="p-lg">
+<span class="font-headline-sm text-headline-sm text-on-primary">Tenant Portal</span>
+<p class="text-on-primary/60 text-body-sm mt-xs">Secure Access</p>
+</div>
+<nav class="flex-1 mt-md">
+<div class="flex items-center gap-md text-on-primary/70 py-md px-lg">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-md border-l-4 border-secondary-container bg-primary-fixed-dim/10 text-secondary-fixed py-md px-lg">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</div>
+<div class="flex items-center gap-md text-on-primary/70 py-md px-lg">
+<span class="material-symbols-outlined">home_work</span>
+<span class="font-label-md text-label-md">Properties</span>
+</div>
+<div class="flex items-center gap-md text-on-primary/70 py-md px-lg">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Documents</span>
+</div>
+</nav>
+</aside>
+<main class="flex-1 ml-64 p-margin-desktop bg-surface">
+<header class="flex justify-between items-center mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-primary">Payment Methods</h1>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-label-md text-label-md">
+                    + Add New
+                </button>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-white border border-outline-variant p-lg rounded-xl flex items-center gap-md shadow-sm">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm">Visa **** 4242</p>
+<p class="text-on-surface-variant text-body-sm">Expires 12/25</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Payment Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-margin-mobile modal-overlay" id="paymentModal">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-lg py-md border-b border-outline-variant flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Add Payment Method</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors" onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Tab Switcher -->
+<div class="flex border-b border-outline-variant">
+<button class="flex-1 py-md font-label-md text-label-md border-b-2 border-primary text-primary transition-all" id="cardTabBtn" onclick="switchTab('card')">
+                    Debit/Credit Card
+                </button>
+<button class="flex-1 py-md font-label-md text-label-md border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-all" id="bankTabBtn" onclick="switchTab('bank')">
+                    Bank Account
+                </button>
+</div>
+<!-- Form Content -->
+<div class="p-lg">
+<!-- Card Form -->
+<div class="space-y-md block" id="cardForm">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Cardholder Name</label>
+<input class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-xs relative">
+<label class="font-label-md text-label-md text-on-surface-variant">Card Number</label>
+<div class="relative">
+<input class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md pr-32" placeholder="0000 0000 0000 0000" type="text"/>
+<div class="absolute right-md top-1/2 -translate-y-1/2 flex gap-xs">
+<img alt="Visa" class="h-4 card-network-icon active" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB36dPnrHEkEdaRi4BBqq9VdaSV4R4KBt5OzoCz-xupv8aZWlmZA5WMAJJbog6IY2iaATyTvjZ0rD_RSI4nJaeh-beBSaNctcGInUGwkkrkx0w_qW5GdrLz_fX47y5rmEQ6B_7vO94BJuGE1jkdrbxHRh8cKwqbFKVlIQc8o0J8KmPpRB18V5zEVh2vECF7PHe87as0EUO0NC1Ya9-JoAO7b8dYGu69frYPsW6yBnNgKYGrQYrEO7bN"/>
+<img alt="Mastercard" class="h-4 card-network-icon active" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqO0VwHKHQaS5EHzcFHyFbxfz9SnernfQ2k7aEE9hY1KVilhyZb7pQabFYnkUymeKiaR7T6mHOk1gHyRJeTQw3G2IYbTzZKW4VhanENqI3ggbUNLsIs1vDJaE0Tw9Tz6BGwdLkl9SUoyMWrZmtBjJbrPxDwLIdxqbzUGDr39ZvJNHclJ4b_Tq3So1grJyZtKy2O0W5VBbdpwo94QQ2Zt4BF-IrphXkyjtfZDgchwSrbjzxLCvSYDSY"/>
+<div class="bg-primary text-[8px] font-bold text-white px-1 rounded flex items-center justify-center h-4">VERVE</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Expiry Date</label>
+<input class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md" placeholder="MM / YY" type="text"/>
+</div>
+<div class="space-y-xs relative">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
+                                CVV
+                                <span class="material-symbols-outlined text-[16px] text-on-surface-variant cursor-help" title="3-digit security code on the back of your card">info</span>
+</label>
+<input class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md" maxlength="3" placeholder="***" type="password"/>
+</div>
+</div>
+<label class="flex items-center gap-md cursor-pointer pt-sm">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Save Card for Future Payments</span>
+</label>
+</div>
+<!-- Bank Form (Hidden by default) -->
+<div class="space-y-md hidden" id="bankForm">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Select Bank</label>
+<select class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md appearance-none bg-no-repeat bg-[right_12px_center]" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+<option value="">Choose your bank</option>
+<option>Guaranty Trust Bank</option>
+<option>Zenith Bank</option>
+<option>Access Bank</option>
+<option>First Bank of Nigeria</option>
+</select>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Account Number</label>
+<div class="relative">
+<input class="w-full h-[44px] px-md border border-outline-variant rounded-lg font-body-md" id="accountNumber" placeholder="0123456789" type="text"/>
+<div class="absolute right-md top-1/2 -translate-y-1/2 hidden" id="loadingAccount">
+<div class="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+</div>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Account Name</label>
+<div class="flex items-center gap-sm w-full h-[44px] px-md bg-surface-container rounded-lg font-body-md text-on-surface-variant border border-transparent">
+<span id="accountNamePlaceholder">Enter account number to fetch name</span>
+<span class="material-symbols-outlined text-on-tertiary-container hidden" id="verifiedIcon" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-lg py-md bg-surface-container-low flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="text-[10px] text-on-surface-variant font-label-sm uppercase tracking-widest">Secured by</span>
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 bg-tertiary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-on-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<span class="font-bold text-[12px] text-primary">Paystack</span>
+</div>
+</div>
+<div class="flex gap-xs grayscale opacity-50">
+<div class="border border-outline-variant rounded px-1 py-0.5 text-[8px] font-bold">PCI-DSS</div>
+<div class="border border-outline-variant rounded px-1 py-0.5 text-[8px] font-bold">SSL</div>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="flex-1 h-[44px] border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-primary-fixed-dim/5 transition-all" onclick="closeModal()">
+                        Cancel
+                    </button>
+<button class="flex-1 h-[44px] bg-primary-container text-white font-label-md text-label-md rounded-lg hover:opacity-90 shadow-lg active:scale-95 transition-all">
+                        Add Payment Method
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        function switchTab(tab) {
+            const cardForm = document.getElementById('cardForm');
+            const bankForm = document.getElementById('bankForm');
+            const cardBtn = document.getElementById('cardTabBtn');
+            const bankBtn = document.getElementById('bankTabBtn');
+
+            if (tab === 'card') {
+                cardForm.classList.remove('hidden');
+                bankForm.classList.add('hidden');
+                cardBtn.classList.add('border-primary', 'text-primary');
+                cardBtn.classList.remove('border-transparent', 'text-on-surface-variant');
+                bankBtn.classList.remove('border-primary', 'text-primary');
+                bankBtn.classList.add('border-transparent', 'text-on-surface-variant');
+            } else {
+                cardForm.classList.add('hidden');
+                bankForm.classList.remove('hidden');
+                bankBtn.classList.add('border-primary', 'text-primary');
+                bankBtn.classList.remove('border-transparent', 'text-on-surface-variant');
+                cardBtn.classList.remove('border-primary', 'text-primary');
+                cardBtn.classList.add('border-transparent', 'text-on-surface-variant');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                // In a real app we might remove it or hide it
+                // modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Simple mock for "Auto-fetching" account name
+        const accNumInput = document.getElementById('accountNumber');
+        const loader = document.getElementById('loadingAccount');
+        const accName = document.getElementById('accountNamePlaceholder');
+        const verified = document.getElementById('verifiedIcon');
+
+        accNumInput?.addEventListener('input', (e) => {
+            if (e.target.value.length === 10) {
+                loader.classList.remove('hidden');
+                accName.textContent = "Fetching...";
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    accName.textContent = "ADEWALE SULEIMAN BOLAJI";
+                    accName.classList.add('text-primary', 'font-semibold');
+                    verified.classList.remove('hidden');
+                }, 1200);
+            } else {
+                accName.textContent = "Enter account number to fetch name";
+                accName.classList.remove('text-primary', 'font-semibold');
+                verified.classList.add('hidden');
+                loader.classList.add('hidden');
+            }
+        });
+    </script>
+</body></html>

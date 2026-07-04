@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Identity Verification | EstateVerify</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d2e4ff",
+                    "primary-container": "#0a2540",
+                    "tertiary-container": "#002a1b",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-variant": "#dde2f3",
+                    "surface-container": "#e8eeff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#291800",
+                    "on-error": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b0c8eb",
+                    "surface-container-low": "#f1f3ff",
+                    "on-primary-fixed": "#001c37",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container-high": "#e3e8f9",
+                    "on-surface-variant": "#43474d",
+                    "surface-container-highest": "#dde2f3",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-background": "#161c27",
+                    "background": "#f9f9ff",
+                    "surface-dim": "#d4daea",
+                    "secondary-container": "#feae2c",
+                    "on-primary-container": "#768dad",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "secondary-fixed": "#ffddb4",
+                    "outline-variant": "#c4c6ce",
+                    "outline": "#74777e",
+                    "on-tertiary-fixed": "#002114",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-tertiary-container": "#009e6f",
+                    "on-secondary-container": "#6b4500",
+                    "tertiary": "#001209",
+                    "surface-tint": "#49607e",
+                    "on-primary": "#ffffff",
+                    "secondary": "#835500",
+                    "primary": "#000f22",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-surface": "#161c27",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#71fbc0",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "inverse-surface": "#2a303d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "label-md": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .step-active { @apply text-primary-container border-primary-container; }
+        .step-inactive { @apply text-on-surface-variant border-outline-variant; }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .certified-shimmer {
+            background: linear-gradient(90deg, #71fbc0 0%, #feae2c 50%, #71fbc0 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased overflow-x-hidden min-h-screen">
+<!-- TopNavBar (Shared Component Guide) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[64px] bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-md">
+<span class="text-headline-sm font-headline-sm font-black text-primary-container">EstateVerify</span>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<span class="font-label-md text-label-md text-on-surface-variant">Verify Your Property - The Obsidian Penthouse</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-primary-container p-sm">notifications</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">person</span>
+</div>
+</div>
+</header>
+<main class="pt-[64px] pb-xl max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Progress Stepper -->
+<div class="mt-xl mb-xl">
+<div class="flex justify-between items-center relative">
+<!-- Line -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<!-- Steps -->
+<div class="flex flex-col items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-on-tertiary-container text-on-tertiary flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-tertiary-container">L1 Assets</span>
+</div>
+<div class="flex flex-col items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center ring-4 ring-primary-fixed shadow-lg">
+<span class="font-label-md text-label-md">02</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">L2 Identity</span>
+</div>
+<div class="flex flex-col items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="font-label-md text-label-md">03</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">L3 Video</span>
+</div>
+<div class="flex flex-col items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="font-label-md text-label-md">04</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Review</span>
+</div>
+</div>
+</div>
+<!-- Verification Canvas -->
+<div class="glass-morphism rounded-xl p-lg md:p-xl shadow-xl relative overflow-hidden">
+<!-- Atmospheric Gradient -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary-fixed/20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="mb-xl text-center md:text-left">
+<div class="inline-flex items-center gap-sm px-md py-xs bg-primary-fixed/30 text-on-primary-fixed-variant rounded-full mb-md">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm">SECURE ENCRYPTION ACTIVE</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary-container">Level 2: Identity Verification</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">Confirm your identity as the registered owner using the National Identity Number (NIN) registry.</p>
+</div>
+<!-- Input Section -->
+<div class="space-y-lg transition-all duration-500" id="nin-input-container">
+<div class="max-w-md mx-auto md:mx-0">
+<label class="block font-label-md text-label-md text-primary-container mb-sm" for="nin-input">National Identity Number (NIN)</label>
+<div class="relative">
+<input class="w-full h-[56px] px-md rounded-lg border border-outline focus:border-primary-container focus:ring-2 focus:ring-primary-fixed outline-none text-body-lg font-headline-sm tracking-widest placeholder:tracking-normal placeholder:font-body-md" id="nin-input" maxlength="11" placeholder="Enter 11-digit NIN" type="text"/>
+<div class="absolute right-md top-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-outline">fingerprint</span>
+</div>
+</div>
+<p class="mt-base text-xs text-on-surface-variant flex gap-xs items-center">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                            We use end-to-end encryption to protect your data.
+                        </p>
+</div>
+<button class="h-[52px] px-xl bg-primary-container text-white rounded-xl font-headline-sm flex items-center justify-center gap-md hover:shadow-lg active:scale-95 transition-all w-full md:w-auto" onclick="simulateVerification()">
+<span>Verify Identity</span>
+<span class="material-symbols-outlined" id="loader-icon">arrow_forward</span>
+</button>
+</div>
+<!-- Result Card (Hidden Initially) -->
+<div class="hidden opacity-0 translate-y-8 transition-all duration-700 ease-out" id="nin-result-card">
+<div class="bg-on-tertiary-container rounded-xl p-lg flex flex-col md:flex-row gap-lg items-center md:items-start relative overflow-hidden group">
+<!-- Success Badge -->
+<div class="absolute top-0 right-0 p-lg">
+<div class="px-md py-xs bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm rounded-full flex items-center gap-sm">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                                NIN VERIFIED
+                            </div>
+</div>
+<!-- Mock NIN Image -->
+<div class="w-32 h-40 bg-surface-container-highest rounded-lg overflow-hidden border-2 border-on-tertiary/20 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional passport-style studio portrait of a confident middle-aged Nigerian man with a soft, warm smile. He is wearing a minimalist dark navy corporate suit. The lighting is bright and high-key, creating a clean light-mode aesthetic against a neutral light grey background. The image has the sharp, high-resolution quality of a government identification card." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBClFKqX1YD0MpDPwm5h6DaMEQZnbwjiUgTRJdTa9HaFfWnHAnSwgMNJsYoHnU3uJEkF7smNCaO1xqLodSOCBUpyxUcF-Y5xCIuqQCRm-QvXIL0LZWomgLkxrMOaqbryLZm5V9v-C-2cd_z2Mxii99hPiCVQoCM0eUArWpaIkYNTfb7UZeizttYRlpTe2mNmg9yf72VlEtFJnC3QBO8fXOqsf3lGcEUp8XX1RBURjx3Yy-tnfobvOK7rDu6Fv3ZJWoM2wP4h_6X9_U"/>
+</div>
+<div class="flex-grow space-y-md text-white">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<p class="font-label-sm text-label-sm text-on-tertiary/60">FULL NAME</p>
+<p class="font-headline-sm text-headline-sm">Olumide Adebayo Olatunji</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-tertiary/60">DATE OF BIRTH</p>
+<p class="font-headline-sm text-headline-sm">14 OCT 1982</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-tertiary/60">IDENTIFICATION NUMBER</p>
+<p class="font-label-md text-label-md tracking-widest text-secondary-fixed">8829 **** 102</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-tertiary/60">VERIFICATION TYPE</p>
+<p class="font-label-md text-label-md text-tertiary-fixed">Biometric Registry Link</p>
+</div>
+</div>
+<div class="pt-md border-t border-white/10 flex items-center gap-md text-sm text-on-tertiary/80">
+<span class="material-symbols-outlined text-tertiary-fixed">check_circle</span>
+                                This identity profile matches the property deed registered for "The Obsidian Penthouse".
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Navigation -->
+<div class="mt-xl flex flex-col md:flex-row justify-between items-center gap-lg">
+<button class="w-full md:w-auto h-11 px-lg border border-outline text-primary-container rounded-xl font-label-md flex items-center justify-center gap-sm hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+                Back to Assets
+            </button>
+<button class="w-full md:w-auto h-11 px-xl bg-surface-container-highest text-on-surface-variant rounded-xl font-label-md flex items-center justify-center gap-sm transition-all cursor-not-allowed opacity-50" disabled="" id="btn-continue">
+                Continue to Video Walk
+                <span class="material-symbols-outlined">videocam</span>
+</button>
+</div>
+</main>
+<!-- Shared Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg bg-primary-container text-on-primary mt-xl">
+<div class="md:col-span-1">
+<span class="font-headline-sm text-headline-sm text-secondary-fixed">EstateVerify</span>
+<p class="mt-md font-body-sm text-body-sm text-on-primary-container">Nigeria's premier verification layer for real estate transactions. Trust is our foundation.</p>
+</div>
+<div class="grid grid-cols-2 gap-md md:col-span-2">
+<div class="space-y-sm">
+<p class="font-label-md text-secondary-fixed">Legal</p>
+<a class="block font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Terms of Service</a>
+<a class="block font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Privacy Policy</a>
+</div>
+<div class="space-y-sm">
+<p class="font-label-md text-secondary-fixed">Support</p>
+<a class="block font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Contact Support</a>
+<a class="block font-label-sm text-on-primary-container hover:text-secondary-container underline transition-all" href="#">Help Center</a>
+</div>
+</div>
+<div class="flex flex-col justify-end text-right">
+<p class="font-label-sm text-label-sm text-on-primary-container">© 2024 EstateVerify Nigeria. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        function simulateVerification() {
+            const input = document.getElementById('nin-input');
+            const loader = document.getElementById('loader-icon');
+            const inputContainer = document.getElementById('nin-input-container');
+            const resultCard = document.getElementById('nin-result-card');
+            const btnContinue = document.getElementById('btn-continue');
+
+            if (input.value.length < 11) {
+                alert('Please enter a valid 11-digit NIN');
+                return;
+            }
+
+            // Start Loading State
+            loader.innerHTML = 'sync';
+            loader.classList.add('animate-spin');
+            input.disabled = true;
+
+            setTimeout(() => {
+                // Success Transition
+                inputContainer.classList.add('opacity-0', 'scale-95');
+                
+                setTimeout(() => {
+                    inputContainer.classList.add('hidden');
+                    resultCard.classList.remove('hidden');
+                    
+                    // Trigger animation
+                    requestAnimationFrame(() => {
+                        resultCard.classList.remove('opacity-0', 'translate-y-8');
+                        resultCard.classList.add('opacity-100', 'translate-y-0');
+                        
+                        // Enable Next Step
+                        btnContinue.disabled = false;
+                        btnContinue.classList.remove('bg-surface-container-highest', 'text-on-surface-variant', 'cursor-not-allowed', 'opacity-50');
+                        btnContinue.classList.add('bg-primary-container', 'text-white', 'shadow-lg', 'active:scale-95');
+                    });
+                }, 400);
+            }, 1800);
+        }
+
+        // Auto-focus input on load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('nin-input').focus();
+        });
+    </script>
+</body></html>

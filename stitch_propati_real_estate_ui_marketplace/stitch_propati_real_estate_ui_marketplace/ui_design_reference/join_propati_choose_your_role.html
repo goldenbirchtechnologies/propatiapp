@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up | EstateVerify</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f9f9ff",
+                    "primary-container": "#0a2540",
+                    "on-primary-container": "#768dad",
+                    "surface-container-highest": "#dde2f3",
+                    "on-surface": "#161c27",
+                    "primary": "#000f22",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#009e6f",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d4daea",
+                    "outline-variant": "#c4c6ce",
+                    "background": "#f9f9ff",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#ecf0ff",
+                    "on-background": "#161c27",
+                    "on-surface-variant": "#43474d",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "surface-container": "#e8eeff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#002a1b",
+                    "on-tertiary-fixed": "#002114",
+                    "surface-variant": "#dde2f3",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#b0c8eb",
+                    "on-primary-fixed-variant": "#314865",
+                    "outline": "#74777e",
+                    "surface-container-high": "#e3e8f9",
+                    "tertiary": "#001209",
+                    "on-secondary-fixed": "#291800",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#6b4500",
+                    "surface-bright": "#f9f9ff",
+                    "secondary": "#835500",
+                    "surface-container-low": "#f1f3ff",
+                    "inverse-surface": "#2a303d",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-primary-fixed": "#001c37",
+                    "secondary-fixed": "#ffddb4",
+                    "secondary-container": "#feae2c",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "tertiary-fixed": "#71fbc0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "margin-desktop": "64px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            color: #161c27;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .role-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-card.active {
+            border-color: #feae2c;
+            background-color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+        .role-card.active .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .role-card.active .role-icon {
+            color: #feae2c;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#0a2540 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar (Shared Component Guide Execution) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[64px] bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="text-headline-sm font-headline-sm font-black text-primary-container">EstateVerify</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Rent</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Buy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Short-let</a>
+</div>
+<div class="flex items-center gap-md">
+<button class="hidden md:block font-label-md text-label-md text-primary px-md py-sm hover:text-secondary transition-colors">Login</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all">Sign Up</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[100px] pb-xl relative">
+<div class="bg-pattern absolute inset-0 -z-10"></div>
+<div class="max-w-2xl mx-auto px-margin-mobile">
+<!-- Header Section -->
+<div class="text-center mb-xl">
+<div class="inline-flex items-center gap-xs bg-tertiary-fixed text-on-tertiary-fixed px-sm py-1 rounded-full mb-md shadow-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Secure Registration</span>
+</div>
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-sm">Choose your role</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Join 12,000+ verified users securing their property future today.</p>
+</div>
+<!-- Role Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-xl" id="roleGrid">
+<!-- Card: Landlord -->
+<div class="role-card group cursor-pointer relative bg-white border border-outline-variant p-lg rounded-xl flex flex-col gap-sm" onclick="selectRole(this)">
+<div class="flex justify-between items-start">
+<div class="role-icon text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[40px]">home_work</span>
+</div>
+<div class="check-icon opacity-0 scale-50 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Landlord</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">List properties, manage tenants, and receive verified payments securely.</p>
+</div>
+<!-- Card: Tenant -->
+<div class="role-card group cursor-pointer relative bg-white border border-outline-variant p-lg rounded-xl flex flex-col gap-sm" onclick="selectRole(this)">
+<div class="flex justify-between items-start">
+<div class="role-icon text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[40px]">person_search</span>
+</div>
+<div class="check-icon opacity-0 scale-50 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Tenant</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Find verified listings, schedule inspections, and secure your next home.</p>
+</div>
+<!-- Card: Agent -->
+<div class="role-card group cursor-pointer relative bg-white border border-outline-variant p-lg rounded-xl flex flex-col gap-sm" onclick="selectRole(this)">
+<div class="flex justify-between items-start">
+<div class="role-icon text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[40px]">handshake</span>
+</div>
+<div class="check-icon opacity-0 scale-50 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Agent</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Close deals faster with verified listings and professional agency tools.</p>
+</div>
+<!-- Card: Estate Manager -->
+<div class="role-card group cursor-pointer relative bg-white border border-outline-variant p-lg rounded-xl flex flex-col gap-sm" onclick="selectRole(this)">
+<div class="flex justify-between items-start">
+<div class="role-icon text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[40px]">corporate_fare</span>
+</div>
+<div class="check-icon opacity-0 scale-50 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Estate Manager</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Oversee large portfolios with automated maintenance and finance tracking.</p>
+</div>
+</div>
+<!-- Footer Action Area -->
+<div class="flex flex-col gap-lg items-center">
+<button class="w-full max-w-sm bg-primary text-on-primary py-lg rounded-xl font-headline-sm text-headline-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90 transition-all shadow-lg active:scale-95" disabled="" id="continueBtn">
+                    Continue to Registration
+                </button>
+<div class="flex items-center gap-md text-on-surface-variant">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="Close up portrait of a smiling Nigerian professional woman in a modern office, soft bokeh background, high-end photography, Lagos corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzF5m6JIL0WB8mTjPR_zLUfhfAjdqaCavPCEZ1Hjx6lotIDwyLpXcn8LMOqhBVetQgtWwgtSfyq585w6-MWoJv4MHC64yeMSepmtP_g1GxWIkYdr6HiEqvBj1r-fHq9n-2L0iw3PfAXGMiedmERrp1KxtxtZTkec8ur2HrCIepB20v6pKxgBVrZhfo4tJYFQGR1uOMhIpsI68GOp74wS1Fk0ByALYZBOhH7fvavMZJMNQTQXlobs7hx2i6NwK-AlAvJ9QSFZC05Pw"/>
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="Portrait of a young African male architect wearing glasses, minimalist modern setting, natural lighting, sharp focus, sophisticated aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaODuSh1HwqtXK50mjhDdbm7TeasEakvihW4pN5tMVMZ4_TbFT9gbeaFzCuQ0s3QN8buDjJ_xE42xX_MzJ-Tu5jLp-HCe4U_Vdo_LSxGQqlDqdIgEjjzPL5O5NjMDaPwBmhlIwqPXRQ0Jz1ib5E6DmKxUg_T9hoYY6UZZlHbUgL9YhU6Ec0u7wF1_I3nSl8hae2jaAr_F93-aHbk6dwIR4WOKgiFuhkHE_1n1VliKIXULlPEL0xud9Iu0YTx3qJ3xJdaIMO9_IqCI"/>
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="Smiling African senior man in traditional attire mixed with modern business casual, bright airy room, premium lifestyle photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5Ml9b9aBblvXv56tJv5rwPP-U0YSg3y3I8cKTaEYR8XWLEeG4547M0C5W2okfelxUBgEmVTY-Lml-rqh037_XUyu180uzWd2vTk5GXIytucZgyjxwJhhX9yYh8PfJ589oPA8o1mBBvoX-pokPvsIg5N3UM2Fnx7D-Pyu_cGM5UNsKr1WP5fKq2l4eMwcJRDx83p5b50Cx4QueDD2ATysCO1r0_ejmsqkC6WL8qMsW29dFioHStKntX3FsMzcnBJftu6s1-YgAo_0"/>
+</div>
+<p class="font-label-sm text-label-sm">Join the 12,000+ verified network</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Feedback Overlay (Hidden by default) -->
+<div class="fixed inset-0 bg-primary/20 backdrop-blur-sm z-[60] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300" id="loadingOverlay">
+<div class="bg-white p-xl rounded-2xl shadow-2xl flex flex-col items-center gap-md">
+<div class="w-12 h-12 border-4 border-secondary-container border-t-transparent rounded-full animate-spin"></div>
+<p class="font-label-md text-label-md text-primary">Configuring your dashboard...</p>
+</div>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg bg-primary-container text-on-primary">
+<div class="md:col-span-1">
+<span class="font-headline-sm text-headline-sm text-secondary-fixed">EstateVerify</span>
+<p class="mt-md font-body-sm text-body-sm text-on-primary-container">Nigeria's premier verified property marketplace. Building trust in every square meter.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white mb-md">Company</h4>
+<ul class="flex flex-col gap-sm font-label-sm text-label-sm text-on-primary-container">
+<li><a class="hover:text-secondary-container underline transition-all" href="#">About Us</a></li>
+<li><a class="hover:text-secondary-container underline transition-all" href="#">Careers</a></li>
+<li><a class="hover:text-secondary-container underline transition-all" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white mb-md">Legal</h4>
+<ul class="flex flex-col gap-sm font-label-sm text-label-sm text-on-primary-container">
+<li><a class="hover:text-secondary-container underline transition-all" href="#">Terms of Service</a></li>
+<li><a class="hover:text-secondary-container underline transition-all" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white mb-md">Social</h4>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">public</span>
+<span class="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">share</span>
+<span class="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">verified_user</span>
+</div>
+<p class="mt-lg font-label-sm text-label-sm text-on-primary-container">© 2024 EstateVerify Nigeria. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        function selectRole(element) {
+            // Remove active class from all cards
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            element.classList.add('active');
+            
+            // Enable continue button
+            const btn = document.getElementById('continueBtn');
+            btn.disabled = false;
+            
+            // Visual feedback
+            btn.classList.add('animate-pulse');
+            setTimeout(() => btn.classList.remove('animate-pulse'), 500);
+        }
+
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.opacity = '1';
+            overlay.style.pointerEvents = 'auto';
+            
+            setTimeout(() => {
+                // In a real app, this would navigate to the next step
+                overlay.querySelector('p').innerText = "Redirecting...";
+                overlay.querySelector('div').classList.replace('border-secondary-container', 'border-tertiary-fixed-dim');
+            }, 1500);
+        });
+
+        // Entrance animation for cards
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.role-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body></html>

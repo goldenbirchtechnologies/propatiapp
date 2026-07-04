@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Portfolio Analytics Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2a303d",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "secondary-fixed": "#ffddb4",
+                        "on-primary-fixed": "#001c37",
+                        "tertiary-fixed": "#71fbc0",
+                        "secondary-container": "#feae2c",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "on-secondary-container": "#6b4500",
+                        "surface-bright": "#f9f9ff",
+                        "secondary": "#835500",
+                        "surface-container-low": "#f1f3ff",
+                        "tertiary": "#001209",
+                        "surface-container-high": "#e3e8f9",
+                        "on-secondary-fixed": "#291800",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#002a1b",
+                        "surface-variant": "#dde2f3",
+                        "on-tertiary-fixed": "#002114",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#314865",
+                        "inverse-primary": "#b0c8eb",
+                        "outline": "#74777e",
+                        "on-surface-variant": "#43474d",
+                        "surface-container": "#e8eeff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d4daea",
+                        "outline-variant": "#c4c6ce",
+                        "inverse-on-surface": "#ecf0ff",
+                        "error-container": "#ffdad6",
+                        "background": "#f9f9ff",
+                        "on-background": "#161c27",
+                        "on-tertiary-container": "#009e6f",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#d2e4ff",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "surface-tint": "#49607e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "primary-container": "#0a2540",
+                        "on-primary-container": "#768dad",
+                        "surface-container-highest": "#dde2f3",
+                        "on-surface": "#161c27",
+                        "primary": "#000f22"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "margin-desktop": "64px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "headline-lg": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+        .property-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .gradient-shimmer {
+            background: linear-gradient(90deg, #f9f9ff 25%, #e8eeff 50%, #f9f9ff 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-primary-container border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-headline-lg font-headline-lg font-extrabold text-secondary-fixed">PROPATI</h1>
+<p class="text-label-md font-label-md text-on-primary-container opacity-60">Portfolio Manager</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active: Analytics/Dashboard logic -->
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed font-bold border-l-4 border-secondary-fixed bg-primary" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary hover:text-secondary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary hover:text-secondary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md text-label-md">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary hover:text-secondary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-md text-label-md">Yield Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary hover:text-secondary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="pie_chart">pie_chart</span>
+<span class="font-label-md text-label-md">Occupancy</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary hover:text-secondary-fixed transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-secondary text-on-secondary font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>Add New Property</span>
+</button>
+<div class="border-t border-on-primary-container/20 pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-on-primary-container opacity-80 hover:opacity-100" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-primary-container opacity-80 hover:opacity-100" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 bg-surface border-b border-outline-variant z-40 shadow-sm">
+<div class="flex items-center gap-8">
+<span class="text-headline-sm font-headline-sm font-bold text-primary">Portfolio Analytics</span>
+<div class="relative group">
+<span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="search">search</span>
+</span>
+<input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Search properties..." type="text"/>
+</div>
+</div>
+<nav class="flex items-center gap-6">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Portfolio</a>
+<a class="text-on-surface-variant hover:text-primary transition-all font-label-md text-label-md" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-all font-label-md text-label-md" href="#">Reports</a>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="file_download">file_download</span>
+                    Export Data
+                </button>
+<div class="flex items-center gap-3 ml-2">
+<button class="p-2 rounded-full hover:bg-surface-container-low relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<img class="w-8 h-8 rounded-full bg-outline-variant" data-alt="A professional headshot of a real estate investor in high-end business attire, smiling confidently. The image has soft, warm lighting and a blurry office background with floor-to-ceiling windows overlooking a modern city skyline. Corporate, verified, and premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdGvIUPpiLzuqJudm_Nx9l-fszaXYqR2i1rD6-YNPjSqvZSJCgoKVKDiSGZaTzlKpQibmt6fbxXRpH54kWHbwFf1Zs60hnOfH5vnv5VCIGNJ93OI-bOi1ld7ZE6Wb0Lp0RMeC55X5HSQGX_BYyW1S_-FhJ4cztpqOVrFD4md32ikli-63x-uSlv6X6P5MP67wflyxEfo-N0wmGt2bF9Q2YOlw2QRfLwKdNSjUaEWni4wbPsHdQcbYa"/>
+<span class="font-label-md text-label-md font-bold">Ayo Bankole</span>
+</div>
+</div>
+</nav>
+</header>
+<!-- Dashboard Body -->
+<section class="p-margin-desktop space-y-8">
+<!-- Global KPIs -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm property-card-hover transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<span class="text-on-tertiary-container font-label-sm text-label-sm bg-tertiary-fixed-dim/20 px-2 py-1 rounded">+12.4%</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Total Portfolio Value</p>
+<h3 class="text-headline-md font-headline-md mt-1">₦4.2B</h3>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm property-card-hover transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="payments">payments</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Est.</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Projected Annual Income</p>
+<h3 class="text-headline-md font-headline-md mt-1">₦318.5M</h3>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm property-card-hover transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="group">group</span>
+</div>
+<div class="w-12 h-1 bg-outline-variant rounded-full overflow-hidden">
+<div class="w-[92%] h-full bg-on-tertiary-container"></div>
+</div>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Average Occupancy</p>
+<h3 class="text-headline-md font-headline-md mt-1">92%</h3>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm property-card-hover transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="apartment">apartment</span>
+</div>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Total Properties</p>
+<h3 class="text-headline-md font-headline-md mt-1">14</h3>
+</div>
+</div>
+<!-- Main Analysis Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Revenue Breakdown & Asset Split -->
+<div class="lg:col-span-2 space-y-gutter">
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant shadow-sm h-full">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="text-headline-sm font-headline-sm">Revenue Breakdown</h4>
+<p class="text-body-sm text-on-surface-variant">Distribution across asset classes</p>
+</div>
+<select class="bg-surface-container border border-outline-variant rounded-lg text-label-md px-3 py-2">
+<option>Current Year</option>
+<option>Last 12 Months</option>
+</select>
+</div>
+<div class="flex items-end gap-gutter h-64 mb-8">
+<!-- Visual Chart Mockup -->
+<div class="flex-1 flex flex-col items-center group cursor-pointer">
+<div class="w-full bg-[#0e7c6a] rounded-t-lg transition-all group-hover:opacity-80" style="height: 65%;"></div>
+<span class="text-label-md font-bold mt-4">Residential</span>
+<span class="text-label-sm text-on-surface-variant">₦207M</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-pointer">
+<div class="w-full bg-[#c9952a] rounded-t-lg transition-all group-hover:opacity-80" style="height: 35%;"></div>
+<span class="text-label-md font-bold mt-4">Commercial</span>
+<span class="text-label-sm text-on-surface-variant">₦111M</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-gutter p-gutter bg-surface-container-low rounded-xl">
+<div class="flex items-start gap-3">
+<div class="w-3 h-3 bg-[#0e7c6a] rounded-full mt-1"></div>
+<div>
+<p class="text-label-md font-bold">Residential Performance</p>
+<p class="text-body-sm text-on-surface-variant">Consistent demand across Mainland and Island duplexes.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-3 h-3 bg-[#c9952a] rounded-full mt-1"></div>
+<div>
+<p class="text-label-md font-bold">Commercial Yield</p>
+<p class="text-body-sm text-on-surface-variant">High-growth sectors in VI and Ikeja hubs.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Occupancy Status Detail -->
+<div class="bg-primary-container text-on-primary-fixed p-xl rounded-xl shadow-lg flex flex-col">
+<h4 class="text-headline-sm font-headline-sm text-secondary-fixed mb-2">Occupancy Health</h4>
+<p class="text-on-primary-container text-body-sm mb-6">Upcoming lease expirations and vacant unit management.</p>
+<div class="space-y-4 flex-1">
+<div class="bg-primary p-md rounded-lg border border-on-primary-container/20">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-md font-bold text-on-primary">Mainland Regional HQ</span>
+<span class="bg-error/20 text-error-container text-[10px] px-2 py-0.5 rounded-full border border-error/30">CRITICAL</span>
+</div>
+<p class="text-body-sm text-on-primary-container">2 units expiring in 30 days</p>
+<div class="mt-3 flex justify-between items-center">
+<button class="text-label-sm text-secondary-fixed underline">View Units</button>
+<span class="text-label-sm opacity-60">Floor 4 &amp; 5</span>
+</div>
+</div>
+<div class="bg-primary p-md rounded-lg border border-on-primary-container/20">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-md font-bold text-on-primary">Lekki Phase 1 Luxury Lofts</span>
+<span class="bg-on-tertiary-container/20 text-tertiary-fixed text-[10px] px-2 py-0.5 rounded-full border border-tertiary-fixed/30">STABLE</span>
+</div>
+<p class="text-body-sm text-on-primary-container">Fully occupied until Q4 2024</p>
+</div>
+<div class="bg-primary p-md rounded-lg border border-on-primary-container/20">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-md font-bold text-on-primary">Ikeja Tech Plaza</span>
+<span class="bg-secondary/20 text-secondary-fixed text-[10px] px-2 py-0.5 rounded-full border border-secondary/30">PENDING</span>
+</div>
+<p class="text-body-sm text-on-primary-container">1 unit (Ground floor) available</p>
+<button class="mt-3 w-full bg-secondary-fixed text-primary py-2 rounded font-bold text-label-sm">Post Listing</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Yield Performance Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h4 class="text-headline-sm font-headline-sm">Asset Yield Performance</h4>
+<button class="text-primary font-bold text-label-md flex items-center gap-1">
+                        View Full List
+                        <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant text-label-md border-b border-outline-variant">
+<tr>
+<th class="px-lg py-4">Property Name</th>
+<th class="px-lg py-4">Location</th>
+<th class="px-lg py-4">Status</th>
+<th class="px-lg py-4 text-right">Annual Yield</th>
+<th class="px-lg py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A modern glass-clad commercial office building known as Apex Tower Corporate Hub, reflecting the blue sky. The architecture is futuristic with sharp angles and integrated greenery on balconies. Located in a high-density financial district with professional lighting. High-trust, premium real estate imagery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBheXTxqpsg4T54kr978HYUs-jl-YrMRh3GYQ8Z5i_6VPvYCLDbKdb1rlWrmmPC1-nT0Lnbc3xRQbHVehGBN-jI-7WUW-HhQ_qq0nRN5tCtjDCoGfFs9YIEHjAGKnphBRe5sE2E-Kb8o9FN47oJv-C5KAfHDmA778fsu3mHPmU_IqPOySnl8AxsK304P8iMwXmVypHgzrpDPltoerIUuEPuuVDlwArhEIs6GDdcTanTT_rGmB3Ibrnz"/>
+</div>
+<div>
+<span class="font-bold text-body-md block">Apex Tower Corporate Hub</span>
+<span class="text-label-sm text-on-surface-variant">Commercial • 12 Units</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm">Victoria Island, Lagos</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-on-tertiary-container text-white text-[11px] rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                        CERTIFIED
+                                    </span>
+</td>
+<td class="px-lg py-4 text-right">
+<span class="text-headline-sm font-bold text-[#0e7c6a]">12.4%</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A luxurious residential garden duplex named Oakwood Garden, featuring contemporary wooden cladding, floor-to-ceiling windows, and manicured landscaping with tropical plants. The lighting is soft evening twilight, highlighting the warm interior glow. High-end residential real estate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG0UK9tDTSgzZPwKRdsjhiCLLTe2V-sDDyAmYBrZHF_sT-VxiUkPfD71MX8GX6x4yv-7Gy7qLqBE3gk7P4TcHPU-kmwr2B5nNsrkmbZuPVZQB_7nsuoz9Qa87srI7k_87hPlXZMAc1sjJwWCWUm2FJHN4gSV5gQ1fGvWGXJ7BzJ7OOE0OeiTV3M_r1J4DCCjDNzacbobmRbdGShIF2cwz-NHSxhvbeiuXODbREj4sAdVe4TXKyUowl"/>
+</div>
+<div>
+<span class="font-bold text-body-md block">Oakwood Garden Duplex</span>
+<span class="text-label-sm text-on-surface-variant">Residential • 4 Units</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm">Lekki Phase 1, Lagos</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-[#c9952a] text-primary text-[11px] rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span>
+                                        INSPECTED
+                                    </span>
+</td>
+<td class="px-lg py-4 text-right">
+<span class="text-headline-sm font-bold text-on-surface">6.8%</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A modern industrial-style office space in Ikeja with exposed brick and large industrial windows. Tech Plaza Hub branding is visible. Daytime natural light creates a bright, energetic workspace environment. Real estate portfolio detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAx1C5DtjcekcxAHEtm8e3nelf80hOcMylcfpnPAY4yVolBztLudD1RrtzkpoFsd4V1bcnvknay7_X-l-OYs1nqeLMfJzVEE3goU7Ei68hTB_G79T1PHA3RBG6YCdALbLO9CAJl66tXUh0cZta7dBlxRpHWMSqgbJqxjAETlfN7OQGtAfYxtAK8EAYE831TDVFp-kfz5HvjQ7LrJitWkUejG07vc6qHfJaChb66mqFmQ_zm-7b8g2P"/>
+</div>
+<div>
+<span class="font-bold text-body-md block">Mainland Regional HQ</span>
+<span class="text-label-sm text-on-surface-variant">Mixed Use • 8 Units</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-body-sm">Ikeja, Lagos</td>
+<td class="px-lg py-4">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-outline-variant/30 text-on-surface-variant text-[11px] rounded-full font-bold">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span>
+                                        BASIC
+                                    </span>
+</td>
+<td class="px-lg py-4 text-right">
+<span class="text-headline-sm font-bold text-on-surface">9.2%</span>
+</td>
+<td class="px-lg py-4 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Interactive Yield Map Placeholder -->
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="text-headline-sm font-headline-sm">Yield Map: Lagos Distribution</h4>
+<p class="text-body-sm text-on-surface-variant">Geographic distribution of asset yields across the city hubs</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-label-md font-bold">All Districts</button>
+<button class="bg-surface-container px-4 py-2 rounded-lg text-label-md opacity-60">High Yield Hubs</button>
+</div>
+</div>
+<div class="relative w-full h-[500px] rounded-xl overflow-hidden bg-surface-container-low flex items-center justify-center border border-outline-variant group">
+<!-- Static Map Image -->
+<div class="absolute inset-0 grayscale opacity-60" data-alt="A stylized minimalist vector map of Lagos, Nigeria, focusing on the islands (Ikoyi, Victoria Island, Lekki) and major mainland areas (Ikeja). The map uses a clean palette of whites and soft grays with subtle grid lines. Modern cartography style for a real estate dashboard." data-location="Lagos, Nigeria" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBXITJNzwmvitZ0aYr_PzqSLNqzBpT3UaqqN3cUuzfT9X5_Gw_k0RCKiwodqRzWDx3X0npWVj1JTzEI13tlvdkBAYcaDyKkWw9h6pyQFgfNcyWCHhEThm2bUoyi2DU9ouoyzBx3BZzRzlTx8UTvXTb0sUyLbbQHhcpmauKNcbrOaILFwrl-TbFcgAjF15FSYiHPslJZqiLQQ3Q7c99Q4U1UUrcajt3Gl8Hl_sM4odajN-VFtrvSWMf8')"></div>
+<!-- Interactive Markers Mockup -->
+<div class="absolute top-[45%] left-[62%] group/marker cursor-pointer animate-bounce">
+<div class="relative">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center border-2 border-white shadow-lg transition-transform hover:scale-110">
+<span class="text-[10px] font-bold text-white">12.4</span>
+</div>
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-32 bg-white p-2 rounded shadow-xl border border-outline-variant opacity-0 group-hover/marker:opacity-100 transition-opacity">
+<p class="text-[10px] font-bold">Victoria Island Hub</p>
+<p class="text-[8px] text-on-surface-variant">4 Assets • High Yield</p>
+</div>
+</div>
+</div>
+<div class="absolute top-[38%] left-[72%] group/marker cursor-pointer">
+<div class="w-8 h-8 bg-on-tertiary-container rounded-full flex items-center justify-center border-2 border-white shadow-lg transition-transform hover:scale-110">
+<span class="text-[10px] font-bold text-white">10.1</span>
+</div>
+</div>
+<div class="absolute top-[52%] left-[78%] group/marker cursor-pointer">
+<div class="w-8 h-8 bg-[#c9952a] rounded-full flex items-center justify-center border-2 border-white shadow-lg transition-transform hover:scale-110">
+<span class="text-[10px] font-bold text-white">6.8</span>
+</div>
+</div>
+<div class="absolute top-[28%] left-[45%] group/marker cursor-pointer">
+<div class="w-8 h-8 bg-primary-container rounded-full flex items-center justify-center border-2 border-white shadow-lg transition-transform hover:scale-110">
+<span class="text-[10px] font-bold text-white">9.2</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg border border-outline-variant shadow-md">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-primary rounded-full"></div>
+<span class="text-label-sm">High (&gt;11%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-on-tertiary-container rounded-full"></div>
+<span class="text-label-sm">Market Avg (8-10%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-[#c9952a] rounded-full"></div>
+<span class="text-label-sm">Low (&lt;8%)</span>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-primary/5 p-8 rounded-full border border-primary/10 animate-pulse">
+<div class="bg-primary/10 p-8 rounded-full border border-primary/20">
+<span class="material-symbols-outlined text-primary/40 text-4xl" data-icon="location_on">location_on</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer space -->
+<footer class="h-16 px-margin-desktop flex items-center justify-between border-t border-outline-variant bg-surface-container-low text-on-surface-variant text-label-sm">
+<p>© 2024 PROPATI Technologies Limited. All assets verified.</p>
+<div class="flex gap-4">
+<a class="hover:underline" href="#">Privacy Policy</a>
+<a class="hover:underline" href="#">Market Reports</a>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.property-card-hover').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-md');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-md');
+            });
+        });
+
+        // Add a simple greeting to header if time allows
+        const hour = new Date().getHours();
+        const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+        console.log(`${greeting}, Ayo! Dashboard loaded.`);
+    </script>
+</body></html>

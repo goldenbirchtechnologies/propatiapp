@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI Commercial | Move-in Coordination Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001c37",
+                        "inverse-surface": "#2a303d",
+                        "surface-tint": "#49607e",
+                        "secondary": "#835500",
+                        "on-secondary-container": "#6b4500",
+                        "surface-container": "#e8eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-error-container": "#93000a",
+                        "outline": "#74777e",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary-fixed": "#ffddb4",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "on-secondary-fixed": "#291800",
+                        "tertiary-fixed": "#71fbc0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#314865",
+                        "inverse-on-surface": "#ecf0ff",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "surface-container-high": "#e3e8f9",
+                        "surface-variant": "#dde2f3",
+                        "primary-container": "#0a2540",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "on-primary-container": "#768dad",
+                        "primary": "#000f22",
+                        "surface-dim": "#d4daea",
+                        "on-tertiary-container": "#009e6f",
+                        "primary-fixed": "#d2e4ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "outline-variant": "#c4c6ce",
+                        "on-background": "#161c27",
+                        "background": "#f9f9ff",
+                        "tertiary-container": "#002a1b",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#001209",
+                        "surface-container-highest": "#dde2f3",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-tertiary-fixed": "#002114",
+                        "on-surface-variant": "#43474d",
+                        "on-surface": "#161c27",
+                        "inverse-primary": "#b0c8eb",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#feae2c",
+                        "surface-bright": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "body-lg": ["Inter"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verified-glow {
+            box-shadow: 0 0 15px rgba(0, 158, 111, 0.2);
+        }
+        .celebratory-gradient {
+            background: linear-gradient(135deg, #000f22 0%, #0a2540 100%);
+        }
+        .gold-shimmer {
+            background: linear-gradient(90deg, rgba(254,174,44,0) 0%, rgba(254,174,44,0.3) 50%, rgba(254,174,44,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed h-full w-64 left-0 top-0 bg-primary dark:bg-primary border-r-4 border-secondary-container shadow-xl flex flex-col h-screen overflow-y-auto z-50">
+<div class="p-lg flex flex-col gap-xs">
+<h1 class="font-headline-lg text-headline-lg font-black text-secondary-container">PROPATI</h1>
+<p class="font-label-md text-label-md text-on-primary-container">Gold Verified Agent</p>
+</div>
+<nav class="mt-xl flex-grow">
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Workspace</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Agreements</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-secondary-container border-l-4 border-secondary-container bg-primary-container/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">move_to_inbox</span>
+<span class="font-label-md text-label-md">Move-in</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-primary-fixed-variant hover:text-secondary-container hover:bg-primary-container/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+</nav>
+<div class="p-lg mt-auto">
+<button class="w-full bg-secondary-container text-primary font-label-md text-label-md py-md rounded-lg font-bold active:scale-95 duration-150">
+                New Negotiation
+            </button>
+</div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center h-16 px-gutter ml-64">
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-secondary-fixed-dim">PROPATI Commercial</span>
+<div class="relative hidden lg:block">
+<span class="absolute inset-y-0 left-3 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-sm w-64 focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-lg mr-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Listings</a>
+<a class="font-label-md text-label-md text-primary dark:text-secondary-fixed-dim border-b-2 border-secondary" href="#">Portfolio</a>
+</div>
+<button class="flex items-center gap-sm text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center gap-sm text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border-2 border-secondary-container">
+<img class="w-full h-full object-cover" data-alt="A professional business headshot of a commercial property agent, clean studio lighting, corporate attire, confident expression, sharp focus, neutral background, high-end photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO9xLq3-6PSaihB6AHMbw3QHTfxLSlJwoaGl1bE4U-BRpRGaRj9YzLp7BrwmxVJS6t58AR8GegeFX70I96lXi3MOAkqEXV9BZGsoGgZGfpJHdhmh9D6aGmpEfFug8yexth99wmzIF217eh45nN8Q15IxzdzN-CZsTy0uXFZGfp3mw6IboN15ieBqE9E8RRgX8btaAjI5qkPyr7tymu2fJGx4KsjPZvCwN-BNxJtT3n0wJ3Q0XObgG3"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-background">
+<div class="max-w-7xl mx-auto p-margin-desktop">
+<!-- Hero Welcome Section -->
+<section class="mb-xl relative overflow-hidden rounded-xl celebratory-gradient p-12 text-on-primary">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+
+</div>
+<div class="relative z-10 max-w-2xl">
+<div class="inline-flex items-center gap-sm bg-secondary-container/20 text-secondary-container px-md py-xs rounded-full border border-secondary-container/30 mb-md">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Handover Ready</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl mb-md">Welcome to your new HQ</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container max-w-lg mb-lg">
+                        Congratulations on securing your premium commercial space at <span class="text-secondary-container font-bold">The Pinnacle Plaza, Suite 402</span>. Everything is ready for your official move-in.
+                    </p>
+<div class="flex gap-md">
+<button class="px-xl py-md bg-secondary-container text-primary rounded-lg font-bold font-label-md hover:scale-105 transition-transform">
+                            View Digital Key
+                        </button>
+<button class="px-xl py-md border border-on-primary-container text-on-primary rounded-lg font-bold font-label-md hover:bg-on-primary-container/10 transition-colors">
+                            Download Welcome Pack
+                        </button>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Payment Status (Escrow) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary">Payment Status</h3>
+<span class="material-symbols-outlined text-on-tertiary-container bg-tertiary-fixed-dim/20 p-2 rounded-lg">payments</span>
+</div>
+<div class="bg-tertiary-container text-on-tertiary p-md rounded-lg mb-lg border-l-4 border-on-tertiary-container">
+<p class="font-label-sm text-label-sm mb-xs opacity-70 uppercase">Escrow Clearance</p>
+<div class="flex items-center gap-md">
+<p class="font-headline-md text-headline-md">₦12,450,000.00</p>
+<span class="bg-on-tertiary-container text-white px-2 py-0.5 rounded text-[10px] font-bold">CLEARED</span>
+</div>
+</div>
+</div>
+<div class="space-y-md">
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-on-surface-variant">Security Deposit</span>
+<span class="font-bold text-primary">Verified</span>
+</div>
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-on-surface-variant">Service Charge (Yr 1)</span>
+<span class="font-bold text-primary">Settled</span>
+</div>
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
+<div class="bg-on-tertiary-container h-full w-full"></div>
+</div>
+</div>
+</div>
+<!-- Key Handover Schedule -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-primary">Key Handover Schedule</h3>
+<span class="font-label-md text-label-md text-secondary bg-secondary-fixed/30 px-md py-xs rounded-full">Coming Up: 48 Hours</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="flex flex-col gap-md">
+<div class="relative w-full aspect-video rounded-lg overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern commercial office lobby with floor-to-ceiling glass, polished marble floors, and a sophisticated receptionist desk. Warm golden sunlight streams in, highlighting the luxury furniture and architectural details. Corporate professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjXPQuzYQ9BQgeKlkmI5qOSO4dH0sEJvHsFmmmAvf47fFbm2DKEfcuhJeEH7gWrv_GONzUR_XiyydtPOXTBeBsMjp6BG_8PpHJk4jUDY07-jJa5mN4GUSlEjnmuM9opvWiKtH-9ZrotpcSEhnjsh2X8d6BISU-EaAG3zrxweJeQjhu5DTkSory-aaNsOht9fAgDU6WGUw39qvT6mNw3u1nKk7YMPWLtFg_f5bbXTy_w47A9gU2AN0O"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-md left-md text-white">
+<p class="font-label-sm text-label-sm">Collection Point</p>
+<p class="font-body-md font-bold">Main Lobby Concierge</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="p-2 bg-secondary-container text-primary rounded-full">
+<span class="material-symbols-outlined">event</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Thursday, Oct 12th</p>
+<p class="font-body-md font-bold">10:00 AM — 11:30 AM</p>
+</div>
+</div>
+</div>
+<div class="space-y-md">
+<p class="font-label-md text-label-md text-on-surface-variant mb-md">Preparation Checklist</p>
+<div class="flex items-center gap-md group cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-secondary-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xs group-hover:text-primary">check</span>
+</div>
+<span class="font-body-md text-primary">Print Handover Protocol Form</span>
+</div>
+<div class="flex items-center gap-md group cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-secondary-container flex items-center justify-center group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xs group-hover:text-primary">check</span>
+</div>
+<span class="font-body-md text-primary">Assign IT Representative for Biometric Access</span>
+</div>
+<div class="flex items-center gap-md group cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center"></div>
+<span class="font-body-md text-primary opacity-60">Final Inventory Signature</span>
+</div>
+<button class="w-full mt-xl py-md border-2 border-secondary text-secondary rounded-lg font-bold font-label-md hover:bg-secondary hover:text-white transition-all">
+                                Reschedule Appointment
+                            </button>
+</div>
+</div>
+</div>
+<!-- Utility & HVAC Onboarding -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-lg">Utility &amp; HVAC Onboarding</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="p-lg bg-surface border border-outline-variant rounded-xl text-center hover:border-secondary-container transition-colors">
+<span class="material-symbols-outlined text-headline-lg text-secondary mb-md">bolt</span>
+<p class="font-label-md text-label-md font-bold mb-xs">Electrical</p>
+<span class="text-on-tertiary-container text-[12px] font-bold">CONNECTED</span>
+</div>
+<div class="p-lg bg-surface border border-outline-variant rounded-xl text-center hover:border-secondary-container transition-colors">
+<span class="material-symbols-outlined text-headline-lg text-secondary mb-md" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+<p class="font-label-md text-label-md font-bold mb-xs">HVAC System</p>
+<span class="text-secondary text-[12px] font-bold">TESTING REQUIRED</span>
+</div>
+<div class="p-lg bg-surface border border-outline-variant rounded-xl text-center hover:border-secondary-container transition-colors">
+<span class="material-symbols-outlined text-headline-lg text-secondary mb-md">wifi</span>
+<p class="font-label-md text-label-md font-bold mb-xs">Fibre Optic</p>
+<span class="text-on-tertiary-container text-[12px] font-bold">READY</span>
+</div>
+</div>
+<div class="mt-lg p-md bg-surface-container rounded-lg flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Temperature controls for Suite 402 can be managed via the <a class="text-secondary font-bold underline" href="#">PROPATI Smart Facility App</a> starting from handover day.
+                        </p>
+</div>
+</div>
+<!-- Facility Management Contacts -->
+<div class="col-span-12 lg:col-span-5 bg-primary-container text-on-primary-container p-lg rounded-xl shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-secondary-container mb-lg">Facility Contacts</h3>
+<div class="space-y-md">
+<div class="flex items-center justify-between p-md bg-primary/40 rounded-lg border border-white/10">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional African man in a facility management uniform, friendly and approachable expression, soft office lighting, high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOcivcupDZHbRHa_DoYqLcThkage0cJbvfd7RGDXAvs_Y3lm4WDd-Mp6ZE6aIOU1ezS5XckoL066lb0qQIhtHG9f9CGn3aHeju6A4pCf2KsX0cYYSGKn92d5Eg2tJ33YUuFekFS4csQix523kqCMi4t3UCNoTk4Xioc43_Q_dDh3ZoqQuatJili6lDUtng7ZL6KLsQbTlDPAF09naPgRySwe4vWv7J6cHSqG5GEBs7pch5QO7w3hgZ"/>
+</div>
+<div>
+<p class="font-body-md font-bold text-white">Chidi Okafor</p>
+<p class="font-label-sm text-label-sm">Head of Facilities</p>
+</div>
+</div>
+<button class="p-2 text-secondary-container hover:bg-secondary-container hover:text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-md bg-primary/40 rounded-lg border border-white/10">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="Portrait of a female security manager in a professional dark uniform, smart and disciplined look, clean modern interior background, sharp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQs7QaW-8ZsDZJiokR9P8qId8orObqLVZoA0CWzapQ4HBP1x2du_4uyiJEZSfgww-Bfz0LNdV2PqqVL1v8kiP_g-mKzTFBTW14YAXZ6J7mJba0RL6vLPjbLTCXgo-zjnAuC7nqzqplMjSoZAPbFd7yjTYyP_JZfImL6VC7Q13wKP4fyMElk6rH4hDRAxRNSB-_hp9k0jMkMCvWWIcoRdaRyrzgdkZAaBJ8zs-ji2154n6u51y4TE8R"/>
+</div>
+<div>
+<p class="font-body-md font-bold text-white">Sarah Alabi</p>
+<p class="font-label-sm text-label-sm">Security &amp; Access</p>
+</div>
+</div>
+<button class="p-2 text-secondary-container hover:bg-secondary-container hover:text-primary rounded-full transition-colors">
+<span class="material-symbols-outlined">chat</span>
+</button>
+</div>
+<div class="pt-md border-t border-white/10 flex flex-col gap-sm">
+<p class="font-label-sm text-label-sm uppercase opacity-60">24/7 Concierge Hotline</p>
+<p class="font-headline-sm text-headline-sm text-secondary-container">0-800-PROPATI-SOS</p>
+</div>
+</div>
+</div>
+<!-- Location Map -->
+<div class="col-span-12 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl shadow-sm">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-md">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Your New Neighborhood</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lagos Business District, Block 4, Suite 402</p>
+</div>
+<button class="flex items-center gap-sm px-md py-xs bg-surface border border-outline-variant rounded-full text-label-md font-bold hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+                            Open in Maps
+                        </button>
+</div>
+<div class="h-80 w-full rounded-xl overflow-hidden bg-surface-variant relative grayscale hover:grayscale-0 transition-all duration-700 cursor-crosshair">
+<div class="absolute inset-0 z-0" data-location="Lagos" style="">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist vector map illustration of the Lagos business district, highlighting key commercial towers and green spaces. The palette uses soft grays, whites, and deep navy accents to match the corporate UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbdxnzEfun54wZp5PXlniYVnxvvNvtF3Zqo5uH51l-Ohidk-BCzKTBbSP8xnT6TW5xDl3ZT2r6Yu2wnHigbg5fNSZ3pP0Rro7LK9K2i1H0J4QcOxA_5rUTKejzFo5Wv3pq4YxefQI6uB1_bKa-KIuNgXZzi098oGhtUsZMaRrDY0spL2r3o9cRMyG3yhSI5nElZHIV96blRycVB0mamPPAdZ7JVu_vO-L5ybhicYLG3TVOdrjiV4CQ"/>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
+<div class="relative">
+<div class="absolute inset-0 scale-150 bg-secondary-container rounded-full animate-ping opacity-30"></div>
+<span class="material-symbols-outlined text-primary bg-secondary-container p-3 rounded-full shadow-lg relative" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="mt-md bg-primary text-white px-md py-xs rounded-lg shadow-xl border border-secondary-container/50">
+<p class="font-label-sm text-label-sm font-bold">Suite 402</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Navigation -->
+<footer class="mt-xl pt-xl border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-lg pb-xl">
+<div class="flex items-center gap-lg">
+<p class="font-label-md text-label-md text-on-surface-variant">© 2024 PROPATI Technologies Ltd.</p>
+<a class="font-label-sm text-label-sm text-secondary-container font-bold hover:underline uppercase" href="#">Compliance &amp; Legals</a>
+</div>
+<div class="flex gap-md">
+<div class="h-10 w-10 flex items-center justify-center bg-surface-container-low rounded-full border border-outline-variant text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</div>
+<div class="h-10 w-10 flex items-center justify-center bg-surface-container-low rounded-full border border-outline-variant text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">print</span>
+</div>
+</div>
+</footer>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on detail screens as per instruction, but shown here as it is the 'hub' dashboard) -->
+<div class="fixed bottom-xl right-xl z-50">
+<button class="flex items-center gap-md bg-primary text-secondary-container p-lg rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined">add_business</span>
+<span class="font-label-md text-label-md font-bold pr-2 hidden group-hover:block transition-all">Report Issue</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for map hover
+        const mapContainer = document.querySelector('[data-location]');
+        if (mapContainer) {
+            mapContainer.addEventListener('mouseenter', () => {
+                mapContainer.style.filter = 'grayscale(0)';
+            });
+            mapContainer.addEventListener('mouseleave', () => {
+                mapContainer.style.filter = 'grayscale(1)';
+            });
+        }
+
+        // Logic for highlighting active nav (Already handled by static classes per instruction)
+    </script>
+</body></html>

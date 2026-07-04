@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Auto-Pay Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Bricolage+Grotesque:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#dde2f3",
+                        "background": "#f9f9ff",
+                        "surface-container-highest": "#dde2f3",
+                        "outline": "#74777e",
+                        "on-secondary-fixed": "#291800",
+                        "surface-bright": "#f9f9ff",
+                        "inverse-surface": "#2a303d",
+                        "surface-tint": "#49607e",
+                        "surface-container-high": "#e3e8f9",
+                        "primary-fixed": "#d2e4ff",
+                        "primary": "#000f22",
+                        "primary-container": "#0a2540",
+                        "surface": "#f9f9ff",
+                        "on-background": "#161c27",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b0c8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f1f3ff",
+                        "on-tertiary-container": "#009e6f",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#002a1b",
+                        "on-primary-container": "#768dad",
+                        "secondary-container": "#feae2c",
+                        "inverse-on-surface": "#ecf0ff",
+                        "surface-dim": "#d4daea",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#314865",
+                        "outline-variant": "#c4c6ce",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "on-surface": "#161c27",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "tertiary": "#001209",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001c37",
+                        "tertiary-fixed": "#71fbc0",
+                        "on-secondary-container": "#6b4500",
+                        "secondary-fixed": "#ffddb4",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "secondary": "#835500",
+                        "on-surface-variant": "#43474d",
+                        "surface-container": "#e8eeff",
+                        "on-tertiary-fixed": "#002114"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-glow {
+            box-shadow: 0 0 20px rgba(0, 158, 111, 0.2);
+        }
+        .toggle-dot {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        input:checked ~ .toggle-bg {
+            background-color: #009e6f;
+        }
+        input:checked ~ .toggle-dot {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-screen py-lg bg-primary-container dark:bg-primary-container h-full w-64 fixed left-0 top-0 shadow-md z-50">
+<div class="px-md mb-xl">
+<h1 class="text-headline-sm font-headline-sm text-secondary-fixed">PROPATI</h1>
+<p class="text-on-primary-container text-body-sm">Tenant Portal</p>
+</div>
+<nav class="flex-1 space-y-xs">
+<a class="text-on-primary-container flex items-center gap-md px-md py-sm hover:bg-on-primary-container/50 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-md px-md py-sm hover:bg-on-primary-container/50 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-body-md">My Properties</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-md px-md py-sm hover:bg-on-primary-container/50 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md">Payments</span>
+</a>
+<a class="text-secondary-fixed border-l-4 border-secondary-fixed bg-on-primary-container font-bold flex items-center gap-md px-md py-sm active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md">Auto-Pay</span>
+</a>
+<a class="text-on-primary-container flex items-center gap-md px-md py-sm hover:bg-on-primary-container/50 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-body-md">Support</span>
+</a>
+</nav>
+<div class="mt-auto px-md">
+<div class="bg-secondary-container text-on-secondary-container px-md py-sm rounded-lg font-bold text-center">
+                Rent Status: Paid
+            </div>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="md:ml-64 flex justify-between items-center px-margin-desktop w-full h-16 bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant dark:border-outline flat no shadows sticky top-0 z-40">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md text-primary dark:text-primary-fixed">Auto-Pay Settings</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden lg:flex items-center bg-surface-container-low rounded-full px-md py-xs border border-outline-variant">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search transactions..." type="text"/>
+</div>
+<div class="flex gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-xs rounded-full transition-colors cursor-pointer active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-xs rounded-full transition-colors cursor-pointer active:scale-95">help</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a confident Nigerian male tenant in his late 20s, wearing a clean white linen shirt. The lighting is bright and warm, reflecting a premium modern apartment setting with soft out-of-focus plants in the background. The aesthetic is clean, sharp, and corporate modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVATEB79EFyGOI7s8KDapEsKS-jeMv1O-qD7PkOIbub9sBYSawrt7bow6rEKiz8vpdjHJBhSNkWIkS69FB-SqkOGYkzJpl_4aQiBJ11yyfwWeeN065cmWGNSeWaISuW3xQGkBITybIXVDqQ6uRuL7HAY_Z3qnB2tu83EXnsdAnVIPdciZH0KpnJKNBW-vc-qcw_HrHOmKuhGCsT1RuB18RbgtszPCgv-V7ewoSpyvjE5vBqEgdrWbH"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="md:ml-64 p-margin-mobile md:p-margin-desktop bg-background min-h-[calc(100vh-64px)]">
+<div class="max-w-5xl mx-auto space-y-lg">
+<!-- Header section -->
+<div class="space-y-xs">
+<h2 class="font-headline-lg text-headline-lg text-primary">Manage Automated Payments</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl">Automate your monthly payments to avoid late fees and maintain your <span class="text-tertiary-container font-semibold">Perfect Payer status</span>.</p>
+</div>
+<!-- Master Toggle Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-lg">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm">Global Auto-Pay Status</h3>
+<p class="text-body-sm text-on-surface-variant">Enable to allow the system to process scheduled charges automatically.</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="font-label-md text-label-md bg-on-tertiary-container/10 text-on-tertiary-container px-md py-xs rounded-full flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+                        ACTIVE
+                    </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant rounded-full peer-checked:bg-on-tertiary-container transition-all"></div>
+<div class="absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-all peer-checked:translate-x-6"></div>
+</label>
+</div>
+</div>
+<!-- Main Configuration Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Left Column: Payment & Timing -->
+<div class="lg:col-span-2 space-y-lg">
+<!-- Payment Method -->
+<section class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-sm space-y-md">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-sm text-headline-sm">Payment Method</h4>
+<button class="text-primary font-bold text-label-md hover:underline flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add_circle</span> Add New
+                            </button>
+</div>
+<div class="space-y-sm">
+<label class="flex items-center justify-between p-md border-2 border-primary-container bg-surface-container-low rounded-xl cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-10 h-6 bg-primary rounded flex items-center justify-center text-[10px] text-white font-bold">VISA</div>
+<div>
+<p class="font-body-md font-semibold text-primary">Visa Card •••• 4242</p>
+<p class="text-body-sm text-on-surface-variant">Expires 08/25</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</label>
+<label class="flex items-center justify-between p-md border border-outline-variant hover:border-primary transition-colors rounded-xl cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-10 h-6 bg-secondary-container rounded flex items-center justify-center text-[10px] text-on-secondary-container font-bold">GTB</div>
+<div>
+<p class="font-body-md font-semibold text-primary">GTBank Account •••• 0192</p>
+<p class="text-body-sm text-on-surface-variant">A. Olumide</p>
+</div>
+</div>
+<div class="w-6 h-6 border-2 border-outline-variant rounded-full"></div>
+</label>
+</div>
+</section>
+<!-- Rules Section -->
+<section class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-sm space-y-lg">
+<h4 class="font-headline-sm text-headline-sm">Automation Rules</h4>
+<!-- Timing -->
+<div class="space-y-sm">
+<p class="font-label-md text-label-md text-on-surface-variant">PAYMENT TIMING</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-sm">
+<button class="p-md border border-outline-variant rounded-lg text-body-sm font-semibold hover:border-primary transition-all">On due date</button>
+<button class="p-md border-2 border-primary-container bg-surface-container-low rounded-lg text-body-sm font-bold text-primary active-glow">3 days before</button>
+<button class="p-md border border-outline-variant rounded-lg text-body-sm font-semibold hover:border-primary transition-all">5 days before</button>
+</div>
+</div>
+<!-- Limit -->
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<p class="font-label-md text-label-md text-on-surface-variant">MAXIMUM PAYMENT LIMIT (OPTIONAL)</p>
+<span class="material-symbols-outlined text-on-surface-variant cursor-help" title="Security measure: Transactions above this amount will require manual approval.">info</span>
+</div>
+<div class="relative">
+<span class="absolute left-md top-1/2 -translate-y-1/2 font-bold text-primary">₦</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-headline-sm" type="text" value="1,500,000"/>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Categories & Summary -->
+<div class="space-y-lg">
+<!-- Category Toggles -->
+<section class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-sm space-y-md">
+<h4 class="font-headline-sm text-headline-sm">Active Categories</h4>
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="font-body-md font-medium">Monthly Rent</span>
+</div>
+<input checked="" class="w-10 h-5 rounded-full text-on-tertiary-container focus:ring-0" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">bolt</span>
+<span class="font-body-md font-medium">Utilities</span>
+</div>
+<input checked="" class="w-10 h-5 rounded-full text-on-tertiary-container focus:ring-0" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">cleaning_services</span>
+<span class="font-body-md font-medium">Service Charge</span>
+</div>
+<input class="w-10 h-5 rounded-full text-outline focus:ring-0" type="checkbox"/>
+</div>
+</div>
+</section>
+<!-- Summary & Security -->
+<section class="bg-primary-container text-white rounded-xl p-lg shadow-xl relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="relative z-10 space-y-lg">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm text-label-sm tracking-widest text-on-primary-container uppercase">Secure Automation</span>
+</div>
+<div class="space-y-xs">
+<p class="text-on-primary-container text-body-sm">Next scheduled payment</p>
+<p class="text-headline-md font-headline-md">₦450,000.00</p>
+<p class="text-secondary-fixed font-bold text-body-md">September 27, 2023</p>
+</div>
+<div class="pt-md border-t border-on-primary-container/20">
+<p class="text-body-sm text-on-primary-container italic">Payments are processed at 09:00 AM WAT. Ensure sufficient funds are available.</p>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<div class="space-y-sm">
+<button class="w-full py-md bg-primary text-white rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">Save Configuration</button>
+<button class="w-full py-md bg-transparent border border-outline text-on-surface-variant rounded-xl font-bold hover:bg-surface-variant transition-all">Cancel</button>
+</div>
+</div>
+</div>
+<!-- Info Footer -->
+<footer class="mt-xl pt-lg border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">lock</span>
+<span class="text-body-sm text-on-surface-variant">Bank-grade Encryption</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[20px]">verified</span>
+<span class="text-body-sm text-on-surface-variant">Central Bank Licensed</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant">© 2023 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
+</footer>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-outline-variant flex justify-around items-center py-sm z-50">
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Pay</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="text-[10px]">Auto-Pay</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for button timing selection
+        const timingButtons = document.querySelectorAll('.grid-cols-1.sm\\:grid-cols-3 button');
+        timingButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                timingButtons.forEach(b => {
+                    b.classList.remove('border-2', 'border-primary-container', 'bg-surface-container-low', 'font-bold', 'text-primary', 'active-glow');
+                    b.classList.add('border', 'border-outline-variant', 'font-semibold');
+                });
+                btn.classList.add('border-2', 'border-primary-container', 'bg-surface-container-low', 'font-bold', 'text-primary', 'active-glow');
+                btn.classList.remove('border', 'border-outline-variant', 'font-semibold');
+            });
+        });
+    </script>
+</body></html>

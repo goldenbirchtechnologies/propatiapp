@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Maintenance Hub | PROPATI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Bricolage+Grotesque:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .status-badge-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .status-badge-shimmer::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#835500",
+                    "surface-variant": "#dde2f3",
+                    "secondary-container": "#feae2c",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "primary": "#000f22",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "secondary-fixed-dim": "#ffb955",
+                    "surface-dim": "#d4daea",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f9f9ff",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#002a1b",
+                    "on-primary-container": "#768dad",
+                    "surface-container-high": "#e3e8f9",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "on-tertiary-container": "#009e6f",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c27",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "outline": "#74777e",
+                    "tertiary": "#001209",
+                    "surface-container-low": "#f1f3ff",
+                    "outline-variant": "#c4c6ce",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#b0c8eb",
+                    "secondary-fixed": "#ffddb4",
+                    "background": "#f9f9ff",
+                    "on-secondary-container": "#6b4500",
+                    "on-tertiary-fixed": "#002114",
+                    "on-primary-fixed": "#001c37",
+                    "inverse-surface": "#2a303d",
+                    "surface-container-highest": "#dde2f3",
+                    "surface-tint": "#49607e",
+                    "on-surface": "#161c27",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#71fbc0",
+                    "on-surface-variant": "#43474d",
+                    "surface-container": "#e8eeff",
+                    "surface": "#f9f9ff",
+                    "on-secondary-fixed": "#291800"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar (Horizontal Anchor for Mobile/Desktop Profile) -->
+<header class="fixed top-0 right-0 left-0 h-16 z-50 bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center px-6 md:px-margin-desktop">
+<div class="flex items-center gap-4">
+<span class="md:hidden material-symbols-outlined text-primary cursor-pointer">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">PROPATI</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Properties</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-secondary-container" href="#">Maintenance</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Financials</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">settings</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a modern Nigerian young professional woman smiling warmly, set against a blurred high-end office background with soft natural lighting and sophisticated corporate colors like navy and muted gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHpWY03430drOYrodjWvS7WqvaDeX2rS6IHQVWbH6DPbYaclO7Vi1jgdo-q_fvwhiTsQ4-9bKL1q-jEftA0CoWWmUxLAJPZYSqqAnB02kj8CcZL5Q-4QT6jzAF-6PZ_4SjrOjQAkgw-KVWiMQ6RQahNBpRwwIZqhyCGExAkqJq4F6jXj3gPNVSi9szVcEOWfU1DPbLy_nDtm37cus7KVNcWaObDGZ2rHNrd0uujE4mjEAzu-e8PvSC"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Predicted Asset) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-20 pb-8 hidden md:flex bg-primary dark:bg-primary-container shadow-xl w-64">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-on-tertiary-container flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm font-black text-on-primary leading-none">Maintenance</p>
+<p class="font-label-sm text-label-sm text-on-primary/60">Verified Management</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-md text-secondary-fixed-dim border-l-4 border-secondary-container bg-on-primary-fixed-variant/10 px-md py-sm" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-label-md text-label-md">Requests</span>
+</a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="font-label-md text-label-md">Technicians</span>
+</a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Schedule</span>
+</a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-md text-label-md py-3 rounded-lg flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                New Request
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-md text-on-primary/70 px-md py-sm hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-12 px-6 md:px-lg lg:px-xl">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-primary mb-2">Maintenance Hub</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Track active repairs, manage technician visits, and view your property's maintenance health.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 h-[44px] rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 hover:bg-primary/90 transition-all shadow-md">
+<span class="material-symbols-outlined">add_circle</span>
+                        New Request
+                    </button>
+</div>
+</div>
+<!-- Dashboard Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<div class="bento-card bg-surface-container border border-outline-variant rounded-xl p-lg flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Requests</p>
+<p class="font-headline-md text-headline-md text-primary">04</p>
+</div>
+</div>
+<div class="bento-card bg-surface-container border border-outline-variant rounded-xl p-lg flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Resolved This Month</p>
+<p class="font-headline-md text-headline-md text-primary">12</p>
+</div>
+</div>
+<div class="bento-card bg-surface-container border border-outline-variant rounded-xl p-lg flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Next Inspection</p>
+<p class="font-headline-md text-headline-md text-primary">Oct 24</p>
+</div>
+</div>
+</div>
+<!-- Main Layout: Active Requests (Left) + Technician/History (Right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left: Active Requests -->
+<div class="lg:col-span-8 space-y-lg">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">slow_motion_video</span>
+                        Active Tickets
+                    </h2>
+<!-- Ticket Card 1: Technician Assigned -->
+<div class="bento-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full mb-3 inline-block">Ref: PR-9942</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">AC System Periodic Service</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Master Bedroom unit not cooling efficiently.</p>
+</div>
+<div class="status-badge-shimmer bg-on-tertiary-container text-on-tertiary px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
+                                Technician Assigned
+                            </div>
+</div>
+<div class="flex flex-wrap items-center gap-lg py-4 border-y border-outline-variant/30 my-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a professional HVAC technician in a clean, branded navy uniform, smiling confidently with high-end tools visible in the background. The lighting is crisp and modern, matching a premium corporate aesthetic with soft bokeh." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDT4pemNQvLf0HqQs-x0575YgoZVUxPyWWMEG1h3vXFnCmZANJk23NbSMTsH0dW4vF_YyiY3TnmMeUMd2fVUuoLlXGSzZGUwbOtE4B6pxubpj1P0lPCYiUPrHLTdvCrNeuuR5dzO_4LX0IKRWCXDbJD-jnaLcqTx6Tnq1ncx5awbe3WQ6N85_W94d8EmWD042oDVbBS0nnjI92U8yZWeEL8axcozyZn2n65gtDE3ioccND4Mv_olxh"/>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Assigned Pro</p>
+<p class="font-body-md text-body-md font-semibold text-primary">Engr. Tunde K.</p>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Arrival Window</p>
+<p class="font-body-md text-body-md font-semibold text-primary">Today, 2:00 PM - 4:00 PM</p>
+</div>
+<button class="ml-auto text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                                View Details <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-surface-container-high hover:bg-surface-variant text-primary py-2.5 rounded-lg font-label-md text-label-md transition-colors">Reschedule</button>
+<button class="flex-1 border border-outline text-on-surface-variant hover:bg-surface-variant py-2.5 rounded-lg font-label-md text-label-md transition-colors">Message Pro</button>
+</div>
+</div>
+<!-- Ticket Card 2: Parts Ordered -->
+<div class="bento-card bg-surface-container-lowest border border-outline-variant rounded-xl p-lg relative overflow-hidden opacity-90">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full mb-3 inline-block">Ref: PR-8821</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Kitchen Sink Leak</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Pipe connection beneath the island sink requires gasket replacement.</p>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+                                Parts Ordered
+                            </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 italic">Estimated part arrival: Tomorrow morning</p>
+<div class="w-full bg-surface-variant h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-secondary-container w-[65%] h-full rounded-full"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Request Created</span>
+<span>Awaiting Parts</span>
+<span>Resolution</span>
+</div>
+</div>
+</div>
+<!-- Right: Quick Actions & History -->
+<div class="lg:col-span-4 space-y-xl">
+<!-- Verified Status Card -->
+<div class="bg-primary text-on-primary rounded-xl p-lg shadow-lg relative overflow-hidden">
+
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary-fixed">verified_user</span>
+<p class="font-label-md text-label-md text-tertiary-fixed">Verified Property</p>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Maintenance Shield active</h4>
+<p class="font-body-sm text-body-sm text-on-primary/70 mb-6">Your property is under our 24/7 premium maintenance coverage. All repairs are certified.</p>
+<button class="w-full bg-on-primary text-primary font-label-md text-label-md py-3 rounded-lg hover:bg-on-tertiary transition-colors shadow-sm">
+                                View Policy Docs
+                            </button>
+</div>
+</div>
+<!-- Past Repairs History -->
+<div class="space-y-md">
+<div class="flex justify-between items-center px-1">
+<h3 class="font-headline-sm text-headline-sm text-primary">Repair History</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">See all</button>
+</div>
+<div class="space-y-3">
+<div class="bg-surface-container border border-outline-variant p-md rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-primary font-semibold">Electrical Panel Fix</p>
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">check_circle</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completed Sep 14, 2023</p>
+<div class="mt-2 flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm">Certified Work</span>
+</div>
+</div>
+<div class="bg-surface-container border border-outline-variant p-md rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-primary font-semibold">Bathroom Grouting</p>
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">check_circle</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completed Aug 28, 2023</p>
+</div>
+<div class="bg-surface-container border border-outline-variant p-md rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-primary font-semibold">Pest Control Visit</p>
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">check_circle</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completed Jul 02, 2023</p>
+</div>
+</div>
+</div>
+<!-- Upcoming Inspection Promo -->
+<div class="bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-xl p-lg text-center">
+<span class="material-symbols-outlined text-outline text-[48px] mb-2">home_health</span>
+<p class="font-headline-sm text-headline-sm text-primary mb-1">Annual Health Check</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Your next full property inspection is due in 3 weeks.</p>
+<button class="font-label-md text-label-md text-primary border border-primary px-6 py-2 rounded-lg hover:bg-primary hover:text-on-primary transition-all">
+                            Confirm Schedule
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for Mobile (Contextual Suppression Logic applied for desktop, but useful for mobile maintenance) -->
+<button class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-xl flex items-center justify-center z-50 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+<script>
+        // Micro-interactions for dashboard elements
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle haptic feel could be added here
+            });
+        });
+
+        // Simulating a real-time status update flash
+        setTimeout(() => {
+            const assignedBadge = document.querySelector('.status-badge-shimmer');
+            if(assignedBadge) {
+                assignedBadge.classList.add('ring-2', 'ring-tertiary-fixed-dim');
+                setTimeout(() => assignedBadge.classList.remove('ring-2'), 2000);
+            }
+        }, 3000);
+    </script>
+</body></html>

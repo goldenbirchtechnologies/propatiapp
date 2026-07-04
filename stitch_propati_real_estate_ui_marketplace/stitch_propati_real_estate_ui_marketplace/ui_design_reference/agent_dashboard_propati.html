@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI | Agent Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#291800",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "surface-container-highest": "#dde2f3",
+                    "on-surface": "#161c27",
+                    "surface-container-low": "#f1f3ff",
+                    "outline-variant": "#c4c6ce",
+                    "on-background": "#161c27",
+                    "tertiary-container": "#002a1b",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e8eeff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#002114",
+                    "surface-container-high": "#e3e8f9",
+                    "secondary-fixed": "#ffddb4",
+                    "surface-bright": "#f9f9ff",
+                    "secondary-container": "#feae2c",
+                    "primary": "#000f22",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "on-secondary-container": "#6b4500",
+                    "secondary": "#835500",
+                    "primary-container": "#0a2540",
+                    "inverse-primary": "#b0c8eb",
+                    "surface-tint": "#49607e",
+                    "primary-fixed": "#d2e4ff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "on-primary-fixed-variant": "#314865",
+                    "surface": "#f9f9ff",
+                    "tertiary": "#001209",
+                    "inverse-on-surface": "#ecf0ff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d4daea",
+                    "outline": "#74777e",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "background": "#f9f9ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2a303d",
+                    "on-primary-container": "#768dad",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#71fbc0",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#43474d",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001c37",
+                    "on-tertiary-container": "#009e6f",
+                    "surface-variant": "#dde2f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "12px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "margin-desktop": "64px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Component (Based on SideNavBar JSON) -->
+<aside class="fixed left-0 top-0 h-full hidden lg:flex flex-col z-40 bg-primary-container w-[280px] shadow-xl">
+<div class="p-lg">
+<h1 class="text-headline-md font-headline-md text-secondary-fixed mb-xs">PROPATI</h1>
+<p class="text-label-sm font-label-sm text-on-primary-container opacity-70">Verified Partner Dashboard</p>
+</div>
+<nav class="flex-1 mt-md space-y-1">
+<a class="flex items-center gap-md text-secondary-container font-bold border-l-4 border-secondary-container bg-primary/20 py-3 px-4 translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-md text-label-md">Deal Pipeline</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Managed Listings</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="font-label-md text-label-md">Inspections</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Commissions</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-3 px-4 hover:bg-primary/40 hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<div class="p-lg mt-auto">
+<button class="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-xl flex items-center justify-center gap-sm hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+                Post New Listing
+            </button>
+<div class="mt-xl pt-lg border-t border-on-primary-container/20">
+<a class="flex items-center gap-md text-on-primary-container py-2 hover:text-secondary-fixed-dim" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-md text-on-primary-container py-2 hover:text-secondary-fixed-dim" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-[280px] min-h-screen">
+<!-- Header (Based on TopNavBar JSON) -->
+<header class="h-[80px] bg-surface/90 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-margin-mobile md:px-margin-desktop sticky top-0 z-30">
+<div class="flex items-center gap-xl flex-1">
+<h2 class="font-headline-sm text-headline-sm text-primary">Welcome back, Agent Hassan</h2>
+<div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant rounded-full px-md py-sm w-full max-w-md">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-full" placeholder="Search deals, properties, or clients..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="relative p-base hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+</button>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-xs rounded-lg transition-colors">
+<div class="w-10 h-10 rounded-full border-2 border-secondary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a confident real estate agent named Hassan, wearing a sharp navy blue suit and a warm smile. The background is a blurred high-end modern apartment interior with gold accents, matching the premium corporate identity. The lighting is soft, natural, and flattering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuTeIIh-Wb19JGD3D-dIqufpteRLc3ex5pKgqyIznqFw4EDrNIlCDC_M4GZPvc4xZoS1cXp6V0UlUxyaHnduSdCE2tPyqqGS8s6kr7cFU53kTaOoy0yeFf2sLWpMDVDePiGrYjxIGir7Ao1Pl-5N298Xr5d7lep728HdIlysADkKx0pglFdTcyjiczFhzoUNqnx65BBqhY0fHxsAW2FPbEA0wUNO5bQBl_2eKLLu0MzkmVZm2ZzwB69mPOd9zN9ck2NPVhNhJeh8A"/>
+</div>
+<div class="hidden md:block">
+<p class="font-label-md text-label-md text-primary">Hassan A.</p>
+<p class="text-[10px] uppercase tracking-wider text-secondary font-bold">Gold Agent</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-margin-mobile md:p-lg space-y-lg">
+<!-- Top Row Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Stat 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary p-sm bg-secondary/10 rounded-lg">account_balance_wallet</span>
+<span class="text-tertiary-fixed-dim text-label-sm font-bold">+12% this month</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md">Total Commission (₦)</p>
+<h3 class="font-headline-md text-headline-md text-primary">₦12,400,000</h3>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary p-sm bg-secondary/10 rounded-lg">rocket_launch</span>
+<span class="text-on-surface-variant text-label-sm font-medium">3 closed today</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md">Active Deals</p>
+<h3 class="font-headline-md text-headline-md text-primary">18</h3>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary p-sm bg-secondary/10 rounded-lg">apartment</span>
+<span class="text-on-surface-variant text-label-sm font-medium">95% Occupancy</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md">Managed Units</p>
+<h3 class="font-headline-md text-headline-md text-primary">42</h3>
+</div>
+<!-- Stat 4 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary p-sm bg-secondary/10 rounded-lg">event_available</span>
+<span class="text-error text-label-sm font-bold">Action Required</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md">Pending Inspections</p>
+<h3 class="font-headline-md text-headline-md text-primary">5</h3>
+</div>
+</div>
+<!-- Main Layout: Kanban + Widgets -->
+<div class="bento-grid">
+<!-- Deal Pipeline (Kanban Board) - 8 Cols -->
+<section class="col-span-12 xl:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h4 class="font-headline-sm text-headline-sm text-primary">Deal Pipeline</h4>
+<div class="flex gap-sm">
+<button class="p-base text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-base text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+</div>
+<div class="flex gap-lg overflow-x-auto pb-md scroll-hide">
+<!-- Column 1: Enquiry -->
+<div class="flex-shrink-0 w-64 space-y-md">
+<div class="flex items-center justify-between bg-surface-container p-sm rounded-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary">Enquiry</span>
+<span class="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">4</span>
+</div>
+<div class="space-y-md">
+<!-- Card -->
+<div class="bg-white border border-outline-variant rounded-xl p-sm shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
+<div class="w-full h-32 rounded-lg mb-sm overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="A luxury penthouse in Lagos, Nigeria, showcasing a sleek exterior with floor-to-ceiling glass windows and a private balcony overlooking the city skyline at dusk. The building is illuminated with warm, golden ambient lighting. The photography is sharp and architectural, emphasizing luxury and modern design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWD1mSNDJ6gt_XdeNGwHD2hNBEDzWzkKERrmZmtRlvTWQuo-Ne71I3pY1C-e_mIj_1ZOXP-32KcxSMO1_yLiG27I1K-cW4kOc2FrT2gbUmHqY3rArjRe8ShSsdhluRHtbK3NIGFoJW8LhiH5AkI6Q9-Oxt7aLos5Xzgn5B2hkQYCu4bF0WqEeIlRW9wo78gBygMXgFjuKIhcA0EfZ_VhrFSaog_8fF6uF9Ne1jeU1--igfzySZObegavkgdCxjrmiHWNJJSXTr0i4"/>
+</div>
+<div class="px-xs pb-xs">
+<h5 class="font-bold text-body-sm text-primary truncate">The Obsidian Penthouse</h5>
+<p class="text-body-sm text-on-surface-variant mb-sm">Emeka Okafor</p>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-md bg-secondary-container/20 text-secondary-container px-2 py-0.5 rounded-full">2 Days</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-white bg-slate-200"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white border border-outline-variant rounded-xl p-sm shadow-sm hover:-translate-y-1 transition-all">
+<div class="px-xs py-xs">
+<h5 class="font-bold text-body-sm text-primary truncate">Ikoyi Garden Suite</h5>
+<p class="text-body-sm text-on-surface-variant mb-sm">Bolanle T.</p>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-md bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full">4 Days</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Viewing Scheduled -->
+<div class="flex-shrink-0 w-64 space-y-md">
+<div class="flex items-center justify-between bg-surface-container p-sm rounded-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary">Viewing</span>
+<span class="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">3</span>
+</div>
+<div class="space-y-md">
+<div class="bg-white border border-outline-variant rounded-xl p-sm shadow-sm hover:-translate-y-1 transition-all">
+<div class="px-xs py-xs">
+<h5 class="font-bold text-body-sm text-primary truncate">Victoria Island Studio</h5>
+<p class="text-body-sm text-on-surface-variant mb-sm">James Wilson</p>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-md bg-secondary-container/20 text-secondary-container px-2 py-0.5 rounded-full">1 Day</span>
+<span class="material-symbols-outlined text-sm text-secondary">calendar_today</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Offer Made -->
+<div class="flex-shrink-0 w-64 space-y-md">
+<div class="flex items-center justify-between bg-surface-container p-sm rounded-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary">Offer</span>
+<span class="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">2</span>
+</div>
+<div class="space-y-md">
+<div class="bg-white border border-outline-variant border-l-4 border-l-secondary rounded-xl p-sm shadow-sm hover:-translate-y-1 transition-all">
+<div class="px-xs py-xs">
+<h5 class="font-bold text-body-sm text-primary truncate">Banana Island Villa</h5>
+<p class="text-body-sm text-on-surface-variant mb-sm">Aliko D.</p>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-md bg-secondary-container/20 text-secondary-container px-2 py-0.5 rounded-full">6 Days</span>
+<span class="font-bold text-primary">₦45M</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 4: Agreement Signed -->
+<div class="flex-shrink-0 w-64 space-y-md">
+<div class="flex items-center justify-between bg-surface-container p-sm rounded-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary">Agreement</span>
+<span class="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">1</span>
+</div>
+</div>
+<!-- Column 5: Completed -->
+<div class="flex-shrink-0 w-64 space-y-md">
+<div class="flex items-center justify-between bg-surface-container-high p-sm rounded-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary">Completed</span>
+<span class="bg-tertiary-fixed-dim/20 text-on-tertiary-container px-2 rounded-full text-[10px] font-bold">8</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Widgets - 4 Cols -->
+<aside class="col-span-12 xl:col-span-4 space-y-lg">
+<!-- Commission Tracker Widget -->
+<div class="bg-primary-container text-on-primary rounded-xl p-lg shadow-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary opacity-10 blur-3xl rounded-full translate-x-16 -translate-y-16"></div>
+<h4 class="font-headline-sm text-headline-sm text-secondary-fixed mb-lg">Commission Tracker</h4>
+<div class="space-y-lg">
+<div>
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm opacity-80">Paid</span>
+<span class="text-body-sm font-bold text-secondary-fixed">₦8.2M</span>
+</div>
+<div class="h-2 bg-primary/40 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[65%]"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-primary/20 p-md rounded-lg border border-on-primary-container/10">
+<p class="text-label-sm font-label-sm opacity-60 uppercase mb-xs">Pending</p>
+<p class="font-headline-sm text-headline-sm text-secondary-fixed">₦3.1M</p>
+</div>
+<div class="bg-primary/20 p-md rounded-lg border border-on-primary-container/10">
+<p class="text-label-sm font-label-sm opacity-60 uppercase mb-xs">Confirmed</p>
+<p class="font-headline-sm text-headline-sm text-secondary-fixed">₦1.1M</p>
+</div>
+</div>
+<button class="w-full text-center py-sm text-label-md font-label-md text-secondary-fixed-dim hover:underline transition-all">
+                                View Full Report →
+                            </button>
+</div>
+</div>
+<!-- Managed Listings Preview -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-sm">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-headline-sm text-headline-sm text-primary">Top Listings</h4>
+<span class="text-label-sm font-label-sm text-secondary">Active: 42</span>
+</div>
+<div class="space-y-md">
+<!-- Listing Item -->
+<div class="flex items-center gap-md group cursor-pointer p-xs hover:bg-surface-container rounded-lg transition-colors">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" data-alt="A modern duplex house in Lekki Phase 1, Lagos, featuring a sharp white facade with dark grey accents. The building has an elegant stone-paved driveway and manicured tropical greenery. The photo is taken in bright daylight, highlighting the premium finish and cleanliness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv8iug6DqkzeNOSD8-suQP0zF370wiX-t_uJ1l28jr_af6WoZCkrSWNOO7CXEkuz2VoErNZCCNC83H_r642UZXlXx5v8D2fO0SzEUxeGi9EEkd-cGhml5qegS0V5VMCd_jCk-HzMKSYTbH6W5NLGt25T-NTPVd-dGP1sTfmaR5bq1QTl6AF5h5c507LNUqre73dTRwngOJjfo6WZIuYv3-RulmAB4pjDmvEhHRfi-KRhEmUFVT6dN9FOpxiZnoX0Y9TOqNB91NzZc"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-bold text-body-sm text-primary truncate">Lekki Phase 1 Duplex</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">₦120M / Year</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-body-sm text-primary">452</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Views</p>
+</div>
+</div>
+<!-- Listing Item 2 -->
+<div class="flex items-center gap-md group cursor-pointer p-xs hover:bg-surface-container rounded-lg transition-colors">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" data-alt="A stylish boutique apartment complex in Ikeja GRA, Lagos. The building features an artistic blend of wood-style panels and dark metal railings. It is surrounded by lush green lawns and a clear blue sky. The visual style is premium corporate photography, conveying trust and quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsRVinY5B4y_SJCUSPVTE1-BKy4RzSKqIXLxkcHmdJ4_ByG98wFYgCOwO1ZI2qSJM3E2A_YAK1YjH6WmvOvG75nDpf79a4S7XEMPKlIRYWpftjFAG0fxeE5JwcJStoXm36vtxdtO5-GowRS0-h1fXa_-tf079iK7nDd1LFxRVaObRg2x4a8gcOywHCRUtKb3cvyA5ML7OF29u5Y9MSEdUSAdBPFXHQqjX0GayHc3-VHuPJdQ44qHyEe8BcE11EiHVjAbchZmLQ_6E"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-bold text-body-sm text-primary truncate">Ikeja GRA Boutique</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">₦8.5M / Year</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-body-sm text-primary">318</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Views</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg border border-primary text-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary hover:text-white transition-all">
+                            Manage All Listings
+                        </button>
+</div>
+</aside>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg bg-primary-container text-on-primary mt-xl">
+<div class="col-span-1 md:col-span-2">
+<h2 class="font-headline-sm text-headline-sm text-secondary-fixed mb-sm">PROPATI</h2>
+<p class="text-body-sm opacity-70 max-w-sm mb-lg">Nigeria's leading premium agent network for verified high-stakes real estate transactions.</p>
+<p class="font-label-sm text-label-sm opacity-50">© 2024 EstateVerify Nigeria. All rights reserved.</p>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold mb-md">Quick Links</h5>
+<ul class="space-y-sm">
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">Terms of Service</a></li>
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md font-bold mb-md">Resources</h5>
+<ul class="space-y-sm">
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">Property Categories</a></li>
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">Careers</a></li>
+<li><a class="text-on-primary-container hover:text-secondary-container underline transition-all font-label-sm text-label-sm" href="#">About Us</a></li>
+</ul>
+</div>
+</footer>
+</main>
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('.active\\:scale-95').forEach(el => {
+            el.addEventListener('mousedown', () => el.style.transform = 'scale(0.95)');
+            el.addEventListener('mouseup', () => el.style.transform = 'scale(1)');
+            el.addEventListener('mouseleave', () => el.style.transform = 'scale(1)');
+        });
+
+        // Hover lift effect for Kanban cards
+        const cards = document.querySelectorAll('.bg-white.border-outline-variant');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 10px 20px rgba(0,0,0,0.12)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+            });
+        });
+    </script>
+</body></html>

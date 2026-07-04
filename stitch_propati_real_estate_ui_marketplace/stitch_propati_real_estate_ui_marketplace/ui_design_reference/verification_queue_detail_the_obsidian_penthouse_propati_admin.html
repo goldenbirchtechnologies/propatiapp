@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EstateVerify Admin - The Obsidian Penthouse Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Bricolage+Grotesque:wght@700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#002114",
+                    "tertiary-fixed": "#71fbc0",
+                    "secondary-fixed-dim": "#ffb955",
+                    "outline-variant": "#c4c6ce",
+                    "primary-fixed": "#d2e4ff",
+                    "on-primary-fixed": "#001c37",
+                    "secondary": "#835500",
+                    "inverse-on-surface": "#ecf0ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#6b4500",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "outline": "#74777e",
+                    "primary-container": "#0a2540",
+                    "surface-dim": "#d4daea",
+                    "surface": "#f9f9ff",
+                    "on-surface-variant": "#43474d",
+                    "surface-container": "#e8eeff",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "surface-variant": "#dde2f3",
+                    "inverse-primary": "#b0c8eb",
+                    "on-error-container": "#93000a",
+                    "background": "#f9f9ff",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#feae2c",
+                    "primary": "#000f22",
+                    "on-tertiary-container": "#009e6f",
+                    "inverse-surface": "#2a303d",
+                    "on-primary-fixed-variant": "#314865",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "surface-tint": "#49607e",
+                    "on-background": "#161c27",
+                    "tertiary-container": "#002a1b",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffddb4",
+                    "on-error": "#ffffff",
+                    "on-surface": "#161c27",
+                    "surface-container-high": "#e3e8f9",
+                    "on-primary-container": "#768dad",
+                    "tertiary": "#001209",
+                    "surface-container-low": "#f1f3ff",
+                    "surface-container-highest": "#dde2f3",
+                    "on-secondary-fixed": "#291800"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "12px",
+                    "xl": "0.75rem",
+                    "full": "999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .verification-badge-shimmer {
+            background: linear-gradient(90deg, #b0c8eb 0%, #d2e4ff 50%, #b0c8eb 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-primary-container text-on-primary-fixed z-50 flex flex-col py-lg shadow-md md:flex hidden">
+<div class="px-md mb-xl">
+<h1 class="font-headline-md text-headline-md font-extrabold text-secondary-container">EstateVerify</h1>
+<p class="font-label-md text-label-md text-on-primary-container">Admin Console</p>
+</div>
+<nav class="flex-grow space-y-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-secondary-container border-l-4 border-secondary-container bg-on-primary-container/10 transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md">Verification Queues</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">User Management</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md">Property Listings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Transactions</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg border-t border-on-primary-container/20">
+<button class="w-full py-md bg-secondary-container text-on-secondary-fixed rounded-lg font-bold mb-md hover:scale-[1.02] active:scale-[0.98] transition-transform">
+                New Report
+            </button>
+<a class="flex items-center gap-md px-md py-sm text-on-primary/70 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="md:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface sticky top-0 z-40 border-b border-outline-variant flex justify-between items-center px-lg py-sm w-full">
+<div class="flex items-center gap-lg">
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary">menu</span>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 focus:ring-2 focus:ring-primary-container font-body-sm" placeholder="Search queues..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="flex items-center gap-sm px-4 py-2 hover:bg-surface-container-high rounded-full transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label-md">Support</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden border border-outline">
+<img alt="Admin profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC4bj5GQIeefqP7dZGU5l6bbReYFGOQlhCpFOG-yyW3P_n4pg0l_ZKS1GuBOdGMPqd1SKeI8cKz7OKkZK7TquSO1wmVoI25q4JwvVx52_Jsy5PlCgTiTmFTi2Xa6z85GRHK6t71CSKxApDrTVMDPLj83M9cLb_ZkwCQLPVv4adMgIp-KUx3gIy2FU3uNdYdCmZz_s4WIbPiKqVJEa3uT3c41TOTgY2Y2f_j84MbfrJyYMEqqEcybErMJsiKPk8O8d4YewMS841KyE"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-lg space-y-lg max-w-[1400px] mx-auto w-full">
+<!-- Breadcrumbs & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div class="space-y-xs">
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm">
+<span>Queues</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span>High Priority</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary">#EV-98231</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">The Obsidian Penthouse</h2>
+<div class="flex items-center gap-sm">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+                            INSPECTED
+                        </span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full font-label-sm">
+                            Created 2h ago
+                        </span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="px-lg py-sm border border-outline text-primary rounded-lg font-bold hover:bg-surface-container-low transition-colors">
+                        Request Info
+                    </button>
+<button class="px-lg py-sm bg-error text-on-error rounded-lg font-bold hover:opacity-90 transition-opacity">
+                        Reject
+                    </button>
+<button class="px-lg py-sm bg-primary-container text-on-primary rounded-lg font-bold shadow-lg hover:translate-y-[-2px] transition-all">
+                        Approve & Certify
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="bento-grid">
+<!-- Verification Status Tracker -->
+<div class="col-span-12 lg:col-span-4 glass-card rounded-lg p-lg space-y-lg shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary">Verification Pipeline</h3>
+<div class="space-y-6 relative">
+<!-- Connecting Line -->
+<div class="absolute left-[11px] top-4 bottom-4 w-0.5 bg-outline-variant"></div>
+<!-- Step 1 -->
+<div class="flex gap-md relative">
+<div class="w-6 h-6 rounded-full bg-on-tertiary-container text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-grow">
+<p class="font-label-md text-primary">KYC Submission</p>
+<p class="text-body-sm text-on-surface-variant">Validated via NimC Gateway</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-md relative">
+<div class="w-6 h-6 rounded-full bg-on-tertiary-container text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-grow">
+<p class="font-label-md text-primary">C of O Verification</p>
+<p class="text-body-sm text-on-surface-variant">Lagos Land Registry Match</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-md relative">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center z-10 ring-4 ring-background">
+<span class="material-symbols-outlined text-sm">pending</span>
+</div>
+<div class="flex-grow">
+<p class="font-label-md text-secondary">Physical Inspection</p>
+<p class="text-body-sm text-on-surface-variant">Agent: Funke Akindele • Pending Review</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex gap-md relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">radio_button_unchecked</span>
+</div>
+<div class="flex-grow">
+<p class="font-label-md text-on-surface-variant">Final Certification</p>
+<p class="text-body-sm text-on-surface-variant opacity-60">Signature Required</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Details & Inspection Report -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Owner Info -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-lg space-y-md">
+<div class="flex items-center justify-between">
+<h4 class="font-label-md text-on-surface-variant uppercase tracking-wider">Property Owner</h4>
+<span class="px-2 py-0.5 bg-on-tertiary-container/10 text-on-tertiary-container rounded font-label-sm">MATCHED 98%</span>
+</div>
+<div class="flex items-center gap-md">
+<img alt="Owner avatar" class="w-12 h-12 rounded-full border border-outline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRtVkTaJtRyCVW7YClt5jsc2v2_klnwX2OEojt3Ht0JZoh9tP55l32XVouzrCafjRxTqn0gXWoLQlMwZ7dUOMRQqvfPbBGwj5C9ADSl4K9W5PO0CLYKtPZOeCjg0c64x6OB0Z-1n8t1vVKyUqFNBoA9xJ7bu9kOue7rsijLpShIHReVxnkQXuLs4vtzyIYUV2t9Bd33yaqmh69JV0dYYiD1Y__xfrysY3JM1pZ8SSp_PFIT4oEmtJcJNE1tuX5MadK9GpxIFq6ABM"/>
+<div>
+<p class="font-headline-sm text-primary">Emeka Adeyemi</p>
+<p class="text-body-sm text-on-surface-variant">Verified BVN: 221****092</p>
+</div>
+</div>
+</div>
+<!-- Location Insight -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-lg space-y-md">
+<h4 class="font-label-md text-on-surface-variant uppercase tracking-wider">Location Signature</h4>
+<div class="space-y-1">
+<p class="font-headline-sm text-primary">Banana Island, Ikoyi</p>
+<p class="text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Zone A, Waterfront District, Lagos
+                            </p>
+</div>
+</div>
+<!-- Document Grid -->
+<div class="col-span-1 md:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-lg p-lg space-y-lg">
+<h4 class="font-headline-sm text-primary">Legal Documentation</h4>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+<div class="group relative overflow-hidden rounded-lg border border-outline-variant hover:border-primary transition-colors cursor-zoom-in">
+<img alt="Certificate of Occupancy" class="w-full h-32 object-cover group-hover:scale-105 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2i7-TPT6FqJ_RiV4eMfNuF9ortAX6OZ2jDO1CZj-3mgTagvRVFJa5dnl6DgdqVwfV6g85o5Ja0QjZlCGqTiGBs0wnK3RoT6HXqI9MO2cvPCNIFaNPidAz8NVbE-wRJlv51MLq8rgl4VswCKYCr3VzcNWMssvduxSd4ItCOMdKLgNZhh6A1kXW6O4oMB15KN2EIbZk_0bG1Rfa63HKwqXaqOlVJmmP2DzjoteKfWSL62-KIXsg00EdLMBCOWZ0VNghsDnZC4U77tU"/>
+<div class="absolute bottom-0 inset-x-0 bg-black/60 p-2">
+<p class="text-white text-[10px] font-label-sm truncate">C_of_O_Lagos_Registry.pdf</p>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-lg border border-outline-variant hover:border-primary transition-colors cursor-zoom-in">
+<img alt="Survey Plan" class="w-full h-32 object-cover group-hover:scale-105 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6xom281FrtHq7CQel9qaXaL3rxRmhejvNH51omrtIEpOSeJp2Qu6GbNFu3V573-auJ7OLCa4PZzasgoIqy7arAGtLTd7snGOKcn-CbJWd8iXX7oVHNKdAuhtfcE0sxV7swHw0Tn9ZSZIUbTCCvFgm_1SMKou77ylnIhFrmUp_1zEAefUkh7XGW7VmFyXYtx30tThwSfCfgcLJhazTU40kUbhZakgK0csCXcr4W--2zdB9dvaQ35s36V--emGQUzXqnAtryOE8W6s"/>
+<div class="absolute bottom-0 inset-x-0 bg-black/60 p-2">
+<p class="text-white text-[10px] font-label-sm truncate">Survey_Plan_2023.pdf</p>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-lg h-32 hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant">add_circle</span>
+<p class="font-label-sm text-on-surface-variant mt-2">Add Document</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspection Summary (Full Width) -->
+<div class="col-span-12 glass-card rounded-lg p-lg space-y-lg">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-primary">Physical Inspection Report</h3>
+<button class="text-secondary font-label-md flex items-center gap-xs">
+                            View Full Report <span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="space-y-sm">
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Inspector Notes</p>
+<p class="text-body-md text-on-surface italic">"The property structural integrity matches the architectural plans submitted. High-end finishing confirmed. Boundary markers are clearly visible and match survey data."</p>
+</div>
+<div class="space-y-sm">
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Utility Verification</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-sm text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-lg">check_circle</span>
+                                    Independent Power Grid Access
+                                </li>
+<li class="flex items-center gap-sm text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-lg">check_circle</span>
+                                    Central Water Treatment Verified
+                                </li>
+<li class="flex items-center gap-sm text-body-sm">
+<span class="material-symbols-outlined text-on-tertiary-container text-lg">check_circle</span>
+                                    Fibre Optic Connectivity Confirmed
+                                </li>
+</ul>
+</div>
+<div class="space-y-sm">
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest">Risk Assessment</p>
+<div class="p-4 bg-on-tertiary-container/5 border-l-4 border-on-tertiary-container rounded-r-lg">
+<p class="text-on-tertiary-container font-bold text-headline-sm">LOW RISK</p>
+<p class="text-body-sm text-on-tertiary-container opacity-80">9.5/10 Security Score</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Certification Preview (Asymmetric Card) -->
+<div class="col-span-12 md:col-span-7 bg-primary-container text-on-primary rounded-lg p-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary-container/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="relative z-10 space-y-md">
+<div class="w-16 h-16 verification-badge-shimmer rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg">EstateVerify Certified</h3>
+<p class="text-body-lg text-on-primary-container max-w-md">Once approved, this property will receive the 'Diamond Certified' status, making it instantly tradable on the premium secondary market.</p>
+<div class="flex gap-md pt-lg">
+<div class="text-center">
+<p class="font-label-sm text-secondary-container">VALIDITY</p>
+<p class="font-headline-sm">24 Months</p>
+</div>
+<div class="w-px bg-on-primary-container/20 h-full"></div>
+<div class="text-center">
+<p class="font-label-sm text-secondary-container">INSURED UP TO</p>
+<p class="font-headline-sm">₦500M</p>
+</div>
+</div>
+</div>
+<!-- Aesthetic Corner Element -->
+<div class="absolute bottom-[-10%] right-[-5%] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
+<span class="material-symbols-outlined text-[200px]">shield</span>
+</div>
+</div>
+<!-- Activity Log -->
+<div class="col-span-12 md:col-span-5 glass-card rounded-lg p-lg space-y-md">
+<h3 class="font-headline-sm text-primary">Audit Log</h3>
+<div class="space-y-4 max-h-[320px] overflow-y-auto pr-2">
+<div class="flex gap-md pb-4 border-b border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">history</span>
+</div>
+<div class="space-y-1">
+<p class="text-body-sm"><span class="font-bold">System</span> automatically flagged location discrepancy</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant">MAY 24, 09:12 AM</p>
+</div>
+</div>
+<div class="flex gap-md pb-4 border-b border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+<div class="space-y-1">
+<p class="text-body-sm"><span class="font-bold">Admin Sarah</span> manually resolved location issue</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant">MAY 24, 10:45 AM</p>
+</div>
+</div>
+<div class="flex gap-md pb-4 border-b border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">image</span>
+</div>
+<div class="space-y-1">
+<p class="text-body-sm"><span class="font-bold">Inspector Funke</span> uploaded 12 inspection photos</p>
+<p class="text-[10px] font-label-sm text-on-surface-variant">MAY 24, 02:30 PM</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="w-8 h-8 rounded-full bg-secondary-container/20 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-secondary">priority_high</span>
+</div>
+<div class="space-y-1">
+<p class="text-body-sm">Pending final review by <span class="font-bold">Managing Partner</span></p>
+<p class="text-[10px] font-label-sm text-on-surface-variant">JUST NOW</p>
+</div>
+</div>
+</div>
+<button class="w-full py-2 border border-outline rounded-lg text-body-sm font-bold hover:bg-surface-container-low transition-colors">
+                        Add Admin Note
+                    </button>
+</div>
+</div>
+</div>
+<!-- Footer Spacer for Mobile -->
+<div class="h-20 md:hidden"></div>
+<!-- BottomNavBar (Mobile Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface flex justify-around items-center py-sm border-t border-outline-variant z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[10px] font-label-sm">Queue</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="text-[10px] font-label-sm">Units</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label-sm">Settings</span>
+</a>
+</nav>
+</main>
+<script>
+        // Micro-interactions and hover effects
+        document.querySelectorAll('.glass-card, .group').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = el.getBoundingClientRect();
+                const x = ((e.clientX - left) / width) * 100;
+                const y = ((e.clientY - top) / height) * 100;
+                // Add subtle spotlight effect if desired
+            });
+        });
+
+        // Simple Tab active state toggle simulation
+        const navLinks = document.querySelectorAll('aside nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => {
+                    l.classList.remove('text-secondary-container', 'border-l-4', 'border-secondary-container', 'bg-on-primary-container/10', 'translate-x-1');
+                    l.classList.add('text-on-primary/70');
+                });
+                link.classList.remove('text-on-primary/70');
+                link.classList.add('text-secondary-container', 'border-l-4', 'border-secondary-container', 'bg-on-primary-container/10', 'translate-x-1');
+            });
+        });
+    </script>
+</body></html>

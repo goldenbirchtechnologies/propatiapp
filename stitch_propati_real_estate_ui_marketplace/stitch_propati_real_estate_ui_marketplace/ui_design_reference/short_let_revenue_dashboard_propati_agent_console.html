@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Short-let Revenue Dashboard | VerifProp Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+        }
+        .verification-shimmer {
+            background: linear-gradient(90deg, #71fbc0 0%, #50dea5 50%, #71fbc0 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-background": "#161c27",
+                        "on-primary-fixed": "#001c37",
+                        "on-secondary-fixed": "#291800",
+                        "surface-tint": "#49607e",
+                        "surface-container-high": "#e3e8f9",
+                        "inverse-primary": "#b0c8eb",
+                        "background": "#f9f9ff",
+                        "inverse-surface": "#2a303d",
+                        "primary-container": "#0a2540",
+                        "on-surface-variant": "#43474d",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#314865",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#74777e",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#002114",
+                        "primary-fixed": "#d2e4ff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "secondary-fixed": "#ffddb4",
+                        "on-tertiary-container": "#009e6f",
+                        "inverse-on-surface": "#ecf0ff",
+                        "secondary": "#835500",
+                        "tertiary": "#001209",
+                        "surface": "#f9f9ff",
+                        "on-surface": "#161c27",
+                        "outline-variant": "#c4c6ce",
+                        "surface-variant": "#dde2f3",
+                        "surface-dim": "#d4daea",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e8eeff",
+                        "secondary-container": "#feae2c",
+                        "surface-container-highest": "#dde2f3",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary-container": "#6b4500",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#71fbc0",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "primary": "#000f22",
+                        "on-primary-container": "#768dad",
+                        "surface-container-low": "#f1f3ff",
+                        "tertiary-container": "#002a1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "margin-desktop": "64px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar (Predicted Component) -->
+<aside class="hidden lg:flex flex-col h-screen sticky left-0 top-0 bg-primary w-64 border-r border-outline-variant z-50">
+<div class="p-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed-dim tracking-tight">VerifProp Admin</h1>
+<p class="font-label-sm text-label-sm text-on-primary-fixed-variant mt-1">Verified Enterprise</p>
+</div>
+<nav class="flex-1 px-sm mt-4 space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-on-primary-fixed hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-primary-fixed hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Rent Collection</span>
+</a>
+<!-- Active Tab: Short-let Revenue -->
+<a class="flex items-center space-x-3 px-4 py-3 border-l-4 border-secondary-fixed text-secondary-fixed-dim bg-on-primary-fixed-variant transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Short-let Revenue</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-primary-fixed hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">store</span>
+<span class="font-label-md text-label-md">Commercial Leases</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-primary-fixed hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Withdrawals</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-primary-fixed hover:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="p-lg mt-auto">
+<button class="w-full bg-secondary-container text-on-secondary-container py-3 px-4 rounded-xl font-headline-sm text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+                Request Payout
+            </button>
+<div class="mt-6 pt-6 border-t border-on-primary-fixed-variant space-y-1">
+<a class="flex items-center space-x-3 px-4 py-2 text-on-primary-fixed hover:text-secondary-fixed" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-2 text-on-primary-fixed hover:text-secondary-fixed" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+<!-- TopAppBar (Predicted Component) -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-40 border-b border-outline-variant bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-8">
+<span class="font-headline-sm text-headline-sm font-black text-primary">Marketplace Suite</span>
+<div class="hidden md:flex relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-secondary w-64 text-sm" placeholder="Search portfolio..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Analytics</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Reports</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-on-primary-fixed-variant transition-all">Withdraw Funds</button>
+<button class="relative p-2 text-on-surface-variant hover:bg-surface-container rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-2 pl-4 border-l border-outline-variant">
+<img class="w-8 h-8 rounded-full border-2 border-secondary-fixed shadow-sm" data-alt="A professional portrait of a senior Nigerian property manager in a corporate office setting. The lighting is bright and airy with warm tones, reflecting a trustworthy and premium brand identity. He wears a tailored navy blue suit and a subtle, friendly smile. High-end architectural photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZbPyt6GS9b9wiT7acXFKGQ28XpcHe-vsUvYhPHogVCth1eUXO5XumkVFzLhn6sUXAHlterJb6H9b3LIBiupl1k9QYopfzkk1GsFFts9vQd-VPvr9Zl_8kUQztl4-Ua8qWE7BResSV6t3kgmx77b5Qu-7bb_z0oWheIsRD_TCUQikTR3fYIJ7kB47k1eyhKSenzYr6KGDC-cqUasYiLdR9XxQIzHjNvVBIFYjL5n8kmHwYcQ4OidrI"/>
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-margin-desktop space-y-gutter">
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Main Balance Card -->
+<div class="md:col-span-2 bg-primary p-lg rounded-xl text-white relative overflow-hidden group">
+<div class="relative z-10">
+<p class="font-label-sm text-label-sm text-on-primary-container uppercase tracking-widest">Available Revenue</p>
+<h2 class="font-headline-xl text-headline-xl mt-2">₦12,450,000.00</h2>
+<div class="mt-6 flex items-center gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined">north_east</span>
+                                Withdraw Earnings
+                            </button>
+<button class="border border-on-primary-fixed-variant text-white px-6 py-3 rounded-lg font-bold hover:bg-on-primary-fixed-variant transition-all">
+                                History
+                            </button>
+</div>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-secondary opacity-10 rounded-full blur-3xl group-hover:opacity-20 transition-opacity"></div>
+</div>
+<!-- Occupancy Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<p class="font-label-md text-label-md text-on-surface-variant">Occupancy Rate</p>
+<span class="text-on-tertiary-container bg-tertiary-fixed-dim/20 px-2 py-1 rounded text-xs font-bold">+12%</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mt-2">84.2%</h3>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 mt-4 overflow-hidden">
+<div class="bg-tertiary-fixed-dim h-full" style="width: 84.2%"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Average across 14 properties</p>
+</div>
+<!-- Payout Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant flex flex-col justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Next Payout</p>
+<h3 class="font-headline-lg text-headline-lg mt-2">May 24</h3>
+</div>
+<div class="flex items-center gap-3 mt-4">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary">pending_actions</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm font-bold">₦2,105,400</p>
+<p class="text-xs text-on-surface-variant">Estimated amount</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Revenue Calendar & Performance Split -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Calendar Revenue View -->
+<div class="lg:col-span-2 bg-white rounded-xl border border-outline-variant shadow-sm flex flex-col">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm">Revenue Forecast</h4>
+<p class="text-body-sm text-on-surface-variant">May 2024 Bookings</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container rounded-lg border border-outline-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 hover:bg-surface-container rounded-lg border border-outline-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="p-lg overflow-x-auto">
+<div class="min-w-[600px] grid grid-cols-7 gap-2">
+<!-- Weekday Headers -->
+<div class="text-center font-label-sm text-xs py-2 text-outline">MON</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline">TUE</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline">WED</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline">THU</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline">FRI</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline text-secondary font-bold">SAT</div>
+<div class="text-center font-label-sm text-xs py-2 text-outline text-secondary font-bold">SUN</div>
+<!-- Calendar Days (Abbreviated Sample) -->
+<div class="h-24 p-2 bg-surface-container-lowest border border-outline-variant rounded-lg opacity-40">
+<span class="text-xs">29</span>
+</div>
+<div class="h-24 p-2 bg-surface-container-lowest border border-outline-variant rounded-lg opacity-40">
+<span class="text-xs">30</span>
+</div>
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg hover:border-secondary transition-colors cursor-pointer group">
+<span class="text-xs">1</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦45k</div>
+<div class="mt-1 h-1 w-full bg-tertiary-fixed-dim rounded-full"></div>
+</div>
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg hover:border-secondary transition-colors cursor-pointer">
+<span class="text-xs">2</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦45k</div>
+</div>
+<!-- Active/Booking Stretch -->
+<div class="h-24 p-2 bg-primary-container text-white border border-primary-container rounded-lg relative overflow-hidden">
+<span class="text-xs">3</span>
+<div class="mt-2 text-[10px] font-bold">₦110k</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-secondary"></div>
+</div>
+<div class="h-24 p-2 bg-primary-container text-white border border-primary-container rounded-lg">
+<span class="text-xs">4</span>
+<div class="mt-2 text-[10px] font-bold">₦110k</div>
+</div>
+<div class="h-24 p-2 bg-primary-container text-white border border-primary-container rounded-lg">
+<span class="text-xs">5</span>
+<div class="mt-2 text-[10px] font-bold">₦110k</div>
+</div>
+<!-- Row 2 -->
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg">
+<span class="text-xs">6</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦85k</div>
+</div>
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg">
+<span class="text-xs">7</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦85k</div>
+</div>
+<div class="h-24 p-2 bg-surface-container-low border border-outline-variant rounded-lg flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-outline text-sm">cleaning_services</span>
+<span class="text-[10px] text-outline mt-1">Blocked</span>
+</div>
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg">
+<span class="text-xs">9</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦92k</div>
+</div>
+<div class="h-24 p-2 bg-white border border-outline-variant rounded-lg">
+<span class="text-xs">10</span>
+<div class="mt-2 text-[10px] font-bold text-tertiary-fixed-dim">₦150k</div>
+</div>
+<div class="h-24 p-2 bg-secondary text-on-secondary border border-secondary rounded-lg">
+<span class="text-xs">11</span>
+<div class="mt-2 text-[10px] font-bold">₦210k</div>
+<span class="text-[8px] opacity-80">Weekend Peak</span>
+</div>
+<div class="h-24 p-2 bg-secondary text-on-secondary border border-secondary rounded-lg">
+<span class="text-xs">12</span>
+<div class="mt-2 text-[10px] font-bold">₦210k</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Service Fee Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg flex flex-col">
+<h4 class="font-headline-sm text-headline-sm mb-4">Revenue Breakdown</h4>
+<div class="flex-1 space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between font-label-md">
+<span>Gross Booking</span>
+<span>₦15,240,000</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3">
+<div class="bg-primary h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-on-surface-variant">
+<span>PROPATI Service Fee (8%)</span>
+<span class="text-error">-₦1,219,200</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3">
+<div class="bg-error/60 h-full rounded-full" style="width: 8%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-on-surface-variant">
+<span>Maintenance &amp; Cleaning</span>
+<span class="text-error">-₦840,000</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3">
+<div class="bg-error/30 h-full rounded-full" style="width: 5%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-on-surface-variant">
+<span>VAT &amp; Local Levies</span>
+<span class="text-error">-₦730,800</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3">
+<div class="bg-outline h-full rounded-full" style="width: 4%"></div>
+</div>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant">
+<div class="flex justify-between items-center">
+<div>
+<p class="font-label-sm text-on-surface-variant uppercase">Net Revenue</p>
+<p class="font-headline-md text-tertiary-fixed-dim">₦12,450,000</p>
+</div>
+<div class="bg-tertiary-fixed-dim/10 text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold verification-shimmer">
+                                    VERIFIED
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Completed Stays List -->
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-sm text-headline-sm">Recent Completed Stays</h4>
+<button class="text-secondary font-bold text-sm hover:underline flex items-center gap-1">
+                        Download Report <span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-xs">
+<th class="px-lg py-4">Property &amp; Guest</th>
+<th class="px-lg py-4">Stay Dates</th>
+<th class="px-lg py-4">Gross Amount</th>
+<th class="px-lg py-4">Service Fee</th>
+<th class="px-lg py-4">Net Payout</th>
+<th class="px-lg py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Entry 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A luxury short-let apartment interior in Victoria Island, Lagos. Elegant modern furniture, floor-to-ceiling windows with a city view, and sophisticated warm lighting. The aesthetic is clean, premium, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWbDzU1NS594fDpSB43F_ChGJ42pkTbi2SSl9VDdXv3airPgHRUcX2VV9mYpFEJS7gn0b_6uxkASLi9mvLnQBfb5v7AxLWWdvIDSh2H3UD6CqPXjhtEJTQoKiz5nf3rIaDNPbtqYpNS0phNGmY3mqAOv_YiThL0O65Pk0fPKLpNqxb5wEXR9AMF8OBhEy5oeqi7JO2ZlqoqIulwqMwMsWGYs6Z_RtW5ZqcLpO06rU2drB3HF2D1rDh"/>
+</div>
+<div>
+<p class="font-bold text-sm">Skyline Penthouse VI</p>
+<p class="text-xs text-on-surface-variant">Guest: Amara Okafor</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-sm">May 12 - May 15 <span class="text-xs text-on-surface-variant block">(3 nights)</span></td>
+<td class="px-lg py-4 font-label-md">₦450,000</td>
+<td class="px-lg py-4 text-error text-sm">-₦36,000</td>
+<td class="px-lg py-4 font-bold text-sm">₦414,000</td>
+<td class="px-lg py-4">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Settled</span>
+</td>
+</tr>
+<!-- Entry 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Minimalist Scandinavian style studio apartment in Lekki, Lagos. White walls, light wood accents, and abundant natural light. The space feels calm, modern, and verified. Architectural photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUtl1fo6_bq392igAmkqQCXu0ZAf8t_6Phh4cTq3M42NLpq4zD49G88Ed_wiuyaJ6-ErKT9Ktc_EZ0FSXqs0pmlJXNF2QGGN3aZNHfIf77RleMFn9PZPLPZN44VFr1t-awplFLay3pksy8yVWvSHjWag697ClacP3Pdgu8n9YyXCnlP6oGXn_OrOEl2N3VaxTF-4SayqJsIfxJ-GWiFeLPZMLRU4BvJyBUz32CHcgctqg16vSnsK_u"/>
+</div>
+<div>
+<p class="font-bold text-sm">Lekki Scandi Studio</p>
+<p class="text-xs text-on-surface-variant">Guest: Tunde Balogun</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-sm">May 08 - May 10 <span class="text-xs text-on-surface-variant block">(2 nights)</span></td>
+<td class="px-lg py-4 font-label-md">₦180,000</td>
+<td class="px-lg py-4 text-error text-sm">-₦14,400</td>
+<td class="px-lg py-4 font-bold text-sm">₦165,600</td>
+<td class="px-lg py-4">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Settled</span>
+</td>
+</tr>
+<!-- Entry 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A modern 3-bedroom terrace house in a gated community in Abuja. Dark brick accents, large glass doors leading to a manicured garden. Sunset lighting, high-end residential real estate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAspYaYJ6CeeL1y4CKw1mp2D9E0I_GkJHecNOOvccQyLMIPUdGhkfwL1FICNg4HLrAICj7NC8uOuGxZJab_hszXe79rgcMSsoxLqBebz3jsp1i51PU_JyoQqXkR9meOgC8dYI3dOh87ZVX9EBjio_PTYY1nuxiC49LyyQnJ6e1yJ37leQ3tXSS5266PS_Mkk5zVZlQcMJkdXYR8JbrUTxKMIwiZzaxmTRGAVK_JqoE09LJx-rCEzIed"/>
+</div>
+<div>
+<p class="font-bold text-sm">Maitama Terrace House</p>
+<p class="text-xs text-on-surface-variant">Guest: Chidi Benson</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-4 text-sm">May 01 - May 07 <span class="text-xs text-on-surface-variant block">(6 nights)</span></td>
+<td class="px-lg py-4 font-label-md">₦1,200,000</td>
+<td class="px-lg py-4 text-error text-sm">-₦96,000</td>
+<td class="px-lg py-4 font-bold text-sm">₦1,104,000</td>
+<td class="px-lg py-4">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Processing</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB for Mobile (Suppress according to mandate if needed, but here it fits the action) -->
+<button class="fixed bottom-8 right-8 lg:hidden bg-secondary-container text-on-secondary-container p-4 rounded-full shadow-lg z-50 flex items-center justify-center">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</button>
+<script>
+        // Micro-interaction for currency reveal
+        document.querySelectorAll('.font-headline-xl').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = 'scale(1.02)';
+                el.style.transition = 'transform 0.3s ease';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

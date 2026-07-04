@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Guide | VeriProp Nigeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#835500",
+                    "primary-container": "#0a2540",
+                    "on-surface": "#161c27",
+                    "surface": "#f9f9ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-fixed": "#291800",
+                    "on-tertiary-fixed": "#002114",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "primary": "#000f22",
+                    "surface-container-high": "#e3e8f9",
+                    "surface-container-low": "#f1f3ff",
+                    "primary-fixed": "#d2e4ff",
+                    "on-primary-fixed-variant": "#314865",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#43474d",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#50dea5",
+                    "on-primary-container": "#768dad",
+                    "outline": "#74777e",
+                    "inverse-surface": "#2a303d",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#ecf0ff",
+                    "surface-container-highest": "#dde2f3",
+                    "secondary-fixed-dim": "#ffb955",
+                    "on-secondary-container": "#6b4500",
+                    "on-background": "#161c27",
+                    "background": "#f9f9ff",
+                    "secondary-fixed": "#ffddb4",
+                    "on-primary-fixed": "#001c37",
+                    "surface-tint": "#49607e",
+                    "surface-container": "#e8eeff",
+                    "tertiary-container": "#002a1b",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "tertiary": "#001209",
+                    "on-tertiary-fixed-variant": "#005137",
+                    "on-primary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#feae2c",
+                    "tertiary-fixed": "#71fbc0",
+                    "surface-variant": "#dde2f3",
+                    "outline-variant": "#c4c6ce",
+                    "inverse-primary": "#b0c8eb",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#009e6f",
+                    "surface-dim": "#d4daea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "12px",
+                    "lg": "12px",
+                    "xl": "16px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "base": "4px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Bricolage Grotesque"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Bricolage Grotesque"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-sm": ["Bricolage Grotesque"],
+                    "headline-md": ["Bricolage Grotesque"],
+                    "headline-lg-mobile": ["Bricolage Grotesque"],
+                    "headline-xl-mobile": ["Bricolage Grotesque"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .step-active { transition: all 0.3s ease; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar Navigation Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[72px] bg-surface dark:bg-primary shadow-sm border-b border-outline-variant dark:border-primary-container">
+<div class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary-fixed">VeriProp Nigeria</div>
+<nav class="hidden md:flex gap-xl items-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-primary-container hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#">Marketplace</a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed font-bold border-b-2 border-secondary" href="#">Verification Guide</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-primary-container hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-primary-container hover:text-secondary dark:hover:text-secondary-fixed transition-colors" href="#">About Us</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="hidden md:flex items-center justify-center px-lg py-sm bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-opacity">
+                Get Started
+            </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<div class="pt-[72px] flex flex-col lg:flex-row max-w-[1440px] mx-auto min-h-screen">
+<!-- SideNavBar Navigation Shell -->
+<aside class="hidden lg:flex flex-col border-r border-outline-variant dark:border-primary-container h-screen w-64 sticky top-[72px] bg-surface-container-low dark:bg-primary-container p-md overflow-y-auto">
+<div class="mb-xl pt-md">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-primary text-[32px]">shield_person</span>
+<h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">Verification Steps</h3>
+</div>
+<p class="text-on-surface-variant text-body-sm opacity-70">Phase 1: Due Diligence</p>
+</div>
+<nav class="flex flex-col gap-xs mb-xl">
+<a class="flex items-center gap-md text-secondary dark:text-secondary-fixed font-bold border-l-4 border-secondary dark:border-secondary-fixed bg-surface-container-high dark:bg-primary pl-4 py-3 transition-all" href="#intro">
+<span class="material-symbols-outlined">info</span>
+<span class="font-label-md text-label-md">Introduction</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-primary-container pl-4 py-3 hover:bg-surface-container-highest dark:hover:bg-primary transition-all" href="#docs">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Document Check</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-primary-container pl-4 py-3 hover:bg-surface-container-highest dark:hover:bg-primary transition-all" href="#inspection">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-md text-label-md">Site Inspection</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-primary-container pl-4 py-3 hover:bg-surface-container-highest dark:hover:bg-primary transition-all" href="#legal">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Legal Search</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-primary-container pl-4 py-3 hover:bg-surface-container-highest dark:hover:bg-primary transition-all" href="#omonile">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-md text-label-md">Omonile Issues</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-on-primary-container pl-4 py-3 hover:bg-surface-container-highest dark:hover:bg-primary transition-all" href="#clearance">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-label-md text-label-md">Final Clearance</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-md bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-lg flex items-center justify-center gap-sm hover:brightness-95 transition-all">
+<span class="material-symbols-outlined">download</span>
+                    Download Checklist
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full bg-surface">
+<!-- Hero Header -->
+<section class="relative px-margin-mobile md:px-xl py-xl md:py-[80px] bg-primary text-on-primary overflow-hidden" id="intro">
+
+<div class="relative z-10 max-w-4xl">
+<div class="inline-flex items-center gap-sm px-md py-xs bg-secondary rounded-full mb-lg">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-primary">Trusted Authority</span>
+</div>
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl mb-md leading-tight">
+                        The Definitive Guide to Property Verification in Nigeria
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-primary-container max-w-2xl">
+                        Master the 5-layer process that secures your investment and eliminates fraud. Navigating Nigeria's real estate market requires more than just capital—it requires verified certainty.
+                    </p>
+</div>
+</section>
+<!-- Guide Phases Container -->
+<div class="px-margin-mobile md:px-xl py-xl space-y-xl md:space-y-[120px]">
+<!-- Phase 1: Document Review -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center" id="docs">
+<div class="md:col-span-7">
+<div class="flex items-center gap-md mb-md">
+<span class="w-12 h-12 flex items-center justify-center bg-surface-container-high rounded-full font-headline-sm text-primary">01</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Phase 1: Document Review</h2>
+</div>
+<p class="text-body-lg text-on-surface-variant mb-lg leading-relaxed">
+                            The foundation of any safe transaction starts with paper. We verify the <strong class="text-primary">Certificate of Occupancy (C of O)</strong> and <strong class="text-primary">Governor's Consent</strong> to ensure the seller has the legal right to transfer ownership.
+                        </p>
+<ul class="space-y-md">
+<li class="flex gap-md items-start">
+<span class="material-symbols-outlined text-on-tertiary-container mt-1">check_circle</span>
+<div>
+<h4 class="font-headline-sm text-[18px] text-primary">C of O Authenticity</h4>
+<p class="text-body-sm text-on-surface-variant">Cross-referencing unique file numbers with state records.</p>
+</div>
+</li>
+<li class="flex gap-md items-start">
+<span class="material-symbols-outlined text-on-tertiary-container mt-1">check_circle</span>
+<div>
+<h4 class="font-headline-sm text-[18px] text-primary">Governor's Consent Validation</h4>
+<p class="text-body-sm text-on-surface-variant">Confirming the validity of previous transfers.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="md:col-span-5">
+<div class="bg-surface-container-high p-lg rounded-xl shadow-sm border border-outline-variant relative overflow-hidden group">
+<div class="flex flex-col gap-md relative z-10">
+<div class="bg-white p-md rounded-lg border border-outline-variant flex items-center gap-md transform group-hover:translate-x-2 transition-transform">
+<span class="material-symbols-outlined text-primary text-[32px]">article</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Deed of Assignment</div>
+<div class="text-[10px] text-on-surface-variant font-label-sm">STATUS: PENDING REVIEW</div>
+</div>
+</div>
+<div class="bg-white p-md rounded-lg border border-outline-variant flex items-center gap-md transform group-hover:translate-x-4 transition-transform delay-75">
+<span class="material-symbols-outlined text-primary text-[32px]">receipt_long</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Survey Plan</div>
+<div class="text-[10px] text-on-surface-variant font-label-sm">STATUS: MATCHED</div>
+</div>
+</div>
+<div class="bg-white p-md rounded-lg border-2 border-on-tertiary-container flex items-center gap-md transform group-hover:translate-x-6 transition-transform delay-150">
+<span class="material-symbols-outlined text-on-tertiary-container text-[32px]">verified</span>
+<div>
+<div class="font-label-md text-label-md text-primary">Certificate of Occupancy</div>
+<div class="text-[10px] text-on-tertiary-container font-label-sm font-bold">VERIFIED AUTHENTIC</div>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-12 -right-12 opacity-10">
+<span class="material-symbols-outlined text-[160px] text-primary">description</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase 2: Identity Verification -->
+<section class="py-lg" id="identity">
+<div class="bg-primary-container text-on-primary rounded-[32px] p-xl md:p-[64px] flex flex-col md:flex-row gap-xl items-center relative overflow-hidden">
+<div class="flex-1 z-10">
+<div class="flex items-center gap-md mb-md">
+<span class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full font-headline-sm text-on-primary">02</span>
+<h2 class="font-headline-lg text-headline-lg text-on-primary">Phase 2: Identity Verification</h2>
+</div>
+<p class="text-body-lg text-on-primary-container mb-lg leading-relaxed">
+                                Fraud often hides behind a smile. We verify the legal status of landlords and agents through <strong class="text-white">NIMC biometric checks</strong> and <strong class="text-white">Corporate Affairs Commission (CAC)</strong> registry lookups.
+                            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div class="p-md bg-white/5 rounded-xl border border-white/10">
+<span class="font-label-sm text-secondary-fixed mb-xs block">NIMC CONNECTED</span>
+<p class="text-body-sm opacity-80">Real-time NIN verification to confirm the identity of the titleholder.</p>
+</div>
+<div class="p-md bg-white/5 rounded-xl border border-white/10">
+<span class="font-label-sm text-secondary-fixed mb-xs block">CAC INTEGRATED</span>
+<p class="text-body-sm opacity-80">Validating company registration for corporate-owned developments.</p>
+</div>
+</div>
+</div>
+<div class="flex-1 w-full max-w-sm z-10">
+<div class="aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
+<img class="w-full h-full object-cover" data-alt="A professional Nigerian woman real estate agent being scanned by a futuristic digital verification hologram. The UI elements show biometric data and status icons in a sleek, navy and gold tech aesthetic. High-end lighting, corporate professional style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUJE4BRTiGyudNKCtuKV--5L7-g-dfbbFYmSCgbF05i5uSDwVcvji8MmQj9MUkYVuK-8fVlHpwUqwyroqAtkaovwPutFuxObaBM1-Pe_nyLM2PMr9zwTdyrYYV_JEqzCCdP-s0jxE3Fci59AviDsiRetcyfIAMjjUq7aKDATCJZ_ANCALqBOwM8nIpzCnXAX9LyMFwhTCymCYX11RzZ35GscPAZRiJBDEs-yt6_1NicWBgYIe1n6qiO8TwT61JZwIPWEn78NpBVtw"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase 3: Site Inspection -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-xl items-center" id="inspection">
+<div class="order-2 lg:order-1">
+<div class="grid grid-cols-2 gap-md">
+<div class="space-y-md mt-lg">
+<div class="aspect-[3/4] rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional surveyor using a modern laser total station on an open land plot in Lagos, Nigeria. The sun is setting, creating golden hour lighting that reflects off the high-tech equipment. Precise, technical feel with a focus on accuracy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVzv5BcAp2n0fYeAzNZPy9qjYqWoknVgNdMiyrIqTcJj5ZXLVTPl2eufa9NRNDCFeODUzpf6GqxlrHuNcLDRrnmoWzhKL4dKWIu4ekqfXnCX1-C5tWcImaeGso-R_pSS8eBJp3Re-BcYhDPqdUOft5o8DIQP39XaPHoZ8KeOFS0kR4Woa0kJUBW8ifFDpeh8JlW3KHagJKyPq4WLVijjuF6NNHXWPOoab3nLP0ymrQ7Jxo8zNcT-xGdU-mRIGhMw-UsoC0XCJirBA"/>
+</div>
+<div class="p-md bg-surface-container rounded-xl border border-outline-variant">
+<span class="material-symbols-outlined text-secondary">explore</span>
+<p class="font-label-md text-label-md text-primary mt-sm">Boundary Matching</p>
+</div>
+</div>
+<div class="space-y-md">
+<div class="p-md bg-secondary text-on-secondary rounded-xl">
+<span class="material-symbols-outlined">warning</span>
+<p class="font-label-md text-label-md mt-sm">Omonile Risk Check</p>
+</div>
+<div class="aspect-[3/4] rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up of a construction site foundation showing structural integrity. Professional architects are discussing plans in the background. The aesthetic is clean, sharp, and detailed, focusing on the quality of the building materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9IMBCX-vgsAWk-rsyrgPSM2D6xvzz-efrJXs4eUOdPBDr6QrFj65SON5_wLSR_BbOElDZoJDsp1RhLz6IP4ew5wUvJcX2SU5kaMZQjYT4QHU2yJpY4SA0bZqWrtzQ9SmzEUx9fhdQ4b8I3PA3aVubl7Cx7RjijMGMed8tctRO4xRvdRP3vs6OgIGpHY3VvjR8hdjejk6tJqTyJ-qkdEFQEzF4tO5LFBbMOTM-rrS3P3gqI-fT-A-SM-f7IFZYWLocQxDsWELr-P8"/>
+</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<div class="flex items-center gap-md mb-md">
+<span class="w-12 h-12 flex items-center justify-center bg-surface-container-high rounded-full font-headline-sm text-primary">03</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Phase 3: Site Inspection</h2>
+</div>
+<p class="text-body-lg text-on-surface-variant mb-lg leading-relaxed">
+                            What is on paper must exist on the ground. Our physical verification experts visit the site to check boundaries, assess structural integrity, and conduct discreet inquiries regarding local <strong class="text-primary">'Omonile'</strong> (community) status.
+                        </p>
+<div class="space-y-md">
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary">location_on</span>
+<span class="text-body-md font-medium">GPS Coordinate Validation</span>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary">apartment</span>
+<span class="text-body-md font-medium">Structural Integrity Audit</span>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary">groups</span>
+<span class="text-body-md font-medium">Local Community Liaison</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase 4: Legal & Title Search -->
+<section class="py-lg" id="legal">
+<div class="text-center max-w-3xl mx-auto mb-xl">
+<div class="inline-flex items-center justify-center w-12 h-12 bg-surface-container-high rounded-full font-headline-sm text-primary mb-md">04</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-md">Phase 4: Legal &amp; Title Search</h2>
+<p class="text-body-lg text-on-surface-variant">
+                            Our legal team performs a deep-dive search at the <strong class="text-primary">Land Registry (e.g., Alausa, Lagos)</strong>. We verify if the property is under government acquisition or subject to existing litigation.
+                        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Bento Item 1 -->
+<div class="md:col-span-2 bg-surface-container-highest rounded-2xl p-lg flex flex-col justify-between border border-outline-variant hover:shadow-lg transition-shadow overflow-hidden group">
+<div class="relative z-10">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-sm">Land Registry Search</h3>
+<p class="text-body-sm text-on-surface-variant">We manually verify the status of the title in state records to ensure it's free from encumbrances.</p>
+</div>
+<div class="mt-lg flex items-center justify-between">
+<span class="material-symbols-outlined text-primary text-[48px] opacity-40 group-hover:scale-110 transition-transform">gavel</span>
+<div class="px-md py-sm bg-white rounded-full font-label-sm text-label-sm shadow-sm">SEARCHING: ALAUSA REGISTRY</div>
+</div>
+</div>
+<!-- Bento Item 2 -->
+<div class="bg-primary text-on-primary rounded-2xl p-lg flex flex-col justify-center border border-outline-variant text-center">
+<span class="material-symbols-outlined text-[64px] text-on-tertiary-container mb-md">policy</span>
+<h3 class="font-headline-sm text-headline-sm mb-xs">Government Acquisition Check</h3>
+<p class="text-body-sm opacity-70">Ensuring the land isn't designated for public projects.</p>
+</div>
+<!-- Bento Item 3 -->
+<div class="bg-white rounded-2xl p-lg flex items-center gap-md border border-outline-variant">
+<div class="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">report_problem</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-[16px] text-primary">Litigation Audit</h4>
+<p class="text-body-sm text-on-surface-variant">Checking for court cases or probate disputes.</p>
+</div>
+</div>
+<!-- Bento Item 4 -->
+<div class="md:col-span-2 bg-surface-container rounded-2xl p-lg flex items-center gap-lg border border-outline-variant">
+<div class="hidden sm:block w-32 h-20 rounded-lg overflow-hidden bg-white/50">
+<div class="w-full h-full bg-cover" data-alt="A top-down view of a complex city planning map with highlighted zones in deep blue and gold. The map looks high-tech and detailed, showing land parcels and zoning areas. Professional cartography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDWA-P-UpzRteigwa_2gXEhREoq9NU2bxNkKkxaNnTWtffXHF0woFSNRKzm8DBOkPMckzZsHYUUcQ91wiDfJ7JNQV8br6CbMrduiNeMoT_CaBNUClfvqMY248iMI3ztXCIM6GdnEdt_4SgtU4a0d7OI4g3nwAdSTDQQ19GQJaTl9XkCeK-CqIh8P1OF9oSEcBCBlkEYCuX20UwjDt1ZCpnOJmQ5dcRALZrGymPm-kooB4f61XJpnutdpiv8p4jXkxEynmELqk6zK7g')"></div>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-[16px] text-primary">Zoning Verification</h4>
+<p class="text-body-sm text-on-surface-variant">Confirming the plot is zoned for your intended use (Residential, Commercial, or Industrial).</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase 5: Final Clearance -->
+<section class="relative" id="clearance">
+<div class="max-w-4xl mx-auto text-center px-lg py-xl glass-card rounded-[40px] border-2 border-on-tertiary-container shadow-2xl relative">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2">
+<div class="w-24 h-24 bg-on-tertiary-container rounded-full flex items-center justify-center shadow-lg border-8 border-surface">
+<span class="material-symbols-outlined text-[48px] text-white" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="mt-8">
+<div class="inline-flex items-center justify-center w-12 h-12 bg-surface-container-high rounded-full font-headline-sm text-primary mb-md">05</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-md">Phase 5: Final Clearance</h2>
+<p class="text-body-lg text-on-surface-variant mb-xl">
+                                Only properties that pass every single checkpoint receive the <strong class="text-on-tertiary-container">VeriProp 'Verified' Seal</strong>. This seal is our guarantee of a safe, legal, and hassle-free transaction.
+                            </p>
+<div class="flex flex-col sm:flex-row gap-md justify-center">
+<button class="px-xl py-md bg-primary text-on-primary font-label-md text-label-md rounded-xl hover:translate-y-[-2px] transition-all shadow-md">
+                                    Start Your Verification Now
+                                </button>
+<button class="px-xl py-md bg-white text-primary border border-primary font-label-md text-label-md rounded-xl hover:bg-surface-container-low transition-all">
+                                    View Sample Report
+                                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Shell -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-lg bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container mt-xl">
+<div class="md:col-span-1">
+<div class="text-headline-sm font-headline-sm text-on-primary mb-md">VeriProp Nigeria</div>
+<p class="text-body-sm opacity-70 mb-md">The most trusted digital layer for Nigeria's real estate marketplace. Eliminating fraud, one property at a time.</p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md mb-md uppercase tracking-wider opacity-60">Company</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">About Us</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Pricing</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Marketplace</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Help Center</a>
+</nav>
+</div>
+<div>
+<h4 class="font-label-md text-label-md mb-md uppercase tracking-wider opacity-60">Legal</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Terms of Service</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Legal Disclaimer</a>
+</nav>
+</div>
+<div>
+<h4 class="font-label-md text-label-md mb-md uppercase tracking-wider opacity-60">Quick Links</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Verify an Agent</a>
+<a class="text-on-primary-container opacity-80 hover:text-secondary-fixed transition-colors" href="#">Contact Support</a>
+</nav>
+</div>
+<div class="md:col-span-4 mt-xl pt-lg border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-md">
+<p class="text-body-sm opacity-60">© 2024 VeriProp Nigeria. All rights reserved. Regulated by Lagos State Real Estate Regulatory Authority.</p>
+<div class="flex gap-md">
+<span class="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">face_nod</span>
+<span class="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">filter</span>
+<span class="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">language</span>
+</div>
+</div>
+</footer>
+</main>
+</div>
+<!-- Floating Action Button - Only for Home/Main Dashboard typically, but added here for the Checklist as per prompt intent -->
+<button class="fixed bottom-xl right-margin-mobile md:right-xl z-40 bg-secondary text-on-secondary px-lg py-md rounded-full shadow-2xl flex items-center gap-sm hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">checklist</span>
+<span class="font-label-md text-label-md">Checklist</span>
+</button>
+<script>
+        // Simple Intersection Observer to highlight sidebar navigation
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('aside nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-secondary', 'font-bold', 'border-l-4', 'bg-surface-container-high');
+                link.classList.add('text-on-surface-variant');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('text-secondary', 'font-bold', 'border-l-4', 'bg-surface-container-high');
+                    link.classList.remove('text-on-surface-variant');
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PROPATI Admin - Transactions & Escrow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#291800",
+                        "tertiary": "#001209",
+                        "surface-container-high": "#e3e8f9",
+                        "outline": "#74777e",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#314865",
+                        "inverse-primary": "#b0c8eb",
+                        "tertiary-container": "#002a1b",
+                        "surface-variant": "#dde2f3",
+                        "on-tertiary-fixed": "#002114",
+                        "secondary-fixed-dim": "#ffb955",
+                        "tertiary-fixed": "#71fbc0",
+                        "secondary-container": "#feae2c",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "secondary-fixed": "#ffddb4",
+                        "on-primary-fixed": "#001c37",
+                        "inverse-surface": "#2a303d",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#835500",
+                        "on-secondary-container": "#6b4500",
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "tertiary-fixed-dim": "#50dea5",
+                        "surface-tint": "#49607e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#009e6f",
+                        "on-error-container": "#93000a",
+                        "primary": "#000f22",
+                        "surface-container-highest": "#dde2f3",
+                        "on-surface": "#161c27",
+                        "surface": "#f9f9ff",
+                        "primary-container": "#0a2540",
+                        "on-primary-container": "#768dad",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e8eeff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-surface-variant": "#43474d",
+                        "on-background": "#161c27",
+                        "inverse-on-surface": "#ecf0ff",
+                        "error-container": "#ffdad6",
+                        "background": "#f9f9ff",
+                        "surface-dim": "#d4daea",
+                        "outline-variant": "#c4c6ce"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "margin-desktop": "64px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-xl": ["Bricolage Grotesque"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl-mobile": ["Bricolage Grotesque"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-sm": ["Bricolage Grotesque"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "headline-lg": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen flex flex-col w-64 py-lg bg-primary-container z-50 shadow-md">
+<div class="px-md mb-xl">
+<h1 class="font-headline-sm text-headline-sm font-black text-secondary-container">PROPATI</h1>
+<p class="font-label-sm text-label-sm text-on-primary-container/60">Marketplace Control</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-3 text-on-primary-container/70 py-3 px-4 hover:bg-primary/30 hover:text-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 text-on-primary-container/70 py-3 px-4 hover:bg-primary/30 hover:text-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md text-label-md">Verification Queues</span>
+</div>
+<div class="flex items-center gap-3 text-on-primary-container/70 py-3 px-4 hover:bg-primary/30 hover:text-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">User Management</span>
+</div>
+<div class="flex items-center gap-3 text-on-primary-container/70 py-3 px-4 hover:bg-primary/30 hover:text-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md text-label-md">Property Listings</span>
+</div>
+<!-- Active Tab -->
+<div class="flex items-center gap-3 text-secondary-container font-bold border-l-4 border-secondary-container bg-primary/50 py-3 px-4 cursor-pointer">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Transactions</span>
+</div>
+<div class="flex items-center gap-3 text-on-primary-container/70 py-3 px-4 hover:bg-primary/30 hover:text-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</div>
+</nav>
+<div class="px-md mt-auto pt-lg">
+<button class="w-full bg-secondary-container text-primary-container font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">assessment</span>
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-gutter">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-64" placeholder="Search Escrow ID, User, or Property..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male administrator wearing a crisp white shirt and a navy blazer, looking directly at the camera with a confident and helpful expression. The lighting is bright and modern, set against a blurred high-end corporate office background. Minimalist and premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpc9W8K-yMOtPqQS-N5Xl2ILWWbq1_32M-4Cmx60UvdD2E3VYQYrogjJfVuX_hc9yXWYMHP2IkuBAydne1EV4fnnly21maSzOJ8eOE6UVgIrxNz8zjQUgRzPv_fMCZBYF-J5HPn3JN_v9w1FcDdRxiEmvOFANFvD9YfawlPFpd36qT17SfQbEK8RQGeqSkB57ZWLj7X0MQcLunAozDZII8hVed0Kz5P-LfzFDEFVgnim9CBtje0zIPvlK85C1VFIkTcmg-CjcbzSs"/>
+</div>
+</div>
+</header>
+<div class="p-lg space-y-lg">
+<!-- Dashboard Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Transactions & Escrow Oversight</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Monitoring platform GTV, escrow security, and financial integrity.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="flex items-center bg-white border border-outline-variant px-4 py-2 rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-outline mr-2">calendar_today</span>
+<span class="text-body-sm font-medium">Oct 1 - Oct 31, 2023</span>
+</div>
+<button class="bg-primary text-white px-md py-2 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Total GTV -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-sm">
+<span class="text-body-sm text-on-surface-variant font-medium">Total Platform GTV</span>
+<span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded text-[12px] font-bold">+8.4%</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">₦1.2B</div>
+<div class="mt-2 h-1 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 75%"></div>
+</div>
+</div>
+<!-- Active Escrow -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-sm">
+<span class="text-body-sm text-on-surface-variant font-medium">Active Escrow Balance</span>
+<span class="text-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Secure</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">₦450.5M</div>
+<div class="flex items-center gap-1 mt-2 text-emerald-600">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">shield_lock</span>
+<span class="text-[12px] font-bold">Encrypted Ledger</span>
+</div>
+</div>
+<!-- Pending Settlements -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-sm">
+<span class="text-body-sm text-on-surface-variant font-medium">Pending Settlements</span>
+<span class="material-symbols-outlined text-outline">pending_actions</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary">42 <span class="text-body-sm font-normal text-on-surface-variant ml-1">(₦85.2M)</span></div>
+<p class="text-[12px] text-on-surface-variant mt-2">Expected within 48 hours</p>
+</div>
+<!-- Flagged/Disputed -->
+<div class="bg-white p-lg rounded-xl border-2 border-error/20 bg-error/5 shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-sm text-error">
+<span class="text-body-sm font-bold">Flagged / Disputed</span>
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="font-headline-md text-headline-md text-error">3 <span class="text-body-sm font-normal text-on-surface-variant ml-1">(₦4.2M)</span></div>
+<p class="text-[12px] text-error font-medium mt-2">Action required immediately</p>
+</div>
+</div>
+<!-- Main Workspace -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+<!-- Column 1: Transactions Feed -->
+<div class="lg:col-span-3 space-y-md">
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-md border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-md bg-surface-container-lowest">
+<h3 class="font-headline-sm text-headline-sm text-primary">Recent Transactions</h3>
+<div class="flex items-center gap-sm">
+<div class="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-white">
+<span class="material-symbols-outlined text-outline text-sm mr-2">filter_alt</span>
+<select class="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
+<option>All Types</option>
+<option>Rent</option>
+<option>Sale</option>
+</select>
+</div>
+<div class="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-white">
+<span class="material-symbols-outlined text-outline text-sm mr-2">verified</span>
+<select class="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
+<option>All Statuses</option>
+<option>Funded</option>
+<option>Released</option>
+<option>Pending</option>
+<option>Disputed</option>
+</select>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">ID</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Property</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Amount</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Type</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Escrow Status</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="px-md py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-default">
+<td class="px-md py-4 font-label-sm text-label-sm text-primary">TRN-8821</td>
+<td class="px-md py-4">
+<div class="flex flex-col">
+<span class="text-body-sm font-semibold text-primary">Eko Atlantic Waterfront</span>
+<span class="text-[12px] text-on-surface-variant">Lagos, NG</span>
+</div>
+</td>
+<td class="px-md py-4 font-bold text-primary">₦25,000,000</td>
+<td class="px-md py-4 text-body-sm">Sale</td>
+<td class="px-md py-4">
+<span class="bg-emerald-600 text-white text-[11px] font-label-sm px-3 py-1 rounded-full uppercase">Funded</span>
+</td>
+<td class="px-md py-4 text-body-sm text-on-surface-variant">24 Oct, 2023</td>
+<td class="px-md py-4">
+<a class="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
+                                                Audit Trail <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-default bg-surface-container-lowest">
+<td class="px-md py-4 font-label-sm text-label-sm text-primary">TRN-8794</td>
+<td class="px-md py-4">
+<div class="flex flex-col">
+<span class="text-body-sm font-semibold text-primary">Banana Island Duplex</span>
+<span class="text-[12px] text-on-surface-variant">Ikoyi, Lagos</span>
+</div>
+</td>
+<td class="px-md py-4 font-bold text-primary">₦4,200,000</td>
+<td class="px-md py-4 text-body-sm">Rent</td>
+<td class="px-md py-4">
+<span class="bg-error text-white text-[11px] font-label-sm px-3 py-1 rounded-full uppercase">Disputed</span>
+</td>
+<td class="px-md py-4 text-body-sm text-on-surface-variant">22 Oct, 2023</td>
+<td class="px-md py-4">
+<a class="text-error hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
+                                                Review Case <span class="material-symbols-outlined text-sm">priority_high</span>
+</a>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-default">
+<td class="px-md py-4 font-label-sm text-label-sm text-primary">TRN-8752</td>
+<td class="px-md py-4">
+<div class="flex flex-col">
+<span class="text-body-sm font-semibold text-primary">Lekki Phase 1 Flat</span>
+<span class="text-[12px] text-on-surface-variant">Lekki, Lagos</span>
+</div>
+</td>
+<td class="px-md py-4 font-bold text-primary">₦8,500,000</td>
+<td class="px-md py-4 text-body-sm">Rent</td>
+<td class="px-md py-4">
+<span class="bg-primary-container text-on-primary-container text-[11px] font-label-sm px-3 py-1 rounded-full uppercase">Released</span>
+</td>
+<td class="px-md py-4 text-body-sm text-on-surface-variant">20 Oct, 2023</td>
+<td class="px-md py-4">
+<a class="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
+                                                Audit Trail <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-default bg-surface-container-lowest">
+<td class="px-md py-4 font-label-sm text-label-sm text-primary">TRN-8740</td>
+<td class="px-md py-4">
+<div class="flex flex-col">
+<span class="text-body-sm font-semibold text-primary">Maitama Luxury Suite</span>
+<span class="text-[12px] text-on-surface-variant">Abuja, FCT</span>
+</div>
+</td>
+<td class="px-md py-4 font-bold text-primary">₦120,000,000</td>
+<td class="px-md py-4 text-body-sm">Sale</td>
+<td class="px-md py-4">
+<span class="bg-secondary-container text-primary-container text-[11px] font-label-sm px-3 py-1 rounded-full uppercase">Pending</span>
+</td>
+<td class="px-md py-4 text-body-sm text-on-surface-variant">19 Oct, 2023</td>
+<td class="px-md py-4">
+<a class="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
+                                                Audit Trail <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low flex items-center justify-between">
+<span class="text-[12px] text-on-surface-variant">Showing 1-4 of 1,240 transactions</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant rounded bg-white hover:bg-surface-container-lowest text-[12px] font-bold">Prev</button>
+<button class="px-3 py-1 border border-outline-variant rounded bg-white hover:bg-surface-container-lowest text-[12px] font-bold">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Financial Integrity Sidebar -->
+<div class="space-y-gutter">
+<!-- Escrow Health Widget -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-sm text-headline-sm text-primary">Escrow Health</h3>
+<span class="material-symbols-outlined text-emerald-600">verified_user</span>
+</div>
+<div class="relative flex justify-center py-4">
+<!-- Simple Donut Visualization -->
+<div class="w-32 h-32 rounded-full border-[12px] border-emerald-500 flex items-center justify-center relative">
+<div class="absolute inset-0 w-full h-full border-[12px] border-emerald-100 rounded-full" style="clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);"></div>
+<div class="text-center">
+<span class="font-headline-md text-headline-md text-primary">100%</span>
+<p class="text-[10px] uppercase font-bold text-on-surface-variant">Integrity</p>
+</div>
+</div>
+</div>
+<div class="mt-md space-y-2">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Wallet Sync</span>
+<span class="text-emerald-600 font-bold">Active</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Ledger Balance</span>
+<span class="text-emerald-600 font-bold">Verified</span>
+</div>
+<hr class="border-outline-variant my-2"/>
+<p class="text-center text-[12px] text-emerald-700 bg-emerald-50 py-2 rounded-lg font-medium">All systems secure</p>
+</div>
+</div>
+<!-- Recent Flags -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-sm text-headline-sm text-primary">Recent Flags</h3>
+<span class="material-symbols-outlined text-error">flag</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="w-2 h-2 rounded-full bg-error mt-1.5 shrink-0"></div>
+<div class="flex-1">
+<p class="text-body-sm font-semibold text-primary">High Velocity Withdraw</p>
+<p class="text-[12px] text-on-surface-variant">User ID: #USR-9921 • ₦4.2M</p>
+<button class="mt-2 text-[12px] font-bold text-error uppercase hover:underline">Investigate</button>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary-container mt-1.5 shrink-0"></div>
+<div class="flex-1">
+<p class="text-body-sm font-semibold text-primary">KYC Mismatch</p>
+<p class="text-[12px] text-on-surface-variant">ID Verification Pending • Rent</p>
+<button class="mt-2 text-[12px] font-bold text-primary uppercase hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Payout Schedule -->
+<div class="bg-primary-container p-lg rounded-xl border border-primary text-white shadow-md relative overflow-hidden">
+<!-- Subtle Background Pattern -->
+<div class="absolute top-0 right-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'wght' 700;">payments</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-sm text-headline-sm text-secondary-container mb-md">Payout Schedule</h3>
+<div class="space-y-md">
+<div class="bg-white/10 p-3 rounded-lg border border-white/20">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[11px] font-bold uppercase tracking-widest text-on-primary-container">Next Window</span>
+<span class="bg-secondary-container text-primary-container px-2 py-0.5 rounded text-[10px] font-bold">TOMORROW</span>
+</div>
+<p class="text-body-lg font-bold">₦12.5M <span class="text-[12px] font-normal opacity-70">Total</span></p>
+</div>
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between text-body-sm">
+<span class="opacity-70">Oct 26, 2023</span>
+<span class="font-bold">₦8.2M</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="opacity-70">Oct 28, 2023</span>
+<span class="font-bold">₦21.0M</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="opacity-70">Nov 01, 2023</span>
+<span class="font-bold">₦44.5M</span>
+</div>
+</div>
+<button class="w-full mt-2 py-2 text-[12px] font-bold text-secondary-container border border-secondary-container rounded-lg hover:bg-secondary-container/10 transition-colors">
+                                    Manage Disbursement
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Technical Stats -->
+<footer class="px-margin-desktop py-md border-t border-outline-variant flex flex-col md:flex-row justify-between items-center text-on-surface-variant text-[12px]">
+<div class="flex items-center gap-md">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Ledger Service: Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> AML Engine: Vigilant</span>
+</div>
+<div class="mt-2 md:mt-0 font-label-sm">
+                PROPATI ADMIN ENGINE v2.4.0 • REFRESHED: <span id="current-time">14:22:05 WAT</span>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction: Live Clock for the Refresh label
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WAT';
+            document.getElementById('current-time').textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+
+        // Micro-interaction: Sidebar Hover Effects
+        const navItems = document.querySelectorAll('aside nav > div');
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                if(!item.classList.contains('text-secondary-container')) {
+                    item.style.transform = 'translateX(4px)';
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body></html>

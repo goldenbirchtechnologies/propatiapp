@@ -7,6 +7,7 @@ import { MapPin, Bed, Bath, Square, Heart, Tag, Shield, CheckCircle, Clock, User
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { VerifiedIconBadge } from '@/components/ui/badges';
 import { formatCurrency, getInitials } from '@/lib/utils';
 
 export interface ListingData {
@@ -162,12 +163,7 @@ function ListingImage({
         <Badge variant={verificationTierColors[verificationTier]} className="tag-capitalize">
           {verificationTierLabels[verificationTier]}
         </Badge>
-        {isVerified && (
-          <Badge variant="success" className="gap-1">
-            <CheckCircle className="h-3 w-3" />
-            Verified
-          </Badge>
-        )}
+        {isVerified && <VerifiedIconBadge size="sm" />}
       </div>
       {onSaveClick && (
         <div className="absolute top-2 right-2">

@@ -8,7 +8,7 @@ import { useUser } from '@clerk/nextjs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, FileText, ExternalLink, Plus } from 'lucide-react';
@@ -150,25 +150,23 @@ export default function DocumentsPage() {
             <form onSubmit={handleUpload} className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
               <div className="grid gap-1.5 w-full sm:w-auto">
                 <Label htmlFor="upload-type">Document Type</Label>
-                <Select
+                <select
+                  id="upload-type"
                   value={selectedType}
-                  onValueChange={(val) => {
-                    setSelectedType(val as DocumentType);
-                    const versions = grouped[val as DocumentType] || [];
+                  onChange={(e) => {
+                    const val = e.target.value as DocumentType;
+                    setSelectedType(val);
+                    const versions = grouped[val] || [];
                     const sorted = [...versions].sort((a, b) => b.version - a.version);
                     setSelectedVersion(sorted[0]?.version.toString() || '');
                   }}
+                  className="w-full sm:w-[200px] rounded-md border border-input bg-background py-2 px-3 text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-ring/50"
                 >
-                  <SelectTrigger id="upload-type" className="w-full sm:w-[200px]">
-                    <SelectValue placeholder="Select type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="agreement">Agreement</SelectItem>
-                    <SelectItem value="receipt">Receipt</SelectItem>
-                    <SelectItem value="verification">Verification</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="agreement">Agreement</option>
+                  <option value="receipt">Receipt</option>
+                  <option value="verification">Verification</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <div className="grid gap-1.5 w-full sm:w-auto flex-1">
@@ -230,28 +228,25 @@ export default function DocumentsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Select
+                  <select
                     value={currentSelection?.version.toString()}
-                    onValueChange={(val) => {
+                    onChange={(e) => {
+                      const val = e.target.value;
                       setSelectedVersion(val);
-                      if (!grouped[type]?.some(d => d.version.toString() === val)) {
+                      if (!grouped[type]?.some((d) => d.version.toString() === val)) {
                         // keep type consistent with selection
-                        // no-op, but ensure selectedType updates if needed
                       }
                       setSelectedType(type);
                     }}
+                    className="w-full rounded-md border border-input bg-background py-2 px-3 text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-ring/50"
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select version" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {sorted.map((doc) => (
-                        <SelectItem key={doc.id} value={doc.version.toString()}>
-                          Version {doc.version}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    <option value="" disabled>Select version</option>
+                    {sorted.map((doc) => (
+                      <option key={doc.id} value={doc.version.toString()}>
+                        Version {doc.version}
+                      </option>
+                    ))}
+                  </select>
 
                   {currentSelection && (
                     <div className="rounded-lg border bg-muted/20 p-3 space-y-2">

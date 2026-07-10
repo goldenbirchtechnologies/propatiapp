@@ -1,360 +1,321 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
+import { AGENT_NAVIGATION } from '@/lib/navigation';
+import { DashboardShell } from '@/components/layout/DashboardShell';
 
-// Type definitions
-interface StatCardProps {
-  icon: string;
-  label: string;
-  value: string | number;
-  trend?: {
-    value: string;
-    isPositive: boolean;
-  };
-  color: 'teal' | 'gold';
-}
-
-interface PipelineColumnProps {
-  stage: string;
-  count: number;
-  deals: Array<{
-    id: string;
-    property: string;
-    client: string;
-    value: string;
-  }>;
-}
-
-interface QuickActionCardProps {
-  icon: string;
-  title: string;
-  description: string;
-  onClick: () => void;
-}
-
-// Skeleton loading components
-const SkeletonCard = () => (
-  <div className="bg-card rounded-xl border border-border p-6 animate-pulse">
-    <div className="flex items-start justify-between">
-      <div className="flex-1">
-        <div className="h-4 bg-muted rounded w-24 mb-3"></div>
-        <div className="h-8 bg-muted rounded w-16 mb-2"></div>
-        <div className="h-3 bg-muted rounded w-20"></div>
-      </div>
-      <div className="w-12 h-12 bg-muted rounded-xl"></div>
-    </div>
-  </div>
-);
-
-const SkeletonPipelineColumn = () => (
-  <div className="bg-muted rounded-xl p-4 animate-pulse">
-    <div className="h-5 bg-muted rounded w-24 mb-4"></div>
-    <div className="space-y-3">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-card rounded-lg p-3 border border-border">
-          <div className="h-4 bg-muted rounded w-full mb-2"></div>
-          <div className="h-3 bg-muted rounded w-3/4 mb-2"></div>
-          <div className="h-3 bg-muted rounded w-1/2"></div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-// Stat Card Component
-const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color }) => {
-  const colorClasses = {
-    teal: 'text-residential-teal hover:border-residential-teal',
-    gold: 'text-commercial-gold hover:border-commercial-gold'
-  };
-
-  return (
-    <div className={`bg-card rounded-xl border border-border p-6 transition-all duration-300 ease-in-out
-      hover:scale-105 hover:shadow-card-hover ${colorClasses[color]} cursor-pointer group`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm text-muted-foreground mb-2 font-medium">{label}</p>
-          <h3 className="text-3xl font-bold text-foreground mb-1">{value}</h3>
-          {trend && (
-            <div className="flex items-center gap-1">
-              <span className={`material-symbols-outlined text-sm ${trend.isPositive ? 'text-success' : 'text-destructive'}`}>
-                {trend.isPositive ? 'trending_up' : 'trending_down'}
-              </span>
-              <span className={`text-xs font-medium ${trend.isPositive ? 'text-success' : 'text-destructive'}`}>
-                {trend.value}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-          color === 'teal' ? 'from-residential-teal/10 to-residential-teal/20' : 'from-commercial-gold/10 to-commercial-gold/20'
-        } flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
-          <span className={`material-symbols-outlined text-2xl ${colorClasses[color]}`}>{icon}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Pipeline Column Component
-const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) => (
-  <div className="bg-muted rounded-xl p-4 min-h-[300px] transition-all duration-300 hover:bg-surface-container">
-    <div className="flex items-center justify-between mb-4">
-      <h4 className="font-semibold text-foreground">{stage}</h4>
-      <span className="bg-residential-teal text-white text-xs font-bold px-2 py-1 rounded-full">{count}</span>
-    </div>
-    <div className="space-y-3">
-      {deals.length > 0 ? (
-        deals.map((deal) => (
-          <div
-            key={deal.id}
-            className="bg-card rounded-xl p-3 border border-border shadow-sm cursor-grab
-              transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-residential-teal"
-          >
-            <h5 className="font-medium text-foreground text-sm mb-1 truncate">{deal.property}</h5>
-            <p className="text-xs text-muted-foreground mb-2 truncate">{deal.client}</p>
-            <p className="text-sm font-bold text-residential-teal">{deal.value}</p>
-          </div>
-        ))
-      ) : (
-        <div className="text-center py-8 text-muted-foreground">
-          <span className="material-symbols-outlined text-3xl mb-2 block">inbox</span>
-          <p className="text-xs">No deals in this stage</p>
-        </div>
-      )}
-    </div>
-  </div>
-);
-
-// Quick Action Card Component
-const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
-  <button
-    onClick={onClick}
-    className="bg-card rounded-xl border border-border p-6 text-left w-full
-      transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-residential-teal group"
-  >
-    <div className="flex items-start gap-4">
-      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-residential-teal/10 to-residential-teal/20
-        flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-        <span className="material-symbols-outlined text-2xl text-residential-teal">{icon}</span>
-      </div>
-      <div className="flex-1">
-        <h4 className="font-semibold text-foreground mb-1 group-hover:text-residential-teal transition-colors duration-300">
-          {title}
-        </h4>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-    </div>
-  </button>
-);
-
-// Main Agent Dashboard Component
 export default function AgentDashboardPage() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate data loading
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Mock data
-  const stats = [
-    {
-      icon: 'person_raised_hand',
-      label: 'Active Listings',
-      value: 12,
-      trend: { value: '+2 this week', isPositive: true },
-      color: 'teal' as const
-    },
-    {
-      icon: 'visibility',
-      label: 'Property Views',
-      value: '1,247',
-      trend: { value: '+18% vs last month', isPositive: true },
-      color: 'teal' as const
-    },
-    {
-      icon: 'handshake',
-      label: 'Active Deals',
-      value: 8,
-      trend: { value: '+3 this month', isPositive: true },
-      color: 'teal' as const
-    },
-    {
-      icon: 'verified',
-      label: 'Closed Deals',
-      value: 23,
-      trend: { value: '+5 vs last quarter', isPositive: true },
-      color: 'gold' as const
-    }
-  ];
-
-  const pipelineStages = [
-    {
-      stage: 'Lead',
-      count: 5,
-      deals: [
-        { id: '1', property: '4BR Duplex - Lekki Phase 1', client: 'Mr. Adebayo Okon', value: '₦45,000,000' },
-        { id: '2', property: '3BR Apartment - Victoria Island', client: 'Mrs. Chioma Nwankwo', value: '₦32,500,000' }
-      ]
-    },
-    {
-      stage: 'Viewing',
-      count: 3,
-      deals: [
-        { id: '3', property: '5BR Estate Home -Ikoyi', client: 'Dr. Emeka Obi', value: '₦125,000,000' }
-      ]
-    },
-    {
-      stage: 'Offer',
-      count: 2,
-      deals: [
-        { id: '4', property: 'Commercial Plot - Abuja CBD', client: 'Zenith Investments Ltd', value: '₦250,000,000' }
-      ]
-    },
-    {
-      stage: 'Negotiation',
-      count: 1,
-      deals: [
-        { id: '5', property: '2BR Condo - Banana Island', client: 'Ms. Aisha Bello', value: '₦55,000,000' }
-      ]
-    },
-    {
-      stage: 'Closing',
-      count: 1,
-      deals: [
-        { id: '6', property: 'Office Space - Lagos Island', client: 'TechHub Nigeria', value: '₦180,000,000' }
-      ]
-    }
-  ];
-
-  const quickActions = [
-    {
-      icon: 'calendar_add_on',
-      title: 'Schedule Property Viewing',
-      description: 'Book appointments with clients for property tours'
-    },
-    {
-      icon: 'view_kanban',
-      title: 'Update Deal Stage',
-      description: 'Move deals through your sales pipeline'
-    },
-    {
-      icon: 'payments',
-      title: 'Request Commission',
-      description: 'Submit commission requests for closed deals'
-    },
-    {
-      icon: 'add_circle',
-      title: 'Add New Property',
-      description: 'List a new property on the marketplace'
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-residential-teal to-residential-teal/90 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2">Agent Dashboard</h1>
-              <p className="text-white/80 text-sm sm:text-base">
-                Welcome back! Here&apos;s your performance overview
-              </p>
+    <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Hassan Aliyu">
+      <div className="p-4 md:p-6 space-y-6">
+        {/* Top Row Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Stat 1 */}
+          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start mb-4">
+              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
+                account_balance_wallet
+              </span>
+              <span className="text-tertiary-fixed-dim text-label-sm font-bold">
+                +12% this month
+              </span>
             </div>
-            <div className="hidden sm:flex items-center gap-3">
-              <span className="material-symbols-outlined text-4xl">real_estate_agent</span>
+            <p className="text-on-surface-variant font-label-md text-label-md">
+              Total Commission (₦)
+            </p>
+            <h3 className="font-headline-md text-headline-md text-primary">₦12,400,000</h3>
+          </div>
+          {/* Stat 2 */}
+          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start mb-4">
+              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
+                rocket_launch
+              </span>
+              <span className="text-on-surface-variant text-label-sm font-medium">
+                3 closed today
+              </span>
             </div>
+            <p className="text-on-surface-variant font-label-md text-label-md">Active Deals</p>
+            <h3 className="font-headline-md text-headline-md text-primary">18</h3>
+          </div>
+          {/* Stat 3 */}
+          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start mb-4">
+              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
+                apartment
+              </span>
+              <span className="text-on-surface-variant text-label-sm font-medium">
+                95% Occupancy
+              </span>
+            </div>
+            <p className="text-on-surface-variant font-label-md text-label-md">Managed Units</p>
+            <h3 className="font-headline-md text-headline-md text-primary">42</h3>
+          </div>
+          {/* Stat 4 */}
+          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start mb-4">
+              <span className="material-symbols-outlined text-error p-2 bg-error/10 rounded-lg">
+                event_available
+              </span>
+              <span className="text-error text-label-sm font-bold">Action Required</span>
+            </div>
+            <p className="text-on-surface-variant font-label-md text-label-md">
+              Pending Inspections
+            </p>
+            <h3 className="font-headline-md text-headline-md text-primary">5</h3>
           </div>
         </div>
+
+        {/* Main Layout: Kanban + Widgets */}
+        <div className="grid grid-cols-12 gap-6">
+          {/* Deal Pipeline (Kanban Board) - 8 Cols */}
+          <section className="col-span-12 xl:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h4 className="font-headline-sm text-headline-sm text-primary">Deal Pipeline</h4>
+              <div className="flex gap-2">
+                <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                  <span className="material-symbols-outlined">filter_list</span>
+                </button>
+                <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                  <span className="material-symbols-outlined">more_vert</span>
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-6 overflow-x-auto pb-4">
+              {/* Column 1: Enquiry */}
+              <div className="flex-shrink-0 w-64 space-y-3">
+                <div className="flex items-center justify-between bg-surface-container p-2 rounded-lg">
+                  <span className="font-label-md text-label-md uppercase tracking-widest text-primary">
+                    Enquiry
+                  </span>
+                  <span className="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">
+                    4
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  {/* Card */}
+                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
+                    <div className="w-full h-32 rounded-lg mb-2 overflow-hidden">
+                      <div className="w-full h-full bg-surface-container-high" />
+                    </div>
+                    <div className="px-2 pb-2">
+                      <h5 className="font-bold text-body-sm text-primary truncate">
+                        The Obsidian Penthouse
+                      </h5>
+                      <p className="text-body-sm text-on-surface-variant mb-2">
+                        Emeka Okafor
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-label-md bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                          2 Days
+                        </span>
+                        <div className="flex -space-x-2">
+                          <div className="w-6 h-6 rounded-full border border-white bg-slate-200"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Card 2 */}
+                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                    <div className="px-2 py-2">
+                      <h5 className="font-bold text-body-sm text-primary truncate">
+                        Ikoyi Garden Suite
+                      </h5>
+                      <p className="text-body-sm text-on-surface-variant mb-2">
+                        Bolanle T.
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-label-md bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full">
+                          4 Days
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Column 2: Viewing */}
+              <div className="flex-shrink-0 w-64 space-y-3">
+                <div className="flex items-center justify-between bg-surface-container p-2 rounded-lg">
+                  <span className="font-label-md text-label-md uppercase tracking-widest text-primary">
+                    Viewing
+                  </span>
+                  <span className="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">
+                    3
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                    <div className="px-2 py-2">
+                      <h5 className="font-bold text-body-sm text-primary truncate">
+                        Victoria Island Studio
+                      </h5>
+                      <p className="text-body-sm text-on-surface-variant mb-2">
+                        James Wilson
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-label-md bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                          1 Day
+                        </span>
+                        <span className="material-symbols-outlined text-sm text-secondary">
+                          calendar_today
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Column 3: Offer */}
+              <div className="flex-shrink-0 w-64 space-y-3">
+                <div className="flex items-center justify-between bg-surface-container p-2 rounded-lg">
+                  <span className="font-label-md text-label-md uppercase tracking-widest text-primary">
+                    Offer
+                  </span>
+                  <span className="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">
+                    2
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <div className="bg-white border border-outline-variant border-l-4 border-l-secondary rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                    <div className="px-2 py-2">
+                      <h5 className="font-bold text-body-sm text-primary truncate">
+                        Banana Island Villa
+                      </h5>
+                      <p className="text-body-sm text-on-surface-variant mb-2">
+                        Aliko D.
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-label-md bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                          6 Days
+                        </span>
+                        <span className="font-bold text-primary">₦45M</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Column 4: Agreement */}
+              <div className="flex-shrink-0 w-64 space-y-3">
+                <div className="flex items-center justify-between bg-surface-container p-2 rounded-lg">
+                  <span className="font-label-md text-label-md uppercase tracking-widest text-primary">
+                    Agreement
+                  </span>
+                  <span className="bg-primary/10 text-primary px-2 rounded-full text-[10px] font-bold">
+                    1
+                  </span>
+                </div>
+              </div>
+
+              {/* Column 5: Completed */}
+              <div className="flex-shrink-0 w-64 space-y-3">
+                <div className="flex items-center justify-between bg-surface-container-high p-2 rounded-lg">
+                  <span className="font-label-md text-label-md uppercase tracking-widest text-primary">
+                    Completed
+                  </span>
+                  <span className="bg-tertiary-fixed-dim/20 text-on-tertiary-container px-2 rounded-full text-[10px] font-bold">
+                    8
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Sidebar Widgets - 4 Cols */}
+          <aside className="col-span-12 xl:col-span-4 space-y-6">
+            {/* Commission Tracker Widget */}
+            <div className="bg-primary-container text-on-primary rounded-xl p-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-secondary opacity-10 blur-3xl rounded-full translate-x-16 -translate-y-16"></div>
+              <h4 className="font-headline-sm text-headline-sm text-secondary-fixed mb-6 relative z-10">
+                Commission Tracker
+              </h4>
+              <div className="space-y-6 relative z-10">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-label-sm font-label-sm opacity-80">Paid</span>
+                    <span className="text-body-sm font-bold text-secondary-fixed">₦8.2M</span>
+                  </div>
+                  <div className="h-2 bg-primary/40 rounded-full overflow-hidden">
+                    <div className="h-full bg-secondary-container w-[65%] rounded-full" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-primary/20 p-4 rounded-lg border border-on-primary-container/10">
+                    <p className="text-label-sm font-label-sm opacity-60 uppercase mb-1">
+                      Pending
+                    </p>
+                    <p className="font-headline-sm text-headline-sm text-secondary-fixed">
+                      ₦3.1M
+                    </p>
+                  </div>
+                  <div className="bg-primary/20 p-4 rounded-lg border border-on-primary-container/10">
+                    <p className="text-label-sm font-label-sm opacity-60 uppercase mb-1">
+                      Confirmed
+                    </p>
+                    <p className="font-headline-sm text-headline-sm text-secondary-fixed">
+                      ₦1.1M
+                    </p>
+                  </div>
+                </div>
+                <button className="w-full text-center py-2 text-label-md font-label-md text-secondary-fixed-dim hover:underline transition-all">
+                  View Full Report →
+                </button>
+              </div>
+            </div>
+
+            {/* Top Listings */}
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="font-headline-sm text-headline-sm text-primary">Top Listings</h4>
+                <span className="text-label-sm font-label-sm text-secondary">Active: 42</span>
+              </div>
+              <div className="space-y-4">
+                {/* Listing Item */}
+                <div className="flex items-center gap-4 group cursor-pointer p-1 hover:bg-surface-container rounded-lg transition-colors">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-full h-full bg-surface-container-high" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-body-sm text-primary truncate">
+                      Lekki Phase 1 Duplex
+                    </p>
+                    <p className="text-label-sm font-label-sm text-on-surface-variant">
+                      ₦120M / Year
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-body-sm text-primary">452</p>
+                    <p className="text-[10px] text-on-surface-variant uppercase">Views</p>
+                  </div>
+                </div>
+                {/* Listing Item 2 */}
+                <div className="flex items-center gap-4 group cursor-pointer p-1 hover:bg-surface-container rounded-lg transition-colors">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-full h-full bg-surface-container-high" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-body-sm text-primary truncate">
+                      Ikeja GRA Boutique
+                    </p>
+                    <p className="text-label-sm font-label-sm text-on-surface-variant">
+                      ₦8.5M / Year
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-body-sm text-primary">318</p>
+                    <p className="text-[10px] text-on-surface-variant uppercase">Views</p>
+                  </div>
+                </div>
+              </div>
+              <button className="w-full mt-6 border border-primary text-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary hover:text-white transition-all">
+                Manage All Listings
+              </button>
+            </div>
+          </aside>
+        </div>
       </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Grid */}
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-foreground mb-4">Performance Metrics</h2>
-          {loading ? (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {[1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {stats.map((stat, index) => (
-                <StatCard key={index} {...stat} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Commission Summary */}
-        <section className="mb-8">
-          <div className="bg-gradient-to-r from-commercial-gold to-commercial-gold/90 rounded-xl p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Commission Summary</h2>
-              <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <div>
-                <p className="text-white/80 text-sm mb-1">Total Earned (YTD)</p>
-                <p className="text-2xl font-bold">₦12,450,000</p>
-              </div>
-              <div>
-                <p className="text-white/80 text-sm mb-1">Pending Payment</p>
-                <p className="text-2xl font-bold">₦3,200,000</p>
-              </div>
-              <div className="col-span-2 sm:col-span-1">
-                <p className="text-white/80 text-sm mb-1">Next Payment</p>
-                <p className="text-2xl font-bold">Jun 30, 2026</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Deal Pipeline */}
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-foreground mb-4">Sales Pipeline</h2>
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-              {[1, 2, 3, 4, 5].map((i) => <SkeletonPipelineColumn key={i} />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto">
-              {pipelineStages.map((stage, index) => (
-                <PipelineColumn key={index} {...stage} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Quick Actions */}
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-foreground mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {quickActions.map((action, index) => (
-              <QuickActionCard
-                key={index}
-                {...action}
-                onClick={() => console.log(`Action clicked: ${action.title}`)}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Recent Activity */}
-        <section>
-          <h2 className="text-xl font-bold text-foreground mb-4">Recent Activity</h2>
-          <div className="bg-card rounded-xl border border-border p-8 text-center">
-            <span className="material-symbols-outlined text-5xl text-muted-foreground mb-3 block">history</span>
-            <p className="text-muted-foreground mb-1 font-medium">No recent activity</p>
-            <p className="text-sm text-muted-foreground">Your activity feed will appear here</p>
-          </div>
-        </section>
-      </div>
-    </div>
+    </DashboardShell>
   );
 }

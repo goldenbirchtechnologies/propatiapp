@@ -37,6 +37,7 @@ import {
   Eye,
   AlertTriangle,
 } from 'lucide-react';
+import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
 
 type Listing = {
   id: string;
@@ -95,16 +96,55 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
-function VerificationBadge({ verification }: { verification: Listing['verification'] }) {
-  if (!verification) return <span className="tag tag-amber">Not Started</span>;
-  const config: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started' },
-    in_progress: { class: 'tag-blue', label: `Layer ${verification.currentLayer}` },
-    certified: { class: 'tag-green', label: 'Verified ✓' },
-    rejected: { class: 'tag-red', label: 'Rejected' },
-  };
-  const cfg = config[verification.overallStatus] || config.not_started;
-  return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
+function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
+  if (!verification) {
+    return (
+      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+        Not Started
+      </span>
+    );
+  }
+
+  switch (verification.overallStatus) {
+    case 'not_started':
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+          Not Started
+        </span>
+      );
+    case 'in_progress':
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          LAYER {verification.currentLayer}
+        </span>
+      );
+    case 'certified':
+      return <SharedVerificationBadge tier="certified" />;
+    case 'rejected':
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-bold text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+          Rejected
+        </span>
+      );
+    default:
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-border">
+          {verification.overallStatus}
+        </span>
+      );
+  }
 }
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {

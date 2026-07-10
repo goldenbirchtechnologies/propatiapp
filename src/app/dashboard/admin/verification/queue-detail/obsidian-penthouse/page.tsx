@@ -100,7 +100,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <h2 className="font-headline-lg text-headline-lg text-primary">The Obsidian Penthouse</h2>
 <div className="flex items-center gap-sm">
 <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed rounded-full font-label-sm flex items-center gap-xs">
-<span className="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>stars</span>
                             INSPECTED
                         </span>
 <span className="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full font-label-sm">
@@ -264,7 +264,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="absolute top-0 right-0 w-64 h-64 bg-secondary-container/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
 <div className="relative z-10 space-y-md">
 <div className="w-16 h-16 verification-badge-shimmer rounded-full flex items-center justify-center mb-md">
-<span className="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
 </div>
 <h3 className="font-headline-lg text-headline-lg">EstateVerify Certified</h3>
 <p className="text-body-lg text-on-primary-container max-w-md">Once approved, this property will receive the 'Diamond Certified' status, making it instantly tradable on the premium secondary market.</p>
@@ -341,7 +341,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <span className="text-[10px] font-label-sm">Home</span>
 </a>
 <a className="flex flex-col items-center gap-1 text-primary font-bold" href="#">
-<span className="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>verified_user</span>
 <span className="text-[10px] font-label-sm">Queue</span>
 </a>
 <a className="flex flex-col items-center gap-1 text-on-surface-variant" href="#">

@@ -41,7 +41,7 @@ export default function AuditLogsPagePagePage() {
             </a>
 {'{'}/* Active Tab */{'}'}
 <a className="flex items-center gap-4 px-4 py-3 text-secondary-container bg-primary border-l-4 border-secondary-container font-label-md text-label-md transition-all" href="#">
-<span className="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>history_edu</span>
                 Audit Logs
             </a>
 <a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">

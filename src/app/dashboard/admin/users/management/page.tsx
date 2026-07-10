@@ -36,7 +36,7 @@ export default function UsersManagementPagePagePage() {
             </a>
 {'{'}/* Active Navigation State for User Management */{'}'}
 <a className="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-container text-secondary-container bg-on-primary-container/10 font-label-md text-label-md rounded-r-lg transition-all duration-200 active:scale-95" href="#">
-<span className="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>group</span>
                 User Management
             </a>
 <a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">

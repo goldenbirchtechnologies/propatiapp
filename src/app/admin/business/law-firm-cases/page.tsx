@@ -9,10 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
   Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -110,16 +106,16 @@ export default function AdminLawFirmCasesClient() {
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Law Firm Cases</h2>
         <div className="flex items-center gap-2">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              {STATUS_OPTIONS.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="w-48 rounded-md border border-input bg-background py-2 px-3 text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-ring/50"
+          >
+            <option value="">Filter by status</option>
+            {STATUS_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -196,16 +192,17 @@ export default function AdminLawFirmCasesClient() {
         <div className="space-y-4">
           <div>
             <Label htmlFor="firm-select">Select Law Firm</Label>
-            <Select value={selectedFirmId} onValueChange={setSelectedFirmId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a firm" />
-              </SelectTrigger>
-              <SelectContent>
-                {firms.map((firm) => (
-                  <SelectItem key={firm.id} value={firm.id}>{firm.name} ({firm.cacNumber})</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <select
+              id="firm-select"
+              value={selectedFirmId}
+              onChange={(e) => setSelectedFirmId(e.target.value)}
+              className="w-full rounded-md border border-input bg-background py-2 px-3 text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-ring/50"
+            >
+              <option value="">Choose a firm</option>
+              {firms.map((firm) => (
+                <option key={firm.id} value={firm.id}>{firm.name} ({firm.cacNumber})</option>
+              ))}
+            </select>
           </div>
         </div>
       </Drawer>

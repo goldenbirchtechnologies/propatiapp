@@ -1,1 +1,1 @@
-sync-test-cleanup
+cleanup

@@ -536,14 +536,17 @@ export function DashboardShell({
         role="navigation"
         aria-label="Main navigation"
         style={{
-          background: 'hsl(var(--primary-container) / 1)',
-          borderRight: '1px solid hsl(var(--primary-container) / 0.3)',
+          background: '#2563eb',
+          borderRight: '1px solid rgba(255,255,255,0.14)',
         }}
       >
         <style>{`
           @keyframes propLogoPop {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.08); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .prop-logo-anim { animation: none !important; }
           }
         `}</style>
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
@@ -734,12 +737,12 @@ export function DashboardShell({
   );
 }
 
-function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavItem; isActive: boolean; sidebarCollapsed?: string }) {
+function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavItem; isActive: boolean; sidebarCollapsed?: boolean }) {
   const [expanded, setExpanded] = useState(isActive);
 
   if (!item.children || item.children.length === 0) return null;
 
-  if (sidebarCollapsed === 'true') {
+  if (sidebarCollapsed) {
     return (
       <Link
         href={item.children[0]?.href || '#'}

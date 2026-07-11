@@ -851,6 +851,7 @@ model Conversation {
   @@index([landlordId], map: "idx_conversations_landlord")
   @@index([tenantId], map: "idx_conversations_tenant")
   @@index([orgId], map: "idx_conversations_org")
+  @@index([propertyId], map: "idx_conversations_property")
   @@map("conversations")
 }
 

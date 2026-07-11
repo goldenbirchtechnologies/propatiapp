@@ -64,13 +64,31 @@
   --theme-em-bg: #080e18;
   --theme-em-sidebar: #080e18;
   --theme-em-surface: #1a2a3a;
+  --theme-em-surface-elevated: #203044;
   --theme-em-text: #c8d8e8;
   --theme-em-muted: #5a7a9a;
-  --theme-em-accent: #6ea8fe;
+  --theme-em-accent: #2563eb;
+  --theme-em-accent2: #1d4ed8;
 
-  /* Typography */
-  --font-heading: 'Bricolage Grotesque', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+  /* Realtor */
+  --theme-realtor-bg: #0b1220;
+  --theme-realtor-surface: #0f1a2e;
+  --theme-realtor-surface-elevated: #152238;
+  --theme-realtor-border: rgba(255, 255, 255, 0.07);
+  --theme-realtor-text: #dde7f3;
+  --theme-realtor-muted: #4f6f8a;
+  --theme-realtor-accent: #2563eb;
+  --theme-realtor-accent2: #1d4ed8;
+
+  /* Admin */
+  --theme-admin-bg: #0c0e12;
+  --theme-admin-surface: #11141a;
+  --theme-admin-surface-elevated: #171c24;
+  --theme-admin-border: rgba(255, 255, 255, 0.07);
+  --theme-admin-text: #e6ebf1;
+  --theme-admin-muted: #7e8aa0;
+  --theme-admin-accent: #2563eb;
+  --theme-admin-accent2: #1d4ed8;
   --font-serif: 'DM Serif Display', serif;
   --font-mono: 'DM Mono', monospace;
 
@@ -182,19 +200,34 @@ body.theme-estate-manager,
 body.em-theme {
   --bg: var(--theme-em-bg);
   --surface: var(--theme-em-surface);
-  --border: var(--theme-em-surface);
+  --surface-elevated: var(--theme-em-surface-elevated);
+  --border: var(--theme-em-border);
   --text: var(--theme-em-text);
   --muted: var(--theme-em-muted);
   --accent: var(--theme-em-accent);
+  --accent2: var(--theme-em-accent2);
 }
 
-/* Reset & Base */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+body.theme-realtor {
+  --bg: var(--theme-realtor-bg);
+  --surface: var(--theme-realtor-surface);
+  --surface-elevated: var(--theme-realtor-surface-elevated);
+  --border: var(--theme-realtor-border);
+  --text: var(--theme-realtor-text);
+  --muted: var(--theme-realtor-muted);
+  --accent: var(--theme-realtor-accent);
+  --accent2: var(--theme-realtor-accent2);
+}
+
+body.theme-admin {
+  --bg: var(--theme-admin-bg);
+  --surface: var(--theme-admin-surface);
+  --surface-elevated: var(--theme-admin-surface-elevated);
+  --border: var(--theme-admin-border);
+  --text: var(--theme-admin-text);
+  --muted: var(--theme-admin-muted);
+  --accent: var(--theme-admin-accent);
+  --accent2: var(--theme-admin-accent2);
 }
 
 html {
@@ -463,4 +496,15 @@ a:hover {
 ::selection {
   background: var(--accent-bg);
   color: var(--accent);
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

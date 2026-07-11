@@ -1,8 +1,6 @@
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
-import { REALTOR_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import BuyPipelineClient from './BuyPipelineClient';
 
@@ -33,14 +31,5 @@ export default async function RealtorBuyPage() {
     client: '—',
   }));
 
-  return (
-    <DashboardShell
-      navigation={REALTOR_NAVIGATION}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <BuyPipelineClient initialDeals={initialDeals} />
-    </DashboardShell>
-  );
+  return <BuyPipelineClient initialDeals={initialDeals} />;
 }

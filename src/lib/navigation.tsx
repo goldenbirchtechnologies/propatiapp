@@ -3,7 +3,8 @@ import {
   Home, Building2, DollarSign, Plus, Phone, FileText, MessageSquare,
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
-  ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail
+  ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
+  Landmark, CircleDollarSign, ChevronRight
 } from 'lucide-react';
 
 export interface NavItem {
@@ -17,6 +18,10 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
   { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Financials', href: '/dashboard/landlord/financials', icon: <DollarSign className="h-5 w-5" /> },
+  { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Agent Invites', href: '/dashboard/landlord/agents', icon: <Users className="h-5 w-5" /> },
+  { label: 'Forecasting', href: '/dashboard/landlord/financials/forecasting', icon: <TrendingUp className="h-5 w-5" /> },
+  { label: 'Scenario Builder', href: '/dashboard/landlord/financials/scenario-builder', icon: <Sliders className="h-5 w-5" /> },
   { label: 'Rent Collection', href: '/dashboard/landlord/rent', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/landlord/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Notifications', href: '/dashboard/landlord/notifications', icon: <Bell className="h-5 w-5" /> },
@@ -29,6 +34,10 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'Verify Property', href: '/dashboard/landlord/verify', icon: <Shield className="h-5 w-5" /> },
   { label: 'Turnover', href: '/dashboard/landlord/turnover', icon: <Wrench className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
+  { label: 'Commercial Leases', href: '/dashboard/landlord/commercial/leases', icon: <Landmark className="h-5 w-5" /> },
+  { label: 'Revenue Forecast', href: '/dashboard/landlord/revenue-forecast', icon: <TrendingUp className="h-5 w-5" /> },
+  { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
+  { label: 'Overdue Payments', href: '/dashboard/landlord/financials/overdue', icon: <Receipt className="h-5 w-5" /> },
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [
@@ -42,6 +51,7 @@ export const TENANT_NAVIGATION: NavItem[] = [
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
   { label: 'Receipts', href: '/dashboard/tenant/receipts', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
+  { label: 'Overdue Payments', href: '/dashboard/tenant/payments/overdue', icon: <Receipt className="h-5 w-5" /> },
 ];
 
 export const AGENT_NAVIGATION: NavItem[] = [
@@ -51,6 +61,7 @@ export const AGENT_NAVIGATION: NavItem[] = [
   { label: 'Inspections', href: '/dashboard/agent/inspections', icon: <Eye className="h-5 w-5" /> },
   { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'My Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
+  { label: 'Invitations', href: '/dashboard/agent/invites', icon: <Mail className="h-5 w-5" /> },
   { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },
   { label: 'Schedule', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
@@ -79,6 +90,8 @@ export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Reports', href: '/dashboard/admin/reports', icon: <FileText className="h-5 w-5" /> },
   { label: 'Revenue', href: '/dashboard/admin/revenue', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Settings', href: '/dashboard/admin/settings', icon: <Cog className="h-5 w-5" /> },
+  { label: 'MFA Settings', href: '/dashboard/admin/settings/mfa', icon: <ShieldCheck className="h-5 w-5" /> },
+  { label: 'Withdrawals', href: '/dashboard/admin/transactions/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/admin/profile', icon: <User className="h-5 w-5" /> },
 ];
 
@@ -98,6 +111,13 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Turnover', href: '/dashboard/estate-manager/turnover', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Financials', href: '/dashboard/estate-manager/financials', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Commercial Leases', href: '/dashboard/estate-manager/commercial-leases', icon: <Landmark className="h-5 w-5" /> },
+  { label: 'Move-in Coordination', href: '/dashboard/estate-manager/move-in', icon: <ClipboardList className="h-5 w-5" /> },
+  { label: 'Lease Negotiation', href: '/dashboard/estate-manager/lease-negotiation', icon: <MessageSquare className="h-5 w-5" /> },
+  { label: 'Lease Review', href: '/dashboard/estate-manager/lease-review', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Portfolio Analytics', href: '/dashboard/estate-manager/portfolio/analytics', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Financial Scenario', href: '/dashboard/estate-manager/financials/scenario', icon: <Sliders className="h-5 w-5" /> },
+  { label: 'Revenue Signature', href: '/dashboard/estate-manager/reports/revenue-signature', icon: <FileText className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
 ];
 

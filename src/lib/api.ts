@@ -402,7 +402,20 @@ export interface OrgInvite {
   status: string;
   expiresAt: string;
   createdAt: string;
-  [key: string]: unknown;
+}
+
+export interface AgentInvite {
+  id: string;
+  landlordId: string;
+  agentId?: string | null;
+  email: string;
+  token: string;
+  status: string;
+  acceptedAt?: string | null;
+  revokedAt?: string | null;
+  createdAt: string;
+  sender?: UserSummary | null;
+  recipient?: UserSummary | null;
 }
 
 export interface MaintenanceTicket {
@@ -562,5 +575,11 @@ export const apiEndpoints = {
     getById: (id: string) => api.get<any>(`/disputes/${id}`),
     create: (data: any) => api.post<any>('/disputes', data),
     adminAction: (disputeId: string, data: any) => api.post<any>(`/disputes/${disputeId}/action`, data),
+  },
+  agentInvites: {
+    list: (params?: PaginationParams) => api.get<PaginatedResponse<AgentInvite>>('/agent-invites', params),
+    create: (data: { email: string }) => api.post<AgentInvite>('/agent-invites', data),
+    accept: (id: string) => api.post<any>(`/agent-invites/${id}/accept`, {}),
+    revoke: (id: string) => api.post<any>(`/agent-invites/${id}/revoke`, {}),
   },
 };

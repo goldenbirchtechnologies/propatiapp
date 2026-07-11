@@ -210,6 +210,12 @@ enum SubscriptionStatus {
   paused
 }
 
+enum AgentInviteStatus {
+  pending
+  accepted
+  revoked
+}
+
 enum DisputeType {
   tenancy_non_delivery
   tenancy_habitability
@@ -466,6 +472,8 @@ model User {
   documents             Document[]
   subscriptions         UserSubscription[]
   assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
+  sentAgentInvites      AgentInvite[]  @relation("AgentInviteSender")
+  receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -1776,4 +1784,26 @@ model UserSubscription {
   @@index([userId], map: "idx_user_subscriptions_user")
   @@index([planId], map: "idx_user_subscriptions_plan")
   @@map("user_subscriptions")
+}
+
+model AgentInvite {
+  id           String            @id @default(cuid()) @map("id") // 'agt_' + 12 chars
+  landlordId   String            @map("landlord_id")
+  agentId      String?           @map("agent_id")
+  email        String            @db.Text
+  token        String            @unique @db.Text
+  status       AgentInviteStatus @default(pending) @map("status")
+  acceptedAt   DateTime?         @map("accepted_at")
+  revokedAt    DateTime?         @map("revoked_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  sender       User              @relation("AgentInviteSender", fields: [landlordId], references: [id])
+  recipient    User?             @relation("AgentInviteRecipient", fields: [agentId], references: [id])
+
+  @@index([landlordId], map: "idx_agent_invites_landlord")
+  @@index([agentId], map: "idx_agent_invites_agent")
+  @@index([email], map: "idx_agent_invites_email")
+  @@index([status], map: "idx_agent_invites_status")
+  @@map("agent_invites")
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { SignInButton, SignUpButton } from '@clerk/nextjs';
 
@@ -12,7 +13,8 @@ export function LandingPage() {
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-2xl font-heading font-bold" style={{ color: 'var(--accent)' }}>
+              <NextImage src="/brand/propati-logo-512.png" alt="PROPATI" width={38} height={38} priority />
+              <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--accent)' }}>
                 PROPATI
               </span>
             </Link>
@@ -202,6 +204,7 @@ export function LandingPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <Link href="/" className="flex items-center gap-2 mb-4">
+                <NextImage src="/brand/propati-logo-512.png" alt="PROPATI" width={28} height={28} />
                 <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>PROPATI</span>
               </Link>
               <p className="text-sm" style={{ color: 'var(--muted)', lineHeight: 1.6 }}>

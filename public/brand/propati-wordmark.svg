@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="700" viewBox="0 0 1800 700">
+  <defs>
+    <linearGradient id="navy" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#000f22"/>
+      <stop offset="100%" stop-color="#0a2540"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#50dea5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1800" height="700" rx="140" fill="url(#navy)"/>
+  <g transform="translate(340,350)">
+    <path d="M-80,-40 L-80,100 Q-80,118 -62,118 L62,118 Q80,118 80,100 L80,-40 Q80,-58 62,-58 L-62,-58 Q-80,-58 -80,-40 Z" fill="rgba(255,255,255,0.08)"/>
+    <path d="M0,-90 L-120,0 L-68,0 L-68,125 L68,125 L68,0 L120,0 Z" fill="#f9f9ff"/>
+    <path d="M51,74 L-74,-51 L-85,-37 L56,88 Z" fill="url(#accent)"/>
+    <path d="M-85,-37 L-54,4 L34,-84" fill="none" stroke="#0a2540" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(980,350)" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-weight="800" font-size="220" letter-spacing="-0.04em" fill="#f9f9ff">
+    <text x="0" y="14" text-anchor="middle">PROPATI</text>
+  </g>
+  <g transform="translate(980,440)" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-weight="600" font-size="34" letter-spacing="0.18em" fill="#7bd7c2">
+    <text x="0" y="0" text-anchor="middle">NIGERIA PROPERTY MARKETPLACE</text>
+  </g>
+</svg>

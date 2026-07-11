@@ -3,22 +3,30 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
-// Validation schemas
-const createConversationBodySchema = z.object({
-  listingId: z.string().cuid(),
-  participantId: z.string().cuid(),
-});
-
-const getConversationsQuerySchema = z.object({
+// --- Validation ---
+const listQuerySchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(100).default(20),
 });
 
-/**
- * GET /api/conversations
- * List user's conversations with last message preview and unread counts
- * Sorted by last message timestamp (newest first)
- */
+const createBodySchema = z.object({
+  participants: z.array(z.object({ userId: z.string().cuid(), role: z.string() })).min(2),
+  subject: z.string().optional(),
+  listingId: z.string().cuid().optional(),
+  propertyId: z.string().cuid().optional(),
+  orgId: z.string().cuid().optional(),
+});
+
+type Ld = { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string };
+type Tm = { id: string; title?: string | null; area?: string | null; state?: string | null; price?: number | null; listingType?: string | null; images?: Array<{ url: string }> };
+
+function participantUnreadCount(participants: any, userId: string) {
+  if (!participants || typeof participants !== 'object') return 0;
+  const counts = participants.unreadCounts || participants;
+  return counts[userId] || 0;
+}
+
+// --- LIST ---
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -26,131 +34,98 @@ export async function GET(request: NextRequest) {
 
   try {
     const searchParams = request.nextUrl.searchParams;
-    const params = Object.fromEntries(searchParams.entries());
-    const { page, limit } = getConversationsQuerySchema.parse(params);
-
+    const { page, limit } = listQuerySchema.parse(Object.fromEntries(searchParams.entries()));
     const skip = (page - 1) * limit;
 
-    // Find conversations where user is either landlord or tenant
-    const where = {
-      OR: [
-        { landlordId: user.id },
-        { tenantId: user.id },
-      ],
-      status: { not: 'blocked' as const },
-    };
-
-    const [conversations, total] = await Promise.all([
+    const [legacyConvs, participantRows] = await Promise.all([
       prisma.conversation.findMany({
-        where,
+        where: {
+          OR: [{ landlordId: user.id }, { tenantId: user.id }],
+          status: { not: 'blocked' },
+        },
         orderBy: { lastMessageAt: 'desc' },
         skip,
         take: limit,
         include: {
-          landlord: {
-            select: {
-              id: true,
-              fullName: true,
-              avatarUrl: true,
-              role: true,
-            },
-          },
-          tenant: {
-            select: {
-              id: true,
-              fullName: true,
-              avatarUrl: true,
-              role: true,
-            },
-          },
+          landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+          tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
           listing: {
-            select: {
-              id: true,
-              title: true,
-              area: true,
-              state: true,
-              price: true,
-              listingType: true,
-              images: {
-                where: { isCover: true },
-                take: 1,
-                select: { url: true },
-              },
-            },
+            select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } },
           },
-          messages: {
-            take: 1,
-            orderBy: { createdAt: 'desc' },
-            select: {
-              id: true,
-              content: true,
-              createdAt: true,
-              senderId: true,
-            },
-          },
+          messages: { take: 1, orderBy: { createdAt: 'desc' }, select: { id: true, content: true, createdAt: true, senderId: true } },
         },
       }),
-      prisma.conversation.count({ where }),
+      prisma.$queryRaw<Array<{ id: string }>>`
+        SELECT id FROM conversations
+        WHERE participants @> ${JSON.stringify([{ userId: user.id }])}::jsonb
+          AND status != 'blocked'
+        ORDER BY last_message_at DESC
+        LIMIT ${skip + limit}
+        OFFSET ${skip}
+      `,
     ]);
 
-    // Format conversations with unread count for current user
-    const formattedConversations = conversations.map((conv) => {
-      const isLandlord = conv.landlordId === user.id;
-      const unreadCount = isLandlord ? conv.unreadLandlord : conv.unreadTenant;
-      const otherParticipant = isLandlord ? conv.tenant : conv.landlord;
-      const lastMessage = conv.messages[0] || null;
+    const legacyIds = new Set(legacyConvs.map((c: any) => c.id));
+    const missingIds = participantRows.filter((r: any) => !legacyIds.has(r.id)).map((r: any) => r.id);
+    let extraConvs: any[] = [];
+    if (missingIds.length > 0) {
+      extraConvs = await prisma.conversation.findMany({
+        where: { id: { in: missingIds } },
+        orderBy: { lastMessageAt: 'desc' },
+        include: {
+          landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+          tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+          listing: {
+            select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } },
+          },
+          messages: { take: 1, orderBy: { createdAt: 'desc' }, select: { id: true, content: true, createdAt: true, senderId: true } },
+        },
+      });
+    }
+
+    const conversations = [...legacyConvs, ...extraConvs];
+
+    const formatted = conversations.map((conv) => {
+      const isLandlord = (conv as any).landlordId === user.id;
+      const other = isLandlord ? (conv as any).tenant : (conv as any).landlord;
+      const unread = (conv.unreadCounts as any)?.[user.id] || 0;
+      const lastMessage = (conv.messages as any)[0] || null;
 
       return {
         id: conv.id,
         listingId: conv.listingId,
         listing: conv.listing,
-        participant: otherParticipant,
+        participant: other,
         subject: conv.subject,
         lastMessage: lastMessage
-          ? {
-              id: lastMessage.id,
-              content: lastMessage.content.substring(0, 100),
-              createdAt: lastMessage.createdAt,
-              isSentByMe: lastMessage.senderId === user.id,
-            }
+          ? { id: lastMessage.id, content: lastMessage.content.substring(0, 100), createdAt: lastMessage.createdAt, isSentByMe: lastMessage.senderId === user.id }
           : null,
         lastMessageAt: conv.lastMessageAt,
-        unreadCount,
+        unreadCount: unread,
         status: conv.status,
         createdAt: conv.createdAt,
         updatedAt: conv.updatedAt,
+        participants: conv.participants,
+        propertyId: conv.propertyId,
+        orgId: conv.orgId,
       };
     });
 
     return NextResponse.json({
       success: true,
-      data: formattedConversations,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-        hasNext: page * limit < total,
-        hasPrev: page > 1,
-      },
+      data: formatted,
+      pagination: { page, limit, total: formatted.length, totalPages: 1, hasNext: false, hasPrev: false },
     });
   } catch (error) {
     console.error('GET /api/conversations error:', error);
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid query parameters', details: error.errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid query parameters', details: error.errors }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-/**
- * POST /api/conversations
- * Create or get existing conversation between landlord and tenant about a listing
- * Idempotent: Returns existing conversation if already created
- */
+// --- CREATE ---
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -158,220 +133,61 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { listingId, participantId } = createConversationBodySchema.parse(body);
+    const validated = createBodySchema.parse(body);
 
-    // Verify listing exists
-    const listing = await prisma.listing.findUnique({
-      where: { id: listingId },
-      select: {
-        id: true,
-        ownerId: true,
-        title: true,
-        area: true,
-        state: true,
-        status: true,
-      },
-    });
+    if (!validated.participants.some((p) => p.userId === user.id)) {
+      return NextResponse.json({ error: 'You must be included as a participant' }, { status: 400 });
+    }
 
-    if (!listing) {
+    const listing = validated.listingId
+      ? await prisma.listing.findUnique({ where: { id: validated.listingId }, select: { id: true, title: true } })
+      : null;
+    if (validated.listingId && !listing) {
       return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
     }
 
-    if (listing.status === 'deleted') {
-      return NextResponse.json({ error: 'Listing is no longer available' }, { status: 400 });
-    }
+    const fallbackLandlord = validated.participants.find((p) => p.role === 'landlord')?.userId || null;
+    const fallbackTenant = validated.participants.find((p) => p.role === 'tenant')?.userId || null;
 
-    // Verify participant exists
-    const participant = await prisma.user.findUnique({
-      where: { id: participantId },
-      select: {
-        id: true,
-        role: true,
-        fullName: true,
-        isActive: true,
-        isBanned: true,
-      },
-    });
-
-    if (!participant) {
-      return NextResponse.json({ error: 'Participant not found' }, { status: 404 });
-    }
-
-    if (!participant.isActive || participant.isBanned) {
-      return NextResponse.json({ error: 'Participant account is not active' }, { status: 400 });
-    }
-
-    // Determine landlord and tenant based on listing owner and participant
-    let landlordId: string;
-    let tenantId: string;
-
-    if (listing.ownerId === user.id) {
-      // Current user is the landlord
-      landlordId = user.id;
-      tenantId = participantId;
-
-      // Validate participant is tenant
-      if (participant.role !== 'tenant') {
-        return NextResponse.json(
-          { error: 'Participant must be a tenant' },
-          { status: 400 }
-        );
-      }
-    } else if (listing.ownerId === participantId) {
-      // Current user is the tenant
-      landlordId = participantId;
-      tenantId = user.id;
-
-      // Validate current user is tenant
-      if (user.role !== 'tenant') {
-        return NextResponse.json(
-          { error: 'Only tenants can initiate conversations with landlords' },
-          { status: 403 }
-        );
-      }
-    } else {
-      // Neither user is the landlord
-      return NextResponse.json(
-        { error: 'Invalid conversation participants. One must be the listing owner.' },
-        { status: 400 }
-      );
-    }
-
-    // Check if conversation already exists (idempotent)
-    const existingConversation = await prisma.conversation.findUnique({
-      where: {
-        landlordId_tenantId_listingId: {
-          landlordId,
-          tenantId,
-          listingId,
-        },
-      },
-      include: {
-        landlord: {
-          select: {
-            id: true,
-            fullName: true,
-            avatarUrl: true,
-            role: true,
-          },
-        },
-        tenant: {
-          select: {
-            id: true,
-            fullName: true,
-            avatarUrl: true,
-            role: true,
-          },
-        },
-        listing: {
-          select: {
-            id: true,
-            title: true,
-            area: true,
-            state: true,
-            price: true,
-            listingType: true,
-            images: {
-              where: { isCover: true },
-              take: 1,
-              select: { url: true },
-            },
-          },
-        },
-      },
-    });
-
-    if (existingConversation) {
-      // If conversation was blocked or archived, reactivate it
-      if (existingConversation.status !== 'active') {
-        await prisma.conversation.update({
-          where: { id: existingConversation.id },
-          data: { status: 'active', updatedAt: new Date() },
-        });
-      }
-
-      return NextResponse.json({
-        success: true,
-        data: existingConversation,
-        message: 'Existing conversation retrieved',
-      });
-    }
-
-    // Create new conversation
-    const newConversation = await prisma.conversation.create({
+    const conversation = await prisma.conversation.create({
       data: {
-        listingId,
-        landlordId,
-        tenantId,
-        subject: `Inquiry about ${listing.title}`,
+        listingId: validated.listingId || null,
+        propertyId: validated.propertyId || null,
+        orgId: validated.orgId || null,
+        landlordId: fallbackLandlord,
+        tenantId: fallbackTenant,
+        participants: validated.participants,
+        subject: validated.subject || (listing ? `Inquiry about ${listing.title}` : 'New Conversation'),
         lastMessageAt: new Date(),
         status: 'active',
       },
       include: {
-        landlord: {
-          select: {
-            id: true,
-            fullName: true,
-            avatarUrl: true,
-            role: true,
-          },
-        },
-        tenant: {
-          select: {
-            id: true,
-            fullName: true,
-            avatarUrl: true,
-            role: true,
-          },
-        },
+        landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+        tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
         listing: {
-          select: {
-            id: true,
-            title: true,
-            area: true,
-            state: true,
-            price: true,
-            listingType: true,
-            images: {
-              where: { isCover: true },
-              take: 1,
-              select: { url: true },
-            },
-          },
+          select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } },
         },
       },
     });
 
-    // Create notification for the other participant
-    const recipientId = user.id === landlordId ? tenantId : landlordId;
-    await prisma.notification.create({
-      data: {
-        userId: recipientId,
-        type: 'message',
-        title: 'New Conversation',
-        body: `${user.fullName} started a conversation about ${listing.title}`,
-        data: {
-          conversationId: newConversation.id,
-          listingId,
-        },
-      },
-    });
+    const others = validated.participants.filter((p) => p.userId !== user.id);
+    if (others.length) {
+      await prisma.notification.createMany({
+        data: others.map((p) => ({
+          userId: p.userId,
+          type: 'message',
+          title: 'New Conversation',
+          body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as any).title}` : ''}`,
+          data: { conversationId: conversation.id, listingId: validated.listingId },
+        })),
+      });
+    }
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: newConversation,
-        message: 'Conversation created successfully',
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: conversation, message: 'Conversation created successfully' }, { status: 201 });
   } catch (error) {
     console.error('POST /api/conversations error:', error);
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid request body', details: error.errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid request body', details: error.errors }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

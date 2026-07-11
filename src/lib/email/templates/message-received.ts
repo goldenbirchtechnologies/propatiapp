@@ -59,7 +59,7 @@ export function renderMessageReceivedEmail(
       <div class="message-box">
         "${messagePreview}"
       </div>
-      <a href="${appUrl}/messages/${conversationId}" class="button">Read & Reply</a>
+      <a href="${appUrl}/dashboard/messages?conversationId=${conversationId}" class="button">Read & Reply</a>
       <p><small>To manage your notification preferences, visit your account settings.</small></p>
     </div>
     <div class="footer">
@@ -79,7 +79,7 @@ You have received a new message from ${senderName}${
 
 "${messagePreview}"
 
-Read & Reply: ${appUrl}/messages/${conversationId}
+Read & Reply: ${appUrl}/dashboard/messages?conversationId=${conversationId}
 
 To manage your notification preferences, visit your account settings.
 

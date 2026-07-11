@@ -493,16 +493,16 @@ export const apiEndpoints = {
     preview: (id: string) => api.get<any>(`/agreements/${id}/preview`),
   },
   messages: {
-    getConversations: (params?: PaginationParams) => api.get<PaginatedResponse<any>>('/messages', params),
-    createConversation: (data: any) => api.post<any>('/messages', data),
-    getMessages: (params: { conversationId: string; limit?: number } | MessageFilters) => {
+    getConversations: (params?: PaginationParams) => api.get<PaginatedResponse<any>>('/conversations', params),
+    createConversation: (data: any) => api.post<any>('/conversations', data),
+    getMessages: (params: { conversationId: string; limit?: number } | any) => {
       const conversationId = (params as { conversationId: string }).conversationId;
-      return api.get<any>(`/messages/${conversationId}`, params);
+      return api.get<any>(`/conversations/${conversationId}/messages`, params);
     },
-    sendMessage: (data: any) => api.post<any>('/messages', data),
-    markAsRead: (conversationId: string) => api.patch<any>(`/messages/${conversationId}`, { action: 'markRead' }),
-    archiveConversation: (conversationId: string) => api.patch<any>(`/messages/${conversationId}`, { action: 'archive' }),
-    blockConversation: (conversationId: string) => api.patch<any>(`/messages/${conversationId}`, { action: 'block' }),
+    sendMessage: (data: any) => api.post<any>('/conversations', data),
+    markAsRead: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, {}),
+    archiveConversation: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, { action: 'archive' }),
+    blockConversation: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, { action: 'block' }),
   },
   payments: {
     getTransactions: (params?: PaginationParams) => api.get<PaginatedResponse<any>>('/payments/transactions', params),

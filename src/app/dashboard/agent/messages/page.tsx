@@ -3,20 +3,14 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
-import AgentMessagesClient from './AgentMessagesClient';
+import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
 export default async function AgentMessagesPage() {
   const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-
-  if (!user || user.role !== 'agent') {
-    redirect('/dashboard');
-  }
+  if (!user || user.role !== 'agent') redirect('/dashboard');
 
   return (
     <DashboardShell
@@ -25,7 +19,7 @@ export default async function AgentMessagesPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AgentMessagesClient initialConversations={[]} />
+      <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
     </DashboardShell>
   );
 }

@@ -3,21 +3,14 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import { prisma } from '@/lib/prisma';
-import LandlordMessagesClient from './LandlordMessagesClient';
+import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
 export default async function LandlordMessagesPage() {
   const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-
-  if (!user || user.role !== 'landlord') {
-    redirect('/dashboard');
-  }
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
 
   return (
     <DashboardShell
@@ -26,7 +19,7 @@ export default async function LandlordMessagesPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <LandlordMessagesClient userId={user.id} userName={user.fullName} />
+      <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
     </DashboardShell>
   );
 }

@@ -813,25 +813,28 @@ model RentSchedule {
 model Conversation {
   id               String             @id @default(cuid()) @map("id") // 'cnv_' + 12 chars
   listingId        String?            @map("listing_id")
-  landlordId       String             @map("landlord_id")
-  tenantId         String             @map("tenant_id")
+  propertyId       String?            @map("property_id")
+  orgId            String?            @map("org_id")
+  landlordId       String?            @map("landlord_id")
+  tenantId         String?            @map("tenant_id")
+  participants     Json?              @default("[]")
   subject          String?
   lastMessage      String?            @map("last_message")
   lastMessageAt    DateTime?          @map("last_message_at")
-  unreadTenant     Int                @default(0) @map("unread_tenant")
-  unreadLandlord   Int                @default(0) @map("unread_landlord")
+  unreadCounts     Json?              @default("{}") @map("unread_counts")
   status           ConversationStatus @default(active)
   createdAt        DateTime           @default(now()) @map("created_at")
   updatedAt        DateTime           @updatedAt @map("updated_at")
 
   listing          Listing?           @relation(fields: [listingId], references: [id], onDelete: SetNull)
-  landlord         User               @relation("ConversationLandlord", fields: [landlordId], references: [id])
-  tenant           User               @relation("ConversationTenant", fields: [tenantId], references: [id])
+  landlord         User?              @relation("ConversationLandlord", fields: [landlordId], references: [id])
+  tenant           User?              @relation("ConversationTenant", fields: [tenantId], references: [id])
   messages         Message[]
 
-  @@unique([landlordId, tenantId, listingId])
+  @@index([listingId], map: "idx_conversations_listing")
   @@index([landlordId], map: "idx_conversations_landlord")
   @@index([tenantId], map: "idx_conversations_tenant")
+  @@index([orgId], map: "idx_conversations_org")
   @@map("conversations")
 }
 

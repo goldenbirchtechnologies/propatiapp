@@ -36,7 +36,7 @@ export function ContactLandlordButton({
   const handleClick = async () => {
     // If conversation exists, navigate to it
     if (existingConversationId) {
-      router.push(`/dashboard/${userRole}/messages/${existingConversationId}`);
+      router.push(`/dashboard/${userRole}/messages?conversationId=${existingConversationId}`);
       return;
     }
 
@@ -52,7 +52,7 @@ export function ContactLandlordButton({
       const conversationId = response.data?.id || response.id;
 
       if (conversationId) {
-        router.push(`/dashboard/${userRole}/messages/${conversationId}`);
+        router.push(`/dashboard/${userRole}/messages?conversationId=${conversationId}`);
       } else {
         throw new Error('Failed to create conversation');
       }

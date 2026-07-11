@@ -2,28 +2,24 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
-import { getNavigationForRole } from '@/lib/navigation';
-import ChatInitializer from './ChatInitializer';
+import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
+import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
-export default async function ChatPage({ params }: { params: Promise<{ role: string; id: string }> }) {
+export default async function EstateManagerMessagesPage() {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-  const { role, id } = await params;
-
-  if (!user || user.role !== role) redirect('/dashboard');
-
-  const navigation = getNavigationForRole(user.role);
+  if (!user || user.role !== 'estate_manager') redirect('/dashboard');
 
   return (
     <DashboardShell
-      navigation={navigation}
+      navigation={ESTATE_MANAGER_NAVIGATION}
       userRole={user.role}
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <ChatInitializer conversationId={id} />
+      <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
     </DashboardShell>
   );
 }

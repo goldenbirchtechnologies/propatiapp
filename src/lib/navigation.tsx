@@ -4,7 +4,7 @@ import {
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight
+  Landmark, CircleDollarSign, ChevronRight, BadgePercent
 } from 'lucide-react';
 
 export interface NavItem {
@@ -47,6 +47,7 @@ export const TENANT_NAVIGATION: NavItem[] = [
   { label: 'Find Property', href: '/dashboard/tenant/search', icon: <Search className="h-5 w-5" /> },
   { label: 'Rent & Payments', href: '/dashboard/tenant/payments', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Applications', href: '/dashboard/tenant/applications', icon: <Briefcase className="h-5 w-5" /> },
   { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Screening Calls', href: '/dashboard/tenant/screening', icon: <Phone className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
@@ -109,6 +110,7 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Agreements', href: '/dashboard/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
   { label: 'Billing', href: '/dashboard/estate-manager/billing', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Subscription', href: '/dashboard/estate-manager/subscription', icon: <BadgePercent className="h-5 w-5" /> },
   { label: 'Analytics', href: '/dashboard/estate-manager/analytics', icon: <ChartNoAxesCombined className="h-5 w-5" /> },
   { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Turnover', href: '/dashboard/estate-manager/turnover', icon: <Wrench className="h-5 w-5" /> },

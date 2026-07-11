@@ -1,121 +1,100 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
-import { updateScreeningSchema } from '@/lib/validators';
-import { ScreeningCallStatus } from '@prisma/client';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
+  const { user } = authResult;
 
   try {
-    const { user } = authResult;
-    const where: any = { id: params.id };
-
-    if (user.role === 'landlord') {
-      where.landlordId = user.id;
-    } else if (user.role === 'tenant') {
-      where.tenantId = user.id;
-    }
-
-    const call = await prisma.screeningCall.findFirst({
-      where,
+    const call = await prisma.screeningCall.findUnique({
+      where: { id: params.id },
       include: {
-        listing: { select: { id: true, title: true, address: true, price: true } },
+        listing: { select: { id: true, title: true, address: true } },
         landlord: { select: { id: true, fullName: true, email: true, phone: true } },
         tenant: { select: { id: true, fullName: true, email: true, phone: true } },
       },
     });
 
-    if (!call) {
-      return NextResponse.json({ error: 'Screening call not found' }, { status: 404 });
+    if (!call) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    if (user.role !== 'admin' && call.landlordId !== user.id && call.tenantId !== user.id) {
+      return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    return NextResponse.json(call);
+    return NextResponse.json({ success: true, data: call });
   } catch (error) {
-    console.error('Get screening-call error:', error);
+    console.error('screening-calls/[id] GET error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const authResult = await withAuth(request, ['tenant', 'landlord', 'admin']);
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+  const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
+  const { user } = authResult;
 
   try {
-    const body = await request.json();
-    const validated = updateScreeningSchema.parse(body);
-
     const existing = await prisma.screeningCall.findUnique({
       where: { id: params.id },
-      select: { id: true, landlordId: true, tenantId: true },
+      select: { id: true, landlordId: true, tenantId: true, status: true },
     });
 
-    if (!existing) {
-      return NextResponse.json({ error: 'Screening call not found' }, { status: 404 });
+    if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    if (user.role !== 'admin' && existing.landlordId !== user.id && existing.tenantId !== user.id) {
+      return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    const isOwner =
-      existing.landlordId === authResult.user.id || existing.tenantId === authResult.user.id;
-    if (!isOwner && authResult.user.role !== 'admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    const body = await request.json();
+    const allowedFields = ['status', 'notes', 'scheduledAt'] as const;
+    const patch: Record<string, unknown> = {};
+    for (const key of allowedFields) {
+      if (body[key] !== undefined) {
+        if (key === 'scheduledAt') {
+          patch[key] = new Date(body[key]);
+        } else {
+          patch[key] = body[key];
+        }
+      }
     }
 
-    const updateData: any = {};
-    if (validated.status) updateData.status = validated.status as ScreeningCallStatus;
-    if (validated.notes !== undefined) updateData.notes = validated.notes;
+    if (patch.status) {
+      const valid = ['scheduled', 'completed', 'cancelled', 'no_show'] as const;
+      if (!valid.includes(patch.status as (typeof valid)[number])) {
+        return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+      }
+    }
 
-    const call = await prisma.screeningCall.update({
+    const updated = await prisma.screeningCall.update({
       where: { id: params.id },
-      data: updateData,
+      data: patch,
       include: {
-        listing: { select: { id: true, title: true } },
+        listing: { select: { id: true, title: true, address: true } },
+        landlord: { select: { id: true, fullName: true } },
         tenant: { select: { id: true, fullName: true } },
       },
     });
 
-    return NextResponse.json(call);
+    return NextResponse.json({ success: true, data: updated });
   } catch (error) {
-    console.error('Patch screening-call error:', error);
-    if (error instanceof Error && error.name === 'ZodError') {
-      return NextResponse.json({ error: 'Invalid request', details: (error as any).issues }, { status: 400 });
-    }
+    console.error('screening-calls/[id] PATCH error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const authResult = await withAuth(request, ['landlord', 'admin']);
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
+  const { user } = authResult;
 
   try {
-    const existing = await prisma.screeningCall.findUnique({
-      where: { id: params.id },
-      select: { id: true, landlordId: true },
-    });
-
-    if (!existing) {
-      return NextResponse.json({ error: 'Screening call not found' }, { status: 404 });
-    }
-
-    if (existing.landlordId !== authResult.user.id && authResult.user.role !== 'admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
+    const existing = await prisma.screeningCall.findUnique({ where: { id: params.id }, select: { id: true } });
+    if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     await prisma.screeningCall.delete({ where: { id: params.id } });
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data: null });
   } catch (error) {
-    console.error('Delete screening-call error:', error);
+    console.error('screening-calls/[id] DELETE error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

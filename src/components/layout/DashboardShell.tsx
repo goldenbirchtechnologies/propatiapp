@@ -540,11 +540,22 @@ export function DashboardShell({
           borderRight: '1px solid hsl(var(--primary-container) / 0.3)',
         }}
       >
+        <style>{`
+          @keyframes propLogoPop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+          }
+        `}</style>
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
           <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="text-xl font-display font-black tracking-tight" style={{ color: 'hsl(var(--secondary-container) / 1)' }}>
-              PROPATI
-            </span>
+            <img
+              src="/brand/propati-logo.png"
+              alt="PROPATI"
+              width="32"
+              height="32"
+              className="rounded-full"
+              style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }}
+            />
             {!sidebarCollapsed && (
               <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'hsl(0 0% 100% / 0.7)' }}>
                 Dashboard

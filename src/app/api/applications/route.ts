@@ -1,8 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
-import { createApplicationSchema, applicationFiltersSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+
+const listQuery = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().max(100).default(20),
+  status: z.enum(['pending', 'under_review', 'accepted', 'rejected', 'withdrawn']).optional(),
+  listingId: z.string().optional(),
+});
+
+const createBody = z.object({
+  listingId: z.string().min(1),
+  message: z.string().optional(),
+});
 
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request);
@@ -12,10 +23,10 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const params = Object.fromEntries(searchParams.entries());
-    const { page, limit, status, listingId } = applicationFiltersSchema.parse(params);
+    const { page, limit, status, listingId } = listQuery.parse(params);
 
     const skip = (page - 1) * limit;
-
+    const take = limit;
     const where: Record<string, unknown> = {};
 
     if (user.role === 'tenant') {
@@ -34,7 +45,7 @@ export async function GET(request: NextRequest) {
         where,
         orderBy: { createdAt: 'desc' },
         skip,
-        take: limit,
+        take,
         include: {
           listing: {
             select: {
@@ -49,51 +60,30 @@ export async function GET(request: NextRequest) {
               images: { where: { isCover: true }, take: 1, select: { url: true } },
             },
           },
-          tenant: {
-            select: {
-              id: true,
-              fullName: true,
-              email: true,
-              phone: true,
-              avatarUrl: true,
-              employmentStatus: true,
-              employerName: true,
-              jobTitle: true,
-              yearlyIncome: true,
-              profileBio: true,
-              idVerified: true,
-              ninVerified: true,
-            },
-          },
-          landlord: {
-            select: {
-              id: true,
-              fullName: true,
-              email: true,
-              avatarUrl: true,
-            },
-          },
+          landlord: { select: { id: true, fullName: true, email: true } },
+          tenant: { select: { id: true, fullName: true, email: true } },
         },
       }),
       prisma.application.count({ where }),
     ]);
 
+    const serialized = applications.map((app) => ({
+      ...app,
+      listing: {
+        ...app.listing,
+        price: app.listing.price.toString(),
+      },
+    }));
+
     return NextResponse.json({
       success: true,
-      data: applications,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-        hasNext: page * limit < total,
-        hasPrev: page > 1,
-      },
+      data: serialized,
+      pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
     });
   } catch (error) {
-    console.error('Applications GET error:', error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Invalid query parameters', details: error.errors }, { status: 400 });
+    console.error('applications GET error:', error);
+    if (error instanceof Error && error.name === 'ZodError') {
+      return NextResponse.json({ error: 'Invalid query parameters' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -106,39 +96,29 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { listingId, message } = createApplicationSchema.parse(body);
+    const { listingId, message } = createBody.parse(body);
 
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
-      select: { id: true, ownerId: true, title: true, status: true },
+      select: { id: true, ownerId: true, status: true, title: true },
     });
 
-    if (!listing) {
-      return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
-    }
+    if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
+    if (listing.status !== 'active') return NextResponse.json({ error: 'Listing not available' }, { status: 400 });
 
-    if (listing.status !== 'active') {
-      return NextResponse.json({ error: 'Listing is not active' }, { status: 400 });
-    }
-
-    if (listing.ownerId === user.id) {
-      return NextResponse.json({ error: 'Cannot apply to your own listing' }, { status: 400 });
-    }
-
+    const resolvedTenantId = user.role === 'tenant' ? user.id : user.id;
     const existing = await prisma.application.findFirst({
-      where: { listingId, tenantId: user.id, status: { notIn: ['withdrawn', 'rejected'] } },
+      where: { listingId, tenantId: resolvedTenantId, status: { not: 'withdrawn' } },
+      select: { id: true },
     });
-
-    if (existing) {
-      return NextResponse.json({ error: 'You have already applied to this listing' }, { status: 409 });
-    }
+    if (existing) return NextResponse.json({ error: 'Application already exists' }, { status: 409 });
 
     const application = await prisma.application.create({
       data: {
         listingId,
-        tenantId: user.id,
+        tenantId: resolvedTenantId,
         landlordId: listing.ownerId,
-        message,
+        message: message || null,
         status: 'pending',
       },
       include: {
@@ -146,29 +126,34 @@ export async function POST(request: NextRequest) {
           select: {
             id: true,
             title: true,
-            area: true,
-            state: true,
+            address: true,
+            price: true,
+            pricePeriod: true,
             images: { where: { isCover: true }, take: 1, select: { url: true } },
           },
         },
+        tenant: { select: { id: true, fullName: true, email: true, avatarUrl: true } },
+        landlord: { select: { id: true, fullName: true, email: true } },
       },
     });
 
-    await prisma.notification.create({
-      data: {
-        userId: listing.ownerId,
-        type: 'screening',
-        title: 'New Rental Application',
-        body: `${user.fullName} has applied for ${listing.title}`,
-        data: { applicationId: application.id, listingId },
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          ...application,
+          listing: {
+            ...application.listing,
+            price: application.listing.price.toString(),
+          },
+        },
       },
-    });
-
-    return NextResponse.json({ success: true, data: application }, { status: 201 });
+      { status: 201 }
+    );
   } catch (error) {
-    console.error('Applications POST error:', error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Invalid request body', details: error.errors }, { status: 400 });
+    console.error('applications POST error:', error);
+    if (error instanceof Error && error.name === 'ZodError') {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

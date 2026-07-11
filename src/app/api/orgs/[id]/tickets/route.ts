@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { createMaintenanceTicketSchema, updateMaintenanceTicketSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { notificationService } from '@/lib/notification-service';
 
 const ticketFilterSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
@@ -198,6 +199,24 @@ export async function POST(
     });
 
     // TODO: Send notification to assigned user and org managers
+    const managerIds = await prisma.orgMember.findMany({
+      where: { orgId, role: { in: ['manager', 'maintenance'] } },
+      select: { userId: true },
+    });
+
+    const notifyUserIds = [validated.assignedTo, ...(managerIds || []).map((m) => m.userId)].filter(Boolean) as string[];
+
+    if (notifyUserIds.length > 0) {
+      notificationService.notifyUsersForEvent({
+        userIds: notifyUserIds,
+        type: 'maintenance',
+        title: 'Maintenance Ticket Created',
+        message: `A maintenance ticket has been raised for ${ticket.listing.title || 'a property'}. Priority: ${validated.priority}.`,
+        actionUrl: `/dashboard/orgs/${orgId}/tickets/${ticket.id}`,
+        metadata: { ticketId: ticket.id, listingId: ticket.listingId },
+        channels: ['inapp'],
+      }).catch(() => undefined);
+    }
 
     return NextResponse.json({ success: true, data: ticket }, { status: 201 });
   } catch (error) {

@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { signAgreementSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { AgreementStatus } from '@prisma/client';
+import { notificationService } from '@/lib/notification-service';
 import crypto from 'crypto';
 
 export async function POST(
@@ -115,16 +116,16 @@ export async function POST(
     // If fully signed, notify all parties and generate PDF + rent schedule
     if (newStatus === 'fully_signed') {
       for (const notifyUser of [agreement.landlord, agreement.tenant, agreement.agent].filter(
-        (p): p is { id: string; fullName: string; email: string } => p !== null
+        (p): p is { id: string; fullName: string } => p !== null
       )) {
-        await prisma.notification.create({
-          data: {
-            userId: notifyUser.id,
-            type: 'agreement',
-            title: 'Agreement Fully Signed',
-            body: `The agreement for ${agreement.listing.title} is now fully signed by all parties.`,
-            data: { agreementId: id, status: 'fully_signed' },
-          },
+        await notificationService.notifyUsersForEvent({
+          userIds: [notifyUser.id],
+          type: 'agreement',
+          title: 'Agreement Fully Signed',
+          message: `The agreement for ${agreement.listing.title} is now fully signed by all parties.`,
+          actionUrl: `/dashboard/agreements/${id}`,
+          metadata: { agreementId: id, status: 'fully_signed' },
+          channels: ['inapp'],
         });
       }
 

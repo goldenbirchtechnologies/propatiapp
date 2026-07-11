@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
+import { notificationService } from '@/lib/notification-service';
 
 /**
  * GET /api/payments/verify/[reference]
@@ -76,16 +77,16 @@ export async function GET(
         },
       });
 
-      // Create notification for payer
-      await prisma.notification.create({
-        data: {
-          userId: transaction.payerId,
-          type: 'payment',
-          title: 'Payment Verification Failed',
-          body: `Payment verification failed: ${paystackResponse.data.gateway_response || 'Unknown error'}`,
-          data: { transactionId: transaction.id, reference },
-        },
-      });
+      // Notify payer about failed verification
+      notificationService.notifyUsersForEvent({
+        userIds: [transaction.payerId],
+        type: 'payment',
+        title: 'Payment Verification Failed',
+        message: `Payment verification failed: ${paystackResponse.data.gateway_response || 'Unknown error'}`,
+        actionUrl: `/dashboard/transactions?id=${transaction.id}`,
+        metadata: { transactionId: transaction.id, reference, status: 'failed' },
+        channels: ['inapp'],
+      }).catch(() => undefined);
 
       return NextResponse.json(
         {
@@ -115,36 +116,36 @@ export async function GET(
     });
 
     // Create notifications
-    await prisma.notification.create({
-      data: {
-        userId: transaction.payerId,
-        type: 'payment',
-        title: 'Payment Verified',
-        body: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing?.title || 'property'} has been verified and is held in escrow.`,
-        data: { transactionId: transaction.id, reference },
-      },
-    });
+    notificationService.notifyUsersForEvent({
+      userIds: [transaction.payerId],
+      type: 'payment',
+      title: 'Payment Verified',
+      message: `Your payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} for ${transaction.listing?.title || 'property'} has been verified and is held in escrow.`,
+      actionUrl: `/dashboard/transactions?id=${transaction.id}`,
+      metadata: { transactionId: transaction.id, reference, status: 'in_escrow' },
+      channels: ['inapp'],
+    }).catch(() => undefined);
 
-    await prisma.notification.create({
-      data: {
-        userId: transaction.payeeId,
-        type: 'payment',
-        title: 'Payment Received in Escrow',
-        body: `₦${(Number(transaction.amount) / 100).toLocaleString()} has been paid for ${transaction.listing?.title || 'property'} and is held in escrow awaiting release.`,
-        data: { transactionId: transaction.id, reference },
-      },
-    });
+    notificationService.notifyUsersForEvent({
+      userIds: [transaction.payeeId],
+      type: 'payment',
+      title: 'Payment Received in Escrow',
+      message: `₦${(Number(transaction.amount) / 100).toLocaleString()} has been paid for ${transaction.listing?.title || 'property'} and is held in escrow awaiting release.`,
+      actionUrl: `/dashboard/transactions?id=${transaction.id}`,
+      metadata: { transactionId: transaction.id, reference, status: 'in_escrow' },
+      channels: ['inapp'],
+    }).catch(() => undefined);
 
     if (transaction.agentId) {
-      await prisma.notification.create({
-        data: {
-          userId: transaction.agentId,
-          type: 'payment',
-          title: 'Commission Pending',
-          body: `A payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} has been verified for ${transaction.listing?.title || 'property'}. Your commission will be released upon escrow completion.`,
-          data: { transactionId: transaction.id, reference },
-        },
-      });
+      notificationService.notifyUsersForEvent({
+        userIds: [transaction.agentId],
+        type: 'payment',
+        title: 'Commission Pending',
+        message: `A payment of ₦${(Number(transaction.amount) / 100).toLocaleString()} has been verified for ${transaction.listing?.title || 'property'}. Your commission will be released upon escrow completion.`,
+        actionUrl: `/dashboard/transactions?id=${transaction.id}`,
+        metadata: { transactionId: transaction.id, reference, status: 'in_escrow' },
+        channels: ['inapp'],
+      }).catch(() => undefined);
     }
 
     console.log(`Transaction ${reference} moved to IN_ESCROW`);

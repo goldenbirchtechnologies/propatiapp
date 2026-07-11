@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { paginationSchema, createAgreementSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
-import { AgreementStatus, UserRole } from '@prisma/client';
+import { AgreementStatus } from '@prisma/client';
+import { notificationService } from '@/lib/notification-service';
 import { z } from 'zod';
 
 export async function GET(request: NextRequest) {
@@ -152,15 +153,15 @@ export async function POST(request: NextRequest) {
     });
 
     // Create notification for tenant
-    await prisma.notification.create({
-      data: {
-        userId: validated.tenantId,
-        type: 'agreement',
-        title: 'New Agreement Draft',
-        body: `A new ${validated.type} agreement for ${agreement.listing.title} has been created and is ready for your review.`,
-        data: { agreementId: agreement.id },
-      },
-    });
+    notificationService.notifyUsersForEvent({
+      userIds: [validated.tenantId],
+      type: 'agreement',
+      title: 'New Agreement Draft',
+      message: `A new ${validated.type} agreement for ${agreement.listing.title} has been created and is ready for your review.`,
+      actionUrl: `/dashboard/agreements/${agreement.id}`,
+      metadata: { agreementId: agreement.id },
+      channels: ['inapp'],
+    }).catch(() => undefined);
 
     return NextResponse.json({ success: true, data: agreement }, { status: 201 });
   } catch (error) {

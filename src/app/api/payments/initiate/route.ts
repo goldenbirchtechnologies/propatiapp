@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import { computeFees } from '@/lib/fees';
 import { TransactionType } from '@prisma/client';
+import { notificationService } from '@/lib/notification-service';
 import { randomBytes } from 'crypto';
 
 /**
@@ -164,6 +165,17 @@ export async function POST(request: NextRequest) {
     });
 
     // Log initiation
+    // Notify payee and agent about pending payment
+    notificationService.notifyUsersForEvent({
+      userIds: [transaction.payeeId, ...(transaction.agentId ? [transaction.agentId] : [])].filter(Boolean),
+      type: 'payment',
+      title: 'Payment Initiated',
+      message: `A payment of ₦${(amountKobo / 100).toLocaleString('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 })} has been initiated for ${listing.title}.`,
+      actionUrl: `/dashboard/transactions?reference=${reference}`,
+      metadata: { transactionId: transaction.id, reference, listingId: listing.id },
+      channels: ['inapp'],
+    }).catch(() => undefined);
+
     console.log(`Payment initiated: ${reference} for user ${user.id} - ₦${(amountKobo / 100).toLocaleString()}`);
 
     return NextResponse.json(

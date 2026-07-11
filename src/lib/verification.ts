@@ -2,6 +2,7 @@ import { prisma } from './prisma';
 import { VerificationLayerStatus, VerificationOverallStatus, VerificationTier, IdType } from '@prisma/client';
 import { sendEmail, emailTemplates } from './email';
 import { getVerificationTierFromProgress } from './verification-helpers';
+import { notificationService } from './notification-service';
 
 export type VerificationLayer = 1 | 2 | 3 | 4 | 5;
 export type LayerAction = 'submit' | 'approve' | 'reject' | 'confirm' | 'schedule' | 'complete';
@@ -535,12 +536,15 @@ export class VerificationService {
   }
 
   private static async notifyAdmins(event: string, data: Record<string, unknown>) {
-    const admins = await prisma.user.findMany({
-      where: { role: 'admin', isActive: true },
+    const admins = await prisma.user.findMany({ where: { role: 'admin', isActive: true } });
+    await notificationService.notifyUsersForEvent({
+      userIds: admins.map((admin) => admin.id),
+      type: 'verification',
+      title: event.replace('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      message: `Verification event: ${event}`,
+      metadata: data,
+      channels: ['inapp'],
     });
-
-    // Could send emails or create notifications
-    console.log(`Admin notification: ${event}`, data);
   }
 }
 

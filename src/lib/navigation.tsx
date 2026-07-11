@@ -88,6 +88,7 @@ export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Flagged Listings', href: '/dashboard/admin/flags', icon: <Flag className="h-5 w-5" /> },
   { label: 'Users', href: '/dashboard/admin/users', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/admin/agreements', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Payments', href: '/dashboard/admin/payments', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Disputes', href: '/dashboard/admin/disputes', icon: <Gavel className="h-5 w-5" /> },
   { label: 'Properties', href: '/dashboard/admin/properties', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Reports', href: '/dashboard/admin/reports', icon: <FileText className="h-5 w-5" /> },

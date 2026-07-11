@@ -1,0 +1,295 @@
+'use client';
+
+import { useState } from 'react';
+import { useConversations, useSendMessage, useMarkAsRead, useConversation } from '@/hooks/useMessages';
+import { useCurrentUser } from '@/hooks/useUsers';
+import { cn } from '@/lib/utils';
+import { MessageSquare, Send, Paperclip, Mic, ChevronLeft, MoreVertical, Search, Bell, User, Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+interface LandlordMessagesClientProps {
+  userId: string;
+  userName: string;
+}
+
+export default function LandlordMessagesClient({ userId, userName }: LandlordMessagesClientProps) {
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [newMessage, setNewMessage] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const { data: currentUser } = useCurrentUser();
+  const { data: conversationsData, isLoading: conversationsLoading } = useConversations({ limit: 20 });
+  const { data: conversationData, isLoading: messagesLoading } = useConversation(selectedConversationId || '', !!selectedConversationId);
+  const sendMessageMutation = useSendMessage(selectedConversationId || '');
+  const markAsReadMutation = useMarkAsRead();
+
+  const conversations = conversationsData?.data || [];
+  const messages = conversationData?.data || [];
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !selectedConversationId) return;
+    sendMessageMutation.mutate({ content: newMessage.trim() });
+    setNewMessage('');
+  };
+
+  const filteredConversations = conversations.filter(c =>
+    c.otherParty?.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    c.listing?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="h-[calc(100vh-8rem)] flex overflow-hidden">
+      {/* Conversations List */}
+      <div className="w-full md:w-96 lg:w-[380px] flex flex-col border-r border-border">
+        {/* Search */}
+        <div className="p-4 border-b border-border">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search conversations..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+        </div>
+
+        {/* Conversations */}
+        <ScrollArea className="flex-1 overflow-y-auto">
+          <div className="p-2 space-y-1">
+            {conversationsLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <ConversationSkeleton key={i} />
+              ))
+            ) : filteredConversations.length === 0 ? (
+              <div className="p-8 text-center text-muted-foreground">
+                <MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">No conversations yet</p>
+                <p className="text-xs mt-1">Start a conversation from a property listing</p>
+              </div>
+            ) : (
+              filteredConversations.map((conversation) => (
+                <ConversationItem
+                  key={conversation.id}
+                  conversation={conversation}
+                  isActive={selectedConversationId === conversation.id}
+                  onClick={() => {
+                    setSelectedConversationId(conversation.id);
+                    if (conversation.unreadCount > 0) {
+                      markAsReadMutation.mutate(conversation.id);
+                    }
+                  }}
+                />
+              ))
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+
+      {/* Message Thread */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {selectedConversationId ? (
+          <>
+            {/* Thread Header */}
+            <div className="flex items-center gap-3 p-4 border-b border-border">
+              <div className="flex items-center gap-3">
+                {conversationData?.data[0]?.sender?.avatarUrl ? (
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={conversationData.data[0].sender.avatarUrl} />
+                    <AvatarFallback>{conversationData.data[0].sender.fullName.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <Avatar className="w-10 h-10">
+                    <AvatarFallback>{conversationData?.data[0]?.sender?.fullName?.charAt(0) || 'U'}</AvatarFallback>
+                  </Avatar>
+                )}
+                <div>
+                  <p className="font-medium text-foreground">
+                    {conversationData?.data[0]?.sender?.fullName || 'Loading...'}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {conversationData?.data[0]?.listing?.title || 'General inquiry'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex-1" />
+              <Button variant="ghost" size="icon"><Bell className="w-5 h-5" /></Button>
+              <Button variant="ghost" size="icon"><MoreVertical className="w-5 h-5" /></Button>
+            </div>
+
+            {/* Messages */}
+            <ScrollArea className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex flex-col-reverse">
+                {messagesLoading ? (
+                  Array.from({ length: 3 }).map((_, i) => (
+                    <MessageSkeleton key={i} />
+                  ))
+                ) : messages.length === 0 ? (
+                  <div className="flex justify-center items-center h-64 text-muted-foreground">
+                    <p>No messages yet. Start the conversation!</p>
+                  </div>
+                ) : (
+                  messages.slice().reverse().map((message) => (
+                    <MessageBubble
+                      key={message.id}
+                      message={message}
+                      isOwn={message.senderId === currentUser?.id}
+                    />
+                  ))
+                )}
+              </div>
+            </ScrollArea>
+
+            {/* Send Message */}
+            <form onSubmit={handleSendMessage} className="p-4 border-t border-border">
+              <div className="flex items-end gap-2">
+                <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                  <Paperclip className="w-5 h-5" />
+                </Button>
+                <div className="flex-1 relative">
+                  <textarea
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type a message..."
+                    className="inp-field pr-12 min-h-[44px] max-h-[120px] resize-none"
+                    rows={1}
+                    style={{ paddingRight: '80px' }}
+                  />
+                  <div className="absolute right-2 bottom-2 flex items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Mic className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={!newMessage.trim() || sendMessageMutation.isPending}
+                      size="icon"
+                      className="h-8 w-8"
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </>
+        ) : (
+          {/* Empty State */}
+          <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
+            <MessageSquare className="w-24 h-24 mb-4 opacity-30" />
+            <h3 className="font-heading font-bold text-lg mb-2 text-foreground">Select a conversation</h3>
+            <p className="text-sm">Choose a conversation from the list to start messaging</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ConversationItem({ conversation, isActive, onClick }: { conversation: any; isActive: boolean; onClick: () => void }) {
+  const lastMessage = conversation.lastMessage;
+  const otherParty = conversation.otherParty;
+
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'w-full flex items-start gap-3 p-3 rounded-lg text-left transition-colors',
+        isActive ? 'bg-accent/10' : 'hover:bg-muted/50'
+      )}
+    >
+      <Avatar className="w-10 h-10 flex-shrink-0">
+        {otherParty?.avatarUrl ? (
+          <AvatarImage src={otherParty.avatarUrl} alt={otherParty.fullName} />
+        ) : (
+          <AvatarFallback>{otherParty?.fullName?.charAt(0) || 'U'}</AvatarFallback>
+        )}
+      </Avatar>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between">
+          <p className="font-medium truncate text-foreground">{otherParty?.fullName || 'Unknown'}</p>
+          <span className="text-xs text-muted-foreground flex-shrink-0 ml-2">{lastMessage ? new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+        </div>
+        <div className="flex items-center justify-between mt-1">
+          <p className="text-sm truncate text-muted-foreground">
+            {lastMessage?.content || 'No messages yet'}
+          </p>
+          {conversation.unreadCount > 0 && (
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex-shrink-0 ml-2">
+              {conversation.unreadCount > 9 ? '9+' : conversation.unreadCount}
+            </span>
+          )}
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function MessageBubble({ message, isOwn }: { message: any; isOwn: boolean }) {
+  return (
+    <div className={cn('flex gap-3', isOwn ? 'flex-row-reverse' : '')}>
+      {!isOwn && (
+        <Avatar className="w-8 h-8 flex-shrink-0">
+          {message.sender?.avatarUrl ? (
+            <AvatarImage src={message.sender.avatarUrl} alt={message.sender.fullName} />
+          ) : (
+            <AvatarFallback>{message.sender?.fullName?.charAt(0) || 'U'}</AvatarFallback>
+          )}
+        </Avatar>
+      )}
+      <div className={cn('max-w-[70%]', isOwn ? 'text-right' : '')}>
+        <div
+          className={cn(
+            'inline-block px-4 py-2 rounded-2xl text-sm',
+            isOwn
+              ? 'bg-primary text-primary-foreground rounded-tr-none'
+              : 'bg-muted rounded-tl-none'
+          )}
+        >
+          <p>{message.content}</p>
+        </div>
+        <div className={cn('flex items-center gap-1 mt-1 text-xs', isOwn ? 'justify-end' : '')}>
+          <span className="text-muted-foreground">
+            {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
+          {isOwn && message.isRead && <Check className="w-3 h-3 text-primary" />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConversationSkeleton() {
+  return (
+    <div className="animate-pulse p-3">
+      <div className="flex gap-3">
+        <div className="w-10 h-10 rounded-full bg-muted" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 w-3/4 bg-muted rounded" />
+          <div className="h-3 w-1/2 bg-muted rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MessageSkeleton() {
+  return (
+    <div className="animate-pulse flex gap-3">
+      <div className="w-8 h-8 rounded-full bg-muted" />
+      <div className="max-w-[70%]">
+        <div className="h-6 w-3/4 bg-muted rounded-2xl" />
+        <div className="h-4 w-1/4 bg-muted rounded mt-1" />
+      </div>
+    </div>
+  );
+}

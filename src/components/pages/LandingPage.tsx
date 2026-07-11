@@ -12,7 +12,7 @@ export function LandingPage() {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.08); }
         }
-      ` }} />
+      ` }}></style>
       <div className="min-h-screen theme-landing">
       {/* Header */}
       <header className="sticky top-0 z-50" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>

@@ -6,14 +6,21 @@ import { SignInButton, SignUpButton } from '@clerk/nextjs';
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen theme-landing">
+    <>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes propLogoPop {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.08); }
+        }
+      ` }} />
+      <div className="min-h-screen theme-landing">
       {/* Header */}
       <header className="sticky top-0 z-50" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ height: '64px' }}>
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <NextImage src="/brand/propati-logo-512.png" alt="PROPATI" width={38} height={38} priority />
+              <NextImage src="/brand/propati-logo.png" alt="PROPATI" width={38} height={38} priority style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
               <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--accent)' }}>
                 PROPATI
               </span>
@@ -204,7 +211,7 @@ export function LandingPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <Link href="/" className="flex items-center gap-2 mb-4">
-                <NextImage src="/brand/propati-logo-512.png" alt="PROPATI" width={28} height={28} />
+                <NextImage src="/brand/propati-logo.png" alt="PROPATI" width={28} height={28} />
                 <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>PROPATI</span>
               </Link>
               <p className="text-sm" style={{ color: 'var(--muted)', lineHeight: 1.6 }}>

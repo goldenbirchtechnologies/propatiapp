@@ -474,6 +474,8 @@ model User {
   assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
   sentAgentInvites      AgentInvite[]  @relation("AgentInviteSender")
   receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
+  sentInvoices          Invoice[]      @relation("InvoiceLandlord")
+  receivedInvoices      Invoice[]      @relation("InvoiceTenant")
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -575,8 +577,10 @@ model Listing {
   serviceCharges       ServiceCharge[]
   documents           Document[]
   turnoverTasks       TurnoverTask[]
+  invoices            Invoice[]
 
   @@index([ownerId], map: "idx_listings_owner")
+  @@index([title], map: "idx_listings_title")
   @@index([status], map: "idx_listings_status")
   @@index([listingType], map: "idx_listings_type")
   @@index([area], map: "idx_listings_area")
@@ -774,6 +778,7 @@ model Agreement {
   transactions        Transaction[]    @relation("TransactionAgreements")
   rentSchedule        RentSchedule[]
   stampDuty           StampDuty?
+  invoices            Invoice[]
 
   @@map("agreements")
 }
@@ -1360,6 +1365,14 @@ enum InvoiceStatus {
   cancelled
 }
 
+enum InvoiceType {
+  rent
+  service
+  utility
+  agreement
+  other
+}
+
 enum UtilityType {
   electricity
   water
@@ -1806,4 +1819,35 @@ model AgentInvite {
   @@index([email], map: "idx_agent_invites_email")
   @@index([status], map: "idx_agent_invites_status")
   @@map("agent_invites")
+}
+model Invoice {
+  id             String        @id @default(cuid()) @map("id") // 'inv_' + 12 chars
+  invoiceNumber  String        @unique @map("invoice_number")
+  landlordId     String        @map("landlord_id")
+  tenantId       String?       @map("tenant_id")
+  listingId      String?       @map("listing_id")
+  agreementId    String?       @unique @map("agreement_id")
+  type           InvoiceType   @default(rent) @map("type")
+  amount         Decimal       @db.Decimal(14, 2)
+  currency       String        @default("NGN")
+  status         InvoiceStatus @default(draft) @map("status")
+  dueDate        DateTime      @map("due_date")
+  paidAt         DateTime?     @map("paid_at")
+  items          Json          @default("[]")
+  notes          String?
+  pdfUrl         String?       @map("pdf_url")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  landlord       User          @relation("InvoiceLandlord", fields: [landlordId], references: [id])
+  tenant         User?         @relation("InvoiceTenant", fields: [tenantId], references: [id])
+  listing        Listing?      @relation(fields: [listingId], references: [id])
+  agreement      Agreement?    @relation(fields: [agreementId], references: [id])
+
+  @@index([landlordId], map: "idx_invoices_landlord")
+  @@index([tenantId], map: "idx_invoices_tenant")
+  @@index([listingId], map: "idx_invoices_listing")
+  @@index([status], map: "idx_invoices_status")
+  @@index([dueDate], map: "idx_invoices_due_date")
+  @@map("invoices")
 }

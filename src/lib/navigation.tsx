@@ -38,6 +38,7 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'Revenue Forecast', href: '/dashboard/landlord/revenue-forecast', icon: <TrendingUp className="h-5 w-5" /> },
   { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
   { label: 'Overdue Payments', href: '/dashboard/landlord/financials/overdue', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <FileText className="h-5 w-5" /> },
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [
@@ -50,6 +51,7 @@ export const TENANT_NAVIGATION: NavItem[] = [
   { label: 'Screening Calls', href: '/dashboard/tenant/screening', icon: <Phone className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
   { label: 'Receipts', href: '/dashboard/tenant/receipts', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Invoices', href: '/dashboard/tenant/invoices', icon: <FileText className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/tenant/messages', icon: <MessageSquare className="h-5 w-5" /> },
   { label: 'Overdue Payments', href: '/dashboard/tenant/payments/overdue', icon: <Receipt className="h-5 w-5" /> },
 ];

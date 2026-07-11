@@ -75,10 +75,9 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
                     <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
                     <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>{new Date(r.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                     <td className="p-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <button className="p-2 rounded-md hover:bg-muted/50"><Eye className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                        <button className="p-2 rounded-md hover:bg-muted/50"><Download className="w-4 h-4" style={{ color: 'var(--muted)' }} /></button>
-                      </div>
+                      <a href={`/api/payments/transactions/${r.id}/receipt`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover:bg-muted/50 inline-flex items-center justify-center">
+                        <Download className="w-4 h-4" style={{ color: 'var(--muted)' }} />
+                      </a>
                     </td>
                   </tr>
                 );

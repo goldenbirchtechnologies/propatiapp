@@ -582,4 +582,13 @@ export const apiEndpoints = {
     accept: (id: string) => api.post<any>(`/agent-invites/${id}/accept`, {}),
     revoke: (id: string) => api.post<any>(`/agent-invites/${id}/revoke`, {}),
   },
+  invoices: {
+    list: (params?: PaginationParams) => api.get<PaginatedResponse<any>>('/invoices', params),
+    getById: (id: string) => api.get<any>(`/invoices/${id}`),
+    create: (data: any) => api.post<any>('/invoices', data),
+    update: (id: string, data: any) => api.patch<any>(`/invoices/${id}`, data),
+    send: (id: string) => api.post<any>(`/invoices/${id}/send`, {}),
+    markPaid: (id: string) => api.post<any>(`/invoices/${id}/mark-paid`, {}),
+    receipt: (id: string) => api.get<any>(`/invoices/${id}/receipt`),
+  },
 };

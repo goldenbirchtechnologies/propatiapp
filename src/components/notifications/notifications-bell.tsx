@@ -98,9 +98,19 @@ export function NotificationsBell({
     // Listen to visibility changes
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
+    // Listen to dropdown custom events
+    const handleDropdownToggle = (event: Event) => {
+      const detail = (event as CustomEvent<{ isOpen: boolean }>).detail;
+      if (detail?.isOpen === false) {
+        void fetchUnreadCount();
+      }
+    };
+    window.addEventListener('notifications:dropdown:toggled', handleDropdownToggle);
+
     return () => {
       stopPolling();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('notifications:dropdown:toggled', handleDropdownToggle);
     };
   }, [fetchUnreadCount]);
 

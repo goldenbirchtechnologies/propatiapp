@@ -44,10 +44,21 @@ export function NotificationsDropdown({
     }
   };
 
+  const handleRefresh = async () => {
+    await fetchNotifications();
+  };
+
   // Fetch on open
   useEffect(() => {
     if (isOpen) {
       fetchNotifications();
+    }
+  }, [isOpen]);
+
+  // Notify bell when dropdown opens/closes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('notifications:dropdown:toggled', { detail: { isOpen } }));
     }
   }, [isOpen]);
 
@@ -152,13 +163,25 @@ export function NotificationsDropdown({
             </span>
           )}
         </div>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-          aria-label="Close notifications"
-        >
-          <X className="w-4 h-4 text-gray-500" />
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={handleRefresh}
+            disabled={loading || markingAll}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            aria-label="Refresh notifications"
+          >
+            <svg className={`w-4 h-4 text-gray-500 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
+            </svg>
+          </button>
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            aria-label="Close notifications"
+          >
+            <X className="w-4 h-4 text-gray-500" />
+          </button>
+        </div>
       </div>
 
       {/* Content */}

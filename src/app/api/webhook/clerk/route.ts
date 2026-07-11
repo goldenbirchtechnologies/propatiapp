@@ -113,7 +113,7 @@ async function handleUserCreated(data: UserJSON) {
   const idVerified = (unsafeMeta.idVerified as boolean) || false;
   const profileCompleted = (unsafeMeta.profileCompleted as boolean) || false;
   const agentTier = (unsafeMeta.agentTier as AgentTier) || 'standard';
-  const agentApproved = (unsafeMeta.agentApproved as boolean) || false;
+  const agentApproved = (unsafeMeta.agentApproved as boolean) ?? true;
 
   await prisma.user.create({
     data: {
@@ -170,7 +170,7 @@ async function handleUserUpdated(data: UserJSON) {
   const idVerified = (unsafeMeta.idVerified as boolean) || false;
   const profileCompleted = (unsafeMeta.profileCompleted as boolean) || false;
   const agentTier = (unsafeMeta.agentTier as AgentTier) || 'standard';
-  const agentApproved = (unsafeMeta.agentApproved as boolean) || false;
+  const agentApproved = (unsafeMeta.agentApproved as boolean) ?? true;
 
   await prisma.user.upsert({
     where: { clerkId: clerkId as string },

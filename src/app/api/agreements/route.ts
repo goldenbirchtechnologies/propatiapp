@@ -132,8 +132,8 @@ export async function POST(request: NextRequest) {
         where: { id: validated.agentId },
         select: { id: true, role: true, agentApproved: true },
       });
-      if (!agent || agent.role !== 'agent' || !agent.agentApproved) {
-        return NextResponse.json({ error: 'Invalid or unapproved agent' }, { status: 400 });
+      if (!agent || agent.role !== 'agent') {
+        return NextResponse.json({ error: 'Invalid agent' }, { status: 400 });
       }
     }
 

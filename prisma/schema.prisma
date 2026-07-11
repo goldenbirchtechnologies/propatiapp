@@ -412,7 +412,7 @@ model User {
 
   // Agent Specific
   agentTier             AgentTier @default(standard) @map("agent_tier")
-  agentApproved         Boolean   @default(false) @map("agent_approved")
+  agentApproved         Boolean   @default(true) @map("agent_approved")
   agentBio              String?   @map("agent_bio")
   agentAreas            Json?     @map("agent_areas")
 

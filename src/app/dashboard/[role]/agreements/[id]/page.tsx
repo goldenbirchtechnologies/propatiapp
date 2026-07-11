@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { FileText, Download, Clock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
+import { FileText, Download, Clock, CheckCircle2, XCircle, AlertCircle, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +23,7 @@ export default function AgreementDetailPage() {
 
   const { data: agreement, isLoading } = useAgreement(agreementId);
   const [downloading, setDownloading] = useState(false);
+  const [sharing, setSharing] = useState(false);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NG', {
@@ -57,6 +58,28 @@ export default function AgreementDetailPage() {
       });
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const handleSendWhatsApp = async () => {
+    try {
+      setSharing(true);
+      const res = await fetch(`/api/agreements/${agreementId}/send-whatsapp`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send WhatsApp');
+      toast({
+        title: 'WhatsApp Link Sent',
+        description: `Agreement update sent to the party on WhatsApp.`,
+        className: 'bg-green-50 border-green-200 text-green-800',
+      });
+    } catch (error) {
+      toast({
+        title: 'WhatsApp Delivery Failed',
+        description: error instanceof Error ? error.message : 'Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSharing(false);
     }
   };
 
@@ -161,6 +184,12 @@ export default function AgreementDetailPage() {
             <Button onClick={handleDownloadPDF} variant="outline" disabled={downloading}>
               <Download className="h-4 w-4 mr-2" />
               {downloading ? 'Downloading...' : 'Download PDF'}
+            </Button>
+          )}
+          {(agreement.status === 'pending_tenant' || agreement.status === 'pending_landlord' || agreement.status === 'fully_signed') && (
+            <Button onClick={handleSendWhatsApp} variant="outline" disabled={sharing}>
+              <Share2 className="h-4 w-4 mr-2" />
+              {sharing ? 'Sending...' : 'Send on WhatsApp'}
             </Button>
           )}
         </div>

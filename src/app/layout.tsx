@@ -66,8 +66,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+    { media: '(prefers-color-scheme: light)', color: 'background' },
+    { media: '(prefers-color-scheme: dark)', color: 'foreground' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -85,10 +85,19 @@ export default function RootLayout({
       className={`${inter.variable} antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+        <link rel="manifest" href="/manifest" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <meta name="theme-color" content="#2563eb" />
+      </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
         <Providers>
           {children}
           <Toaster />
+          <script src="/push.js" defer strategy="afterInteractive" />
         </Providers>
       </body>
     </html>

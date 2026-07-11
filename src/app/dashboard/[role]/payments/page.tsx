@@ -5,7 +5,11 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { getNavigationForRole } from '@/lib/navigation';
 import TransactionsListClient from './TransactionsListClient';
 
-export default async function PaymentsPage() {
+interface PageProps {
+  params: Promise<{ role: string }>;
+}
+
+export default async function PaymentsPage({ params }: PageProps) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -17,6 +21,9 @@ export default async function PaymentsPage() {
   if (!user) {
     redirect('/dashboard');
   }
+
+  const { role } = await params;
+  if (!user || user.role !== role) redirect('/dashboard');
 
   const navigation = getNavigationForRole(user.role);
 

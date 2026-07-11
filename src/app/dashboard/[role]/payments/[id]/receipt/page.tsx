@@ -4,7 +4,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import ReceiptPageClient from './ReceiptPageClient';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; role: string }>;
 }
 
 export default async function ReceiptPage({ params }: PageProps) {

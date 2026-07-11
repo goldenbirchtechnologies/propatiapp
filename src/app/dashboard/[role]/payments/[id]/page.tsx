@@ -6,7 +6,7 @@ import { getNavigationForRole } from '@/lib/navigation';
 import TransactionDetailClient from './TransactionDetailClient';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; role: string }>;
 }
 
 export default async function TransactionDetailPage({ params }: PageProps) {

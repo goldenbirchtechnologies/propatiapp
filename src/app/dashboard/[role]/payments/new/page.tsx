@@ -5,7 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { getNavigationForRole } from '@/lib/navigation';
 import PaymentInitiationClient from './PaymentInitiationClient';
 
-export default async function PaymentInitiationPage() {
+export default async function PaymentInitiationPage({ params }: PageProps) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -17,6 +17,9 @@ export default async function PaymentInitiationPage() {
   if (!user) {
     redirect('/dashboard');
   }
+
+  const { role } = await params;
+  if (!user || user.role !== role) redirect('/dashboard');
 
   const navigation = getNavigationForRole(user.role);
 

@@ -19,7 +19,6 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Shadcn compatibility (CSS variable based)
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -59,7 +58,11 @@ const config: Config = {
           inspected: 'hsl(var(--verification-inspected))',
           certified: 'hsl(var(--verification-certified))',
         },
-        success: 'hsl(var(--success))',
+        'success-bright': '#71fbc0',
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          bright: '#50dea5',
+        },
         warning: 'hsl(var(--warning))',
         frozen: {
           DEFAULT: 'hsl(var(--frozen))',
@@ -67,6 +70,7 @@ const config: Config = {
         },
 
         // Reference surface tokens (RGB values match ui_design_reference)
+        'surface-variant': '#d2e4ff',
         surface: {
           DEFAULT: '#f9f9ff',
           dim: '#cfdaf2',
@@ -96,14 +100,6 @@ const config: Config = {
         'secondary-amber': '#F5A623',
         'secondary-container': '#feae2c',
         'on-secondary-container': '#725000',
-
-        // Tertiary trust green
-        tertiary: {
-          DEFAULT: '#001209',
-          'on-tertiary': '#ffffff',
-          container: '#002a1b',
-          'on-container': '#009e6f',
-        },
 
         // Legacy role colors (kept for backward compat during migration)
         'residential-teal': {
@@ -142,6 +138,27 @@ const config: Config = {
           DEFAULT: '#74777e',
           variant: '#c4c6ce',
         },
+
+        // Semantic feedback colors
+        error: {
+          DEFAULT: '#ef4444',
+          container: '#fef2f2',
+          'on-container': '#991b1b',
+        },
+
+        // Extended secondary/tertiary fixed tokens
+        'secondary-fixed': '#F5A623',
+        'secondary-fixed-dim': '#835500',
+        tertiary: {
+          DEFAULT: '#001209',
+          'on-tertiary': '#ffffff',
+          container: '#002a1b',
+          'on-container': '#009e6f',
+          fixed: '#98f4dd',
+          'fixed-dim': '#7bd7c2',
+          'on-fixed': '#00201a',
+          'on-fixed-variant': '#005144',
+        },
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
@@ -155,6 +172,14 @@ const config: Config = {
       'font-body': 'var(--font-inter), system-ui, sans-serif',
       'font-display': 'hanken grotesk, var(--font-inter), system-ui, sans-serif',
       'font-mono': 'JetBrains Mono, var(--font-jetbrains-mono), monospace',
+      fontFamily: {
+        heading: ['var(--font-heading)', 'sans-serif'],
+        headline: ['var(--font-heading)', 'sans-serif'],
+        'headline-sm': ['var(--font-heading)', 'sans-serif'],
+        label: ['var(--font-body)', 'sans-serif'],
+        'label-sm': ['var(--font-body)', 'sans-serif'],
+        'label-md': ['var(--font-body)', 'sans-serif'],
+      },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '800' }],
         'headline-xl': ['36px', { lineHeight: '44px', letterSpacing: '-0.01em', fontWeight: '700' }],
@@ -166,11 +191,20 @@ const config: Config = {
         'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
         'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }],
         'label-caps': ['12px', { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '500' }],
+        'label-sm': ['12px', { lineHeight: '16px', fontWeight: '500' }],
+        'label-md': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+        'headline-sm': ['20px', { lineHeight: '28px', fontWeight: '600' }],
       },
       spacing: {
         gutter: '24px',
         'margin-desktop': '64px',
         'margin-mobile': '16px',
+        xs: 'var(--space-tight)',
+        sm: 'var(--space-sm)',
+        md: 'var(--space-md)',
+        lg: 'var(--space-lg)',
+        xl: 'var(--space-xl)',
+        '2xl': 'var(--space-xxl)',
       },
       maxWidth: {
         container: '1280px',

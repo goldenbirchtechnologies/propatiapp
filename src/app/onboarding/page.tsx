@@ -2,10 +2,13 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile, syncClerkUser } from '@/lib/auth';
 import OnboardingClient from './OnboardingClient';
+import PublicOnboardingClient from './PublicOnboardingClient';
 
 export default async function OnboardingPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) {
+    return <PublicOnboardingClient />;
+  }
 
   // Try to get user from database
   let user = await getCurrentUserWithProfile();

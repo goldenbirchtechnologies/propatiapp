@@ -74,16 +74,24 @@ function SavedPropertyCard({
   onRemove: () => void;
   onAddNote: () => void;
 }) {
-  const listingTypeColors = {
-    rent: { bg: '#E0F2F1', text: '#00897B', label: 'For Rent' },
-    sale: { bg: '#FFF4E6', text: '#F5A623', label: 'For Sale' },
-    short_let: { bg: '#E3F2FD', text: '#1976D2', label: 'Short Let' },
-    share: { bg: '#F3E5F5', text: '#7B1FA2', label: 'Shared' },
-    commercial: { bg: '#FFF4E6', text: '#F5A623', label: 'Commercial' },
+  const listingTypeStyles: Record<string, string> = {
+    rent: 'bg-teal-50 text-teal-700',
+    sale: 'bg-amber-50 text-amber-600',
+    short_let: 'bg-blue-50 text-blue-700',
+    share: 'bg-purple-50 text-purple-700',
+    commercial: 'bg-amber-50 text-amber-600',
   };
 
-  const color = listingTypeColors[property.listing.listingType] || listingTypeColors.rent;
-  const formatPrice = (price: number) => `₦${price.toLocaleString()}`;
+  const listingTypeLabels: Record<string, string> = {
+    rent: 'For Rent',
+    sale: 'For Sale',
+    short_let: 'Short Let',
+    share: 'Shared',
+    commercial: 'Commercial',
+  };
+
+  const style = listingTypeStyles[property.listing.listingType] || listingTypeStyles.rent;
+  const label = listingTypeLabels[property.listing.listingType] || listingTypeLabels.rent;
 
   return (
     <div className={`bg-white rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
@@ -148,10 +156,9 @@ function SavedPropertyCard({
           {/* Type & Price */}
           <div className="flex items-center justify-between mb-3">
             <span
-              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold"
-              style={{ backgroundColor: color.bg, color: color.text }}
+              className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${style}`}
             >
-              {color.label}
+              {label}
             </span>
             <span className="font-headline-md font-bold text-on-surface">
               {formatPrice(property.listing.price)}{property.listing.pricePeriod ? `/${property.listing.pricePeriod}` : ''}

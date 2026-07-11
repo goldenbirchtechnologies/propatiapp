@@ -145,7 +145,7 @@ export function LandingPage() {
         </section>
 
         {/* How It Works */}
-        <section className="bg-gray-50 dark:bg-gray-900" style={{ padding: 'var(--space-section) var(--space-lg)' }}>
+        <section className="bg-[var(--surface)]" style={{ padding: 'var(--space-section) var(--space-lg)' }}>
           <div className="max-w-7xl mx-auto">
             <h2 className="font-heading font-bold text-center mb-12" style={{ fontSize: '1.5rem', color: 'var(--text)' }}>
               How PROPATI Works

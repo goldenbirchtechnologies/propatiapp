@@ -13,9 +13,9 @@ import {
   Eye as EyeIcon,
   FileText as FileIcon,
   Download,
-  FilterList,
-  AccountBalanceWallet,
-  VerifiedUser,
+  SlidersHorizontal,
+  Wallet,
+  BadgeCheck,
 } from 'lucide-react';
 
 type Transaction = {
@@ -129,7 +129,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="gap-2">
-            <FilterList className="h-4 w-4" /> Filter
+            <SlidersHorizontal className="h-4 w-4" /> Filter
           </Button>
           <Button variant="outline" className="gap-2">
             <Download className="h-4 w-4" /> Export
@@ -280,7 +280,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg border border-white/10">
-                  <VerifiedUser className="h-5 w-5 text-white" />
+                  <BadgeCheck className="h-5 w-5 text-white" />
                   <div>
                     <p className="text-sm font-medium text-white">Verified Bank Account</p>
                     <p className="text-xs text-white/60">Guaranty Trust Bank •••• 4291</p>
@@ -289,7 +289,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               </div>
             </div>
             <Button className="mt-6 w-full bg-amber-400 text-black hover:bg-amber-500 font-bold">
-              <AccountBalanceWallet className="h-4 w-4" />
+              <Wallet className="h-4 w-4" />
               Request Instant Payout
             </Button>
           </CardContent>

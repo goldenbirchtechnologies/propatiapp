@@ -259,8 +259,8 @@ function LoadingShell() {
         aria-label="Loading navigation"
         style={{
           width: 'var(--sidebar-width)',
-          background: 'hsl(var(--primary-dark) / 1)',
-          borderRight: '1px solid var(--border)',
+          background: 'hsl(var(--primary-container) / 1)',
+          borderRight: '1px solid hsl(var(--primary-container) / 0.3)',
         }}
       >
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
@@ -536,8 +536,8 @@ export function DashboardShell({
         role="navigation"
         aria-label="Main navigation"
         style={{
-          background: 'hsl(var(--primary-dark) / 1)',
-          borderRight: '1px solid hsl(var(--primary-container) / 1)',
+          background: 'hsl(var(--primary-container) / 1)',
+          borderRight: '1px solid hsl(var(--primary-container) / 0.3)',
         }}
       >
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>

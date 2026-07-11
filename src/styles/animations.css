@@ -80,24 +80,11 @@
   animation: shimmer 2s infinite linear;
   background: linear-gradient(
     90deg,
-    #f0f0f0 0%,
-    #f8f8f8 20%,
-    #f0f0f0 40%,
-    #f0f0f0 100%
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 75%
   );
-  background-size: 1000px 100%;
-}
-
-.shimmer-dark {
-  animation: shimmer 2s infinite linear;
-  background: linear-gradient(
-    90deg,
-    #2a2a2a 0%,
-    #3a3a3a 20%,
-    #2a2a2a 40%,
-    #2a2a2a 100%
-  );
-  background-size: 1000px 100%;
+  background-size: 200% 100%;
 }
 
 /* Skeleton loading states */
@@ -423,7 +410,7 @@ html {
   left: 0;
   width: 0%;
   height: 3px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
   z-index: 9999;
   transition: width 0.1s ease-out;
 }

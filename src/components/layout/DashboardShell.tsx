@@ -549,29 +549,35 @@ export function DashboardShell({
           @media (prefers-reduced-motion: reduce) {
             .prop-logo-anim { animation: none !important; }
           }
+          .sb-inner { display: flex; flex-direction: column; height: 100%; padding: 16px 16px 12px; gap: 12px; }
+          .sb-header-bar, .sb-nav-inner, .sb-footer-bar { display: flex; align-items: center; }
+          .sb-header-bar { justify-content: space-between; }
+          .sb-user-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+          .sb-user-text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+          .sb-user-name { color: #fff; font-weight: 600; font-size: 14px; line-height: 20px; }
+          .sb-user-role { color: rgba(255,255,255,0.65); font-size: 11px; line-height: 16px; text-transform: capitalize; }
+          .sb-nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
+          .sb-nav-item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: rgba(255,255,255,0.9); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
+          .sb-nav-item.active, .sb-nav-item[aria-current='true'] { color: #000; background: #ffca28; border-left-color: #b45309; }
+          .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
+          .sb-footer-bar { justify-content: center; }
+          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); border: none; cursor: pointer; transition: background-color 0.15s ease; }
+          .sb-signout-btn:hover { background: rgba(255,255,255,0.16); }
         `}</style>
-        <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <img
-              src="/brand/propati-logo.png"
-              alt="PROPATI"
-              width="32"
-              height="32"
-              className="rounded-full"
-              style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }}
-            />
-            {!sidebarCollapsed && (
-              <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'hsl(0 0% 100% / 0.7)' }}>
-                Dashboard
-              </span>
-            )}
-          </Link>
-        </div>
+        <div className="sb-inner">
+          <div className="sb-header-bar">
+            <Link href="/dashboard" className="flex items-center gap-2">
+              <img src="/brand/propati-logo.png" alt="PROPATI" width="32" height="32" className="rounded-full" style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
+              {!sidebarCollapsed && (
+                <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.7)' }}>Dashboard</span>
+              )}
+            </Link>
+          </div>
 
-        <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid hsl(var(--primary-container) / 1)' }}>
-          <div className="flex items-center gap-3 min-w-0">
+        <div className="sb-user-card">
+          <div className="sb-user-row">
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white"
+              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white"
               style={{ background: 'hsl(var(--secondary-container) / 1)', color: 'hsl(var(--on-secondary-container) / 1)' }}
             >
               {userAvatar ? (
@@ -581,18 +587,16 @@ export function DashboardShell({
               )}
             </div>
             {!sidebarCollapsed && (
-              <div className="min-w-0">
-                <p className="font-medium truncate text-white">{userName || (user?.fullName || 'User')}</p>
-                <p className="text-xs truncate text-white/60">
-                  {(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}
-                </p>
+              <div className="sb-user-text">
+                <p className="sb-user-name">{userName || (user?.fullName || 'User')}</p>
+                <p className="sb-user-role">{(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}</p>
               </div>
             )}
           </div>
         </div>
 
-        <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-label="Dashboard navigation">
-          <ul className="space-y-1" role="list">
+        <nav className="sb-nav" aria-label="Dashboard navigation">
+          <ul className="sb-nav-list" role="list">
             {navigation.map((item) => {
               const itemActive = item.children
                 ? item.children.some((c) => isActive(c.href))
@@ -608,21 +612,11 @@ export function DashboardShell({
                   ) : (
                     <Link
                       href={item.href}
-                      className="nav-item flex items-center gap-3"
-                      style={{
-                        padding: 'var(--space-base) var(--space-md)',
-                        borderRadius: 'var(--radius-btn)',
-                        fontSize: 'var(--text-body)',
-                        fontWeight: 500,
-                        minHeight: '44px',
-                        color: itemActive ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
-                        backgroundColor: itemActive ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
-                        borderLeft: itemActive ? '3px solid hsl(var(--amber) / 1)' : '3px solid transparent',
-                        transition: 'all var(--transition-fast)',
-                      }}
+                      className={`sb-nav-item ${itemActive ? 'active' : ''}`}
+                      aria-current={itemActive ? 'true' : undefined}
                       onClick={() => setSidebarOpen(false)}
                     >
-                      {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+                      {item.icon && <span className="icon-slot">{item.icon}</span>}
                       {!sidebarCollapsed && <span>{item.label}</span>}
                     </Link>
                   )}
@@ -632,17 +626,8 @@ export function DashboardShell({
           </ul>
         </nav>
 
-        <div
-          className="sb-footer"
-          style={{
-            padding: 'var(--space-lg)',
-            borderTop: '1px solid hsl(var(--primary-container) / 1)',
-            marginTop: 'auto',
-            color: 'hsl(0 0% 100% / 0.5)',
-            fontSize: 'var(--text-tag)',
-          }}
-        >
-          <SignOutButton redirectUrl="/sign-in" className="flex w-full items-center justify-center gap-2 rounded-lg py-2 text-sm transition hover:bg-white/10" style={{ padding: 'var(--space-sm) var(--space-md)', color: 'hsl(0 0% 100% / 0.85)' }}>
+        <div className="sb-footer">
+          <SignOutButton redirectUrl="/sign-in" className="sb-signout-btn">
             {!sidebarCollapsed ? 'Sign Out' : (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -652,7 +637,8 @@ export function DashboardShell({
             )}
           </SignOutButton>
         </div>
-      </aside>
+          </div>
+        </aside>
 
       <main className="main-area">
         <header className="topbar">
@@ -738,17 +724,12 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
     return (
       <Link
         href={item.children[0]?.href || '#'}
-        className="nav-item flex items-center justify-center"
-        style={{
-          padding: 'var(--space-base)',
-          borderRadius: 'var(--radius-btn)',
-          color: isActive ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
-          backgroundColor: isActive ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
-        }}
+        className="sb-nav-item"
+        style={{ justifyContent: 'center', padding: '10px 0' }}
         title={item.label}
         aria-label={item.label}
       >
-        {item.icon}
+        <span className="icon-slot">{item.icon}</span>
       </Link>
     );
   }
@@ -756,23 +737,12 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
   return (
     <div>
       <button
-        className={`nav-item flex items-center gap-3 w-full ${isActive || expanded ? 'active' : ''}`}
-        style={{
-          padding: 'var(--space-base) var(--space-md)',
-          borderRadius: 'var(--radius-btn)',
-          fontSize: 'var(--text-body)',
-          fontWeight: 500,
-          minHeight: '44px',
-          color: isActive || expanded ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
-          backgroundColor: isActive || expanded ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
-          borderLeft: isActive || expanded ? '3px solid hsl(var(--amber) / 1)' : '3px solid transparent',
-          transition: 'all var(--transition-fast)',
-          textAlign: 'left',
-        }}
+        className={`sb-nav-item ${isActive || expanded ? 'active' : ''}`}
+        aria-current={isActive || expanded ? 'true' : undefined}
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >
-        {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+        {item.icon && <span className="icon-slot">{item.icon}</span>}
         <span className="flex-1">{item.label}</span>
         <svg
           width="18"
@@ -782,25 +752,21 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
           stroke="currentColor"
           strokeWidth="2"
           className={`transition-transform ${expanded ? 'rotate-180' : ''}`}
-          style={{ color: 'hsl(0 0% 100% / 0.6)' }}
+          style={{ color: 'rgba(255,255,255,0.6)' }}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
       {expanded && (
-        <ul className="mt-1 ml-8 space-y-1" role="list">
+        <ul className="sb-nav-list" style={{ marginTop: '4px', paddingLeft: '8px', gap: '2px' }} role="list">
           {item.children?.map((child) => (
             <li key={child.href}>
               <Link
                 href={child.href}
-                className="nav-item flex items-center gap-2 text-sm"
-                style={{
-                  padding: 'var(--space-sm) var(--space-md)',
-                  borderRadius: 'var(--radius-btn-sm)',
-                  color: 'hsl(0 0% 100% / 0.7)',
-                }}
+                className="sb-nav-item"
+                style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
               >
-                {child.icon && <span className="flex-shrink-0">{child.icon}</span>}
+                {child.icon && <span className="icon-slot">{child.icon}</span>}
                 <span>{child.label}</span>
               </Link>
             </li>

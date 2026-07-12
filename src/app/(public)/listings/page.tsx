@@ -428,7 +428,7 @@ function ListingsPageInner() {
   // ============================================================================
 
   return (
-    <>
+    <div>
       <PublicNav />
       <div className="min-h-screen bg-surface">
       {/* Sticky Filter Bar - Below nav */}
@@ -668,6 +668,7 @@ function ListingsPageInner() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

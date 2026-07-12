@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher, type ClerkMiddlewareOptions } from '@clerk/nextjs/server';
 import { NextResponse, type NextRequest } from 'next/server';
 
 const isPublic = createRouteMatcher([
@@ -23,8 +23,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/sign-in', req.url));
   }
 
-  // @ts-expect-error Double cast needed for clerkMiddleware typing in Next 15
-  return (clerkMiddleware({} as any)(req as any) as any);
+  const options: ClerkMiddlewareOptions = {};
+  const middleware = typeof clerkMiddleware === 'function' ? clerkMiddleware(options) : clerkMiddleware;
+  return middleware(req);
 }
 
 export const config = {

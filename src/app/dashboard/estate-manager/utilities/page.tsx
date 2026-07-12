@@ -40,10 +40,10 @@ interface UtilityAllocationItem {
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft' },
-  sent: { class: 'bg-blue-50 text-blue-700 border-blue-200', label: 'Sent' },
-  paid: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Paid' },
-  overdue: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Overdue' },
-  cancelled: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Cancelled' },
+  sent: { class: 'bg-primary/10 text-primary border-primary/20', label: 'Sent' },
+  paid: { class: 'bg-success/10 text-success border-success/20', label: 'Paid' },
+  overdue: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Overdue' },
+  cancelled: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Cancelled' },
 };
 
 const utilityTypeLabels: Record<string, string> = {
@@ -128,12 +128,12 @@ export default function UtilitiesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1
-            className="font-heading font-bold"
-            style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+            className="text-headline-sm"
+            style={{ color: 'var(--primary)' }}
           >
             Utility Allocations
           </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage utility allocations for your portfolio
           </p>
         </div>
@@ -204,8 +204,8 @@ export default function UtilitiesPage() {
         </Dialog>
       </div>
 
-      <div className="card p-4 flex flex-wrap items-center gap-4 border-b" style={{ borderColor: 'var(--border)' }}>
-        <Filter className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-4 flex flex-wrap items-center gap-4">
+        <Filter className="h-4 w-4 text-muted-foreground" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Status" />
@@ -234,7 +234,7 @@ export default function UtilitiesPage() {
         </Select>
       </div>
 
-      <div className="card overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -249,23 +249,23 @@ export default function UtilitiesPage() {
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <tr className="border-b border-outline-variant">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Unit
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Type
                 </th>
-                <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-right p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Amount
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Billing Period
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Status
                 </th>
               </tr>
@@ -279,25 +279,24 @@ export default function UtilitiesPage() {
                 return (
                   <tr
                     key={allocation.id}
-                    className="border-b transition-colors hover:bg-muted/30"
-                    style={{ borderColor: 'var(--border)' }}
+                    className="border-b border-outline-variant transition-colors hover:bg-muted/30"
                   >
-                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                    <td className="p-4 text-sm text-primary">
                       <span className="font-medium">{allocation.unit?.unitNumber}</span>
                       <p className="text-xs text-muted-foreground">
                         {allocation.unit?.buildingName}
                       </p>
                     </td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                    <td className="p-4 text-sm text-primary">
                       {utilityTypeLabels[allocation.type] || allocation.type}
                     </td>
-                    <td className="p-4 text-sm text-right font-medium" style={{ color: 'var(--text)' }}>
+                    <td className="p-4 text-sm text-right font-medium text-primary">
                       ₦{Number(allocation.amount).toLocaleString()}
                     </td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                    <td className="p-4 text-sm text-primary">
                       {allocation.billingPeriod}
                     </td>
-                    <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>
+                    <td className="p-4 text-sm text-primary">
                       {new Date(allocation.dueDate).toLocaleDateString('en-NG', {
                         day: '2-digit',
                         month: 'short',

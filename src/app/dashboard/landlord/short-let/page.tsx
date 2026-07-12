@@ -14,9 +14,9 @@ import { Plus, RefreshCw, ChevronLeft, ChevronRight, User, Phone, Mail } from 'l
 type CalendarStatus = 'available' | 'booked' | 'blocked';
 
 const STATUS_COLORS: Record<CalendarStatus, string> = {
-  available: 'bg-emerald-100 text-emerald-800',
-  booked: 'bg-amber-100 text-amber-800',
-  blocked: 'bg-slate-200 text-slate-700',
+  available: 'bg-success-bright/10 text-success',
+  booked: 'bg-warning/10 text-warning',
+  blocked: 'bg-surface-container text-primary',
 };
 
 const LANDLORD_NAVIGATION = [
@@ -97,8 +97,8 @@ export default function LandlordShortLetPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">Short-let requests</h2>
-            <p className="text-sm text-slate-600">Authorise tenants to list your approved properties for short-let.</p>
+            <h2 className="text-xl font-semibold text-primary">Short-let requests</h2>
+            <p className="text-sm text-on-surface-variant">Authorise tenants to list your approved properties for short-let.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="secondary"><RefreshCw className="mr-2 h-4 w-4" /> Refresh</Button>
@@ -108,7 +108,7 @@ export default function LandlordShortLetPage() {
         <Card className="space-y-4 p-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
-              <label className="text-sm font-medium text-slate-700">Property</label>
+              <label className="text-sm font-medium text-primary">Property</label>
               <select
                 className="mt-1 w-full rounded-lg border border-slate-200 bg-surface-container-lowest p-2 text-sm"
                 value={selectedListingId}
@@ -121,7 +121,7 @@ export default function LandlordShortLetPage() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="text-sm font-medium text-slate-700">Tenant shortlet access</label>
+              <label className="text-sm font-medium text-primary">Tenant shortlet access</label>
               <p className="text-xs text-slate-500">Tenants can request shortlet access on listings you own. Approve to allow booking and calendar management.</p>
             </div>
           </div>
@@ -129,16 +129,16 @@ export default function LandlordShortLetPage() {
           <Separator />
 
           <div className="space-y-3">
-            {loadingRequests && <p className="text-sm text-slate-600">Loading requests…</p>}
+            {loadingRequests && <p className="text-sm text-on-surface-variant">Loading requests…</p>}
             {!loadingRequests && requests.length === 0 && (
-              <p className="text-sm text-slate-600">No requests yet.</p>
+              <p className="text-sm text-on-surface-variant">No requests yet.</p>
             )}
             {requests.map((req) => (
               <div key={req.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-surface-container-lowest p-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">
-                  <p className="text-sm font-semibold text-slate-900">{req.listingTitle}</p>
-                  <p className="text-xs text-slate-600">Tenant: {req.tenantName}</p>
-                  {req.notes && <p className="text-xs text-slate-600">Note: {req.notes}</p>}
+                  <p className="text-sm font-semibold text-primary">{req.listingTitle}</p>
+                  <p className="text-xs text-on-surface-variant">Tenant: {req.tenantName}</p>
+                  {req.notes && <p className="text-xs text-on-surface-variant">Note: {req.notes}</p>}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="secondary" className="capitalize">{req.status}</Badge>

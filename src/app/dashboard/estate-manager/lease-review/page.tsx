@@ -22,10 +22,10 @@ export default function EstateManagerLeaseReviewPage() {
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
           <p className="text-muted-foreground">Unable to load agreement.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Retry</button>
+          <div className="bg-destructive/10 rounded-xl border border-destructive/20 p-6">
+            <p className="text-destructive font-medium">Error</p>
+            <p className="text-destructive/80 text-sm mt-1">{error}</p>
+            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90">Retry</button>
           </div>
         </section>
       </DashboardShell>
@@ -41,13 +41,13 @@ export default function EstateManagerLeaseReviewPage() {
             <p className="text-muted-foreground mt-1">Reference: PROP-2024-88492-L · Platinum Plaza, Suite 402</p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-destructive/20 text-destructive hover:bg-destructive/10 transition-colors text-sm font-medium">
               <XCircle className="w-4 h-4" /> Reject
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-secondary bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors text-sm font-medium">
               <AlertTriangle className="w-4 h-4" /> Request Changes
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors text-sm font-medium shadow-md">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-success-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-md">
               <CheckCircle2 className="w-4 h-4" /> Approve Agreement
             </button>
           </div>

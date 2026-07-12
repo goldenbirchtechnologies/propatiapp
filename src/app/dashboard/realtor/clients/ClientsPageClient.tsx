@@ -8,27 +8,27 @@ import { Badge } from '@/components/ui/badge';
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 const SkeletonStatCard = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
-      <div className="w-10 h-10 rounded-lg bg-gray-200" />
+      <div className="w-10 h-10 rounded-lg bg-surface-container" />
       <div>
-        <div className="h-3 bg-gray-200 rounded w-24 mb-2" />
-        <div className="h-6 bg-gray-200 rounded w-12" />
+        <div className="h-3 bg-surface-container rounded w-24 mb-2" />
+        <div className="h-6 bg-surface-container rounded w-12" />
       </div>
     </div>
   </div>
 );
 
 const SkeletonRow = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 animate-pulse">
     <div className="flex items-center gap-4">
-      <div className="w-10 h-10 rounded-full bg-gray-200" />
+      <div className="w-10 h-10 rounded-full bg-surface-container" />
       <div className="flex-1">
-        <div className="h-4 bg-gray-200 rounded w-32 mb-2" />
-        <div className="h-3 bg-gray-200 rounded w-48" />
+        <div className="h-4 bg-surface-container rounded w-32 mb-2" />
+        <div className="h-3 bg-surface-container rounded w-48" />
       </div>
-      <div className="h-6 bg-gray-200 rounded w-16" />
-      <div className="h-8 bg-gray-200 rounded w-24" />
+      <div className="h-6 bg-surface-container rounded w-16" />
+      <div className="h-8 bg-surface-container rounded w-24" />
     </div>
   </div>
 );
@@ -46,13 +46,13 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
   const colorMap = {
     teal: {
       iconBg: 'bg-residential-teal/10 text-residential-teal',
-      trendUp: 'text-green-600',
-      trendDown: 'text-red-600',
+      trendUp: 'text-success',
+      trendDown: 'text-destructive',
     },
     gold: {
       iconBg: 'bg-commercial-gold/10 text-commercial-gold',
-      trendUp: 'text-green-600',
-      trendDown: 'text-red-600',
+      trendUp: 'text-success',
+      trendDown: 'text-destructive',
     },
   };
 
@@ -60,7 +60,7 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
 
   return (
     <div
-      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200
+      className={`bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm transition-all duration-200
         hover:scale-[1.02] hover:shadow-lg ${color === 'teal' ? 'hover:border-residential-teal' : 'hover:border-commercial-gold'}`}
     >
       <div className="flex items-center gap-4">
@@ -84,7 +84,7 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
 // ── Empty State ───────────────────────────────────────────────────────────────
 function EmptyClientState() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
       <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
         <Users className="h-8 w-8 text-muted-foreground" />
       </div>
@@ -103,15 +103,15 @@ function EmptyClientState() {
 // ── Placeholder Client Row ────────────────────────────────────────────────────
 function ClientRowSkeleton() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 animate-pulse">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-gray-200" />
+        <div className="w-10 h-10 rounded-full bg-surface-container" />
         <div className="flex-1 space-y-2">
-          <div className="h-4 bg-gray-200 rounded w-32" />
-          <div className="h-3 bg-gray-200 rounded w-48" />
+          <div className="h-4 bg-surface-container rounded w-32" />
+          <div className="h-3 bg-surface-container rounded w-48" />
         </div>
-        <div className="h-6 bg-gray-200 rounded-full w-20" />
-        <div className="h-9 bg-gray-200 rounded w-28" />
+        <div className="h-6 bg-surface-container rounded-full w-20" />
+        <div className="h-9 bg-surface-container rounded w-28" />
       </div>
     </div>
   );
@@ -186,7 +186,7 @@ export default function RealtorClientsPageClient() {
               <Link
                 key={client.id}
                 href={`/dashboard/realtor/clients/${client.id}`}
-                className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:shadow-md transition-all"
+                className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}>
@@ -197,7 +197,7 @@ export default function RealtorClientsPageClient() {
                     <p className="text-xs text-on-surface-variant">{client.email}</p>
                   </div>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${client.type === 'buyer' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
+                <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${client.type === 'buyer' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-muted text-muted-foreground border-outline-variant'}`}>
                   {client.type === 'buyer' ? 'Buyer' : 'Seller'}
                 </span>
               </Link>

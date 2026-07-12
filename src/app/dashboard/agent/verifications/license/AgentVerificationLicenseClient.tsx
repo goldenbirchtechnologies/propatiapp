@@ -68,23 +68,23 @@ export default function AgentVerificationLicenseClient() {
     switch (status) {
       case 'verified':
         return (
-          <span className="px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-200">
+          <span className="px-3 py-1 rounded-full bg-success/10 text-success text-xs font-bold border border-success/20">
             Verified
           </span>
         );
       case 'under-review':
         return (
-          <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200">
+          <span className="px-3 py-1 rounded-full bg-warning/10 text-warning border border-warning/20 text-xs font-bold">
             Under Review
           </span>
-        );
-      default:
-        return (
-          <span className="px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-bold border border-red-200">
-            Rejected
-          </span>
-        );
-    }
+          );
+          default:
+          return (
+            <span className="px-3 py-1 rounded-full bg-destructive/10 text-destructive border border-destructive/20 text-xs font-bold">
+              Rejected
+            </span>
+          );
+          }
   };
 
   return (
@@ -218,8 +218,8 @@ export default function AgentVerificationLicenseClient() {
           <Card className="bg-primary text-primary-foreground">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-300" />
-                <CardTitle className="text-green-200">Verification Tips</CardTitle>
+                <CheckCircle className="h-5 w-5 text-success" />
+                <CardTitle className="text-success-bright">Verification Tips</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">

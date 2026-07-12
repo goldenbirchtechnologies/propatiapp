@@ -42,10 +42,10 @@ export default async function LandlordPropertiesPage() {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+            <h1 className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
               My Properties
             </h1>
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            <p className="text-on-surface-variant">
               Manage your property listings and short-let access
             </p>
           </div>
@@ -87,12 +87,12 @@ export default async function LandlordPropertiesPage() {
 
         {/* Properties Table */}
         <section>
-          <div className="card overflow-hidden">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             {listings.length === 0 ? (
-              <div className="card-body text-center py-16">
-                <BuildingIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No properties yet</h3>
-                <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Get started by adding your first property listing.</p>
+              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center shadow-sm hover:shadow-md transition-shadow">
+                <BuildingIcon className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" />
+                <h3 className="font-headline-sm text-headline-sm text-primary mb-2 text-primary">No properties yet</h3>
+                <p className="text-on-surface-variant">Get started by adding your first property listing.</p>
                 <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
@@ -100,20 +100,20 @@ export default async function LandlordPropertiesPage() {
             ) : (
               <table className="w-full">
                 <thead>
-                  <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Property</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Type</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Verification</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Price</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Views</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Short-let</th>
-                    <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
+                  <tr className="border-b border-outline-variant">
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Property</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Type</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Status</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Verification</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Price</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Views</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Short-let</th>
+                    <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {listings.map((listing) => (
-                    <tr key={listing.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
+                    <tr key={listing.id} className="border-b border-outline-variant">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           {listing.images[0] ? (
@@ -128,8 +128,8 @@ export default async function LandlordPropertiesPage() {
                             </div>
                           )}
                           <div>
-                            <p className="font-medium" style={{ color: 'var(--text)' }}>{listing.title}</p>
-                            <p className="text-xs" style={{ color: 'var(--muted)' }}>{listing.area}, {listing.state}</p>
+                            <p className="font-medium text-primary">{listing.title}</p>
+                            <p className="text-xs text-on-surface-variant">{listing.area}, {listing.state}</p>
                           </div>
                         </div>
                       </td>
@@ -143,17 +143,17 @@ export default async function LandlordPropertiesPage() {
                       <td className="p-4">
                         <VerificationBadge verification={listing.verification} />
                       </td>
-                      <td className="p-4 font-medium" style={{ color: 'var(--text)' }}>
+                      <td className="p-4 font-medium text-primary">
                         ₦{Number(listing.price).toLocaleString()}/{listing.pricePeriod || 'month'}
                       </td>
-                      <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.viewsCount.toLocaleString()}</td>
+                      <td className="p-4 text-on-surface-variant">{listing.viewsCount.toLocaleString()}</td>
                       <td className="p-4">
                         <label className="inline-flex items-center gap-2 cursor-pointer">
                           <input type="checkbox" className="sr-only" defaultChecked={!!listing.allowShortlet} />
                           <ToggleLeftIcon
-                            className={`h-5 w-5 ${listing.allowShortlet ? 'text-emerald-600' : 'text-slate-300'}`}
+                            className={`h-5 w-5 ${listing.allowShortlet ? 'text-success' : 'text-on-surface-variant'}`}
                           />
-                          <span className="text-xs text-slate-600">{listing.allowShortlet ? 'Enabled' : 'Off'}</span>
+                          <span className="text-xs text-on-surface-variant">{listing.allowShortlet ? 'Enabled' : 'Off'}</span>
                         </label>
                       </td>
                       <td className="p-4">
@@ -197,11 +197,11 @@ export default async function LandlordPropertiesPage() {
 
 function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trendPositive?: boolean }) {
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value.toLocaleString()}</p>
+          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
+          <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value.toLocaleString()}</p>
         </div>
         <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
           {Icon}
@@ -209,7 +209,7 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
       </div>
       {trendPositive && (
         <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" style={{ color: 'var(--green)' }}>↑ Active</span>
+          <span className="text-xs font-medium text-success">↑ Active</span>
         </div>
       )}
     </div>
@@ -218,19 +218,19 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'tag-green', label: 'Active' },
-    draft: { class: 'tag-amber', label: 'Draft' },
-    suspended: { class: 'tag-red', label: 'Suspended' },
-    deleted: { class: 'tag-gray', label: 'Deleted' },
+    active: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Active' },
+    draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
+    suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
+    deleted: { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'tag-gray', label: status };
+  const cfg = config[status] || { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: { overallStatus: string; currentLayer: number } | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+      <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
         Not Started
       </span>
     );
@@ -239,7 +239,7 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
           Not Started
         </span>
       );
@@ -265,13 +265,13 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
         return <SharedVerificationBadge tier="certified" />;
     case 'rejected':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-bold text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-bold text-destructive border border-destructive/20 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
           Rejected
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-border">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
           {verification.overallStatus}
         </span>
       );

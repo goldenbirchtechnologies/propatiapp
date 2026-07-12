@@ -7,29 +7,29 @@ import { Badge } from '@/components/ui/badge';
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 const SkeletonStatRow = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
-      <div className="w-10 h-10 rounded-full bg-gray-200" />
+      <div className="w-10 h-10 rounded-full bg-surface-container" />
       <div className="space-y-2 flex-1">
-        <div className="h-3 bg-gray-200 rounded w-40" />
-        <div className="h-5 bg-gray-200 rounded w-24" />
+        <div className="h-3 bg-surface-container rounded w-40" />
+        <div className="h-5 bg-surface-container rounded w-24" />
       </div>
     </div>
-    <div className="h-2 bg-gray-200 rounded w-full" />
+    <div className="h-2 bg-surface-container rounded w-full" />
   </div>
 );
 
 const SkeletonReportCard = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-4">
-      <div className="w-10 h-10 rounded-lg bg-gray-200" />
+      <div className="w-10 h-10 rounded-lg bg-surface-container" />
       <div className="flex-1 space-y-2">
-        <div className="h-4 bg-gray-200 rounded w-36" />
-        <div className="h-3 bg-gray-200 rounded w-24" />
+        <div className="h-4 bg-surface-container rounded w-36" />
+        <div className="h-3 bg-surface-container rounded w-24" />
       </div>
     </div>
-    <div className="h-3 bg-gray-200 rounded w-full mb-2" />
-    <div className="h-3 bg-gray-200 rounded w-4/5" />
+    <div className="h-3 bg-surface-container rounded w-full mb-2" />
+    <div className="h-3 bg-surface-container rounded w-4/5" />
   </div>
 );
 
@@ -50,7 +50,7 @@ const MarketStatCard: React.FC<MarketStat> = ({ label, value, change, positive, 
 
   return (
     <div
-      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200
+      className={`bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm transition-all duration-200
         hover:scale-[1.02] hover:shadow-lg ${color === 'teal' ? 'hover:border-residential-teal' : 'hover:border-commercial-gold'}`}
     >
       <div className="flex items-center gap-4">
@@ -60,7 +60,7 @@ const MarketStatCard: React.FC<MarketStat> = ({ label, value, change, positive, 
         <div>
           <p className="text-sm text-on-surface-variant font-medium">{label}</p>
           <p className="text-2xl font-bold text-primary">{value}</p>
-          <p className={`text-xs font-medium mt-0.5 ${positive ? 'text-green-600' : 'text-red-600'}`}>
+          <p className={`text-xs font-medium mt-0.5 ${positive ? 'text-success' : 'text-destructive'}`}>
             {positive ? '↑' : '↓'} {change}
           </p>
         </div>
@@ -80,32 +80,32 @@ interface RegionCard {
 }
 
 const RegionCardSkeleton = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
-      <div className="w-8 h-8 rounded-full bg-gray-200" />
-      <div className="h-4 bg-gray-200 rounded w-32" />
+      <div className="w-8 h-8 rounded-full bg-surface-container" />
+      <div className="h-4 bg-surface-container rounded w-32" />
     </div>
-    <div className="h-5 bg-gray-200 rounded w-28 mb-2" />
-    <div className="h-3 bg-gray-200 rounded w-20" />
+    <div className="h-5 bg-surface-container rounded w-28 mb-2" />
+    <div className="h-3 bg-surface-container rounded w-20" />
   </div>
 );
 
 function RegionAnalysisCard({ data }: { data: RegionCard }) {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 transition-all duration-200 hover:shadow-md hover:border-residential-teal">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 transition-all duration-200 hover:shadow-md hover:border-residential-teal">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-8 h-8 rounded-full bg-residential-teal/10 flex items-center justify-center">
           <MapPin className="h-4 w-4 text-residential-teal" />
         </div>
         <div>
           <h4 className="font-semibold text-primary text-sm">{data.name}</h4>
-          {data.hot && <Badge variant="outline" className="text-[10px] text-red-600 border-red-200 bg-red-50">Hot Market</Badge>}
+          {data.hot && <Badge variant="outline" className="text-[10px] text-destructive border-destructive/20 bg-destructive/10">Hot Market</Badge>}
         </div>
       </div>
       <p className="text-xl font-bold text-primary mb-1">{data.avgPrice}</p>
       <div className="flex items-center justify-between text-xs">
         <span className="text-on-surface-variant">Avg. Price</span>
-        <span className={`font-medium ${data.positive ? 'text-green-600' : 'text-red-600'}`}>
+        <span className={`font-medium ${data.positive ? 'text-success' : 'text-destructive'}`}>
           {data.positive ? '↑' : '↓'} {data.change} vs last Q
         </span>
       </div>
@@ -117,7 +117,7 @@ function RegionAnalysisCard({ data }: { data: RegionCard }) {
 // ── Empty State ───────────────────────────────────────────────────────────────
 function EmptyMarketState() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
       <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
         <BarChart3 className="h-8 w-8 text-muted-foreground" />
       </div>

@@ -87,19 +87,19 @@ const AMENITY_ICON_MAP: Record<string, React.ReactNode> = {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'tag-green', label: 'Active' },
-    draft: { class: 'tag-amber', label: 'Draft' },
-    suspended: { class: 'tag-red', label: 'Suspended' },
-    deleted: { class: 'tag-gray', label: 'Deleted' },
+    active: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Active' },
+    draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
+    suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
+    deleted: { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'tag-gray', label: status };
+  const cfg = config[status] || { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+      <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
         Not Started
       </span>
     );
@@ -108,7 +108,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
           Not Started
         </span>
       );
@@ -134,13 +134,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       return <SharedVerificationBadge tier="certified" />;
     case 'rejected':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-bold text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-bold text-destructive border border-destructive/20 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
           Rejected
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-border">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
           {verification.overallStatus}
         </span>
       );
@@ -196,12 +196,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started' },
+    not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started' },
     in_progress: { class: 'tag-blue', label: 'In Progress' },
-    certified: { class: 'tag-green', label: 'Verified ✓' },
-    rejected: { class: 'tag-red', label: 'Rejected' },
-    pending: { class: 'tag-amber', label: 'Pending' },
-    approved: { class: 'tag-green', label: 'Approved' },
+    certified: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Verified ✓' },
+    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected' },
+    pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
+    approved: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Approved' },
   };
 
   const verificationStatus = listing.verification?.overallStatus || 'not_started';
@@ -216,7 +216,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+      <nav className="flex items-center gap-2 text-sm text-on-surface-variant">
         <Link href="/dashboard/landlord" className="hover:underline">
           Dashboard
         </Link>
@@ -235,19 +235,15 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/landlord/properties"
-            className="p-2 rounded-lg hover:bg-surface-container"
-            style={{ color: 'var(--muted)' }}
-          >
+            className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
             <h1
-              className="font-heading font-bold"
-              style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
-            >
+              className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
               {listing.title}
             </h1>
-            <p className="flex items-center gap-1 mt-1" style={{ color: 'var(--muted)' }}>
+            <p className="flex items-center gap-1 mt-1 text-on-surface-variant">
               <MapPin className="h-3 w-3" />
               {listing.address}
             </p>
@@ -257,7 +253,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b" style={{ borderColor: 'var(--border)' }}>
+      <div className="flex gap-2 border-b border-outline-variant">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -278,9 +274,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
       {/* Tab Content */}
       {activeTab === 'manage' && (
-        <div className="card p-6">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>
+            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
               Property Details
             </h2>
             {!editingManage ? (
@@ -305,7 +301,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Property Title
                 </label>
                 {editingManage ? (
@@ -316,31 +312,31 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium" style={{ color: 'var(--text)' }}>
+                  <p className="font-medium text-primary">
                     {listing.title}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Address
                 </label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>
+                <p className="font-medium text-primary">
                   {listing.address}
                 </p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Location
                 </label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>
+                <p className="font-medium text-primary">
                   {listing.area}, {listing.state}
                 </p>
               </div>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Price
                 </label>
                 {editingManage ? (
@@ -351,13 +347,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium" style={{ color: 'var(--text)' }}>
+                  <p className="font-medium text-primary">
                     {listing.price}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Status
                 </label>
                 {editingManage ? (
@@ -375,10 +371,10 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Property Type
                 </label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>
+                <p className="font-medium text-primary">
                   {listing.propertyType || 'N/A'}
                 </p>
               </div>
@@ -386,7 +382,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </div>
 
           <div className="mt-6">
-            <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+            <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
               Description
             </label>
             {editingManage ? (
@@ -397,41 +393,41 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 className="inp-field"
               />
             ) : (
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text)' }}>
+              <p className="text-sm leading-relaxed text-primary">
                 {listing.description || 'No description provided.'}
               </p>
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-outline-variant">
             <div className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <DollarSign className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Rent</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{listing.pricePeriod || 'month'}</p>
+                <p className="text-xs text-on-surface-variant">Rent</p>
+                <p className="font-medium text-sm text-primary">{listing.pricePeriod || 'month'}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {listing.allowShortlet ? (
-                <CheckCircle2 className="h-4 w-4" style={{ color: 'var(--green)' }} />
+                <CheckCircle2 className="h-4 w-4 text-success" />
               ) : (
-                <X className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+                <X className="h-4 w-4 text-on-surface-variant" />
               )}
             </div>
             <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <ImageIcon className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Images</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+                <p className="text-xs text-on-surface-variant">Images</p>
+                <p className="font-medium text-sm text-primary">
                   {listing.images.length}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Eye className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <Eye className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Views</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+                <p className="text-xs text-on-surface-variant">Views</p>
+                <p className="font-medium text-sm text-primary">
                   {listing.viewsCount}
                 </p>
               </div>
@@ -442,16 +438,16 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
       {activeTab === 'verification' && (
         <div className="space-y-4">
-          <div className="card p-6">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>
+              <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
                 Verification Status
               </h2>
-              <span className={`tag ${statusColors[verificationStatus]?.class || 'tag-gray'}`}>
+              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-on-surface-variant border-outline-variant'}`}>
                 {statusColors[verificationStatus]?.label || 'Unknown'}
               </span>
             </div>
-            <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm mb-4 text-on-surface-variant">
               {listing.verification
                 ? `Currently on Layer ${currentLayer} of the 5-layer verification process.`
                 : 'Verification has not been started for this property.'}
@@ -467,27 +463,17 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             return (
               <div
                 key={layer.key}
-                className="card p-4"
-                style={{
-                  background: isCurrent ? 'var(--accent-bg)' : 'transparent',
-                  border: isCurrent ? '1px solid var(--accent)' : '1px solid var(--border)',
-                }}
-              >
+                className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow border-outline-variant">
                 <div className="flex items-center gap-4">
                   <div
-                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
-                    style={{
-                      background: isApproved ? 'var(--green-bg)' : isCurrent ? 'var(--accent-bg)' : 'var(--border)',
-                      color: isApproved ? 'var(--green)' : isCurrent ? 'var(--accent)' : 'var(--muted)',
-                    }}
-                  >
+                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-on-surface-variant">
                     {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <span>{index + 1}</span>}
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+                    <p className="font-medium text-sm text-primary">
                       {layer.label}
                     </p>
-                    <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                    <p className="text-xs text-on-surface-variant">
                       {layer.desc}
                     </p>
                   </div>
@@ -515,26 +501,26 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       )}
 
       {activeTab === 'amenities' && (
-        <div className="card p-6">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>
+            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
               Amenities
             </h2>
             {saved && (
-              <span className="text-xs" style={{ color: 'var(--green)' }}>
+              <span className="text-xs text-success">
                 Changes saved
               </span>
             )}
           </div>
 
-          <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
+          <p className="text-sm mb-4 text-on-surface-variant">
             Update amenities that tenants and buyers will see on this listing.
           </p>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
             <div className="flex items-center gap-2 p-3 rounded-lg mb-4" style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent)' }}>
               <AlertTriangle className="h-4 w-4" style={{ color: 'var(--accent)' }} />
-              <p className="text-sm" style={{ color: 'var(--text)' }}>
+              <p className="text-sm text-primary">
                 Amenity updates will be reviewed during verification.
               </p>
             </div>

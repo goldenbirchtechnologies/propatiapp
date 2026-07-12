@@ -32,27 +32,27 @@ interface QuickActionCardProps {
 
 // Skeleton loading components
 const SkeletonCard = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 animate-pulse">
     <div className="flex items-start justify-between">
       <div className="flex-1">
-        <div className="h-4 bg-gray-200 rounded w-24 mb-3"></div>
-        <div className="h-8 bg-gray-200 rounded w-16 mb-2"></div>
-        <div className="h-3 bg-gray-200 rounded w-20"></div>
+        <div className="h-4 bg-surface-container rounded w-24 mb-3"></div>
+        <div className="h-8 bg-surface-container rounded w-16 mb-2"></div>
+        <div className="h-3 bg-surface-container rounded w-20"></div>
       </div>
-      <div className="w-12 h-12 bg-gray-200 rounded-lg"></div>
+      <div className="w-12 h-12 bg-surface-container rounded-xl"></div>
     </div>
   </div>
 );
 
 const SkeletonPipelineColumn = () => (
-  <div className="bg-surface-container-low rounded-lg p-4 animate-pulse">
-    <div className="h-5 bg-gray-200 rounded w-24 mb-4"></div>
+  <div className="bg-surface-container-low rounded-xl p-4 animate-pulse">
+    <div className="h-5 bg-surface-container rounded w-24 mb-4"></div>
     <div className="space-y-3">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-surface-container-lowest rounded-lg p-3 border border-outline-variant">
-          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-          <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
-          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        <div key={i} className="bg-surface-container-lowest rounded-xl p-3 border border-outline-variant shadow-sm">
+          <div className="h-4 bg-surface-container rounded w-full mb-2"></div>
+          <div className="h-3 bg-surface-container rounded w-3/4 mb-2"></div>
+          <div className="h-3 bg-surface-container rounded w-1/2"></div>
         </div>
       ))}
     </div>
@@ -68,7 +68,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color })
 
   return (
     <div
-      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-300 ease-in-out
+      className={`bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm transition-all duration-300 ease-in-out
         hover:scale-105 hover:shadow-card-hover ${colorClasses[color]} cursor-pointer group`}
     >
       <div className="flex items-start justify-between">
@@ -112,7 +112,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color })
 
 // Pipeline Column Component
 const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) => (
-  <div className="bg-surface-container-low rounded-lg p-4 min-h-[260px] transition-all duration-300 hover:bg-surface-container">
+  <div className="bg-surface-container-low rounded-xl p-4 min-h-[260px] transition-all duration-300 hover:bg-surface-container">
     <div className="flex items-center justify-between mb-4">
       <h4 className="font-semibold text-primary">{stage}</h4>
       <span className="bg-residential-teal text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -124,7 +124,7 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
         deals.map((deal) => (
           <div
             key={deal.id}
-            className={`bg-surface-container-lowest rounded-lg p-3 border border-outline-variant shadow-sm cursor-grab
+            className={`bg-surface-container-lowest rounded-xl p-3 border border-outline-variant shadow-sm cursor-grab
               transition-all duration-300 hover:scale-105 hover:shadow-card-hover ${
                 deal.type === 'buy'
                   ? 'hover:border-blue-500'
@@ -135,8 +135,8 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
               <span
                 className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                   deal.type === 'buy'
-                    ? 'bg-blue-100 text-primary'
-                    : 'bg-teal-100 text-teal-700'
+                    ? 'bg-surface-container-high/20 text-primary'
+                    : 'bg-surface-container-high/20 text-primary'
                 }`}
               >
                 {deal.type}
@@ -167,7 +167,7 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
 const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
   <button
     onClick={onClick}
-    className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 text-left w-full
+    className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 text-left w-full shadow-sm
       transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-emerald-600 group"
   >
     <div className="flex items-start gap-4">
@@ -301,7 +301,7 @@ export default function RealtorHomeClient() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">Realtor Dashboard</h1>
-              <p className="text-emerald-600-100 text-sm sm:text-base">
+              <p className="text-white/80 text-sm sm:text-base">
                 Welcome back! Here&apos;s your buy and sell performance overview
               </p>
             </div>
@@ -334,22 +334,22 @@ export default function RealtorHomeClient() {
 
         {/* Commission Summary */}
         <section className="mb-8">
-          <div className="bg-gradient-to-r from-commercial-gold to-commercial-gold/90 rounded-lg p-6 text-white">
+          <div className="bg-gradient-to-r from-commercial-gold to-commercial-gold/90 rounded-xl p-6 text-white">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Commission Summary</h2>
               <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
-                <p className="text-amber-600-100 text-sm mb-1">Total Earned (YTD)</p>
+                <p className="text-white/80 text-sm mb-1">Total Earned (YTD)</p>
                 <p className="text-2xl font-bold">₦18,750,000</p>
               </div>
               <div>
-                <p className="text-amber-600-100 text-sm mb-1">Pending Payment</p>
+                <p className="text-white/80 text-sm mb-1">Pending Payment</p>
                 <p className="text-2xl font-bold">₦4,500,000</p>
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <p className="text-amber-600-100 text-sm mb-1">Next Payment</p>
+                <p className="text-white/80 text-sm mb-1">Next Payment</p>
                 <p className="text-2xl font-bold">Jul 15, 2026</p>
               </div>
             </div>
@@ -391,7 +391,7 @@ export default function RealtorHomeClient() {
         {/* Recent Activity */}
         <section>
           <h2 className="text-xl font-bold text-primary mb-4">Recent Activity</h2>
-          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-8 text-center">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 text-center shadow-sm">
             <span className="material-symbols-outlined text-5xl text-muted-foreground mb-3 block">
               history
             </span>

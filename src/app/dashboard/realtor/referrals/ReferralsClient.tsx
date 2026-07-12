@@ -68,11 +68,11 @@ const mockReferrals: Referral[] = [
 
 // ── Status Helpers ──────────────────────────────────────────────────────────────
 const statusStyles: Record<string, string> = {
-  new: 'bg-blue-100 text-blue-700 border-blue-200',
-  contacted: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-  qualified: 'bg-purple-100 text-purple-700 border-purple-200',
-  closed: 'bg-green-100 text-green-700 border-green-200',
-  lost: 'bg-red-100 text-red-700 border-red-200',
+  new: 'bg-surface-container-high/20 border-outline-variant text-primary',
+  contacted: 'bg-warning/10 border-warning/20 text-warning',
+  qualified: 'bg-surface-container-high/20 border-outline-variant text-primary',
+  closed: 'bg-success-bright/10 border-success-bright/20 text-success',
+  lost: 'bg-destructive/10 border-destructive/20 text-destructive',
 };
 
 const statusLabels: Record<string, string> = {
@@ -87,26 +87,26 @@ type FilterStatus = 'all' | Referral['status'];
 
 // ── Skeleton Components ────────────────────────────────────────────────────────
 const SkeletonStatCard = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
-      <div className="w-10 h-10 rounded-lg bg-gray-200" />
+      <div className="w-10 h-10 rounded-lg bg-surface-container" />
       <div>
-        <div className="h-3 bg-gray-200 rounded w-24 mb-2" />
-        <div className="h-6 bg-gray-200 rounded w-12" />
+        <div className="h-3 bg-surface-container rounded w-24 mb-2" />
+        <div className="h-6 bg-surface-container rounded w-12" />
       </div>
     </div>
   </div>
 );
 
 const SkeletonRow = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 animate-pulse">
     <div className="flex items-center gap-4">
       <div className="flex-1 space-y-2">
-        <div className="h-4 bg-gray-200 rounded w-48" />
-        <div className="h-3 bg-gray-200 rounded w-64" />
+        <div className="h-4 bg-surface-container rounded w-48" />
+        <div className="h-3 bg-surface-container rounded w-64" />
       </div>
-      <div className="h-6 bg-gray-200 rounded-full w-20" />
-      <div className="h-9 bg-gray-200 rounded w-24" />
+      <div className="h-6 bg-surface-container rounded-full w-20" />
+      <div className="h-9 bg-surface-container rounded w-24" />
     </div>
   </div>
 );
@@ -122,7 +122,7 @@ const TableSkeleton = () => (
 // ── Empty State ────────────────────────────────────────────────────────────────
 function EmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
       <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
         <UserPlus className="h-8 w-8 text-muted-foreground" />
       </div>
@@ -147,9 +147,9 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
 // ── Error State ────────────────────────────────────────────────────────────────
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-red-200 p-12 text-center">
-      <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
-        <RefreshCw className="h-8 w-8 text-red-400" />
+    <div className="bg-surface-container-lowest rounded-xl border border-destructive/20 p-12 text-center">
+      <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+        <RefreshCw className="h-8 w-8 text-destructive" />
       </div>
       <h3 className="text-lg font-semibold text-primary mb-1">Something went wrong</h3>
       <p className="text-sm text-on-surface-variant mb-6 max-w-sm mx-auto">
@@ -178,15 +178,15 @@ function StatCard({
   const colorMap = {
     teal: 'hover:border-residential-teal text-residential-teal',
     gold: 'hover:border-commercial-gold text-commercial-gold',
-    blue: 'hover:border-blue-500 text-blue-600',
-    purple: 'hover:border-purple-500 text-purple-600',
-    green: 'hover:border-green-500 text-green-600',
+    blue: 'hover:border-primary text-primary',
+    purple: 'hover:border-primary text-primary',
+    green: 'hover:border-success text-success',
   };
 
   return (
     <div
       className={cn(
-        'bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg',
+        'bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm transition-all duration-200 hover:scale-[1.02] hover:shadow-lg',
         colorMap[color]
       )}
     >
@@ -196,7 +196,7 @@ function StatCard({
         <p
           className={cn(
             'text-xs font-medium mt-1',
-            trend.positive ? 'text-green-600' : 'text-red-600'
+            trend.positive ? 'text-success' : 'text-destructive'
           )}
         >
           {trend.positive ? '↑' : '↓'} {trend.value}
@@ -209,16 +209,16 @@ function StatCard({
 // ── Referral Row ───────────────────────────────────────────────────────────────
 function ReferralRow({ referral }: { referral: Referral }) {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 transition-colors hover:bg-surface-container-low">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm transition-colors hover:bg-surface-container">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
+          <p className="font-medium text-sm text-primary truncate">
             {referral.referredName}
           </p>
-          <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs text-on-surface-variant truncate">
             {referral.referredEmail} · {referral.referredPhone}
           </p>
-          <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs mt-1 text-on-surface-variant">
             Source: {referral.source} · {new Date(referral.date).toLocaleDateString()}
           </p>
         </div>
@@ -325,10 +325,10 @@ export default function ReferralsClient() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+            <h1 className="font-headline-sm text-headline-sm text-primary">
               Referrals Pipeline
             </h1>
-            <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            <p className="text-sm text-on-surface-variant mt-2">
               Track every lead from first contact to closed deal.
             </p>
           </div>
@@ -344,16 +344,16 @@ export default function ReferralsClient() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+          <h1 className="font-headline-sm text-headline-sm text-primary">
             Referrals Pipeline
           </h1>
-          <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-sm text-on-surface-variant mt-2">
             Track every lead from first contact to closed deal.
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
             <input
               type="text"
               placeholder="Search referrals..."
@@ -374,7 +374,7 @@ export default function ReferralsClient() {
 
       {/* Status Filter Pills */}
       <div className="flex flex-wrap items-center gap-2">
-        <Filter className="h-4 w-4 shrink-0" style={{ color: 'var(--muted)' }} />
+        <Filter className="h-4 w-4 shrink-0 text-on-surface-variant" />
         <FilterButton active={activeFilter === 'all'} onClick={() => setActiveFilter('all')} label="All" />
         {(['new', 'contacted', 'qualified', 'closed', 'lost'] as const).map((status) => (
           <FilterButton
@@ -387,8 +387,7 @@ export default function ReferralsClient() {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors hover:bg-surface-container-low"
-            style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant transition-colors hover:bg-surface-container-low"
           >
             <X className="h-3 w-3" />
             Clear filters
@@ -410,11 +409,11 @@ export default function ReferralsClient() {
       {/* Table / Referral Rows */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold" style={{ color: 'var(--text)' }}>
+          <h2 className="text-lg font-bold text-primary">
             Referral Directory
           </h2>
           {!loading && (
-            <span className="text-xs" style={{ color: 'var(--muted)' }}>
+            <span className="text-xs text-on-surface-variant">
               {filteredReferrals.length} result{filteredReferrals.length === 1 ? '' : 's'}
             </span>
           )}
@@ -452,10 +451,9 @@ function FilterButton({
       className={cn(
         'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors',
         active
-          ? 'border-blue-500 bg-blue-50 text-blue-700'
-          : 'border-transparent hover:border-outline-variant bg-surface-container-low hover:bg-surface-container'
+          ? 'border-primary bg-primary/10 text-primary'
+          : 'border-transparent hover:border-outline-variant bg-surface-container-low hover:bg-surface-container text-on-surface-variant'
       )}
-      style={!active ? { color: 'var(--muted)' } : undefined}
     >
       {label}
     </button>

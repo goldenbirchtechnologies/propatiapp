@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 export function EmptyState() {
   return (
-    <div className="rounded-lg border border-dashed border-border bg-muted/40 p-8 text-center text-muted-foreground">
+    <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center text-muted-foreground">
       No applications yet.
     </div>
   );
@@ -59,9 +59,9 @@ interface Application {
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
-  accepted: { label: 'Accepted', className: 'bg-green-100 text-green-800 border-green-200' },
-  rejected: { label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-gray-100 text-on-surface-variant border-outline-variant' },
+  accepted: { label: 'Accepted', className: 'bg-success-bright/10 text-success border-success-bright/20' },
+  rejected: { label: 'Rejected', className: 'bg-destructive/10 text-destructive border-destructive/20' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
 };
 
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
@@ -147,10 +147,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+        <h1 className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
           Applications
         </h1>
-        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+        <p className="text-on-surface-variant">
           Review and manage rental applications for your properties
         </p>
       </div>
@@ -162,7 +162,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
         <StatCard label="Accepted" value={accepted} icon={<CheckCircle className="w-5 h-5" />} />
       </div>
 
-      <div className="card p-4">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex flex-wrap gap-4">
           <select
             className="inp-field"
@@ -196,11 +196,11 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       {filtered.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <Users className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.4 }} />
-            <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+            <Users className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" />
+            <h3 className="font-headline-sm text-headline-sm text-primary mb-2 text-primary">
               No applications found
             </h3>
-            <p style={{ color: 'var(--muted)' }}>
+            <p className="text-on-surface-variant">
               {applications.length === 0
                 ? 'You have not received any applications yet.'
                 : 'No applications match the selected filters.'}
@@ -208,17 +208,17 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           </CardContent>
         </Card>
       ) : (
-        <div className="card overflow-hidden">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Tenant</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Listing</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Message</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Date</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
+                <tr className="border-b border-outline-variant">
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Tenant</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Listing</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Message</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Status</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Date</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -227,7 +227,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   const isActionable = ['pending', 'under_review'].includes(app.status);
 
                   return (
-                    <tr key={app.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
+                    <tr key={app.id} className="border-b border-outline-variant">
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div
@@ -237,19 +237,19 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                             {app.tenant.fullName.charAt(0)}
                           </div>
                           <div>
-                            <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+                            <p className="font-medium text-sm text-primary">
                               {app.tenant.fullName}
                             </p>
-                            <p className="text-xs" style={{ color: 'var(--muted)' }}>{app.tenant.email}</p>
+                            <p className="text-xs text-on-surface-variant">{app.tenant.email}</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{app.listing.title}</p>
-                        <p className="text-xs" style={{ color: 'var(--muted)' }}>{app.listing.area}</p>
+                        <p className="text-sm font-medium text-primary">{app.listing.title}</p>
+                        <p className="text-xs text-on-surface-variant">{app.listing.area}</p>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm max-w-48 truncate" style={{ color: 'var(--muted)' }}>
+                        <p className="text-sm max-w-48 truncate text-on-surface-variant">
                           {app.message || '—'}
                         </p>
                       </td>
@@ -261,7 +261,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </span>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                        <p className="text-sm text-on-surface-variant">
                           {new Date(app.createdAt).toLocaleDateString('en-NG', {
                             day: '2-digit',
                             month: 'short',
@@ -302,10 +302,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   className="p-4 rounded-xl"
                   style={{ background: 'var(--accent-bg)' }}
                 >
-                  <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
+                  <p className="text-sm font-semibold text-primary">
                     {selectedApp.listing.title}
                   </p>
-                  <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                  <p className="text-xs text-on-surface-variant">
                     {selectedApp.listing.area}, {selectedApp.listing.state}
                   </p>
                 </div>
@@ -319,11 +319,11 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="font-semibold" style={{ color: 'var(--text)' }}>
+                      <p className="font-semibold text-primary">
                         {selectedApp.tenant.fullName}
                       </p>
                       {selectedApp.tenant.idVerified && (
-                        <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                        <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
                           <BadgeCheck className="w-3 h-3" /> ID Verified
                         </span>
                       )}
@@ -333,9 +333,9 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </span>
                       )}
                     </div>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>{selectedApp.tenant.email}</p>
+                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
                     {selectedApp.tenant.phone && (
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>{selectedApp.tenant.phone}</p>
+                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
                     )}
                   </div>
                 </div>
@@ -344,28 +344,26 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   selectedApp.tenant.employerName ||
                   selectedApp.tenant.yearlyIncome) && (
                   <div
-                    className="p-3 rounded-lg space-y-1 text-sm"
-                    style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-                  >
-                    <p className="font-medium mb-2" style={{ color: 'var(--text)' }}>Employment</p>
+                    className="p-3 rounded-lg space-y-1 text-sm border-outline-variant">
+                    <p className="font-medium mb-2 text-primary">Employment</p>
                     {selectedApp.tenant.employmentStatus && (
-                      <p style={{ color: 'var(--muted)' }}>
+                      <p className="text-on-surface-variant">
                         Status: <span style={{ color: 'var(--text)' }} className="capitalize">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
                       </p>
                     )}
                     {selectedApp.tenant.employerName && (
-                      <p style={{ color: 'var(--muted)' }}>
-                        Employer: <span style={{ color: 'var(--text)' }}>{selectedApp.tenant.employerName}</span>
+                      <p className="text-on-surface-variant">
+                        Employer: <span className="text-primary">{selectedApp.tenant.employerName}</span>
                       </p>
                     )}
                     {selectedApp.tenant.jobTitle && (
-                      <p style={{ color: 'var(--muted)' }}>
-                        Role: <span style={{ color: 'var(--text)' }}>{selectedApp.tenant.jobTitle}</span>
+                      <p className="text-on-surface-variant">
+                        Role: <span className="text-primary">{selectedApp.tenant.jobTitle}</span>
                       </p>
                     )}
                     {selectedApp.tenant.yearlyIncome && (
-                      <p style={{ color: 'var(--muted)' }}>
-                        Income: <span style={{ color: 'var(--text)' }}>₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
+                      <p className="text-on-surface-variant">
+                        Income: <span className="text-primary">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
                       </p>
                     )}
                   </div>
@@ -373,25 +371,23 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                 {selectedApp.tenant.profileBio && (
                   <div>
-                    <p className="text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>About</p>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>{selectedApp.tenant.profileBio}</p>
+                    <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">About</p>
+                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.profileBio}</p>
                   </div>
                 )}
 
                 {selectedApp.message && (
                   <div>
-                    <p className="text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Applicant message</p>
+                    <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">Applicant message</p>
                     <p
-                      className="text-sm p-3 rounded-lg"
-                      style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)' }}
-                    >
+                      className="text-sm p-3 rounded-lg text-primary">
                       {selectedApp.message}
                     </p>
                   </div>
                 )}
 
                 <div>
-                  <label className="text-sm font-medium block mb-1.5" style={{ color: 'var(--text)' }}>
+                  <label className="text-sm font-medium block mb-1.5 text-primary">
                     Notes (optional)
                   </label>
                   <textarea
@@ -434,7 +430,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     size="sm"
                     onClick={() => handleAction('accept')}
                     disabled={isLoading}
-                    className="bg-green-600 hover:bg-green-700 text-white"
+                    className="bg-success hover:bg-success/90 text-white"
                   >
                     {actionType === 'accept' && isLoading ? (
                       <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -459,8 +455,8 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-            <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
+            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value}</p>
           </div>
           <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
             {icon}

@@ -11,9 +11,9 @@ import type { Invoice } from '@/lib/api';
 const statusConfig: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft' },
   sent: { class: 'bg-blue-50 text-blue-700 border-blue-200', label: 'Sent' },
-  paid: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Paid' },
-  overdue: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Overdue' },
-  cancelled: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Cancelled' },
+  paid: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Paid' },
+  overdue: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Overdue' },
+  cancelled: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Cancelled' },
 };
 
 export default function LandlordInvoicesClient() {

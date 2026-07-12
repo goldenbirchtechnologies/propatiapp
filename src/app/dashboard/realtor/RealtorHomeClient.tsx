@@ -32,7 +32,7 @@ interface QuickActionCardProps {
 
 // Skeleton loading components
 const SkeletonCard = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <div className="h-4 bg-gray-200 rounded w-24 mb-3"></div>
@@ -45,11 +45,11 @@ const SkeletonCard = () => (
 );
 
 const SkeletonPipelineColumn = () => (
-  <div className="bg-gray-50 rounded-lg p-4 animate-pulse">
+  <div className="bg-surface-container-low rounded-lg p-4 animate-pulse">
     <div className="h-5 bg-gray-200 rounded w-24 mb-4"></div>
     <div className="space-y-3">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-white rounded-lg p-3 border border-gray-200">
+        <div key={i} className="bg-surface-container-lowest rounded-lg p-3 border border-outline-variant">
           <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
           <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
           <div className="h-3 bg-gray-200 rounded w-1/2"></div>
@@ -62,31 +62,31 @@ const SkeletonPipelineColumn = () => (
 // Stat Card Component
 const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color }) => {
   const colorClasses = {
-    teal: 'text-residential-teal hover:border-residential-teal',
-    gold: 'text-commercial-gold hover:border-commercial-gold',
+    teal: 'text-emerald-600 hover:border-emerald-600',
+    gold: 'text-amber-600 hover:border-amber-600',
   };
 
   return (
     <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out
+      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-300 ease-in-out
         hover:scale-105 hover:shadow-card-hover ${colorClasses[color]} cursor-pointer group`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm text-gray-600 mb-2 font-medium">{label}</p>
-          <h3 className="text-3xl font-bold text-gray-900 mb-1">{value}</h3>
+          <p className="text-sm text-on-surface-variant mb-2 font-medium">{label}</p>
+          <h3 className="text-3xl font-bold text-primary mb-1">{value}</h3>
           {trend && (
             <div className="flex items-center gap-1">
               <span
                 className={`material-symbols-outlined text-sm ${
-                  trend.isPositive ? 'text-green-600' : 'text-red-600'
+                  trend.isPositive ? 'text-success' : 'text-destructive'
                 }`}
               >
                 {trend.isPositive ? 'trending_up' : 'trending_down'}
               </span>
               <span
                 className={`text-xs font-medium ${
-                  trend.isPositive ? 'text-green-600' : 'text-red-600'
+                  trend.isPositive ? 'text-success' : 'text-destructive'
                 }`}
               >
                 {trend.value}
@@ -97,8 +97,8 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color })
         <div
           className={`w-12 h-12 rounded-lg bg-gradient-to-br ${
             color === 'teal'
-              ? 'from-residential-teal/10 to-residential-teal/20'
-              : 'from-commercial-gold/10 to-commercial-gold/20'
+              ? 'from-emerald-100/80 to-emerald-200/60'
+              : 'from-amber-100/80 to-amber-200/60'
           } flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}
         >
           <span className={`material-symbols-outlined text-2xl ${colorClasses[color]}`}>
@@ -112,9 +112,9 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color })
 
 // Pipeline Column Component
 const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) => (
-  <div className="bg-gray-50 rounded-lg p-4 min-h-[260px] transition-all duration-300 hover:bg-gray-100">
+  <div className="bg-surface-container-low rounded-lg p-4 min-h-[260px] transition-all duration-300 hover:bg-gray-100">
     <div className="flex items-center justify-between mb-4">
-      <h4 className="font-semibold text-gray-900">{stage}</h4>
+      <h4 className="font-semibold text-primary">{stage}</h4>
       <span className="bg-residential-teal text-white text-xs font-bold px-2 py-1 rounded-full">
         {count}
       </span>
@@ -124,29 +124,29 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
         deals.map((deal) => (
           <div
             key={deal.id}
-            className={`bg-white rounded-lg p-3 border border-gray-200 shadow-sm cursor-grab
+            className={`bg-surface-container-lowest rounded-lg p-3 border border-outline-variant shadow-sm cursor-grab
               transition-all duration-300 hover:scale-105 hover:shadow-card-hover ${
                 deal.type === 'buy'
-                  ? 'hover:border-blue-400'
-                  : 'hover:border-residential-teal'
+                  ? 'hover:border-blue-500'
+                  : 'hover:border-emerald-600'
               }`}
           >
             <div className="flex items-center gap-2 mb-1">
               <span
                 className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                   deal.type === 'buy'
-                    ? 'bg-blue-100 text-blue-700'
+                    ? 'bg-blue-100 text-primary'
                     : 'bg-teal-100 text-teal-700'
                 }`}
               >
                 {deal.type}
               </span>
-              <h5 className="font-medium text-gray-900 text-sm truncate">{deal.property}</h5>
+              <h5 className="font-medium text-primary text-sm truncate">{deal.property}</h5>
             </div>
-            <p className="text-xs text-gray-600 mb-2 truncate">{deal.client}</p>
+            <p className="text-xs text-on-surface-variant mb-2 truncate">{deal.client}</p>
             <p
               className={`text-sm font-bold ${
-                deal.type === 'buy' ? 'text-blue-600' : 'text-residential-teal'
+                deal.type === 'buy' ? 'text-primary' : 'text-emerald-600'
               }`}
             >
               {deal.value}
@@ -154,7 +154,7 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
           </div>
         ))
       ) : (
-        <div className="text-center py-8 text-gray-400">
+        <div className="text-center py-8 text-muted-foreground">
           <span className="material-symbols-outlined text-3xl mb-2 block">inbox</span>
           <p className="text-xs">No deals in this stage</p>
         </div>
@@ -167,21 +167,21 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
 const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, description, onClick }) => (
   <button
     onClick={onClick}
-    className="bg-white rounded-lg border border-gray-200 p-6 text-left w-full
-      transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-residential-teal group"
+    className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 text-left w-full
+      transition-all duration-300 hover:scale-105 hover:shadow-card-hover hover:border-emerald-600 group"
   >
     <div className="flex items-start gap-4">
       <div
-        className="w-12 h-12 rounded-lg bg-gradient-to-br from-residential-teal/10 to-residential-teal/20
+        className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-100/80 to-emerald-200/60
         flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
       >
-        <span className="material-symbols-outlined text-2xl text-residential-teal">{icon}</span>
+        <span className="material-symbols-outlined text-2xl text-emerald-600">{icon}</span>
       </div>
       <div className="flex-1">
-        <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-residential-teal transition-colors duration-300">
+        <h4 className="font-semibold text-primary mb-1 group-hover:text-emerald-600 transition-colors duration-300">
           {title}
         </h4>
-        <p className="text-sm text-gray-600">{description}</p>
+        <p className="text-sm text-on-surface-variant">{description}</p>
       </div>
     </div>
   </button>
@@ -294,14 +294,14 @@ export default function RealtorHomeClient() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-container-low">
       {/* Header */}
       <div className="bg-gradient-to-r from-residential-teal to-residential-teal/90 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">Realtor Dashboard</h1>
-              <p className="text-residential-teal-100 text-sm sm:text-base">
+              <p className="text-emerald-600-100 text-sm sm:text-base">
                 Welcome back! Here&apos;s your buy and sell performance overview
               </p>
             </div>
@@ -316,7 +316,7 @@ export default function RealtorHomeClient() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Grid */}
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Performance Metrics</h2>
+          <h2 className="text-xl font-bold text-primary mb-4">Performance Metrics</h2>
           {loading ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[1, 2, 3, 4].map((i) => (
@@ -341,15 +341,15 @@ export default function RealtorHomeClient() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
-                <p className="text-commercial-gold-100 text-sm mb-1">Total Earned (YTD)</p>
+                <p className="text-amber-600-100 text-sm mb-1">Total Earned (YTD)</p>
                 <p className="text-2xl font-bold">₦18,750,000</p>
               </div>
               <div>
-                <p className="text-commercial-gold-100 text-sm mb-1">Pending Payment</p>
+                <p className="text-amber-600-100 text-sm mb-1">Pending Payment</p>
                 <p className="text-2xl font-bold">₦4,500,000</p>
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <p className="text-commercial-gold-100 text-sm mb-1">Next Payment</p>
+                <p className="text-amber-600-100 text-sm mb-1">Next Payment</p>
                 <p className="text-2xl font-bold">Jul 15, 2026</p>
               </div>
             </div>
@@ -358,7 +358,7 @@ export default function RealtorHomeClient() {
 
         {/* Deal Pipeline */}
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Sales Pipeline</h2>
+          <h2 className="text-xl font-bold text-primary mb-4">Sales Pipeline</h2>
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {[1, 2, 3, 4, 5].map((i) => (
@@ -376,7 +376,7 @@ export default function RealtorHomeClient() {
 
         {/* Quick Actions */}
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <h2 className="text-xl font-bold text-primary mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {quickActions.map((action, index) => (
               <QuickActionCard
@@ -390,13 +390,13 @@ export default function RealtorHomeClient() {
 
         {/* Recent Activity */}
         <section>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <span className="material-symbols-outlined text-5xl text-gray-300 mb-3 block">
+          <h2 className="text-xl font-bold text-primary mb-4">Recent Activity</h2>
+          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-8 text-center">
+            <span className="material-symbols-outlined text-5xl text-muted-foreground mb-3 block">
               history
             </span>
-            <p className="text-gray-500 mb-1 font-medium">No recent activity</p>
-            <p className="text-sm text-gray-400">Your activity feed will appear here</p>
+            <p className="text-on-surface-variant mb-1 font-medium">No recent activity</p>
+            <p className="text-sm text-muted-foreground">Your activity feed will appear here</p>
           </div>
         </section>
       </div>

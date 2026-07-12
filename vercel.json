@@ -2,5 +2,30 @@
   "buildCommand": "prisma generate && next build",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "devCommand": "next dev"
+  "devCommand": "next dev",
+  "headers": [
+    {
+      "source": "/manifest",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        { "type": "header", "key": "Accept", "value": "application/manifest\\+json" }
+      ],
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
 }

@@ -25,8 +25,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
       <ClerkProvider
         publishableKey={clerkKey}
-        afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
-        afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
+        signInFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
+        signUpFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/onboarding'}
         signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
         signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}
       >

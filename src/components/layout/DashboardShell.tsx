@@ -536,8 +536,8 @@ export function DashboardShell({
         role="navigation"
         aria-label="Main navigation"
         style={{
-          background: '#2563eb',
-          borderRight: '1px solid rgba(255,255,255,0.14)',
+          background: '#06203d',
+          borderRight: '1px solid rgba(255,255,255,0.18)',
         }}
       >
         <style>{`
@@ -614,9 +614,9 @@ export function DashboardShell({
                         fontSize: 'var(--text-body)',
                         fontWeight: 500,
                         minHeight: '44px',
-                        color: itemActive ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
-                        backgroundColor: itemActive ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
-                        borderLeft: itemActive ? '3px solid hsl(var(--secondary-container) / 1)' : '3px solid transparent',
+                        color: itemActive ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
+                        backgroundColor: itemActive ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
+                        borderLeft: itemActive ? '3px solid hsl(var(--amber) / 1)' : '3px solid transparent',
                         transition: 'all var(--transition-fast)',
                       }}
                       onClick={() => setSidebarOpen(false)}
@@ -750,8 +750,8 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
         style={{
           padding: 'var(--space-base)',
           borderRadius: 'var(--radius-btn)',
-          color: isActive ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
-          backgroundColor: isActive ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
+          color: isActive ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
+          backgroundColor: isActive ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
         }}
         title={item.label}
         aria-label={item.label}
@@ -771,9 +771,9 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
           fontSize: 'var(--text-body)',
           fontWeight: 500,
           minHeight: '44px',
-          color: isActive || expanded ? 'hsl(var(--secondary-container) / 1)' : 'hsl(0 0% 100% / 0.85)',
-          backgroundColor: isActive || expanded ? 'hsl(var(--secondary-container) / 0.1)' : 'transparent',
-          borderLeft: isActive || expanded ? '3px solid hsl(var(--secondary-container) / 1)' : '3px solid transparent',
+          color: isActive || expanded ? 'hsl(var(--amber) / 1)' : 'hsl(0 0% 100% / 0.85)',
+          backgroundColor: isActive || expanded ? 'hsl(var(--amber-bg) / 1)' : 'transparent',
+          borderLeft: isActive || expanded ? '3px solid hsl(var(--amber) / 1)' : '3px solid transparent',
           transition: 'all var(--transition-fast)',
           textAlign: 'left',
         }}
@@ -843,7 +843,7 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
               href={item.href}
               className="flex flex-col items-center gap-1 px-2 py-1"
               style={{
-                color: active ? 'hsl(var(--secondary-container) / 1)' : 'hsl(var(--muted-foreground) / 1)',
+                color: active ? 'hsl(var(--amber) / 1)' : 'hsl(var(--muted-foreground) / 1)',
                 transition: 'color var(--transition-fast)',
               }}
             >

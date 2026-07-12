@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { FilterIcon, XIcon, MapPinIcon, SearchIcon } from 'lucide-react';
+import PublicNav from '@/components/navigation/public-nav';
 
 // ============================================================================
 // TYPES
@@ -427,7 +428,9 @@ function ListingsPageInner() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-surface">
+    <>
+      <PublicNav />
+      <div className="min-h-screen bg-surface">
       {/* Sticky Filter Bar - Below nav */}
       <div className="sticky top-[64px] z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm">
         <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-4">

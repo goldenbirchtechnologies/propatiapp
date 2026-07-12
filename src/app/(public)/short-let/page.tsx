@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { SearchIcon, SlidersHorizontal, X } from 'lucide-react';
+import PublicNav from '@/components/navigation/public-nav';
 
 type ShortletItem = {
   id: string;
@@ -48,7 +49,9 @@ export default function ShortLetListingsPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
+    <>
+      <PublicNav />
+      <div className="mx-auto max-w-7xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Short-let stays</h1>
@@ -179,5 +182,6 @@ export default function ShortLetListingsPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

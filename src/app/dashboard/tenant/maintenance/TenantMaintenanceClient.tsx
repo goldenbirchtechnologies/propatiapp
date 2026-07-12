@@ -14,13 +14,13 @@ export default function TenantMaintenanceClient({ initialTickets }: { initialTic
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-headline-sm" className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}>Maintenance</h1>
+        <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>Maintenance</h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>Submit and track maintenance requests</p>
       </div>
 
       {initialTickets.length === 0 ? (
         <div className="card-body text-center py-16">
-          <Wrench className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+          <Wrench className="$1 $2" style={{ opacity: 0.5 }} />
           <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No tickets yet</h3>
           <p  className="text-on-surface-variant">Maintenance requests will appear here.</p>
         </div>

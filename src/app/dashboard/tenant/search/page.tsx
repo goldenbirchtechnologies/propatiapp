@@ -154,7 +154,7 @@ export default function TenantSearchPage() {
         </div>
       ) : listings.length === 0 ? (
         <div className="card p-12 text-center">
-          <Home className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+          <Home className="$1 $2" style={{ opacity: 0.5 }} />
           <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No properties found</h3>
           <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>Try adjusting your search or filters.</p>
           <Button variant="ghost" onClick={() => setFilters({ state: '', area: '', minPrice: '', maxPrice: '', bedrooms: '', propertyType: '' })}>
@@ -232,7 +232,7 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
         <p className="text-sm mb-3 flex-1 text-on-surface-variant">
           {listing.bedrooms} bed • {listing.bathrooms} bath • {listing.sizeSqm ? listing.sizeSqm + ' sqm' : 'Size not specified'}
         </p>
-        <div className="flex items-center gap-3 text-xs pt-3 border-t" className="border-outline-variant text-on-surface-variant">
+        <div className="$1 $2">
           <span className="flex items-center gap-1">
             <MapPin className="w-3 h-3" />
             {listing.area}

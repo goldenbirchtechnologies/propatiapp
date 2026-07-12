@@ -71,17 +71,17 @@ export default function LandlordFinancialsPage() {
         <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b" className="border-border">
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Description</th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Category</th>
-                <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">Amount</th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Status</th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Date</th>
+              <tr className="$1 $2">
+                <th className="$1 $2">Description</th>
+                <th className="$1 $2">Category</th>
+                <th className="$1 $2">Amount</th>
+                <th className="$1 $2">Status</th>
+                <th className="$1 $2">Date</th>
               </tr>
             </thead>
             <tbody>
               {[0, 1, 2, 3, 4].map((i) => (
-                <tr key={i} className="border-b" className="border-border">
+                <tr key={i} className="$1 $2">
                   <td className="p-4">
                     <div className="h-4 w-48 animate-pulse rounded bg-muted/30" />
                   </td>
@@ -121,10 +121,10 @@ function StatCard({ label, value, icon, trend, trendPositive = true }: { label: 
     <div className="card p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
-          <p className="text-2xl font-heading font-bold" className="text-primary">{value}</p>
+          <p className="$1 $2">{label}</p>
+          <p className="$1 $2">{value}</p>
         </div>
-        <div className="rounded-xl p-3" className="bg-accent/10 text-accent">
+        <div className="$1 $2">
           {icon}
         </div>
       </div>

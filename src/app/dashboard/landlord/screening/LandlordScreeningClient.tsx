@@ -69,7 +69,7 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
                   <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full flex items-center justify-center" className="bg-accent/10 text-accent"><User className="w-4 h-4" /></div>
+                        <div className="$1 $2"><User className="w-4 h-4" /></div>
                         <span className="font-medium text-sm text-primary">{s.tenant}</span>
                       </div>
                     </td>

@@ -151,8 +151,7 @@ function StatCard({ label, value, icon, color = 'text-primary' }: StatCardProps)
     <div className="card p-5">
       <div className="flex items-center gap-3">
         <div
-          className="p-2 rounded-full flex-shrink-0"
-          className="bg-primary/10 text-primary"
+          className="$1 $2"
         >
           {icon}
         </div>
@@ -180,7 +179,7 @@ function EmptyAgreementState({ tab }: { tab: TabValue }) {
 
   return (
     <div className="card p-12 text-center">
-      <FileText className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.4 }} />
+      <FileText className="$1 $2" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
         No agreements found
       </h3>
@@ -422,8 +421,7 @@ export default function TenantAgreementsClient({
       <div className="space-y-6">
         <div>
           <h1
-            className="text-headline-sm"
-            className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}
+            className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}
           >
             My Agreements
           </h1>
@@ -452,8 +450,7 @@ export default function TenantAgreementsClient({
       {/* Header */}
       <div>
         <h1
-          className="text-headline-sm"
-          className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}
+          className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}
         >
           My Agreements
         </h1>

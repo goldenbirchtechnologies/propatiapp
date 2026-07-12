@@ -225,7 +225,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           Properties
         </Link>
         <span>/</span>
-        <span className="text-primary" className="font-medium truncate">
+        <span className="$1 $2">
           {listing.title}
         </span>
       </nav>

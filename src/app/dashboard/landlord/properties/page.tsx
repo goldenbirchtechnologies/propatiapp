@@ -123,7 +123,7 @@ export default async function LandlordPropertiesPage() {
                               className="w-14 h-14 rounded-lg object-cover"
                             />
                           ) : (
-                            <div className="w-14 h-14 rounded-lg flex items-center justify-center" className="bg-primary/10 text-primary">
+                            <div className="$1 $2">
                               <BuildingIcon className="w-6 h-6" />
                             </div>
                           )}
@@ -203,7 +203,7 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
           <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
           <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value.toLocaleString()}</p>
         </div>
-        <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
+        <div className="$1 $2">
           {Icon}
         </div>
       </div>

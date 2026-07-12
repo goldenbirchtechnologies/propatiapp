@@ -12,7 +12,7 @@ export default function TenantProfilePage() {
     <DashboardShell navigation={TENANT_NAVIGATION} userRole="tenant" userName={form.fullName} userAvatar={undefined}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-headline-sm" className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}>My Profile</h1>
+          <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>My Profile</h1>
           <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>Manage your personal information</p>
         </div>
 
@@ -48,7 +48,7 @@ export default function TenantProfilePage() {
 
           <div className="card p-6 flex flex-col items-center text-center">
             <div className="relative">
-              <div className="h-24 w-24 rounded-full flex items-center justify-center" className="bg-primary/10 text-primary">
+              <div className="$1 $2">
                 <User className="w-10 h-10" />
               </div>
               <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest border-outline-variant">

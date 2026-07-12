@@ -231,8 +231,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div
-                            className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                            className="bg-gradient-to-br from-primary to-accent"
+                            className="$1 $2"
                           >
                             {app.tenant.fullName.charAt(0)}
                           </div>
@@ -311,8 +310,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                 <div className="flex items-start gap-3">
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-base font-bold text-white flex-shrink-0"
-                    className="bg-gradient-to-br from-primary to-accent"
+                    className="$1 $2"
                   >
                     {selectedApp.tenant.fullName.charAt(0)}
                   </div>
@@ -347,7 +345,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     <p className="font-medium mb-2 text-primary">Employment</p>
                     {selectedApp.tenant.employmentStatus && (
                       <p className="text-on-surface-variant">
-                        Status: <span className="text-primary" className="capitalize">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
+                        Status: <span className="$1 $2">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
                       </p>
                     )}
                     {selectedApp.tenant.employerName && (
@@ -457,7 +455,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
             <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value}</p>
           </div>
-          <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
+          <div className="$1 $2">
             {icon}
           </div>
         </div>

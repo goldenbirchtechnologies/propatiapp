@@ -85,7 +85,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-headline-sm" className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}>
+        <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>
           My Applications
         </h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
@@ -103,7 +103,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       {applications.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <Building2 className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.4 }} />
+            <Building2 className="$1 $2" style={{ opacity: 0.4 }} />
             <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
               No applications yet
             </h3>
@@ -166,8 +166,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
 
                       {app.landlordNotes && (
                         <div
-                          className="mt-3 p-3 rounded-lg text-sm"
-                          className="bg-primary/10 text-primary"
+                          className="$1 $2"
                         >
                           <span className="font-medium">Landlord note: </span>
                           {app.landlordNotes}
@@ -219,7 +218,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-sm font-medium mb-1 text-on-surface-variant">{label}</p>
             <p className="text-2xl text-headline-sm text-primary">{value}</p>
           </div>
-          <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
+          <div className="$1 $2">
             {icon}
           </div>
         </div>

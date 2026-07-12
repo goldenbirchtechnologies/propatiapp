@@ -56,7 +56,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
       <Card>
         <CardContent className="flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
+            <div className="$1 $2">
               <Wallet className="w-6 h-6" />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </div>
           ) : transactions.length === 0 ? (
             <div className="p-12 text-center">
-              <CreditCard className="w-12 h-12 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+              <CreditCard className="$1 $2" style={{ opacity: 0.5 }} />
               <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No transactions yet</h3>
               <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>Your payment history will appear here.</p>
               <Button variant="default"><CreditCard className="w-4 h-4 mr-2" /> Make a Payment</Button>

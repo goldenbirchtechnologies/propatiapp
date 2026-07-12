@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { getNavigationForRole, type NavItem } from '@/lib/navigation';
@@ -12,7 +12,7 @@ export default function RoleLayout({
   children,
   role,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   role?: string;
 }) {
   const [hydrating, setHydrating] = useState(true);

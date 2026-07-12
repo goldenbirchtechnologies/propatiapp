@@ -14,7 +14,7 @@ type Screening = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  scheduled: { class: 'bg-blue-50 text-blue-700 border-blue-200', label: 'Scheduled' },
+  scheduled: { class: 'bg-accent/10 text-accent border-accent/30', label: 'Scheduled' },
   completed: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Completed' },
   cancelled: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Cancelled' },
 };
@@ -69,7 +69,7 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
                   <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}><User className="w-4 h-4" /></div>
+                        <div className="h-9 w-9 rounded-full flex items-center justify-center" className="bg-accent/10 text-accent"><User className="w-4 h-4" /></div>
                         <span className="font-medium text-sm text-primary">{s.tenant}</span>
                       </div>
                     </td>

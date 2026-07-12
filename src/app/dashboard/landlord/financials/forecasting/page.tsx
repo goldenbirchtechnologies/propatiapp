@@ -47,7 +47,7 @@ export default function LandlordFinancialForecastingPage() {
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Projected Annual Revenue</p>
               <p className="text-2xl font-bold mt-2">₦62.4M</p>
-              <p className="text-sm text-green-600 mt-1">+4.8% YoY</p>
+              <p className="text-sm text-success mt-1">+4.8% YoY</p>
             </CardContent>
           </Card>
           <Card>
@@ -61,7 +61,7 @@ export default function LandlordFinancialForecastingPage() {
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Occupancy Impact</p>
               <p className="text-2xl font-bold mt-2">92%</p>
-              <p className="text-sm text-green-600 mt-1">Above 85% threshold</p>
+              <p className="text-sm text-success mt-1">Above 85% threshold</p>
             </CardContent>
           </Card>
         </div>

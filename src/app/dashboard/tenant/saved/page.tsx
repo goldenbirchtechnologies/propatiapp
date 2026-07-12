@@ -76,10 +76,10 @@ function SavedPropertyCard({
 }) {
   const listingTypeStyles: Record<string, string> = {
     rent: 'bg-teal-50 text-teal-700',
-    sale: 'bg-amber-50 text-amber-600',
+    sale: 'bg-warning/10 text-warning',
     short_let: 'bg-blue-50 text-blue-700',
     share: 'bg-purple-50 text-purple-700',
-    commercial: 'bg-amber-50 text-amber-600',
+    commercial: 'bg-warning/10 text-warning',
   };
 
   const listingTypeLabels: Record<string, string> = {

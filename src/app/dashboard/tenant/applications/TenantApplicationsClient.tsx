@@ -36,11 +36,11 @@ interface Application {
 }
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+  pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
-  accepted: { label: 'Accepted', className: 'bg-green-100 text-green-800 border-green-200' },
-  rejected: { label: 'Not Successful', className: 'bg-red-100 text-red-800 border-red-200' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-gray-100 text-on-surface-variant border-outline-variant' },
+  accepted: { label: 'Accepted', className: 'bg-success/10 text-success border-success-bright/20' },
+  rejected: { label: 'Not Successful', className: 'bg-destructive/10 text-destructive border-destructive/20' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
 };
 
 export default function TenantApplicationsClient({ applications: initial }: { applications: Application[] }) {
@@ -85,10 +85,10 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+        <h1 className="text-headline-sm" className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}>
           My Applications
         </h1>
-        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+        <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
           Track the status of your rental applications
         </p>
       </div>
@@ -103,11 +103,11 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       {applications.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <Building2 className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.4 }} />
-            <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+            <Building2 className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.4 }} />
+            <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
               No applications yet
             </h3>
-            <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>
+            <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
               You haven&#39;t applied to any properties yet. Browse listings to get started.
             </p>
             <Link href="/dashboard/tenant/search" className="btn btn-primary">
@@ -141,13 +141,13 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div>
-                          <h3 className="font-heading font-bold truncate" style={{ color: 'var(--text)' }}>
+                          <h3 className="text-headline-sm truncate text-primary">
                             {app.listing.title}
                           </h3>
-                          <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                          <p className="text-sm text-on-surface-variant">
                             {app.listing.area}, {app.listing.state}
                           </p>
-                          <p className="text-sm font-medium mt-1" style={{ color: 'var(--text)' }}>
+                          <p className="text-sm font-medium mt-1 text-primary">
                             ₦{Number(app.listing.price).toLocaleString()}
                             {app.listing.pricePeriod ? `/${app.listing.pricePeriod}` : ''}
                           </p>
@@ -159,7 +159,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                         </span>
                       </div>
 
-                      <div className="mt-3 text-xs" style={{ color: 'var(--muted)' }}>
+                      <div className="mt-3 text-xs text-on-surface-variant">
                         Applied {new Date(app.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         {' · '}Landlord: {app.landlord.fullName}
                       </div>
@@ -167,7 +167,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                       {app.landlordNotes && (
                         <div
                           className="mt-3 p-3 rounded-lg text-sm"
-                          style={{ background: 'var(--accent-bg)', color: 'var(--text)' }}
+                          className="bg-primary/10 text-primary"
                         >
                           <span className="font-medium">Landlord note: </span>
                           {app.landlordNotes}
@@ -187,7 +187,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                             size="sm"
                             onClick={() => handleWithdraw(app.id)}
                             disabled={isWithdrawing}
-                            className="text-red-600 border-red-200 hover:bg-red-50"
+                            className="text-destructive border-destructive/20 hover:bg-destructive/10"
                           >
                             {isWithdrawing ? (
                               <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -216,10 +216,10 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-            <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+            <p className="text-sm font-medium mb-1 text-on-surface-variant">{label}</p>
+            <p className="text-2xl text-headline-sm text-primary">{value}</p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+          <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
             {icon}
           </div>
         </div>

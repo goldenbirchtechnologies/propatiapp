@@ -71,7 +71,7 @@ const statusConfig: Record<
 > = {
   pending: {
     label: 'Pending',
-    className: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    className: 'bg-warning/10 text-warning border-warning/20',
   },
   under_review: {
     label: 'Under Review',
@@ -79,15 +79,15 @@ const statusConfig: Record<
   },
   accepted: {
     label: 'Accepted',
-    className: 'bg-green-100 text-green-800 border-green-200',
+    className: 'bg-success/10 text-success border-success-bright/20',
   },
   rejected: {
     label: 'Not Successful',
-    className: 'bg-red-100 text-red-800 border-red-200',
+    className: 'bg-destructive/10 text-destructive border-destructive/20',
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-gray-100 text-on-surface-variant border-outline-variant',
+    className: 'bg-surface-container-low text-on-surface-variant border-outline-variant',
   },
 };
 
@@ -125,20 +125,18 @@ export default function TenantApplicationDetailClient({
           {breadcrumbs.map((item, index) => (
             <li key={index} className="flex items-center gap-2">
               {index > 0 && (
-                <span style={{ color: 'var(--muted)' }}>/</span>
+                <span  className="text-on-surface-variant">/</span>
               )}
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="transition-colors"
-                  style={{ color: 'var(--muted)' }}
+                  className="transition-colors text-on-surface-variant"
                 >
                   {item.label}
                 </Link>
               ) : (
                 <span
-                  className="font-medium"
-                  style={{ color: 'var(--text)' }}
+                  className="font-medium text-primary"
                 >
                   {item.label}
                 </span>
@@ -159,17 +157,13 @@ export default function TenantApplicationDetailClient({
           </Button>
           <div>
             <h1
-              className="font-heading font-bold"
-              style={{
-                fontSize: 'var(--text-page-title)',
-                color: 'var(--text)',
-              }}
+              className="text-headline-sm"
+              className="text-primary" style={{ fontSize: 'var(--text-page-title)', }}
             >
               Application Details
             </h1>
             <p
-              className="flex items-center gap-1 mt-1"
-              style={{ color: 'var(--muted)' }}
+              className="flex items-center gap-1 mt-1 text-on-surface-variant"
             >
               <MapPin className="h-4 w-4" />
               {initial.listing.address}
@@ -207,35 +201,32 @@ export default function TenantApplicationDetailClient({
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                    <p className="text-sm text-on-surface-variant">
                       Property
                     </p>
                     <p
-                      className="font-medium"
-                      style={{ color: 'var(--text)' }}
+                      className="font-medium text-primary"
                     >
                       {initial.listing.title}
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                      <p className="text-sm text-on-surface-variant">
                         Area
                       </p>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {initial.listing.area}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                      <p className="text-sm text-on-surface-variant">
                         State
                       </p>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {initial.listing.state}
                       </p>
@@ -243,12 +234,11 @@ export default function TenantApplicationDetailClient({
                   </div>
                   <Separator />
                   <div>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                    <p className="text-sm text-on-surface-variant">
                       Rent
                     </p>
                     <p
-                      className="text-2xl font-bold"
-                      style={{ color: 'var(--text)' }}
+                      className="text-2xl font-bold text-primary"
                     >
                       ₦{initial.listing.price.toLocaleString()}
                       {initial.listing.pricePeriod
@@ -257,12 +247,11 @@ export default function TenantApplicationDetailClient({
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                    <p className="text-sm text-on-surface-variant">
                       Type
                     </p>
                     <p
-                      className="font-medium"
-                      style={{ color: 'var(--text)' }}
+                      className="font-medium text-primary"
                     >
                       {initial.listing.listingType}
                     </p>
@@ -283,10 +272,9 @@ export default function TenantApplicationDetailClient({
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center font-heading font-bold text-white"
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-headline-sm text-white"
                       style={{
-                        background: `linear-gradient(135deg, var(--accent), var(--accent2))`,
-                      }}
+                        background: `linear-gradient(135deg, var(--accent), var(--accent2))`, }}
                     >
                       {initial.landlord.avatarUrl ? (
                         <img
@@ -300,14 +288,12 @@ export default function TenantApplicationDetailClient({
                     </div>
                     <div>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {initial.landlord.fullName}
                       </p>
                       <p
-                        className="text-sm"
-                        style={{ color: 'var(--muted)' }}
+                        className="text-sm text-on-surface-variant"
                       >
                         {initial.landlord.email}
                       </p>
@@ -316,12 +302,11 @@ export default function TenantApplicationDetailClient({
                   <Separator />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                      <p className="text-sm text-on-surface-variant">
                         Applied On
                       </p>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {new Date(initial.createdAt).toLocaleDateString(
                           'en-NG',
@@ -334,12 +319,11 @@ export default function TenantApplicationDetailClient({
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                      <p className="text-sm text-on-surface-variant">
                         Last Updated
                       </p>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {new Date(initial.updatedAt).toLocaleDateString(
                           'en-NG',
@@ -354,12 +338,11 @@ export default function TenantApplicationDetailClient({
                   </div>
                   {initial.reviewedAt && (
                     <div>
-                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                      <p className="text-sm text-on-surface-variant">
                         Reviewed On
                       </p>
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         {new Date(initial.reviewedAt).toLocaleDateString(
                           'en-NG',
@@ -400,8 +383,7 @@ export default function TenantApplicationDetailClient({
                     {initial.listing.images.map((img) => (
                       <div
                         key={img.id}
-                        className="rounded-xl overflow-hidden border"
-                        style={{ borderColor: 'var(--border)' }}
+                        className="rounded-xl overflow-hidden border border-outline-variant"
                       >
                         <img
                           src={img.url}
@@ -412,8 +394,7 @@ export default function TenantApplicationDetailClient({
                     ))}
                   </div>
                   <p
-                    className="text-sm mt-4"
-                    style={{ color: 'var(--muted)' }}
+                    className="text-sm mt-4 text-on-surface-variant"
                   >
                     These are the listing images associated with the
                     property.
@@ -425,15 +406,14 @@ export default function TenantApplicationDetailClient({
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                   <ImageIcon
                     className="h-12 w-12 mb-4"
-                    style={{ color: 'var(--muted)', opacity: 0.4 }}
+                    className="text-on-surface-variant" style={{ opacity: 0.4 }}
                   />
                   <h3
-                    className="font-heading font-bold text-lg mb-2"
-                    style={{ color: 'var(--text)' }}
+                    className="font-headline-sm text-headline-sm mb-2 text-primary"
                   >
                     No documents yet
                   </h3>
-                  <p style={{ color: 'var(--muted)' }}>
+                  <p  className="text-on-surface-variant">
                     There are no documents attached to this application.
                   </p>
                 </CardContent>
@@ -464,20 +444,17 @@ export default function TenantApplicationDetailClient({
                         style={{ background: 'var(--accent)' }}
                       />
                       <div
-                        className="w-0.5 h-full"
-                        style={{ background: 'var(--border)' }}
+                        className="w-0.5 h-full bg-surface-container"
                       />
                     </div>
                     <div className="space-y-1">
                       <p
-                        className="font-medium"
-                        style={{ color: 'var(--text)' }}
+                        className="font-medium text-primary"
                       >
                         Application Submitted
                       </p>
                       <p
-                        className="text-sm"
-                        style={{ color: 'var(--muted)' }}
+                        className="text-sm text-on-surface-variant"
                       >
                         {new Date(initial.createdAt).toLocaleString(
                           'en-NG',
@@ -501,20 +478,18 @@ export default function TenantApplicationDetailClient({
                             background:
                               initial.status === 'accepted'
                                 ? 'var(--accent)'
-                                : 'var(--muted)',
+                                : 'var(--surface-container-low)',
                           }}
                         />
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium"
-                          style={{ color: 'var(--text)' }}
+                          className="font-medium text-primary"
                         >
                           Application Reviewed
                         </p>
                         <p
-                          className="text-sm"
-                          style={{ color: 'var(--muted)' }}
+                          className="text-sm text-on-surface-variant"
                         >
                           {new Date(initial.reviewedAt).toLocaleString(
                             'en-NG',
@@ -540,14 +515,12 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium"
-                          style={{ color: 'var(--text)' }}
+                          className="font-medium text-primary"
                         >
                           Application Accepted
                         </p>
                         <p
-                          className="text-sm"
-                          style={{ color: 'var(--muted)' }}
+                          className="text-sm text-on-surface-variant"
                         >
                           Congratulations! Your application has been
                           accepted.
@@ -558,18 +531,16 @@ export default function TenantApplicationDetailClient({
                   {initial.status === 'rejected' && (
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center">
-                        <XCircle className="h-5 w-5 text-red-500" />
+                        <XCircle className="h-5 w-5 text-destructive" />
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium"
-                          style={{ color: 'var(--text)' }}
+                          className="font-medium text-primary"
                         >
                           Application Not Successful
                         </p>
                         <p
-                          className="text-sm"
-                          style={{ color: 'var(--muted)' }}
+                          className="text-sm text-on-surface-variant"
                         >
                           Unfortunately, your application was not
                           successful.
@@ -603,8 +574,7 @@ export default function TenantApplicationDetailClient({
                   </CardHeader>
                   <CardContent>
                     <p
-                      className="whitespace-pre-line"
-                      style={{ color: 'var(--text)' }}
+                      className="whitespace-pre-line text-primary"
                     >
                       {initial.message}
                     </p>
@@ -624,8 +594,7 @@ export default function TenantApplicationDetailClient({
                   </CardHeader>
                   <CardContent>
                     <p
-                      className="whitespace-pre-line"
-                      style={{ color: 'var(--text)' }}
+                      className="whitespace-pre-line text-primary"
                     >
                       {initial.landlordNotes}
                     </p>
@@ -637,15 +606,14 @@ export default function TenantApplicationDetailClient({
                   <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                     <MessageSquare
                       className="h-12 w-12 mb-4"
-                      style={{ color: 'var(--muted)', opacity: 0.4 }}
+                      className="text-on-surface-variant" style={{ opacity: 0.4 }}
                     />
                     <h3
-                      className="font-heading font-bold text-lg mb-2"
-                      style={{ color: 'var(--text)' }}
+                      className="font-headline-sm text-headline-sm mb-2 text-primary"
                     >
                       No notes yet
                     </h3>
-                    <p style={{ color: 'var(--muted)' }}>
+                    <p  className="text-on-surface-variant">
                       There are no messages or notes on this application.
                     </p>
                   </CardContent>

@@ -116,8 +116,8 @@ export default function AutomatedMonthlyStatementClient() {
           <div className="flex flex-col gap-4">
             <div className="bg-surface-container-high p-4 rounded-xl border border-outline-variant flex flex-col items-center justify-center text-center">
               <p className="font-label-sm text-on-surface-variant mb-2 uppercase">Payment Status</p>
-              <div className="px-3 py-1 bg-amber-50 text-amber-800 rounded-full flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
+              <div className="px-3 py-1 bg-warning/10 text-warning rounded-full flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
                 <span className="font-label-md label-md">Awaiting Payment</span>
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function AutomatedMonthlyStatementClient() {
               <FileText className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-heading font-bold text-primary">
+              <h3 className="text-headline-sm text-primary">
                 {enrolled ? 'Auto-Statement is Active' : 'Auto-Statement Disabled'}
               </h3>
               <p className="text-sm text-muted-foreground mt-0.5">

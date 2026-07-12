@@ -56,12 +56,12 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
       <Card>
         <CardContent className="flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+            <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
               <Wallet className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm" style={{ color: 'var(--muted)' }}>Wallet Balance</p>
-              <p className="font-heading font-bold text-2xl" style={{ color: 'var(--text)' }}>
+              <p className="text-sm text-on-surface-variant">Wallet Balance</p>
+              <p className="text-headline-sm text-2xl text-primary">
                 ₦{((wallet?.balance || 0) / 100).toLocaleString()}
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     required
                   />
                 </div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                <p className="text-sm text-on-surface-variant">
                   You will be redirected to Paystack to complete the payment securely.
                 </p>
                 <Button type="submit" className="w-full" disabled={initiatePaymentMutation.isPending || !amount}>
@@ -119,12 +119,12 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </TabsContent>
 
             <TabsContent value="caution_deposit" className="mt-4">
-              <p className="text-sm" style={{ color: 'var(--muted)' }}>Pay caution deposit for a new agreement.</p>
+              <p className="text-sm text-on-surface-variant">Pay caution deposit for a new agreement.</p>
               <Button variant="outline" className="mt-2">Pay Caution Deposit</Button>
             </TabsContent>
 
             <TabsContent value="service_charge" className="mt-4">
-              <p className="text-sm" style={{ color: 'var(--muted)' }}>Pay monthly service charges.</p>
+              <p className="text-sm text-on-surface-variant">Pay monthly service charges.</p>
               <Button variant="outline" className="mt-2">Pay Service Charge</Button>
             </TabsContent>
           </Tabs>
@@ -133,7 +133,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
 
       {/* Transactions */}
       <div className="flex items-center justify-between">
-        <h2 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Transaction History</h2>
+        <h2 className="text-headline-sm text-primary">Transaction History</h2>
         <Button variant="ghost" size="sm" onClick={() => setShowFilters(!showFilters)}>
           <Filter className="w-4 h-4 mr-1" /> Filters
         </Button>
@@ -173,21 +173,21 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </div>
           ) : transactions.length === 0 ? (
             <div className="p-12 text-center">
-              <CreditCard className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-              <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No transactions yet</h3>
-              <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Your payment history will appear here.</p>
+              <CreditCard className="w-12 h-12 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+              <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No transactions yet</h3>
+              <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>Your payment history will appear here.</p>
               <Button variant="default"><CreditCard className="w-4 h-4 mr-2" /> Make a Payment</Button>
             </div>
           ) : (
             <table className="w-full">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Date</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Type</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Property</th>
-                  <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Amount</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
+                <tr className="border-b border-outline-variant">
+                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Date</th>
+                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Type</th>
+                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Property</th>
+                  <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Amount</th>
+                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
+                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,7 +199,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
           )}
         </div>
         {(hasNextPage || isFetchingNextPage) && (
-          <div className="p-4 border-t" style={{ borderColor: 'var(--border)' }}>
+          <div className="p-4 border-t border-outline-variant">
             <Button
               variant="outline"
               onClick={handleLoadMore}
@@ -227,18 +227,18 @@ function TransactionRow({ transaction }: { transaction: any }) {
   const breakdown = usePaymentBreakdown(transaction);
 
   return (
-    <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-      <td className="p-4" style={{ color: 'var(--muted)' }}>
+    <tr className="border-b border-outline-variant">
+      <td className="p-4 text-on-surface-variant">
         {format(new Date(transaction.createdAt), 'dd MMM yyyy')}
       </td>
       <td className="p-4">
         <Badge variant="outline" className="capitalize">{transaction.type}</Badge>
       </td>
       <td className="p-4">
-        <p className="font-medium" style={{ color: 'var(--text)' }}>{transaction.listing?.title || 'N/A'}</p>
-        <p className="text-xs" style={{ color: 'var(--muted)' }}>{transaction.agreement?.id?.slice(-8).toUpperCase()}</p>
+        <p className="font-medium text-primary">{transaction.listing?.title || 'N/A'}</p>
+        <p className="text-xs text-on-surface-variant">{transaction.agreement?.id?.slice(-8).toUpperCase()}</p>
       </td>
-      <td className="p-4 text-right font-heading font-bold" style={{ color: 'var(--text)' }}>
+      <td className="p-4 text-right text-headline-sm text-primary">
         ₦{Number(transaction.amount).toLocaleString()}
       </td>
       <td className="p-4">
@@ -262,13 +262,13 @@ function TransactionRow({ transaction }: { transaction: any }) {
 
 function TransactionRowSkeleton() {
   return (
-    <tr className="border-b animate-pulse" style={{ borderColor: 'var(--border)' }}>
-      <td className="p-4"><div className="h-4 w-24" style={{ background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="h-6 w-20 rounded" style={{ background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="h-4 w-32" style={{ background: 'var(--border)' }} /></td>
-      <td className="p-4 text-right"><div className="h-4 w-24" style={{ background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="h-6 w-24 rounded" style={{ background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="h-8 w-16" style={{ background: 'var(--border)' }} /></td>
+    <tr className="border-b animate-pulse border-outline-variant">
+      <td className="p-4"><div className="h-4 w-24 bg-surface-container" /></td>
+      <td className="p-4"><div className="h-6 w-20 rounded bg-surface-container" /></td>
+      <td className="p-4"><div className="h-4 w-32 bg-surface-container" /></td>
+      <td className="p-4 text-right"><div className="h-4 w-24 bg-surface-container" /></td>
+      <td className="p-4"><div className="h-6 w-24 rounded bg-surface-container" /></td>
+      <td className="p-4"><div className="h-8 w-16 bg-surface-container" /></td>
     </tr>
   );
 }

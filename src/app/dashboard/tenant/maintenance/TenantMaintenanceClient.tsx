@@ -14,32 +14,32 @@ export default function TenantMaintenanceClient({ initialTickets }: { initialTic
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Maintenance</h1>
-        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Submit and track maintenance requests</p>
+        <h1 className="text-headline-sm" className="text-primary" style={{ fontSize: 'var(--text-page-title)' }}>Maintenance</h1>
+        <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>Submit and track maintenance requests</p>
       </div>
 
       {initialTickets.length === 0 ? (
         <div className="card-body text-center py-16">
-          <Wrench className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-          <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No tickets yet</h3>
-          <p style={{ color: 'var(--muted)' }}>Maintenance requests will appear here.</p>
+          <Wrench className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+          <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No tickets yet</h3>
+          <p  className="text-on-surface-variant">Maintenance requests will appear here.</p>
         </div>
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full">
-            <thead><tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Title</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Priority</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Submitted</th>
+            <thead><tr className="border-b border-outline-variant">
+              <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Title</th>
+              <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Priority</th>
+              <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
+              <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Submitted</th>
             </tr></thead>
             <tbody>
               {initialTickets.map((t) => (
-                <tr key={t.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'var(--border)' }}>
-                  <td className="p-4 font-medium text-sm" style={{ color: 'var(--text)' }}>{t.title}</td>
-                  <td className="p-4 text-sm capitalize" style={{ color: 'var(--text)' }}>{t.priority}</td>
-                  <td className="p-4 text-sm capitalize" style={{ color: 'var(--muted)' }}>{t.status}</td>
-                  <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{new Date(t.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                <tr key={t.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
+                  <td className="p-4 font-medium text-sm text-primary">{t.title}</td>
+                  <td className="p-4 text-sm capitalize text-primary">{t.priority}</td>
+                  <td className="p-4 text-sm capitalize text-on-surface-variant">{t.status}</td>
+                  <td className="p-4 text-sm text-on-surface-variant">{new Date(t.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                 </tr>
               ))}
             </tbody>

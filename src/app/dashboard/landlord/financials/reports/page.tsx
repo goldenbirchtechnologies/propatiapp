@@ -177,7 +177,7 @@ export default function LandlordForecastReportPage() {
               </div>
             </div>
             {error && (
-              <p className="text-sm text-red-600 mt-3">{error}</p>
+              <p className="text-sm text-destructive mt-3">{error}</p>
             )}
           </CardContent>
         </Card>

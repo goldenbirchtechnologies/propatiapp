@@ -57,7 +57,7 @@ export default function TenantSearchPage() {
       {/* Purpose Switcher */}
       <div className="card p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-heading font-bold" style={{ color: 'var(--text)' }}>What are you looking for?</h2>
+          <h2 className="text-headline-sm text-primary">What are you looking for?</h2>
           <div className="flex items-center gap-2">
             <Tabs value={activePurpose} onValueChange={setActivePurpose} className="flex gap-2">
               <TabsList className="grid grid-cols-4 bg-transparent p-1">
@@ -78,14 +78,14 @@ export default function TenantSearchPage() {
             </Tabs>
           </div>
         </div>
-        <p className="text-sm" style={{ color: 'var(--muted)' }}>{purposeConfig.description}</p>
+        <p className="text-sm text-on-surface-variant">{purposeConfig.description}</p>
       </div>
 
       {/* Search Bar */}
       <div className="card p-4">
         <div className="flex gap-3 mb-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: 'var(--muted)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
             <Input
               type="text"
               placeholder={`Search ${purposeConfig.label.toLowerCase()} properties...`}
@@ -106,7 +106,7 @@ export default function TenantSearchPage() {
 
         {/* Filters */}
         {showFilters && (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b" style={{ borderColor: 'var(--border)' }}>
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-outline-variant">
             <Input placeholder="State" value={filters.state} onChange={(e) => setFilters({ ...filters, state: e.target.value })} />
             <Input placeholder="Area" value={filters.area} onChange={(e) => setFilters({ ...filters, area: e.target.value })} />
             <Input type="number" placeholder="Min Price" value={filters.minPrice} onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })} />
@@ -134,11 +134,11 @@ export default function TenantSearchPage() {
 
       {/* Results */}
       <div className="flex items-center justify-between">
-        <p className="text-sm" style={{ color: 'var(--muted)' }}>
+        <p className="text-sm text-on-surface-variant">
           {listings.length} {purposeConfig.label.toLowerCase()} propert{listings.length === 1 ? 'y' : 'ies'} found
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-sm" style={{ color: 'var(--muted)' }}>Sort by:</span>
+          <span className="text-sm text-on-surface-variant">Sort by:</span>
           <select className="inp-field py-1.5" style={{ width: 'auto' }}>
             <option value="newest">Newest First</option>
             <option value="price_asc">Price: Low to High</option>
@@ -154,9 +154,9 @@ export default function TenantSearchPage() {
         </div>
       ) : listings.length === 0 ? (
         <div className="card p-12 text-center">
-          <Home className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-          <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No properties found</h3>
-          <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Try adjusting your search or filters.</p>
+          <Home className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant" style={{ opacity: 0.5 }} />
+          <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No properties found</h3>
+          <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>Try adjusting your search or filters.</p>
           <Button variant="ghost" onClick={() => setFilters({ state: '', area: '', minPrice: '', maxPrice: '', bedrooms: '', propertyType: '' })}>
             Clear All Filters
           </Button>
@@ -204,12 +204,12 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
         {coverImage ? (
           <img src={coverImage.url} alt={listing.title} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--border)' }}>
-            <Home className="w-12 h-12" style={{ color: 'var(--muted)' }} />
+          <div className="w-full h-full flex items-center justify-center bg-surface-container">
+            <Home className="w-12 h-12 text-on-surface-variant" />
           </div>
         )}
         <div className="absolute top-2 left-2 right-2 flex justify-between">
-          <span className={`tag ${isVerified ? 'tag-green' : 'tag-amber'}`}>
+          <span className={`tag ${isVerified ? 'bg-success-bright/10 text-success border-success-bright/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
             {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
           </span>
           <Button variant="ghost" size="icon" className="bg-surface-container-lowest/90 hover:bg-surface-container-lowest">
@@ -224,15 +224,15 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
       <div className="p-4 flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-2">
           <Badge variant="outline" className="text-xs">{listing.area}, {listing.state}</Badge>
-          <p className="font-heading font-bold" style={{ color: 'var(--text)' }}>
+          <p className="text-headline-sm text-primary">
             {purpose === 'sale' ? '₦' + Number(listing.price).toLocaleString() : '₦' + Number(listing.price).toLocaleString() + '/yr'}
           </p>
         </div>
-        <h3 className="font-heading font-bold mb-1 line-clamp-1" style={{ color: 'var(--text)' }}>{listing.title}</h3>
-        <p className="text-sm mb-3 flex-1" style={{ color: 'var(--muted)' }}>
+        <h3 className="text-headline-sm mb-1 line-clamp-1 text-primary">{listing.title}</h3>
+        <p className="text-sm mb-3 flex-1 text-on-surface-variant">
           {listing.bedrooms} bed • {listing.bathrooms} bath • {listing.sizeSqm ? listing.sizeSqm + ' sqm' : 'Size not specified'}
         </p>
-        <div className="flex items-center gap-3 text-xs pt-3 border-t" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>
+        <div className="flex items-center gap-3 text-xs pt-3 border-t" className="border-outline-variant text-on-surface-variant">
           <span className="flex items-center gap-1">
             <MapPin className="w-3 h-3" />
             {listing.area}
@@ -250,12 +250,12 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
 function ListingCardSkeleton() {
   return (
     <div className="card overflow-hidden animate-pulse">
-      <div className="aspect-video" style={{ background: 'var(--border)' }} />
+      <div className="aspect-video bg-surface-container" />
       <div className="p-4 space-y-3">
-        <div className="h-4 w-3/4" style={{ background: 'var(--border)' }} />
-        <div className="h-4 w-1/2" style={{ background: 'var(--border)' }} />
-        <div className="h-3 w-full" style={{ background: 'var(--border)' }} />
-        <div className="h-3 w-2/3" style={{ background: 'var(--border)' }} />
+        <div className="h-4 w-3/4 bg-surface-container" />
+        <div className="h-4 w-1/2 bg-surface-container" />
+        <div className="h-3 w-full bg-surface-container" />
+        <div className="h-3 w-2/3 bg-surface-container" />
       </div>
     </div>
   );

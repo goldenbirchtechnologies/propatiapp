@@ -87,14 +87,14 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <div className="card p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm font-medium mb-1" className="text-muted-foreground">
               {label}
             </p>
-            <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>
+            <p className="text-2xl font-heading font-bold" className="text-primary">
               {value}
             </p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+          <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
             {Icon}
           </div>
         </div>
@@ -112,13 +112,13 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
   function TransactionStatusBadge({ status }: { status: string }) {
     const config: Record<string, { class: string; label: string }> = {
-      released: { class: 'tag-green', label: 'Released' },
-      in_escrow: { class: 'tag-blue', label: 'In Escrow' },
-      pending: { class: 'tag-amber', label: 'Pending' },
-      failed: { class: 'tag-red', label: 'Failed' },
-      refunded: { class: 'tag-orange', label: 'Refunded' },
+      released: { class: 'bg-success/10 text-success border-success/20', label: 'Released' },
+      in_escrow: { class: 'bg-accent/10 text-accent border-accent/20', label: 'In Escrow' },
+      pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
+      failed: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Failed' },
+      refunded: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'tag-gray', label: status };
+    const cfg = config[status] || { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: status };
     return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
   }
 
@@ -127,33 +127,33 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <div className="card overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+            <tr className="border-b" className="border-border">
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Date
               </th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Property
               </th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Tenant
               </th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Type
               </th>
-              <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
                 Amount
               </th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Status
               </th>
-              <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-b" style={{ borderColor: 'var(--border)' }}>
+              <tr key={i} className="border-b" className="border-border">
                 <td className="p-4">
                   <Skeleton className="h-4 w-24" />
                 </td>
@@ -273,10 +273,10 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
           {transactions.length === 0 ? (
             <div className="card-body text-center py-16">
               <CurrencyIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-              <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+              <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">
                 No transactions yet
               </h3>
-              <p style={{ color: 'var(--muted)' }}>
+              <p className="text-muted-foreground">
                 Rent payments will appear here once tenants start paying.
               </p>
             </div>
@@ -285,34 +285,34 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                    <tr className="border-b" className="border-border">
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Date
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Property
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Tenant
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Type
                       </th>
-                      <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
                         Amount
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Status
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => (
-                      <tr key={tx.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
-                        <td className="p-4" style={{ color: 'var(--muted)' }}>
+                      <tr key={tx.id} className="border-b" className="border-border">
+                        <td className="p-4" className="text-muted-foreground">
                           {new Date(tx.createdAt).toLocaleDateString('en-NG', {
                             day: '2-digit',
                             month: 'short',
@@ -320,22 +320,22 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                           })}
                         </td>
                         <td className="p-4">
-                          <p className="font-medium" style={{ color: 'var(--text)' }}>
+                          <p className="font-medium" className="text-primary">
                             {tx.listing?.title || 'N/A'}
                           </p>
-                          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                          <p className="text-xs" className="text-muted-foreground">
                             {tx.listing?.area}
                           </p>
                         </td>
                         <td className="p-4">
-                          <p className="font-medium" style={{ color: 'var(--text)' }}>
+                          <p className="font-medium" className="text-primary">
                             {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                           </p>
                         </td>
                         <td className="p-4">
-                          <span className="tag tag-blue">{tx.type}</span>
+                          <span className="tag bg-accent/10 text-accent border-accent/20">{tx.type}</span>
                         </td>
-                        <td className="p-4 text-right font-heading font-bold" style={{ color: 'var(--text)' }}>
+                        <td className="p-4 text-right font-heading font-bold" className="text-primary">
                           ₦{Number(tx.amount).toLocaleString()}
                         </td>
                         <td className="p-4">
@@ -374,26 +374,26 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
       {/* Upcoming Rent Schedule */}
       <section>
-        <h2 className="font-heading font-bold mb-6" style={{ color: 'var(--text)' }}>
+        <h2 className="font-heading font-bold mb-6" className="text-primary">
           Upcoming Rent Schedule
         </h2>
         <div className="card overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+              <tr className="border-b" className="border-border">
+                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                   Property
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                   Tenant
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                   Amount
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
                   Status
                 </th>
               </tr>
@@ -404,17 +404,17 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                 { property: 'Greenview Estate Unit 3', tenant: 'Jane Smith', amount: 2200000, dueDate: '2026-07-05', status: 'upcoming' },
                 { property: 'Lekki Heights Penthouse', tenant: 'Mike Johnson', amount: 5000000, dueDate: '2026-06-30', status: 'overdue' },
               ].map((item, i) => (
-                <tr key={i} className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <td className="p-4" style={{ color: 'var(--text)' }}>
+                <tr key={i} className="border-b" className="border-border">
+                  <td className="p-4" className="text-primary">
                     {item.property}
                   </td>
-                  <td className="p-4" style={{ color: 'var(--text)' }}>
+                  <td className="p-4" className="text-primary">
                     {item.tenant}
                   </td>
-                  <td className="p-4 font-medium" style={{ color: 'var(--text)' }}>
+                  <td className="p-4 font-medium" className="text-primary">
                     ₦{item.amount.toLocaleString()}
                   </td>
-                  <td className="p-4" style={{ color: 'var(--muted)' }}>
+                  <td className="p-4" className="text-muted-foreground">
                     {new Date(item.dueDate).toLocaleDateString('en-NG', {
                       day: '2-digit',
                       month: 'short',
@@ -422,7 +422,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                     })}
                   </td>
                   <td className="p-4">
-                    <span className={`tag ${item.status === 'overdue' ? 'tag-red' : 'tag-amber'}`}>
+                    <span className={`tag ${item.status === 'overdue' ? 'bg-destructive/10 text-destructive border-destructive/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
                       {item.status === 'overdue' ? 'Overdue' : 'Due Soon'}
                     </span>
                   </td>

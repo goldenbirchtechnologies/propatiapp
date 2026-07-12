@@ -169,7 +169,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </label>
           </div>
           <div className="flex-1">
-            <h2 className="font-heading font-bold text-2xl" style={{ color: 'var(--text)' }}>{user?.fullName || 'Loading...'}</h2>
+            <h2 className="font-heading font-bold text-2xl" className="text-primary">{user?.fullName || 'Loading...'}</h2>
             <div className="flex items-center gap-4 mt-2 flex-wrap">
               <Badge variant="secondary" className="capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</Badge>
               {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="w-3 h-3" /> NIN Verified</Badge>}
@@ -178,7 +178,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="w-3 h-3" /> Phone Verified</Badge>}
               {!user?.profileCompleted && <Badge variant="destructive">Profile Incomplete</Badge>}
             </div>
-            <p className="text-sm mt-2" style={{ color: 'var(--muted)' }}>{user?.email}</p>
+            <p className="text-sm mt-2" className="text-muted-foreground">{user?.email}</p>
           </div>
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <div className="space-y-1">
                     <Label htmlFor="email">Email Address</Label>
                     <Input id="email" value={profileData.email} disabled type="email" />
-                    <p className="text-xs" style={{ color: 'var(--muted)' }}>Email cannot be changed here. Contact support if needed.</p>
+                    <p className="text-xs" className="text-muted-foreground">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -227,7 +227,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     />
                     {user?.phoneVerified ? (
                       <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
-                        <CheckCircle className="w-4 h-4 text-green-500" /> Verified
+                        <CheckCircle className="w-4 h-4 text-success" /> Verified
                       </Button>
                     ) : (
                       <Button type="button" variant="outline" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || requestPhoneOTPMutation.isPending}>
@@ -286,19 +286,19 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Identity Verification</CardTitle>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>Verify your identity to unlock premium features and build trust.</p>
+                <p className="text-sm" className="text-muted-foreground">Verify your identity to unlock premium features and build trust.</p>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* NIN Verification */}
-                <div className="p-4 rounded-lg border" style={{ borderColor: 'var(--border)' }}>
+                <div className="p-4 rounded-lg border" className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.ninVerified ? 'var(--green-bg)' : 'var(--blue-bg)', color: user?.ninVerified ? 'var(--green)' : 'var(--blue)' }}>
                         <IdCard className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" style={{ color: 'var(--text)' }}>National Identification Number (NIN)</h4>
-                        <p className="text-sm" style={{ color: 'var(--muted)' }}>Verify using your NIN via Prembly/IdentityPass</p>
+                        <h4 className="font-medium" className="text-primary">National Identification Number (NIN)</h4>
+                        <p className="text-sm" className="text-muted-foreground">Verify using your NIN via Prembly/IdentityPass</p>
                       </div>
                     </div>
                     {user?.ninVerified ? (
@@ -321,15 +321,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
 
                 {/* BVN Verification */}
-                <div className="p-4 rounded-lg border" style={{ borderColor: 'var(--border)' }}>
+                <div className="p-4 rounded-lg border" className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.bvnVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.bvnVerified ? 'var(--green)' : 'var(--amber)' }}>
                         <Shield className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" style={{ color: 'var(--text)' }}>Bank Verification Number (BVN)</h4>
-                        <p className="text-sm" style={{ color: 'var(--muted)' }}>Verify using your BVN for financial trust</p>
+                        <h4 className="font-medium" className="text-primary">Bank Verification Number (BVN)</h4>
+                        <p className="text-sm" className="text-muted-foreground">Verify using your BVN for financial trust</p>
                       </div>
                     </div>
                     {user?.bvnVerified ? (
@@ -352,15 +352,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
 
                 {/* Document Verification */}
-                <div className="p-4 rounded-lg border" style={{ borderColor: 'var(--border)' }}>
+                <div className="p-4 rounded-lg border" className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.idVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.idVerified ? 'var(--green)' : 'var(--amber)' }}>
                         <IdCard className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" style={{ color: 'var(--text)' }}>Government ID Document</h4>
-                        <p className="text-sm" style={{ color: 'var(--muted)' }}>Upload a valid ID (Passport, Driver's License, Voter's Card)</p>
+                        <h4 className="font-medium" className="text-primary">Government ID Document</h4>
+                        <p className="text-sm" className="text-muted-foreground">Upload a valid ID (Passport, Driver's License, Voter's Card)</p>
                       </div>
                     </div>
                     {user?.idVerified ? (
@@ -438,7 +438,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
                 <SessionItem device="Desktop" browser="Firefox on Mac" location="London, UK" />
               </div>
-              <Button variant="ghost" className="mt-4 w-full" style={{ color: 'var(--red)' }}>
+              <Button variant="ghost" className="mt-4 w-full" className="text-destructive">
                 <AlertCircle className="w-4 h-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
@@ -479,12 +479,12 @@ function VerificationStep({ label, icon, completed }: { label: string; icon: Rea
         {icon}
       </div>
       <div className="flex-1">
-        <p className="font-medium" style={{ color: 'var(--text)' }}>{label}</p>
+        <p className="font-medium" className="text-primary">{label}</p>
         <p className="text-sm" style={{ color: completed ? 'var(--green)' : 'var(--muted)' }}>
           {completed ? 'Verified ✓' : 'Not verified'}
         </p>
       </div>
-      {completed && <CheckCircle className="w-5 h-5 text-green-500" />}
+      {completed && <CheckCircle className="w-5 h-5 text-success" />}
     </div>
   );
 }
@@ -493,19 +493,19 @@ function SessionItem({ current = false, device, browser, location }: { current?:
   return (
     <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: current ? 'var(--accent-bg)' : 'var(--surface-elevated)', border: current ? '1px solid var(--accent)' : '1px solid var(--border)' }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" className="bg-accent/10 text-accent">
           <Monitor className="w-5 h-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium" style={{ color: 'var(--text)' }}>{device}</span>
+            <span className="font-medium" className="text-primary">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>{browser} • {location}</p>
+          <p className="text-sm" className="text-muted-foreground">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
-        <Button variant="ghost" size="sm" style={{ color: 'var(--red)' }}>
+        <Button variant="ghost" size="sm" className="text-destructive">
           <LogOut className="w-4 h-4" />
         </Button>
       )}
@@ -518,12 +518,12 @@ function NotificationToggle({ id, label, desc }: { id: string; label: string; de
   return (
     <div className="flex items-center justify-between">
       <div className="flex-1">
-        <p className="font-medium" style={{ color: 'var(--text)' }}>{label}</p>
-        <p className="text-sm" style={{ color: 'var(--muted)' }}>{desc}</p>
+        <p className="font-medium" className="text-primary">{label}</p>
+        <p className="text-sm" className="text-muted-foreground">{desc}</p>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} className="sr-only peer" />
-        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+        <div className="w-11 h-6 bg-muted/30 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-muted/30 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
       </label>
     </div>
   );

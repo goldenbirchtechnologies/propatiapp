@@ -27,12 +27,12 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
   ];
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'tag-blue', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
-    certified: { class: 'tag-green', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
-    rejected: { class: 'tag-red', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
-    pending: { class: 'tag-amber', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
-    approved: { class: 'tag-green', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-accent/10 text-accent border-accent/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
+    certified: { class: 'bg-success/10 text-success border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
+    pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-success border-success/20', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
   };
 
   return (
@@ -53,10 +53,10 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
         {initialVerifications.length === 0 ? (
           <div className="card-body text-center py-16">
             <Shield className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-            <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+            <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">
               No verifications
             </h3>
-            <p style={{ color: 'var(--muted)' }}>
+            <p className="text-muted-foreground">
               Start a verification for your listings to earn the Certified badge.
             </p>
             <Link href="/dashboard/landlord/listing/new" className="btn btn-primary mt-4">
@@ -81,15 +81,15 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                     <div className="flex items-center gap-3">
                       <div
                         className="w-12 h-12 rounded-xl flex items-center justify-center"
-                        style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}
+                        className="bg-accent/10 text-accent"
                       >
                         <BuildingIcon className="w-6 h-6" />
                       </div>
                       <div>
-                        <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>
+                        <h3 className="font-heading font-bold" className="text-primary">
                           {v.listing?.title || 'Unknown'}
                         </h3>
-                        <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                        <p className="text-sm" className="text-muted-foreground">
                           {v.listing?.address}
                         </p>
                       </div>
@@ -102,11 +102,11 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
                   {/* Progress */}
                   <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1" style={{ color: 'var(--muted)' }}>
+                    <div className="flex justify-between text-xs mb-1" className="text-muted-foreground">
                       <span>Progress</span>
                       <span>{progress}%</span>
                     </div>
-                    <div className="h-2 rounded-full" style={{ background: 'var(--border)' }}>
+                    <div className="h-2 rounded-full" className="bg-muted/30">
                       <div
                         className="h-full rounded-full transition-all duration-300"
                         style={{
@@ -144,10 +144,10 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <span>{index + 1}</span>}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
+                            <p className="font-medium text-sm truncate" className="text-primary">
                               {layer.label}
                             </p>
-                            <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+                            <p className="text-xs truncate" className="text-muted-foreground">
                               {layer.desc}
                             </p>
                           </div>
@@ -161,7 +161,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   </div>
 
                   {/* Actions */}
-                  <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+                  <div className="mt-4 pt-4 border-t" className="border-border">
                     {overallStatus === 'certified' ? (
                       <Link
                         href={`/dashboard/landlord/properties/${v.listingId}`}

@@ -14,12 +14,12 @@ export default function LandlordMaintenancePage() {
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Maintenance</h1>
           <p className="text-muted-foreground">Track and manage maintenance requests across your properties.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Unable to load page</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
+            <p className="text-destructive font-medium">Unable to load page</p>
+            <p className="text-destructive text-sm mt-1">{error}</p>
             <button
               onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive"
             >
               Retry
             </button>
@@ -37,7 +37,7 @@ export default function LandlordMaintenancePage() {
             <h1 className="text-3xl font-bold text-foreground">Maintenance</h1>
             <p className="text-muted-foreground mt-1">Track and manage maintenance requests across your properties.</p>
           </div>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+          <button className="px-4 py-2 bg-success text-white rounded-lg hover:bg-success">
             New Request
           </button>
         </div>
@@ -72,31 +72,31 @@ export default function LandlordMaintenancePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Property</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Issue</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-                  <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Date</th>
-                  <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
+                <tr className="border-b" className="border-border">
+                  <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Property</th>
+                  <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Issue</th>
+                  <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Status</th>
+                  <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Date</th>
+                  <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {[0, 1, 2, 3].map((i) => (
-                  <tr key={i} className="border-b" style={{ borderColor: 'var(--border)' }}>
+                  <tr key={i} className="border-b" className="border-border">
                     <td className="p-4">
-                      <div className="h-4 w-32 animate-pulse rounded bg-gray-200" />
+                      <div className="h-4 w-32 animate-pulse rounded bg-muted/30" />
                     </td>
                     <td className="p-4">
-                      <div className="h-4 w-48 animate-pulse rounded bg-gray-200" />
+                      <div className="h-4 w-48 animate-pulse rounded bg-muted/30" />
                     </td>
                     <td className="p-4">
-                      <div className="h-6 w-20 animate-pulse rounded-full bg-gray-200" />
+                      <div className="h-6 w-20 animate-pulse rounded-full bg-muted/30" />
                     </td>
                     <td className="p-4">
-                      <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+                      <div className="h-4 w-24 animate-pulse rounded bg-muted/30" />
                     </td>
                     <td className="p-4 text-right">
-                      <div className="ml-auto h-8 w-16 animate-pulse rounded bg-gray-200" />
+                      <div className="ml-auto h-8 w-16 animate-pulse rounded bg-muted/30" />
                     </td>
                   </tr>
                 ))}
@@ -107,7 +107,7 @@ export default function LandlordMaintenancePage() {
 
         {/* Empty State (placeholder below skeleton when data loads) */}
         <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted/30">
             <Wrench className="h-6 w-6 text-muted-foreground" />
           </div>
           <h3 className="text-lg font-medium text-primary">No maintenance requests</h3>
@@ -123,10 +123,10 @@ function StatCard({ label, value, icon, trend, trendPositive = true }: { label: 
     <div className="card p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
+          <p className="text-2xl font-heading font-bold" className="text-primary">{value}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="rounded-xl p-3" className="bg-accent/10 text-accent">
           {icon}
         </div>
       </div>

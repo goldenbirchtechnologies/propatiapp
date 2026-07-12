@@ -50,7 +50,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
         <div>
           <h1 className="font-heading text-2xl font-bold text-primary">Kitchen Plumbing Repair</h1>
           <div className="flex items-center gap-2 mt-1">
-            <span className="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-xs font-semibold">Urgent</span>
+            <span className="px-3 py-1 bg-destructive/10 text-destructive rounded-full text-xs font-semibold">Urgent</span>
             <span className="text-sm text-muted-foreground">Submitted Oct 24, 2024</span>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <svg className="w-full h-full text-muted-foreground p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                 </div>
                 <div>
-                  <h4 className="font-heading font-bold text-primary">{technician.name}</h4>
+                  <h4 className="text-headline-sm text-primary">{technician.name}</h4>
                   <p className="text-sm text-muted-foreground">{technician.specialty} • {technician.rating}</p>
                 </div>
               </div>

@@ -19,10 +19,10 @@ export default function LandlordPortfolioAnalyticsPage() {
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Portfolio Analytics</h1>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Unable to load portfolio</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Retry</button>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
+            <p className="text-destructive font-medium">Unable to load portfolio</p>
+            <p className="text-destructive text-sm mt-1">{error}</p>
+            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
           </div>
         </section>
       </DashboardShell>
@@ -50,9 +50,9 @@ export default function LandlordPortfolioAnalyticsPage() {
           <div className="card p-5 rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">Avg. Yield</span>
-              <TrendingUp className="w-5 h-5 text-green-600" />
+              <TrendingUp className="w-5 h-5 text-success" />
             </div>
-            <p className="text-2xl font-bold text-green-600 mt-2">10.2%</p>
+            <p className="text-2xl font-bold text-success mt-2">10.2%</p>
           </div>
           <div className="card p-5 rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between">
@@ -84,7 +84,7 @@ export default function LandlordPortfolioAnalyticsPage() {
                     <td className="px-5 py-4 font-medium text-primary">{u.name}</td>
                     <td className="px-5 py-4 text-sm text-muted-foreground">{u.location}</td>
                     <td className="px-5 py-4 text-sm font-medium text-primary">₦{u.value.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-sm text-green-600 font-medium">{u.yield}</td>
+                    <td className="px-5 py-4 text-sm text-success font-medium">{u.yield}</td>
                     <td className="px-5 py-4 text-sm text-primary">{u.occupancy}%</td>
                   </tr>
                 ))}

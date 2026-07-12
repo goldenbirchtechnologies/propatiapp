@@ -6,46 +6,47 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
 
-// Skeleton Loading Components
+const shimmerBg = 'bg-outline-variant';
+const shimmerAnimation = 'animate-pulse';
+
 const StatCardSkeleton = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6">
     <div className="flex items-start justify-between">
       <div className="flex-1">
-        <div className="h-4 rounded w-24 mb-3" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
-        <div className="h-8 rounded w-16 mb-2" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
-        <div className="h-3 rounded w-20" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+        <div className={`${shimmerBg} ${shimmerAnimation} h-4 rounded w-24 mb-3`} />
+        <div className={`${shimmerBg} ${shimmerAnimation} h-8 rounded w-16 mb-2`} />
+        <div className={`${shimmerBg} ${shimmerAnimation} h-3 rounded w-20`} />
       </div>
-      <div className="w-10 h-10 rounded-lg" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+      <div className="w-10 h-10 rounded-lg" />
     </div>
   </div>
 );
 
 const ActionCardSkeleton = () => (
-  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5">
     <div className="flex items-center gap-3 mb-3">
-      <div className="w-10 h-10 rounded-lg" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+      <div className="w-10 h-10 rounded-lg" />
       <div className="flex-1">
-        <div className="h-5 rounded w-32 mb-2" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
-        <div className="h-3 rounded w-full" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+        <div className="h-5 rounded w-32 mb-2" />
+        <div className="h-3 rounded w-full" />
       </div>
     </div>
   </div>
 );
 
 const TableRowSkeleton = () => (
-  <div className="flex items-center justify-between py-3 border-b border-outline-variant/30 animate-pulse">
+  <div className="flex items-center justify-between py-3 border-b border-outline-variant/30">
     <div className="flex items-center gap-3 flex-1">
-      <div className="w-10 h-10 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+      <div className="w-10 h-10 rounded-full" />
       <div className="flex-1">
-        <div className="h-4 rounded w-32 mb-2" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
-        <div className="h-3 rounded w-48" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+        <div className="h-4 rounded w-32 mb-2" />
+        <div className="h-3 rounded w-48" />
       </div>
     </div>
-    <div className="hidden sm:block w-24 h-6 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
+    <div className="hidden sm:block w-24 h-6 rounded-full" />
   </div>
 );
 
-// TypeScript Interfaces
 interface StatCardProps {
   title: string;
   value: string | number;
@@ -56,7 +57,6 @@ interface StatCardProps {
   bgClass: string;
 }
 
-// Stat Card Component with Platform Hover Effects
 const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: StatCardProps) => (
   <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
     <div className="flex items-start justify-between">
@@ -89,7 +89,6 @@ interface ActionCardProps {
   bgClass: string;
 }
 
-// Action Card Component with Platform Hover Effects
 const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass }: ActionCardProps) => (
   <Link href={href}>
     <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
@@ -120,7 +119,6 @@ interface UserActivityProps {
   status: 'pending' | 'verified' | 'active';
 }
 
-// User Activity Row Component
 const UserActivityRow = ({ user }: { user: UserActivityProps }) => {
   const statusColors: Record<string, string> = {
     pending: 'bg-warning/10 text-warning',
@@ -138,7 +136,7 @@ const UserActivityRow = ({ user }: { user: UserActivityProps }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-outline-variant/30 gap-2 sm:gap-4 hover:bg-surface-container/30 transition-colors duration-150">
       <div className="flex items-center gap-3 flex-1">
-        <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 1), hsl(var(--accent) / 1))' }}>
+        <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br from-primary to-accent">
           {user.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
@@ -165,7 +163,6 @@ interface AlertBannerProps {
   count?: number;
 }
 
-// Alert Banner Component
 const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   const styles: Record<string, string> = {
     warning: 'bg-warning/10 border-outline-variant text-warning',
@@ -190,7 +187,6 @@ const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   );
 };
 
-// Main Admin Dashboard Component
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const { user } = useUser();
@@ -207,10 +203,8 @@ export default function AdminDashboard() {
   const [recentUsers, setRecentUsers] = useState<UserActivityProps[]>([]);
 
   useEffect(() => {
-    // Mock data fetching
     const fetchData = async () => {
       setLoading(true);
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       setStats({
@@ -246,6 +240,9 @@ export default function AdminDashboard() {
       userAvatar={user?.imageUrl}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+        <div className="card-shell rounded-lg border border-outline-variant bg-success/90 text-white p-3 text-sm">
+          Admin dashboard loaded successfully.
+        </div>
         {/* Alert Banners */}
         <div className="space-y-3">
           <AlertBanner type="warning" message="Pending user verifications require attention" count={stats.pendingVerifications} />
@@ -281,55 +278,21 @@ export default function AdminDashboard() {
               />
               <StatCard
                 title="Pending Verifications"
-                value={stats.pendingVerifications}
-                icon="verified_user"
+                value={stats.pendingVerifications.toLocaleString()}
+                icon="verified"
+                trend="-3.1% this month"
+                trendUp={false}
                 colorClass="text-warning"
                 bgClass="bg-warning/10"
               />
               <StatCard
                 title="Monthly Revenue"
-                value={`₦${(stats.monthlyRevenue / 1000000).toFixed(1)}M`}
+                value={'₦' + stats.monthlyRevenue.toLocaleString()}
                 icon="payments"
-                trend="+15.7% this month"
-                trendUp={true}
-                colorClass="text-primary"
-                bgClass="bg-primary/5"
-              />
-              <StatCard
-                title="Active Listings"
-                value={stats.activeListings.toLocaleString()}
-                icon="home"
-                trend="+6.2% this month"
-                trendUp={true}
-                colorClass="text-primary"
-                bgClass="bg-primary/5"
-              />
-              <StatCard
-                title="Total Transactions"
-                value={stats.totalTransactions.toLocaleString()}
-                icon="receipt_long"
-                trend="+9.4% this month"
+                trend="+14.7% this month"
                 trendUp={true}
                 colorClass="text-success"
                 bgClass="bg-success/10"
-              />
-              <StatCard
-                title="Disputes Cases"
-                value={stats.disputesCases}
-                icon="flag"
-                trend="-3.1% this month"
-                trendUp={false}
-                colorClass="text-destructive"
-                bgClass="bg-destructive/10"
-              />
-              <StatCard
-                title="Platform Fees"
-                value={`₦${(stats.platformFees / 1000000).toFixed(1)}M`}
-                icon="account_balance"
-                trend="+11.8% this month"
-                trendUp={true}
-                colorClass="text-primary"
-                bgClass="bg-primary/5"
               />
             </div>
           )}
@@ -338,207 +301,76 @@ export default function AdminDashboard() {
         {/* Quick Actions */}
         <div>
           <h2 className="font-headline-md text-primary mb-4">Quick Actions</h2>
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...Array(6)].map((_, i) => <ActionCardSkeleton key={i} />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <ActionCard
-                title="User Verifications"
-                description="Review pending user verifications"
-                icon="verified_user"
-                href="/dashboard/admin/verifications"
-                count={stats.pendingVerifications}
-                colorClass="text-verification-verified"
-                bgClass="bg-verification-verified/10"
-              />
-              <ActionCard
-                title="Property Approvals"
-                description="Review property listings"
-                icon="apartment"
-                href="/dashboard/admin/properties"
-                count={23}
-                colorClass="text-commercial-gold"
-                bgClass="bg-commercial-gold/10"
-              />
-              <ActionCard
-                title="Dispute Resolution"
-                description="Manage active disputes"
-                icon="gavel"
-                href="/dashboard/admin/disputes"
-                count={stats.disputesCases}
-                colorClass="text-destructive"
-                bgClass="bg-destructive/10"
-              />
-              <ActionCard
-                title="Financial Reports"
-                description="View revenue and transactions"
-                icon="analytics"
-                href="/dashboard/admin/reports"
-                colorClass="text-primary"
-                bgClass="bg-primary/5"
-              />
-              <ActionCard
-                title="System Settings"
-                description="Configure platform settings"
-                icon="settings"
-                href="/dashboard/admin/settings"
-                colorClass="text-primary"
-                bgClass="bg-primary/5"
-              />
-              <ActionCard
-                title="User Management"
-                description="Manage user accounts and roles"
-                icon="manage_accounts"
-                href="/dashboard/admin/users"
-                colorClass="text-success"
-                bgClass="bg-success/10"
-              />
-            </div>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <ActionCard
+              title="User Management"
+              description="Review and manage platform users"
+              icon="people"
+              href="/dashboard/admin/users"
+              count={12}
+              colorClass="text-verification-verified"
+              bgClass="bg-verification-verified/10"
+            />
+            <ActionCard
+              title="Verifications"
+              description="Process pending verifications"
+              icon="verified"
+              href="/dashboard/admin/verifications"
+              count={stats.pendingVerifications}
+              colorClass="text-warning"
+              bgClass="bg-warning/10"
+            />
+            <ActionCard
+              title="Disputes"
+              description="Handle arbitration cases"
+              icon="gavel"
+              href="/dashboard/admin/disputes"
+              count={stats.disputesCases}
+              colorClass="text-destructive"
+              bgClass="bg-destructive/10"
+            />
+            <ActionCard
+              title="Properties"
+              description="Monitor property listings"
+              icon="apartment"
+              href="/dashboard/admin/properties"
+              colorClass="text-commercial-gold"
+              bgClass="bg-commercial-gold/10"
+            />
+            <ActionCard
+              title="Transactions"
+              description="Review escrow and payments"
+              icon="payments"
+              href="/dashboard/admin/transactions/escrow"
+              colorClass="text-success"
+              bgClass="bg-success/10"
+            />
+            <ActionCard
+              title="Revenue Reports"
+              description="View financial analytics"
+              icon="insights"
+              href="/dashboard/admin/revenue"
+              colorClass="text-primary"
+              bgClass="bg-primary/10"
+            />
+          </div>
         </div>
 
         {/* Recent User Registrations */}
         <div>
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-headline-md text-primary">Recent User Registrations</h2>
-              <Link href="/dashboard/admin/users" className="text-verification-verified hover:text-verification-verified/80 font-semibold text-sm flex items-center gap-1">
-                View All
-                <span className="material-symbols-outlined text-lg">arrow_forward</span>
-              </Link>
-            </div>
+          <h2 className="font-headline-md text-primary">Recent User Registrations</h2>
+          <div className="mt-4 bg-surface-container-lowest rounded-lg border border-outline-variant divide-y divide-outline-variant/30">
             {loading ? (
-              <div className="space-y-2">
-                {[...Array(5)].map((_, i) => <TableRowSkeleton key={i} />)}
+              <div className="p-4">
+                <TableRowSkeleton />
+                <TableRowSkeleton />
+                <TableRowSkeleton />
               </div>
             ) : (
-              <div className="space-y-1">
-                {recentUsers.map(user => <UserActivityRow key={user.id} user={user} />)}
-              </div>
+              recentUsers.map((userItem) => (
+                <UserActivityRow key={userItem.id} user={userItem} />
+              ))
             )}
-          </div>
-        </div>
-
-        {/* Platform Health */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* System Status */}
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
-            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-success">check_circle</span>
-              System Status
-            </h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant text-sm">API Server</span>
-                <span className="text-success font-semibold text-sm flex items-center gap-1">
-                  <span className="w-2 h-2 bg-success rounded-full"></span>
-                  Online
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant text-sm">Database</span>
-                <span className="text-success font-semibold text-sm flex items-center gap-1">
-                  <span className="w-2 h-2 bg-success rounded-full"></span>
-                  Online
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant text-sm">Payment Gateway</span>
-                <span className="text-success font-semibold text-sm flex items-center gap-1">
-                  <span className="w-2 h-2 bg-success rounded-full"></span>
-                  Online
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant text-sm">Email Service</span>
-                <span className="text-warning font-semibold text-sm flex items-center gap-1">
-                  <span className="w-2 h-2 bg-warning rounded-full"></span>
-                  Degraded
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Top Regions */}
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
-            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-verification-verified">location_on</span>
-              Top Regions
-            </h3>
-            <div className="space-y-3">
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm font-medium">Lagos</span>
-                  <span className="text-primary font-bold text-sm">45%</span>
-                </div>
-                <div className="w-full bg-surface-container rounded-full h-2">
-                  <div className="bg-verification-verified h-2 rounded-full" style={{ width: '45%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm font-medium">Abuja</span>
-                  <span className="text-primary font-bold text-sm">28%</span>
-                </div>
-                <div className="w-full bg-surface-container rounded-full h-2">
-                  <div className="bg-verification-verified h-2 rounded-full" style={{ width: '28%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm font-medium">Port Harcourt</span>
-                  <span className="text-primary font-bold text-sm">15%</span>
-                </div>
-                <div className="w-full bg-surface-container rounded-full h-2">
-                  <div className="bg-secondary h-2 rounded-full" style={{ width: '15%' }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm font-medium">Other</span>
-                  <span className="text-primary font-bold text-sm">12%</span>
-                </div>
-                <div className="w-full bg-surface-container rounded-full h-2">
-                  <div className="bg-primary h-2 rounded-full" style={{ width: '12%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Growth Metrics */}
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
-            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-secondary">trending_up</span>
-              Growth Metrics
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm">User Growth</span>
-                  <span className="text-success font-bold text-sm">+12.5%</span>
-                </div>
-                <p className="text-primary text-2xl font-bold">1,604</p>
-                <p className="text-on-surface-variant text-xs">New users this month</p>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm">Property Growth</span>
-                  <span className="text-success font-bold text-sm">+8.3%</span>
-                </div>
-                <p className="text-primary text-2xl font-bold">324</p>
-                <p className="text-on-surface-variant text-xs">New properties this month</p>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-on-surface-variant text-sm">Verification Rate</span>
-                  <span className="text-warning font-bold text-sm">+5.2%</span>
-                </div>
-                <p className="text-primary text-2xl font-bold">94.8%</p>
-                <p className="text-on-surface-variant text-xs">Of total listings verified</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -73,7 +73,7 @@ export default async function LandlordVerificationPage() {
 
         {/* Properties with Verification Status */}
         <section>
-          <h2 className="font-heading font-bold mb-6" style={{ color: 'var(--text)' }}>Your Properties</h2>
+          <h2 className="font-heading font-bold mb-6" className="text-primary">Your Properties</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (
               <VerificationCard key={listing.id} listing={listing} />
@@ -81,7 +81,7 @@ export default async function LandlordVerificationPage() {
             {listings.length === 0 && (
               <div className="col-span-full card p-12 text-center">
                 <BuildingIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No properties to verify</h3>
+                <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">No properties to verify</h3>
                 <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Add a property to start the verification process.</p>
                 <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
@@ -102,10 +102,10 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
     <div className="card p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-          <p className="text-3xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
+          <p className="text-3xl font-heading font-bold" className="text-primary">{value}</p>
         </div>
-        <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
           {Icon}
         </div>
       </div>
@@ -137,12 +137,12 @@ function VerificationCard({ listing }: { listing: any }) {
   ];
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'tag-blue', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
-    certified: { class: 'tag-green', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
-    rejected: { class: 'tag-red', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
-    pending: { class: 'tag-amber', label: 'Pending Review', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    approved: { class: 'tag-green', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-accent/10 text-accent border-accent/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
+    certified: { class: 'bg-success/10 text-success border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
+    pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-success border-success/20', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
   };
 
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;
@@ -151,12 +151,12 @@ function VerificationCard({ listing }: { listing: any }) {
     <div className="card p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" className="bg-accent/10 text-accent">
             <BuildingIcon className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>{listing.title}</h3>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>{listing.area}, {listing.state}</p>
+            <h3 className="font-heading font-bold" className="text-primary">{listing.title}</h3>
+            <p className="text-sm" className="text-muted-foreground">{listing.area}, {listing.state}</p>
           </div>
         </div>
         <span className={`tag ${overallConfig.class} flex items-center gap-1`}>
@@ -167,11 +167,11 @@ function VerificationCard({ listing }: { listing: any }) {
 
       {/* Progress Bar */}
       <div className="mb-4">
-        <div className="flex justify-between text-xs mb-1" style={{ color: 'var(--muted)' }}>
+        <div className="flex justify-between text-xs mb-1" className="text-muted-foreground">
           <span>Progress</span>
           <span>{((verification ? Object.values({ l1: verification.l1Status, l2: verification.l2Status, l3: verification.l3Status, l4: verification.l4Status, l5: verification.l5Status || 'pending' }).filter(s => s === 'approved').length : 0) / 5) * 100}%</span>
         </div>
-        <div className="h-2 rounded-full" style={{ background: 'var(--border)' }}>
+        <div className="h-2 rounded-full" className="bg-muted/30">
           <div
             className="h-full rounded-full transition-all duration-300"
             style={{
@@ -212,8 +212,8 @@ function VerificationCard({ listing }: { listing: any }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{layer.label}</p>
-                <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>{layer.desc}</p>
+                <p className="font-medium text-sm truncate" className="text-primary">{layer.label}</p>
+                <p className="text-xs truncate" className="text-muted-foreground">{layer.desc}</p>
               </div>
               <span className={`tag ${config.class} flex items-center gap-1 whitespace-nowrap`}>
                 {config.icon}
@@ -225,7 +225,7 @@ function VerificationCard({ listing }: { listing: any }) {
       </div>
 
       {/* Action Button */}
-      <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+      <div className="mt-4 pt-4 border-t" className="border-border">
         {overallStatus === 'certified' ? (
           <Link
             href={`/dashboard/landlord/properties/${listing.id}`}

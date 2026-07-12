@@ -16,10 +16,10 @@ export default function LandlordRevenueScenarioBuilderPage() {
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Advanced Scenario Builder</h1>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Retry</button>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
+            <p className="text-destructive font-medium">Error</p>
+            <p className="text-destructive text-sm mt-1">{error}</p>
+            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
           </div>
         </section>
       </DashboardShell>

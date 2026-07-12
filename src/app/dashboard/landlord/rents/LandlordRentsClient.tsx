@@ -286,7 +286,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 </div>
               </div>
             </div>
-            <Button className="mt-6 w-full bg-amber-400 text-black hover:bg-warning font-bold">
+            <Button className="mt-6 w-full bg-warning text-black hover:bg-warning font-bold">
               <Wallet className="h-4 w-4" />
               Request Instant Payout
             </Button>
@@ -300,10 +300,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 function RentStatusBadge({ status }: { status: string }) {
   const config: Record<string, { className: string; label: string }> = {
     released: { className: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Paid' },
-    in_escrow: { className: 'bg-blue-100 text-blue-700 border-blue-200', label: 'In Escrow' },
+    in_escrow: { className: 'bg-accent/20 text-accent border-accent/30', label: 'In Escrow' },
     pending: { className: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
     failed: { className: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Failed' },
-    refunded: { className: 'bg-orange-100 text-orange-700 border-orange-200', label: 'Refunded' },
+    refunded: { className: 'bg-warning/10 text-warning border-warning/30', label: 'Refunded' },
   };
   const cfg = config[status] || { className: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: status };
   return (

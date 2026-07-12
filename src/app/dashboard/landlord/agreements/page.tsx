@@ -111,7 +111,7 @@ export default async function LandlordAgreementsPage() {
             {agreements.length === 0 ? (
               <div className="card-body text-center py-16">
                 <FileIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No agreements yet</h3>
+                <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">No agreements yet</h3>
                 <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Create your first agreement from a verified property listing.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Create Agreement
@@ -121,23 +121,23 @@ export default async function LandlordAgreementsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Agreement</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Property</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Tenant</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Type</th>
-                      <th className="text-right p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Rent/Price</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Status</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Signatures</th>
-                      <th className="text-left p-4 text-sm font-medium" style={{ color: 'var(--muted)' }}>Actions</th>
+                    <tr className="border-b" className="border-border">
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Agreement</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Property</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Tenant</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Type</th>
+                      <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">Rent/Price</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Status</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Signatures</th>
+                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {agreements.map((agreement) => (
-                      <tr key={agreement.id} className="border-b" style={{ borderColor: 'var(--border)' }}>
+                      <tr key={agreement.id} className="border-b" className="border-border">
                         <td className="p-4">
-                          <p className="font-mono text-sm font-medium" style={{ color: 'var(--text)' }}>{agreement.id.slice(-8).toUpperCase()}</p>
-                          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                          <p className="font-mono text-sm font-medium" className="text-primary">{agreement.id.slice(-8).toUpperCase()}</p>
+                          <p className="text-xs" className="text-muted-foreground">
                             {new Date(agreement.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </p>
                         </td>
@@ -146,13 +146,13 @@ export default async function LandlordAgreementsPage() {
                             {agreement.listing?.images[0] ? (
                               <img src={agreement.listing.images[0].url} alt="" className="w-12 h-12 rounded-lg object-cover" />
                             ) : (
-                              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+                              <div className="w-12 h-12 rounded-lg flex items-center justify-center" className="bg-accent/10 text-accent">
                                 <BuildingIcon className="w-5 h-5" />
                               </div>
                             )}
                             <div>
-                              <p className="font-medium" style={{ color: 'var(--text)' }}>{agreement.listing?.title || 'N/A'}</p>
-                              <p className="text-xs" style={{ color: 'var(--muted)' }}>{agreement.listing?.area}</p>
+                              <p className="font-medium" className="text-primary">{agreement.listing?.title || 'N/A'}</p>
+                              <p className="text-xs" className="text-muted-foreground">{agreement.listing?.area}</p>
                             </div>
                           </div>
                         </td>
@@ -165,18 +165,18 @@ export default async function LandlordAgreementsPage() {
                                 {agreement.tenant.fullName.charAt(0)}
                               </div>
                               <div>
-                                <p className="font-medium" style={{ color: 'var(--text)' }}>{agreement.tenant.fullName}</p>
-                                <p className="text-xs" style={{ color: 'var(--muted)' }}>{agreement.tenant.email}</p>
+                                <p className="font-medium" className="text-primary">{agreement.tenant.fullName}</p>
+                                <p className="text-xs" className="text-muted-foreground">{agreement.tenant.email}</p>
                               </div>
                             </div>
                           ) : (
-                            <span style={{ color: 'var(--muted)' }}>Not assigned</span>
+                            <span className="text-muted-foreground">Not assigned</span>
                           )}
                         </td>
                         <td className="p-4">
-                          <span className="tag tag-blue">{agreement.type}</span>
+                          <span className="tag bg-accent/10 text-accent border-accent/20">{agreement.type}</span>
                         </td>
-                        <td className="p-4 text-right font-heading font-bold" style={{ color: 'var(--text)' }}>
+                        <td className="p-4 text-right font-heading font-bold" className="text-primary">
                           {agreement.rentAmount ? `₦${Number(agreement.rentAmount).toLocaleString()}` : '—'}
                           {agreement.rentPeriod && agreement.rentAmount && `/${agreement.rentPeriod}`}
                         </td>
@@ -250,10 +250,10 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
     <div className="card p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
+          <p className="text-2xl font-heading font-bold" className="text-primary">{value}</p>
         </div>
-        <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
           {Icon}
         </div>
       </div>
@@ -263,16 +263,16 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
 
 function AgreementStatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    draft: { class: 'tag-amber', label: 'Draft' },
-    pending_landlord: { class: 'tag-blue', label: 'Pending Landlord' },
-    pending_tenant: { class: 'tag-blue', label: 'Pending Tenant' },
-    tenant_signed: { class: 'tag-teal', label: 'Tenant Signed' },
-    landlord_signed: { class: 'tag-teal', label: 'Landlord Signed' },
-    fully_signed: { class: 'tag-green', label: 'Fully Signed ✓' },
-    terminated: { class: 'tag-red', label: 'Terminated' },
-    expired: { class: 'tag-gray', label: 'Expired' },
+    draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
+    pending_landlord: { class: 'bg-accent/10 text-accent border-accent/20', label: 'Pending Landlord' },
+    pending_tenant: { class: 'bg-accent/10 text-accent border-accent/20', label: 'Pending Tenant' },
+    tenant_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Tenant Signed' },
+    landlord_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Landlord Signed' },
+    fully_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Fully Signed ✓' },
+    terminated: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Terminated' },
+    expired: { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: 'Expired' },
   };
-  const cfg = config[status] || { class: 'tag-gray', label: status };
+  const cfg = config[status] || { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 

@@ -18,10 +18,10 @@ export default function LandlordOverduePaymentsPage() {
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Overdue Payments</h1>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Retry</button>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
+            <p className="text-destructive font-medium">Error</p>
+            <p className="text-destructive text-sm mt-1">{error}</p>
+            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
           </div>
         </section>
       </DashboardShell>
@@ -58,10 +58,10 @@ export default function LandlordOverduePaymentsPage() {
                   <tr key={row.id} className="hover:bg-surface-container-low transition-colors">
                     <td className="px-5 py-4 text-sm font-medium text-primary">{row.tenant}</td>
                     <td className="px-5 py-4 text-sm text-muted-foreground">{row.unit}</td>
-                    <td className="px-5 py-4 text-sm font-medium text-red-600">₦{row.amount.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-sm text-red-600 font-bold">{row.days} days</td>
+                    <td className="px-5 py-4 text-sm font-medium text-destructive">₦{row.amount.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-sm text-destructive font-bold">{row.days} days</td>
                     <td className="px-5 py-4">
-                      <span className={`tag ${row.noticeSent ? 'tag-green' : 'tag-amber'}`}>
+                      <span className={`tag ${row.noticeSent ? 'bg-success/10 text-success border-success/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
                         {row.noticeSent ? 'Sent' : 'Pending'}
                       </span>
                     </td>
@@ -70,7 +70,7 @@ export default function LandlordOverduePaymentsPage() {
                         <button className="text-primary hover:text-secondary p-1">
                           <Mail className="w-4 h-4" />
                         </button>
-                        <button className="text-primary hover:text-red-600 p-1">
+                        <button className="text-primary hover:text-destructive p-1">
                           <Gavel className="w-4 h-4" />
                         </button>
                       </div>

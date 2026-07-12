@@ -169,7 +169,7 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.listingId && (
-                  <p className="text-sm text-red-600 mt-1">{errors.listingId.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.listingId.message}</p>
                 )}
               </div>
 
@@ -181,7 +181,7 @@ export default function NewAgreementPage() {
                   placeholder="Enter tenant email or ID"
                 />
                 {errors.tenantId && (
-                  <p className="text-sm text-red-600 mt-1">{errors.tenantId.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.tenantId.message}</p>
                 )}
                 <p className="text-sm text-muted-foreground mt-1">
                   The tenant will receive an invitation to review and sign the agreement.
@@ -205,7 +205,7 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.type && (
-                  <p className="text-sm text-red-600 mt-1">{errors.type.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.type.message}</p>
                 )}
               </div>
             </div>
@@ -226,7 +226,7 @@ export default function NewAgreementPage() {
                   {...register('startDate')}
                 />
                 {errors.startDate && (
-                  <p className="text-sm text-red-600 mt-1">{errors.startDate.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.startDate.message}</p>
                 )}
               </div>
 
@@ -238,14 +238,14 @@ export default function NewAgreementPage() {
                   {...register('endDate')}
                 />
                 {errors.endDate && (
-                  <p className="text-sm text-red-600 mt-1">{errors.endDate.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.endDate.message}</p>
                 )}
               </div>
             </div>
 
             {calculateLeaseDuration() && (
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-sm font-medium text-blue-900">
+              <div className="bg-accent/10 p-4 rounded-lg">
+                <p className="text-sm font-medium text-primary">
                   Lease Duration: {calculateLeaseDuration()} months
                 </p>
               </div>
@@ -261,7 +261,7 @@ export default function NewAgreementPage() {
                   placeholder="e.g., 500000"
                 />
                 {errors.rentAmount && (
-                  <p className="text-sm text-red-600 mt-1">{errors.rentAmount.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.rentAmount.message}</p>
                 )}
               </div>
 
@@ -281,7 +281,7 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.rentPeriod && (
-                  <p className="text-sm text-red-600 mt-1">{errors.rentPeriod.message}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.rentPeriod.message}</p>
                 )}
               </div>
 

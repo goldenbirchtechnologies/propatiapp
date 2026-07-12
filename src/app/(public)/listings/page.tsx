@@ -427,8 +427,7 @@ function ListingsPageInner() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Sticky Filter Bar - Below nav */}
+          {/* Sticky Filter Bar - Below nav */}
       <div className="sticky top-[64px] z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm">
         <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-4">
           <div className="flex items-center gap-4 flex-wrap">

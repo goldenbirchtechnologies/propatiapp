@@ -15,33 +15,8 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Top Navigation */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-extrabold tracking-tight text-primary">
-            PROPATI
-          </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/properties" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-              Browse
-            </Link>
-            <Link href="/help-center" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-              Help
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground">
-              notifications
-            </button>
-            <Link href="/sign-in" className="text-sm font-semibold text-primary hover:underline">
-              Login
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main className="flex-1">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <Link href="/properties" className="hover:text-foreground">Properties</Link>
@@ -60,15 +35,15 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
                   onClick={() => setIsFavorite(!isFavorite)}
                   className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full hover:bg-white transition-colors"
                 >
-                  <span className={`material-symbols-outlined ${isFavorite ? 'text-destructive' : 'text-muted-foreground'}`}>
+                  <span className={( 'material-symbols-outlined ' + (isFavorite ? 'text-destructive' : 'text-muted-foreground') )}>
                     favorite
                   </span>
                 </button>
                 <div className="absolute bottom-4 left-4 flex gap-2">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${listing.tierColor || 'bg-primary text-white'}`}>
+                  <span className={( 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ' + (listing.tierColor || 'bg-primary text-white') )}>
                     {listing.tier || 'Verified'}
                   </span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${listing.listingColor || 'bg-type-sale text-white'}`}>
+                  <span className={( 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ' + (listing.listingColor || 'bg-type-sale text-white') )}>
                     {listing.listingType || 'FOR SALE'}
                   </span>
                 </div>
@@ -78,9 +53,7 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
                   <button
                     key={i}
                     onClick={() => setActiveImage(i)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                      activeImage === i ? 'border-primary' : 'border-transparent'
-                    }`}
+                    className={'w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ' + (activeImage === i ? 'border-primary' : 'border-transparent')}
                   >
                     <div className="w-full h-full bg-muted" />
                   </button>
@@ -157,21 +130,21 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
 
               <div className="space-y-3 mb-6">
                 <Link
-                  href={`tel:+2348000000000`}
+                  href={'tel:+234****0000'}
                   className="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95"
                 >
                   <span className="material-symbols-outlined">call</span>
                   Contact Agent
                 </Link>
                 <Link
-                  href={`mailto:agent@propati.com?subject=Inquiry about ${listing.title}`}
+                  href={'mailto:agent@propati.com?subject=Inquiry about ' + listing.title}
                   className="w-full bg-muted text-foreground py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-muted/80 transition-all"
                 >
                   <span className="material-symbols-outlined">mail</span>
                   Send Email
                 </Link>
                 <Link
-                  href={`https://wa.me/2348000000000?text=I'm interested in ${listing.title}`}
+                  href={'https://wa.me/2348000000000?text=' + encodeURIComponent("I'm interested in " + listing.title)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95"
@@ -196,7 +169,7 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

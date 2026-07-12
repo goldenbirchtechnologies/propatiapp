@@ -41,41 +41,7 @@ export default function HelpCenterPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Top Navigation */}
-      <header className="bg-surface border-b border-border shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <span className="text-xl font-extrabold text-primary">PROPATI</span>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link href="/help-center" className="text-sm font-semibold text-primary border-b-2 border-secondary-container">
-                Help Home
-              </Link>
-              <Link href="/guides" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                Guides
-              </Link>
-              <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                Contact Us
-              </Link>
-              <Link href="/resources" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                Resources
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard"
-              className="hidden lg:flex items-center px-4 py-2 bg-primary-container text-white rounded-lg text-sm font-medium hover:brightness-110 transition-all"
-            >
-              Go to Dashboard
-            </Link>
-            <div className="w-10 h-10 rounded-full bg-muted border-2 border-primary-container overflow-hidden">
-              <div className="w-full h-full bg-muted" />
-            </div>
-          </div>
-        </div>
-      </header>
-
+          {/* Top Navigation */}
       <div className="max-w-7xl mx-auto flex">
         {/* Sidebar Navigation - Desktop */}
         <aside className="hidden md:flex flex-col w-64 border-r border-border bg-primary-container text-white fixed h-[calc(100vh-64px)] top-16 shadow-md pt-6 px-4 gap-6 z-40">
@@ -264,55 +230,5 @@ export default function HelpCenterPage() {
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-surface-container-highest w-full py-12 px-4 md:px-8 border-t border-border mt-auto">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
-            <div className="max-w-xs">
-              <span className="font-heading font-black text-foreground mb-4 block text-2xl">PROPATI</span>
-              <p className="text-muted-foreground text-sm mb-6">Nigeria's premier property marketplace built on trust, transparency, and verified transactions.</p>
-              <div className="flex gap-4">
-                <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <span className="material-symbols-outlined text-sm">public</span>
-                </Link>
-                <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <span className="material-symbols-outlined text-sm">chat</span>
-                </Link>
-                <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <span className="material-symbols-outlined text-sm">mail</span>
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
-              <div className="flex flex-col gap-4">
-                <h5 className="text-sm font-bold text-primary">Company</h5>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">About Us</Link>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">Careers</Link>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">Security</Link>
-              </div>
-              <div className="flex flex-col gap-4">
-                <h5 className="text-sm font-bold text-primary">Legal</h5>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">Privacy</Link>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">Support</Link>
-                <Link href="#" className="text-muted-foreground text-sm hover:underline decoration-secondary underline-offset-4">Terms</Link>
-              </div>
-              <div className="flex flex-col gap-4">
-                <h5 className="text-sm font-bold text-primary">Contact</h5>
-                <span className="text-muted-foreground text-sm">Lagos Office:</span>
-                <span className="text-primary text-xs font-medium">Victoria Island, Lagos, NG</span>
-                <Link href="mailto:support@propati.com" className="text-muted-foreground text-sm hover:underline">support@propati.com</Link>
-              </div>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} PROPATI Marketplace. All rights reserved.</p>
-            <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-              <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse" />
-              SYSTEMS OPERATIONAL
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+        );
 }

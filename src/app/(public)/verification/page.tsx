@@ -131,26 +131,7 @@ export default function VerificationPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Top Navigation */}
-      <header className="fixed top-0 w-full z-50 bg-background shadow-sm border-b border-outline-variant h-[72px] flex justify-between items-center px-4 md:px-8">
-        <div className="font-heading font-extrabold text-xl text-primary">VeriProp Nigeria</div>
-        <nav className="hidden lg:flex items-center gap-6">
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground">Marketplace</Link>
-          <Link href="#" className="text-sm font-bold text-secondary border-b-2 border-secondary">Verification Guide</Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground">Pricing</Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground">About Us</Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <button className="hidden md:flex items-center justify-center px-5 py-2 bg-primary text-on-primary rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-            Get Started
-          </button>
-          <button className="md:hidden text-primary">
-            <span className="material-symbols-outlined text-[24px]">menu</span>
-          </button>
-        </div>
-      </header>
-
+          {/* Top Navigation */}
       <div className="pt-[72px] flex flex-col lg:flex-row max-w-[1440px] mx-auto min-h-screen">
         {/* Side Nav - Desktop */}
         <aside className="hidden lg:flex flex-col border-r border-outline-variant w-64 sticky top-[72px] h-[calc(100vh-72px)] bg-surface-container-low p-6 overflow-y-auto">
@@ -271,49 +252,6 @@ export default function VerificationPage() {
             </div>
           </section>
         </main>
-      </div>
-
-      {/* Footer */}
-      <footer className="w-full py-16 px-4 md:px-8 bg-primary text-on-primary mt-auto">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <div className="font-heading font-bold text-xl text-on-primary mb-4">VeriProp Nigeria</div>
-            <p className="text-sm text-on-primary-container/80 mb-6">The most trusted digital layer for Nigeria's real estate marketplace. Eliminating fraud, one property at a time.</p>
-          </div>
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider opacity-60 mb-4">Company</h4>
-            <nav className="flex flex-col gap-2">
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">About Us</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Pricing</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Marketplace</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Help Center</Link>
-            </nav>
-          </div>
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider opacity-60 mb-4">Legal</h4>
-            <nav className="flex flex-col gap-2">
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Terms of Service</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Privacy Policy</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Legal Disclaimer</Link>
-            </nav>
-          </div>
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider opacity-60 mb-4">Quick Links</h4>
-            <nav className="flex flex-col gap-2">
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Verify an Agent</Link>
-              <Link href="#" className="text-sm text-on-primary-container/80 hover:text-secondary-fixed transition-colors">Contact Support</Link>
-            </nav>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-on-primary-container/60">&copy; {new Date().getFullYear()} VeriProp Nigeria. All rights reserved.</p>
-          <div className="flex gap-4">
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">public</span>
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">chat</span>
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">language</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

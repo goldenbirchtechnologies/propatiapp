@@ -8,11 +8,11 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 export default function TenantDashboardPage() {
   return (
     <DashboardShell navigation={TENANT_NAVIGATION} userRole="tenant" userName="Chidi Okafor">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+      <div className="p-4 md:p-6 space-y-6">
         {/* Welcome Header */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-primary">
+            <h2 className="font-headline-sm text-headline-sm text-primary">
               Welcome back, Chidi
             </h2>
             <p className="text-on-surface-variant mt-1">
@@ -47,7 +47,7 @@ export default function TenantDashboardPage() {
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex justify-between items-start">
-                      <h3 className="font-heading text-xl font-bold text-primary">The Obsidian Penthouse</h3>
+                      <h3 className="font-headline-sm text-headline-sm text-primary">The Obsidian Penthouse</h3>
                       <p className="font-heading text-lg text-primary">
                         ₦2,500,000<span className="text-on-surface-variant text-sm font-normal">/yr</span>
                       </p>
@@ -83,7 +83,7 @@ export default function TenantDashboardPage() {
             {/* Recent Payments Table */}
             <section className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
               <div className="p-6 border-b border-outline-variant flex justify-between items-center">
-                <h4 className="font-heading text-lg font-semibold text-primary">Recent Payments</h4>
+                <h4 className="font-headline-sm text-headline-sm text-primary">Recent Payments</h4>
                 <button className="text-primary-container font-label-md flex items-center gap-1 hover:underline">
                   View All <span className="material-symbols-outlined text-sm">chevron_right</span>
                 </button>
@@ -153,11 +153,11 @@ export default function TenantDashboardPage() {
             {/* Recommended Listings */}
             <section>
               <div className="flex justify-between items-center mb-4">
-                <h4 className="font-heading text-lg font-semibold text-primary">Recommended for You</h4>
+                <h4 className="font-headline-sm text-headline-sm text-primary">Recommended for You</h4>
                 <p className="text-on-surface-variant text-sm italic">Based on your Ikoyi & VI search history</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="group bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div className="group bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
                   <div className="h-40 overflow-hidden relative">
                     <div className="w-full h-full bg-surface-container-high" />
                     <div className="absolute top-2 right-2 bg-primary-container/80 backdrop-blur-md text-white text-[10px] font-label-md px-2 py-1 rounded border border-white/20">
@@ -178,7 +178,7 @@ export default function TenantDashboardPage() {
                     </p>
                   </div>
                 </div>
-                <div className="group bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div className="group bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
                   <div className="h-40 overflow-hidden relative">
                     <div className="w-full h-full bg-surface-container-high" />
                     <div className="absolute top-2 right-2 bg-primary-container/80 backdrop-blur-md text-white text-[10px] font-label-md px-2 py-1 rounded border border-white/20">
@@ -207,31 +207,27 @@ export default function TenantDashboardPage() {
           <div className="col-span-12 lg:col-span-4 space-y-6">
             {/* Quick Stats */}
             <div className="grid grid-cols-1 gap-4">
-              <div className="bg-primary-container text-white p-6 rounded-xl relative overflow-hidden group">
-                <div className="absolute -right-4 -bottom-4 opacity-10 transition-transform group-hover:scale-125">
-                  <span className="material-symbols-outlined text-[100px]">payments</span>
+              <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-card-hover transition-shadow">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">payments</span>
+                  <span className="text-success-bright text-label-sm font-bold">+₦1.2M this year</span>
                 </div>
-                <p className="font-label-md text-on-primary-container uppercase tracking-widest text-[10px]">Total Payments Made</p>
-                <h3 className="font-heading text-2xl text-secondary-container mt-2">₦4.8M</h3>
-                <p className="text-[10px] text-success-bright mt-1">+₦1.2M this year</p>
+                <p className="text-on-surface-variant font-label-md text-label-md">Total Payments Made</p>
+                <h3 className="font-headline-md text-headline-md text-primary">₦4.8M</h3>
               </div>
-              <div className="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex items-center justify-between">
-                <div>
-                  <p className="font-label-md text-on-surface-variant uppercase tracking-widest text-[10px]">Active Applications</p>
-                  <h3 className="font-heading text-lg text-primary">2</h3>
+              <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-card-hover transition-shadow">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">assignment_turned_in</span>
                 </div>
-                <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center text-primary-container">
-                  <span className="material-symbols-outlined">assignment_turned_in</span>
-                </div>
+                <p className="text-on-surface-variant font-label-md text-label-md">Active Applications</p>
+                <h3 className="font-headline-md text-headline-md text-primary">2</h3>
               </div>
-              <div className="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex items-center justify-between">
-                <div>
-                  <p className="font-label-md text-on-surface-variant uppercase tracking-widest text-[10px]">Saved Properties</p>
-                  <h3 className="font-heading text-lg text-primary">8</h3>
+              <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-card-hover transition-shadow">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">favorite</span>
                 </div>
-                <div className="w-12 h-12 bg-surface-container rounded-full flex items-center justify-center text-primary-container">
-                  <span className="material-symbols-outlined">favorite</span>
-                </div>
+                <p className="text-on-surface-variant font-label-md text-label-md">Saved Properties</p>
+                <h3 className="font-headline-md text-headline-md text-primary">8</h3>
               </div>
             </div>
 
@@ -239,7 +235,8 @@ export default function TenantDashboardPage() {
             <section className="bg-surface-variant/40 rounded-xl p-6 border border-outline-variant relative overflow-hidden">
               <div className="flex items-center gap-2 mb-3">
                 <span className="material-symbols-outlined text-secondary text-xl">pending_actions</span>
-                <h4 className="font-heading text-lg font-semibold text-primary">Pending Lease</h4>
+                <h4 className="font-headline-sm text-headline-sm text-primary">Pending Lease</h4>
+
               </div>
               <p className="text-body-sm text-on-surface-variant mb-4">
                 A second lease agreement for <span className="font-bold text-primary">VGC Studio B</span> is currently under legal review.
@@ -253,7 +250,7 @@ export default function TenantDashboardPage() {
                   <div className="h-full bg-secondary-container w-[85%] rounded-full" />
                 </div>
               </div>
-              <button className="w-full py-2 bg-surface-container-lowest border border-outline-variant text-primary font-label-md rounded-lg hover:bg-background transition-all">
+              <button className="w-full py-2 bg-surface-container-lowest border border-outline-variant text-primary font-label-md rounded-lg hover:bg-surface-container transition-all">
                 Track Application
               </button>
               <div className="absolute -right-2 -top-2 opacity-5">
@@ -263,7 +260,7 @@ export default function TenantDashboardPage() {
 
             {/* Help Center / Quick Links */}
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
-              <h4 className="font-label-md text-primary mb-3">Need Assistance?</h4>
+              <h4 className="font-headline-sm text-headline-sm text-primary mb-3">Need Assistance?</h4>
               <ul className="space-y-2">
                 <li>
                   <Link href="#" className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-body-sm">

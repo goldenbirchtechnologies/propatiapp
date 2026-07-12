@@ -32,7 +32,7 @@ export default function LandlordDashboardPage() {
         {/* Stats Bento Grid */}
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Card 1 */}
-          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm transition-shadow hover:shadow-md">
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
             <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
               <span className="material-symbols-outlined text-[48px]">home_work</span>
             </div>
@@ -45,7 +45,7 @@ export default function LandlordDashboardPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm transition-shadow hover:shadow-md">
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
             <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
               <span className="material-symbols-outlined text-[48px]">pending_actions</span>
             </div>
@@ -58,13 +58,13 @@ export default function LandlordDashboardPage() {
           </div>
 
           {/* Card 3 - Premium with shimmer */}
-          <div className="group relative overflow-hidden rounded-xl border border-primary/20 bg-primary-container p-6 shadow-xl">
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-primary-container p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
             <div
               className="pointer-events-none absolute inset-0 opacity-50"
               style={{
                 background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)',
                 backgroundSize: '200% 100%',
-                animation: 'shimmer 3s infinite linear',
+                animation: 'shimmer 2s infinite linear',
               }}
             />
             <p className="mb-1 font-label-sm text-on-primary-container">This Month&apos;s Rent</p>
@@ -76,7 +76,7 @@ export default function LandlordDashboardPage() {
           </div>
 
           {/* Card 4 */}
-          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm transition-shadow hover:shadow-md">
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
             <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
               <span className="material-symbols-outlined text-[48px]">verified_user</span>
             </div>
@@ -100,17 +100,17 @@ export default function LandlordDashboardPage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-surface-container-low">
-                    <th className="px-6 py-4 font-label-sm text-on-surface-variant uppercase">Tenant Name</th>
-                    <th className="px-6 py-4 font-label-sm text-on-surface-variant uppercase">Listing</th>
-                    <th className="px-6 py-4 font-label-sm text-on-surface-variant uppercase">Status</th>
-                    <th className="px-6 py-4 font-label-sm text-on-surface-variant uppercase">Date</th>
-                    <th className="px-6 py-4"></th>
+                <thead className="bg-surface-container-high/50 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <tr>
+                    <th className="px-6 py-3">Tenant Name</th>
+                    <th className="px-6 py-3">Listing</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">Date</th>
+                    <th className="px-6 py-3"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-outline-variant">
-                  <tr className="transition-colors hover:bg-surface-container">
+                <tbody className="divide-y divide-outline-variant/30">
+                  <tr className="transition-colors hover:bg-surface-container/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-dim font-bold text-xs text-primary">EO</div>
@@ -126,7 +126,7 @@ export default function LandlordDashboardPage() {
                       <button className="material-symbols-outlined text-on-surface-variant transition-colors hover:text-primary">more_vert</button>
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-surface-container">
+                  <tr className="transition-colors hover:bg-surface-container/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-dim font-bold text-xs text-primary">SA</div>
@@ -142,7 +142,7 @@ export default function LandlordDashboardPage() {
                       <button className="material-symbols-outlined text-on-surface-variant transition-colors hover:text-primary">more_vert</button>
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-surface-container">
+                  <tr className="transition-colors hover:bg-surface-container/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-dim font-bold text-xs text-primary">JO</div>
@@ -158,7 +158,7 @@ export default function LandlordDashboardPage() {
                       <button className="material-symbols-outlined text-on-surface-variant transition-colors hover:text-primary">more_vert</button>
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-surface-container">
+                  <tr className="transition-colors hover:bg-surface-container/30">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-dim font-bold text-xs text-primary">FA</div>

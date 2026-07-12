@@ -8,7 +8,7 @@ import { useUser } from '@clerk/nextjs';
 
 // Skeleton Loading Components
 const StatCardSkeleton = () => (
-  <div className="bg-card rounded-lg shadow-card p-4 sm:p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6 animate-pulse">
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <div className="h-4 rounded w-24 mb-3" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
@@ -21,7 +21,7 @@ const StatCardSkeleton = () => (
 );
 
 const ActionCardSkeleton = () => (
-  <div className="bg-card rounded-lg shadow-card p-4 sm:p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
       <div className="flex-1">
@@ -33,7 +33,7 @@ const ActionCardSkeleton = () => (
 );
 
 const TableRowSkeleton = () => (
-  <div className="flex items-center justify-between py-3 border-b border-border animate-pulse">
+  <div className="flex items-center justify-between py-3 border-b border-outline-variant/30 animate-pulse">
     <div className="flex items-center gap-3 flex-1">
       <div className="w-10 h-10 rounded-full" style={{ background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s linear infinite' }}></div>
       <div className="flex-1">
@@ -56,13 +56,13 @@ interface StatCardProps {
   bgClass: string;
 }
 
-// Stat Card Component with Hover Effects
+// Stat Card Component with Platform Hover Effects
 const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: StatCardProps) => (
-  <div className={`${bgClass} rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.02] transition-all duration-200 ease-in-out p-4 sm:p-6`}>
+  <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
     <div className="flex items-start justify-between">
       <div className="flex-1">
-        <p className="text-muted-foreground text-sm font-medium mb-2">{title}</p>
-        <p className={`${colorClass} text-2xl sm:text-3xl lg:text-4xl font-bold mb-1`}>{value}</p>
+        <p className="text-on-surface-variant text-sm font-medium mb-2">{title}</p>
+        <p className={`text-primary font-headline-md mb-1`}>{value}</p>
         {trend && (
           <div className="flex items-center gap-1">
             <span className={`material-symbols-outlined text-sm ${trendUp ? 'text-success' : 'text-destructive'}`}>
@@ -72,8 +72,8 @@ const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: S
           </div>
         )}
       </div>
-      <div className={`${colorClass} ${bgClass} p-2 sm:p-3 rounded-lg`}>
-        <span className="material-symbols-outlined text-xl sm:text-2xl">{icon}</span>
+      <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
+        <span className={`material-symbols-outlined text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
       </div>
     </div>
   </div>
@@ -89,17 +89,17 @@ interface ActionCardProps {
   bgClass: string;
 }
 
-// Action Card Component with Hover Effects
+// Action Card Component with Platform Hover Effects
 const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass }: ActionCardProps) => (
   <Link href={href}>
-    <div className={`${bgClass} rounded-lg shadow-card hover:shadow-card-hover hover:scale-[1.02] transition-all duration-200 ease-in-out p-4 sm:p-5 cursor-pointer relative`}>
+    <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
       <div className="flex items-center gap-3">
-        <div className={`${colorClass} ${bgClass} p-2 sm:p-3 rounded-lg`}>
-          <span className="material-symbols-outlined text-xl sm:text-2xl">{icon}</span>
+        <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
+          <span className={`material-symbols-outlined text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
         </div>
         <div className="flex-1">
-          <h3 className={`${colorClass} font-semibold text-base sm:text-lg mb-1`}>{title}</h3>
-          <p className="text-muted-foreground text-xs sm:text-sm">{description}</p>
+          <h3 className={`font-headline-sm text-primary mb-1`}>{title}</h3>
+          <p className="text-on-surface-variant text-xs sm:text-sm">{description}</p>
         </div>
       </div>
       {count !== undefined && count > 0 && (
@@ -123,27 +123,27 @@ interface UserActivityProps {
 // User Activity Row Component
 const UserActivityRow = ({ user }: { user: UserActivityProps }) => {
   const statusColors: Record<string, string> = {
-    pending: 'bg-warning/10 text-yellow-800',
+    pending: 'bg-warning/10 text-warning',
     verified: 'bg-verification-verified/10 text-verification-verified',
     active: 'bg-success/10 text-success',
   };
 
   const roleColors: Record<string, string> = {
     tenant: 'bg-verification-verified/10 text-verification-verified',
-    landlord: 'bg-purple-100 text-purple-800',
-    agent: 'bg-blue-100 text-blue-800',
+    landlord: 'bg-commercial-gold/10 text-commercial-gold',
+    agent: 'bg-primary/10 text-primary',
     'estate-manager': 'bg-commercial-gold/10 text-commercial-gold',
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-border gap-2 sm:gap-4 hover:bg-accent/50 transition-colors duration-150">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-outline-variant/30 gap-2 sm:gap-4 hover:bg-surface-container/30 transition-colors duration-150">
       <div className="flex items-center gap-3 flex-1">
         <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 1), hsl(var(--accent) / 1))' }}>
           {user.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-foreground text-sm sm:text-base truncate">{user.name}</p>
-          <p className="text-muted-foreground text-xs sm:text-sm truncate">{user.email}</p>
+          <p className="font-semibold text-primary text-sm sm:text-base truncate">{user.name}</p>
+          <p className="text-on-surface-variant text-xs sm:text-sm truncate">{user.email}</p>
         </div>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
@@ -153,7 +153,7 @@ const UserActivityRow = ({ user }: { user: UserActivityProps }) => {
         <span className={`${statusColors[user.status]} px-2 py-1 rounded-full text-xs font-medium hidden sm:inline`}>
           {user.status}
         </span>
-        <span className="text-muted-foreground text-xs hidden sm:block">{user.registeredAt}</span>
+        <span className="text-on-surface-variant text-xs hidden sm:block">{user.registeredAt}</span>
       </div>
     </div>
   );
@@ -168,9 +168,9 @@ interface AlertBannerProps {
 // Alert Banner Component
 const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   const styles: Record<string, string> = {
-    warning: 'bg-warning/10 border-yellow-200 text-yellow-800',
-    info: 'bg-primary/5 border-border text-foreground',
-    success: 'bg-success/10 border-green-200 text-green-800',
+    warning: 'bg-warning/10 border-outline-variant text-warning',
+    info: 'bg-primary/5 border-outline-variant text-primary',
+    success: 'bg-success/10 border-outline-variant text-success',
   };
 
   const iconMap: Record<string, string> = {
@@ -254,7 +254,7 @@ export default function AdminDashboard() {
 
         {/* Platform Statistics */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Platform Statistics</h2>
+          <h2 className="font-headline-md text-primary mb-4">Platform Statistics</h2>
           {loading ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[...Array(8)].map((_, i) => <StatCardSkeleton key={i} />)}
@@ -276,8 +276,8 @@ export default function AdminDashboard() {
                 icon="apartment"
                 trend="+8.3% this month"
                 trendUp={true}
-                colorClass="text-purple-600"
-                bgClass="bg-purple-50"
+                colorClass="text-commercial-gold"
+                bgClass="bg-commercial-gold/10"
               />
               <StatCard
                 title="Pending Verifications"
@@ -292,8 +292,8 @@ export default function AdminDashboard() {
                 icon="payments"
                 trend="+15.7% this month"
                 trendUp={true}
-                colorClass="text-secondary"
-                bgClass="bg-secondary/10"
+                colorClass="text-primary"
+                bgClass="bg-primary/5"
               />
               <StatCard
                 title="Active Listings"
@@ -301,8 +301,8 @@ export default function AdminDashboard() {
                 icon="home"
                 trend="+6.2% this month"
                 trendUp={true}
-                colorClass="text-blue-600"
-                bgClass="bg-blue-50"
+                colorClass="text-primary"
+                bgClass="bg-primary/5"
               />
               <StatCard
                 title="Total Transactions"
@@ -318,7 +318,7 @@ export default function AdminDashboard() {
                 value={stats.disputesCases}
                 icon="flag"
                 trend="-3.1% this month"
-                trendUp={true}
+                trendUp={false}
                 colorClass="text-destructive"
                 bgClass="bg-destructive/10"
               />
@@ -328,8 +328,8 @@ export default function AdminDashboard() {
                 icon="account_balance"
                 trend="+11.8% this month"
                 trendUp={true}
-                colorClass="text-secondary"
-                bgClass="bg-secondary/10"
+                colorClass="text-primary"
+                bgClass="bg-primary/5"
               />
             </div>
           )}
@@ -337,7 +337,7 @@ export default function AdminDashboard() {
 
         {/* Quick Actions */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Quick Actions</h2>
+          <h2 className="font-headline-md text-primary mb-4">Quick Actions</h2>
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...Array(6)].map((_, i) => <ActionCardSkeleton key={i} />)}
@@ -359,8 +359,8 @@ export default function AdminDashboard() {
                 icon="apartment"
                 href="/dashboard/admin/properties"
                 count={23}
-                colorClass="text-purple-600"
-                bgClass="bg-purple-50"
+                colorClass="text-commercial-gold"
+                bgClass="bg-commercial-gold/10"
               />
               <ActionCard
                 title="Dispute Resolution"
@@ -376,16 +376,16 @@ export default function AdminDashboard() {
                 description="View revenue and transactions"
                 icon="analytics"
                 href="/dashboard/admin/reports"
-                colorClass="text-secondary"
-                bgClass="bg-secondary/10"
+                colorClass="text-primary"
+                bgClass="bg-primary/5"
               />
               <ActionCard
                 title="System Settings"
                 description="Configure platform settings"
                 icon="settings"
                 href="/dashboard/admin/settings"
-                colorClass="text-blue-600"
-                bgClass="bg-blue-50"
+                colorClass="text-primary"
+                bgClass="bg-primary/5"
               />
               <ActionCard
                 title="User Management"
@@ -401,9 +401,9 @@ export default function AdminDashboard() {
 
         {/* Recent User Registrations */}
         <div>
-          <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground">Recent User Registrations</h2>
+              <h2 className="font-headline-md text-primary">Recent User Registrations</h2>
               <Link href="/dashboard/admin/users" className="text-verification-verified hover:text-verification-verified/80 font-semibold text-sm flex items-center gap-1">
                 View All
                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
@@ -424,35 +424,35 @@ export default function AdminDashboard() {
         {/* Platform Health */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* System Status */}
-          <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
-            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
+            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-success">check_circle</span>
               System Status
             </h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">API Server</span>
+                <span className="text-on-surface-variant text-sm">API Server</span>
                 <span className="text-success font-semibold text-sm flex items-center gap-1">
                   <span className="w-2 h-2 bg-success rounded-full"></span>
                   Online
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Database</span>
+                <span className="text-on-surface-variant text-sm">Database</span>
                 <span className="text-success font-semibold text-sm flex items-center gap-1">
                   <span className="w-2 h-2 bg-success rounded-full"></span>
                   Online
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Payment Gateway</span>
+                <span className="text-on-surface-variant text-sm">Payment Gateway</span>
                 <span className="text-success font-semibold text-sm flex items-center gap-1">
                   <span className="w-2 h-2 bg-success rounded-full"></span>
                   Online
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Email Service</span>
+                <span className="text-on-surface-variant text-sm">Email Service</span>
                 <span className="text-warning font-semibold text-sm flex items-center gap-1">
                   <span className="w-2 h-2 bg-warning rounded-full"></span>
                   Degraded
@@ -462,81 +462,81 @@ export default function AdminDashboard() {
           </div>
 
           {/* Top Regions */}
-          <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
-            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
+            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-verification-verified">location_on</span>
               Top Regions
             </h3>
             <div className="space-y-3">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm font-medium">Lagos</span>
-                  <span className="text-foreground font-bold text-sm">45%</span>
+                  <span className="text-on-surface-variant text-sm font-medium">Lagos</span>
+                  <span className="text-primary font-bold text-sm">45%</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="w-full bg-surface-container rounded-full h-2">
                   <div className="bg-verification-verified h-2 rounded-full" style={{ width: '45%' }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm font-medium">Abuja</span>
-                  <span className="text-foreground font-bold text-sm">28%</span>
+                  <span className="text-on-surface-variant text-sm font-medium">Abuja</span>
+                  <span className="text-primary font-bold text-sm">28%</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="w-full bg-surface-container rounded-full h-2">
                   <div className="bg-verification-verified h-2 rounded-full" style={{ width: '28%' }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm font-medium">Port Harcourt</span>
-                  <span className="text-foreground font-bold text-sm">15%</span>
+                  <span className="text-on-surface-variant text-sm font-medium">Port Harcourt</span>
+                  <span className="text-primary font-bold text-sm">15%</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
+                <div className="w-full bg-surface-container rounded-full h-2">
                   <div className="bg-secondary h-2 rounded-full" style={{ width: '15%' }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm font-medium">Other</span>
-                  <span className="text-foreground font-bold text-sm">12%</span>
+                  <span className="text-on-surface-variant text-sm font-medium">Other</span>
+                  <span className="text-primary font-bold text-sm">12%</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{ width: '12%' }}></div>
+                <div className="w-full bg-surface-container rounded-full h-2">
+                  <div className="bg-primary h-2 rounded-full" style={{ width: '12%' }}></div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Growth Metrics */}
-          <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
-            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 sm:p-6">
+            <h3 className="font-headline-sm text-primary mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-secondary">trending_up</span>
               Growth Metrics
             </h3>
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm">User Growth</span>
+                  <span className="text-on-surface-variant text-sm">User Growth</span>
                   <span className="text-success font-bold text-sm">+12.5%</span>
                 </div>
-                <p className="text-foreground text-2xl font-bold">1,604</p>
-                <p className="text-muted-foreground text-xs">New users this month</p>
+                <p className="text-primary text-2xl font-bold">1,604</p>
+                <p className="text-on-surface-variant text-xs">New users this month</p>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm">Property Growth</span>
+                  <span className="text-on-surface-variant text-sm">Property Growth</span>
                   <span className="text-success font-bold text-sm">+8.3%</span>
                 </div>
-                <p className="text-foreground text-2xl font-bold">324</p>
-                <p className="text-muted-foreground text-xs">New properties this month</p>
+                <p className="text-primary text-2xl font-bold">324</p>
+                <p className="text-on-surface-variant text-xs">New properties this month</p>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-muted-foreground text-sm">Verification Rate</span>
+                  <span className="text-on-surface-variant text-sm">Verification Rate</span>
                   <span className="text-warning font-bold text-sm">+5.2%</span>
                 </div>
-                <p className="text-foreground text-2xl font-bold">94.8%</p>
-                <p className="text-muted-foreground text-xs">Of total listings verified</p>
+                <p className="text-primary text-2xl font-bold">94.8%</p>
+                <p className="text-on-surface-variant text-xs">Of total listings verified</p>
               </div>
             </div>
           </div>

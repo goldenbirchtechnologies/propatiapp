@@ -8,62 +8,66 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 export default function AgentDashboardPage() {
   return (
     <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Hassan Aliyu">
-      <div className="p-4 md:p-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+        {/* Welcome Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <h3 className="font-heading text-headline-lg text-primary">
+              Welcome back, Hassan
+            </h3>
+            <p className="text-on-surface-variant">Here is what is happening with your deals today.</p>
+          </div>
+        </div>
+
         {/* Top Row Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Stat 1 */}
-          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
-                account_balance_wallet
-              </span>
-              <span className="text-tertiary-fixed-dim text-label-sm font-bold">
-                +12% this month
-              </span>
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
+              <span className="material-symbols-outlined text-[48px]">account_balance_wallet</span>
             </div>
-            <p className="text-on-surface-variant font-label-md text-label-md">
-              Total Commission (₦)
-            </p>
-            <h3 className="font-headline-md text-headline-md text-primary">₦12,400,000</h3>
+            <p className="mb-1 font-label-sm text-on-surface-variant">Total Commission (₦)</p>
+            <h4 className="font-heading text-2xl text-primary">₦12,400,000</h4>
+            <div className="mt-4 flex items-center gap-1 font-label-sm text-secondary-fixed-dim">
+              <span className="material-symbols-outlined text-[16px]">trending_up</span>
+              <span>+12% this month</span>
+            </div>
           </div>
           {/* Stat 2 */}
-          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
-                rocket_launch
-              </span>
-              <span className="text-on-surface-variant text-label-sm font-medium">
-                3 closed today
-              </span>
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
+              <span className="material-symbols-outlined text-[48px]">rocket_launch</span>
             </div>
-            <p className="text-on-surface-variant font-label-md text-label-md">Active Deals</p>
-            <h3 className="font-headline-md text-headline-md text-primary">18</h3>
+            <p className="mb-1 font-label-sm text-on-surface-variant">Active Deals</p>
+            <h4 className="font-heading text-2xl text-primary">18</h4>
+            <div className="mt-4 flex items-center gap-1 font-label-sm text-secondary-fixed-dim">
+              <span className="material-symbols-outlined text-[16px]">trending_up</span>
+              <span>3 closed today</span>
+            </div>
           </div>
           {/* Stat 3 */}
-          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-              <span className="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg">
-                apartment
-              </span>
-              <span className="text-on-surface-variant text-label-sm font-medium">
-                95% Occupancy
-              </span>
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
+              <span className="material-symbols-outlined text-[48px]">apartment</span>
             </div>
-            <p className="text-on-surface-variant font-label-md text-label-md">Managed Units</p>
-            <h3 className="font-headline-md text-headline-md text-primary">42</h3>
+            <p className="mb-1 font-label-sm text-on-surface-variant">Managed Units</p>
+            <h4 className="font-heading text-2xl text-primary">42</h4>
+            <div className="mt-4 flex items-center gap-1 font-label-sm text-secondary-fixed-dim">
+              <span className="material-symbols-outlined text-[16px]">trending_up</span>
+              <span>95% Occupancy</span>
+            </div>
           </div>
           {/* Stat 4 */}
-          <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-              <span className="material-symbols-outlined text-error p-2 bg-error/10 rounded-lg">
-                event_available
-              </span>
-              <span className="text-error text-label-sm font-bold">Action Required</span>
+          <div className="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low p-6 shadow-sm hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute inset-y-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
+              <span className="material-symbols-outlined text-[48px]">event_available</span>
             </div>
-            <p className="text-on-surface-variant font-label-md text-label-md">
-              Pending Inspections
-            </p>
-            <h3 className="font-headline-md text-headline-md text-primary">5</h3>
+            <p className="mb-1 font-label-sm text-on-surface-variant">Pending Inspections</p>
+            <h4 className="font-heading text-2xl text-primary">5</h4>
+            <div className="mt-4 flex items-center gap-1 font-label-sm text-error">
+              <span className="material-symbols-outlined text-[16px]">priority_high</span>
+              <span>Action Required</span>
+            </div>
           </div>
         </div>
 
@@ -72,7 +76,7 @@ export default function AgentDashboardPage() {
           {/* Deal Pipeline (Kanban Board) - 8 Cols */}
           <section className="col-span-12 xl:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6">
-              <h4 className="font-headline-sm text-headline-sm text-primary">Deal Pipeline</h4>
+              <h4 className="font-heading text-headline-sm text-primary">Deal Pipeline</h4>
               <div className="flex gap-2">
                 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
                   <span className="material-symbols-outlined">filter_list</span>
@@ -95,7 +99,7 @@ export default function AgentDashboardPage() {
                 </div>
                 <div className="space-y-3">
                   {/* Card */}
-                  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
+                  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 hover:shadow-card-hover transition-all cursor-grab active:cursor-grabbing">
                     <div className="w-full h-32 rounded-lg mb-2 overflow-hidden">
                       <div className="w-full h-full bg-surface-container-high" />
                     </div>
@@ -111,7 +115,7 @@ export default function AgentDashboardPage() {
                           2 Days
                         </span>
                         <div className="flex -space-x-2">
-                          <div className="w-6 h-6 rounded-full border border-white bg-slate-200"></div>
+                          <div className="w-6 h-6 rounded-full border border-surface bg-surface-dim"></div>
                         </div>
                       </div>
                     </div>
@@ -228,7 +232,7 @@ export default function AgentDashboardPage() {
             {/* Commission Tracker Widget */}
             <div className="bg-primary-container text-on-primary rounded-xl p-6 shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-secondary opacity-10 blur-3xl rounded-full translate-x-16 -translate-y-16"></div>
-              <h4 className="font-headline-sm text-headline-sm text-secondary-fixed mb-6 relative z-10">
+              <h4 className="font-heading text-headline-sm text-secondary-fixed mb-6 relative z-10">
                 Commission Tracker
               </h4>
               <div className="space-y-6 relative z-10">
@@ -246,7 +250,7 @@ export default function AgentDashboardPage() {
                     <p className="text-label-sm font-label-sm opacity-60 uppercase mb-1">
                       Pending
                     </p>
-                    <p className="font-headline-sm text-headline-sm text-secondary-fixed">
+                    <p className="font-heading text-headline-sm text-secondary-fixed">
                       ₦3.1M
                     </p>
                   </div>
@@ -254,7 +258,7 @@ export default function AgentDashboardPage() {
                     <p className="text-label-sm font-label-sm opacity-60 uppercase mb-1">
                       Confirmed
                     </p>
-                    <p className="font-headline-sm text-headline-sm text-secondary-fixed">
+                    <p className="font-heading text-headline-sm text-secondary-fixed">
                       ₦1.1M
                     </p>
                   </div>
@@ -268,7 +272,7 @@ export default function AgentDashboardPage() {
             {/* Top Listings */}
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <h4 className="font-headline-sm text-headline-sm text-primary">Top Listings</h4>
+                <h4 className="font-heading text-headline-sm text-primary">Top Listings</h4>
                 <span className="text-label-sm font-label-sm text-secondary">Active: 42</span>
               </div>
               <div className="space-y-4">
@@ -309,7 +313,7 @@ export default function AgentDashboardPage() {
                   </div>
                 </div>
               </div>
-              <button className="w-full mt-6 border border-primary text-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary hover:text-white transition-all">
+              <button className="w-full mt-6 rounded-xl border border-primary py-3 font-label-md text-label-md text-primary transition-all hover:bg-primary hover:text-on-primary">
                 Manage All Listings
               </button>
             </div>

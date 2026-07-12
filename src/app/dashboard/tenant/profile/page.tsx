@@ -51,7 +51,7 @@ export default function TenantProfilePage() {
               <div className="h-24 w-24 rounded-full flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
                 <User className="w-10 h-10" />
               </div>
-              <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-white" style={{ borderColor: 'var(--border)' }}>
+              <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest" style={{ borderColor: 'var(--border)' }}>
                 <Camera className="w-4 h-4" style={{ color: 'var(--text)' }} />
               </button>
             </div>

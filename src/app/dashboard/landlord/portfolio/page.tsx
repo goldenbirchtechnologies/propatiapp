@@ -63,7 +63,7 @@ export default function LandlordPortfolioAnalyticsPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-white">
+        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
           <div className="p-5 border-b border-outline-variant">
             <h3 className="font-heading font-bold text-primary">Properties</h3>
           </div>

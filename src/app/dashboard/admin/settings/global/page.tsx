@@ -159,7 +159,7 @@ export default function GlobalSettingsPage() {
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
                   <h4 className="font-label-md text-label-md text-on-surface mb-1">Suspicious Listing Flag</h4>
@@ -184,7 +184,7 @@ export default function GlobalSettingsPage() {
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
                   <h4 className="font-label-md text-label-md text-on-surface mb-1">Expiry Notifications</h4>
@@ -204,7 +204,7 @@ export default function GlobalSettingsPage() {
                 {/* Rule Card - Premium */}
                 <div className="p-4 bg-primary text-on-primary rounded-lg shadow-lg">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="px-2 py-1 bg-white/20 text-white text-[10px] font-bold rounded uppercase tracking-wider">
+                    <span className="px-2 py-1 bg-surface-container-lowest/20 text-white text-[10px] font-bold rounded uppercase tracking-wider">
                       Premium
                     </span>
                     <span className="material-symbols-outlined text-secondary-container" data-icon="star" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
@@ -213,7 +213,7 @@ export default function GlobalSettingsPage() {
                   <p className="text-xs text-on-primary/70 mb-4">
                     Auto-reject listings with stock images or heavy watermarks.
                   </p>
-                  <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-surface-container-lowest/10 h-1.5 rounded-full overflow-hidden">
                     <div className="bg-secondary-container h-full w-[85%]"></div>
                   </div>
                   <p className="text-[10px] mt-2 opacity-80">85% Accuracy Confidence Required</p>
@@ -249,7 +249,7 @@ export default function GlobalSettingsPage() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="grid grid-cols-12 gap-6">
@@ -382,8 +382,8 @@ export default function GlobalSettingsPage() {
                   <div className="w-4 h-4 bg-secondary-container rounded-full relative shadow-[0_0_10px_rgba(254,174,44,0.8)]"></div>
                 </div>
                 <div className="absolute bottom-4 left-4 flex gap-2">
-                  <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">LAGOS: INTEGRATED</span>
-                  <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">ABUJA: PENDING</span>
+                  <span className="px-2 py-1 bg-surface-container-lowest/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">LAGOS: INTEGRATED</span>
+                  <span className="px-2 py-1 bg-surface-container-lowest/90 backdrop-blur-sm rounded text-[10px] font-bold shadow-sm">ABUJA: PENDING</span>
                 </div>
               </div>
             </section>

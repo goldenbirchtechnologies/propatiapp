@@ -115,7 +115,7 @@ export default function LandlordLeasesPage() {
         </div>
 
         {/* Leases Table Skeleton (shown during loading) */}
-        <div className="rounded-lg border border-border bg-white shadow-card">
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -145,16 +145,16 @@ export default function LandlordLeasesPage() {
         </div>
 
         {/* Empty State (hidden by default) */}
-        <div className="hidden rounded-lg border border-border bg-white p-12 text-center shadow-card">
+        <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-            <FileText className="h-6 w-6 text-gray-400" />
+            <FileText className="h-6 w-6 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No leases found</h3>
-          <p className="mt-1 text-gray-500">Lease agreements will appear here once created.</p>
+          <h3 className="text-lg font-medium text-primary">No leases found</h3>
+          <p className="mt-1 text-on-surface-variant">Lease agreements will appear here once created.</p>
         </div>
 
         {/* Actual Data Table (hidden when loading) */}
-        <div className="rounded-lg border border-border bg-white shadow-card">
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>

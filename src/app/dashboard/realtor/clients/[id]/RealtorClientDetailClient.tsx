@@ -94,7 +94,7 @@ export default function RealtorClientDetailClient({ client }: { client: Client }
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/realtor/clients"
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-surface-container"
             style={{ color: 'var(--muted)' }}
           >
             <ArrowLeft className="h-5 w-5" />

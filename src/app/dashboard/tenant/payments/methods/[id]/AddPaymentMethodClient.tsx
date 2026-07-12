@@ -169,7 +169,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         Expiry Date
                       </Label>
                       <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-white appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm">
                           <option value="">MM</option>
                           {months.map((m) => (
                             <option key={m} value={m}>
@@ -177,7 +177,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                             </option>
                           ))}
                         </select>
-                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-white appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm">
                           <option value="">YY</option>
                           {years.map((y) => (
                             <option key={y} value={y}>
@@ -232,7 +232,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <select
                       value={selectedBank}
                       onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-outline-variant bg-white appearance-none text-sm"
+                      className="w-full h-11 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm"
                     >
                       <option value="">Choose your bank</option>
                       {banks.map((b) => (

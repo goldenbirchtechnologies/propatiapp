@@ -10,8 +10,8 @@ export default function AdminAgreementsPage() {
         <h1 className="text-3xl font-bold text-foreground">Admin – Agreements</h1>
         <p className="text-muted-foreground">Manage platform agreements, terms, and contracts.</p>
         {/* Placeholder content; replace with real UI components */}
-        <div className="rounded-lg border border-border bg-white p-6 shadow-card">
-          <p className="text-gray-600">No agreements found. Create a new agreement to get started.</p>
+        <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <p className="text-on-surface-variant">No agreements found. Create a new agreement to get started.</p>
         </div>
       </section>
     </DashboardShell>

@@ -81,7 +81,7 @@ export default function EstateManagerCommercialLeasesPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white hover:bg-surface-container-low transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
               <Download className="w-4 h-4" />
               Export Report
             </button>
@@ -142,12 +142,12 @@ export default function EstateManagerCommercialLeasesPage() {
         </div>
 
         {/* Lease Table */}
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-white">
+        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
           <div className="p-5 border-b border-outline-variant flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface-container-low">
             <h3 className="font-heading font-bold text-primary">Unit Collections</h3>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Filter by:</span>
-              <select className="border border-outline-variant rounded-lg text-sm px-3 py-1.5 bg-white">
+              <select className="border border-outline-variant rounded-lg text-sm px-3 py-1.5 bg-surface-container-lowest">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
                 <option>Commercial Wing B</option>
@@ -208,10 +208,10 @@ export default function EstateManagerCommercialLeasesPage() {
           <div className="p-4 border-t border-outline-variant flex justify-between items-center">
             <div className="text-sm text-muted-foreground">Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white">←</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-lowest">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white">2</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white">→</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-lowest">2</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-lowest">→</button>
             </div>
           </div>
         </div>

@@ -68,7 +68,7 @@ export default function LandlordFinancialsPage() {
         </div>
 
         {/* List Skeleton */}
-        <div className="rounded-lg border border-border bg-white shadow-card overflow-hidden">
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
           <table className="w-full">
             <thead>
               <tr className="border-b" style={{ borderColor: 'var(--border)' }}>
@@ -104,12 +104,12 @@ export default function LandlordFinancialsPage() {
         </div>
 
         {/* Empty State */}
-        <div className="hidden rounded-lg border border-border bg-white p-12 text-center shadow-card">
+        <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-            <DollarSign className="h-6 w-6 text-gray-400" />
+            <DollarSign className="h-6 w-6 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No financial records yet</h3>
-          <p className="mt-1 text-gray-500">Transactions and payouts will appear here as they occur.</p>
+          <h3 className="text-lg font-medium text-primary">No financial records yet</h3>
+          <p className="mt-1 text-on-surface-variant">Transactions and payouts will appear here as they occur.</p>
         </div>
       </section>
     </DashboardShell>

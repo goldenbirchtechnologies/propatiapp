@@ -248,7 +248,7 @@ export default function MaintenancePage() {
             <CardContent className="space-y-3">
               {ticketsByStatus[status].length > 0 ? (
                 ticketsByStatus[status].map((ticket: any) => (
-                  <Card key={ticket.id} className="bg-white">
+                  <Card key={ticket.id} className="bg-surface-container-lowest">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex items-start justify-between">
                         <h4 className="font-medium text-sm line-clamp-2">

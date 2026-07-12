@@ -26,7 +26,7 @@ export default function AgentProfilePage() {
           <div className="card p-6 flex flex-col items-center text-center">
             <div className="relative">
               <div className="h-24 w-24 rounded-full flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}><User className="w-10 h-10" /></div>
-              <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-white" style={{ borderColor: 'var(--border)' }}><Camera className="w-4 h-4" /></button>
+              <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest" style={{ borderColor: 'var(--border)' }}><Camera className="w-4 h-4" /></button>
             </div>
             <p className="mt-4 font-medium" style={{ color: 'var(--text)' }}>{form.fullName}</p>
             <p className="text-xs" style={{ color: 'var(--muted)' }}>Agent since 2026</p>

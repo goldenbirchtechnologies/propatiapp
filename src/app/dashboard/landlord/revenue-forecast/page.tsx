@@ -51,7 +51,7 @@ export default function LandlordRevenueForecastPage() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
                   idx === 1
                     ? 'bg-primary text-white border-primary'
-                    : 'bg-white text-muted-foreground border-border hover:bg-surface-container-low'
+                    : 'bg-surface-container-lowest text-muted-foreground border-border hover:bg-surface-container-low'
                 }`}
               >
                 {tab}

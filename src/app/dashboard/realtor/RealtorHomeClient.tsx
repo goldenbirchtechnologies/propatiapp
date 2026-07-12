@@ -112,7 +112,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, trend, color })
 
 // Pipeline Column Component
 const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) => (
-  <div className="bg-surface-container-low rounded-lg p-4 min-h-[260px] transition-all duration-300 hover:bg-gray-100">
+  <div className="bg-surface-container-low rounded-lg p-4 min-h-[260px] transition-all duration-300 hover:bg-surface-container">
     <div className="flex items-center justify-between mb-4">
       <h4 className="font-semibold text-primary">{stage}</h4>
       <span className="bg-residential-teal text-white text-xs font-bold px-2 py-1 rounded-full">

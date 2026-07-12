@@ -94,7 +94,7 @@ const statusBadge = (status: VerificationModule['status']) => {
       );
     default:
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200 text-xs font-bold">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-on-surface-variant border border-outline-variant text-xs font-bold">
           Not Started
         </span>
       );
@@ -145,7 +145,7 @@ export default function AgentVerificationsClient() {
                             ? 'bg-green-600 text-white'
                             : idx === 2
                               ? 'bg-amber-500 text-white'
-                              : 'opacity-40 bg-gray-200 text-gray-500'
+                              : 'opacity-40 bg-gray-200 text-on-surface-variant'
                         }`}
                       >
                         <span className="material-symbols-outlined text-[18px]">

@@ -125,7 +125,7 @@ export default function RealtorDealDetailClient({ deal }: { deal: Deal }) {
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/realtor/deals"
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-surface-container"
             style={{ color: 'var(--muted)' }}
           >
             <ArrowLeft className="h-5 w-5" />

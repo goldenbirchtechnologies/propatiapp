@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 const SkeletonStatRow = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-full bg-gray-200" />
       <div className="space-y-2 flex-1">
@@ -20,7 +20,7 @@ const SkeletonStatRow = () => (
 );
 
 const SkeletonReportCard = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-4">
       <div className="w-10 h-10 rounded-lg bg-gray-200" />
       <div className="flex-1 space-y-2">
@@ -50,7 +50,7 @@ const MarketStatCard: React.FC<MarketStat> = ({ label, value, change, positive, 
 
   return (
     <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 transition-all duration-200
+      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200
         hover:scale-[1.02] hover:shadow-lg ${color === 'teal' ? 'hover:border-residential-teal' : 'hover:border-commercial-gold'}`}
     >
       <div className="flex items-center gap-4">
@@ -58,8 +58,8 @@ const MarketStatCard: React.FC<MarketStat> = ({ label, value, change, positive, 
           <span className="material-symbols-outlined text-2xl">{icon}</span>
         </div>
         <div>
-          <p className="text-sm text-gray-500 font-medium">{label}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-sm text-on-surface-variant font-medium">{label}</p>
+          <p className="text-2xl font-bold text-primary">{value}</p>
           <p className={`text-xs font-medium mt-0.5 ${positive ? 'text-green-600' : 'text-red-600'}`}>
             {positive ? '↑' : '↓'} {change}
           </p>
@@ -80,7 +80,7 @@ interface RegionCard {
 }
 
 const RegionCardSkeleton = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-5 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-8 h-8 rounded-full bg-gray-200" />
       <div className="h-4 bg-gray-200 rounded w-32" />
@@ -92,24 +92,24 @@ const RegionCardSkeleton = () => (
 
 function RegionAnalysisCard({ data }: { data: RegionCard }) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-5 transition-all duration-200 hover:shadow-md hover:border-residential-teal">
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-5 transition-all duration-200 hover:shadow-md hover:border-residential-teal">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-8 h-8 rounded-full bg-residential-teal/10 flex items-center justify-center">
           <MapPin className="h-4 w-4 text-residential-teal" />
         </div>
         <div>
-          <h4 className="font-semibold text-gray-900 text-sm">{data.name}</h4>
+          <h4 className="font-semibold text-primary text-sm">{data.name}</h4>
           {data.hot && <Badge variant="outline" className="text-[10px] text-red-600 border-red-200 bg-red-50">Hot Market</Badge>}
         </div>
       </div>
-      <p className="text-xl font-bold text-gray-900 mb-1">{data.avgPrice}</p>
+      <p className="text-xl font-bold text-primary mb-1">{data.avgPrice}</p>
       <div className="flex items-center justify-between text-xs">
-        <span className="text-gray-500">Avg. Price</span>
+        <span className="text-on-surface-variant">Avg. Price</span>
         <span className={`font-medium ${data.positive ? 'text-green-600' : 'text-red-600'}`}>
           {data.positive ? '↑' : '↓'} {data.change} vs last Q
         </span>
       </div>
-      <p className="text-xs text-gray-400 mt-2">Listing Volume: <span className="font-medium text-gray-600">{data.volume}</span></p>
+      <p className="text-xs text-muted-foreground mt-2">Listing Volume: <span className="font-medium text-on-surface-variant">{data.volume}</span></p>
     </div>
   );
 }
@@ -117,12 +117,12 @@ function RegionAnalysisCard({ data }: { data: RegionCard }) {
 // ── Empty State ───────────────────────────────────────────────────────────────
 function EmptyMarketState() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
-        <BarChart3 className="h-8 w-8 text-gray-300" />
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+      <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
+        <BarChart3 className="h-8 w-8 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">Market data loading</h3>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+      <h3 className="text-lg font-semibold text-primary mb-1">Market data loading</h3>
+      <p className="text-sm text-on-surface-variant mb-6 max-w-sm mx-auto">
         Regional analytics and pricing trends will appear here as data is ingested from listing sources.
       </p>
       <Button variant="outline" size="sm" className="gap-2">
@@ -199,8 +199,8 @@ export default function RealtorMarketPageClient() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Market Intelligence</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-1">Market Intelligence</h1>
+            <p className="text-sm text-on-surface-variant">
               Pricing trends, demand signals, and regional analysis to guide your listings and client advice
             </p>
           </div>
@@ -222,7 +222,7 @@ export default function RealtorMarketPageClient() {
 
       {/* Regional Analysis */}
       <section className="mb-8">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Regional Overview</h2>
+        <h2 className="text-lg font-bold text-primary mb-4">Regional Overview</h2>
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => <RegionCardSkeleton key={i} />)}
@@ -236,7 +236,7 @@ export default function RealtorMarketPageClient() {
 
       {/* Quick Reports */}
       <section>
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Reports</h2>
+        <h2 className="text-lg font-bold text-primary mb-4">Quick Reports</h2>
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => <SkeletonReportCard key={i} />)}

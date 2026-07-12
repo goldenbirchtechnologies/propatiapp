@@ -151,12 +151,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 <span className="material-symbols-outlined text-sm">trending_up</span>
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
-              <div className="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-white">
+              <div className="bg-surface-container-lowest/10 px-3 py-1 rounded-full text-xs font-bold text-white">
                 Fiscal Year 2024
               </div>
             </div>
           </CardContent>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full opacity-20" />
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-surface-container-lowest/10 rounded-full opacity-20" />
         </Card>
 
         {/* Collected Funds */}
@@ -279,7 +279,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg border border-white/10">
+                <div className="flex items-center gap-3 bg-surface-container-lowest/10 p-3 rounded-lg border border-white/10">
                   <BadgeCheck className="h-5 w-5 text-white" />
                   <div>
                     <p className="text-sm font-medium text-white">Verified Bank Account</p>
@@ -307,7 +307,7 @@ function RentStatusBadge({ status }: { status: string }) {
     failed: { className: 'bg-red-100 text-red-700 border-red-200', label: 'Failed' },
     refunded: { className: 'bg-orange-100 text-orange-700 border-orange-200', label: 'Refunded' },
   };
-  const cfg = config[status] || { className: 'bg-gray-100 text-gray-700 border-gray-200', label: status };
+  const cfg = config[status] || { className: 'bg-gray-100 text-on-surface-variant border-outline-variant', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
       {status === 'released' && <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}

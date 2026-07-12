@@ -77,7 +77,7 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
   accepted: { label: 'Accepted', className: 'bg-green-100 text-green-800 border-green-200' },
   rejected: { label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-gray-100 text-gray-600 border-gray-200' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-gray-100 text-on-surface-variant border-outline-variant' },
 };
 
 export default function LandlordApplicationDetailClient({
@@ -152,7 +152,7 @@ export default function LandlordApplicationDetailClient({
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/landlord/applications"
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-surface-container"
             style={{ color: 'var(--muted)' }}
           >
             <ArrowLeft className="h-5 w-5" />

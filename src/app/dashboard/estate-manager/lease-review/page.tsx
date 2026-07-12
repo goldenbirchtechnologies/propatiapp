@@ -55,7 +55,7 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-outline-variant shadow-sm bg-white p-6">
+          <div className="lg:col-span-2 rounded-xl border border-outline-variant shadow-sm bg-surface-container-lowest p-6">
             <div className="border-b border-outline-variant pb-4 mb-6 flex justify-between items-start">
               <div>
                 <h2 className="font-heading text-xl font-bold text-primary uppercase">Commercial Lease Agreement</h2>
@@ -88,7 +88,7 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-outline-variant shadow-sm bg-white p-5">
+          <div className="rounded-xl border border-outline-variant shadow-sm bg-surface-container-lowest p-5">
             <h3 className="font-heading font-bold text-primary mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (

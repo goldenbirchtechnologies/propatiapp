@@ -114,7 +114,7 @@ export default function AgentShortLetEarningsClient() {
               <Button className="bg-amber-500 text-primary hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-surface-container-lowest/10">
                 History
               </Button>
             </div>
@@ -182,7 +182,7 @@ export default function AgentShortLetEarningsClient() {
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-lg border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-muted border-border opacity-40' : 'bg-white border-border hover:border-primary cursor-pointer',
+                    d.disabled ? 'bg-muted border-border opacity-40' : 'bg-surface-container-lowest border-border hover:border-primary cursor-pointer',
                     d.active ? 'bg-primary text-white border-primary' : '',
                     d.peak ? 'bg-amber-500 text-white border-amber-500' : ''
                   )}

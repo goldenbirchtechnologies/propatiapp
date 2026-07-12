@@ -235,7 +235,7 @@ export default function AgentVerificationLicenseClient() {
                   </li>
                 ))}
               </ul>
-              <div className="p-3 bg-white/10 rounded-lg border border-white/10">
+              <div className="p-3 bg-surface-container-lowest/10 rounded-lg border border-white/10">
                 <p className="text-xs italic opacity-70">
                   Verification typically takes 24-48 business hours. You&apos;ll receive a push notification once approved.
                 </p>

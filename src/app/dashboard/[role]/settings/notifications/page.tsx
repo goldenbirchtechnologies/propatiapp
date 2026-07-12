@@ -112,15 +112,15 @@ export default function NotificationSettingsPage() {
     <div className="max-w-4xl mx-auto p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Notification Settings</h1>
-        <p className="text-gray-600">Manage how you receive notifications</p>
+        <h1 className="text-2xl font-bold text-primary mb-2">Notification Settings</h1>
+        <p className="text-on-surface-variant">Manage how you receive notifications</p>
       </div>
 
       <div className="space-y-6">
         {/* Notification Channels */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Notification Channels</h2>
-          <p className="text-sm text-gray-600 mb-6">
+        <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6">
+          <h2 className="text-lg font-semibold text-primary mb-4">Notification Channels</h2>
+          <p className="text-sm text-on-surface-variant mb-6">
             Choose how you want to receive notifications
           </p>
 
@@ -132,8 +132,8 @@ export default function NotificationSettingsPage() {
                   <Bell className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">In-App Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications in the app</p>
+                  <p className="font-medium text-primary">In-App Notifications</p>
+                  <p className="text-sm text-on-surface-variant">Receive notifications in the app</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -143,7 +143,7 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('inapp')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
 
@@ -154,8 +154,8 @@ export default function NotificationSettingsPage() {
                   <Mail className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Email Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications via email</p>
+                  <p className="font-medium text-primary">Email Notifications</p>
+                  <p className="text-sm text-on-surface-variant">Receive notifications via email</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -165,7 +165,7 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('email')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
 
@@ -176,8 +176,8 @@ export default function NotificationSettingsPage() {
                   <MessageSquare className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">SMS Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications via text message</p>
+                  <p className="font-medium text-primary">SMS Notifications</p>
+                  <p className="text-sm text-on-surface-variant">Receive notifications via text message</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -187,7 +187,7 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('sms')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
 
@@ -198,8 +198,8 @@ export default function NotificationSettingsPage() {
                   <Phone className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">WhatsApp Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications via WhatsApp</p>
+                  <p className="font-medium text-primary">WhatsApp Notifications</p>
+                  <p className="text-sm text-on-surface-variant">Receive notifications via WhatsApp</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -209,16 +209,16 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('whatsapp')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
           </div>
         </div>
 
         {/* Notification Types */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Notification Types</h2>
-          <p className="text-sm text-gray-600 mb-6">
+        <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6">
+          <h2 className="text-lg font-semibold text-primary mb-4">Notification Types</h2>
+          <p className="text-sm text-on-surface-variant mb-6">
             Choose which types of notifications you want to receive
           </p>
 
@@ -234,7 +234,7 @@ export default function NotificationSettingsPage() {
               system: 'System Announcements',
             }).map(([key, label]) => (
               <div key={key} className="flex items-center justify-between py-2">
-                <span className="text-sm font-medium text-gray-700">{label}</span>
+                <span className="text-sm font-medium text-on-surface-variant">{label}</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -242,7 +242,7 @@ export default function NotificationSettingsPage() {
                     onChange={() => toggleType(key as keyof NotificationPreferences['types'])}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
             ))}

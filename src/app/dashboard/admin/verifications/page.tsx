@@ -40,14 +40,14 @@ export default function AdminVerificationsPage() {
             New Batch
           </button>
         </div>
-        <div className="rounded-lg border border-border bg-white p-12 text-center shadow-card">
-          <div className="text-gray-400 mb-4">
+        <div className="rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
+          <div className="text-muted-foreground mb-4">
             <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No verifications yet</h3>
-          <p className="mt-1 text-gray-500">Batch verification results will appear here.</p>
+          <h3 className="text-lg font-medium text-primary">No verifications yet</h3>
+          <p className="mt-1 text-on-surface-variant">Batch verification results will appear here.</p>
         </div>
       </section>
     </DashboardShell>

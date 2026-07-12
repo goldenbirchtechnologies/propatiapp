@@ -78,7 +78,7 @@ export default function AdminProfileSecurityPage() {
             </div>
             <div className="z-10 mt-6">
               <p className="text-xs text-on-primary-container mb-4">Your security level is at 94%. Enabling Biometric login will reach 100%.</p>
-              <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-surface-container-lowest/10 rounded-full overflow-hidden">
                 <div className="h-full bg-secondary-container w-[94%]"></div>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function AdminProfileSecurityPage() {
                 </div>
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-label-md font-mono text-on-surface-variant mb-2">OFFICE LOCATION</label>
-                  <select className="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none bg-white">
+                  <select className="w-full h-11 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary transition-all text-body-md outline-none bg-surface-container-lowest">
                     <option>Lagos HQ, Victoria Island</option>
                     <option>Abuja Hub, Garki</option>
                     <option>Port Harcourt Branch</option>
@@ -234,7 +234,7 @@ export default function AdminProfileSecurityPage() {
         </div>
 
         {/* Sticky footer for mobile actions */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-outline-variant flex gap-3 z-50">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-surface-container-lowest border-t border-outline-variant flex gap-3 z-50">
           <button className="flex-1 py-3 bg-primary text-white rounded-xl font-bold shadow-lg">Save All Changes</button>
           <button className="w-14 h-14 bg-surface-container-high text-primary rounded-xl flex items-center justify-center">
             <span className="material-symbols-outlined">help</span>

@@ -57,11 +57,11 @@ export default function TenantDashboardPage() {
                       <span className="text-body-sm">Plot 12, Admiralty Way, Lekki Phase 1</span>
                     </div>
                     <div className="mt-6 grid grid-cols-2 gap-3">
-                      <div className="bg-white p-3 rounded-lg border border-outline-variant/30">
+                      <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/30">
                         <p className="text-[10px] font-label-md text-on-surface-variant uppercase tracking-wider">Landlord</p>
                         <p className="text-body-sm text-primary font-bold">Chief Adebayo</p>
                       </div>
-                      <div className="bg-white p-3 rounded-lg border border-outline-variant/30">
+                      <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/30">
                         <p className="text-[10px] font-label-md text-on-surface-variant uppercase tracking-wider">Next Rent Due</p>
                         <p className="text-body-sm text-error font-bold">15 Dec 2024</p>
                       </div>
@@ -163,7 +163,7 @@ export default function TenantDashboardPage() {
                     <div className="absolute top-2 right-2 bg-primary-container/80 backdrop-blur-md text-white text-[10px] font-label-md px-2 py-1 rounded border border-white/20">
                       ₦8.5M / yr
                     </div>
-                    <div className="absolute bottom-2 left-2 bg-white/90 text-primary-container text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                    <div className="absolute bottom-2 left-2 bg-surface-container-lowest/90 text-primary-container text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
                       <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                         verified
                       </span>
@@ -184,7 +184,7 @@ export default function TenantDashboardPage() {
                     <div className="absolute top-2 right-2 bg-primary-container/80 backdrop-blur-md text-white text-[10px] font-label-md px-2 py-1 rounded border border-white/20">
                       ₦4.2M / yr
                     </div>
-                    <div className="absolute bottom-2 left-2 bg-white/90 text-primary-container text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                    <div className="absolute bottom-2 left-2 bg-surface-container-lowest/90 text-primary-container text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
                       <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                         stars
                       </span>
@@ -253,7 +253,7 @@ export default function TenantDashboardPage() {
                   <div className="h-full bg-secondary-container w-[85%] rounded-full" />
                 </div>
               </div>
-              <button className="w-full py-2 bg-white border border-outline-variant text-primary font-label-md rounded-lg hover:bg-background transition-all">
+              <button className="w-full py-2 bg-surface-container-lowest border border-outline-variant text-primary font-label-md rounded-lg hover:bg-background transition-all">
                 Track Application
               </button>
               <div className="absolute -right-2 -top-2 opacity-5">

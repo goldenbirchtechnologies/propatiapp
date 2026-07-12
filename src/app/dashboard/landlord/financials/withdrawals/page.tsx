@@ -38,7 +38,7 @@ export default function LandlordWithdrawalsPage() {
             <p className="text-muted-foreground mt-1">Manage your payouts and fund transfers.</p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white hover:bg-surface-container-low transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
               <Download className="w-4 h-4" /> Export History
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
@@ -47,7 +47,7 @@ export default function LandlordWithdrawalsPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-white">
+        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
           <div className="p-5 border-b border-outline-variant">
             <h3 className="font-heading font-bold text-primary">Recent Withdrawals</h3>
           </div>

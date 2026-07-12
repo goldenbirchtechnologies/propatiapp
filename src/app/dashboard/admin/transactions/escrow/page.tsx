@@ -25,7 +25,7 @@ export default function EscrowTransactionsPage() {
           </p>
         </div>
         <div className="flex items-center gap-sm">
-          <div className="flex items-center bg-white border border-outline-variant px-4 py-2 rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
+          <div className="flex items-center bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
             <span className="material-symbols-outlined text-outline mr-2">calendar_today</span>
             <span className="text-body-sm font-medium">Oct 1 - Oct 31, 2023</span>
           </div>
@@ -39,7 +39,7 @@ export default function EscrowTransactionsPage() {
       {/* KPI Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-lg">
         {/* Total GTV */}
-        <div className="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+        <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm">
             <span className="text-body-sm text-on-surface-variant font-medium">Total Platform GTV</span>
             <span className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded text-xs font-bold">+8.4%</span>
@@ -51,7 +51,7 @@ export default function EscrowTransactionsPage() {
         </div>
 
         {/* Active Escrow */}
-        <div className="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+        <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm">
             <span className="text-body-sm text-on-surface-variant font-medium">Active Escrow Balance</span>
             <span className="text-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Secure</span>
@@ -64,7 +64,7 @@ export default function EscrowTransactionsPage() {
         </div>
 
         {/* Pending Settlements */}
-        <div className="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
+        <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm">
             <span className="text-body-sm text-on-surface-variant font-medium">Pending Settlements</span>
             <span className="material-symbols-outlined text-outline">pending_actions</span>
@@ -76,7 +76,7 @@ export default function EscrowTransactionsPage() {
         </div>
 
         {/* Flagged / Disputed */}
-        <div className="bg-white p-lg rounded-xl border-2 border-error/20 bg-error/5 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-surface-container-lowest p-lg rounded-xl border-2 border-error/20 bg-error/5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm text-error">
             <span className="text-body-sm font-bold">Flagged / Disputed</span>
             <span className="material-symbols-outlined">warning</span>
@@ -92,11 +92,11 @@ export default function EscrowTransactionsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
         {/* Column 1: Transactions Feed */}
         <div className="lg:col-span-3 space-y-md">
-          <div className="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
             <div className="p-md border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-md bg-surface-container-lowest">
               <h3 className="font-headline-sm text-headline-sm text-primary">Recent Transactions</h3>
               <div className="flex items-center gap-sm">
-                <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-white">
+                <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest">
                   <span className="material-symbols-outlined text-outline text-sm mr-2">filter_alt</span>
                   <select className="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
                     <option>All Types</option>
@@ -104,7 +104,7 @@ export default function EscrowTransactionsPage() {
                     <option>Sale</option>
                   </select>
                 </div>
-                <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-white">
+                <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest">
                   <span className="material-symbols-outlined text-outline text-sm mr-2">verified</span>
                   <select className="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
                     <option>All Statuses</option>
@@ -222,8 +222,8 @@ export default function EscrowTransactionsPage() {
             <div className="p-md bg-surface-container-low flex items-center justify-between">
               <span className="text-xs text-on-surface-variant">Showing 1-4 of 1,240 transactions</span>
               <div className="flex gap-2">
-                <button className="px-3 py-1 border border-outline-variant rounded bg-white hover:bg-surface-container-lowest text-xs font-bold">Prev</button>
-                <button className="px-3 py-1 border border-outline-variant rounded bg-white hover:bg-surface-container-lowest text-xs font-bold">Next</button>
+                <button className="px-3 py-1 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container-lowest text-xs font-bold">Prev</button>
+                <button className="px-3 py-1 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container-lowest text-xs font-bold">Next</button>
               </div>
             </div>
           </div>
@@ -232,7 +232,7 @@ export default function EscrowTransactionsPage() {
         {/* Column 2: Financial Integrity Sidebar */}
         <div className="space-y-gutter">
           {/* Escrow Health Widget */}
-          <div className="bg-white p-lg rounded-xl border border-outline-variant shadow-sm">
+          <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between mb-md">
               <h3 className="font-headline-sm text-headline-sm text-primary">Escrow Health</h3>
               <span className="material-symbols-outlined text-emerald-600">verified_user</span>
@@ -265,7 +265,7 @@ export default function EscrowTransactionsPage() {
           </div>
 
           {/* Recent Flags */}
-          <div className="bg-white p-lg rounded-xl border border-outline-variant shadow-sm">
+          <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between mb-md">
               <h3 className="font-headline-sm text-headline-sm text-primary">Recent Flags</h3>
               <span className="material-symbols-outlined text-error">flag</span>
@@ -299,7 +299,7 @@ export default function EscrowTransactionsPage() {
             <div className="relative z-10">
               <h3 className="font-headline-sm text-headline-sm text-secondary-container mb-md">Payout Schedule</h3>
               <div className="space-y-md">
-                <div className="bg-white/10 p-3 rounded-lg border border-white/20">
+                <div className="bg-surface-container-lowest/10 p-3 rounded-lg border border-white/20">
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs font-bold uppercase tracking-widest text-on-primary-container">Next Window</span>
                     <span className="bg-secondary-container text-primary-container px-2 py-0.5 rounded text-[10px] font-bold">TOMORROW</span>

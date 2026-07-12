@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 const SkeletonStatCard = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg bg-gray-200" />
       <div>
@@ -20,7 +20,7 @@ const SkeletonStatCard = () => (
 );
 
 const SkeletonRow = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
     <div className="flex items-center gap-4">
       <div className="w-10 h-10 rounded-full bg-gray-200" />
       <div className="flex-1">
@@ -60,7 +60,7 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
 
   return (
     <div
-      className={`bg-white rounded-lg border border-gray-200 p-6 transition-all duration-200
+      className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200
         hover:scale-[1.02] hover:shadow-lg ${color === 'teal' ? 'hover:border-residential-teal' : 'hover:border-commercial-gold'}`}
     >
       <div className="flex items-center gap-4">
@@ -68,8 +68,8 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
           <span className="material-symbols-outlined text-2xl">{icon}</span>
         </div>
         <div>
-          <p className="text-sm text-gray-500 font-medium">{label}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-sm text-on-surface-variant font-medium">{label}</p>
+          <p className="text-2xl font-bold text-primary">{value}</p>
           {trend && (
             <p className={`text-xs font-medium mt-0.5 ${trend.positive ? c.trendUp : c.trendDown}`}>
               {trend.positive ? '↑' : '↓'} {trend.value}
@@ -84,12 +84,12 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
 // ── Empty State ───────────────────────────────────────────────────────────────
 function EmptyClientState() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
-        <Users className="h-8 w-8 text-gray-300" />
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+      <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
+        <Users className="h-8 w-8 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">No clients yet</h3>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+      <h3 className="text-lg font-semibold text-primary mb-1">No clients yet</h3>
+      <p className="text-sm text-on-surface-variant mb-6 max-w-sm mx-auto">
         Your client portfolio is empty. Start by adding buyers or sellers to begin tracking deals.
       </p>
       <Button size="sm" className="gap-2">
@@ -103,7 +103,7 @@ function EmptyClientState() {
 // ── Placeholder Client Row ────────────────────────────────────────────────────
 function ClientRowSkeleton() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-gray-200" />
         <div className="flex-1 space-y-2">
@@ -147,8 +147,8 @@ export default function RealtorClientsPageClient() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">My Clients</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-1">My Clients</h1>
+            <p className="text-sm text-on-surface-variant">
               Manage your buyer and seller clients across active deals
             </p>
           </div>
@@ -173,7 +173,7 @@ export default function RealtorClientsPageClient() {
       {/* Client List */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-900">Client Directory</h2>
+          <h2 className="text-lg font-bold text-primary">Client Directory</h2>
         </div>
 
         {loading ? (
@@ -186,15 +186,15 @@ export default function RealtorClientsPageClient() {
               <Link
                 key={client.id}
                 href={`/dashboard/realtor/clients/${client.id}`}
-                className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-all"
+                className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}>
                     {client.initials}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{client.name}</p>
-                    <p className="text-xs text-gray-500">{client.email}</p>
+                    <p className="font-medium text-primary">{client.name}</p>
+                    <p className="text-xs text-on-surface-variant">{client.email}</p>
                   </div>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${client.type === 'buyer' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>

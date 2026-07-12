@@ -38,7 +38,7 @@ const STATUS_CONFIG: Record<
   assigned: { label: 'Assigned', color: 'bg-blue-50 border-blue-200', variant: 'default' },
   in_progress: { label: 'In Progress', color: 'bg-yellow-50 border-yellow-200', variant: 'secondary' },
   completed: { label: 'Completed', color: 'bg-green-50 border-green-200', variant: 'default' },
-  cancelled: { label: 'Cancelled', color: 'bg-gray-50 border-gray-200', variant: 'outline' },
+  cancelled: { label: 'Cancelled', color: 'bg-surface-container-low border-outline-variant', variant: 'outline' },
 };
 
 const PRIORITY_CONFIG: Record<TurnoverPriority, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
@@ -239,7 +239,7 @@ export default function TurnoverPage() {
               <CardContent className="space-y-3 flex-1">
                 {columnTasks.length > 0 ? (
                   columnTasks.map((task: any) => (
-                    <Card key={task.id} className="bg-white">
+                    <Card key={task.id} className="bg-surface-container-lowest">
                       <CardContent className="p-3 space-y-2">
                         <div className="flex items-start justify-between gap-2">
                           <p className="text-xs text-muted-foreground uppercase font-medium">Task</p>

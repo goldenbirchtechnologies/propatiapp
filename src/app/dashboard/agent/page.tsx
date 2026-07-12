@@ -95,7 +95,7 @@ export default function AgentDashboardPage() {
                 </div>
                 <div className="space-y-3">
                   {/* Card */}
-                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
+                  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
                     <div className="w-full h-32 rounded-lg mb-2 overflow-hidden">
                       <div className="w-full h-full bg-surface-container-high" />
                     </div>
@@ -117,7 +117,7 @@ export default function AgentDashboardPage() {
                     </div>
                   </div>
                   {/* Card 2 */}
-                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
                     <div className="px-2 py-2">
                       <h5 className="font-bold text-body-sm text-primary truncate">
                         Ikoyi Garden Suite
@@ -146,7 +146,7 @@ export default function AgentDashboardPage() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <div className="bg-white border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
                     <div className="px-2 py-2">
                       <h5 className="font-bold text-body-sm text-primary truncate">
                         Victoria Island Studio
@@ -178,7 +178,7 @@ export default function AgentDashboardPage() {
                   </span>
                 </div>
                 <div className="space-y-3">
-                  <div className="bg-white border border-outline-variant border-l-4 border-l-secondary rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
+                  <div className="bg-surface-container-lowest border border-outline-variant border-l-4 border-l-secondary rounded-xl p-2 shadow-sm hover:-translate-y-1 transition-all">
                     <div className="px-2 py-2">
                       <h5 className="font-bold text-body-sm text-primary truncate">
                         Banana Island Villa

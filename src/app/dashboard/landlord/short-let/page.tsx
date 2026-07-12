@@ -110,7 +110,7 @@ export default function LandlordShortLetPage() {
             <div>
               <label className="text-sm font-medium text-slate-700">Property</label>
               <select
-                className="mt-1 w-full rounded-lg border border-slate-200 bg-white p-2 text-sm"
+                className="mt-1 w-full rounded-lg border border-slate-200 bg-surface-container-lowest p-2 text-sm"
                 value={selectedListingId}
                 onChange={(e) => setSelectedListingId(e.target.value)}
               >
@@ -134,7 +134,7 @@ export default function LandlordShortLetPage() {
               <p className="text-sm text-slate-600">No requests yet.</p>
             )}
             {requests.map((req) => (
-              <div key={req.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 md:flex-row md:items-center md:justify-between">
+              <div key={req.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-surface-container-lowest p-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">
                   <p className="text-sm font-semibold text-slate-900">{req.listingTitle}</p>
                   <p className="text-xs text-slate-600">Tenant: {req.tenantName}</p>

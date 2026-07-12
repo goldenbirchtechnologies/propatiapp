@@ -37,14 +37,14 @@ export default function AdminFlagsClient({ error: controlledError, onRetry }: { 
           Review Flagged
         </button>
       </div>
-      <div className="rounded-lg border border-border bg-white p-12 text-center shadow-card">
-        <div className="text-gray-400 mb-4">
+      <div className="rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
+        <div className="text-muted-foreground mb-4">
           <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
           </svg>
         </div>
-        <h3 className="text-lg font-medium text-gray-900">No flagged items</h3>
-        <p className="mt-1 text-gray-500">Flagged listings and reports will appear here for review.</p>
+        <h3 className="text-lg font-medium text-primary">No flagged items</h3>
+        <p className="mt-1 text-on-surface-variant">Flagged listings and reports will appear here for review.</p>
       </div>
     </section>
   );

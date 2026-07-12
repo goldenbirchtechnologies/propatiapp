@@ -84,7 +84,7 @@ export default function AdminProfileClient({ user }: { user: any }) {
                 <User className="w-10 h-10" />
               </div>
               <button
-                className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-white"
+                className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest"
                 style={{ borderColor: 'var(--border)' }}
               >
                 <Camera className="w-4 h-4" style={{ color: 'var(--text)' }} />

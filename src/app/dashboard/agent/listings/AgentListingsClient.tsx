@@ -9,7 +9,7 @@ const statusConfig: Record<string, { class: string; label: string }> = {
   active: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Active' },
   draft: { class: 'bg-amber-50 text-amber-700 border-amber-200', label: 'Draft' },
   suspended: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Suspended' },
-  deleted: { class: 'bg-gray-50 text-gray-700 border-gray-200', label: 'Deleted' },
+  deleted: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Deleted' },
 };
 
 type Listing = {

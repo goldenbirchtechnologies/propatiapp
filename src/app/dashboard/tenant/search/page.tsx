@@ -67,7 +67,7 @@ export default function TenantSearchPage() {
                     value={purpose.value}
                     className={cn(
                       'flex flex-col items-center gap-1 p-3 text-sm',
-                      activePurpose === purpose.value && 'bg-white shadow-sm'
+                      activePurpose === purpose.value && 'bg-surface-container-lowest shadow-sm'
                     )}
                   >
                     <span className="flex items-center justify-center">{purpose.icon}</span>
@@ -212,7 +212,7 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
           <span className={`tag ${isVerified ? 'tag-green' : 'tag-amber'}`}>
             {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
           </span>
-          <Button variant="ghost" size="icon" className="bg-white/90 hover:bg-white">
+          <Button variant="ghost" size="icon" className="bg-surface-container-lowest/90 hover:bg-surface-container-lowest">
             <Heart className="w-4 h-4" />
           </Button>
         </div>

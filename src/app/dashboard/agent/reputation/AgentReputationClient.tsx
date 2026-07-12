@@ -23,7 +23,7 @@ export default function AgentReputationClient({ initialReviews }: { initialRevie
       <div className="card p-6">
         <div className="flex items-center gap-4">
           <div className="text-4xl font-bold" style={{ color: 'var(--text)' }}>{avgRating.toFixed(1)}</div>
-          <div className="flex gap-1">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-6 h-6 ${i < Math.round(avgRating) ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'}`} />)}</div>
+          <div className="flex gap-1">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-6 h-6 ${i < Math.round(avgRating) ? 'fill-yellow-500 text-yellow-500' : 'text-muted-foreground'}`} />)}</div>
           <span className="text-sm" style={{ color: 'var(--muted)' }}>{initialReviews.length} reviews</span>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default function AgentReputationClient({ initialReviews }: { initialRevie
                 <p className="font-medium" style={{ color: 'var(--text)' }}>{r.author}</p>
                 <span className="text-xs" style={{ color: 'var(--muted)' }}>{new Date(r.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
               </div>
-              <div className="flex gap-1 mb-2">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-4 h-4 ${i < r.rating ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'}`} />)}</div>
+              <div className="flex gap-1 mb-2">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-4 h-4 ${i < r.rating ? 'fill-yellow-500 text-yellow-500' : 'text-muted-foreground'}`} />)}</div>
               <p className="text-sm" style={{ color: 'var(--muted)' }}>{r.comment}</p>
             </div>
           ))}

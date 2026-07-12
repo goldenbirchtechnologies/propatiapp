@@ -235,7 +235,7 @@ export default function AgentOfficeInspectionClient() {
             <CardContent className="p-6 space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
-                  <div className="p-2 bg-white rounded shadow-sm">
+                  <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
                     <span className="material-symbols-outlined text-primary text-xl">calendar_month</span>
                   </div>
                   <div>
@@ -244,7 +244,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
-                  <div className="p-2 bg-white rounded shadow-sm">
+                  <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
                     <span className="material-symbols-outlined text-primary text-xl">schedule</span>
                   </div>
                   <div>
@@ -253,7 +253,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-3 bg-muted rounded-lg">
-                  <div className="p-2 bg-white rounded shadow-sm">
+                  <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
                     <span className="material-symbols-outlined text-primary text-xl">location_on</span>
                   </div>
                   <div className="flex-1">
@@ -292,7 +292,7 @@ export default function AgentOfficeInspectionClient() {
           <Card className="overflow-hidden">
             <div className="h-40 relative">
               <div className="absolute inset-0 bg-muted" />
-              <div className="absolute bottom-4 left-4 bg-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
+              <div className="absolute bottom-4 left-4 bg-surface-container-lowest px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse" />
                 <span className="text-xs font-bold text-primary">Agent HQ Location</span>
               </div>

@@ -70,7 +70,7 @@ export default function EstateManagerLeaseNegotiationPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white hover:bg-surface-container-low transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
               <FileText className="w-4 h-4" />
               Request Docs
             </button>

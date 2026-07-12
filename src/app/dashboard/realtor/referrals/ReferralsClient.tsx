@@ -87,7 +87,7 @@ type FilterStatus = 'all' | Referral['status'];
 
 // ── Skeleton Components ────────────────────────────────────────────────────────
 const SkeletonStatCard = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 animate-pulse">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg bg-gray-200" />
       <div>
@@ -99,7 +99,7 @@ const SkeletonStatCard = () => (
 );
 
 const SkeletonRow = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
+  <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 animate-pulse">
     <div className="flex items-center gap-4">
       <div className="flex-1 space-y-2">
         <div className="h-4 bg-gray-200 rounded w-48" />
@@ -122,14 +122,14 @@ const TableSkeleton = () => (
 // ── Empty State ────────────────────────────────────────────────────────────────
 function EmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
-        <UserPlus className="h-8 w-8 text-gray-300" />
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+      <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
+        <UserPlus className="h-8 w-8 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">
+      <h3 className="text-lg font-semibold text-primary mb-1">
         {hasFilters ? 'No matching referrals' : 'No referrals yet'}
       </h3>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+      <p className="text-sm text-on-surface-variant mb-6 max-w-sm mx-auto">
         {hasFilters
           ? 'Try adjusting your search or filters to find what you are looking for.'
           : 'Start building your referral network by adding new referrals or sharing your referral link.'}
@@ -147,12 +147,12 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
 // ── Error State ────────────────────────────────────────────────────────────────
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="bg-white rounded-lg border border-red-200 p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-lg border border-red-200 p-12 text-center">
       <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
         <RefreshCw className="h-8 w-8 text-red-400" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">Something went wrong</h3>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+      <h3 className="text-lg font-semibold text-primary mb-1">Something went wrong</h3>
+      <p className="text-sm text-on-surface-variant mb-6 max-w-sm mx-auto">
         {message || 'We could not load your referrals. Please check your connection and try again.'}
       </p>
       <Button size="sm" variant="outline" className="gap-2" onClick={onRetry}>
@@ -186,12 +186,12 @@ function StatCard({
   return (
     <div
       className={cn(
-        'bg-white rounded-lg border border-gray-200 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg',
+        'bg-surface-container-lowest rounded-lg border border-outline-variant p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg',
         colorMap[color]
       )}
     >
-      <p className="text-sm text-gray-500 font-medium mb-1">{label}</p>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-sm text-on-surface-variant font-medium mb-1">{label}</p>
+      <p className="text-2xl font-bold text-primary">{value}</p>
       {trend && (
         <p
           className={cn(
@@ -209,7 +209,7 @@ function StatCard({
 // ── Referral Row ───────────────────────────────────────────────────────────────
 function ReferralRow({ referral }: { referral: Referral }) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50">
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 transition-colors hover:bg-surface-container-low">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
@@ -387,7 +387,7 @@ export default function ReferralsClient() {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors hover:bg-gray-50"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors hover:bg-surface-container-low"
             style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
           >
             <X className="h-3 w-3" />
@@ -453,7 +453,7 @@ function FilterButton({
         'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors',
         active
           ? 'border-blue-500 bg-blue-50 text-blue-700'
-          : 'border-transparent hover:border-gray-200 bg-gray-50 hover:bg-gray-100'
+          : 'border-transparent hover:border-outline-variant bg-surface-container-low hover:bg-surface-container'
       )}
       style={!active ? { color: 'var(--muted)' } : undefined}
     >

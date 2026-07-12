@@ -98,7 +98,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full h-11 px-4 rounded-xl border border-border bg-white appearance-none text-sm"
+                        className="w-full h-11 px-4 rounded-xl border border-border bg-surface-container-lowest appearance-none text-sm"
                       >
                         <option value="">Select Category</option>
                         {categories.map((c) => (
@@ -169,7 +169,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                       <select
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
-                        className="w-full h-11 px-4 rounded-xl border border-border bg-white appearance-none text-sm"
+                        className="w-full h-11 px-4 rounded-xl border border-border bg-surface-container-lowest appearance-none text-sm"
                       >
                         <option value="">Any Time</option>
                         {timeSlots.map((t) => (

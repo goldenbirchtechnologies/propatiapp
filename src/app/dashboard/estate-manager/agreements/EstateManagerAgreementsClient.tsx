@@ -18,14 +18,14 @@ type Agreement = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-gray-50 text-gray-700 border-gray-200', label: 'Draft' },
+  draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft' },
   pending_landlord: { class: 'bg-amber-50 text-amber-700 border-amber-200', label: 'Pending' },
   pending_tenant: { class: 'bg-amber-50 text-amber-700 border-amber-200', label: 'Pending' },
   tenant_signed: { class: 'bg-teal-50 text-teal-700 border-teal-200', label: 'Tenant Signed' },
   landlord_signed: { class: 'bg-teal-50 text-teal-700 border-teal-200', label: 'Landlord Signed' },
   fully_signed: { class: 'bg-green-50 text-green-700 border-green-200', label: 'Fully Signed' },
   terminated: { class: 'bg-red-50 text-red-700 border-red-200', label: 'Terminated' },
-  expired: { class: 'bg-gray-50 text-gray-700 border-gray-200', label: 'Expired' },
+  expired: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Expired' },
 };
 
 export default function EstateManagerAgreementsClient({ initialAgreements }: { initialAgreements: Agreement[] }) {

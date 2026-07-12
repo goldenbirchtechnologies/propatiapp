@@ -103,7 +103,7 @@ export default function LandlordNotificationsPage() {
         </div>
 
         {/* Loading Skeleton (hidden when data ready) */}
-        <div className="rounded-lg border border-border bg-white shadow-card divide-y hidden" style={{ borderColor: 'var(--border)' }}>
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card divide-y hidden" style={{ borderColor: 'var(--border)' }}>
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="flex items-center gap-4 p-4">
               <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-gray-200" />
@@ -117,19 +117,19 @@ export default function LandlordNotificationsPage() {
         </div>
 
         {/* Empty State (hidden when notifications exist) */}
-        <div className="hidden rounded-lg border border-border bg-white p-12 text-center shadow-card">
+        <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-            <Bell className="h-6 w-6 text-gray-400" />
+            <Bell className="h-6 w-6 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No notifications yet</h3>
-          <p className="mt-1 text-gray-500">You&apos;ll see important updates here when they happen.</p>
+          <h3 className="text-lg font-medium text-primary">No notifications yet</h3>
+          <p className="mt-1 text-on-surface-variant">You&apos;ll see important updates here when they happen.</p>
         </div>
 
         {/* Notifications List */}
-        <div className="rounded-lg border border-border bg-white shadow-card divide-y" style={{ borderColor: 'var(--border)' }}>
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card divide-y" style={{ borderColor: 'var(--border)' }}>
           {notifications.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-gray-500">No notifications to display.</p>
+              <p className="text-on-surface-variant">No notifications to display.</p>
             </div>
           ) : (
             notifications.map((n) => (
@@ -156,7 +156,7 @@ export default function LandlordNotificationsPage() {
                     {n.status === 'unread' && (
                       <button
                         onClick={() => markAsRead(n.id)}
-                        className="text-xs font-medium px-3 py-1.5 rounded-md bg-white border hover:bg-gray-50"
+                        className="text-xs font-medium px-3 py-1.5 rounded-md bg-surface-container-lowest border hover:bg-surface-container-low"
                         style={{ color: 'var(--text)', borderColor: 'var(--border)' }}
                       >
                         Mark as read

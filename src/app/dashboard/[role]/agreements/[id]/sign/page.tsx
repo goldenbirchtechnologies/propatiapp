@@ -159,7 +159,7 @@ export default function SignAgreementPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : (
-            <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-white">
+            <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-surface-container-lowest">
               <iframe
                 srcDoc={previewHtml}
                 className="w-full min-h-[500px] border-0"

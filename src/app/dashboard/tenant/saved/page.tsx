@@ -43,7 +43,7 @@ interface FilterOptions {
 // Skeleton Components
 function SkeletonPropertyCard() {
   return (
-    <div className="bg-white rounded-lg border border-outline-variant overflow-hidden animate-pulse">
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden animate-pulse">
       <div className="aspect-video bg-surface-variant"></div>
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
@@ -94,7 +94,7 @@ function SavedPropertyCard({
   const label = listingTypeLabels[property.listing.listingType] || listingTypeLabels.rent;
 
   return (
-    <div className={`bg-white rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
+    <div className={`bg-surface-container-lowest rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
       selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-outline-variant'
     }`}>
       {/* Selection Checkbox */}
@@ -111,14 +111,14 @@ function SavedPropertyCard({
       <div className="absolute top-3 right-3 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={onAddNote}
-          className="p-2 bg-white rounded-full shadow-lg hover:bg-surface-container transition-colors"
+          className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-surface-container transition-colors"
           title="Add note"
         >
           <span className="material-symbols-outlined text-lg text-on-surface">edit_note</span>
         </button>
         <button
           onClick={onRemove}
-          className="p-2 bg-white rounded-full shadow-lg hover:bg-error-container transition-colors"
+          className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-error-container transition-colors"
           title="Remove from saved"
         >
           <span className="material-symbols-outlined text-lg text-error">delete</span>
@@ -225,7 +225,7 @@ function SavedPropertyCard({
 // Empty State Component
 function EmptyState() {
   return (
-    <div className="bg-white rounded-lg border border-outline-variant p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
       <span className="material-symbols-outlined text-6xl text-outline-variant mb-4 inline-block">
         favorite_border
       </span>
@@ -448,7 +448,7 @@ export default function SavedPropertiesPage() {
 
         {/* Action Bar */}
         {!isLoading && properties.length > 0 && (
-          <div className="bg-white rounded-lg border border-outline-variant p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
+          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
             {/* Selection */}
             <div className="flex items-center gap-3">
               <input
@@ -495,7 +495,7 @@ export default function SavedPropertiesPage() {
 
         {/* Filters Panel */}
         {showFilters && !isLoading && (
-          <div className="bg-white rounded-lg border border-outline-variant p-4 md:p-6 mb-6">
+          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 md:p-6 mb-6">
             <h3 className="font-headline-sm font-bold text-on-surface mb-4">Filter & Sort</h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Listing Type */}
@@ -619,7 +619,7 @@ export default function SavedPropertiesPage() {
       {/* Note Modal */}
       {showNoteModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-lg w-full p-6">
+          <div className="bg-surface-container-lowest rounded-lg max-w-lg w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-headline-md font-bold text-on-surface">Add Note</h3>
               <button

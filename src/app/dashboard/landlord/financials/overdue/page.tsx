@@ -36,7 +36,7 @@ export default function LandlordOverduePaymentsPage() {
           <p className="text-muted-foreground mt-1">Track and manage overdue rent and service charge payments.</p>
         </div>
 
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-white">
+        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
           <div className="p-5 border-b border-outline-variant flex justify-between items-center">
             <h3 className="font-heading font-bold text-primary">Overdue Accounts</h3>
             <span className="text-sm text-muted-foreground">{overdue.length} Accounts</span>

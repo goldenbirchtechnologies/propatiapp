@@ -71,7 +71,7 @@ export default function AutomatedMonthlyStatementClient() {
       </div>
 
       {/* A4 Report Layout */}
-      <div className="bg-white p-6 md:p-10 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
+      <div className="bg-surface-container-lowest p-6 md:p-10 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
         {/* Branding & Period */}
         <div className="flex flex-col md:flex-row justify-between items-start border-b border-outline-variant pb-5 gap-4">
           <div>
@@ -270,7 +270,7 @@ export default function AutomatedMonthlyStatementClient() {
             }`}
           >
             <div
-              className={`w-5 h-5 bg-white rounded-full shadow-sm transition-all ${
+              className={`w-5 h-5 bg-surface-container-lowest rounded-full shadow-sm transition-all ${
                 enrolled ? 'translate-x-6' : 'translate-x-0.5'
               }`}
             />

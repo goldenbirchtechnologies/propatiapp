@@ -131,7 +131,7 @@ export default function UsersManagementPagePagePage() {
 {'{'}/* Management Table Section */{'}'}
 <section className="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col">
 {'{'}/* Filters Header */{'}'}
-<div className="p-lg border-b border-outline-variant bg-white flex flex-wrap items-center justify-between gap-4">
+<div className="p-lg border-b border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-between gap-4">
 <div className="flex flex-wrap items-center gap-4">
 <div className="relative w-64">
 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>

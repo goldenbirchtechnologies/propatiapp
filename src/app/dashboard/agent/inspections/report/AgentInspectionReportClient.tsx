@@ -79,7 +79,7 @@ export default function AgentInspectionReportClient() {
       </div>
 
       {/* Report Paper */}
-      <div className="bg-white shadow-lg border border-border rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
+      <div className="bg-surface-container-lowest shadow-lg border border-border rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
         {/* Report Header */}
         <div className="bg-primary text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-amber-500">
           <div className="space-y-2">

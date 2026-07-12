@@ -495,10 +495,9 @@ a:hover {
 
 /* Dashboard shell layout */
 .app-layout {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
+  display: flex;
   min-height: 100vh;
-  align-items: start;
+  align-items: stretch;
 }
 
 .sidebar {

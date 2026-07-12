@@ -515,9 +515,26 @@ export function DashboardShell({
   }
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const pathname = usePathname();
   const { user } = useUser();
+
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const stored = localStorage.getItem('dashboard:sidebarCollapsed');
+      return stored === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('dashboard:sidebarCollapsed', sidebarCollapsed ? '1' : '0');
+    } catch { /* noop */ }
+  }, [sidebarCollapsed]);
+
+  const toggleSidebar = () => setSidebarCollapsed((prev) => !prev);
 
   const roleThemeClass = `theme-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
   const roleClass = `shell-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
@@ -653,7 +670,7 @@ export function DashboardShell({
             <button
               className="hidden md:flex p-2 rounded-lg"
               style={{ background: 'hsl(var(--surface-container-low) / 1)', color: 'hsl(var(--foreground) / 1)' }}
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              onClick={toggleSidebar}
               aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

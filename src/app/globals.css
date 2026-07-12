@@ -584,21 +584,21 @@ a:hover {
 }
 
 /* Tenant dashboard: force two-column shell layout for content area */
-.tenant-two-col {
+.dashboard-two-col {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
-.tenant-two-col .tenant-content-area {
+.dashboard-two-col .dashboard-content-area {
   flex: 1;
   min-width: 0;
   padding: var(--content-padding-desktop);
 }
 @media (max-width: 1024px) {
-  .tenant-two-col {
+  .dashboard-two-col {
     display: block;
   }
-  .tenant-two-col .tenant-content-area {
+  .dashboard-two-col .dashboard-content-area {
     padding: var(--content-padding-mobile);
   }
 }

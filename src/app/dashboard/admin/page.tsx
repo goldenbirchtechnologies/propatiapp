@@ -239,10 +239,12 @@ export default function AdminDashboard() {
       userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Admin'}
       userAvatar={user?.imageUrl}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
-        <div className="card-shell rounded-lg border border-outline-variant bg-success/90 text-white p-3 text-sm">
-          Admin dashboard loaded successfully.
-        </div>
+      <div className="app-layout dashboard-two-col">
+        <div className="dashboard-content-area fade-up">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+            <div className="card-shell rounded-lg border border-outline-variant bg-success/90 text-white p-3 text-sm">
+              Admin dashboard loaded successfully.
+            </div>
         {/* Alert Banners */}
         <div className="space-y-3">
           <AlertBanner type="warning" message="Pending user verifications require attention" count={stats.pendingVerifications} />
@@ -373,6 +375,8 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
+      </div>
+      </div>
       </div>
     </DashboardShell>
   );

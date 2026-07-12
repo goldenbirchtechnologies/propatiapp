@@ -32,10 +32,10 @@ export default function AddListingPage() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+          <h1 className="font-headline-sm text-headline-sm text-primary">
             Add New Listing
           </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-sm text-on-surface-variant mt-1">
             Create a verified property listing and reach thousands of verified tenants
           </p>
         </div>
@@ -44,13 +44,13 @@ export default function AddListingPage() {
         <div className="flex items-center gap-4">
           {[1, 2, 3].map((s) => (
             <div key={s} className="flex items-center gap-2">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${s <= step ? 'bg-accent text-white' : 'bg-muted/20 text-muted'}`}>
+              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${s <= step ? 'bg-accent text-white' : 'bg-surface-container-high/20 text-on-surface-variant'}`}>
                 {s}
               </div>
-              <span className="text-sm font-medium hidden sm:inline" style={{ color: s <= step ? 'var(--text)' : 'var(--muted)' }}>
+              <span className="text-sm font-medium hidden sm:inline text-primary">
                 {s === 1 ? 'Details' : s === 2 ? 'Media' : 'Review'}
               </span>
-              {s < 3 && <div className="h-px w-8 bg-border" />}
+              {s < 3 && <div className="h-px w-8 bg-outline-variant" />}
             </div>
           ))}
         </div>
@@ -58,11 +58,11 @@ export default function AddListingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Form */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="card p-6">
-              <h2 className="font-heading font-bold mb-4" style={{ color: 'var(--text)' }}>Property Details</h2>
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="font-headline-sm text-headline-sm text-primary mb-4">Property Details</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Property Title</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Property Title</label>
                   <input
                     type="text"
                     value={form.title}
@@ -72,7 +72,7 @@ export default function AddListingPage() {
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Description</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Description</label>
                   <textarea
                     value={form.description}
                     onChange={(e) => update('description', e.target.value)}
@@ -82,19 +82,19 @@ export default function AddListingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Property Type</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Property Type</label>
                   <select className="inp-field w-full" value={form.type} onChange={(e) => update('type', e.target.value)}>
                     {PROPERTY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Area</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Area</label>
                   <select className="inp-field w-full" value={form.area} onChange={(e) => update('area', e.target.value)}>
                     {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Price (₦/year)</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Price (₦/year)</label>
                   <input
                     type="number"
                     value={form.price}
@@ -104,40 +104,40 @@ export default function AddListingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Address</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Address</label>
                   <input type="text" value={form.address} onChange={(e) => update('address', e.target.value)} placeholder="Full street address" className="inp-field w-full" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Bedrooms</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Bedrooms</label>
                   <input type="number" value={form.bedrooms} onChange={(e) => update('bedrooms', e.target.value)} className="inp-field w-full" min={1} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text)' }}>Bathrooms</label>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Bathrooms</label>
                   <input type="number" value={form.bathrooms} onChange={(e) => update('bathrooms', e.target.value)} className="inp-field w-full" min={1} />
                 </div>
               </div>
             </div>
 
             {/* Media */}
-            <div className="card p-6">
-              <h2 className="font-heading font-bold mb-4" style={{ color: 'var(--text)' }}>Photos & Documents</h2>
-              <div className="border-2 border-dashed rounded-xl p-8 text-center" style={{ borderColor: 'var(--border)' }}>
-                <Upload className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--muted)' }} />
-                <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>Click to upload or drag and drop</p>
-                <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>SVG, PNG, JPG or PDF (max. 10MB)</p>
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="font-headline-sm text-headline-sm text-primary mb-4">Photos & Documents</h2>
+              <div className="border-2 border-dashed border-outline-variant rounded-xl p-8 text-center">
+                <Upload className="w-10 h-10 mx-auto mb-3 text-on-surface-variant" />
+                <p className="text-sm font-medium text-primary">Click to upload or drag and drop</p>
+                <p className="text-xs mt-1 text-on-surface-variant">SVG, PNG, JPG or PDF (max. 10MB)</p>
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <div className="card p-6">
-              <h3 className="font-heading font-bold mb-3" style={{ color: 'var(--text)' }}>Listing Tips</h3>
-              <ul className="space-y-3 text-sm" style={{ color: 'var(--muted)' }}>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-green-500" /> Add at least 5 high-quality photos</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-green-500" /> Include exact location and landmarks</li>
-                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-green-500" /> State utilities, security, and features</li>
-                <li className="flex items-start gap-2"><AlertCircle className="w-4 h-4 mt-0.5 text-amber-500" /> Avoid misleading price or photos</li>
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="font-headline-sm text-headline-sm text-primary mb-3">Listing Tips</h3>
+              <ul className="space-y-3 text-sm text-on-surface-variant">
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-success" /> Add at least 5 high-quality photos</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-success" /> Include exact location and landmarks</li>
+                <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 mt-0.5 text-success" /> State utilities, security, and features</li>
+                <li className="flex items-start gap-2"><AlertCircle className="w-4 h-4 mt-0.5 text-warning" /> Avoid misleading price or photos</li>
               </ul>
             </div>
             <div className="flex gap-3">

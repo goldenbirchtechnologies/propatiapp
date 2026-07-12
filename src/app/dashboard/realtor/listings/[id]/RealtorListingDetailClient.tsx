@@ -54,16 +54,16 @@ type Listing = {
 };
 
 const statusColors: Record<string, { class: string; label: string }> = {
-  active: { class: 'tag-green', label: 'Active' },
-  draft: { class: 'tag-amber', label: 'Draft' },
-  suspended: { class: 'tag-red', label: 'Suspended' },
-  deleted: { class: 'tag-gray', label: 'Deleted' },
+  active: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Active' },
+  draft: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Draft' },
+  suspended: { class: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Suspended' },
+  deleted: { class: 'bg-surface-container-low text-on-surface-variant border border-outline-variant', label: 'Deleted' },
 };
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+      <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20">
         Not Started
       </span>
     );
@@ -72,13 +72,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-bold text-accent border border-accent/20">
           <svg
             width="10"
             height="10"
@@ -98,13 +98,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       return <SharedVerificationBadge tier="certified" />;
     case 'rejected':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-bold text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-bold text-destructive border border-destructive/20">
           Rejected
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-border">
+        <span className="inline-flex items-center gap-1 rounded-full bg-surface-container-low px-2.5 py-0.5 text-xs font-bold text-on-surface-variant border border-outline-variant">
           {verification.overallStatus}
         </span>
       );
@@ -158,12 +158,12 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
   ];
 
   const statusColorsInner: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'tag-amber', label: 'Not Started' },
-    in_progress: { class: 'tag-blue', label: 'In Progress' },
-    certified: { class: 'tag-green', label: 'Verified ✓' },
-    rejected: { class: 'tag-red', label: 'Rejected' },
-    pending: { class: 'tag-amber', label: 'Pending' },
-    approved: { class: 'tag-green', label: 'Approved' },
+    not_started: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Not Started' },
+    in_progress: { class: 'bg-accent/10 text-accent border border-accent/20', label: 'In Progress' },
+    certified: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Verified ✓' },
+    rejected: { class: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Rejected' },
+    pending: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Pending' },
+    approved: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Approved' },
   };
 
   const verificationStatus = listing.verification?.overallStatus || 'not_started';
@@ -178,12 +178,12 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+      <nav className="flex items-center gap-2 text-sm text-on-surface-variant">
         <Link href="/dashboard/realtor" className="hover:underline">Dashboard</Link>
         <span>/</span>
         <Link href="/dashboard/realtor/listings" className="hover:underline">Listings</Link>
         <span>/</span>
-        <span style={{ color: 'var(--text)' }} className="font-medium truncate">{listing.title}</span>
+        <span className="text-primary font-medium truncate">{listing.title}</span>
       </nav>
 
       {/* Header */}
@@ -191,16 +191,15 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/realtor/listings"
-            className="p-2 rounded-lg hover:bg-surface-container"
-            style={{ color: 'var(--muted)' }}
+            className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
           >
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+            <h1 className="font-headline-sm text-headline-sm text-primary">
               {listing.title}
             </h1>
-            <p className="flex items-center gap-1 mt-1" style={{ color: 'var(--muted)' }}>
+            <p className="flex items-center gap-1 mt-1 text-sm text-on-surface-variant">
               <MapPin className="h-3 w-3" /> {listing.address}
             </p>
           </div>
@@ -209,13 +208,13 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b" style={{ borderColor: 'var(--border)' }}>
+      <div className="flex gap-2 border-b border-outline-variant">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
-            style={{ color: activeTab === tab.id ? 'var(--accent)' : 'var(--muted)', borderBottomColor: activeTab === tab.id ? 'var(--accent)' : 'transparent' }}
+            style={{ color: activeTab === tab.id ? 'var(--accent)' : 'var(--muted-foreground)', borderBottomColor: activeTab === tab.id ? 'var(--accent)' : 'transparent' }}
           >
             {tab.label}
           </button>
@@ -223,21 +222,21 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
       </div>
 
       {activeTab === 'manage' && (
-        <div className="card p-6">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>Property Details</h2>
+            <h2 className="font-headline-sm text-headline-sm text-primary">Property Details</h2>
             {!editingManage ? (
-              <button onClick={() => setEditingManage(true)} className="btn btn-secondary btn-sm">
+              <Button onClick={() => setEditingManage(true)} size="sm" variant="secondary">
                 <Edit3 className="w-4 h-4 mr-2" /> Edit
-              </button>
+              </Button>
             ) : (
               <div className="flex gap-2">
-                <button onClick={() => setEditingManage(false)} className="btn btn-ghost btn-sm">
+                <Button onClick={() => setEditingManage(false)} size="sm" variant="ghost">
                   <X className="w-4 h-4 mr-1" /> Cancel
-                </button>
-                <button onClick={handleSaveManage} className="btn btn-primary btn-sm">
+                </Button>
+                <Button onClick={handleSaveManage} size="sm" variant="primary">
                   <Save className="w-4 h-4 mr-1" /> {saved ? 'Saved!' : 'Save'}
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -245,37 +244,37 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Property Title</label>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Property Title</label>
                 {editingManage ? (
                   <input type="text" value={manageForm.title} onChange={(e) => updateManageField('title', e.target.value)} className="inp-field" />
                 ) : (
-                  <p className="font-medium" style={{ color: 'var(--text)' }}>{listing.title}</p>
+                  <p className="font-medium text-primary">{listing.title}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Address</label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>{listing.address}</p>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Address</label>
+                <p className="font-medium text-primary">{listing.address}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Location</label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>{listing.area}, {listing.state}</p>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Location</label>
+                <p className="font-medium text-primary">{listing.area}, {listing.state}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Owner</label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>{ownerName}</p>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Owner</label>
+                <p className="font-medium text-primary">{ownerName}</p>
               </div>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Price</label>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Price</label>
                 {editingManage ? (
                   <input type="text" value={manageForm.price} onChange={(e) => updateManageField('price', Number(e.target.value))} className="inp-field" />
                 ) : (
-                  <p className="font-medium" style={{ color: 'var(--text)' }}>₦{listing.price.toLocaleString()}{listing.pricePeriod ? `/${listing.pricePeriod}` : ''}</p>
+                  <p className="font-medium text-primary">₦{listing.price.toLocaleString()}{listing.pricePeriod ? `/${listing.pricePeriod}` : ''}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Status</label>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Status</label>
                 {editingManage ? (
                   <select value={manageForm.status} onChange={(e) => updateManageField('status', e.target.value)} className="inp-field">
                     <option value="active">Active</option>
@@ -283,54 +282,54 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
                     <option value="suspended">Suspended</option>
                   </select>
                 ) : (
-                  <span className={`tag ${statusColors[listing.status]?.class || 'tag-gray'}`}>{statusColors[listing.status]?.label || listing.status}</span>
+                  <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', statusColors[listing.status]?.class || 'bg-surface-container-low text-on-surface-variant border border-outline-variant')}>{statusColors[listing.status]?.label || listing.status}</span>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Property Type</label>
-                <p className="font-medium capitalize" style={{ color: 'var(--text)' }}>{listing.propertyType || 'N/A'}</p>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Property Type</label>
+                <p className="font-medium capitalize text-primary">{listing.propertyType || 'N/A'}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Views</label>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>{listing.viewsCount}</p>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Views</label>
+                <p className="font-medium text-primary">{listing.viewsCount}</p>
               </div>
             </div>
           </div>
 
           {listing.description && (
             <div className="mt-6">
-              <label className="block text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>Description</label>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text)' }}>{listing.description}</p>
+              <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Description</label>
+              <p className="text-sm leading-relaxed text-primary">{listing.description}</p>
             </div>
           )}
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-outline-variant">
             <div className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <DollarSign className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Price</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>₦{listing.price.toLocaleString()}</p>
+                <p className="text-[10px] text-on-surface-variant">Price</p>
+                <p className="font-medium text-sm text-primary">₦{listing.price.toLocaleString()}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Eye className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <Eye className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Views</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{listing.viewsCount}</p>
+                <p className="text-[10px] text-on-surface-variant">Views</p>
+                <p className="font-medium text-sm text-primary">{listing.viewsCount}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <ImageIcon className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Images</p>
-                <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{listing.images.length}</p>
+                <p className="text-[10px] text-on-surface-variant">Images</p>
+                <p className="font-medium text-sm text-primary">{listing.images.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Building2 className="h-4 w-4" style={{ color: 'var(--muted)' }} />
+              <Building2 className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>Type</p>
-                <p className="font-medium text-sm capitalize" style={{ color: 'var(--text)' }}>{listing.listingType}</p>
+                <p className="text-[10px] text-on-surface-variant">Type</p>
+                <p className="font-medium text-sm capitalize text-primary">{listing.listingType}</p>
               </div>
             </div>
           </div>
@@ -339,14 +338,14 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
 
       {activeTab === 'verification' && (
         <div className="space-y-4">
-          <div className="card p-6">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>Verification Status</h2>
-              <span className={`tag ${(listing.verification ? statusColorsInner[verificationStatus]?.class : 'tag-amber')}`}>
+              <h2 className="font-headline-sm text-headline-sm text-primary">Verification Status</h2>
+              <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', listing.verification ? statusColorsInner[verificationStatus]?.class : 'bg-warning/10 text-warning border border-warning/20')}>
                 {listing.verification ? (statusColorsInner[verificationStatus]?.label || 'Unknown') : 'Not Started'}
               </span>
             </div>
-            <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm mb-4 text-on-surface-variant">
               {listing.verification ? `Currently on Layer ${currentLayer} of the 5-layer verification process.` : 'Verification has not been started for this property.'}
             </p>
           </div>
@@ -360,10 +359,10 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
             return (
               <div
                 key={layer.key}
-                className="card p-4"
+                className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow"
                 style={{
-                  background: isCurrent ? 'var(--accent-bg)' : 'transparent',
-                  border: isCurrent ? '1px solid var(--accent)' : '1px solid var(--border)',
+                  background: isCurrent ? 'var(--accent-bg)' : undefined,
+                  border: isCurrent ? '1px solid var(--accent)' : undefined,
                 }}
               >
                 <div className="flex items-center gap-4">
@@ -377,10 +376,10 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
                     {isApproved ? <Shield className="w-5 h-5" /> : <span>{index + 1}</span>}
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{layer.label}</p>
-                    <p className="text-xs" style={{ color: 'var(--muted)' }}>{layer.desc}</p>
+                    <p className="font-medium text-sm text-primary">{layer.label}</p>
+                    <p className="text-xs text-on-surface-variant">{layer.desc}</p>
                   </div>
-                  <span className={`tag ${config.class}`}>{config.label}</span>
+                  <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', config.class)}>{config.label}</span>
                 </div>
               </div>
             );
@@ -389,20 +388,20 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
       )}
 
       {activeTab === 'amenities' && (
-        <div className="card p-6">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-heading font-bold text-lg" style={{ color: 'var(--text)' }}>Amenities</h2>
-            {saved && <span className="text-xs" style={{ color: 'var(--green)' }}>Changes saved</span>}
+            <h2 className="font-headline-sm text-headline-sm text-primary">Amenities</h2>
+            {saved && <span className="text-xs text-success">Changes saved</span>}
           </div>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
             <div className="flex items-center gap-2 p-3 rounded-lg mb-4" style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent)' }}>
-              <AlertTriangle className="h-4 w-4" style={{ color: 'var(--accent)' }} />
-              <p className="text-sm" style={{ color: 'var(--text)' }}>Amenity updates will be reviewed during verification.</p>
+              <AlertTriangle className="h-4 w-4 text-accent" />
+              <p className="text-sm text-primary">Amenity updates will be reviewed during verification.</p>
             </div>
           )}
 
-          <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
+          <p className="text-sm mb-4 text-on-surface-variant">
             Listing amenities show on public property pages.
           </p>
 
@@ -414,7 +413,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
                 style={{ background: 'var(--accent-bg)', color: 'var(--accent)', borderColor: 'var(--accent)' }}
               >
                 {a}
-                <button onClick={() => removeAmenity(a)} className="ml-1 hover:text-red-500">&times;</button>
+                <button onClick={() => removeAmenity(a)} className="ml-1 hover:text-destructive">&times;</button>
               </span>
             ))}
           </div>
@@ -428,7 +427,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
               placeholder="Add amenity..."
               className="inp-field"
             />
-            <button onClick={addAmenity} className="btn btn-secondary btn-sm">Add</button>
+            <Button onClick={addAmenity} size="sm" variant="secondary">Add</Button>
           </div>
         </div>
       )}

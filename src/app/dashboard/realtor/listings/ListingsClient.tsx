@@ -16,10 +16,10 @@ type Listing = {
 };
 
 const statusStyles: Record<string, string> = {
-  active: 'bg-green-100 text-green-700 border-green-200',
-  draft: 'bg-amber-100 text-amber-700 border-amber-200',
-  suspended: 'bg-red-100 text-red-700 border-red-200',
-  deleted: 'bg-gray-100 text-on-surface-variant border-outline-variant',
+  active: 'bg-success-bright/10 text-success-bright border border-success-bright/20',
+  draft: 'bg-warning/10 text-warning border border-warning/20',
+  suspended: 'bg-destructive/10 text-destructive border border-destructive/20',
+  deleted: 'bg-surface-container-low text-on-surface-variant border border-outline-variant',
 };
 
 export default function ListingsClient({ initialListings }: { initialListings: Listing[] }) {
@@ -43,12 +43,12 @@ export default function ListingsClient({ initialListings }: { initialListings: L
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>My Listings</h1>
-          <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Manage your property listings</p>
+          <h1 className="font-headline-sm text-headline-sm text-primary">My Listings</h1>
+          <p className="text-sm text-on-surface-variant">Manage your property listings</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
             <input
               type="text"
               placeholder="Search listings..."
@@ -62,59 +62,59 @@ export default function ListingsClient({ initialListings }: { initialListings: L
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="card p-4">
-          <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Total Listings</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{initialListings.length}</p>
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Total Listings</p>
+          <p className="font-headline-md text-headline-md text-primary">{initialListings.length}</p>
         </div>
-        <div className="card p-4">
-          <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Active</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--green)' }}>{activeCount}</p>
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Active</p>
+          <p className="font-headline-md text-headline-md text-success">{activeCount}</p>
         </div>
-        <div className="card p-4">
-          <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Total Views</p>
-          <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{totalViews.toLocaleString()}</p>
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Total Views</p>
+          <p className="font-headline-md text-headline-md text-primary">{totalViews.toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="card overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm" style={{ color: 'var(--text)' }}>
+          <table className="w-full text-left text-sm">
             <thead>
-              <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                <th className="p-4 font-semibold">Property</th>
-                <th className="p-4 font-semibold">Location</th>
-                <th className="p-4 font-semibold">Price</th>
-                <th className="p-4 font-semibold">Type</th>
-                <th className="p-4 font-semibold">Status</th>
-                <th className="p-4 font-semibold">Views</th>
-                <th className="p-4 font-semibold text-right">Actions</th>
+              <tr className="border-b border-outline-variant">
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Property</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Location</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Price</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Type</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Status</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Views</th>
+                <th className="p-4 font-semibold text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredListings.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center" style={{ color: 'var(--muted)' }}>No listings found</td>
+                  <td colSpan={7} className="p-8 text-center text-on-surface-variant">No listings found</td>
                 </tr>
               ) : (
                 filteredListings.map((listing) => (
-                  <tr key={listing.id} className="transition-colors hover:bg-muted/30" style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td className="p-4 font-medium">{listing.title}</td>
-                    <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.location}</td>
-                    <td className="p-4 font-bold">₦{listing.price.toLocaleString()}</td>
-                    <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.type}</td>
+                  <tr key={listing.id} className="border-b border-outline-variant/30 transition-colors hover:bg-surface-container-high/50">
+                    <td className="p-4 font-medium text-primary">{listing.title}</td>
+                    <td className="p-4 text-on-surface-variant">{listing.location}</td>
+                    <td className="p-4 font-bold text-primary">₦{listing.price.toLocaleString()}</td>
+                    <td className="p-4 text-on-surface-variant">{listing.type}</td>
                     <td className="p-4">
-                      <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', statusStyles[listing.status] || 'tag-gray')}>
+                      <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', statusStyles[listing.status] || 'bg-surface-container-low text-on-surface-variant border border-outline-variant')}>
                         {listing.status}
                       </span>
                     </td>
-                    <td className="p-4" style={{ color: 'var(--muted)' }}>{listing.views.toLocaleString()}</td>
+                    <td className="p-4 text-on-surface-variant">{listing.views.toLocaleString()}</td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/realtor/listings/${listing.id}`} className="p-1.5 rounded-md hover:bg-muted/50 transition-colors" style={{ color: 'var(--muted)' }}>
+                        <Link href={`/dashboard/realtor/listings/${listing.id}`} className="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant">
                           <Eye className="w-4 h-4" />
                         </Link>
-                        <button className="p-1.5 rounded-md hover:bg-muted/50 transition-colors" style={{ color: 'var(--muted)' }}><Edit className="w-4 h-4" /></button>
-                        <button className="p-1.5 rounded-md hover:bg-red-50 transition-colors" style={{ color: 'var(--red)' }}><Trash2 className="w-4 h-4" /></button>
+                        <button className="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant"><Edit className="w-4 h-4" /></button>
+                        <button className="p-1.5 rounded-md hover:bg-destructive/5 transition-colors text-destructive"><Trash2 className="w-4 h-4" /></button>
                       </div>
                     </td>
                   </tr>

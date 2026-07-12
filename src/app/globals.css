@@ -500,11 +500,13 @@ a:hover {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   height: 100vh;
   position: sticky;
   top: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sidebar.collapsed {
@@ -513,6 +515,24 @@ a:hover {
 
 .sidebar:not(.collapsed) {
   width: var(--sidebar-width);
+}
+
+.sb-user-card {
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+}
+
+.sb-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+}
+
+.sb-footer {
+  border-top: 1px solid hsl(var(--border) / 0.6);
+  margin-top: auto;
+  padding: var(--space-lg);
+  color: hsl(0 0% 100% / 0.5);
+  font-size: var(--text-tag);
 }
 
 @media (max-width: 1024px) {

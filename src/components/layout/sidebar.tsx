@@ -331,8 +331,6 @@ function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
       aria-busy="true"
       style={{
         width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
-        background: 'var(--surface)',
-        borderRight: '1px solid var(--border)',
       }}
     >
       <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>

@@ -508,10 +508,14 @@ a:hover {
   top: 0;
   display: flex;
   flex-direction: column;
-  background: #06203d;
-  border-right: 1px solid rgba(255,255,255,0.18);
-  z-index: 40;
-  overflow: hidden;
+  background: linear-gradient(180deg, #06203d 0%, #093057 100%);
+  color: #f8f6f0;
+  text-rendering: optimizeLegibility;
+}
+.sidebar .nav-item,
+.sidebar .sb-user-card,
+.sidebar .sb-footer {
+  color: rgba(248, 246, 240, 0.9);
 }
 
 .sidebar.collapsed {

@@ -259,8 +259,9 @@ function LoadingShell() {
         aria-label="Loading navigation"
         style={{
           width: 'var(--sidebar-width)',
-          background: 'hsl(var(--primary-container) / 1)',
-          borderRight: '1px solid hsl(var(--primary-container) / 0.3)',
+          background: 'linear-gradient(180deg, #06203d 0%, #093057 100%)',
+          borderRight: '1px solid rgba(255,255,255,0.18)',
+          color: '#f8f6f0',
         }}
       >
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>

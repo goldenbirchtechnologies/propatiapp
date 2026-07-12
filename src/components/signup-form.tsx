@@ -1,80 +1,123 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { useState } from "react";
+import { SignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Building2, Search, Handshake, Building } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
 
-export function SignupForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+type Role = "landlord" | "tenant" | "agent" | "estate_manager";
+
+const roles: {
+  id: Role;
+  label: string;
+  subtitle: string;
+  Icon: React.ElementType;
+}[] = [
+  { id: "landlord", label: "Landlord", subtitle: "I own properties", Icon: Building2 },
+  { id: "tenant", label: "Tenant", subtitle: "I'm looking for a home", Icon: Search },
+  { id: "agent", label: "Agent", subtitle: "I help people find homes", Icon: Handshake },
+  { id: "estate_manager", label: "Estate Manager", subtitle: "I manage property portfolios", Icon: Building },
+];
+
+export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
+  const router = useRouter();
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [showClerk, setShowClerk] = useState(false);
+
+  function handleContinue() {
+    if (!selectedRole) return;
+    sessionStorage.setItem("propati_pending_role", selectedRole);
+    setShowClerk(true);
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Create your account</CardTitle>
-          <CardDescription>
-            Enter your email below to create your account
-          </CardDescription>
+          <CardDescription>Choose your role to get started</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          {!showClerk ? (
             <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" required />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <Field className="grid grid-cols-2 gap-4">
-                  <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input id="password" type="password" required />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="confirm-password">
-                      Confirm Password
-                    </FieldLabel>
-                    <Input id="confirm-password" type="password" required />
-                  </Field>
-                </Field>
-                <FieldDescription>
-                  Must be at least 8 characters long.
-                </FieldDescription>
-              </Field>
-              <Field>
-                <Button type="submit">Create Account</Button>
-                <FieldDescription className="text-center">
-                  Already have an account? <a href="#">Sign in</a>
-                </FieldDescription>
-              </Field>
+              <div className="grid grid-cols-2 gap-3">
+                {roles.map((role) => (
+                  <Button
+                    key={role.id}
+                    variant={selectedRole === role.id ? "default" : "outline"}
+                    className="flex flex-col items-center justify-center gap-2 py-4 h-auto"
+                    onClick={() => setSelectedRole(role.id)}
+                  >
+                    <role.Icon className="size-5" />
+                    <span className="text-sm font-medium">{role.label}</span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {role.subtitle}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+              <FieldDescription className="text-center">
+                Select one role to continue.
+              </FieldDescription>
+              <Button
+                type="button"
+                className="w-full"
+                disabled={!selectedRole}
+                onClick={handleContinue}
+              >
+                Continue
+              </Button>
             </FieldGroup>
-          </form>
+          ) : (
+            <FieldGroup>
+              <SignUp
+                appearance={{
+                  elements: {
+                    formButtonPrimary:
+                      "bg-primary text-primary-foreground hover:bg-primary/90",
+                    card: "shadow-lg border border-border rounded-xl",
+                    headerTitle: "font-bold text-xl text-foreground",
+                    headerSubtitle: "text-muted-foreground",
+                  },
+                }}
+                routing="path"
+                path="/signup"
+                fallbackRedirectUrl="/onboarding"
+                signInUrl="/login"
+              />
+            </FieldGroup>
+          )}
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By continuing you agree to our{" "}
+        <Link href="#" className="underline">
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link href="#" className="underline">
+          Privacy Policy
+        </Link>
+        . Already have an account?{" "}
+        <Button variant="link" className="px-0" asChild>
+          <Link href="/login">Sign in</Link>
+        </Button>
       </FieldDescription>
     </div>
-  )
+  );
 }

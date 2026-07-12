@@ -172,13 +172,13 @@ export default function HomePage() {
 
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="/sign-in"
+              href="/login"
               className="px-5 py-2.5 text-sm font-semibold text-foreground hover:text-primary transition-colors"
             >
               Sign In
             </Link>
             <Link
-              href="/sign-up"
+              href="/signup"
               className="px-5 py-2.5 text-sm font-semibold bg-primary text-white rounded-full hover:brightness-110 transition-all shadow-md shadow-primary/20"
             >
               Get Started
@@ -228,14 +228,14 @@ export default function HomePage() {
               ))}
               <div className="flex gap-3 mt-2">
                 <Link
-                  href="/sign-in"
+                  href="/login"
                   className="flex-1 text-center px-5 py-2.5 rounded-full text-sm font-semibold border border-border"
                   onClick={() => setMobileOpen(false)}
                 >
                   Sign In
                 </Link>
                 <Link
-                  href="/sign-up"
+                  href="/signup"
                   className="flex-1 text-center px-5 py-2.5 rounded-full text-sm font-semibold bg-primary text-white shadow-md"
                   onClick={() => setMobileOpen(false)}
                 >
@@ -273,7 +273,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/sign-up"
+                  href="/signup"
                   className="inline-flex items-center justify-center px-8 py-4 bg-white text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
                 >
                   Start Free — it takes 2 minutes
@@ -561,7 +561,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/sign-up"
+                  href="/signup"
                   className="inline-flex items-center justify-center px-8 py-4 bg-white text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
                 >
                   Create free account

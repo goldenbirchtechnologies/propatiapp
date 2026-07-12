@@ -84,7 +84,7 @@ export default function SignUpPage() {
           />
           <p className="text-center text-sm mt-6 text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/sign-in" className="font-medium text-primary hover:underline">
+            <Link href="/login" className="font-medium text-primary hover:underline">
               Sign in
             </Link>
           </p>
@@ -173,7 +173,7 @@ export default function SignUpPage() {
 
         <p className="text-center text-sm mt-6 text-muted-foreground">
           Already have an account?{' '}
-          <Link href="/sign-in" className="font-medium text-primary hover:underline">
+          <Link href="/login" className="font-medium text-primary hover:underline">
             Sign in
           </Link>
         </p>

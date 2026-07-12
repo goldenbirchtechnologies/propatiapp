@@ -50,8 +50,8 @@ export default function JoinPage() {
           <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Short-let</Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/sign-in" className="text-sm font-medium text-primary hover:underline hidden md:block">Login</Link>
-          <Link href="/sign-up" className="text-sm font-semibold bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">Sign Up</Link>
+          <Link href="/login" className="text-sm font-medium text-primary hover:underline hidden md:block">Login</Link>
+          <Link href="/signup" className="text-sm font-semibold bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">Sign Up</Link>
         </div>
       </header>
 

@@ -32,11 +32,11 @@ export default function PropertiesPage() {
               notifications
             </button>
             <div className="h-8 w-[1px] bg-border mx-1 hidden sm:block" />
-            <Link href="/sign-in" className="text-sm font-semibold text-primary hover:underline">
+            <Link href="/login" className="text-sm font-semibold text-primary hover:underline">
               Login
             </Link>
             <Link
-              href="/sign-up"
+              href="/signup"
               className="text-sm font-semibold bg-primary text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all"
             >
               Sign Up

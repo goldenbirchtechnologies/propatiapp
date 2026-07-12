@@ -103,10 +103,10 @@ export default function PublicNav() {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
-                  <Link href="/sign-in">
+                  <Link href="/login">
                     <Button variant="ghost" size="sm">Sign In</Button>
                   </Link>
-                  <Link href="/sign-up">
+                  <Link href="/signup">
                     <Button size="sm">Get Started</Button>
                   </Link>
                 </div>

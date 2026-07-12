@@ -54,8 +54,8 @@ export default function PublicLayout({
             <nav>
               <h3 className="font-semibold">For Landlords & Agents</h3>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/sign-up?role=landlord" className="hover:text-foreground transition-colors">List Property</Link></li>
-                <li><Link href="/sign-up?role=agent" className="hover:text-foreground transition-colors">Agent Tools</Link></li>
+                <li><Link href="/signup?role=landlord" className="hover:text-foreground transition-colors">List Property</Link></li>
+                <li><Link href="/signup?role=agent" className="hover:text-foreground transition-colors">Agent Tools</Link></li>
                 <li><Link href="/dashboard" className="hover:text-foreground transition-colors">Landlord Dashboard</Link></li>
               </ul>
             </nav>

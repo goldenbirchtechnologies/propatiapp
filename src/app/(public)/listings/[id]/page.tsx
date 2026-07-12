@@ -34,7 +34,7 @@ export default function ListingDetailClient({ listing }: { listing: any }) {
             <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground">
               notifications
             </button>
-            <Link href="/sign-in" className="text-sm font-semibold text-primary hover:underline">
+            <Link href="/login" className="text-sm font-semibold text-primary hover:underline">
               Login
             </Link>
           </div>

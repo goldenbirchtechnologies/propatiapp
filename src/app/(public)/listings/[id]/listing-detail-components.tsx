@@ -294,7 +294,7 @@ export function OwnerCard({
             {/* Show sign-in prompt if not authenticated */}
             {!isAuthenticated && (
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/sign-in">
+                <Link href="/login">
                   <Mail className="h-4 w-4 mr-2" />
                   Sign in to Message
                 </Link>

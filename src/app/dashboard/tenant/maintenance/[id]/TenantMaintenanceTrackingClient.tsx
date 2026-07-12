@@ -182,7 +182,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
                       <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-border hover:border-orange-500 transition-all cursor-zoom-in group">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {/* eslint-disable-next-line next/no-img-element */}
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}

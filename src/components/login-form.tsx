@@ -18,7 +18,7 @@ import {
   FieldGroup,
 } from "@/components/ui/field";
 
-export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+export default function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect_url") || "/dashboard";
@@ -43,6 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
           agent: "/dashboard/agent",
           admin: "/admin",
           estate_manager: "/dashboard/estate-manager",
+          realtor: "/dashboard/realtor",
         };
         const mapped = paths[role] || "/dashboard/tenant";
         if (window.location.pathname === "/login") {
@@ -61,16 +62,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   if (!ready) {
     return (
       <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <Card>
+        <Card className="border-0 bg-transparent shadow-none ring-0">
           <CardHeader className="text-center">
             <CardTitle className="text-xl">Welcome back</CardTitle>
             <CardDescription>Checking your account...</CardDescription>
           </CardHeader>
           <CardContent>
             <FieldGroup>
-              <FieldDescription className="text-center">
-                Loading sign-in...
-              </FieldDescription>
+              <FieldDescription className="text-center">Loading sign-in...</FieldDescription>
             </FieldGroup>
           </CardContent>
         </Card>
@@ -80,7 +79,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="border-0 bg-transparent shadow-none ring-0">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Sign in to your PROPATI account</CardDescription>
@@ -90,8 +89,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             <SignIn
               appearance={{
                 elements: {
-                  formButtonPrimary:
-                    "bg-primary text-primary-foreground hover:bg-primary/90",
+                  formButtonPrimary: "bg-primary text-primary-foreground hover:bg-primary/90",
                   card: "shadow-lg border border-border rounded-xl",
                   headerTitle: "font-bold text-xl text-foreground",
                   headerSubtitle: "text-muted-foreground",
@@ -108,7 +106,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       <FieldDescription className="px-6 text-center">
         Protected by PROPATI auth. Issues signing in?{" "}
         <Button variant="link" className="px-0" asChild>
-          <Link href="/signup">Create an account</Link>
+          <a href="/signup">Create an account</a>
         </Button>
       </FieldDescription>
     </div>

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { SignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Building2, Search, Handshake, Building } from "lucide-react";
+import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,7 +36,6 @@ const roles: {
 ];
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
-  const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [showClerk, setShowClerk] = useState(false);
 
@@ -47,7 +47,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="border-0 bg-transparent shadow-none ring-0">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Create your account</CardTitle>
           <CardDescription>Choose your role to get started</CardDescription>
@@ -65,21 +65,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                   >
                     <role.Icon className="size-5" />
                     <span className="text-sm font-medium">{role.label}</span>
-                    <span className="text-[11px] text-muted-foreground">
-                      {role.subtitle}
-                    </span>
+                    <span className="text-[11px] text-muted-foreground">{role.subtitle}</span>
                   </Button>
                 ))}
               </div>
-              <FieldDescription className="text-center">
-                Select one role to continue.
-              </FieldDescription>
-              <Button
-                type="button"
-                className="w-full"
-                disabled={!selectedRole}
-                onClick={handleContinue}
-              >
+              <FieldDescription className="text-center">Select one role to continue.</FieldDescription>
+              <Button type="button" className="w-full" disabled={!selectedRole} onClick={handleContinue}>
                 Continue
               </Button>
             </FieldGroup>
@@ -88,8 +79,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
               <SignUp
                 appearance={{
                   elements: {
-                    formButtonPrimary:
-                      "bg-primary text-primary-foreground hover:bg-primary/90",
+                    formButtonPrimary: "bg-primary text-primary-foreground hover:bg-primary/90",
                     card: "shadow-lg border border-border rounded-xl",
                     headerTitle: "font-bold text-xl text-foreground",
                     headerSubtitle: "text-muted-foreground",
@@ -106,13 +96,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
       </Card>
       <FieldDescription className="px-6 text-center">
         By continuing you agree to our{" "}
-        <Link href="#" className="underline">
-          Terms of Service
-        </Link>{" "}
+        <Link href="#" className="underline">Terms of Service</Link>{" "}
         and{" "}
-        <Link href="#" className="underline">
-          Privacy Policy
-        </Link>
+        <Link href="#" className="underline">Privacy Policy</Link>
         . Already have an account?{" "}
         <Button variant="link" className="px-0" asChild>
           <Link href="/login">Sign in</Link>

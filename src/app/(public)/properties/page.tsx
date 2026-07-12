@@ -7,7 +7,45 @@ export default function PropertiesPage() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
 
   return (
-    <main className="flex-1">
+    <div className="min-h-screen bg-background text-foreground antialiased">
+      {/* Top Nav */}
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="text-xl font-extrabold tracking-tight text-primary">
+              PROPATI
+            </Link>
+            <nav className="hidden md:flex items-center gap-6">
+              <Link href="/properties" className="text-sm font-bold text-primary border-b-2 border-secondary-container">
+                Buy
+              </Link>
+              <Link href="/properties?tab=rent" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                Rent
+              </Link>
+              <Link href="/properties?tab=shortlet" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                Short-let
+              </Link>
+            </nav>
+          </div>
+          <div className="flex items-center gap-3">
+            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground">
+              notifications
+            </button>
+            <div className="h-8 w-[1px] bg-border mx-1 hidden sm:block" />
+            <Link href="/sign-in" className="text-sm font-semibold text-primary hover:underline">
+              Login
+            </Link>
+            <Link
+              href="/sign-up"
+              className="text-sm font-semibold bg-primary text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <main className="pt-[64px] min-h-screen flex flex-col">
         {/* Sticky Filter Bar */}
         <section className="sticky top-[64px] z-40 bg-background border-b border-border px-4 sm:px-6 lg:px-8 py-4">
           <div className="max-w-[1400px] mx-auto flex flex-wrap items-center gap-4">
@@ -146,6 +184,28 @@ export default function PropertiesPage() {
                     tierColor: 'bg-green-600 text-white',
                     inspected: null,
                   },
+                  {
+                    title: 'Smart Central Suite',
+                    price: '₦85,000,000',
+                    location: 'Ikeja GRA, Lagos',
+                    beds: 3,
+                    baths: 3,
+                    area: '450',
+                    tier: 'Inspected',
+                    tierColor: 'bg-secondary-container text-primary',
+                    inspected: null,
+                  },
+                  {
+                    title: 'Metro Loft Yaba',
+                    price: '₦45,000,000',
+                    location: 'Yaba, Lagos',
+                    beds: 2,
+                    baths: 2,
+                    area: '320',
+                    tier: 'Basic',
+                    tierColor: 'bg-muted text-muted-foreground',
+                    inspected: null,
+                  },
                 ].map((listing, i) => (
                   <article
                     key={i}
@@ -158,15 +218,150 @@ export default function PropertiesPage() {
                           {listing.tier}
                         </span>
                       </div>
+                      <button className="absolute top-3 right-3 bg-background/80 backdrop-blur-md p-2 rounded-full text-primary hover:text-destructive transition-colors">
+                        <span className="material-symbols-outlined text-[18px]">favorite</span>
+                      </button>
+                    </div>
+                    <div className="p-5 flex flex-col flex-1">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                          {listing.title}
+                        </h3>
+                        <div className="text-right ml-4">
+                          <span className="block font-heading font-bold text-secondary text-lg">
+                            {listing.price}
+                          </span>
+                          {listing.inspected && (
+                            <span className="text-[10px] text-muted-foreground font-medium">
+                              {listing.inspected}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-muted-foreground mb-4">
+                        <span className="material-symbols-outlined text-[18px]">location_on</span>
+                        <span className="text-sm">{listing.location}</span>
+                      </div>
+                      <div className="mt-auto pt-4 border-t border-border flex justify-between items-center">
+                        <div className="flex gap-4">
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <span className="material-symbols-outlined text-[20px] text-primary">bed</span>
+                            <span className="text-sm font-medium">{listing.beds}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <span className="material-symbols-outlined text-[20px] text-primary">bathtub</span>
+                            <span className="text-sm font-medium">{listing.baths}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <span className="material-symbols-outlined text-[20px] text-primary">square_foot</span>
+                            <span className="text-sm font-medium">{listing.area}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </article>
                 ))}
               </div>
+
+              {/* Pagination */}
+              <div className="mt-8 flex justify-center items-center gap-4 pb-8">
+                <button className="p-2 border border-border rounded-lg hover:bg-muted transition-colors disabled:opacity-30">
+                  <span className="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div className="flex gap-2">
+                  <button className="w-10 h-10 rounded-lg bg-primary text-white font-bold">1</button>
+                  <button className="w-10 h-10 rounded-lg hover:bg-muted transition-colors">2</button>
+                  <button className="w-10 h-10 rounded-lg hover:bg-muted transition-colors">3</button>
+                  <span className="flex items-end px-2 text-muted-foreground">...</span>
+                  <button className="w-10 h-10 rounded-lg hover:bg-muted transition-colors">15</button>
+                </div>
+                <button className="p-2 border border-border rounded-lg hover:bg-muted transition-colors">
+                  <span className="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
             </div>
           </aside>
 
-          {/* Map placeholder - kept as static component for QA */}
+          {/* Map View Column */}
+          <section className="hidden lg:block lg:w-[40%] xl:w-[45%] relative border-l border-border">
+            <div className="absolute inset-0 bg-muted">
+              <div className="w-full h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50" />
+                {/* Map Legend */}
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-border max-w-[200px]">
+                  <h4 className="text-sm font-bold mb-2">Verification Legend</h4>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+                      Certified (Top Tier)
+                    </div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-green-600" />
+                      Verified Agent
+                    </div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-secondary-container" />
+                      Physically Inspected
+                    </div>
+                  </div>
+                </div>
+                {/* Map placeholder label */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-muted-foreground text-sm font-medium">Interactive Map View</p>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-    </main>
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full py-12 bg-primary-container text-white mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <span className="text-lg font-bold text-secondary-fixed">PROPATI</span>
+              <p className="mt-3 text-sm text-on-primary-container">
+                Nigeria&apos;s most trusted property verification platform. Real listings, real agents, real peace of mind.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-white">Company</h4>
+              <ul className="space-y-2 text-sm text-on-primary-container">
+                <li><Link href="/about-us" className="hover:text-secondary-fixed transition-colors">About Us</Link></li>
+                <li><Link href="/careers" className="hover:text-secondary-fixed transition-colors">Careers</Link></li>
+                <li><Link href="/contact-us" className="hover:text-secondary-fixed transition-colors">Contact Support</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-white">Legal</h4>
+              <ul className="space-y-2 text-sm text-on-primary-container">
+                <li><Link href="/terms-of-service" className="hover:text-secondary-fixed transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-secondary-fixed transition-colors">Privacy Policy</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-white">Newsletter</h4>
+              <div className="flex gap-2">
+                <input
+                  className="bg-white/10 border border-on-primary-container/30 rounded-lg px-3 py-2 text-white w-full text-sm focus:ring-1 focus:ring-secondary-fixed"
+                  placeholder="Email address"
+                  type="email"
+                />
+                <button className="bg-secondary text-primary font-bold px-3 py-2 rounded-lg material-symbols-outlined text-[18px]">
+                  arrow_forward
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-on-primary-container">
+              &copy; {new Date().getFullYear()} PROPATI Marketplace. All rights reserved.
+            </p>
+            <span className="text-[10px] text-on-primary-container uppercase tracking-widest">NIGERIA</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

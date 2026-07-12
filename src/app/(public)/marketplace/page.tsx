@@ -93,7 +93,35 @@ export default function MarketplacePage() {
   ];
 
   return (
-          {/* Top Navigation */}
+    <div className="min-h-screen bg-background text-foreground antialiased">
+      {/* Top Navigation */}
+      <header className="fixed top-0 w-full z-50 border-b bg-surface/95 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="text-display-lg font-display-lg font-bold text-primary uppercase tracking-tighter">
+              PROPATI
+            </Link>
+            <nav className="hidden md:flex items-center gap-6">
+              <span className="text-primary font-body-lg text-body-lg border-b-2 border-primary pb-1">
+                Browse
+              </span>
+              <Link href="/listings" className="text-muted-foreground font-body-lg text-body-lg hover:text-primary transition-colors">
+                Listings
+              </Link>
+              <Link href="/insights" className="text-muted-foreground font-body-lg text-body-lg hover:text-primary transition-colors">
+                Insights
+              </Link>
+              <Link href="/valuation" className="text-muted-foreground font-body-lg text-body-lg hover:text-primary transition-colors">
+                Valuation
+              </Link>
+              <Link href="/agency" className="text-muted-foreground font-body-lg text-body-lg hover:text-primary transition-colors">
+                Agency
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section with Advanced Search */}
       <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden -mt-20">
             <div className="absolute inset-0 z-0">
@@ -283,5 +311,56 @@ export default function MarketplacePage() {
             </div>
           </section>
 
-          );
+        {/* Footer */}
+        <footer className="w-full py-12 bg-surface-container-highest border-t border-border">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+              <div className="col-span-2 md:col-span-1">
+                <h3 className="text-title-md font-title-md font-bold text-primary mb-4 uppercase tracking-tight">
+                  PROPATI
+                </h3>
+                <p className="text-sm text-muted-foreground pr-8">
+                  Nigeria&apos;s premier real estate marketplace. Professional standards, verified listings, and data-driven insights.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-bold text-foreground mb-4 text-sm uppercase tracking-wider">Residential</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="/properties/residential-rent" className="hover:text-primary underline">Residential Rent</Link></li>
+                  <li><Link href="/properties/residential-buy" className="hover:text-primary underline">Residential Buy</Link></li>
+                  <li><Link href="/properties/short-let" className="hover:text-primary underline">Short-let</Link></li>
+                  <li><Link href="/properties/room-share" className="hover:text-primary underline">Room Share</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold text-foreground mb-4 text-sm uppercase tracking-wider">Commercial</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="/properties/commercial-lease" className="hover:text-primary underline">Commercial Lease</Link></li>
+                  <li><Link href="/properties/commercial-buy" className="hover:text-primary underline">Commercial Buy</Link></li>
+                  <li><Link href="/properties/industrial" className="hover:text-primary underline">Industrial Units</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold text-foreground mb-4 text-sm uppercase tracking-wider">Support</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="/help-center" className="hover:text-primary underline">Help Center</Link></li>
+                  <li><Link href="/terms-of-service" className="hover:text-primary underline">Terms of Service</Link></li>
+                  <li><Link href="/professional-standards" className="hover:text-primary underline">Professional Standards</Link></li>
+                </ul>
+              </div>
+            </div>
+            <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+              <span className="text-sm text-muted-foreground font-body-sm">
+                &copy; {new Date().getFullYear()} PROPATI Real Estate. Professional Standards Assured.
+              </span>
+              <div className="flex gap-6">
+                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">public</span>
+                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">share</span>
+                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">hub</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+  );
 }

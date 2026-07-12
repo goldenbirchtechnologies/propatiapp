@@ -40,7 +40,21 @@ export default function JoinPage() {
   };
 
   return (
-          {/* Top Nav */}
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Top Nav */}
+      <header className="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-outline-variant h-[64px] flex justify-between items-center px-4 md:px-8">
+        <span className="text-lg font-extrabold text-primary tracking-tight">EstateVerify</span>
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Rent</Link>
+          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Buy</Link>
+          <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Short-let</Link>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link href="/sign-in" className="text-sm font-medium text-primary hover:underline hidden md:block">Login</Link>
+          <Link href="/sign-up" className="text-sm font-semibold bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90 active:scale-95 transition-all">Sign Up</Link>
+        </div>
+      </header>
+
       {/* Main Content */}
       <main className="pt-[100px] pb-16 relative min-h-screen flex flex-col">
         <div className="absolute inset-0 -z-10 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
@@ -122,5 +136,39 @@ export default function JoinPage() {
         </div>
       </div>
 
+      {/* Footer */}
+      <footer className="w-full py-16 px-4 md:px-8 bg-primary-container text-on-primary mt-auto">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="md:col-span-1">
+            <span className="font-heading font-bold text-xl text-secondary-fixed">EstateVerify</span>
+            <p className="mt-4 text-sm text-on-primary-container leading-relaxed">Nigeria's premier verified property marketplace. Building trust in every square meter.</p>
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-white mb-4">Company</h4>
+            <ul className="flex flex-col gap-3 text-sm text-on-primary-container">
+              <li><Link href="#" className="hover:text-secondary-fixed underline transition-all">About Us</Link></li>
+              <li><Link href="#" className="hover:text-secondary-fixed underline transition-all">Careers</Link></li>
+              <li><Link href="#" className="hover:text-secondary-fixed underline transition-all">Contact Support</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-white mb-4">Legal</h4>
+            <ul className="flex flex-col gap-3 text-sm text-on-primary-container">
+              <li><Link href="#" className="hover:text-secondary-fixed underline transition-all">Terms of Service</Link></li>
+              <li><Link href="#" className="hover:text-secondary-fixed underline transition-all">Privacy Policy</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-white mb-4">Social</h4>
+            <div className="flex gap-4">
+              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">public</span>
+              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">share</span>
+              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform">verified_user</span>
+            </div>
+            <p className="mt-6 text-xs text-on-primary-container">&copy; {new Date().getFullYear()} EstateVerify Nigeria. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

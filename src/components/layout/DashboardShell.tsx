@@ -574,71 +574,71 @@ export function DashboardShell({
             </Link>
           </div>
 
-        <div className="sb-user-card">
-          <div className="sb-user-row">
-            <div
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white"
-              style={{ background: 'hsl(var(--secondary-container) / 1)', color: 'hsl(var(--on-secondary-container) / 1)' }}
-            >
-              {userAvatar ? (
-                <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
-              ) : (
-                (userName || 'U').charAt(0).toUpperCase()
+          <div className="sb-user-card">
+            <div className="sb-user-row">
+              <div
+                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white"
+                style={{ background: 'hsl(var(--secondary-container) / 1)', color: 'hsl(var(--on-secondary-container) / 1)' }}
+              >
+                {userAvatar ? (
+                  <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
+                ) : (
+                  (userName || 'U').charAt(0).toUpperCase()
+                )}
+              </div>
+              {!sidebarCollapsed && (
+                <div className="sb-user-text">
+                  <p className="sb-user-name truncate">{userName || (user?.fullName || 'User')}</p>
+                  <p className="sb-user-role truncate">{(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}</p>
+                </div>
               )}
             </div>
-            {!sidebarCollapsed && (
-              <div className="sb-user-text">
-                <p className="sb-user-name">{userName || (user?.fullName || 'User')}</p>
-                <p className="sb-user-role">{(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}</p>
-              </div>
-            )}
+          </div>
+
+          <nav className="sb-nav" aria-label="Dashboard navigation">
+            <ul className="sb-nav-list" role="list">
+              {navigation.map((item) => {
+                const itemActive = item.children
+                  ? item.children.some((c) => isActive(c.href))
+                  : isActive(item.href);
+                return (
+                  <li key={item.href}>
+                    {item.children ? (
+                      <CollapsibleNavItem
+                        item={item}
+                        isActive={itemActive}
+                        sidebarCollapsed={sidebarCollapsed}
+                      />
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={`sb-nav-item ${itemActive ? 'active' : ''}`}
+                        aria-current={itemActive ? 'true' : undefined}
+                        onClick={() => setSidebarOpen(false)}
+                      >
+                        {item.icon && <span className="icon-slot">{item.icon}</span>}
+                        {!sidebarCollapsed && <span>{item.label}</span>}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="sb-footer">
+            <SignOutButton redirectUrl="/sign-in" className="sb-signout-btn">
+              {!sidebarCollapsed ? 'Sign Out' : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+              )}
+            </SignOutButton>
           </div>
         </div>
-
-        <nav className="sb-nav" aria-label="Dashboard navigation">
-          <ul className="sb-nav-list" role="list">
-            {navigation.map((item) => {
-              const itemActive = item.children
-                ? item.children.some((c) => isActive(c.href))
-                : isActive(item.href);
-              return (
-                <li key={item.href}>
-                  {item.children ? (
-                    <CollapsibleNavItem
-                      item={item}
-                      isActive={itemActive}
-                      sidebarCollapsed={sidebarCollapsed}
-                    />
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={`sb-nav-item ${itemActive ? 'active' : ''}`}
-                      aria-current={itemActive ? 'true' : undefined}
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      {item.icon && <span className="icon-slot">{item.icon}</span>}
-                      {!sidebarCollapsed && <span>{item.label}</span>}
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <div className="sb-footer">
-          <SignOutButton redirectUrl="/sign-in" className="sb-signout-btn">
-            {!sidebarCollapsed ? 'Sign Out' : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                <polyline points="16 17 21 12 16 7" />
-                <line x1="21" y1="12" x2="9" y2="12" />
-              </svg>
-            )}
-          </SignOutButton>
-        </div>
-          </div>
-        </aside>
+      </aside>
 
       <main className="main-area">
         <header className="topbar">

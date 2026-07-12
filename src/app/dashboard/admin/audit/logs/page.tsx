@@ -17,49 +17,7 @@ export default function AuditLogsPagePagePage() {
       {/* Ported from system_audit_logs_propati_admin.html */}
       
 {'{'}/* Main Sidebar Shell */{'}'}
-<aside className="fixed left-0 top-0 h-screen w-64 bg-primary-container text-on-primary-container shadow-md flex flex-col py-lg z-50">
-<div className="px-6 mb-10">
-<h1 className="font-headline-md text-headline-md font-black text-secondary-container tracking-tight">PROPATI</h1>
-<p className="font-label-md text-label-md opacity-70 tracking-widest uppercase">Admin Suite</p>
-</div>
-<nav className="flex-1 space-y-1 overflow-y-auto px-2">
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">
-<span className="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">
-<span className="material-symbols-outlined">real_estate_agent</span>
-                Property Listings
-            </a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">
-<span className="material-symbols-outlined">group</span>
-                User Management
-            </a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">
-<span className="material-symbols-outlined">payments</span>
-                Financials
-            </a>
-{'{'}/* Active Tab */{'}'}
-<a className="flex items-center gap-4 px-4 py-3 text-secondary-container bg-primary border-l-4 border-secondary-container font-label-md text-label-md transition-all" href="#">
-<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>history_edu</span>
-                Audit Logs
-            </a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all translate-x-1 duration-200" href="#">
-<span className="material-symbols-outlined">settings_suggest</span>
-                System Settings
-            </a>
-</nav>
-<div className="mt-auto px-2 pt-4 border-t border-primary/20">
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all" href="#">
-<span className="material-symbols-outlined">support_agent</span>
-                Support
-            </a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-primary-container opacity-80 font-label-md text-label-md hover:bg-primary hover:text-secondary-container transition-all" href="#">
-<span className="material-symbols-outlined">logout</span>
-                Logout
-            </a>
-</div>
-</aside>
+
 {'{'}/* Top App Bar Shell */{'}'}
 <header className="fixed top-0 left-64 right-0 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
 <div className="flex items-center w-1/3">
@@ -390,7 +348,6 @@ export default function AuditLogsPagePagePage() {
 </div>
 </main>
 {'{'}/* Contextual Micro-Interaction Script */{'}'}
-
 
     </DashboardShell>
   );

@@ -17,48 +17,7 @@ export default function UsersManagementPagePagePage() {
       {/* Ported from user_management_console_propati_admin.html */}
       
 {'{'}/* SideNavBar */{'}'}
-<aside className="h-screen w-64 fixed left-0 top-0 bg-primary-container z-50 flex flex-col border-r border-outline-variant/10">
-<div className="p-6 flex items-center gap-3">
-<div className="w-10 h-10 bg-secondary-container rounded-lg flex items-center justify-center text-primary font-bold">P</div>
-<div>
-<h1 className="font-headline-sm text-headline-sm font-bold text-on-primary tracking-tight">PROPATI</h1>
-<p className="text-[10px] uppercase tracking-widest text-on-primary-container font-label-md">Admin Console</p>
-</div>
-</div>
-<nav className="flex-1 px-3 mt-4 space-y-1 custom-scrollbar overflow-y-auto">
-<a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
-<span className="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-<a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
-<span className="material-symbols-outlined">fact_check</span>
-                Verification Queues
-            </a>
-{'{'}/* Active Navigation State for User Management */{'}'}
-<a className="flex items-center gap-3 px-4 py-3 border-l-4 border-secondary-container text-secondary-container bg-on-primary-container/10 font-label-md text-label-md rounded-r-lg transition-all duration-200 active:scale-95" href="#">
-<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>group</span>
-                User Management
-            </a>
-<a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
-<span className="material-symbols-outlined">domain</span>
-                Property Listings
-            </a>
-<a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
-<span className="material-symbols-outlined">payments</span>
-                Transactions
-            </a>
-<a className="flex items-center gap-3 px-4 py-3 text-on-primary-container hover:text-on-primary hover:bg-on-primary-container/5 transition-colors font-label-md text-label-md rounded-lg" href="#">
-<span className="material-symbols-outlined">settings</span>
-                Settings
-            </a>
-</nav>
-<div className="p-4 bg-on-primary-container/5 m-4 rounded-xl border border-outline-variant/10">
-<button className="w-full bg-secondary-container text-primary font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95">
-<span className="material-symbols-outlined">add</span>
-                Add New User
-            </button>
-</div>
-</aside>
+
 {'{'}/* Main Content Shell */{'}'}
 <main className="ml-64 min-h-screen flex flex-col">
 {'{'}/* TopAppBar */{'}'}
@@ -356,7 +315,6 @@ export default function UsersManagementPagePagePage() {
 {'{'}/* Floating Action Button (for specific tasks only) */{'}'}
 {'{'}/* Suppressed per Relevance Check: Primary action 'Add New User' is in Sidebar and Header logic could handle it, but adding a subtle FAB for 'Support/Reports' could be valid if allowed, however we will follow the suppression rule for Details/Transactional. */{'}'}
 </main>
-
 
     </DashboardShell>
   );

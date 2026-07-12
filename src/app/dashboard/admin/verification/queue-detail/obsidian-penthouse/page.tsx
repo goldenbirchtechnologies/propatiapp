@@ -17,47 +17,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
       {/* Ported from verification_queue_detail_the_obsidian_penthouse_propati_admin.html */}
       
 {'{'}/* SideNavBar (Shared Component) */{'}'}
-<aside className="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-primary-container text-on-primary-fixed z-50 flex flex-col py-lg shadow-md md:flex hidden">
-<div className="px-md mb-xl">
-<h1 className="font-headline-md text-headline-md font-extrabold text-secondary-container">EstateVerify</h1>
-<p className="font-label-md text-label-md text-on-primary-container">Admin Console</p>
-</div>
-<nav className="flex-grow space-y-xs">
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
-<span className="material-symbols-outlined">dashboard</span>
-<span className="font-label-md">Dashboard</span>
-</a>
-<a className="flex items-center gap-md px-md py-sm text-secondary-container border-l-4 border-secondary-container bg-on-primary-container/10 transition-all translate-x-1" href="#">
-<span className="material-symbols-outlined">verified_user</span>
-<span className="font-label-md">Verification Queues</span>
-</a>
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
-<span className="material-symbols-outlined">group</span>
-<span className="font-label-md">User Management</span>
-</a>
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
-<span className="material-symbols-outlined">domain</span>
-<span className="font-label-md">Property Listings</span>
-</a>
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
-<span className="material-symbols-outlined">payments</span>
-<span className="font-label-md">Transactions</span>
-</a>
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:bg-on-primary-fixed-variant/20 hover:text-on-primary transition-all" href="#">
-<span className="material-symbols-outlined">settings</span>
-<span className="font-label-md">Settings</span>
-</a>
-</nav>
-<div className="px-md mt-auto pt-lg border-t border-on-primary-container/20">
-<button className="w-full py-md bg-secondary-container text-on-secondary-fixed rounded-lg font-bold mb-md hover:scale-[1.02] active:scale-[0.98] transition-transform">
-                New Report
-            </button>
-<a className="flex items-center gap-md px-md py-sm text-on-primary/70 hover:text-error transition-colors" href="#">
-<span className="material-symbols-outlined">logout</span>
-<span className="font-label-md">Logout</span>
-</a>
-</div>
-</aside>
+
 {'{'}/* Main Content Wrapper */{'}'}
 <main className="md:ml-64 flex flex-col min-h-screen">
 {'{'}/* TopNavBar (Shared Component) */{'}'}
@@ -354,7 +314,6 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </a>
 </nav>
 </main>
-
 
     </DashboardShell>
   );

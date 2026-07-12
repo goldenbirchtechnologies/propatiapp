@@ -66,7 +66,7 @@ export default function AgentListingsClient({ initialListings }: { initialListin
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="p-4 flex flex-wrap gap-2 border-b border-outline-variant">
           {['all', 'active', 'draft', 'suspended'].map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'border-transparent hover:bg-surface-container')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
+            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-primary/10 text-primary border-primary/20' : 'border-transparent hover:bg-surface-container')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
           ))}
         </div>
         {filtered.length === 0 ? (

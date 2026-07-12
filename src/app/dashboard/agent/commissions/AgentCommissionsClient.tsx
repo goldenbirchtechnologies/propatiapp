@@ -41,9 +41,9 @@ interface AgentCommissionsClientProps {
 
 // ─── Status config ────────────────────────────────────────────────────────────
 const statusConfig: Record<CommissionStatus, { class: string; label: string }> = {
-  paid: { class: 'tag-green', label: 'Paid' },
-  pending: { class: 'tag-amber', label: 'Pending' },
-  cancelled: { class: 'tag-red', label: 'Cancelled' },
+  paid: { class: 'bg-success/10 text-success border border-outline-variant', label: 'Paid' },
+  pending: { class: 'bg-warning/10 text-warning border border-outline-variant', label: 'Pending' },
+  cancelled: { class: 'bg-destructive/10 text-destructive border border-outline-variant', label: 'Cancelled' },
 };
 
 // ─── Skeleton helpers ─────────────────────────────────────────────────────────
@@ -83,18 +83,18 @@ function CommissionStatCard({
       <div className="flex items-center gap-3">
         <div
           className="p-2 rounded-full flex-shrink-0"
-          style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}
+          style={{ background: 'bg-primary/10', color: 'text-primary' }}
         >
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
             {label}
           </p>
           <p
-            className="text-2xl font-heading font-bold"
+            className="text-2xl font-headline-sm font-bold"
             style={{
-              color: accent || 'var(--text)',
+              color: accent || 'text-primary',
             }}
           >
             {formatCurrency(value)}
@@ -109,11 +109,11 @@ function CommissionStatCard({
 function EmptyState() {
   return (
     <div className="card p-12 text-center">
-      <DollarSign className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.4 }} />
-      <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>
+      <DollarSign className="w-16 h-16 mx-auto mb-4" style={{ color: 'text-on-surface-variant', opacity: 0.4 }} />
+      <h3 className="font-headline-sm font-bold text-lg mb-2" style={{ color: 'text-primary' }}>
         No commissions yet
       </h3>
-      <p className="text-sm mb-6 max-w-sm mx-auto" style={{ color: 'var(--muted)' }}>
+      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto" style={{ color: 'text-on-surface-variant' }}>
         Your earnings will appear here when deals are closed and transactions are released for you.
       </p>
       <Button variant="outline" asChild>
@@ -137,20 +137,20 @@ function CommissionRow({ commission }: { commission: Commission }) {
       <div className="p-5 flex flex-wrap items-center gap-4">
         {/* Deal */}
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>
+          <p className="text-sm font-medium" style={{ color: 'text-primary' }}>
             {commission.deal}
           </p>
-          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
             Client: {commission.client}
           </p>
         </div>
 
         {/* Amount */}
         <div className="text-right flex-shrink-0">
-          <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>
+          <p className="text-sm font-bold" style={{ color: 'text-primary' }}>
             {formatCurrency(commission.amount)}
           </p>
-          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
             @ {commission.rate}
           </p>
         </div>
@@ -161,8 +161,8 @@ function CommissionRow({ commission }: { commission: Commission }) {
         {/* Date */}
         <div className="hidden lg:block flex-shrink-0" style={{ minWidth: 70 }}>
           <p
-            className="text-sm"
-            style={{ color: 'var(--muted)' }}
+            className="text-xs font-label-md uppercase tracking-wider"
+            style={{ color: 'text-on-surface-variant' }}
           >
             {new Date(commission.date).toLocaleDateString('en-NG', {
               day: '2-digit',
@@ -189,7 +189,7 @@ function FilterBar({
   return (
     <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>
+        <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
           <Table2 className="w-3.5 h-3.5 inline mr-1" />
           Filter
         </span>
@@ -205,7 +205,7 @@ function FilterBar({
             className={cn(
               'px-3 py-1.5 rounded-md text-sm font-medium border transition-all',
               filter === f.value
-                ? 'bg-accent/10 text-accent border-accent/30'
+                ? 'text-primary border-outline-variant bg-surface-container-low'
                 : 'border-transparent hover:bg-muted/50'
             )}
           >
@@ -259,8 +259,8 @@ export default function AgentCommissionsClient({
         <PageHeader />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <CommissionStatCard label="Total Earned" value={0} icon={<DollarSign className="w-5 h-5" />} />
-          <CommissionStatCard label="Paid Out" value={0} icon={<CheckCircle2 className="w-5 h-5" />} accent="var(--text, #16a34a)" />
-          <CommissionStatCard label="Pending" value={0} icon={<Clock className="w-5 h-5" />} accent="var(--text, #d97706)" />
+          <CommissionStatCard label="Paid Out" value={0} icon={<CheckCircle2 className="w-5 h-5" />} accent="var(--green)" />
+          <CommissionStatCard label="Pending" value={0} icon={<Clock className="w-5 h-5" />} accent="var(--amber)" />
         </div>
         <FailureState
           title="Unable to load commissions"
@@ -285,7 +285,7 @@ export default function AgentCommissionsClient({
 
       {/* Export bar */}
       <div className="card p-4 flex items-center justify-between">
-        <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+        <p className="text-sm font-medium" style={{ color: 'text-primary' }}>
           Commission summary
         </p>
         <Button variant="outline" className="gap-2" asChild>
@@ -316,12 +316,12 @@ function PageHeader() {
   return (
     <div>
       <h1
-        className="font-heading font-bold"
-        style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+        className="font-headline-sm font-bold"
+        style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}
       >
         Commissions
       </h1>
-      <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+      <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>
         Track earnings and payouts per deal
       </p>
     </div>

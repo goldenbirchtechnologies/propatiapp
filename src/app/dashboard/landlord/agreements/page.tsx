@@ -43,10 +43,10 @@ export default async function LandlordAgreementsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+            <h1 className="font-heading font-bold" className="font-headline-sm text-headline-sm text-primary">
               Agreements
             </h1>
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            <p className="text-on-surface-variant">
               Manage rental and sale agreements, track signatures, and download documents
             </p>
           </div>
@@ -82,7 +82,7 @@ export default async function LandlordAgreementsPage() {
         </div>
 
         {/* Filters */}
-        <div className="card p-4">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
           <div className="flex flex-wrap gap-4">
             <select className="inp-field flex-1 min-w-[180px]" style={{ maxWidth: '200px' }}>
               <option value="all">All Status</option>
@@ -107,12 +107,12 @@ export default async function LandlordAgreementsPage() {
 
         {/* Agreements Table */}
         <section>
-          <div className="card overflow-hidden">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
             {agreements.length === 0 ? (
-              <div className="card-body text-center py-16">
-                <FileIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">No agreements yet</h3>
-                <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Create your first agreement from a verified property listing.</p>
+              <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
+                <FileIcon className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant opacity-50" />
+                <h3 className="text-primary">No agreements yet</h3>
+                <p className="text-on-surface-variant">Create your first agreement from a verified property listing.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Create Agreement
                 </Link>
@@ -121,23 +121,23 @@ export default async function LandlordAgreementsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b" className="border-border">
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Agreement</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Property</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Tenant</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Type</th>
-                      <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">Rent/Price</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Status</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Signatures</th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">Actions</th>
+                    <tr className="border-border">
+                      <th className="text-on-surface-variant">Agreement</th>
+                      <th className="text-on-surface-variant">Property</th>
+                      <th className="text-on-surface-variant">Tenant</th>
+                      <th className="text-on-surface-variant">Type</th>
+                      <th className="text-on-surface-variant">Rent/Price</th>
+                      <th className="text-on-surface-variant">Status</th>
+                      <th className="text-on-surface-variant">Signatures</th>
+                      <th className="text-on-surface-variant">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {agreements.map((agreement) => (
-                      <tr key={agreement.id} className="border-b" className="border-border">
+                      <tr key={agreement.id} className="border-border">
                         <td className="p-4">
-                          <p className="font-mono text-sm font-medium" className="text-primary">{agreement.id.slice(-8).toUpperCase()}</p>
-                          <p className="text-xs" className="text-muted-foreground">
+                          <p className="text-primary">{agreement.id.slice(-8).toUpperCase()}</p>
+                          <p className="text-on-surface-variant">
                             {new Date(agreement.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </p>
                         </td>
@@ -146,13 +146,13 @@ export default async function LandlordAgreementsPage() {
                             {agreement.listing?.images[0] ? (
                               <img src={agreement.listing.images[0].url} alt="" className="w-12 h-12 rounded-lg object-cover" />
                             ) : (
-                              <div className="w-12 h-12 rounded-lg flex items-center justify-center" className="bg-accent/10 text-accent">
+                              <div className="bg-primary/10 text-primary">
                                 <BuildingIcon className="w-5 h-5" />
                               </div>
                             )}
                             <div>
-                              <p className="font-medium" className="text-primary">{agreement.listing?.title || 'N/A'}</p>
-                              <p className="text-xs" className="text-muted-foreground">{agreement.listing?.area}</p>
+                              <p className="text-primary">{agreement.listing?.title || 'N/A'}</p>
+                              <p className="text-on-surface-variant">{agreement.listing?.area}</p>
                             </div>
                           </div>
                         </td>
@@ -160,23 +160,23 @@ export default async function LandlordAgreementsPage() {
                           {agreement.tenant ? (
                             <div className="flex items-center gap-2">
                               <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-sm"
-                                style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+                                className="bg-gradient-to-br from-primary to-accent"
                               >
                                 {agreement.tenant.fullName.charAt(0)}
                               </div>
                               <div>
-                                <p className="font-medium" className="text-primary">{agreement.tenant.fullName}</p>
-                                <p className="text-xs" className="text-muted-foreground">{agreement.tenant.email}</p>
+                                <p className="text-primary">{agreement.tenant.fullName}</p>
+                                <p className="text-on-surface-variant">{agreement.tenant.email}</p>
                               </div>
                             </div>
                           ) : (
-                            <span className="text-muted-foreground">Not assigned</span>
+                            <span className="text-on-surface-variant">Not assigned</span>
                           )}
                         </td>
                         <td className="p-4">
-                          <span className="tag bg-accent/10 text-accent border-accent/20">{agreement.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-on-surface-variant border border-outline-variant">{agreement.type}</span>
                         </td>
-                        <td className="p-4 text-right font-heading font-bold" className="text-primary">
+                        <td className="text-primary">
                           {agreement.rentAmount ? `₦${Number(agreement.rentAmount).toLocaleString()}` : '—'}
                           {agreement.rentPeriod && agreement.rentAmount && `/${agreement.rentPeriod}`}
                         </td>
@@ -190,11 +190,7 @@ export default async function LandlordAgreementsPage() {
                               return (
                                 <div
                                   key={role}
-                                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                                  style={{
-                                    background: sig ? 'var(--green-bg)' : 'var(--border)',
-                                    color: sig ? 'var(--green)' : 'var(--muted)',
-                                  }}
+                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-success-bright/10 text-success border-success-bright/20' : 'bg-surface-container text-on-surface-variant border-outline-variant'}`}
                                   title={role === 'landlord' ? 'Landlord' : 'Tenant'}
                                 >
                                   {sig ? <CheckIcon className="w-4 h-4" /> : role.charAt(0).toUpperCase()}
@@ -247,13 +243,13 @@ export default async function LandlordAgreementsPage() {
 
 function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trendPositive?: boolean }) {
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
-          <p className="text-2xl font-heading font-bold" className="text-primary">{value}</p>
+          <p className="text-on-surface-variant">{label}</p>
+          <p className="text-primary">{value}</p>
         </div>
-        <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
+        <div className="bg-primary/10 text-primary">
           {Icon}
         </div>
       </div>
@@ -264,15 +260,15 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
 function AgreementStatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
-    pending_landlord: { class: 'bg-accent/10 text-accent border-accent/20', label: 'Pending Landlord' },
-    pending_tenant: { class: 'bg-accent/10 text-accent border-accent/20', label: 'Pending Tenant' },
+    pending_landlord: { class: 'bg-primary/10 text-primary border-primary/20', label: 'Pending Landlord' },
+    pending_tenant: { class: 'bg-primary/10 text-primary border-primary/20', label: 'Pending Tenant' },
     tenant_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Tenant Signed' },
     landlord_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Landlord Signed' },
     fully_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Fully Signed ✓' },
     terminated: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Terminated' },
-    expired: { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: 'Expired' },
+    expired: { class: 'bg-muted/30 text-on-surface-variant border-muted/50', label: 'Expired' },
   };
-  const cfg = config[status] || { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: status };
+  const cfg = config[status] || { class: 'bg-muted/30 text-on-surface-variant border-muted/50', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 

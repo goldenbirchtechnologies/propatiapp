@@ -54,7 +54,7 @@ type Listing = {
 };
 
 const statusColors: Record<string, { class: string; label: string }> = {
-  active: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Active' },
+  active: { class: 'bg-success/10 text-success border border-success/20', label: 'Active' },
   draft: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Draft' },
   suspended: { class: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Suspended' },
   deleted: { class: 'bg-surface-container-low text-on-surface-variant border border-outline-variant', label: 'Deleted' },
@@ -78,7 +78,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-bold text-accent border border-accent/20">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary border border-primary/20">
           <svg
             width="10"
             height="10"
@@ -159,11 +159,11 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
 
   const statusColorsInner: Record<string, { class: string; label: string }> = {
     not_started: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Not Started' },
-    in_progress: { class: 'bg-accent/10 text-accent border border-accent/20', label: 'In Progress' },
-    certified: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Verified ✓' },
+    in_progress: { class: 'bg-primary/10 text-primary border border-primary/20', label: 'In Progress' },
+    certified: { class: 'bg-success/10 text-success border border-success/20', label: 'Verified ✓' },
     rejected: { class: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Rejected' },
     pending: { class: 'bg-warning/10 text-warning border border-warning/20', label: 'Pending' },
-    approved: { class: 'bg-success-bright/10 text-success-bright border border-success-bright/20', label: 'Approved' },
+    approved: { class: 'bg-success/10 text-success border border-success/20', label: 'Approved' },
   };
 
   const verificationStatus = listing.verification?.overallStatus || 'not_started';
@@ -396,7 +396,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
             <div className="flex items-center gap-2 p-3 rounded-lg mb-4" style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent)' }}>
-              <AlertTriangle className="h-4 w-4 text-accent" />
+              <AlertTriangle className="h-4 w-4 text-primary" />
               <p className="text-sm text-primary">Amenity updates will be reviewed during verification.</p>
             </div>
           )}

@@ -40,8 +40,8 @@ export default function LandlordNotificationsPage() {
     return (
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Notifications</h1>
-          <p className="text-muted-foreground">Stay updated on payments, maintenance, and listing activity.</p>
+          <h1 className="text-3xl font-bold text-primary">Notifications</h1>
+          <p className="text-on-surface-variant">Stay updated on payments, maintenance, and listing activity.</p>
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
             <p className="text-destructive font-medium">Unable to load page</p>
             <p className="text-destructive text-sm mt-1">{error}</p>
@@ -66,8 +66,8 @@ export default function LandlordNotificationsPage() {
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Notifications</h1>
-            <p className="text-muted-foreground mt-1">Stay updated on payments, maintenance, and listing activity.</p>
+            <h1 className="text-3xl font-bold text-primary">Notifications</h1>
+            <p className="text-on-surface-variant mt-1">Stay updated on payments, maintenance, and listing activity.</p>
           </div>
           <button
             onClick={markAllRead}
@@ -103,7 +103,7 @@ export default function LandlordNotificationsPage() {
         </div>
 
         {/* Loading Skeleton (hidden when data ready) */}
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card divide-y hidden" className="border-border">
+        <div className="border-border">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="flex items-center gap-4 p-4">
               <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-muted/30" />
@@ -117,16 +117,16 @@ export default function LandlordNotificationsPage() {
         </div>
 
         {/* Empty State (hidden when notifications exist) */}
-        <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
+        <div className="hidden rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-bg-surface-container-lowest rounded-xl border border-outline-variant">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted/30">
-            <Bell className="h-6 w-6 text-muted-foreground" />
+            <Bell className="h-6 w-6 text-on-surface-variant" />
           </div>
           <h3 className="text-lg font-medium text-primary">No notifications yet</h3>
           <p className="mt-1 text-on-surface-variant">You&apos;ll see important updates here when they happen.</p>
         </div>
 
         {/* Notifications List */}
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card divide-y" className="border-border">
+        <div className="border-border">
           {notifications.length === 0 ? (
             <div className="p-12 text-center">
               <p className="text-on-surface-variant">No notifications to display.</p>
@@ -134,30 +134,28 @@ export default function LandlordNotificationsPage() {
           ) : (
             notifications.map((n) => (
               <div
-                key={n.id}
-                className={`flex items-start gap-4 p-4 ${n.status === 'unread' ? 'bg-accent/10/50' : ''}`}
+              key={n.id}
+              className={`flex items-start gap-4 p-4 ${n.status === 'unread' ? 'bg-primary/10' : 'bg-surface-container-lowest'} border border-outline-variant rounded-xl`}
               >
-                <div
-                  className="h-10 w-10 shrink-0 rounded-full flex items-center justify-center"
-                  style={{ background: n.status === 'unread' ? 'var(--accent-bg)' : 'var(--border)', color: n.status === 'unread' ? 'var(--accent)' : 'var(--muted)' }}
-                >
+              <div
+                className="h-10 w-10 shrink-0 rounded-full flex items-center justify-center bg-primary/10 text-primary"
+              >
                   <Bell className="h-5 w-5" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className={`font-medium ${n.status === 'unread' ? 'text-foreground' : 'text-muted-foreground'}`}>{n.title}</p>
-                      <p className="text-sm text-muted-foreground mt-1">{n.message}</p>
+                      <p className={`font-medium ${n.status === 'unread' ? 'text-primary' : 'text-on-surface-variant'}`}>{n.title}</p>
+                      <p className="text-sm text-on-surface-variant mt-1">{n.message}</p>
                     </div>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">{n.time}</span>
+                    <span className="text-xs text-on-surface-variant whitespace-nowrap">{n.time}</span>
                   </div>
                   <div className="mt-3 flex items-center gap-3">
-                    <span className="tag bg-accent/10 text-accent border-accent/20">{n.type}</span>
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-on-surface-variant border border-outline-variant">{n.type}</span>
                     {n.status === 'unread' && (
                       <button
                         onClick={() => markAsRead(n.id)}
-                        className="text-xs font-medium px-3 py-1.5 rounded-md bg-surface-container-lowest border hover:bg-surface-container-low"
-                        style={{ color: 'var(--text)', borderColor: 'var(--border)' }}
+                        className="text-xs font-medium px-3 py-1.5 rounded-md bg-surface-container-lowest border border-outline-variant text-primary hover:bg-surface-container-low transition-colors"
                       >
                         Mark as read
                       </button>
@@ -175,21 +173,21 @@ export default function LandlordNotificationsPage() {
 
 function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; icon: React.ReactNode; trend: string; trendPositive?: boolean }) {
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
-          <p className="text-2xl font-heading font-bold" className="text-primary">{value}</p>
+          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">{label}</p>
+          <p className="font-headline-md text-headline-md text-primary">{value}</p>
         </div>
-        <div className="rounded-xl p-3" className="bg-accent/10 text-accent">
+        <div className="rounded-xl p-3 bg-primary/10 text-primary">
           {icon}
         </div>
       </div>
       <div className="mt-4 flex items-center gap-1">
-        <span className="text-xs font-medium" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+        <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-destructive'}`}>
           {trendPositive ? '↑' : '↓'}
         </span>
-        <span className="text-xs" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+        <span className={`text-xs ${trendPositive ? 'text-success' : 'text-destructive'}`}>
           {trend}
         </span>
       </div>

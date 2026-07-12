@@ -40,10 +40,10 @@ export default async function LandlordVerificationPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+            <h1 className="font-heading font-bold" className="font-headline-sm text-headline-sm text-primary">
               Property Verification
             </h1>
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            <p className="text-on-surface-variant">
               Complete the 5-layer verification to get the Certified badge and attract more tenants
             </p>
           </div>
@@ -73,16 +73,16 @@ export default async function LandlordVerificationPage() {
 
         {/* Properties with Verification Status */}
         <section>
-          <h2 className="font-heading font-bold mb-6" className="text-primary">Your Properties</h2>
+          <h2 className="text-primary">Your Properties</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (
               <VerificationCard key={listing.id} listing={listing} />
             ))}
             {listings.length === 0 && (
-              <div className="col-span-full card p-12 text-center">
-                <BuildingIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">No properties to verify</h3>
-                <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>Add a property to start the verification process.</p>
+              <div className="col-span-full bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
+                <BuildingIcon className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant opacity-50" />
+                <h3 className="text-primary">No properties to verify</h3>
+                <p className="text-on-surface-variant">Add a property to start the verification process.</p>
                 <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
@@ -99,22 +99,22 @@ export default async function LandlordVerificationPage() {
 
 function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trend?: string; trendPositive?: boolean }) {
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" className="text-muted-foreground">{label}</p>
-          <p className="text-3xl font-heading font-bold" className="text-primary">{value}</p>
+          <p className="text-on-surface-variant">{label}</p>
+          <p className="text-primary">{value}</p>
         </div>
-        <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
+        <div className="bg-primary/10 text-primary">
           {Icon}
         </div>
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" style={{ color: trendPositive ? 'var(--green)' : 'var(--muted)' }}>
+          <span className="text-xs font-medium" className={trendPositive ? 'text-success' : 'text-on-surface-variant'}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className="text-xs" style={{ color: trendPositive ? 'var(--green)' : 'var(--muted)' }}>
+          <span className="text-xs" className={trendPositive ? 'text-success' : 'text-on-surface-variant'}>
             {trend}
           </span>
         </div>
@@ -138,7 +138,7 @@ function VerificationCard({ listing }: { listing: any }) {
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'bg-accent/10 text-accent border-accent/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
+    in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
     certified: { class: 'bg-success/10 text-success border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
@@ -148,15 +148,15 @@ function VerificationCard({ listing }: { listing: any }) {
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;
 
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" className="bg-accent/10 text-accent">
+          <div className="bg-primary/10 text-primary">
             <BuildingIcon className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-heading font-bold" className="text-primary">{listing.title}</h3>
-            <p className="text-sm" className="text-muted-foreground">{listing.area}, {listing.state}</p>
+            <h3 className="text-primary">{listing.title}</h3>
+            <p className="text-on-surface-variant">{listing.area}, {listing.state}</p>
           </div>
         </div>
         <span className={`tag ${overallConfig.class} flex items-center gap-1`}>
@@ -167,11 +167,11 @@ function VerificationCard({ listing }: { listing: any }) {
 
       {/* Progress Bar */}
       <div className="mb-4">
-        <div className="flex justify-between text-xs mb-1" className="text-muted-foreground">
+        <div className="text-on-surface-variant">
           <span>Progress</span>
           <span>{((verification ? Object.values({ l1: verification.l1Status, l2: verification.l2Status, l3: verification.l3Status, l4: verification.l4Status, l5: verification.l5Status || 'pending' }).filter(s => s === 'approved').length : 0) / 5) * 100}%</span>
         </div>
-        <div className="h-2 rounded-full" className="bg-muted/30">
+        <div className="bg-muted/30">
           <div
             className="h-full rounded-full transition-all duration-300"
             style={{
@@ -193,11 +193,7 @@ function VerificationCard({ listing }: { listing: any }) {
           return (
             <div
               key={layer.key}
-              className="flex items-center gap-3 p-3 rounded-lg"
-              style={{
-                background: isCurrent ? 'var(--accent-bg)' : 'transparent',
-                border: isCurrent ? '1px solid var(--accent)' : '1px solid var(--border)',
-              }}
+              className={`flex items-center gap-3 p-3 rounded-lg ${isCurrent ? 'bg-primary/10 border border-primary' : 'bg-transparent border border-outline-variant'}`}
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                 style={{
@@ -212,8 +208,8 @@ function VerificationCard({ listing }: { listing: any }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate" className="text-primary">{layer.label}</p>
-                <p className="text-xs truncate" className="text-muted-foreground">{layer.desc}</p>
+                <p className="text-primary">{layer.label}</p>
+                <p className="text-on-surface-variant">{layer.desc}</p>
               </div>
               <span className={`tag ${config.class} flex items-center gap-1 whitespace-nowrap`}>
                 {config.icon}
@@ -225,7 +221,7 @@ function VerificationCard({ listing }: { listing: any }) {
       </div>
 
       {/* Action Button */}
-      <div className="mt-4 pt-4 border-t" className="border-border">
+      <div className="border-border">
         {overallStatus === 'certified' ? (
           <Link
             href={`/dashboard/landlord/properties/${listing.id}`}

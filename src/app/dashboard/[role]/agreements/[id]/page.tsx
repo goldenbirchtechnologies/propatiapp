@@ -70,7 +70,7 @@ export default function AgreementDetailPage() {
       toast({
         title: 'WhatsApp Link Sent',
         description: `Agreement update sent to the party on WhatsApp.`,
-        className: 'bg-green-50 border-green-200 text-green-800',
+        className: 'bg-success/10 border-green-200 text-success',
       });
     } catch (error) {
       toast({
@@ -133,9 +133,9 @@ export default function AgreementDetailPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3"></div>
-          <div className="h-64 bg-muted rounded"></div>
-          <div className="h-48 bg-muted rounded"></div>
+          <div className="h-8 bg-surface-container-low rounded w-1/3"></div>
+          <div className="h-64 bg-surface-container-low rounded"></div>
+          <div className="h-48 bg-surface-container-low rounded"></div>
         </div>
       </div>
     );
@@ -145,9 +145,9 @@ export default function AgreementDetailPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <Card className="p-12 text-center">
-          <XCircle className="h-12 w-12 mx-auto text-red-500 mb-4" />
+          <XCircle className="h-12 w-12 mx-auto text-destructive mb-4" />
           <h2 className="text-xl font-semibold mb-2">Agreement Not Found</h2>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-on-surface-variant mb-6">
             The agreement you're looking for doesn't exist or you don't have permission to view it.
           </p>
           <Button onClick={() => router.push(`/dashboard/${role}/agreements`)}>
@@ -165,7 +165,7 @@ export default function AgreementDetailPage() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h1 className="text-3xl font-bold mb-2">Agreement Details</h1>
-            <p className="text-muted-foreground">
+            <p className="text-on-surface-variant">
               Agreement ID: <span className="font-mono">{agreement.id}</span>
             </p>
           </div>
@@ -196,9 +196,9 @@ export default function AgreementDetailPage() {
 
         {/* Waiting Message */}
         {getWaitingMessage() && (
-          <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-center gap-3">
-            <Clock className="h-5 w-5 text-amber-600" />
-            <p className="text-amber-900 font-medium">{getWaitingMessage()}</p>
+          <div className="mt-4 bg-warning/10 border border-warning/20 rounded-lg p-4 flex items-center gap-3">
+            <Clock className="h-5 w-5 text-warning" />
+            <p className="text-primary font-medium">{getWaitingMessage()}</p>
           </div>
         )}
       </div>
@@ -216,7 +216,7 @@ export default function AgreementDetailPage() {
           )}
           <div className="flex-1 space-y-2">
             <h3 className="text-lg font-semibold">{agreement.listing?.title}</h3>
-            <p className="text-muted-foreground">{agreement.listing?.address}</p>
+            <p className="text-on-surface-variant">{agreement.listing?.address}</p>
             <div className="flex gap-4 text-sm">
               {agreement.listing?.bedrooms && (
                 <span>{agreement.listing.bedrooms} Bedrooms</span>
@@ -236,9 +236,9 @@ export default function AgreementDetailPage() {
           <div>
             <h3 className="font-semibold mb-2">Landlord</h3>
             <p className="text-lg">{agreement.landlord?.fullName || 'Unknown'}</p>
-            <p className="text-sm text-muted-foreground">{agreement.landlord?.email}</p>
+            <p className="text-sm text-on-surface-variant">{agreement.landlord?.email}</p>
             {agreement.landlordSignedAt && (
-              <div className="mt-2 flex items-center gap-2 text-green-600">
+              <div className="mt-2 flex items-center gap-2 text-success">
                 <CheckCircle2 className="h-4 w-4" />
                 <span className="text-sm">
                   Signed on {format(new Date(agreement.landlordSignedAt), 'MMM dd, yyyy')}
@@ -249,9 +249,9 @@ export default function AgreementDetailPage() {
           <div>
             <h3 className="font-semibold mb-2">Tenant</h3>
             <p className="text-lg">{agreement.tenant?.fullName || 'Unknown'}</p>
-            <p className="text-sm text-muted-foreground">{agreement.tenant?.email}</p>
+            <p className="text-sm text-on-surface-variant">{agreement.tenant?.email}</p>
             {agreement.tenantSignedAt && (
-              <div className="mt-2 flex items-center gap-2 text-green-600">
+              <div className="mt-2 flex items-center gap-2 text-success">
                 <CheckCircle2 className="h-4 w-4" />
                 <span className="text-sm">
                   Signed on {format(new Date(agreement.tenantSignedAt), 'MMM dd, yyyy')}
@@ -267,31 +267,31 @@ export default function AgreementDetailPage() {
         <h2 className="text-xl font-semibold mb-4">Agreement Terms</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-muted-foreground">Lease Period</p>
+            <p className="text-sm text-on-surface-variant">Lease Period</p>
             <p className="font-medium">
               {agreement.startDate && format(new Date(agreement.startDate), 'MMM dd, yyyy')} -{' '}
               {agreement.endDate && format(new Date(agreement.endDate), 'MMM dd, yyyy')}
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Payment Schedule</p>
+            <p className="text-sm text-on-surface-variant">Payment Schedule</p>
             <p className="font-medium capitalize">{agreement.rentPeriod || 'Monthly'}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Rent Amount</p>
+            <p className="text-sm text-on-surface-variant">Rent Amount</p>
             <p className="text-xl font-bold text-primary">
               {formatCurrency(agreement.rentAmount || 0)}
             </p>
           </div>
           {agreement.cautionDeposit && (
             <div>
-              <p className="text-sm text-muted-foreground">Caution Deposit</p>
+              <p className="text-sm text-on-surface-variant">Caution Deposit</p>
               <p className="text-xl font-bold">{formatCurrency(agreement.cautionDeposit)}</p>
             </div>
           )}
           {agreement.serviceCharge && (
             <div>
-              <p className="text-sm text-muted-foreground">Service Charge</p>
+              <p className="text-sm text-on-surface-variant">Service Charge</p>
               <p className="text-xl font-bold">{formatCurrency(agreement.serviceCharge)}</p>
             </div>
           )}
@@ -301,7 +301,7 @@ export default function AgreementDetailPage() {
           <>
             <Separator className="my-4" />
             <div>
-              <p className="text-sm text-muted-foreground mb-2">Additional Terms</p>
+              <p className="text-sm text-on-surface-variant mb-2">Additional Terms</p>
               <p className="text-sm whitespace-pre-wrap">{agreement.terms}</p>
             </div>
           </>
@@ -335,11 +335,11 @@ export default function AgreementDetailPage() {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <CheckCircle2 className="h-4 w-4 text-white" />
               </div>
-              <div className="w-0.5 h-full bg-muted"></div>
+              <div className="w-0.5 h-full bg-surface-container-low"></div>
             </div>
             <div className="flex-1 pb-8">
               <p className="font-medium">Agreement Created</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-on-surface-variant">
                 {agreement.createdAt && format(new Date(agreement.createdAt), 'MMM dd, yyyy HH:mm')}
               </p>
             </div>
@@ -348,14 +348,14 @@ export default function AgreementDetailPage() {
           {agreement.landlordSignedAt && (
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-success/100 flex items-center justify-center">
                   <CheckCircle2 className="h-4 w-4 text-white" />
                 </div>
-                <div className="w-0.5 h-full bg-muted"></div>
+                <div className="w-0.5 h-full bg-surface-container-low"></div>
               </div>
               <div className="flex-1 pb-8">
                 <p className="font-medium">Signed by Landlord</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   {format(new Date(agreement.landlordSignedAt), 'MMM dd, yyyy HH:mm')}
                 </p>
               </div>
@@ -365,13 +365,13 @@ export default function AgreementDetailPage() {
           {agreement.tenantSignedAt && (
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-success/100 flex items-center justify-center">
                   <CheckCircle2 className="h-4 w-4 text-white" />
                 </div>
               </div>
               <div className="flex-1">
                 <p className="font-medium">Signed by Tenant</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   {format(new Date(agreement.tenantSignedAt), 'MMM dd, yyyy HH:mm')}
                 </p>
               </div>

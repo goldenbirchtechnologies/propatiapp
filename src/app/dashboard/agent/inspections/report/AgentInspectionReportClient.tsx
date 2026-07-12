@@ -66,7 +66,7 @@ export default function AgentInspectionReportClient() {
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <span className="material-symbols-outlined text-sm">arrow_back</span>
           </Button>
-          <h1 className="text-2xl font-bold">Inspection Details</h1>
+          <h1 className="text-headline-sm font-bold">Inspection Details</h1>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" className="gap-2">
@@ -79,64 +79,64 @@ export default function AgentInspectionReportClient() {
       </div>
 
       {/* Report Paper */}
-      <div className="bg-surface-container-lowest shadow-lg border border-border rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
+      <div className="bg-surface-container-lowest shadow-lg border border-outline-variant rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
         {/* Report Header */}
-        <div className="bg-primary text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-amber-500">
+        <div className="bg-primary text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-warning">
           <div className="space-y-2">
             <div className="flex items-center gap-2 opacity-80 mb-2">
               <Building2 className="h-4 w-4" />
-              <p className="text-xs uppercase tracking-widest">Real Estate Audit Document</p>
+              <p className="text-xs font-label-md uppercase tracking-wider">Real Estate Audit Document</p>
             </div>
-            <h2 className="text-3xl font-bold">Mainland Regional Office HQ</h2>
+            <h2 className="text-headline-sm font-bold">Mainland Regional Office HQ</h2>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-white/80">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">tag</span>
-                <span className="text-sm">#INS-2024-0882</span>
+                <span className="text-xs font-label-md uppercase tracking-wider">#INS-2024-0882</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">calendar_today</span>
-                <span className="text-sm">August 24, 2024</span>
+                <span className="text-xs font-label-md uppercase tracking-wider">August 24, 2024</span>
               </div>
             </div>
           </div>
           <div className="flex flex-col items-end justify-center">
-            <div className="bg-green-700 border border-green-500/30 px-6 py-3 rounded-xl flex items-center gap-3">
-              <Verified className="h-6 w-6 text-green-300" />
-              <span className="font-bold text-lg">CLEARANCE ISSUED</span>
+            <div className="bg-success border border-success/30 px-6 py-3 rounded-xl flex items-center gap-3">
+              <Verified className="h-6 w-6 text-success/80" />
+              <span className="text-headline-sm font-bold">CLEARANCE ISSUED</span>
             </div>
-            <p className="mt-2 text-xs text-white/60">Final Accreditation Status</p>
+            <p className="mt-2 text-xs font-label-md uppercase tracking-wider text-white/60">Final Accreditation Status</p>
           </div>
         </div>
 
         <div className="p-6 md:p-8 space-y-8">
           {/* Clearance Summary */}
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-muted/50 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 border border-border">
+            <div className="lg:col-span-2 bg-muted/50 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 border border-outline-variant">
               <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-muted rounded-lg flex items-center justify-center">
                 <Verified className="h-16 w-16 text-primary/40" />
               </div>
               <div className="text-center md:text-left">
-                <h3 className="text-2xl font-bold mb-2">Master Verification Passed</h3>
-                <p className="text-muted-foreground mb-4 max-w-md">
+                <h3 className="text-headline-sm font-bold mb-2">Master Verification Passed</h3>
+                <p className="text-xs font-label-md uppercase tracking-wider mb-4" style={{ color: 'text-on-surface-variant' }}>
                   This property has successfully navigated the comprehensive Tier 2 audit framework,
                   confirming legal residency, operational capacity, and structural compliance.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
+                  <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-label-md uppercase tracking-wider font-bold">
                     Tier 2 Accredited
                   </span>
-                  <span className="bg-amber-500 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase">
+                  <span className="bg-warning text-primary px-3 py-1 rounded-full text-xs font-label-md uppercase tracking-wider font-bold">
                     Lagos State Compliant
                   </span>
                 </div>
               </div>
             </div>
-            <div className="bg-primary p-6 rounded-xl flex flex-col justify-center items-center text-white text-center border border-border">
-              <p className="text-xs uppercase tracking-tighter mb-1 opacity-80">Audit Score</p>
-              <div className="text-6xl font-black leading-none">
-                {score}<span className="text-2xl text-amber-300">%</span>
+            <div className="bg-primary p-6 rounded-xl flex flex-col justify-center items-center text-white text-center border border-outline-variant">
+              <p className="text-xs font-label-md uppercase tracking-wider mb-1 opacity-80">Audit Score</p>
+              <div className="text-headline-md font-black leading-none">
+                {score}<span className="text-headline-sm text-warning">%</span>
               </div>
-              <p className="text-sm text-white/70 mt-2">Elite Performance Category</p>
+              <p className="text-xs font-label-md uppercase tracking-wider text-white/70 mt-2">Elite Performance Category</p>
             </div>
           </section>
 
@@ -144,7 +144,7 @@ export default function AgentInspectionReportClient() {
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-primary">analytics</span>
-              <h3 className="text-xl font-bold">Compliance Assessment</h3>
+              <h3 className="text-headline-sm font-bold">Compliance Assessment</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {categories.map((cat, idx) => (
@@ -154,12 +154,12 @@ export default function AgentInspectionReportClient() {
                       <div className="p-2 bg-muted rounded-lg">
                         <span className="material-symbols-outlined text-primary">{cat.icon}</span>
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold border border-green-200 uppercase tracking-tighter">
+                      <span className="px-3 py-1 rounded-full bg-success/10 text-success text-[10px] font-label-md uppercase tracking-wider border border-outline-variant font-bold">
                         VERIFIED
                       </span>
                     </div>
-                    <h4 className="font-bold text-lg mb-2">{cat.title}</h4>
-                    <ul className="space-y-2 mb-4 text-sm text-muted-foreground">
+                    <h4 className="font-headline-sm font-bold text-lg mb-2">{cat.title}</h4>
+                    <ul className="space-y-2 mb-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
                       {cat.items.map((item, i) => (
                         <li key={i} className="flex justify-between">
                           <span>{item.label}:</span>
@@ -180,7 +180,7 @@ export default function AgentInspectionReportClient() {
           <section>
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-primary">photo_library</span>
-              <h3 className="text-xl font-bold">Evidence Gallery</h3>
+              <h3 className="text-headline-sm font-bold">Evidence Gallery</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {galleryImages.map((img, idx) => (
@@ -189,10 +189,10 @@ export default function AgentInspectionReportClient() {
                   className="group relative aspect-square bg-muted rounded-xl overflow-hidden cursor-zoom-in"
                 >
                   <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <Image className="h-8 w-8 text-muted-foreground" />
+                    <Image className="h-8 w-8" style={{ color: 'text-on-surface-variant' }} />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                    <p className="text-white text-xs font-bold">{img.alt}</p>
+                    <p className="text-white text-xs font-label-md uppercase tracking-wider font-bold">{img.alt}</p>
                   </div>
                 </div>
               ))}
@@ -201,10 +201,10 @@ export default function AgentInspectionReportClient() {
 
           {/* Inspector Remarks */}
           <section className="bg-muted p-6 border-l-4 border-primary rounded-r-xl">
-            <h4 className="text-sm font-bold uppercase text-primary mb-2">
+            <h4 className="text-xs font-label-md uppercase tracking-wider text-primary mb-2">
               Inspector&apos;s Professional Remarks
             </h4>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
               The facility located at the Mainland Regional Office HQ is fully operational and meets all
               Lagos State regulatory requirements for Tier 2 accreditation. Documentation was verified
               against original state records and physical infrastructure exceeds standard safety and
@@ -214,41 +214,41 @@ export default function AgentInspectionReportClient() {
           </section>
 
           {/* Footer / Sign-off */}
-          <footer className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-end gap-6">
+          <footer className="pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-end gap-6">
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
                   <ShieldCheck className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <p className="font-bold text-sm">Chidi Anthony Okafor</p>
-                  <p className="text-xs text-muted-foreground">Lead Field Inspector &bull; ID: PR-992</p>
+                  <p className="text-headline-sm font-bold">Chidi Anthony Okafor</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Lead Field Inspector • ID: PR-992</p>
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="px-3 py-1 bg-muted rounded border border-border">
-                  <p className="text-[9px] uppercase opacity-60 mb-1">Time Logged</p>
+                <div className="px-3 py-1 bg-muted rounded border border-outline-variant">
+                  <p className="text-[9px] font-label-md uppercase tracking-wider opacity-60 mb-1">Time Logged</p>
                   <p className="text-xs font-mono">14:22:10 WAT</p>
                 </div>
-                <div className="px-3 py-1 bg-muted rounded border border-border">
-                  <p className="text-[9px] uppercase opacity-60 mb-1">GPS Auth</p>
-                  <p className="text-xs font-mono">6.5244&deg; N, 3.3792&deg; E</p>
+                <div className="px-3 py-1 bg-muted rounded border border-outline-variant">
+                  <p className="text-[9px] font-label-md uppercase tracking-wider opacity-60 mb-1">GPS Auth</p>
+                  <p className="text-xs font-mono">6.5244° N, 3.3792° E</p>
                 </div>
               </div>
             </div>
             <div className="text-center md:text-right">
-              <div className="mb-2 italic font-serif text-2xl text-primary/80 opacity-80">
+              <div className="mb-2 italic font-serif text-headline-md text-primary/80 opacity-80">
                 C.A. Okafor
               </div>
-              <div className="w-48 h-[1px] bg-border ml-auto mb-2" />
-              <p className="text-xs uppercase text-muted-foreground">Authorized Digital Signature</p>
+              <div className="w-48 h-[1px] bg-outline-variant ml-auto mb-2" />
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Authorized Digital Signature</p>
             </div>
           </footer>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto text-center no-print">
-        <p className="text-sm text-muted-foreground opacity-60">
+        <p className="text-xs font-label-md uppercase tracking-wider opacity-60" style={{ color: 'text-on-surface-variant' }}>
           This is a system-generated document. For verification queries, visit propati.com/verify-id?#INS-2024-0882
         </p>
       </div>

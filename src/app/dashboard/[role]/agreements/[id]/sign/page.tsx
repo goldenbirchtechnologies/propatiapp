@@ -84,8 +84,8 @@ export default function SignAgreementPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3"></div>
-          <div className="h-64 bg-muted rounded"></div>
+          <div className="h-8 bg-surface-container-low rounded w-1/3"></div>
+          <div className="h-64 bg-surface-container-low rounded"></div>
         </div>
       </div>
     );
@@ -109,7 +109,7 @@ export default function SignAgreementPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Sign Agreement</h1>
-        <p className="text-muted-foreground">
+        <p className="text-on-surface-variant">
           Review the agreement carefully and provide your electronic signature
         </p>
       </div>
@@ -131,7 +131,7 @@ export default function SignAgreementPage() {
               {step < 4 && (
                 <div
                   className={`flex-1 h-1 mx-2 ${
-                    currentStep > step ? 'bg-primary' : 'bg-muted'
+                    currentStep > step ? 'bg-primary' : 'bg-surface-container-low'
                   }`}
                 />
               )}
@@ -139,10 +139,10 @@ export default function SignAgreementPage() {
           ))}
         </div>
         <div className="flex justify-between mt-2 text-xs">
-          <span className="text-muted-foreground">Preview</span>
-          <span className="text-muted-foreground">Consent</span>
-          <span className="text-muted-foreground">Sign</span>
-          <span className="text-muted-foreground">Confirm</span>
+          <span className="text-on-surface-variant">Preview</span>
+          <span className="text-on-surface-variant">Consent</span>
+          <span className="text-on-surface-variant">Sign</span>
+          <span className="text-on-surface-variant">Confirm</span>
         </div>
       </div>
 
@@ -192,7 +192,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-1" className="text-base font-medium cursor-pointer">
                   I have read and understood the agreement
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   I confirm that I have carefully read all terms and conditions in this rental
                   agreement and understand my obligations.
                 </p>
@@ -211,7 +211,7 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-2" className="text-base font-medium cursor-pointer">
                   I agree to all terms and conditions
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   I accept and agree to be legally bound by all terms, conditions, and obligations
                   outlined in this agreement.
                 </p>
@@ -230,15 +230,15 @@ export default function SignAgreementPage() {
                 <Label htmlFor="consent-3" className="text-base font-medium cursor-pointer">
                   I consent to electronic signature
                 </Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   I understand that my electronic signature will have the same legal effect as a
                   handwritten signature.
                 </p>
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-              <p className="text-sm text-blue-900">
+            <div className="bg-primary/10 border border-outline-variant rounded-lg p-4 mt-6">
+              <p className="text-sm text-primary">
                 <strong>Legal Notice:</strong> By proceeding, you acknowledge that this electronic
                 signature creates a legally binding contract. Your IP address, signature, and
                 timestamp will be recorded for security and legal purposes.
@@ -253,7 +253,7 @@ export default function SignAgreementPage() {
         <div>
           <div className="mb-4">
             <h2 className="text-xl font-semibold mb-2">Provide Your Signature</h2>
-            <p className="text-muted-foreground">
+            <p className="text-on-surface-variant">
               Draw your signature in the box below to complete the signing process
             </p>
           </div>

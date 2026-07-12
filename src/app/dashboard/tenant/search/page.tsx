@@ -209,7 +209,7 @@ function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
           </div>
         )}
         <div className="absolute top-2 left-2 right-2 flex justify-between">
-          <span className={`tag ${isVerified ? 'bg-success-bright/10 text-success border-success-bright/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
+          <span className={`tag ${isVerified ? 'bg-success/10 text-success border-success/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
             {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
           </span>
           <Button variant="ghost" size="icon" className="bg-surface-container-lowest/90 hover:bg-surface-container-lowest">

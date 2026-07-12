@@ -126,8 +126,8 @@ export default function NotificationsPage() {
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               filter === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-on-surface-variant hover:bg-surface-container-high'
+                ? 'bg-primary text-white'
+                : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'
             }`}
           >
             All
@@ -136,13 +136,13 @@ export default function NotificationsPage() {
             onClick={() => setFilter('unread')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               filter === 'unread'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-on-surface-variant hover:bg-surface-container-high'
+                ? 'bg-primary text-white'
+                : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'
             }`}
           >
             Unread
             {unreadCount > 0 && (
-              <span className="ml-2 px-2 py-0.5 text-xs bg-surface-container-lowest text-blue-600 rounded-full">
+              <span className="ml-2 px-2 py-0.5 text-xs bg-surface-container-lowest text-primary rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -154,7 +154,7 @@ export default function NotificationsPage() {
           <button
             onClick={handleMarkAllRead}
             disabled={markingAll}
-            className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm font-medium text-primary hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {markingAll ? 'Marking...' : 'Mark all as read'}
           </button>
@@ -164,14 +164,14 @@ export default function NotificationsPage() {
       {/* Loading State */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
         </div>
       ) : notifications.length === 0 ? (
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <div className="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mb-4">
             <svg
-              className="w-10 h-10 text-muted-foreground"
+              className="w-10 h-10 text-on-surface-variant"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -211,7 +211,7 @@ export default function NotificationsPage() {
               <button
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="px-6 py-2 bg-gray-100 hover:bg-surface-container-high text-on-surface-variant font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loadingMore ? (
                   <>

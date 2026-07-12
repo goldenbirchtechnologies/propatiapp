@@ -75,7 +75,7 @@ export default function PaymentCallbackPage() {
             <div className="text-center py-8">
               <Loader2 className="h-16 w-16 animate-spin text-primary mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-2">Verifying Payment</h2>
-              <p className="text-muted-foreground">
+              <p className="text-on-surface-variant">
                 Please wait while we verify your payment with Paystack...
               </p>
             </div>
@@ -83,11 +83,11 @@ export default function PaymentCallbackPage() {
 
           {status === 'success' && (
             <div className="text-center py-8">
-              <div className="bg-green-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-                <CheckCircle className="h-12 w-12 text-green-600" />
+              <div className="bg-success/10 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                <CheckCircle className="h-12 w-12 text-success" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-on-surface-variant mb-6">
                 Your payment has been received and verified. The funds are now held securely in escrow.
               </p>
 
@@ -115,11 +115,11 @@ export default function PaymentCallbackPage() {
 
           {status === 'failed' && (
             <div className="text-center py-8">
-              <div className="bg-red-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-                <XCircle className="h-12 w-12 text-red-600" />
+              <div className="bg-destructive/10 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                <XCircle className="h-12 w-12 text-destructive" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Failed</h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-on-surface-variant mb-6">
                 We couldn't verify your payment. If you were charged, please contact support with your payment reference.
               </p>
 

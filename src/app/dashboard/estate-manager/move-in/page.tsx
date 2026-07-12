@@ -13,8 +13,8 @@ export default function EstateManagerMoveInPage() {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
         <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Move-in Coordination</h1>
-          <p className="text-muted-foreground">Unable to load move-in details.</p>
+          <h1 className="text-3xl font-bold text-primary">Move-in Coordination</h1>
+          <p className="text-on-surface-variant">Unable to load move-in details.</p>
           <div className="rounded-lg border border-red-200 bg-red-50 p-6">
             <p className="text-red-800 font-medium">Error</p>
             <p className="text-red-600 text-sm mt-1">{error}</p>
@@ -34,8 +34,8 @@ export default function EstateManagerMoveInPage() {
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Move-in Coordination Hub</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-3xl font-bold text-primary">Move-in Coordination Hub</h1>
+          <p className="text-on-surface-variant mt-1">
             Handover and onboarding workflow for commercial tenants.
           </p>
         </div>
@@ -83,11 +83,11 @@ export default function EstateManagerMoveInPage() {
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Security Deposit</span>
+                  <span className="text-on-surface-variant">Security Deposit</span>
                   <span className="font-bold text-primary">Verified</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Service Charge (Yr 1)</span>
+                  <span className="text-on-surface-variant">Service Charge (Yr 1)</span>
                   <span className="font-bold text-primary">Settled</span>
                 </div>
                 <div className="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
@@ -108,7 +108,7 @@ export default function EstateManagerMoveInPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="flex flex-col gap-4">
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-outline-variant">
-                  <div className="w-full h-full bg-surface-variant flex items-center justify-center text-muted-foreground text-sm">
+                  <div className="w-full h-full bg-surface-variant flex items-center justify-center text-on-surface-variant text-sm">
                     Property Image
                   </div>
                 </div>
@@ -117,13 +117,13 @@ export default function EstateManagerMoveInPage() {
                     <CalendarClock className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase">Thursday, Oct 12th</p>
+                    <p className="text-xs text-on-surface-variant uppercase">Thursday, Oct 12th</p>
                     <p className="font-bold text-primary">10:00 AM — 11:30 AM</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-sm font-bold text-muted-foreground mb-2">Preparation Checklist</p>
+                <p className="text-sm font-bold text-on-surface-variant mb-2">Preparation Checklist</p>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full border-2 border-secondary-container flex items-center justify-center">
                     <ClipboardList className="w-3 h-3 text-secondary-container" />
@@ -138,7 +138,7 @@ export default function EstateManagerMoveInPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center" />
-                  <span className="text-sm text-muted-foreground">Final Inventory Signature</span>
+                  <span className="text-sm text-on-surface-variant">Final Inventory Signature</span>
                 </div>
                 <button className="w-full mt-4 py-2 border-2 border-secondary text-secondary rounded-lg font-bold hover:bg-secondary hover:text-white transition-all">
                   Reschedule Appointment
@@ -169,8 +169,8 @@ export default function EstateManagerMoveInPage() {
             ))}
           </div>
           <div className="p-4 bg-surface-container rounded-lg flex items-center gap-3 border-t border-outline-variant">
-            <Info className="w-5 h-5 text-muted-foreground shrink-0" />
-            <p className="text-sm text-muted-foreground">
+            <Info className="w-5 h-5 text-on-surface-variant shrink-0" />
+            <p className="text-sm text-on-surface-variant">
               Temperature controls for Suite 402 can be managed via the{' '}
               <a href="#" className="text-secondary font-bold underline">PROPATI Smart Facility App</a> starting from handover day.
             </p>
@@ -194,7 +194,7 @@ export default function EstateManagerMoveInPage() {
                   </div>
                   <div>
                     <p className="font-bold text-white">{contact.name}</p>
-                    <p className="text-xs text-muted-foreground">{contact.role}</p>
+                    <p className="text-xs text-on-surface-variant">{contact.role}</p>
                   </div>
                 </div>
                 <button className="p-2 text-secondary-container hover:bg-secondary-container hover:text-primary rounded-full transition-colors">
@@ -203,7 +203,7 @@ export default function EstateManagerMoveInPage() {
               </div>
             ))}
             <div className="pt-3 border-t border-white/10">
-              <p className="text-xs text-muted-foreground uppercase opacity-60">24/7 Concierge Hotline</p>
+              <p className="text-xs text-on-surface-variant uppercase opacity-60">24/7 Concierge Hotline</p>
               <p className="font-heading font-bold text-secondary-container">0-800-PROPATI-SOS</p>
             </div>
           </div>

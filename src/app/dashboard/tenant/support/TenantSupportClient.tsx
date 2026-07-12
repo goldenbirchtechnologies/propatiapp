@@ -11,8 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 const helpCategories = [
-  { icon: DollarSign, title: 'Payments & Billing', desc: 'Rent status, auto-pay setup, and payment history.', cta: 'View Billing', color: 'text-teal-600', bg: 'bg-teal-500/10' },
-  { icon: Wrench, title: 'Maintenance Requests', desc: 'Report issues, track repairs, and view schedules.', cta: 'Track Repairs', color: 'text-teal-700', bg: 'bg-teal-500/10', highlight: true },
+  { icon: DollarSign, title: 'Payments & Billing', desc: 'Rent status, auto-pay setup, and payment history.', cta: 'View Billing', color: 'text-success', bg: 'bg-success/10' },
+  { icon: Wrench, title: 'Maintenance Requests', desc: 'Report issues, track repairs, and view schedules.', cta: 'Track Repairs', color: 'text-success', bg: 'bg-success/10', highlight: true },
   { icon: FileText, title: 'Lease & Agreements', desc: 'Renewals, digital contracts, and terms of use.', cta: 'Access Documents', color: 'text-primary' },
   { icon: ArrowUpDown, title: 'Move-in / Move-out', desc: 'Checklists, key collection, and deposit returns.', cta: 'View Checklist', color: 'text-primary' },
   { icon: Users, title: 'Community & Rules', desc: 'Building policies, parking, and neighbor relations.', cta: 'Read Guidelines', color: 'text-primary' },
@@ -32,15 +32,15 @@ export default function TenantSupportPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <section className="relative bg-muted/40 rounded-2xl overflow-hidden py-16 px-6 md:px-16">
+      <section className="relative bg-surface-container-low/40 rounded-2xl overflow-hidden py-16 px-6 md:px-16">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h1 className="font-heading text-4xl font-extrabold text-primary mb-3">How can we help you?</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-on-surface-variant max-w-2xl mx-auto mb-8">
             Access 24/7 support, track your requests, and manage your tenancy with Nigeria&apos;s most trusted property platform.
           </p>
           <div className="relative max-w-xl mx-auto">
-            <div className="flex items-center bg-card rounded-2xl shadow-xl border border-border p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
-              <Search className="w-5 h-5 text-muted-foreground px-3" />
+            <div className="flex items-center bg-card rounded-2xl shadow-xl border border-outline-variant p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
+              <Search className="w-5 h-5 text-on-surface-variant px-3" />
               <Input
                 placeholder="Search for payments, maintenance, lease terms..."
                 className="border-none focus:ring-0 flex-1 bg-transparent"
@@ -71,7 +71,7 @@ export default function TenantSupportPage() {
                   </div>
                   <div>
                     <h3 className="font-heading text-base font-semibold text-primary mb-1">{cat.title}</h3>
-                    <p className="text-sm text-muted-foreground">{cat.desc}</p>
+                    <p className="text-sm text-on-surface-variant">{cat.desc}</p>
                   </div>
                   <div className={`mt-auto pt-3 flex items-center font-semibold text-sm gap-1 transition-all hover:gap-2 ${cat.color}`}>
                     {cat.cta} <ChevronRight className="w-4 h-4" />
@@ -95,13 +95,13 @@ export default function TenantSupportPage() {
             {faqs.map((faq) => (
               <button
                 key={faq.q}
-                className="w-full p-4 rounded-xl border border-border hover:bg-muted transition-colors cursor-pointer flex items-center justify-between group text-left"
+                className="w-full p-4 rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer flex items-center justify-between group text-left"
               >
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                  <svg className="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
                   <span className="text-sm font-medium text-primary">{faq.q}</span>
                 </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                <ChevronRight className="w-4 h-4 text-on-surface-variant group-hover:text-primary transition-colors" />
               </button>
             ))}
           </div>
@@ -129,23 +129,23 @@ export default function TenantSupportPage() {
       {/* Chat Widget */}
       <div className="fixed bottom-6 right-6 z-50">
         {chatOpen && (
-          <div className="mb-4 w-80 bg-card rounded-2xl shadow-2xl border border-border flex flex-col overflow-hidden animate-in">
+          <div className="mb-4 w-80 bg-card rounded-2xl shadow-2xl border border-outline-variant flex flex-col overflow-hidden animate-in">
             <div className="bg-primary p-4 text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span className="text-sm font-bold">Support Agent Online</span>
               </div>
               <button onClick={() => setChatOpen(false)} className="text-white/70 hover:text-white">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <div className="p-4 bg-muted/30 space-y-3 overflow-y-auto max-h-64">
-              <div className="bg-card p-3 rounded-xl text-sm max-w-[85%] border border-border">
+            <div className="p-4 bg-surface-container-low/30 space-y-3 overflow-y-auto max-h-64">
+              <div className="bg-card p-3 rounded-xl text-sm max-w-[85%] border border-outline-variant">
                 Hello! I&apos;m David from PROPATI Support. How can I assist you?
               </div>
             </div>
-            <div className="p-3 border-t border-border flex gap-2">
-              <Input placeholder="Type a message..." className="bg-card text-sm border-border" />
+            <div className="p-3 border-t border-outline-variant flex gap-2">
+              <Input placeholder="Type a message..." className="bg-card text-sm border-outline-variant" />
               <Button size="icon" className="bg-primary text-white rounded-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
               </Button>

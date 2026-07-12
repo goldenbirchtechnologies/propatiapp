@@ -125,7 +125,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Initiate Payment</h1>
-          <p className="text-muted-foreground">
+          <p className="text-on-surface-variant">
             Make a secure payment for rent, deposits, or service charges
           </p>
         </div>
@@ -180,10 +180,10 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               </div>
 
               {selectedAgreement && (
-                <div className="bg-muted/50 rounded-lg p-4">
+                <div className="bg-surface-container-low/50 rounded-lg p-4">
                   <p className="text-sm font-semibold">{selectedAgreement.listing?.title}</p>
-                  <p className="text-sm text-muted-foreground">{selectedAgreement.listing?.area}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-sm text-on-surface-variant">{selectedAgreement.listing?.area}</p>
+                  <p className="text-xs text-on-surface-variant mt-1">
                     Agreement: {selectedAgreement.id.slice(-8).toUpperCase()}
                   </p>
                 </div>
@@ -233,12 +233,12 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Payment Amount</span>
+                    <span className="text-on-surface-variant">Payment Amount</span>
                     <span className="font-semibold">{formatAmountFromKobo(breakdown.amount)}</span>
                   </div>
                   {breakdown.platformFee > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">
+                      <span className="text-on-surface-variant">
                         Platform Fee ({((breakdown.platformFee / breakdown.amount) * 100).toFixed(1)}%)
                       </span>
                       <span>{formatAmountFromKobo(breakdown.platformFee)}</span>
@@ -246,7 +246,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   )}
                   {breakdown.agentCommission > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Agent Commission</span>
+                      <span className="text-on-surface-variant">Agent Commission</span>
                       <span>{formatAmountFromKobo(breakdown.agentCommission)}</span>
                     </div>
                   )}
@@ -256,10 +256,10 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
 
-                <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="mt-4 bg-primary/10 border border-outline-variant rounded-lg p-3">
                   <div className="flex gap-2">
-                    <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-blue-900">
+                    <AlertCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-primary">
                       <p className="font-semibold">Escrow Protection</p>
                       <p>
                         Your payment will be held securely in escrow until the transaction is completed.
@@ -293,7 +293,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </>
                 )}
               </Button>
-              <p className="text-xs text-center text-muted-foreground mt-3">
+              <p className="text-xs text-center text-on-surface-variant mt-3">
                 You will be redirected to Paystack to complete your payment securely
               </p>
             </CardContent>

@@ -4,44 +4,20 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Store, Download, Receipt, Eye, Mail, Wrench } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 const leases = [
-  {
-    unit: 'A1',
-    tenant: 'Zenith FinTech Hub',
-    location: 'Office Wing, Floor 4',
-    baseRent: 2500000,
-    serviceCharge: 450000,
-    utilities: 120500,
-    status: 'paid',
-    expiry: 'Dec 2025',
-  },
-  {
-    unit: 'B4',
-    tenant: 'Global Mart Retail',
-    location: 'Anchor Tenant, Ground Floor',
-    baseRent: 5800000,
-    serviceCharge: 1200000,
-    utilities: 840000,
-    status: 'overdue',
-    expiry: '30 Days Left',
-  },
-  {
-    unit: 'C9',
-    tenant: 'Starlight Café',
-    location: 'Terrace Zone',
-    baseRent: 1200000,
-    serviceCharge: 250000,
-    utilities: 95000,
-    status: 'partial',
-    expiry: 'Aug 2024',
-  },
+  { unit: 'A1', tenant: 'Zenith FinTech Hub', location: 'Office Wing, Floor 4', baseRent: 2500000, serviceCharge: 450000, utilities: 120500, status: 'paid', expiry: 'Dec 2025' },
+  { unit: 'B4', tenant: 'Global Mart Retail', location: 'Anchor Tenant, Ground Floor', baseRent: 5800000, serviceCharge: 1200000, utilities: 840000, status: 'overdue', expiry: '30 Days Left' },
+  { unit: 'C9', tenant: 'Starlight Café', location: 'Terrace Zone', baseRent: 1200000, serviceCharge: 250000, utilities: 95000, status: 'partial', expiry: 'Aug 2024' },
 ];
 
 const statusStyles: Record<string, { class: string; label: string }> = {
-  paid: { class: 'tag-green', label: 'PAID' },
-  overdue: { class: 'tag-red', label: 'OVERDUE' },
-  partial: { class: 'tag-amber', label: 'PARTIAL' },
+  paid: { class: 'bg-success/10 text-success border border-outline-variant', label: 'PAID' },
+  overdue: { class: 'bg-destructive/10 text-destructive border border-outline-variant', label: 'OVERDUE' },
+  partial: { class: 'bg-warning/10 text-warning border border-outline-variant', label: 'PARTIAL' },
 };
 
 export default function EstateManagerCommercialLeasesPage() {
@@ -50,103 +26,90 @@ export default function EstateManagerCommercialLeasesPage() {
 
   if (error) {
     return (
-      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Commercial Leases</h1>
-          <p className="text-muted-foreground">Unable to load commercial lease data.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-            >
-              Retry
-            </button>
+      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+        <div className="space-y-6">
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Commercial Leases</h1>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Unable to load commercial lease data.</p>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
+            <p className="text-destructive font-medium mb-1">Error</p>
+            <p className="text-sm text-on-surface-variant mb-3">{error}</p>
+            <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
           </div>
-        </section>
+        </div>
       </DashboardShell>
     );
   }
 
   return (
-    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
+    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Commercial Lease Collection</h1>
-            <p className="text-muted-foreground mt-1">
-              Managing revenue for The Platinum Plaza &amp; Business District. Automated billing for rent,
-              service charges, and utility recoveries.
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Commercial Lease Collection</h1>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
+              Managing revenue for The Platinum Plaza &amp; Business District. Automated billing for rent, service charges, and utility recoveries.
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
-              <Download className="w-4 h-4" />
-              Export Report
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
+              <Download className="w-4 h-4" /> Export Report
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
-              <Receipt className="w-4 h-4" />
-              Bulk Invoice
+              <Receipt className="w-4 h-4" /> Bulk Invoice
             </button>
           </div>
         </div>
 
-        {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="card p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Collection Rate</span>
-              <TrendingUp className="w-5 h-5 text-green-600" />
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Collection Rate</span>
+              <TrendingUp className="w-5 h-5 text-success" />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold text-primary">94.2%</p>
-              <p className="text-xs text-green-600 mt-1 font-medium">+2.4% from last month</p>
+              <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>94.2%</p>
+              <p className="text-xs text-success mt-1">+2.4% from last month</p>
             </div>
           </div>
           <div className="card p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Total Arrears</span>
-              <Wrench className="w-5 h-5 text-red-600" />
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Total Arrears</span>
+              <Wrench className="w-5 h-5 text-destructive" />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold text-red-600">₦14.2M</p>
-              <p className="text-xs text-muted-foreground mt-1">12 Pending notices</p>
+              <p className="text-2xl font-bold text-destructive">₦14.2M</p>
+              <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>12 Pending notices</p>
             </div>
           </div>
           <div className="card p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Service Charges</span>
-              <Receipt className="w-5 h-5 text-secondary" />
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Service Charges</span>
+              <Receipt className="w-5 h-5" style={{ color: 'text-on-surface-variant' }} />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold text-primary">₦8.5M</p>
-              <p className="text-xs text-muted-foreground mt-1">88% Recovery achieved</p>
+              <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>₦8.5M</p>
+              <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>88% Recovery achieved</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl bg-primary text-white shadow-lg relative overflow-hidden">
+          <div className="card p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow bg-primary text-white relative overflow-hidden">
             <div className="relative z-10">
-              <div className="flex items-center gap-2 text-secondary-fixed-dim font-bold">
+              <div className="flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
-                <span className="text-sm font-medium">Expiring Leases</span>
+                <span className="text-xs font-label-md uppercase tracking-wider font-bold">Expiring Leases</span>
               </div>
               <div className="mt-3">
                 <p className="text-3xl font-bold">08 Units</p>
-                <p className="text-sm text-primary-fixed mt-1">Renewal notices required</p>
+                <p className="text-xs font-label-md uppercase tracking-wider opacity-80 mt-1">Renewal notices required</p>
               </div>
-            </div>
-            <div className="absolute -right-4 -bottom-4 opacity-10">
-              <Store className="w-24 h-24" />
             </div>
           </div>
         </div>
 
-        {/* Lease Table */}
         <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
           <div className="p-5 border-b border-outline-variant flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface-container-low">
-            <h3 className="font-heading font-bold text-primary">Unit Collections</h3>
+            <h3 className="font-headline-sm font-bold" style={{ color: 'text-primary' }}>Unit Collections</h3>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Filter by:</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Filter by:</span>
               <select className="border border-outline-variant rounded-lg text-sm px-3 py-1.5 bg-surface-container-lowest">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
@@ -158,13 +121,13 @@ export default function EstateManagerCommercialLeasesPage() {
             <table className="w-full text-left border-collapse">
               <thead className="bg-surface-container-high border-b border-outline-variant">
                 <tr>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Unit / Tenant</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Base Rent</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Service Charge</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Utilities</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Lease Expiry</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Actions</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Unit / Tenant</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Base Rent</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Service Charge</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Utilities</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Status</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Lease Expiry</th>
+                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant">
@@ -172,32 +135,24 @@ export default function EstateManagerCommercialLeasesPage() {
                   <tr key={row.unit} className="hover:bg-surface-container-low transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold">
-                          {row.unit}
-                        </div>
+                        <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-white font-bold">{row.unit}</div>
                         <div>
-                          <div className="font-bold text-primary">{row.tenant}</div>
-                          <div className="text-xs text-muted-foreground">{row.location}</div>
+                          <div className="font-headline-sm font-bold" style={{ color: 'text-primary' }}>{row.tenant}</div>
+                          <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{row.location}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 font-medium text-primary">₦{row.baseRent.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-muted-foreground">₦{row.serviceCharge.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-muted-foreground">₦{row.utilities.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-sm font-medium" style={{ color: 'text-primary' }}>₦{row.baseRent.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>₦{row.serviceCharge.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>₦{row.utilities.toLocaleString()}</td>
                     <td className="px-5 py-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${statusStyles[row.status]?.class || 'tag-gray'}`}>
-                        {statusStyles[row.status]?.label || row.status.toUpperCase()}
-                      </span>
+                      <span className={cn('inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border', statusStyles[row.status]?.class)}>{statusStyles[row.status]?.label}</span>
                     </td>
-                    <td className="px-5 py-4 text-muted-foreground text-sm font-label-md">{row.expiry}</td>
+                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{row.expiry}</td>
                     <td className="px-5 py-4">
                       <div className="flex gap-2">
-                        <button className="text-primary hover:text-secondary p-1">
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        <button className="text-primary hover:text-secondary p-1">
-                          <Mail className="w-4 h-4" />
-                        </button>
+                        <Button variant="ghost" size="icon"><Eye className="w-4 h-4" /></Button>
+                        <Button variant="ghost" size="icon"><Mail className="w-4 h-4" /></Button>
                       </div>
                     </td>
                   </tr>
@@ -206,7 +161,7 @@ export default function EstateManagerCommercialLeasesPage() {
             </table>
           </div>
           <div className="p-4 border-t border-outline-variant flex justify-between items-center">
-            <div className="text-sm text-muted-foreground">Showing {leases.length} of 42 active commercial leases</div>
+            <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
               <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-lowest">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
@@ -220,21 +175,21 @@ export default function EstateManagerCommercialLeasesPage() {
   );
 }
 
+function TrendingUp({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
+  );
+}
+
 function AlertCircle({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
       <circle cx="12" cy="12" r="10" />
       <line x1="12" y1="8" x2="12" y2="12" />
       <line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  );
-}
-
-function TrendingUp({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-      <polyline points="16 7 22 7 22 13" />
     </svg>
   );
 }

@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 const MOCK_TENANTS = [
   { id: '1', name: 'Alice Johnson', unit: 'A101', email: 'alice@example.com', status: 'active', leaseEnd: '2025-12-31', noticePeriod: false },
@@ -34,57 +35,24 @@ const MOCK_TENANTS = [
 
 function StatCardSkeleton() {
   return (
-    <div
-      className="skel-card"
-      style={{
-        animation: 'skel-pulse 1.6s ease-in-out infinite',
-        padding: 'var(--space-lg)',
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <div
-          className="rounded"
-          style={{
-            height: 14,
-            width: 14,
-            background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)',
-            backgroundSize: '200% 100%',
-            animation: 'skel-shimmer 1.6s linear infinite',
-          }}
-        />
-        <div
-          className="rounded"
-          style={{
-            height: 11,
-            width: '55%',
-            background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)',
-            backgroundSize: '200% 100%',
-            animation: 'skel-shimmer 1.6s linear infinite',
-          }}
-        />
+    <div className="card p-4" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <div className="flex items-center gap-2 mb-2">
+        <div className="rounded" style={{ height: 14, width: 14, background: 'border-outline-variant' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-outline-variant' }} />
       </div>
-      <div
-        className="rounded mt-3"
-        style={{
-          height: 28,
-          width: '45%',
-          background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.1) 50%, hsl(var(--border)) 75%)',
-          backgroundSize: '200% 100%',
-          animation: 'skel-shimmer 1.6s linear infinite',
-        }}
-      />
+      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-outline-variant' }} />
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <tr className="border-b" style={{ borderColor: 'var(--border)', animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'var(--border)' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'var(--border)' }} /></td>
+    <tr className="border-b" style={{ borderColor: 'border-outline-variant', animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-outline-variant' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-outline-variant' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-outline-variant' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-outline-variant' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-outline-variant' }} /></td>
     </tr>
   );
 }
@@ -115,29 +83,16 @@ export default function EstateManagerTenantsPage() {
 
   if (error) {
     return (
-      <DashboardShell
-        navigation={ESTATE_MANAGER_NAVIGATION}
-        userRole="estate_manager"
-        userName="Estate Manager"
-        userAvatar={undefined}
-      >
+      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
         <div className="space-y-6">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
-              Tenants
-            </h1>
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-              Manage tenant operations and occupancy
-            </p>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Tenants</h1>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
           </div>
-          <div className="rounded-lg border" style={{ background: 'var(--destructive)', borderColor: 'var(--destructive)' }} role="alert">
-            <div className="bg-destructive/10 border-destructive/30 p-6 text-center rounded-lg" role="alert">
-              <p className="text-destructive font-medium mb-1">Unable to load tenants</p>
-              <p className="text-sm text-muted-foreground mb-3">{error.message}</p>
-              <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'var(--space-sm) var(--space-lg)' }}>
-                Retry
-              </button>
-            </div>
+          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
+            <p className="text-destructive font-medium mb-1">Unable to load tenants</p>
+            <p className="text-sm text-on-surface-variant mb-3">{error.message}</p>
+            <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
           </div>
         </div>
       </DashboardShell>
@@ -151,90 +106,78 @@ export default function EstateManagerTenantsPage() {
 
   const filteredTenants = tenants.filter((t) => {
     const matchesStatus = statusFilter === 'all' || t.status === statusFilter;
-    const matchesSearch =
-      !search ||
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.unit.toLowerCase().includes(search.toLowerCase()) ||
-      t.email.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = !search || t.name.toLowerCase().includes(search.toLowerCase()) || t.unit.toLowerCase().includes(search.toLowerCase()) || t.email.toLowerCase().includes(search.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
+  const statusBadge = (status: string) => {
+    switch (status) {
+      case 'active':
+        return <Badge variant="default" className="bg-success/10 text-success border border-outline-variant">Active</Badge>;
+      case 'pending':
+        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-outline-variant">Pending</Badge>;
+      case 'notice_period':
+        return <Badge variant="outline" className="bg-muted text-on-surface-variant border border-outline-variant">Notice Period</Badge>;
+      default:
+        return <Badge variant="outline" className="bg-muted text-on-surface-variant border border-outline-variant">{status}</Badge>;
+    }
+  };
+
   return (
-    <DashboardShell
-      navigation={ESTATE_MANAGER_NAVIGATION}
-      userRole="estate_manager"
-      userName="Estate Manager"
-      userAvatar={undefined}
-    >
+    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
-              Tenants
-            </h1>
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-              Manage tenant operations and occupancy
-            </p>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Tenants</h1>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
           </div>
         </div>
 
-        {/* Stat Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {loading ? (
             <>
-              <StatCardSkeleton />
-              <StatCardSkeleton />
-              <StatCardSkeleton />
-              <StatCardSkeleton />
+              <StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton />
             </>
           ) : (
             <>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4" style={{ color: 'var(--muted)' }} />
-                  <p className="text-xs" style={{ color: 'var(--muted)' }}>Total Tenants</p>
+                  <Users className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Total Tenants</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{totalTenants}</p>
+                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{totalTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-green-600" />
-                  <p className="text-xs" style={{ color: 'var(--muted)' }}>Active</p>
+                  <Users className="w-4 h-4 text-success" />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Active</p>
                 </div>
-                <p className="text-2xl font-bold text-green-600">{activeTenants}</p>
+                <p className="text-2xl font-bold text-success">{activeTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4" style={{ color: 'var(--muted)' }} />
-                  <p className="text-xs" style={{ color: 'var(--muted)' }}>Pending</p>
+                  <Users className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Pending</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{pendingTenants}</p>
+                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{pendingTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-orange-600" />
-                  <p className="text-xs" style={{ color: 'var(--muted)' }}>Notice Period</p>
+                  <Users className="w-4 h-4 text-warning" />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Notice Period</p>
                 </div>
-                <p className="text-2xl font-bold text-orange-600">{noticePeriodTenants}</p>
+                <p className="text-2xl font-bold text-warning">{noticePeriodTenants}</p>
               </Card>
             </>
           )}
         </div>
 
-        {/* Filters */}
         {!loading && (
           <Card className="p-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
-                <Input
-                  placeholder="Search tenants..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9"
-                  style={{ background: 'var(--input-background)' }}
-                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+                <Input placeholder="Search tenants..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full sm:w-48">
@@ -252,7 +195,6 @@ export default function EstateManagerTenantsPage() {
           </Card>
         )}
 
-        {/* Table or Skeleton or Empty State */}
         <Card>
           <div className="p-4">
             {loading ? (
@@ -268,20 +210,14 @@ export default function EstateManagerTenantsPage() {
                       <TableHead>Lease End</TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody>
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <RowSkeleton key={i} />
-                    ))}
-                  </TableBody>
+                  <TableBody>{[1, 2, 3, 4, 5].map((i) => <RowSkeleton key={i} />)}</TableBody>
                 </Table>
               </div>
             ) : filteredTenants.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-12 w-12 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                <p className="font-medium" style={{ color: 'var(--text)' }}>No tenants found</p>
-                <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
-                  {tenants.length === 0 ? 'No tenants assigned yet.' : 'Try adjusting your filters.'}
-                </p>
+                <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-on-surface-variant', opacity: 0.5 }} />
+                <p className="font-medium" style={{ color: 'text-primary' }}>No tenants found</p>
+                <p className="text-sm mt-1" style={{ color: 'text-on-surface-variant' }}>{tenants.length === 0 ? 'No tenants assigned yet.' : 'Try adjusting your filters.'}</p>
               </div>
             ) : (
               <Table>
@@ -300,19 +236,7 @@ export default function EstateManagerTenantsPage() {
                       <TableCell className="font-medium">{tenant.name}</TableCell>
                       <TableCell>{tenant.unit}</TableCell>
                       <TableCell>{tenant.email}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            tenant.status === 'active'
-                              ? 'default'
-                              : tenant.status === 'pending'
-                              ? 'secondary'
-                              : 'outline'
-                          }
-                        >
-                          {tenant.status.replace('_', ' ')}
-                        </Badge>
-                      </TableCell>
+                      <TableCell>{statusBadge(tenant.status)}</TableCell>
                       <TableCell>{tenant.leaseEnd}</TableCell>
                     </TableRow>
                   ))}

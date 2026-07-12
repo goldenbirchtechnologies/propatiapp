@@ -1,9 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useOrganizations } from '@/hooks/useOrganizations';
-import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,20 +23,22 @@ import {
   Wrench,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useOrganizations } from '@/hooks/useOrganizations';
+import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  low: { label: 'Low', className: 'tag-gray' },
-  medium: { label: 'Medium', className: 'tag-blue' },
-  high: { label: 'High', className: 'tag-amber' },
-  urgent: { label: 'Urgent', className: 'tag-red' },
+  low: { label: 'Low', className: 'bg-muted text-on-surface-variant border border-outline-variant' },
+  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-outline-variant' },
+  high: { label: 'High', className: 'bg-warning/10 text-warning border border-outline-variant' },
+  urgent: { label: 'Urgent', className: 'bg-destructive/10 text-destructive border border-outline-variant' },
 };
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  open: { label: 'Open', className: 'tag-red' },
-  assigned: { label: 'Assigned', className: 'tag-blue' },
-  in_progress: { label: 'In Progress', className: 'tag-amber' },
-  resolved: { label: 'Resolved', className: 'tag-green' },
-  closed: { label: 'Closed', className: 'tag-gray' },
+  open: { label: 'Open', className: 'bg-destructive/10 text-destructive border border-outline-variant' },
+  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-outline-variant' },
+  in_progress: { label: 'In Progress', className: 'bg-warning/10 text-warning border border-outline-variant' },
+  resolved: { label: 'Resolved', className: 'bg-success/10 text-success border border-outline-variant' },
+  closed: { label: 'Closed', className: 'bg-muted text-on-surface-variant border border-outline-variant' },
 };
 
 const statusTimeline = [
@@ -106,31 +105,28 @@ export default function MaintenanceDetailPage() {
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={() => router.back()}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </Button>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>
+              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
                 Maintenance Request
               </h1>
             </div>
           </div>
           <Card className="border-destructive/30 bg-destructive/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Wrench className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load maintenance request</p>
-              <p className="text-sm mt-1 mb-4" style={{ color: 'var(--muted)' }}>
+              <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-on-surface-variant' }} />
+              <p className="font-medium" style={{ color: 'text-primary' }}>Unable to load maintenance request</p>
+              <p className="text-sm mt-1 mb-4" style={{ color: 'text-on-surface-variant' }}>
                 {error instanceof Error ? error.message : 'Request not found or access denied.'}
               </p>
               <div className="flex gap-3">
                 <Button variant="outline" onClick={handleRetry}>
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  Retry
+                  <RefreshCw className="h-4 w-4 mr-2" /> Retry
                 </Button>
                 <Button asChild>
                   <Link href="/dashboard/estate-manager/maintenance">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to Maintenance
+                    <ArrowLeft className="h-4 w-4 mr-2" /> Back to Maintenance
                   </Link>
                 </Button>
               </div>
@@ -150,14 +146,14 @@ export default function MaintenanceDetailPage() {
         <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
           <ol className="flex items-center gap-2">
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager" style={{ color: 'var(--muted)' }}>Home</Link>
+              <Link href="/dashboard/estate-manager" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Home</Link>
             </li>
-            <li className="flex items-center gap-2" style={{ color: 'var(--muted)' }}>/</li>
+            <li className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>/</li>
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager/maintenance" style={{ color: 'var(--muted)' }}>Maintenance</Link>
+              <Link href="/dashboard/estate-manager/maintenance" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Maintenance</Link>
             </li>
-            <li style={{ color: 'var(--muted)' }}>/</li>
-            <li className="font-medium" style={{ color: 'var(--text)' }}>{ticket.title}</li>
+            <li className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>/</li>
+            <li className="font-medium text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-primary' }}>{ticket.title}</li>
           </ol>
         </nav>
 
@@ -165,57 +161,51 @@ export default function MaintenanceDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>
+              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
                 {ticket.title}
               </h1>
-              <p className="flex items-center gap-1 mt-1" style={{ color: 'var(--muted)' }}>
+              <p className="flex items-center gap-1 mt-1 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
                 <MapPin className="h-4 w-4" />
                 {ticket.listing?.title || ticket.listing?.address || 'No location linked'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge className={priorityConfig[ticket.priority]?.className || 'tag-gray'}>
-              {priorityConfig[ticket.priority]?.label || ticket.priority}
-            </Badge>
-            <Badge className={statusConfig[ticket.status]?.className || 'tag-gray'}>
-              {statusConfig[ticket.status]?.label || ticket.status}
-            </Badge>
+            <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', priorityConfig[ticket.priority]?.className)}>{priorityConfig[ticket.priority]?.label || ticket.priority}</span>
+            <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', statusConfig[ticket.status]?.className)}>{statusConfig[ticket.status]?.label || ticket.status}</span>
           </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Details */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2" style={{ color: 'var(--text)' }}>
-                <MessageSquare className="h-5 w-5" style={{ color: 'var(--accent)' }} />
-                Details
+              <CardTitle className="flex items-center gap-2" style={{ color: 'text-primary' }}>
+                <MessageSquare className="h-5 w-5" style={{ color: 'text-primary' }} /> Details
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>Category</p>
-                <p className="font-medium capitalize" style={{ color: 'var(--text)' }}>{ticket.category || '—'}</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Category</p>
+                <p className="font-medium capitalize text-sm" style={{ color: 'text-primary' }}>{ticket.category || '—'}</p>
               </div>
               <div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>Description</p>
-                <p className="font-medium" style={{ color: 'var(--text)' }}>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Description</p>
+                <p className="font-medium text-sm" style={{ color: 'text-primary' }}>
                   {ticket.description || 'No description provided.'}
                 </p>
               </div>
               <Separator />
               <div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>Created</p>
-                <p className="font-medium flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Created</p>
+                <p className="font-medium flex items-center gap-2 text-sm" style={{ color: 'text-primary' }}>
                   <Calendar className="h-4 w-4" />
                   {new Date(ticket.createdAt).toLocaleString()}
                 </p>
               </div>
               {ticket.resolvedAt && (
                 <div>
-                  <p className="text-sm" style={{ color: 'var(--muted)' }}>Resolved</p>
-                  <p className="font-medium flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Resolved</p>
+                  <p className="font-medium flex items-center gap-2 text-sm" style={{ color: 'text-primary' }}>
                     <CheckCircle2 className="h-4 w-4" />
                     {new Date(ticket.resolvedAt).toLocaleString()}
                   </p>
@@ -224,12 +214,10 @@ export default function MaintenanceDetailPage() {
             </CardContent>
           </Card>
 
-          {/* Assignee */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2" style={{ color: 'var(--text)' }}>
-                <User className="h-5 w-5" style={{ color: 'var(--accent)' }} />
-                Assignee
+              <CardTitle className="flex items-center gap-2" style={{ color: 'text-primary' }}>
+                <User className="h-5 w-5" style={{ color: 'text-primary' }} /> Assignee
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -237,31 +225,29 @@ export default function MaintenanceDetailPage() {
                 <div className="flex items-center gap-4">
                   <div
                     className="h-12 w-12 rounded-full flex items-center justify-center text-lg font-bold"
-                    style={{ background: 'var(--surface-elevated)', color: 'var(--accent)' }}
+                    style={{ background: 'bg-surface-container-low', color: 'text-primary' }}
                   >
                     {ticket.assignedToUser.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-medium" style={{ color: 'var(--text)' }}>{ticket.assignedToUser.fullName}</p>
-                    <p className="text-sm" style={{ color: 'var(--muted)' }}>{ticket.assignedToUser.email}</p>
+                    <p className="font-medium" style={{ color: 'text-primary' }}>{ticket.assignedToUser.fullName}</p>
+                    <p className="text-sm" style={{ color: 'text-on-surface-variant' }}>{ticket.assignedToUser.email}</p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-                  <p className="text-sm" style={{ color: 'var(--muted)' }}>Unassigned</p>
+                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-on-surface-variant', opacity: 0.5 }} />
+                  <p className="text-sm" style={{ color: 'text-on-surface-variant' }}>Unassigned</p>
                 </div>
               )}
             </CardContent>
           </Card>
         </div>
 
-        {/* Timeline */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2" style={{ color: 'var(--text)' }}>
-              <Clock className="h-5 w-5" style={{ color: 'var(--accent)' }} />
-              Progress Timeline
+            <CardTitle className="flex items-center gap-2" style={{ color: 'text-primary' }}>
+              <Clock className="h-5 w-5" style={{ color: 'text-primary' }} /> Progress Timeline
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -275,33 +261,25 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'var(--accent-bg)' : 'var(--border)',
-                          color: isCompleted ? 'var(--accent)' : 'var(--muted)',
+                          background: isCompleted ? 'bg-primary/10' : 'border-outline-variant',
+                          color: isCompleted ? 'text-primary' : 'text-on-surface-variant',
                         }}
                       >
                         {step.icon}
                       </div>
                       {index < statusTimeline.length - 1 && (
-                        <div
-                          className="w-0.5 h-12"
-                          style={{ background: isCompleted ? 'var(--accent)' : 'var(--border)' }}
-                        />
+                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-primary' : 'border-outline-variant' }} />
                       )}
                     </div>
                     <div className="pb-8">
-                      <p
-                        className="font-medium"
-                        style={{ color: isCompleted ? 'var(--text)' : 'var(--muted)' }}
-                      >
-                        {step.label}
-                      </p>
+                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-primary' : 'text-on-surface-variant' }}>{step.label}</p>
                       {isCurrent && ticket.status === step.status && (
-                        <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
                           Current step — {new Date(ticket.createdAt).toLocaleString()}
                         </p>
                       )}
                       {isCompleted && !isCurrent && (
-                        <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
                           {new Date(ticket.updatedAt || ticket.createdAt).toLocaleString()}
                         </p>
                       )}

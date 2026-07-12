@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 export function EmptyState() {
   return (
-    <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center text-muted-foreground">
+    <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center text-on-surface-variant">
       No applications yet.
     </div>
   );
@@ -232,7 +232,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         <div className="flex items-center gap-2">
                           <div
                             className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+                            className="bg-gradient-to-br from-primary to-accent"
                           >
                             {app.tenant.fullName.charAt(0)}
                           </div>
@@ -299,8 +299,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
               <div className="space-y-4 py-2">
                 <div
-                  className="p-4 rounded-xl"
-                  style={{ background: 'var(--accent-bg)' }}
+                  className="p-4 rounded-xl bg-primary/10 text-primary"
                 >
                   <p className="text-sm font-semibold text-primary">
                     {selectedApp.listing.title}
@@ -313,7 +312,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 <div className="flex items-start gap-3">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center text-base font-bold text-white flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+                    className="bg-gradient-to-br from-primary to-accent"
                   >
                     {selectedApp.tenant.fullName.charAt(0)}
                   </div>
@@ -348,7 +347,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     <p className="font-medium mb-2 text-primary">Employment</p>
                     {selectedApp.tenant.employmentStatus && (
                       <p className="text-on-surface-variant">
-                        Status: <span style={{ color: 'var(--text)' }} className="capitalize">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
+                        Status: <span className="text-primary" className="capitalize">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
                       </p>
                     )}
                     {selectedApp.tenant.employerName && (
@@ -458,7 +457,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
             <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value}</p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+          <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
             {icon}
           </div>
         </div>

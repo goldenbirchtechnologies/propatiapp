@@ -142,7 +142,7 @@ export default function LandlordApplicationDetailClient({
           Applications
         </Link>
         <span>/</span>
-        <span style={{ color: 'var(--text)' }} className="font-medium">
+        <span className="text-primary" className="font-medium">
           {application.listing.title}
         </span>
       </nav>
@@ -173,7 +173,7 @@ export default function LandlordApplicationDetailClient({
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="font-headline-sm text-headline-sm text-primary text-primary">
-              <Building2 className="inline w-5 h-5 mr-2" style={{ color: 'var(--accent)' }} />
+              <Building2 className="inline w-5 h-5 mr-2 text-primary" />
               Property
             </CardTitle>
           </CardHeader>
@@ -221,8 +221,7 @@ export default function LandlordApplicationDetailClient({
                   {application.listing.amenities.map((a) => (
                     <span
                       key={a}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
-                      style={{ background: 'var(--accent-bg)', color: 'var(--accent)', borderColor: 'var(--accent)' }}
+                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-primary/10 text-primary border-primary/20"
                     >
                       {a}
                     </span>
@@ -240,7 +239,7 @@ export default function LandlordApplicationDetailClient({
         <Card>
           <CardHeader>
             <CardTitle className="font-headline-sm text-headline-sm text-primary text-primary">
-              <Users className="inline w-5 h-5 mr-2" style={{ color: 'var(--accent)' }} />
+              <Users className="inline w-5 h-5 mr-2 text-primary" />
               Applicant
             </CardTitle>
           </CardHeader>
@@ -248,7 +247,7 @@ export default function LandlordApplicationDetailClient({
             <div className="flex items-center gap-3">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}
+                className="bg-gradient-to-br from-primary to-accent"
               >
                 {application.tenant.fullName.charAt(0)}
               </div>
@@ -313,7 +312,7 @@ export default function LandlordApplicationDetailClient({
         <Card>
           <CardContent className="p-6">
             <div className="flex items-start gap-3">
-              <MessageSquare className="w-5 h-5 mt-0.5" style={{ color: 'var(--accent)' }} />
+              <MessageSquare className="w-5 h-5 mt-0.5 text-primary" />
               <div>
                 <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Applicant Message</p>
                 <p className="text-sm p-3 rounded-lg text-primary">
@@ -329,7 +328,7 @@ export default function LandlordApplicationDetailClient({
       <Card>
         <CardHeader>
           <CardTitle className="font-headline-sm text-headline-sm text-primary text-primary">
-            <FileText className="inline w-5 h-5 mr-2" style={{ color: 'var(--accent)' }} />
+            <FileText className="inline w-5 h-5 mr-2 text-primary" />
             Review Notes
           </CardTitle>
         </CardHeader>
@@ -392,14 +391,13 @@ export default function LandlordApplicationDetailClient({
           )}
 
           {application.agreement && (
-            <div className="flex items-center gap-2 p-3 rounded-lg" style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent)' }}>
-              <FileText className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/10 text-primary border border-primary/20">
+              <FileText className="w-4 h-4 text-primary" />
               <span className="text-sm text-primary">
                 Agreement {application.agreement.status} —{' '}
                 <Link
                   href={`/dashboard/landlord/agreements`}
-                  className="underline font-medium"
-                  style={{ color: 'var(--accent)' }}
+                  className="underline font-medium text-primary"
                 >
                   View agreement
                 </Link>

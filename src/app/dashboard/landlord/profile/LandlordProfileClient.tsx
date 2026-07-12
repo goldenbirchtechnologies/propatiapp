@@ -144,7 +144,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Profile Header */}
-      <div className="card p-6">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
         <div className="flex items-center gap-6">
           <div className="relative">
             <Avatar className="w-24 h-24">
@@ -156,7 +156,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </Avatar>
             <label
               className="absolute bottom-0 right-0 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-              style={{ background: 'var(--accent)', color: 'var(--accent-foreground)' }}
+              className="bg-primary text-primary"
             >
               <Camera className="w-4 h-4" />
               <input
@@ -169,7 +169,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </label>
           </div>
           <div className="flex-1">
-            <h2 className="font-heading font-bold text-2xl" className="text-primary">{user?.fullName || 'Loading...'}</h2>
+            <h2 className="text-primary">{user?.fullName || 'Loading...'}</h2>
             <div className="flex items-center gap-4 mt-2 flex-wrap">
               <Badge variant="secondary" className="capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</Badge>
               {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="w-3 h-3" /> NIN Verified</Badge>}
@@ -178,7 +178,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="w-3 h-3" /> Phone Verified</Badge>}
               {!user?.profileCompleted && <Badge variant="destructive">Profile Incomplete</Badge>}
             </div>
-            <p className="text-sm mt-2" className="text-muted-foreground">{user?.email}</p>
+            <p className="text-on-surface-variant">{user?.email}</p>
           </div>
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <div className="space-y-1">
                     <Label htmlFor="email">Email Address</Label>
                     <Input id="email" value={profileData.email} disabled type="email" />
-                    <p className="text-xs" className="text-muted-foreground">Email cannot be changed here. Contact support if needed.</p>
+                    <p className="text-on-surface-variant">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -286,19 +286,19 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Identity Verification</CardTitle>
-                <p className="text-sm" className="text-muted-foreground">Verify your identity to unlock premium features and build trust.</p>
+                <p className="text-on-surface-variant">Verify your identity to unlock premium features and build trust.</p>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* NIN Verification */}
-                <div className="p-4 rounded-lg border" className="border-border">
+                <div className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.ninVerified ? 'var(--green-bg)' : 'var(--blue-bg)', color: user?.ninVerified ? 'var(--green)' : 'var(--blue)' }}>
                         <IdCard className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" className="text-primary">National Identification Number (NIN)</h4>
-                        <p className="text-sm" className="text-muted-foreground">Verify using your NIN via Prembly/IdentityPass</p>
+                        <h4 className="text-primary">National Identification Number (NIN)</h4>
+                        <p className="text-on-surface-variant">Verify using your NIN via Prembly/IdentityPass</p>
                       </div>
                     </div>
                     {user?.ninVerified ? (
@@ -321,15 +321,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
 
                 {/* BVN Verification */}
-                <div className="p-4 rounded-lg border" className="border-border">
+                <div className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.bvnVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.bvnVerified ? 'var(--green)' : 'var(--amber)' }}>
                         <Shield className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" className="text-primary">Bank Verification Number (BVN)</h4>
-                        <p className="text-sm" className="text-muted-foreground">Verify using your BVN for financial trust</p>
+                        <h4 className="text-primary">Bank Verification Number (BVN)</h4>
+                        <p className="text-on-surface-variant">Verify using your BVN for financial trust</p>
                       </div>
                     </div>
                     {user?.bvnVerified ? (
@@ -352,15 +352,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
 
                 {/* Document Verification */}
-                <div className="p-4 rounded-lg border" className="border-border">
+                <div className="border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="p-3 rounded-lg" style={{ background: user?.idVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.idVerified ? 'var(--green)' : 'var(--amber)' }}>
                         <IdCard className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium" className="text-primary">Government ID Document</h4>
-                        <p className="text-sm" className="text-muted-foreground">Upload a valid ID (Passport, Driver's License, Voter's Card)</p>
+                        <h4 className="text-primary">Government ID Document</h4>
+                        <p className="text-on-surface-variant">Upload a valid ID (Passport, Driver's License, Voter's Card)</p>
                       </div>
                     </div>
                     {user?.idVerified ? (
@@ -438,7 +438,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
                 <SessionItem device="Desktop" browser="Firefox on Mac" location="London, UK" />
               </div>
-              <Button variant="ghost" className="mt-4 w-full" className="text-destructive">
+              <Button variant="ghost" className="text-destructive">
                 <AlertCircle className="w-4 h-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
@@ -474,13 +474,13 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function VerificationStep({ label, icon, completed }: { label: string; icon: React.ReactNode; completed: boolean }) {
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg" style={{ background: completed ? 'var(--green-bg)' : 'var(--surface-elevated)', borderColor: completed ? 'var(--green)' : 'var(--border)' }}>
-      <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${completed ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>
+    <div className="flex items-center gap-4 p-4 rounded-lg" className={completed ? 'bg-success-bright/10 border-success-bright/20' : 'bg-surface-container border-outline-variant'}>
+      <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${completed ? 'bg-green-500 text-white' : 'bg-muted text-on-surface-variant'}`}>
         {icon}
       </div>
       <div className="flex-1">
-        <p className="font-medium" className="text-primary">{label}</p>
-        <p className="text-sm" style={{ color: completed ? 'var(--green)' : 'var(--muted)' }}>
+        <p className="text-primary">{label}</p>
+        <p className="text-sm" className={completed ? 'text-success' : 'text-on-surface-variant'}>
           {completed ? 'Verified ✓' : 'Not verified'}
         </p>
       </div>
@@ -491,17 +491,17 @@ function VerificationStep({ label, icon, completed }: { label: string; icon: Rea
 
 function SessionItem({ current = false, device, browser, location }: { current?: boolean; device: string; browser: string; location: string }) {
   return (
-    <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: current ? 'var(--accent-bg)' : 'var(--surface-elevated)', border: current ? '1px solid var(--accent)' : '1px solid var(--border)' }}>
+    <div className="flex items-center justify-between p-3 rounded-lg" className={current ? 'bg-primary/10 border border-primary' : 'bg-surface-container border border-outline-variant'}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center" className="bg-accent/10 text-accent">
+        <div className="bg-primary/10 text-primary">
           <Monitor className="w-5 h-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium" className="text-primary">{device}</span>
+            <span className="text-primary">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-sm" className="text-muted-foreground">{browser} • {location}</p>
+          <p className="text-on-surface-variant">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
@@ -518,8 +518,8 @@ function NotificationToggle({ id, label, desc }: { id: string; label: string; de
   return (
     <div className="flex items-center justify-between">
       <div className="flex-1">
-        <p className="font-medium" className="text-primary">{label}</p>
-        <p className="text-sm" className="text-muted-foreground">{desc}</p>
+        <p className="text-primary">{label}</p>
+        <p className="text-on-surface-variant">{desc}</p>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} className="sr-only peer" />

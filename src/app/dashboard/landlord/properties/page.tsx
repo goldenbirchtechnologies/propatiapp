@@ -123,7 +123,7 @@ export default async function LandlordPropertiesPage() {
                               className="w-14 h-14 rounded-lg object-cover"
                             />
                           ) : (
-                            <div className="w-14 h-14 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+                            <div className="w-14 h-14 rounded-lg flex items-center justify-center" className="bg-primary/10 text-primary">
                               <BuildingIcon className="w-6 h-6" />
                             </div>
                           )}
@@ -134,7 +134,7 @@ export default async function LandlordPropertiesPage() {
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="tag tag-blue">{listing.listingType}</span>
+                        <span className="bg-primary/10 text-primary border-primary/20">{listing.listingType}</span>
                         <span className="tag tag-teal ml-1">{listing.propertyType || 'N/A'}</span>
                       </td>
                       <td className="p-4">
@@ -203,7 +203,7 @@ function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: 
           <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
           <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value.toLocaleString()}</p>
         </div>
-        <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="p-3 rounded-xl" className="bg-primary/10 text-primary">
           {Icon}
         </div>
       </div>
@@ -271,7 +271,7 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-on-surface-variant border border-outline-variant">
           {verification.overallStatus}
         </span>
       );

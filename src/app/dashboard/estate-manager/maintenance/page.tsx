@@ -32,6 +32,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Filter, Calendar, User, Building2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 type TicketStatus = 'open' | 'assigned' | 'in_progress' | 'resolved' | 'closed';
 
@@ -71,24 +72,20 @@ export default function MaintenancePage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground">No organization found</p>
+        <Building2 className="h-16 w-16 text-on-surface-variant mb-4" />
+        <p className="text-on-surface-variant">No organization found</p>
       </div>
     );
   }
 
   const tickets = ticketsData?.data || [];
 
-  // Filter tickets
   const filteredTickets = tickets.filter((ticket: any) => {
-    const matchesPriority =
-      priorityFilter === 'all' || ticket.priority === priorityFilter;
-    const matchesAssignee =
-      assigneeFilter === 'all' || ticket.assignedTo === assigneeFilter;
+    const matchesPriority = priorityFilter === 'all' || ticket.priority === priorityFilter;
+    const matchesAssignee = assigneeFilter === 'all' || ticket.assignedTo === assigneeFilter;
     return matchesPriority && matchesAssignee;
   });
 
-  // Group tickets by status
   const ticketsByStatus: Record<TicketStatus, any[]> = {
     open: [],
     assigned: [],
@@ -124,11 +121,11 @@ export default function MaintenancePage() {
     }
   };
 
-  const columns: { status: TicketStatus; label: string; color: string }[] = [
-    { status: 'open', label: 'Open', color: 'bg-red-100 border-red-200' },
-    { status: 'assigned', label: 'Assigned', color: 'bg-blue-100 border-blue-200' },
-    { status: 'in_progress', label: 'In Progress', color: 'bg-yellow-100 border-yellow-200' },
-    { status: 'resolved', label: 'Resolved', color: 'bg-green-100 border-green-200' },
+  const columns: { status: TicketStatus; label: string }[] = [
+    { status: 'open', label: 'Open' },
+    { status: 'assigned', label: 'Assigned' },
+    { status: 'in_progress', label: 'In Progress' },
+    { status: 'resolved', label: 'Resolved' },
   ];
 
   return (
@@ -136,24 +133,17 @@ export default function MaintenancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Maintenance Tickets</h1>
-          <p className="text-muted-foreground">
-            Track and manage maintenance requests
-          </p>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Maintenance Tickets</h1>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Track and manage maintenance requests</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Create Ticket
-            </Button>
+            <Button><Plus className="mr-2 h-4 w-4" /> Create Ticket</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create Maintenance Ticket</DialogTitle>
-              <DialogDescription>
-                Report a new maintenance issue
-              </DialogDescription>
+              <DialogDescription>Report a new maintenance issue</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
@@ -225,7 +215,7 @@ export default function MaintenancePage() {
                 <SelectItem value="unassigned">Unassigned</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex-1 text-sm text-muted-foreground flex items-center">
+            <div className="flex-1 text-xs font-label-md uppercase tracking-wider flex items-center" style={{ color: 'text-on-surface-variant' }}>
               <Filter className="h-4 w-4 mr-2" />
               {filteredTickets.length} tickets
             </div>
@@ -235,14 +225,12 @@ export default function MaintenancePage() {
 
       {/* Kanban Board */}
       <div className="grid gap-4 md:grid-cols-4">
-        {columns.map(({ status, label, color }) => (
-          <Card key={status} className={`bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 ${color} animate-fadeIn`}>
+        {columns.map(({ status, label }) => (
+          <Card key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-semibold flex items-center justify-between">
                 <span>{label}</span>
-                <Badge variant="secondary">
-                  {ticketsByStatus[status].length}
-                </Badge>
+                <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -251,62 +239,29 @@ export default function MaintenancePage() {
                   <Card key={ticket.id} className="bg-surface-container-lowest">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex items-start justify-between">
-                        <h4 className="font-medium text-sm line-clamp-2">
-                          {ticket.title}
-                        </h4>
-                        <Badge
-                          variant={
-                            priorityConfig[
-                              ticket.priority as keyof typeof priorityConfig
-                            ]?.variant || 'default'
-                          }
-                          className="ml-2 shrink-0"
-                        >
+                        <h4 className="font-medium text-sm line-clamp-2">{ticket.title}</h4>
+                        <Badge variant={priorityConfig[ticket.priority as keyof typeof priorityConfig]?.variant || 'default'} className="ml-2 shrink-0">
                           {ticket.priority}
                         </Badge>
                       </div>
-
                       {ticket.listing && (
-                        <p className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Building2 className="h-3 w-3" />
-                          {ticket.listing.title}
+                        <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-on-surface-variant' }}>
+                          <Building2 className="h-3 w-3" /> {ticket.listing.title}
                         </p>
                       )}
-
                       {ticket.assignedToUser && (
-                        <p className="text-xs text-muted-foreground flex items-center gap-1">
-                          <User className="h-3 w-3" />
-                          {ticket.assignedToUser.fullName}
+                        <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-on-surface-variant' }}>
+                          <User className="h-3 w-3" /> {ticket.assignedToUser.fullName}
                         </p>
                       )}
-
-                      <p className="text-xs text-muted-foreground flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(ticket.createdAt).toLocaleDateString()}
+                      <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-on-surface-variant' }}>
+                        <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
-
-                      <Select
-                        value={ticket.status}
-                        onValueChange={(value) =>
-                          handleStatusChange(ticket.id, value as TicketStatus)
-                        }
-                      >
-                        <SelectTrigger className="h-8 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="open">Open</SelectItem>
-                          <SelectItem value="assigned">Assigned</SelectItem>
-                          <SelectItem value="in_progress">In Progress</SelectItem>
-                          <SelectItem value="resolved">Resolved</SelectItem>
-                          <SelectItem value="closed">Closed</SelectItem>
-                        </SelectContent>
-                      </Select>
                     </CardContent>
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-8 text-sm text-muted-foreground">
+                <div className="text-center py-8 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
                   No tickets
                 </div>
               )}

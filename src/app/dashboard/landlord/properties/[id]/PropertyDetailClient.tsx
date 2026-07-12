@@ -140,7 +140,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-on-surface-variant border border-outline-variant">
           {verification.overallStatus}
         </span>
       );
@@ -197,7 +197,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
   const statusColors: Record<string, { class: string; label: string }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started' },
-    in_progress: { class: 'tag-blue', label: 'In Progress' },
+    in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress' },
     certified: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Verified ✓' },
     rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected' },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
@@ -225,7 +225,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           Properties
         </Link>
         <span>/</span>
-        <span style={{ color: 'var(--text)' }} className="font-medium truncate">
+        <span className="text-primary" className="font-medium truncate">
           {listing.title}
         </span>
       </nav>
@@ -259,12 +259,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === tab.id ? 'border-primary' : 'border-transparent'
+              activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-on-surface-variant'
             }`}
-            style={{
-              color: activeTab === tab.id ? 'var(--accent)' : 'var(--muted)',
-              borderBottomColor: activeTab === tab.id ? 'var(--accent)' : 'transparent',
-            }}
           >
             {tab.icon}
             {tab.label}
@@ -518,8 +514,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </p>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
-            <div className="flex items-center gap-2 p-3 rounded-lg mb-4" style={{ background: 'var(--accent-bg)', border: '1px solid var(--accent)' }}>
-              <AlertTriangle className="h-4 w-4" style={{ color: 'var(--accent)' }} />
+            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-primary/10 text-primary border border-primary">
+              <AlertTriangle className="h-4 w-4 text-primary" />
               <p className="text-sm text-primary">
                 Amenity updates will be reviewed during verification.
               </p>
@@ -530,8 +526,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             {amenities.map((amenity) => (
               <span
                 key={amenity}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm"
-                style={{ background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent)' }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm bg-primary/10 text-primary border border-primary/20"
               >
                 {AMENITY_ICON_MAP[amenity]}
                 {amenity}

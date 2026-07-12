@@ -57,8 +57,8 @@ export default function SubscriptionPage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground">No organization found</p>
+        <Building2 className="h-16 w-16 text-on-surface-variant mb-4" />
+        <p className="text-on-surface-variant">No organization found</p>
       </div>
     );
   }
@@ -138,7 +138,7 @@ export default function SubscriptionPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Subscription & Billing</h1>
-        <p className="text-muted-foreground">
+        <p className="text-on-surface-variant">
           Manage your subscription plan and billing
         </p>
       </div>
@@ -155,7 +155,7 @@ export default function SubscriptionPage() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-2xl font-bold capitalize">{org.planTier} Plan</h3>
-              <p className="text-muted-foreground">
+              <p className="text-on-surface-variant">
                 ₦{plans.find((p) => p.current)?.price.toLocaleString()}/month
               </p>
             </div>
@@ -169,7 +169,7 @@ export default function SubscriptionPage() {
             {usageStats.map((stat) => (
               <div key={stat.label}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">{stat.label}</span>
+                  <span className="text-sm text-on-surface-variant">{stat.label}</span>
                   <span className="text-sm font-medium">
                     {stat.used} / {stat.limit}
                   </span>
@@ -214,10 +214,10 @@ export default function SubscriptionPage() {
                 )}
                 <CardTitle>{plan.name}</CardTitle>
                 <CardDescription>
-                  <span className="text-3xl font-bold text-foreground">
+                  <span className="text-3xl font-bold text-primary">
                     ₦{plan.price.toLocaleString()}
                   </span>
-                  <span className="text-muted-foreground">/{plan.period}</span>
+                  <span className="text-on-surface-variant">/{plan.period}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -299,8 +299,8 @@ export default function SubscriptionPage() {
             </Table>
           ) : (
             <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <p className="text-muted-foreground">No billing history</p>
+              <FileText className="h-12 w-12 mx-auto mb-4 text-on-surface-variant opacity-50" />
+              <p className="text-on-surface-variant">No billing history</p>
             </div>
           )}
         </CardContent>

@@ -147,8 +147,8 @@ export default function VacanciesClient({ userId }: { userId: string }) {
   function StatusBadge({ status }: { status: VacancyStatus }) {
     const config: Record<VacancyStatus, string> = {
       open: 'bg-success/10 text-success border-success/20',
-      filled: 'bg-accent/10 text-accent border-accent/20',
-      closed: 'bg-muted/30 text-muted-foreground border-muted/50',
+      filled: 'bg-primary/10 text-primary border-primary/20',
+      closed: 'bg-muted/30 text-on-surface-variant border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
     };
     const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -157,36 +157,36 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function VacancyTableSkeleton() {
     return (
-      <div className="card overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b" className="border-border">
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+            <tr className="border-border">
+              <th className="text-on-surface-variant">
                 Property
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Type
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Status
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Rent
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Applicants
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Listed
               </th>
-              <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-b" className="border-border">
+              <tr key={i} className="border-border">
                 <td className="p-4">
                   <Skeleton className="h-5 w-48 mb-1" />
                   <Skeleton className="h-3 w-32" />
@@ -221,13 +221,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1
-            className="font-heading font-bold"
-            style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
-          >
+          <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-primary">
             Vacancies
           </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-on-surface-variant">
             Track active vacancies, applicants count, and listing performance
           </p>
         </div>
@@ -270,10 +267,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="card p-4">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" className="text-muted-foreground" />
+            <Search className="text-on-surface-variant" />
             <input
               type="text"
               placeholder="Search property or location..."
@@ -283,7 +280,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4" className="text-muted-foreground" />
+            <Filter className="text-on-surface-variant" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
@@ -312,12 +309,12 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         skeleton={<VacancyTableSkeleton />}
       >
         {filteredVacancies.length === 0 ? (
-          <div className="card-body text-center py-16">
-            <Search className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-            <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
+            <Search className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" style={{ opacity: 0.5 }} />
+            <h3 className="text-primary">
               No vacancies found
             </h3>
-            <p className="text-muted-foreground">
+            <p className="text-on-surface-variant">
               {searchQuery || filterStatus !== 'all'
                 ? 'Try adjusting your filters to see more results.'
                 : 'Vacancies will appear here once you list your properties.'}
@@ -330,78 +327,76 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             )}
           </div>
         ) : (
-          <div className="card overflow-hidden">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b" className="border-border">
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                  <tr className="border-border">
+                    <th className="text-on-surface-variant">
                       Property
                     </th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Type
                     </th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Status
                     </th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Rent
                     </th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Applicants
                     </th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Days Listed
                     </th>
-                    <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
+                    <th className="text-on-surface-variant">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredVacancies.map((vacancy) => (
-                    <tr key={vacancy.id} className="border-b" className="border-border">
+                    <tr key={vacancy.id} className="border-border">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div
-                            className="w-10 h-10 rounded-lg flex items-center justify-center"
-                            className="bg-accent/10 text-accent"
+                            className="bg-primary/10 text-primary"
                           >
                             <HomeIcon className="w-5 h-5" />
                           </div>
                           <div>
                             <Link
                               href={`/dashboard/landlord/properties/${vacancy.propertyId}`}
-                              className="font-medium hover:underline"
                               className="text-primary"
                             >
                               {vacancy.property}
                             </Link>
-                            <p className="text-xs" className="text-muted-foreground">
+                            <p className="text-on-surface-variant">
                               {vacancy.location}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="tag bg-accent/10 text-accent border-accent/20">{vacancy.type}</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-on-surface-variant border border-outline-variant">{vacancy.type}</span>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={vacancy.status} />
                       </td>
-                      <td className="p-4 font-medium" className="text-primary">
+                      <td className="text-primary">
                         {vacancy.rent}
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-1">
-                          <Users className="h-3 w-3" className="text-muted-foreground" />
+                          <Users className="text-on-surface-variant" />
                           <span className="text-primary">{vacancy.applicants}</span>
                         </div>
                       </td>
                       <td className="p-4">
                         <span
                           className="flex items-center gap-1"
-                          style={{ color: vacancy.daysListed > 30 ? 'var(--red)' : 'var(--text)' }}
+                          className={vacancy.daysListed > 30 ? 'text-destructive' : 'text-primary'}
                         >
                           <Clock className="h-3 w-3" />
                           {vacancy.daysListed} days
@@ -450,26 +445,26 @@ function StatCard({
   trendPositive?: boolean;
 }) {
   return (
-    <div className="card p-6">
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium mb-1" className="text-muted-foreground">
+          <p className="text-on-surface-variant">
             {label}
           </p>
-          <p className="text-2xl font-heading font-bold" className="text-primary">
+          <p className="text-primary">
             {value}
           </p>
         </div>
-        <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
+        <div className="bg-primary/10 text-primary">
           {icon}
         </div>
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-destructive'}`}>
             {trendPositive ? '↑' : '↓'}
           </span>
-          <span className="text-xs" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+          <span className={`text-xs ${trendPositive ? 'text-success' : 'text-destructive'}`}>
             {trend}
           </span>
         </div>

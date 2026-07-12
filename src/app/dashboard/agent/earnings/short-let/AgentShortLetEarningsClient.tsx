@@ -100,18 +100,18 @@ export default function AgentShortLetEarningsClient() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold">Short-let Revenue</h1>
-        <p className="mt-2 text-muted-foreground">Track earnings, occupancy, and payouts.</p>
+        <h1 className="text-headline-sm font-bold">Short-let Revenue</h1>
+        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Track earnings, occupancy, and payouts.</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="md:col-span-2 bg-primary text-primary-foreground relative overflow-hidden">
           <CardContent className="p-6 relative z-10">
-            <p className="text-xs uppercase tracking-widest opacity-80">Available Revenue</p>
-            <h2 className="text-3xl font-bold mt-2">₦12,450,000.00</h2>
+            <p className="text-xs font-label-md uppercase tracking-wider opacity-80">Available Revenue</p>
+            <h2 className="text-headline-sm font-bold mt-2">₦12,450,000.00</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Button className="bg-amber-500 text-primary hover:brightness-110">
+              <Button className="bg-warning text-primary hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
               <Button variant="outline" className="border-white/20 text-white hover:bg-surface-container-lowest/10">
@@ -119,32 +119,32 @@ export default function AgentShortLetEarningsClient() {
               </Button>
             </div>
           </CardContent>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-amber-500 opacity-10 rounded-full blur-3xl" />
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-warning opacity-10 rounded-full blur-3xl" />
         </Card>
 
         <Card>
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Occupancy Rate</p>
-              <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">+12%</span>
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Occupancy Rate</p>
+              <span className="bg-success/10 text-success px-2 py-1 rounded text-xs font-bold border border-outline-variant">+12%</span>
             </div>
-            <h3 className="text-2xl font-bold mt-2">{occupancy}%</h3>
+            <h3 className="text-headline-sm font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs text-muted-foreground mt-2">Average across 14 properties</p>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-2" style={{ color: 'text-on-surface-variant' }}>Average across 14 properties</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Next Payout</p>
-            <h3 className="text-2xl font-bold mt-2">{nextPayout}</h3>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Next Payout</p>
+            <h3 className="text-headline-sm font-bold mt-2">{nextPayout}</h3>
             <div className="flex items-center gap-3 mt-4">
-              <div className="p-2 bg-amber-100 rounded-lg">
-                <TrendingUp className="h-4 w-4 text-amber-600" />
+              <div className="p-2 bg-warning/10 rounded-lg">
+                <TrendingUp className="h-4 w-4 text-warning" />
               </div>
               <div>
                 <p className="text-sm font-bold">₦{nextPayoutAmount.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">Estimated amount</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Estimated amount</p>
               </div>
             </div>
           </CardContent>
@@ -156,8 +156,8 @@ export default function AgentShortLetEarningsClient() {
         <Card className="lg:col-span-2">
           <CardHeader className="pb-4 flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Revenue Forecast</CardTitle>
-              <p className="text-sm text-muted-foreground">May 2024 Bookings</p>
+              <CardTitle className="text-headline-sm">Revenue Forecast</CardTitle>
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>May 2024 Bookings</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -170,38 +170,38 @@ export default function AgentShortLetEarningsClient() {
           </CardHeader>
           <CardContent>
             <div className="min-w-[600px] grid grid-cols-7 gap-2">
-              <div className="text-center text-xs font-bold text-muted-foreground py-2">MON</div>
-              <div className="text-center text-xs font-bold text-muted-foreground py-2">TUE</div>
-              <div className="text-center text-xs font-bold text-muted-foreground py-2">WED</div>
-              <div className="text-center text-xs font-bold text-muted-foreground py-2">THU</div>
-              <div className="text-center text-xs font-bold text-muted-foreground py-2">FRI</div>
-              <div className="text-center text-xs font-bold text-amber-600 py-2">SAT</div>
-              <div className="text-center text-xs font-bold text-amber-600 py-2">SUN</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>MON</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>TUE</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>WED</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>THU</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>FRI</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>SAT</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>SUN</div>
               {calendarDays.map((d) => (
                 <div
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-lg border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-muted border-border opacity-40' : 'bg-surface-container-lowest border-border hover:border-primary cursor-pointer',
+                    d.disabled ? 'bg-muted border-outline-variant opacity-40' : 'bg-surface-container-lowest border-outline-variant hover:border-primary cursor-pointer',
                     d.active ? 'bg-primary text-white border-primary' : '',
-                    d.peak ? 'bg-amber-500 text-white border-amber-500' : ''
+                    d.peak ? 'bg-warning text-white border-warning' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
                   {d.revenue && (
                     <div>
-                      <span className={cn('text-[10px] font-bold', d.active || d.peak ? 'text-white' : 'text-green-700')}>
+                      <span className={cn('text-[10px] font-label-md uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-success')}>
                         ₦{(d.revenue / 1000).toFixed(0)}k
                       </span>
                       {(d.active || d.peak) && (
-                        <div className="h-1 w-full bg-amber-300 rounded-full mt-1" />
+                        <div className="h-1 w-full bg-warning/60 rounded-full mt-1" />
                       )}
                     </div>
                   )}
                   {d.blocked && (
-                    <div className="flex items-center gap-1 text-muted-foreground">
+                    <div className="flex items-center gap-1" style={{ color: 'text-on-surface-variant' }}>
                       <Wrench className="h-3 w-3" />
-                      <span className="text-[10px]">Blocked</span>
+                      <span className="text-[10px] font-label-md uppercase tracking-wider">Blocked</span>
                     </div>
                   )}
                 </div>
@@ -212,32 +212,32 @@ export default function AgentShortLetEarningsClient() {
 
         <Card className="flex flex-col">
           <CardHeader>
-            <CardTitle className="text-lg">Revenue Breakdown</CardTitle>
+            <CardTitle className="text-headline-sm">Revenue Breakdown</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6 flex-1">
             {breakdown.map((item) => (
               <div key={item.label} className="space-y-2">
                 <div className="flex justify-between text-sm font-mono">
-                  <span className={item.value.startsWith('-') ? 'text-muted-foreground' : ''}>
+                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-on-surface-variant' : '')}>
                     {item.label}
                   </span>
-                  <span className={item.value.startsWith('-') ? 'text-red-500' : ''}>{item.value}</span>
+                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-destructive' : '')}>{item.value}</span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-3">
                   <div
-                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-red-500/60' : 'bg-primary')}
+                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-destructive/60' : 'bg-primary')}
                     style={{ width: `${Math.min(item.pct, 100)}%` }}
                   />
                 </div>
               </div>
             ))}
-            <div className="pt-6 mt-6 border-t border-border">
+            <div className="pt-6 mt-6 border-t border-outline-variant">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-xs uppercase text-muted-foreground">Net Revenue</p>
-                  <p className="text-2xl font-bold text-green-600">₦12,450,000</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Net Revenue</p>
+                  <p className="text-headline-sm font-bold text-success">₦12,450,000</p>
                 </div>
-                <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
+                <div className="bg-success/10 text-success px-3 py-1 rounded-full text-xs font-bold border border-outline-variant">
                   VERIFIED
                 </div>
               </div>
@@ -249,48 +249,48 @@ export default function AgentShortLetEarningsClient() {
       {/* Recent Completed Stays */}
       <Card>
         <CardHeader className="pb-4 flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">Recent Completed Stays</CardTitle>
+          <CardTitle className="text-headline-sm">Recent Completed Stays</CardTitle>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Download Report
           </Button>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-muted/50 text-muted-foreground">
+            <thead className="bg-muted/50" style={{ color: 'text-on-surface-variant' }}>
               <tr>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Property & Guest</th>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Stay Dates</th>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Gross Amount</th>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Service Fee</th>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Net Payout</th>
-                <th className="px-4 py-3 text-xs uppercase tracking-wider">Status</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Property & Guest</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Stay Dates</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Gross Amount</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Service Fee</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Net Payout</th>
+                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-outline-variant">
               {initialStays.map((stay) => (
                 <tr key={stay.id} className="hover:bg-muted/30 transition-colors">
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                        <CalendarDays className="h-5 w-5 text-muted-foreground" />
+                        <CalendarDays className="h-5 w-5" style={{ color: 'text-on-surface-variant' }} />
                       </div>
                       <div>
-                        <p className="font-bold text-sm">{stay.property}</p>
-                        <p className="text-xs text-muted-foreground">Guest: {stay.guest}</p>
+                        <p className="text-sm font-bold">{stay.property}</p>
+                        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Guest: {stay.guest}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm">
+                  <td className="px-4 py-4 text-xs font-label-md uppercase tracking-wider">
                     {stay.dates}
-                    <span className="text-xs text-muted-foreground block">({stay.nights} nights)</span>
+                    <span className="text-xs font-label-md uppercase tracking-wider block" style={{ color: 'text-on-surface-variant' }}>({stay.nights} nights)</span>
                   </td>
                   <td className="px-4 py-4 text-sm font-mono">₦{stay.gross.toLocaleString()}</td>
-                  <td className="px-4 py-4 text-sm text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>
+                  <td className="px-4 py-4 text-sm font-label-md uppercase tracking-wider text-destructive">-₦{stay.serviceFee.toLocaleString()}</td>
                   <td className="px-4 py-4 text-sm font-bold">₦{stay.net.toLocaleString()}</td>
                   <td className="px-4 py-4">
                     <Badge
                       variant={stay.status === 'Settled' ? 'default' : 'secondary'}
-                      className="bg-green-100 text-green-700 hover:bg-green-100"
+                      className="bg-success/10 text-success hover:bg-success/10"
                     >
                       {stay.status}
                     </Badge>

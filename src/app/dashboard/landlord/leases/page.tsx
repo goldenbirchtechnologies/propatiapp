@@ -20,13 +20,13 @@ interface LeaseRow {
 function StatusBadge({ status }: { status: LeaseStatus }) {
   const map: Record<LeaseStatus, string> = {
     active: 'bg-success-bright/10 text-success border-success-bright/20',
-    pending: 'tag-blue',
+    pending: 'bg-primary/10 text-primary border-primary/20',
     expiring_soon: 'bg-warning/10 text-warning border-warning/20',
     expired: 'bg-destructive/10 text-destructive border-destructive/20',
     terminated: 'bg-surface-container text-on-surface-variant border-outline-variant',
   };
   const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-  return <span className={`tag ${map[status] || 'bg-surface-container text-on-surface-variant border-outline-variant'}`}>{label}</span>;
+  return <span className={map[status] || 'bg-surface-container text-on-surface-variant border-outline-variant'}>{label}</span>;
 }
 
 export default function LandlordLeasesPage() {
@@ -172,7 +172,7 @@ export default function LandlordLeasesPage() {
                   <tr key={lease.id} className="border-b border-outline-variant">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-primary/10 text-primary">
                           <Users className="w-5 h-5" />
                         </div>
                         <p className="font-medium text-primary">{lease.property}</p>
@@ -180,7 +180,7 @@ export default function LandlordLeasesPage() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-sm" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent2))' }}>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-sm bg-gradient-to-br from-primary to-accent">
                           {lease.tenant.charAt(0)}
                         </div>
                         <p className="font-medium text-primary">{lease.tenant}</p>
@@ -209,7 +209,7 @@ function StatCard({ label, value, icon, trend, trendPositive = true }: { label: 
           <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">{label}</p>
           <p className="font-headline-md text-headline-md text-primary">{value}</p>
         </div>
-        <div className="rounded-xl p-3" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>
+        <div className="rounded-xl p-3 bg-primary/10 text-primary">
           {icon}
         </div>
       </div>

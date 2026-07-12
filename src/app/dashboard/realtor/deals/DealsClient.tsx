@@ -85,16 +85,16 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+          <h1 className="font-heading font-bold text-headline-sm text-primary" >
             Deal Pipeline
           </h1>
-          <p className="text-sm" style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-sm text-on-surface-variant mt-1" >
             Track your buy and sell deals.
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant"  />
             <input
               type="text"
               placeholder="Search deals..."
@@ -107,7 +107,7 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
         </div>
       </div>
 
-      <div className="flex gap-2 border-b" style={{ borderColor: 'var(--border)' }}>
+      <div className="flex gap-2 border-b border-outline-variant" >
         <button
           onClick={() => {
             setActiveTab('buy');
@@ -115,7 +115,7 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
           }}
           className={cn(
             'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
-            activeTab === 'buy' ? 'border-blue-500 text-blue-600' : 'border-transparent hover:text-blue-500'
+            activeTab === 'buy' ? 'border-primary text-primary' : 'border-transparent hover:text-primary'
           )}
         >
           Buy Pipeline
@@ -127,7 +127,7 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
           }}
           className={cn(
             'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
-            activeTab === 'sell' ? 'border-residential-teal text-residential-teal' : 'border-transparent hover:text-residential-teal'
+            activeTab === 'sell' ? 'border-primary text-primary' : 'border-transparent hover:text-primary'
           )}
         >
           Sell Pipeline
@@ -137,10 +137,10 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm font-medium mb-1 text-on-surface-variant" >
               Total Value
             </p>
-            <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>
+            <p className="text-2xl font-heading font-bold text-primary" >
               ₦{(totalValue / 1000000).toFixed(1)}M
             </p>
           </CardContent>
@@ -148,8 +148,8 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
         {filteredStages.map((stage) => (
           <Card key={stage.id}>
             <CardContent className="p-6">
-              <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{stage.title}</p>
-              <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{stage.count}</p>
+              <p className="text-sm font-medium mb-1 text-on-surface-variant" >{stage.title}</p>
+              <p className="text-2xl font-heading font-bold text-primary" >{stage.count}</p>
             </CardContent>
           </Card>
         ))}
@@ -161,26 +161,26 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
             <Card className="h-full flex flex-col">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base" style={{ color: 'var(--text)' }}>
+                  <CardTitle className="text-base text-primary" >
                     {stage.title}
                   </CardTitle>
                   <Badge variant="secondary" className="text-xs font-bold">{stage.count}</Badge>
                 </div>
               </CardHeader>
               <CardContent className="flex-1 p-0">
-                <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'var(--surface)' }}>
+                <div className="p-3 space-y-3 min-h-[400px] bg-surface-container" >
                   {(currentDeals[stage.id] || []).map((deal) => (
                     <Link key={deal.id} href={`/dashboard/realtor/deals/${deal.id}`} className="block">
-                      <Card className="p-3 cursor-pointer transition-all hover:shadow-md" style={{ background: 'var(--surface-elevated)', border: '1px solid var(--border)' }}>
-                        <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{deal.title}</p>
-                        <p className="text-xs" style={{ color: 'var(--muted)' }}>Client: {deal.client}</p>
-                        <p className="text-sm font-bold mt-2" style={{ color: 'var(--text)' }}>₦{deal.value.toLocaleString()}</p>
+                      <Card className="p-3 cursor-pointer transition-all hover:shadow-md bg-surface-container-low border border-outline-variant" >
+                        <p className="font-medium text-sm truncate text-primary" >{deal.title}</p>
+                        <p className="text-xs text-on-surface-variant" >Client: {deal.client}</p>
+                        <p className="text-sm font-bold mt-2 text-primary" >₦{deal.value.toLocaleString()}</p>
                       </Card>
                     </Link>
                   ))}
                   {(currentDeals[stage.id] || []).length === 0 && (
-                    <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed var(--border)' }}>
-                      <span className="text-sm" style={{ color: 'var(--muted)' }}>No deals here</span>
+                    <div className="h-32 flex items-center justify-center border-2 border-dashed border-outline-variant" >
+                      <span className="text-sm text-on-surface-variant" >No deals here</span>
                     </div>
                   )}
                 </div>

@@ -156,8 +156,8 @@ export default function TeamManagementPage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground">No organization found</p>
+        <Building2 className="h-16 w-16 text-on-surface-variant mb-4" />
+        <p className="text-on-surface-variant">No organization found</p>
       </div>
     );
   }
@@ -186,7 +186,7 @@ export default function TeamManagementPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Team Management</h1>
-          <p className="text-muted-foreground">
+          <p className="text-on-surface-variant">
             Manage team members and their roles
           </p>
         </div>
@@ -245,11 +245,11 @@ export default function TeamManagementPage() {
         <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Members</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-on-surface-variant" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{members.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-on-surface-variant">
               {org.maxSeats} seats available
             </p>
           </CardContent>
@@ -367,8 +367,8 @@ export default function TeamManagementPage() {
             </Table>
           ) : (
             <div className="text-center py-12">
-              <Users className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <p className="text-muted-foreground">No team members</p>
+              <Users className="h-12 w-12 mx-auto mb-4 text-on-surface-variant opacity-50" />
+              <p className="text-on-surface-variant">No team members</p>
               <Button
                 className="mt-4"
                 variant="outline"

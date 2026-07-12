@@ -56,16 +56,16 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
             Deal Pipeline
           </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>
             Track deals across enquiries, viewings, offers, agreements, and closed
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
             <input
               type="text"
               placeholder="Search deals..."
@@ -113,10 +113,10 @@ function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; 
           </div>
         </CardHeader>
         <CardContent className="flex-1 p-0">
-          <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'var(--surface)' }}>
+          <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'bg-surface-container-lowest' }}>
             {deals.length === 0 ? (
-              <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed var(--border)', borderRadius: 'var(--radius-lg)' }}>
-                <span className="text-sm" style={{ color: 'var(--muted)' }}>No deals in this stage</span>
+              <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed border-outline-variant', borderRadius: 'rounded-xl' }}>
+                <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>No deals in this stage</span>
               </div>
             ) : (
               deals.map((deal) => <DealCard key={deal.id} deal={deal} color={color} />)
@@ -135,8 +135,8 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
     <div
       className="p-3 rounded-lg cursor-pointer transition-all"
       style={{
-        background: 'var(--surface-elevated)',
-        border: '1px solid var(--border)',
+        background: 'bg-surface-container-low',
+        border: '1px solid border-outline-variant',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}
       onClick={() => setExpanded(!expanded)}
@@ -144,42 +144,42 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{deal.title}</span>
+            <span className="text-sm font-medium truncate" style={{ color: 'text-primary' }}>{deal.title}</span>
             <Badge variant="outline" className="text-xs">{deal.property}</Badge>
           </div>
-          <p className="text-xs" style={{ color: 'var(--muted)' }}>Client: {deal.client}</p>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Client: {deal.client}</p>
         </div>
         <div className="flex items-center gap-1">
-          <GripVertical className="w-4 h-4" style={{ color: 'var(--muted)', cursor: 'grab' }} />
+          <GripVertical className="w-4 h-4" style={{ color: 'text-on-surface-variant', cursor: 'grab' }} />
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" style={{ borderColor: 'border-outline-variant', color: 'text-on-surface-variant' }}>
         <span>₦{deal.value.toLocaleString()}</span>
         <span>{deal.lastContact}</span>
       </div>
 
       {expanded && (
-        <div className="mt-3 p-3 rounded-lg" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+        <div className="mt-3 p-3 rounded-lg" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span style={{ color: 'var(--muted)' }}>Property:</span>
-              <span style={{ color: 'var(--text)' }}>{deal.property}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Property:</span>
+              <span style={{ color: 'text-primary' }}>{deal.property}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: 'var(--muted)' }}>Client:</span>
-              <span style={{ color: 'var(--text)' }}>{deal.client}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Client:</span>
+              <span style={{ color: 'text-primary' }}>{deal.client}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: 'var(--muted)' }}>Value:</span>
-              <span className="font-medium" style={{ color: 'var(--text)' }}>₦{deal.value.toLocaleString()}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Value:</span>
+              <span className="text-sm font-medium" style={{ color: 'text-primary' }}>₦{deal.value.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: 'var(--muted)' }}>Last Contact:</span>
-              <span style={{ color: 'var(--text)' }}>{deal.lastContact}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Last Contact:</span>
+              <span style={{ color: 'text-primary' }}>{deal.lastContact}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'border-outline-variant' }}>
             <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
             <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
             <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>
@@ -197,17 +197,17 @@ function StatCard({ label, value, icon: Icon, trend, trendPositive = true }: { l
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>{label}</p>
-            <p className="text-2xl font-heading font-bold" style={{ color: 'var(--text)' }}>{value}</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{label}</p>
+            <p className="text-2xl font-headline-sm font-bold" style={{ color: 'text-primary' }}>{value}</p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}>{Icon}</div>
+          <div className="p-3 rounded-xl" style={{ background: 'bg-primary/10', color: 'text-primary' }}>{Icon}</div>
         </div>
         {trend && (
           <div className="mt-4 flex items-center gap-1">
-            <span className="text-xs font-medium" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+            <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: trendPositive ? 'text-success' : 'var(--red)' }}>
               {trendPositive ? '↑' : '↓'}
             </span>
-            <span className="text-xs" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>{trend}</span>
+            <span className="text-xs" style={{ color: trendPositive ? 'text-success' : 'var(--red)' }}>{trend}</span>
           </div>
         )}
       </CardContent>

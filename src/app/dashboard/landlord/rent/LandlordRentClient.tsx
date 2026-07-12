@@ -84,25 +84,25 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
     trendPositive?: boolean;
   }) {
     return (
-      <div className="card p-6">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1" className="text-muted-foreground">
+            <p className="text-on-surface-variant">
               {label}
             </p>
-            <p className="text-2xl font-heading font-bold" className="text-primary">
+            <p className="text-primary">
               {value}
             </p>
           </div>
-          <div className="p-3 rounded-xl" className="bg-accent/10 text-accent">
+          <div className="bg-primary/10 text-primary">
             {Icon}
           </div>
         </div>
         <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+          <span className="text-xs font-medium" className={trendPositive ? 'text-success' : 'text-destructive'}>
             {trendPositive ? '↑' : '↓'}
           </span>
-          <span className="text-xs" style={{ color: trendPositive ? 'var(--green)' : 'var(--red)' }}>
+          <span className="text-xs" className={trendPositive ? 'text-success' : 'text-destructive'}>
             {trend}
           </span>
         </div>
@@ -113,47 +113,47 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
   function TransactionStatusBadge({ status }: { status: string }) {
     const config: Record<string, { class: string; label: string }> = {
       released: { class: 'bg-success/10 text-success border-success/20', label: 'Released' },
-      in_escrow: { class: 'bg-accent/10 text-accent border-accent/20', label: 'In Escrow' },
+      in_escrow: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Escrow' },
       pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
       failed: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Failed' },
       refunded: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'bg-muted/30 text-muted-foreground border-muted/50', label: status };
+    const cfg = config[status] || { class: 'bg-muted/30 text-on-surface-variant border-muted/50', label: status };
     return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
   }
 
   function RentTableSkeleton() {
     return (
-      <div className="card overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b" className="border-border">
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+            <tr className="border-border">
+              <th className="text-on-surface-variant">
                 Date
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Property
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Tenant
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Type
               </th>
-              <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Amount
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Status
               </th>
-              <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <th className="text-on-surface-variant">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-b" className="border-border">
+              <tr key={i} className="border-border">
                 <td className="p-4">
                   <Skeleton className="h-4 w-24" />
                 </td>
@@ -191,11 +191,11 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
         <div>
           <h1
             className="font-heading font-bold"
-            style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+            className="font-headline-sm text-headline-sm text-primary"
           >
             Rent Collection
           </h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+          <p className="text-on-surface-variant">
             Track rent payments, escrow releases, and revenue
           </p>
         </div>
@@ -234,7 +234,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="card p-4">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
         <div className="flex flex-wrap gap-4">
           <select className="inp-field flex-1 min-w-[180px]" style={{ maxWidth: '200px' }}>
             <option value="all">All Status</option>
@@ -271,48 +271,48 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <section>
         <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
           {transactions.length === 0 ? (
-            <div className="card-body text-center py-16">
-              <CurrencyIcon className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-              <h3 className="font-heading font-bold text-lg mb-2" className="text-primary">
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
+              <CurrencyIcon className="w-16 h-16 mx-auto mb-4" className="text-on-surface-variant opacity-50" />
+              <h3 className="text-primary">
                 No transactions yet
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-on-surface-variant">
                 Rent payments will appear here once tenants start paying.
               </p>
             </div>
           ) : (
-            <div className="card overflow-hidden">
+            <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b" className="border-border">
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                    <tr className="border-border">
+                      <th className="text-on-surface-variant">
                         Date
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Property
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Tenant
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Type
                       </th>
-                      <th className="text-right p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Amount
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Status
                       </th>
-                      <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                      <th className="text-on-surface-variant">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => (
-                      <tr key={tx.id} className="border-b" className="border-border">
-                        <td className="p-4" className="text-muted-foreground">
+                      <tr key={tx.id} className="border-border">
+                        <td className="text-on-surface-variant">
                           {new Date(tx.createdAt).toLocaleDateString('en-NG', {
                             day: '2-digit',
                             month: 'short',
@@ -320,22 +320,22 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                           })}
                         </td>
                         <td className="p-4">
-                          <p className="font-medium" className="text-primary">
+                          <p className="text-primary">
                             {tx.listing?.title || 'N/A'}
                           </p>
-                          <p className="text-xs" className="text-muted-foreground">
+                          <p className="text-on-surface-variant">
                             {tx.listing?.area}
                           </p>
                         </td>
                         <td className="p-4">
-                          <p className="font-medium" className="text-primary">
+                          <p className="text-primary">
                             {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                           </p>
                         </td>
                         <td className="p-4">
-                          <span className="tag bg-accent/10 text-accent border-accent/20">{tx.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-on-surface-variant border border-outline-variant">{tx.type}</span>
                         </td>
-                        <td className="p-4 text-right font-heading font-bold" className="text-primary">
+                        <td className="text-primary">
                           ₦{Number(tx.amount).toLocaleString()}
                         </td>
                         <td className="p-4">
@@ -374,26 +374,26 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
       {/* Upcoming Rent Schedule */}
       <section>
-        <h2 className="font-heading font-bold mb-6" className="text-primary">
+        <h2 className="text-primary">
           Upcoming Rent Schedule
         </h2>
-        <div className="card overflow-hidden">
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b" className="border-border">
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+              <tr className="border-border">
+                <th className="text-on-surface-variant">
                   Property
                 </th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                <th className="text-on-surface-variant">
                   Tenant
                 </th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                <th className="text-on-surface-variant">
                   Amount
                 </th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                <th className="text-on-surface-variant">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-sm font-medium" className="text-muted-foreground">
+                <th className="text-on-surface-variant">
                   Status
                 </th>
               </tr>
@@ -404,17 +404,17 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                 { property: 'Greenview Estate Unit 3', tenant: 'Jane Smith', amount: 2200000, dueDate: '2026-07-05', status: 'upcoming' },
                 { property: 'Lekki Heights Penthouse', tenant: 'Mike Johnson', amount: 5000000, dueDate: '2026-06-30', status: 'overdue' },
               ].map((item, i) => (
-                <tr key={i} className="border-b" className="border-border">
-                  <td className="p-4" className="text-primary">
+                <tr key={i} className="border-border">
+                  <td className="text-primary">
                     {item.property}
                   </td>
-                  <td className="p-4" className="text-primary">
+                  <td className="text-primary">
                     {item.tenant}
                   </td>
-                  <td className="p-4 font-medium" className="text-primary">
+                  <td className="text-primary">
                     ₦{item.amount.toLocaleString()}
                   </td>
-                  <td className="p-4" className="text-muted-foreground">
+                  <td className="text-on-surface-variant">
                     {new Date(item.dueDate).toLocaleDateString('en-NG', {
                       day: '2-digit',
                       month: 'short',

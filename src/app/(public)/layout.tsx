@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import PublicNav from '@/components/navigation/public-nav';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -26,7 +25,6 @@ export default function PublicLayout({
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <PublicNav />
 
       {/* Page Content */}
       <main className="flex-1">

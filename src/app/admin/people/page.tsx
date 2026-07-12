@@ -8,10 +8,10 @@ import PeopleClient from './PeopleClient';
 
 export default async function AdminPeoplePage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   // Fetch all users across the platform for the people directory

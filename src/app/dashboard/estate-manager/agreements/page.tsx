@@ -10,7 +10,7 @@ export default async function EstateManagerAgreementsPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect('/login');
   }
 
   const user = await getCurrentUserWithProfile();
@@ -23,7 +23,7 @@ export default async function EstateManagerAgreementsPage() {
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user) redirect("/sign-in");
+  if (!user) redirect("/login");
   if (user.role !== 'estate_manager') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   const agreements = await prisma.agreement.findMany({

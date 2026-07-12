@@ -11,7 +11,7 @@ export default async function AgentDealDetailPage({
   params: { id: string };
 }) {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'agent') redirect('/dashboard');

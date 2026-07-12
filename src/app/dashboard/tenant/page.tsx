@@ -7,7 +7,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 export default async function TenantDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/sign-in');
+    redirect('/login');
   }
 
   const displayName = user.fullName || 'User';

@@ -8,10 +8,10 @@ import AdminEngagementsClient from './EngagementsClient';
 
 export default async function AdminEngagementsPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   return (

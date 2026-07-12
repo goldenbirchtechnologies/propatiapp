@@ -6,7 +6,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // authenticated users without any infinite-render risk (no state/effects).
   const { userId } = await auth();
   if (!userId) {
-    redirect('/sign-in');
+    redirect('/login');
   }
   return <>{children}</>;
 }

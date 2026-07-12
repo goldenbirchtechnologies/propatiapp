@@ -7,7 +7,7 @@ import BusinessListingDetailClient from './BusinessListingDetailClient';
 
 export default async function AdminBusinessDetailPage({ params }: { params: { type: string } }) {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
 
@@ -19,7 +19,7 @@ export default async function AdminBusinessDetailPage({ params }: { params: { ty
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   return (

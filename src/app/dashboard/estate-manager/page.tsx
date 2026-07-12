@@ -33,7 +33,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 export default async function EstateManagerDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/sign-in');
+    redirect('/login');
   }
 
   const rolePaths: Record<string, string> = {

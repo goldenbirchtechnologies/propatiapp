@@ -8,10 +8,10 @@ import ComplianceClient, { type AuditCheck } from './ComplianceClient';
 
 export default async function AdminCompliancePage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   // Fetch platform-wide compliance signals from existing entities

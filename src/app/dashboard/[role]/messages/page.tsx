@@ -7,7 +7,7 @@ import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient'
 
 export default async function MessagesPage({ params }: { params: Promise<{ role: string }> }) {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
   const { role } = await params;

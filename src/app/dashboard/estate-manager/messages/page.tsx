@@ -7,7 +7,7 @@ import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient'
 
 export default async function EstateManagerMessagesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'estate_manager') redirect('/dashboard');

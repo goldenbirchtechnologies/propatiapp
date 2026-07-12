@@ -12,7 +12,7 @@ export default async function LandlordPropertiesPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect('/login');
   }
 
   const user = await getCurrentUserWithProfile();

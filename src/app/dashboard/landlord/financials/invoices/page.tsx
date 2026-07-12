@@ -7,7 +7,7 @@ import LandlordInvoicesClient from './LandlordInvoicesClient';
 
 export default async function LandlordInvoicesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 

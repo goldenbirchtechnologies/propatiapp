@@ -10,10 +10,10 @@ export const metadata = {
 
 export default async function VerificationFrozenPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUser();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
 
   const frozenVerifications = await prisma.verification.findMany({
     where: {

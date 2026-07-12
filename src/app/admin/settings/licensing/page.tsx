@@ -7,7 +7,7 @@ import LicensingClient from './LicensingClient';
 
 export default async function AdminLicensingPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
 
@@ -19,7 +19,7 @@ export default async function AdminLicensingPage() {
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   return (

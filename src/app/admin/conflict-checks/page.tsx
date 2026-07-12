@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminConflictChecksPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   const checks = await prisma.conflictCheck.findMany({

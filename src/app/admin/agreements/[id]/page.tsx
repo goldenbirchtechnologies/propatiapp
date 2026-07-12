@@ -10,7 +10,7 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect('/login');
   }
 
   const user = await getCurrentUserWithProfile();
@@ -23,7 +23,7 @@ export default async function AdminAgreementDetailPage({ params }: { params: { i
     estate_manager: '/dashboard/estate-manager',
     realtor: '/dashboard/realtor',
   };
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch agreement with all related data

@@ -242,10 +242,10 @@ function TimelineTab({ verification }: { verification: any }) {
 // ─── Main server component ────────────────────────────────────────────────────
 export default async function VerificationDetailPage({ params }: { params: { id: string } }) {
   const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUser();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/login');
 
   // Fetch verification + listing + documents
   const verification = await prisma.verification.findUnique({

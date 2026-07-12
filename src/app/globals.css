@@ -583,6 +583,26 @@ a:hover {
   color: var(--accent);
 }
 
+/* Tenant dashboard: force two-column shell layout for content area */
+.tenant-two-col {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.tenant-two-col .tenant-content-area {
+  flex: 1;
+  min-width: 0;
+  padding: var(--content-padding-desktop);
+}
+@media (max-width: 1024px) {
+  .tenant-two-col {
+    display: block;
+  }
+  .tenant-two-col .tenant-content-area {
+    padding: var(--content-padding-mobile);
+  }
+}
+
 /* Accessibility: reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

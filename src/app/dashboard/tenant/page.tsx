@@ -20,8 +20,7 @@ export default async function TenantDashboardPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="app-layout dashboard-two-col">
-        <div className="dashboard-content-area fade-up">
+      <div className="dashboard-content-area fade-up">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="font-headline-sm text-headline-sm text-primary">
@@ -47,7 +46,6 @@ export default async function TenantDashboardPage() {
             </div>
           </div>
         </div>
-      </div>
     </DashboardShell>
   );
 }

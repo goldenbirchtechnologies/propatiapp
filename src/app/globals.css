@@ -585,26 +585,6 @@ a:hover {
   color: var(--accent);
 }
 
-/* Tenant dashboard: force two-column shell layout for content area */
-.dashboard-two-col {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-.dashboard-two-col .dashboard-content-area {
-  flex: 1;
-  min-width: 0;
-  padding: var(--content-padding-desktop);
-}
-@media (max-width: 1024px) {
-  .dashboard-two-col {
-    display: block;
-  }
-  .dashboard-two-col .dashboard-content-area {
-    padding: var(--content-padding-mobile);
-  }
-}
-
 /* Accessibility: reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

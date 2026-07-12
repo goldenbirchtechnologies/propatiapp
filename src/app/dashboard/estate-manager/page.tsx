@@ -219,8 +219,7 @@ export default async function EstateManagerDashboardPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="app-layout dashboard-two-col">
-        <div className="dashboard-content-area fade-up">
+      <div className="dashboard-content-area fade-up">
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 overflow-hidden">
         {/* Glow Orb Background */}
         <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none -z-10" />
@@ -642,8 +641,6 @@ export default async function EstateManagerDashboardPage() {
             </div>
           </div>
         </section>
-      </div>
-      </div>
       </div>
     </DashboardShell>
   );

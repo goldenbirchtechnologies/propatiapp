@@ -91,6 +91,7 @@
   --theme-admin-accent2: #1d4ed8;
   --font-serif: 'DM Serif Display', serif;
   --font-mono: 'DM Mono', monospace;
+  --font-heading: 'Bricolage Grotesque', sans-serif;
 
   /* Font Scale */
   --text-hero: clamp(2rem, 4.5vw, 3.2rem);

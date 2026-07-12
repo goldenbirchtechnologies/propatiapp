@@ -38,7 +38,21 @@
     --verification-verified: 218 100% 7%;
     --verification-inspected: 37 92% 54%;
     --verification-certified: 159 84% 39%;
-  }
+    --surface-container: var(--background);
+    --surface-container-low: var(--muted);
+    --surface-container-high: var(--border);
+    --surface-container-highest: var(--border);
+    --surface-container-lowest: var(--background);
+    --primary-container: var(--primary);
+    --on-primary-container: var(--primary-foreground);
+    --secondary-container: var(--secondary);
+    --on-secondary-container: var(--secondary-foreground);
+    --outline-variant: var(--border);
+    --on-surface-variant: var(--muted-foreground);
+    --secondary-fixed-dim: var(--muted);
+    --tertiary-container: var(--muted);
+    --on-tertiary-container: var(--muted-foreground);
+    }
 
   .dark {
     --background: 220 17% 7%;

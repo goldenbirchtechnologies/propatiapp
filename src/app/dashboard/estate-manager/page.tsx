@@ -642,6 +642,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
         </section>
       </div>
+      </div>
     </DashboardShell>
   );
 }

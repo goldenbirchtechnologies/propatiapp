@@ -535,11 +535,6 @@ export function DashboardShell({
         className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${sidebarOpen ? 'open' : ''}`}
         role="navigation"
         aria-label="Main navigation"
-        style={{
-          background: '#06203d',
-          borderRight: '1px solid rgba(255,255,255,0.18)',
-          width: sidebarCollapsed ? '72px' : '240px',
-        }}
       >
         <style>{`
           @keyframes propLogoPop {

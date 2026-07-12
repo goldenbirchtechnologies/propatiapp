@@ -135,7 +135,7 @@
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Layout */
-  --sidebar-width: 240px;
+  --sidebar-width: 280px;
   --sidebar-width-collapsed: 72px;
   --topbar-height: 64px;
   --content-padding-desktop: 1.6rem 1.8rem;
@@ -495,53 +495,64 @@ a:hover {
 
 /* Dashboard shell layout */
 .app-layout {
-  display: flex;
+  position: relative;
   min-height: 100vh;
 }
 
 .sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  height: 100vh;
-  position: sticky;
-  top: 0;
   overflow: hidden;
+  background: #06203d;
+  border-right: 1px solid rgba(255,255,255,0.18);
+  z-index: 40;
 }
 
 .sidebar.collapsed {
   width: var(--sidebar-width-collapsed);
 }
 
-.sidebar:not(.collapsed) {
-  width: var(--sidebar-width);
+.sidebar.open {
+  transform: translateX(0);
 }
 
 .sb-user-card {
-  border-bottom: 1px solid hsl(var(--border) / 0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .sb-nav {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-md);
+  padding: 12px;
 }
 
 .sb-footer {
-  border-top: 1px solid hsl(var(--border) / 0.6);
+  border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: auto;
-  padding: var(--space-lg);
-  color: hsl(0 0% 100% / 0.5);
-  font-size: var(--text-tag);
+  padding: 16px;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+
+.main-area {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  flex: 1;
+  padding: 16px;
 }
 
 @media (max-width: 1024px) {
   .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100dvh;
-    z-index: 100;
     transform: translateX(-100%);
     transition: transform var(--transition-base) var(--easing-standard);
   }
@@ -549,17 +560,20 @@ a:hover {
   .sidebar.open {
     transform: translateX(0);
   }
+
+  .main-area {
+    margin-left: 0;
+  }
+
+  .content-area {
+    padding: 16px;
+  }
 }
 
-.main-area {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.content-area {
-  flex: 1;
+@media (min-width: 1025px) {
+  .sidebar-overlay {
+    display: none;
+  }
 }
 
 /* Selection */

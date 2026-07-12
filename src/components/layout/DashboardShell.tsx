@@ -510,10 +510,6 @@ export function DashboardShell({
   userAvatar,
   shellLoading = false,
 }: DashboardShellProps) {
-  if (shellLoading) {
-    return <LoadingShell />;
-  }
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { user } = useUser();
@@ -535,6 +531,11 @@ export function DashboardShell({
   }, [sidebarCollapsed]);
 
   const toggleSidebar = () => setSidebarCollapsed((prev) => !prev);
+
+  // Early return after hooks to avoid Rules-of-Hooks violations
+  if (shellLoading) {
+    return <LoadingShell />;
+  }
 
   const roleThemeClass = `theme-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
   const roleClass = `shell-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;

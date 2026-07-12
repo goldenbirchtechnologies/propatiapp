@@ -329,10 +329,7 @@ function LoadingShell() {
       </aside>
 
       {/* Skeleton main area */}
-      <main
-        className="main-area"
-        style={{ marginLeft: sidebarCollapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)' }}
-      >
+      <main className="main-area">
         <header
           className="topbar"
           style={{
@@ -638,10 +635,7 @@ export function DashboardShell({
         </div>
       </aside>
 
-      <main
-        className="main-area"
-        style={{ marginLeft: sidebarCollapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)' }}
-      >
+      <main className="main-area">
         <header className="topbar">
           <div className="flex items-center gap-4">
             <button

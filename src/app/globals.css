@@ -495,22 +495,22 @@ a:hover {
 
 /* Dashboard shell layout */
 .app-layout {
-  position: relative;
+  display: flex;
   min-height: 100vh;
 }
 
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
   width: var(--sidebar-width);
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background: #06203d;
   border-right: 1px solid rgba(255,255,255,0.18);
   z-index: 40;
+  overflow: hidden;
 }
 
 .sidebar.collapsed {
@@ -540,7 +540,7 @@ a:hover {
 }
 
 .main-area {
-  margin-left: var(--sidebar-width);
+  flex: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -553,6 +553,7 @@ a:hover {
 
 @media (max-width: 1024px) {
   .sidebar {
+    position: fixed;
     transform: translateX(-100%);
     transition: transform var(--transition-base) var(--easing-standard);
   }
@@ -572,7 +573,7 @@ a:hover {
 
 @media (min-width: 1025px) {
   .sidebar-overlay {
-    display: none;
+    display: none !important;
   }
 }
 

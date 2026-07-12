@@ -12,10 +12,13 @@ import twilio from 'twilio';
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || '';
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || '';
 const TWILIO_WHATSAPP_NUMBER =
-  process.env.TWILIO_WHATSAPP_NUMBER || 'whatsapp:+14155238886';
+  process.env.TWILIO_WHATSAPP_NUMBER || 'whatsapp:+141****8886';
 
-// Mock mode: enabled if Twilio credentials are not configured
-const MOCK_MODE = !TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN;
+// Mock mode: enabled if Twilio credentials look invalid or missing
+const MOCK_MODE =
+  !TWILIO_ACCOUNT_SID ||
+  !TWILIO_AUTH_TOKEN ||
+  !/^AC[0-9a-zA-Z]+$/.test(TWILIO_ACCOUNT_SID);
 
 // ===========================================================================
 // CLIENT

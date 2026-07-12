@@ -1,5 +1,5 @@
 import RealtorHomeClient from './RealtorHomeClient';
 
-export default function RealtorDashboardPage() {
+export default async function RealtorDashboardPage() {
   return <RealtorHomeClient />;
 }

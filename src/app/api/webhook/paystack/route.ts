@@ -99,14 +99,14 @@ async function handleChargeSuccess(data: any) {
   });
 
   await prisma.notification.create({
-    data: { userId: transaction.payerId, type: 'payment', title: 'Payment Successful', body: `Your payment of ₦${amountNaira.toLocaleString()} has been received and is held in escrow.`, data: { transactionId: transaction.id, reference } },
+    data: { userId: transaction.payerId, type: 'payment', title: 'Payment Successful', body: `Your payment of ₦${amountNaira.toLocaleString()} has been received and is held in escrow. Please confirm receipt.`, data: { transactionId: transaction.id, reference, action: 'confirm_payment' } },
   });
   await prisma.notification.create({
-    data: { userId: transaction.payeeId, type: 'payment', title: 'Payment Received in Escrow', body: `₦${amountNaira.toLocaleString()} has been paid and is held in escrow awaiting release.`, data: { transactionId: transaction.id, reference } },
+    data: { userId: transaction.payeeId, type: 'payment', title: 'Payment Received in Escrow', body: `₦${amountNaira.toLocaleString()} has been paid and is held in escrow. Please confirm receipt.`, data: { transactionId: transaction.id, reference, action: 'confirm_payment' } },
   });
   if (transaction.agentId) {
     await prisma.notification.create({
-      data: { userId: transaction.agentId, type: 'payment', title: 'Commission Pending', body: `A payment of ₦${amountNaira.toLocaleString()} was made. Your commission of ₦${(agentCommissionKobo / 100).toLocaleString()} will be paid after escrow release.`, data: { transactionId: transaction.id, reference } },
+      data: { userId: transaction.agentId, type: 'payment', title: 'Commission Held', body: `A payment of ₦${amountNaira.toLocaleString()} was made. Your commission of ₦${(agentCommissionKobo / 100).toLocaleString()} is held until the deal is confirmed closed.`, data: { transactionId: transaction.id, reference } },
     });
   }
 

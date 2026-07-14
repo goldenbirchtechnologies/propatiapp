@@ -5,7 +5,7 @@ import {
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
   Landmark, CircleDollarSign, ChevronRight, BadgePercent
-, Wallet2 } from 'lucide-react';
+, Wallet2 , Clock } from 'lucide-react';
 
 export interface NavItem {
   label: string;
@@ -62,28 +62,19 @@ export const TENANT_NAVIGATION: NavItem[] = [
 export const AGENT_NAVIGATION: NavItem[] = [
   { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
   { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
+  { label: 'Buy Pipeline', href: '/dashboard/agent/buy', icon: <BarChart2 className="h-5 w-5" /> },
+  { label: 'Sell Pipeline', href: '/dashboard/agent/sell', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Deal Pipeline', href: '/dashboard/agent/pipeline', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'Managed Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
-  { label: 'Inspections', href: '/dashboard/agent/inspections', icon: <Eye className="h-5 w-5" /> },
-  { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
+  { label: 'My Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
   { label: 'My Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
+  { label: 'Market', href: '/dashboard/agent/market', icon: <TrendingUp className="h-5 w-5" /> },
+  { label: 'Referrals', href: '/dashboard/agent/referrals', icon: <UserPlus className="h-5 w-5" /> },
+  { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Invitations', href: '/dashboard/agent/invites', icon: <Mail className="h-5 w-5" /> },
   { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },
   { label: 'Schedule', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/agent/messages', icon: <MessageSquare className="h-5 w-5" /> },
-];
-
-export const REALTOR_NAVIGATION: NavItem[] = [
-  { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
-  { label: 'Dashboard', href: '/dashboard/realtor', icon: <Home className="h-5 w-5" /> },
-  { label: 'Buy Pipeline', href: '/dashboard/realtor/buy', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'Sell Pipeline', href: '/dashboard/realtor/sell', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'My Listings', href: '/dashboard/realtor/listings', icon: <Building2 className="h-5 w-5" /> },
-  { label: 'My Clients', href: '/dashboard/realtor/clients', icon: <Users className="h-5 w-5" /> },
-  { label: 'Market Intelligence', href: '/dashboard/realtor/market', icon: <TrendingUp className="h-5 w-5" /> },
-  { label: 'My Profile', href: '/dashboard/realtor/profile', icon: <User className="h-5 w-5" /> },
-  { label: 'Messages', href: '/dashboard/realtor/messages', icon: <MessageSquare className="h-5 w-5" /> },
 ];
 
 export const ADMIN_NAVIGATION: NavItem[] = [
@@ -142,8 +133,6 @@ export function getNavigationForRole(role: string): NavItem[] {
       return TENANT_NAVIGATION;
     case 'agent':
       return AGENT_NAVIGATION;
-    case 'realtor':
-      return REALTOR_NAVIGATION;
     case 'admin':
       return ADMIN_NAVIGATION;
     case 'estate_manager':

@@ -13,7 +13,7 @@ import {
   Loader2,
 } from 'lucide-react';
 
-type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager' | 'realtor';
+type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 
 interface Props {
   userId: string;
@@ -30,8 +30,7 @@ const roleOptions: {
   { id: 'landlord', label: 'Landlord', subtitle: 'I own properties', Icon: Building2 },
   { id: 'tenant', label: 'Tenant', subtitle: "I'm looking for a home", Icon: Search },
   { id: 'agent', label: 'Agent', subtitle: 'I help people find homes', Icon: Handshake },
-  { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: Building },
-  { id: 'realtor', label: 'Realtor', subtitle: 'I buy and sell properties', Icon: Handshake },
+  { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: Building }
 ];
 
 const roleDashboard: Record<Role, string> = {
@@ -39,7 +38,6 @@ const roleDashboard: Record<Role, string> = {
   tenant: '/dashboard/tenant',
   agent: '/dashboard/agent',
   estate_manager: '/dashboard/estate-manager',
-  realtor: '/dashboard/realtor',
 };
 
 const roleNextStep: Record<Role, { label: string; href: string }> = {
@@ -47,7 +45,6 @@ const roleNextStep: Record<Role, { label: string; href: string }> = {
   tenant: { label: 'Start searching', href: '/dashboard/tenant/search' },
   agent: { label: 'View your pipeline', href: '/dashboard/agent' },
   estate_manager: { label: 'Set up your portfolio', href: '/dashboard/estate-manager' },
-  realtor: { label: 'Go to your dashboard', href: '/dashboard/realtor' },
 };
 
 const stepLabels = ['Role', 'Profile', 'Done'];
@@ -535,8 +532,7 @@ function StepProfile({
           />
         </Field>
       )}
-      {role === 'realtor' && (
-        <>
+              <>
           <Field label="Bio">
             <textarea
               value={bio}

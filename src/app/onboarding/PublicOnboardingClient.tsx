@@ -5,14 +5,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager' | 'realtor';
+type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 
 const roleOptions: { id: Role; label: string; subtitle: string; Icon: React.ElementType }[] = [
   { id: 'landlord', label: 'Landlord', subtitle: 'I own properties', Icon: null },
   { id: 'tenant', label: 'Tenant', subtitle: "I'm looking for a home", Icon: null },
   { id: 'agent', label: 'Agent', subtitle: 'I help people find homes', Icon: null },
-  { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: null },
-  { id: 'realtor', label: 'Realtor', subtitle: 'I buy and sell properties', Icon: null },
+  { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: null }
 ];
 
 export default function PublicOnboardingClient() {

@@ -110,7 +110,7 @@ export default function ListingsClient({ initialListings }: { initialListings: L
                     <td className="p-4 text-on-surface-variant">{listing.views.toLocaleString()}</td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/realtor/listings/${listing.id}`} className="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant">
+                        <Link href={`/dashboard/agent/listings/${listing.id}`} className="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant">
                           <Eye className="w-4 h-4" />
                         </Link>
                         <button className="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant"><Edit className="w-4 h-4" /></button>

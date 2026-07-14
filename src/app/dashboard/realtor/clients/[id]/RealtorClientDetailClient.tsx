@@ -82,9 +82,9 @@ export default function RealtorClientDetailClient({ client }: { client: Client }
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-        <Link href="/dashboard/realtor" className="hover:underline">Dashboard</Link>
+        <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
         <span>/</span>
-        <Link href="/dashboard/realtor/clients" className="hover:underline">Clients</Link>
+        <Link href="/dashboard/agent/clients" className="hover:underline">Clients</Link>
         <span>/</span>
         <span style={{ color: 'var(--text)' }} className="font-medium">{client.fullName}</span>
       </nav>
@@ -93,7 +93,7 @@ export default function RealtorClientDetailClient({ client }: { client: Client }
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/realtor/clients"
+            href="/dashboard/agent/clients"
             className="p-2 rounded-lg hover:bg-surface-container"
             style={{ color: 'var(--muted)' }}
           >
@@ -205,7 +205,7 @@ export default function RealtorClientDetailClient({ client }: { client: Client }
                   return (
                     <Link
                       key={deal.id}
-                      href={`/dashboard/realtor/deals/${deal.id}`}
+                      href={`/dashboard/agent/deals/${deal.id}`}
                       className="flex items-center justify-between p-3 rounded-lg transition-colors"
                       style={{ background: 'var(--surface)', border: '1px solid var(--border)', textDecoration: 'none' }}
                     >

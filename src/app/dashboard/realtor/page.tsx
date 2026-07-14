@@ -1,5 +1,4 @@
-import RealtorHomeClient from './RealtorHomeClient';
-
-export default async function RealtorDashboardPage() {
-  return <RealtorHomeClient />;
+import { redirect } from 'next/navigation';
+export default async function Page() {
+  redirect('/dashboard/agent');
 }

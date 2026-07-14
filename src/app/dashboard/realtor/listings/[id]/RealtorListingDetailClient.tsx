@@ -179,9 +179,9 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-on-surface-variant">
-        <Link href="/dashboard/realtor" className="hover:underline">Dashboard</Link>
+        <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
         <span>/</span>
-        <Link href="/dashboard/realtor/listings" className="hover:underline">Listings</Link>
+        <Link href="/dashboard/agent/listings" className="hover:underline">Listings</Link>
         <span>/</span>
         <span className="text-primary font-medium truncate">{listing.title}</span>
       </nav>
@@ -190,7 +190,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/realtor/listings"
+            href="/dashboard/agent/listings"
             className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
           >
             <ArrowLeft className="h-5 w-5" />

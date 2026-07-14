@@ -185,7 +185,7 @@ export default function RealtorClientsPageClient() {
             {MOCK_CLIENTS.map((client) => (
               <Link
                 key={client.id}
-                href={`/dashboard/realtor/clients/${client.id}`}
+                href={`/dashboard/agent/clients/${client.id}`}
                 className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-4">

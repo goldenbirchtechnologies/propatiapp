@@ -140,6 +140,33 @@ async function handleChargeSuccess(data: any) {
       description: `Agent commission for ${reference}`,
       meta: { reference, transactionId: transaction.id, flow: 'agent_commission' },
     });
+
+    // Auto payout agent commission if recipient is available and balance permits
+    const agentAccount = await prisma.userPaystackAccount.findUnique({ where: { userId: transaction.agentId } });
+    if (agentAccount?.recipientCode) {
+      const opening = Number((await prisma.wallet.findUnique({ where: { userId: transaction.agentId } }))?.balance ?? 0);
+      const commissionNaira = agentCommissionKobo / 100;
+      if (opening >= commissionNaira) {
+        const payout = await paystack.createTransfer({
+          source: 'balance',
+          amount: agentCommissionKobo,
+          recipient: agentAccount.recipientCode,
+          reference: `AGT_PAY_${Date.now()}_${Buffer.from(transaction.agentId).toString('hex').slice(0,8)}`,
+          reason: `Agent commission ${reference}`,
+        });
+        if (payout.status) {
+          const agentWallet = await prisma.wallet.findUnique({ where: { userId: transaction.agentId } });
+          if (agentWallet) {
+            const aOpening = Number(agentWallet.balance);
+            const aClosing = aOpening - commissionNaira;
+            await prisma.wallet.update({ where: { id: agentWallet.id }, data: { balance: aClosing } });
+            await prisma.walletTransaction.create({
+              data: { walletId: agentWallet.id, userId: transaction.agentId, type: 'withdrawal', status: 'success', amount: commissionNaira, currency: 'NGN', openingBalance: aOpening, closingBalance: aClosing, description: `Auto payout commission for ${reference}`, providerRef: payout.data.transfer_code, meta: { reference, transactionId: transaction.id, flow: 'agent_auto_payout' } },
+            });
+          }
+        }
+      }
+    }
   }
 
   if (splits.length > 0) {

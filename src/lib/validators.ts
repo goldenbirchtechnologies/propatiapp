@@ -18,7 +18,7 @@ export const createUserSchema = z.object({
   email: emailSchema,
   phone: phoneSchema.optional(),
   password: passwordSchema,
-  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']),
+  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']),
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
   avatarUrl: urlSchema.optional(),
 });
@@ -488,10 +488,15 @@ export const rejectBusinessVerificationSchema = z.object({
 });
 
 export const updateUserAdminSchema = z.object({
-  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']).optional(),
+  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']).optional(),
   status: z.enum(['active', 'suspended', 'banned']).optional(),
   phoneVerified: z.boolean().optional(),
   emailVerified: z.boolean().optional(),
+});
+
+export const bankDetailsSchema = z.object({
+  accountNumber: z.string().regex(/^\d{10}$/, 'Account number must be 10 digits'),
+  bankCode: z.string().min(3, 'Bank code is required'),
 });
 
 export const suspendUserSchema = z.object({
@@ -530,7 +535,7 @@ export const auditLogFiltersSchema = paginationSchema.extend({
 });
 
 export const adminUserFiltersSchema = paginationSchema.extend({
-  role: z.enum(['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager']).optional(),
+  role: z.enum(['landlord', 'tenant', 'agent', 'admin', 'estate_manager']).optional(),
   status: z.enum(['active', 'suspended', 'banned']).optional(),
   search: z.string().optional(),
 });

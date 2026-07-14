@@ -42,7 +42,7 @@ export default async function EstateManagerDashboardPage() {
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/realtor',
+    realtor: '/dashboard/agent',
   };
 
   if (user.role !== 'estate_manager') {

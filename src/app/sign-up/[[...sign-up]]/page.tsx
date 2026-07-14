@@ -5,7 +5,7 @@ import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Building2, Search, Handshake, Building, CheckCircle2 } from 'lucide-react';
 
-type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager' | 'realtor';
+type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 
 const roles: {
   id: Role;

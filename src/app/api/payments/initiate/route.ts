@@ -115,45 +115,7 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Credit Paystack-side/dedicated customer wallets conceptually using metadata and our internal ledger.
-      // For managed collection, we do NOT credit landlord/agent wallets yet; we credit the manager platform wallet.
-      const creditTargets: Array<{ userId: string; amountNaira: number; type: 'deposit'; description: string; meta?: Record<string, unknown> }> = [];
-      if (isManaged && managerId) {
-        creditTargets.push({
-          userId: managerId,
-          amountNaira: Number(fees.payeeAmount) / 100,
-          type: 'escrow_credit',
-          description: `Managed collection for ${listing.title}`,
-          meta: { reference, listingId: listing.id, payerId: user.id, flow: 'managed_collection' },
-        });
-      }
 
-      // Agent commission should always be shown as pending payout for agent/landlord/admin visibility.
-      // We keep it escrowed; payout will be done by agent or admin.
-
-      for (const target of creditTargets) {
-        const wallet = await tx.wallet.findUnique({ where: { userId: target.userId } });
-        if (wallet) {
-          const opening = Number(wallet.balance);
-          const closing = opening + target.amountNaira;
-          await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
-          await tx.walletTransaction.create({
-            data: {
-              walletId: wallet.id,
-              userId: target.userId,
-              type: target.type,
-              status: 'success',
-              amount: target.amountNaira,
-              currency: 'NGN',
-              openingBalance: opening,
-              closingBalance: closing,
-              reference,
-              description: target.description,
-              meta: target.meta,
-            },
-          });
-        }
-      }
 
       return newTransaction;
     });

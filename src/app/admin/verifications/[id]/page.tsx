@@ -18,7 +18,7 @@ export default async function AdminVerificationDetailPage({ params }: { params: 
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/realtor',
+    realtor: '/dashboard/agent',
   };
   if (!user) redirect('/login');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');

@@ -31,8 +31,7 @@ export default async function OnboardingPage() {
       estate_manager: '/dashboard/estate-manager',
       landlord: '/dashboard/landlord',
       tenant: '/dashboard/tenant',
-      realtor: '/dashboard/realtor',
-    };
+      };
     redirect(paths[user.role] ?? '/dashboard/tenant');
   }
 

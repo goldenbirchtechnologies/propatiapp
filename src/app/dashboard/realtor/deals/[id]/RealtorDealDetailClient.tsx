@@ -113,9 +113,9 @@ export default function RealtorDealDetailClient({ deal }: { deal: Deal }) {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-on-surface-variant" >
-        <Link href="/dashboard/realtor" className="hover:underline">Dashboard</Link>
+        <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
         <span>/</span>
-        <Link href="/dashboard/realtor/deals" className="hover:underline text-primary">Deals</Link>
+        <Link href="/dashboard/agent/deals" className="hover:underline text-primary">Deals</Link>
         <span>/</span>
         <span  className="font-medium truncate">{deal.title}</span>
       </nav>
@@ -124,7 +124,7 @@ export default function RealtorDealDetailClient({ deal }: { deal: Deal }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/realtor/deals"
+            href="/dashboard/agent/deals"
             className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
             
           >
@@ -263,7 +263,7 @@ export default function RealtorDealDetailClient({ deal }: { deal: Deal }) {
             icon={<Calendar className="w-6 h-6" />}
             title="Schedule Inspection"
             description="Book a property inspection for this deal"
-            href="/dashboard/realtor/listings"
+            href="/dashboard/agent/listings"
           />
           <ActionCard
             icon={<FileText className="w-6 h-6" />}

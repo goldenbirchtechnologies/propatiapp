@@ -170,7 +170,7 @@ export default function DealsClient({ initialDeals }: { initialDeals: Deal[] }) 
               <CardContent className="flex-1 p-0">
                 <div className="p-3 space-y-3 min-h-[400px] bg-surface-container" >
                   {(currentDeals[stage.id] || []).map((deal) => (
-                    <Link key={deal.id} href={`/dashboard/realtor/deals/${deal.id}`} className="block">
+                    <Link key={deal.id} href={`/dashboard/agent/deals/${deal.id}`} className="block">
                       <Card className="p-3 cursor-pointer transition-all hover:shadow-md bg-surface-container-low border border-outline-variant" >
                         <p className="font-medium text-sm truncate text-primary" >{deal.title}</p>
                         <p className="text-xs text-on-surface-variant" >Client: {deal.client}</p>

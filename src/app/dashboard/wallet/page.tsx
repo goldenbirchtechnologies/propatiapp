@@ -106,13 +106,23 @@ export default function WalletPage() {
     }
   };
 
-  const withdraw = async (amount: number) => {
+  const withdraw = async (amount: number, bankCode?: string, accountNumber?: string) => {
     setActionLoading(true);
     try {
-      const res = await fetch('/api/wallet/withdraw', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed');
-      toast.success('Withdrawal successful');
+      if (bankCode && accountNumber) {
+        const bankRes = await fetch('/api/user/bank', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bankCode, accountNumber }) });
+        const bankData = await bankRes.json();
+        if (!bankRes.ok) throw new Error(bankData.error || 'Failed to save bank');
+        const payoutRes = await fetch('/api/wallet/payout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount, recipientCode: bankData.recipient.recipient_code, reason: 'Wallet withdrawal' }) });
+        const payoutData = await payoutRes.json();
+        if (!payoutRes.ok) throw new Error(payoutData.error || 'Payout failed');
+        toast.success('Withdrawal initiated via Paystack');
+      } else {
+        const res = await fetch('/api/wallet/withdraw', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed');
+        toast.success('Withdrawal successful');
+      }
       load();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Withdrawal failed');
@@ -339,14 +349,18 @@ function DepositForm({ actionLoading, onDeposit, setActionLoading }: { actionLoa
   );
 }
 
-function WithdrawForm({ actionLoading, onWithdraw, setActionLoading }: { actionLoading: boolean; onWithdraw: (amount: number) => Promise<void>; setActionLoading: (v: boolean) => void }) {
+function WithdrawForm({ actionLoading, onWithdraw, setActionLoading }: { actionLoading: boolean; onWithdraw: (amount: number, bankCode?: string, accountNumber?: string) => Promise<void>; setActionLoading: (v: boolean) => void }) {
   const [amount, setAmount] = useState('5000');
+  const [bankCode, setBankCode] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [banks, setBanks] = useState<Array<Record<string, unknown>>>([]);
+  const [accountName, setAccountName] = useState<string | null>(null);
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         setActionLoading(true);
-        onWithdraw(Number(amount)).finally(() => setActionLoading(false));
+        onWithdraw(Number(amount), bankCode, accountNumber).finally(() => setActionLoading(false));
       }}
       className="space-y-4"
     >
@@ -354,6 +368,20 @@ function WithdrawForm({ actionLoading, onWithdraw, setActionLoading }: { actionL
         <FieldLabel htmlFor="amount">Amount (₦)</FieldLabel>
         <Input id="amount" type="number" min={500} value={amount} onChange={(event) => setAmount(event.target.value)} required />
       </Field>
+      <Field>
+        <FieldLabel htmlFor="bank">Bank</FieldLabel>
+        <select id="bank" className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" value={bankCode} onChange={(e) => setBankCode(e.target.value)} required>
+          <option value="">Select bank</option>
+          {banks.map((bank) => (
+            <option key={String(bank.code)} value={String(bank.code)}>{String(bank.name)}</option>
+          ))}
+        </select>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="accountNumber">Account number</FieldLabel>
+        <Input id="accountNumber" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} required />
+      </Field>
+      {accountName && <p className="text-xs text-muted-foreground">Account name: {accountName}</p>}
       <Button type="submit" disabled={actionLoading} className="w-full">{actionLoading ? 'Processing...' : 'Withdraw'}</Button>
     </form>
   );

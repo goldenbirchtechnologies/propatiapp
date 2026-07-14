@@ -43,7 +43,7 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
           agent: "/dashboard/agent",
           admin: "/admin",
           estate_manager: "/dashboard/estate-manager",
-          realtor: "/dashboard/realtor",
+          realtor: "/dashboard/agent",
         };
         const mapped = paths[role] || "/dashboard/tenant";
         if (window.location.pathname === "/login") {

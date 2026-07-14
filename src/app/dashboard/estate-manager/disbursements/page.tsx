@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import DashboardShell from '@/components/layout/DashboardShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,9 +9,10 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
 export default function DisbursementsPage() {
-  const [listingRef, setListingRef] = useState('');
-  const [landlordId, setLandlordId] = useState('');
-  const [amount, setAmount] = useState('');
+  const search = useSearchParams();
+  const [listingRef, setListingRef] = useState(() => search.get('reference') || '');
+  const [landlordId, setLandlordId] = useState(() => search.get('landlordId') || '');
+  const [amount, setAmount] = useState(() => search.get('amount') || '');
   const [loading, setLoading] = useState(false);
 
   async function submit(e: React.FormEvent) {

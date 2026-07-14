@@ -9,7 +9,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   try {
     const body = await request.json();
     const validated = updatePricingRuleSchema.parse(body);
-    const v = validated as any;
+    const v = validated as Record<string, unknown>;
 
     const rule = await prisma.pricingRule.findUnique({
       where: { id: params.ruleId },

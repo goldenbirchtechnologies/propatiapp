@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause for flags
-    const flagWhere: any = {};
+    const flagWhere: Record<string, unknown> = {};
 
     if (resolved !== undefined) {
       flagWhere.status = resolved ? { in: ['reviewed', 'dismissed'] } : 'open';

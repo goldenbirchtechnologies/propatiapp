@@ -281,7 +281,7 @@ export function useReceiveMessage() {
           ...old,
           data: old.data.map(conv => 
             conv.id === message.conversationId 
-              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: ((conv as any).unreadCount || 0) + 1 }
+              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: ((conv as Record<string, unknown> | null)?.unreadCount || 0) + 1 }
               : conv
           ),
         };

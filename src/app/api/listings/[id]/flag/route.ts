@@ -58,7 +58,7 @@ export async function POST(
     }
 
     return NextResponse.json({ success: true, flagged: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('POST /api/listings/[id]/flag error:', error);
 
     if (error.name === 'ZodError') {

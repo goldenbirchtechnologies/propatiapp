@@ -126,7 +126,7 @@ export async function getPaymentIntent(
  */
 export async function verifyWebhook(
   input: WebhookInput
-): Promise<any> {
+): Promise<unknown> {
   const stripe = getStripeInstance();
   const event = await retryStripeCall(
     () =>
@@ -178,7 +178,7 @@ export async function listPaymentIntents(options?: {
   customerId?: string;
   limit?: number;
   startingAfter?: string;
-}): Promise<any> {
+}): Promise<unknown> {
   const stripe = getStripeInstance();
   const paymentIntents = await retryStripeCall(
     () =>

@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
       default:
         return errorResponse('Invalid action. Use create, upgrade, or cancel.', 400);
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('User subscription action error:', error);
     if (error.code === 'P2002') {
       return errorResponse('You already have an active subscription for this plan', 409);

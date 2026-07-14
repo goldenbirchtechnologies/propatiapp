@@ -45,7 +45,7 @@ export async function POST(
     const layerToReject = validated.layer || verification.currentLayer || 5;
 
     // Build update data
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       overallStatus: 'rejected',
       adminNotes: validated.reason,
       reviewedBy: user.id,

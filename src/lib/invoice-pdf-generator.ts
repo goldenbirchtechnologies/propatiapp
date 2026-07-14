@@ -22,7 +22,7 @@ export function buildInvoicePDFBuffer(params: {
   items: InvoiceItem[];
   notes?: string | null;
 }) {
-  const doc = new (PDFDocument as any)({ size: 'A4', margin: 50 });
+  const doc = new PDFDocument({ size: 'A4', margin: 50 });
   const chunks: Buffer[] = [];
 
   doc.on('data', (chunk: Buffer) => chunks.push(chunk));

@@ -32,7 +32,7 @@ export async function GET(
     }
 
     if (!invoice.pdfUrl) {
-      const items = (invoice.items as any[]) || [];
+      const items = Array.isArray(invoice.items) ? (invoice.items as unknown[]) : [];
       const pdfBuffer = buildInvoicePDFBuffer({
         invoiceNumber: invoice.invoiceNumber,
         landlordName: invoice.landlord?.fullName || 'Propati Landlord',

@@ -118,7 +118,7 @@ class NotificationService {
 
   async getUserNotifications(params: { userId: string; read?: boolean; page?: number; limit?: number }) {
     const { userId, read, page = 1, limit = 20 } = params;
-    const where: any = { userId };
+    const where: Record<string, unknown> = { userId };
     if (read !== undefined) where.read = read;
 
     const [notifications, total] = await Promise.all([

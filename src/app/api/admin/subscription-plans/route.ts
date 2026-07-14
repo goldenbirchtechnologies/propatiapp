@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true, data: plan, message: 'Plan created successfully' }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin create plan error:', error);
     if (error.code === 'P2002') {
       return errorResponse('A plan with this name already exists', 409);

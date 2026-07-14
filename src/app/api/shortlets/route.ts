@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const where = {
       status: 'active',
       allowShortlet: true,
-    } as any;
+    } as Record<string, unknown>;
 
     const listings = await prisma.listing.findMany({
       where,

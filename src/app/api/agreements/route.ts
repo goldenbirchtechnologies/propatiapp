@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Agreements GET error:', error);
     if (error instanceof Error && error.name === 'ZodError') {
-      console.error('Zod validation details:', (error as any).details);
+      console.error('Zod validation details:', (error as { details?: unknown }).details);
       return NextResponse.json({ error: 'Invalid query parameters' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

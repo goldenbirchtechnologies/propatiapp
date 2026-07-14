@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const { page = '1', limit = '20' } = Object.fromEntries(request.nextUrl.searchParams);
     const skip = (Number(page) - 1) * Number(limit);
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (user.role === 'landlord') {
       where.landlordId = user.id;
     } else if (user.role === 'tenant') {

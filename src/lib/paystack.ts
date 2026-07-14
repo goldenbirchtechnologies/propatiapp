@@ -237,6 +237,23 @@ class PaystackClient {
     }
   }
 
+  async getBalanceByCustomerCode(customerCode: string): Promise<{ available: number; raw?: Record<string, unknown> }> {
+    if (!this.isConfigured()) return { available: 0 };
+    try {
+      const response = await this.client.get(`/dedicated_account/${encodeURIComponent(customerCode)}/balance`);
+      const data = response.data as Record<string, unknown>;
+      const node = (data?.data ?? data) as Record<string, unknown>;
+      const available = Number(node?.available_balance ?? node?.balance ?? 0);
+      return { available, raw: data };
+    } catch {
+      const account = await this.createDedicatedAccount(customerCode).catch(() => null);
+      if (account?.status && account.data?.active) {
+        return { available: 0 };
+      }
+      return { available: 0 };
+    }
+  }
+
   // Legacy methods (backward compatibility)
   async initializeTransaction(data: {
     email: string;

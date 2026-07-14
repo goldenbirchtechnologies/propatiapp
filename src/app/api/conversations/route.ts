@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
 
     const legacyIds = new Set(legacyConvs.map((c: any) => c.id));
     const missingIds = participantRows.filter((r: any) => !legacyIds.has(r.id)).map((r: any) => r.id);
-    let extraConvs: any[] = [];
+    let extraConvs: Array<Record<string, unknown>> = [];
     if (missingIds.length > 0) {
       extraConvs = await prisma.conversation.findMany({
         where: { id: { in: missingIds } },

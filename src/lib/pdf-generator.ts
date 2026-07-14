@@ -329,7 +329,7 @@ export async function generateAgreementPDF(
     console.error('Error uploading PDF to Cloudinary, falling back to HTML:', error);
 
     // Fallback: render HTML and upload as raw HTML to preserve existing behavior
-    const html = renderAgreementTemplate(agreement.type, templateData as any);
+    const html = renderAgreementTemplate(agreement.type, templateData as Record<string, unknown>);
 
     const signatureSection = `
       <div style="margin-top: 60px; page-break-before: always;">

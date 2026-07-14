@@ -152,7 +152,7 @@ export async function POST(
     const transferReference = `ESCROW_RELEASE_${transaction.id}_${Date.now()}`;
 
     // Initiate transfer to payee (landlord)
-    let transferResult: any;
+    let transferResult: Record<string, unknown> | null = null;
     try {
       const transferResponse = await paystack.createTransfer({
         source: 'balance',
@@ -229,6 +229,28 @@ export async function POST(
           data: { transactionId: transaction.id, commission: agentCommission },
         },
       });
+
+      // Auto-payout commission for non-sale transactions when agent has a saved recipient
+      const isSale = String(transaction.type).toLowerCase() === 'sale';
+      if (!isSale) {
+        const acct = await prisma.userPaystackAccount.findUnique({
+          where: { userId: transaction.agentId },
+          select: { recipientCode: true },
+        });
+        if (acct?.recipientCode) {
+          try {
+            await paystack.createTransfer({
+              source: 'balance',
+              amount: Number(transaction.agentCommission || 0),
+              recipient: acct.recipientCode,
+              reference: `AGT_COMM_${transaction.id}_${Date.now()}`,
+              reason: `Agent commission payout for ${transaction.listing?.title || 'property'}`,
+            });
+          } catch (error) {
+            console.error('Agent commission auto-payout failed:', error);
+          }
+        }
+      }
     }
 
     console.log(`Escrow released: Transaction ${id} - ₦${(payeeAmount / 100).toLocaleString()} to ${accountName}`);

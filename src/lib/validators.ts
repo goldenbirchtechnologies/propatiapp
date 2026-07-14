@@ -588,7 +588,7 @@ export const createNotificationSchema = z.object({
   title: z.string().min(1).max(200),
   message: z.string().min(1).max(1000),
   actionUrl: z.string().url().optional(),
-  metadata: z.any().optional(),
+  metadata: z.record(z.unknown()).optional(),
 });
 
 export const notificationFiltersSchema = z.object({

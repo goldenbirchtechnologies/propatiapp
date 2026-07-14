@@ -210,6 +210,8 @@ export const initiatePaymentSchema = z.object({
   email: emailSchema,
   phone: phoneSchema.optional(),
   metadata: z.record(z.string()).optional(),
+  collectionType: z.enum(['direct','managed']).default('direct'),
+  managedById: uuidSchema.optional(),
 });
 
 // Payment verification schema for Phase D

@@ -210,6 +210,28 @@ enum SubscriptionStatus {
   paused
 }
 
+enum WalletTransactionType {
+  deposit
+  withdrawal
+  transfer
+  refund
+  adjustment
+  escrow_credit
+}
+
+enum WalletTransactionStatus {
+  pending
+  success
+  failed
+  reversed
+}
+
+enum PaystackAccountStatus {
+  pending
+  active
+  failed
+}
+
 enum AgentInviteStatus {
   pending
   accepted
@@ -479,6 +501,8 @@ model User {
   receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
   sentInvoices          Invoice[]      @relation("InvoiceLandlord")
   receivedInvoices      Invoice[]      @relation("InvoiceTenant")
+  wallet                Wallet?
+  paystackAccount       UserPaystackAccount?
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -1854,4 +1878,74 @@ model Invoice {
   @@index([status], map: "idx_invoices_status")
   @@index([dueDate], map: "idx_invoices_due_date")
   @@map("invoices")
+}
+
+model Wallet {
+  id               String    @id @default(cuid()) @map("id")
+  userId           String    @unique @map("user_id")
+  balance          Decimal   @default(0) @db.Decimal(14, 2)
+  currency         String    @default("NGN")
+  version          Int       @default(1) @map("lock_version")
+  isLocked         Boolean   @default(false) @map("is_locked")
+  lockedAt         DateTime? @map("locked_at")
+  lockedReason     String?
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user             User              @relation(fields: [userId], references: [id])
+  transactions     WalletTransaction[]
+
+  @@index([userId], map: "idx_wallets_user")
+  @@map("wallets")
+}
+
+model WalletTransaction {
+  id               String                  @id @default(cuid()) @map("id")
+  walletId         String                  @map("wallet_id")
+  userId           String                  @map("user_id")
+  reference        String?                 @unique @map("reference")
+  type             WalletTransactionType
+  status           WalletTransactionStatus @default(pending)
+  amount           Decimal                 @db.Decimal(14, 2)
+  currency         String                  @default("NGN")
+  fee              Decimal?                @default(0) @db.Decimal(14, 2)
+  channel          String?                 @default("paystack")
+  providerRef      String?                 @map("provider_ref")
+  description      String?
+  meta             Json?
+  openingBalance   Decimal                 @map("opening_balance") @db.Decimal(14, 2)
+  closingBalance   Decimal                 @map("closing_balance") @db.Decimal(14, 2)
+  createdAt        DateTime                @default(now()) @map("created_at")
+  updatedAt        DateTime                @updatedAt @map("updated_at")
+
+  wallet           Wallet @relation(fields: [walletId], references: [id])
+
+  @@index([walletId], map: "idx_wallet_txns_wallet")
+  @@index([userId], map: "idx_wallet_txns_user")
+  @@index([reference], map: "idx_wallet_txns_reference")
+  @@map("wallet_transactions")
+}
+
+model UserPaystackAccount {
+  id                  String               @id @default(cuid()) @map("id")
+  userId              String               @unique @map("user_id")
+  customerCode        String?              @unique @map("customer_code")
+  email               String               @map("email")
+  firstName           String?              @map("first_name")
+  lastName            String?              @map("last_name")
+  phone               String?              @map("phone")
+  status              PaystackAccountStatus @default(pending) @map("status")
+  bankName            String?               @map("bank_name")
+  accountNumber       String?               @map("account_number")
+  accountName         String?               @map("account_name")
+  dedicatedAccountId  String?               @unique @map("dedicated_account_id")
+  collectBelow        Decimal?              @db.Decimal(12, 2)
+  currency            String                @default("NGN")
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @updatedAt @map("updated_at")
+
+  user                User                  @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "idx_paystack_account_user")
+  @@map("paystack_accounts")
 }

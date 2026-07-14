@@ -10,6 +10,10 @@
     "cssVariables": true,
     "prefix": ""
   },
+  "iconLibrary": "phosphor",
+  "rtl": false,
+  "menuColor": "inverted-translucent",
+  "menuAccent": "subtle",
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
@@ -17,9 +21,7 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "iconLibrary": "phosphor",
-  "rtl": false,
-  "menuColor": "inverted-translucent",
-  "menuAccent": "subtle",
-  "registries": {}
+  "registries": {
+    "@7ovr": "https://7ovr.com/r/{name}.json"
+  }
 }

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 
-const agreementTemplates: Record<string, (data: Record<string, any>) => string> = {
+const agreementTemplates: Record<string, (data: Record<string, unknown>) => string> = {
   rental: (data) => `
     <h1>RESIDENTIAL TENANCY AGREEMENT</h1>
     <p><strong>Property:</strong> ${data.listingTitle} (${data.listingArea}, ${data.listingState})</p>
@@ -120,7 +120,7 @@ export async function GET(
       cautionDeposit: agreement.cautionDeposit ? Number(agreement.cautionDeposit) : null,
       serviceCharge: agreement.serviceCharge ? Number(agreement.serviceCharge) : null,
       noticePeriodDays: agreement.noticePeriodDays,
-      minimumStay: (agreement as any).minimumStay ?? null,
+      minimumStay: (agreement as Record<string, unknown> | null)?.minimumStay ?? null,
       specialClauses: agreement.specialClauses,
     };
 

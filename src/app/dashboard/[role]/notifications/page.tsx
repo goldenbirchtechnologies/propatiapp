@@ -108,6 +108,32 @@ export default function NotificationsPage() {
     }
   };
 
+  const handleDealConfirm = async (notificationId: string) => {
+    const notification = notifications.find((n) => n.id === notificationId);
+    const transactionId = notification?.data?.transactionId as string | undefined;
+    if (!transactionId) return;
+    await fetch(`/api/transactions/${transactionId}/confirm`, { method: 'POST' });
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n)),
+    );
+  };
+
+  const handleDealDispute = async (notificationId: string) => {
+    const notification = notifications.find((n) => n.id === notificationId);
+    const transactionId = notification?.data?.transactionId as string | undefined;
+    if (!transactionId) return;
+    const reason = prompt('Brief reason for dispute');
+    if (!reason) return;
+    await fetch(`/api/transactions/${transactionId}/dispute`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reason, notificationId }),
+    });
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n)),
+    );
+  };
+
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
@@ -202,6 +228,8 @@ export default function NotificationsPage() {
               notification={notification}
               onClick={handleNotificationClick}
               onMarkRead={handleMarkRead}
+              onConfirm={handleDealConfirm}
+              onDispute={handleDealDispute}
             />
           ))}
 

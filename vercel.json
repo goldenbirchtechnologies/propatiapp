@@ -27,5 +27,8 @@
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     }
+  ],
+  "crons": [
+    { "path": "/api/cron/paystack-reconcile?secret=replace-me-with-a-strong-random-secret", "schedule": "0 0 * * *" }
   ]
 }

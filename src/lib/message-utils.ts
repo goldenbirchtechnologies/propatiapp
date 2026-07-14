@@ -62,7 +62,7 @@ export function isToday(date: Date | string): boolean {
 /**
  * Group messages by date
  */
-export function groupMessagesByDate(messages: Array<{ createdAt: string | Date; [key: string]: any }>) {
+export function groupMessagesByDate(messages: Array<{ createdAt: string | Date; [key: string]: unknown }>) {
   const groups: Record<string, typeof messages> = {};
 
   messages.forEach(message => {

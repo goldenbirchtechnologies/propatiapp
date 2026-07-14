@@ -31,7 +31,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invoice is already paid' }, { status: 400 });
     }
 
-    const items = (invoice.items as any[]) || [];
+    const items = Array.isArray((invoice.items as unknown)) ? (invoice.items as unknown[]) : [];
     const pdfBuffer = buildInvoicePDFBuffer({
       invoiceNumber: invoice.invoiceNumber,
       landlordName: user.fullName || 'Propati Landlord',

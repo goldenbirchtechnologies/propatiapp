@@ -127,46 +127,54 @@ export function isSubscriptionEvent(event: string): boolean {
   ].includes(event as PaystackWebhookEvent);
 }
 
+export interface PaystackWebhookData {
+  reference?: string | null;
+  amount?: number;
+  status?: 'success' | 'failed' | 'abandoned' | string;
+  metadata?: Record<string, unknown> | null;
+  customer?: { email?: string | null } | null;
+}
+
 /**
  * Extract transaction reference from webhook data
  */
-export function extractReference(data: any): string | null {
-  return data?.reference || null;
+export function extractReference(data: PaystackWebhookData): string | null {
+  return data.reference || null;
 }
 
 /**
  * Extract transaction amount from webhook data (in kobo)
  */
-export function extractAmount(data: any): number | null {
-  return typeof data?.amount === 'number' ? data.amount : null;
+export function extractAmount(data: PaystackWebhookData): number | null {
+  return typeof data.amount === 'number' ? data.amount : null;
 }
 
 /**
  * Extract customer email from webhook data
  */
-export function extractCustomerEmail(data: any): string | null {
-  return data?.customer?.email || null;
+export function extractCustomerEmail(data: PaystackWebhookData): string | null {
+  return data.customer?.email || null;
 }
 
 /**
  * Extract metadata from webhook data
  */
-export function extractMetadata(data: any): Record<string, unknown> {
-  return data?.metadata || {};
+export function extractMetadata(data: PaystackWebhookData): Record<string, unknown> {
+  return data.metadata || {};
 }
 
 /**
  * Check if transaction was successful
  */
-export function isTransactionSuccessful(data: any): boolean {
-  return data?.status === 'success';
+export function isTransactionSuccessful(data: PaystackWebhookData): boolean {
+  return data.status === 'success';
 }
 
 /**
  * Get transaction status
  */
-export function getTransactionStatus(data: any): 'success' | 'failed' | 'abandoned' | 'unknown' {
-  const status = data?.status;
+export function getTransactionStatus(data: PaystackWebhookData): 'success' | 'failed' | 'abandoned' | 'unknown' {
+  const status = data.status;
   if (status === 'success' || status === 'failed' || status === 'abandoned') {
     return status;
   }

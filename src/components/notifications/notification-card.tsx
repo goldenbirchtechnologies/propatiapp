@@ -9,7 +9,7 @@ export interface Notification {
   type: string;
   title: string;
   body: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   read: boolean;
   createdAt: Date | string;
   actionUrl?: string;
@@ -20,6 +20,8 @@ interface NotificationCardProps {
   onClick?: (notification: Notification) => void;
   onMarkRead?: (notificationId: string, read: boolean) => Promise<void>;
   compact?: boolean;
+  onConfirm?: (notificationId: string) => Promise<void>;
+  onDispute?: (notificationId: string) => Promise<void>;
 }
 
 export function NotificationCard({
@@ -27,6 +29,8 @@ export function NotificationCard({
   onClick,
   onMarkRead,
   compact = false,
+  onConfirm,
+  onDispute,
 }: NotificationCardProps) {
   const Icon = getNotificationIcon(notification.type);
   const iconColor = getNotificationColor(notification.type);

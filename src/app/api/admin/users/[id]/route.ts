@@ -32,7 +32,7 @@ export async function PATCH(
     }
 
     // Build update data
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
 
     if (validated.role) updateData.role = validated.role;
     if (validated.phoneVerified !== undefined) updateData.phoneVerified = validated.phoneVerified;

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { TransactionStatus } from '@prisma/client';
+import { getSystemWalletUserId } from '@/lib/wallet-service';
 
 export async function POST(request: NextRequest) {
   const signature = request.headers.get('x-paystack-signature');
@@ -111,7 +112,7 @@ async function handleChargeSuccess(data: Record<string, unknown>) {
   }
 
   // Wallet splits
-  const splits: Array<{ userId: string; amountNaira: number; type: 'deposit'; currency: string; description: string; meta: Record<string, unknown> }> = [];
+  const splits: Array<{ userId: string; amountNaira: number; type: 'deposit' | 'adjustment'; currency: string; description: string; meta: Record<string, unknown> }> = [];
   if (isManaged && metadata?.managedById) {
     splits.push({
       userId: String(metadata.managedById),
@@ -126,7 +127,7 @@ async function handleChargeSuccess(data: Record<string, unknown>) {
       userId: transaction.payeeId,
       amountNaira: payeeAmountKobo / 100,
       type: 'escrow_credit',
-      data.currency || 'NGN',
+      currency: data.currency || 'NGN',
       description: `Direct collection for ${reference}`,
       meta: { reference, transactionId: transaction.id, flow: 'direct_collection' },
     });
@@ -149,6 +150,18 @@ async function handleChargeSuccess(data: Record<string, unknown>) {
       });
     }
   }
+  const platformSystemUserId = getSystemWalletUserId();
+  if (platformFeeKobo > 0 && platformSystemUserId) {
+    splits.push({
+      userId: platformSystemUserId,
+      amountNaira: platformFeeKobo / 100,
+      type: 'adjustment',
+      currency: data.currency || 'NGN',
+      description: `Platform fee for ${reference}`,
+      meta: { reference, transactionId: transaction.id, flow: 'platform_fee' },
+    });
+  }
+
 
   if (splits.length > 0) {
     await prisma.$transaction(async (tx) => {

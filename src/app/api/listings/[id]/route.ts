@@ -192,7 +192,7 @@ export async function PATCH(
       message: 'Listing updated successfully',
       data: updated,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('PATCH /api/listings/[id] error:', error);
 
     // Handle validation errors

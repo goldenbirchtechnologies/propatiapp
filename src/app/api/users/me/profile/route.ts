@@ -252,7 +252,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Format transactions
-    const formatTransaction = (txn: any) => ({
+    const formatTransaction = (txn: Record<string, unknown>) => ({
       ...txn,
       amountFormatted: (Number(txn.amount) / 100).toLocaleString('en-NG', {
         style: 'currency',

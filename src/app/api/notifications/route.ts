@@ -37,9 +37,20 @@ export async function GET(request: NextRequest) {
       prisma.notification.count({ where }),
     ]);
 
+    const enriched = notifications.map((n: any) => {
+      const data = typeof n.data === 'string' ? JSON.parse(n.data || '{}') : n.data;
+      const action = data?.action;
+      const transactionId = data?.transactionId;
+      return {
+        ...n,
+        data,
+        smartAction: action ? { action, transactionId } : null,
+      };
+    });
+
     return NextResponse.json({
       success: true,
-      data: notifications,
+      data: enriched,
       pagination: {
         page,
         limit,

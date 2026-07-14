@@ -104,37 +104,58 @@ export function NotificationCard({
             {notification.body}
           </p>
 
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-xs text-gray-500">
-              {formatNotificationTime(notification.createdAt)}
-            </span>
+           <div className="flex items-center justify-between gap-3">
+             <span className="text-xs text-gray-500">
+               {formatNotificationTime(notification.createdAt)}
+             </span>
 
-            <div className="flex items-center gap-2">
-              {/* Mark as read/unread button */}
-              {onMarkRead && (
-                <button
-                  onClick={handleMarkReadToggle}
-                  className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
-                  aria-label={notification.read ? 'Mark as unread' : 'Mark as read'}
-                >
-                  {notification.read ? 'Mark unread' : 'Mark read'}
-                </button>
-              )}
+             <div className="flex items-center gap-2">
+               {(canConfirm || canDispute) && (
+                 <div className="flex items-center gap-2 mr-2" onClick={(e) => e.stopPropagation()}>
+                   {canConfirm && (
+                     <button
+                       onClick={(e) => { e.stopPropagation(); doConfirm(); }}
+                       className="text-xs font-semibold text-green-700 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full transition"
+                     >
+                       Confirm payment
+                     </button>
+                   )}
+                   {canDispute && (
+                     <button
+                       onClick={(e) => { e.stopPropagation(); doDispute(); }}
+                       className="text-xs font-semibold text-red-700 bg-red-100 hover:bg-red-200 px-3 py-1 rounded-full transition"
+                     >
+                       Dispute
+                     </button>
+                   )}
+                 </div>
+               )}
 
-              {/* Action button */}
-              {actionUrl && (
-                <button
-                  className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.location.href = actionUrl;
-                  }}
-                >
-                  View Details →
-                </button>
-              )}
-            </div>
-          </div>
+               {/* Mark as read/unread button */}
+               {onMarkRead && (
+                 <button
+                   onClick={handleMarkReadToggle}
+                   className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                   aria-label={notification.read ? 'Mark as unread' : 'Mark as read'}
+                 >
+                   {notification.read ? 'Mark unread' : 'Mark read'}
+                 </button>
+               )}
+
+               {/* Action button */}
+               {actionUrl && (
+                 <button
+                   className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     window.location.href = actionUrl;
+                   }}
+                 >
+                   View Details →
+                 </button>
+               )}
+             </div>
+           </div>
         </div>
       </div>
     </div>

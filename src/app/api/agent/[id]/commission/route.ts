@@ -19,35 +19,39 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   if (!account?.recipientCode) return NextResponse.json({ error: 'No payout account linked. Add bank details first.' }, { status: 400 });
 
   const commissionNaira = Number(deal.agentCommission || 0) / 100;
+  if (commissionNaira < 1) return NextResponse.json({ error: 'No commission to release' }, { status: 400 });
+
+  const wallet = await prisma.wallet.findUnique({ where: { userId: user.id } });
+  if (!wallet) return NextResponse.json({ error: 'Wallet not found' }, { status: 404 });
+  const opening = Number(wallet.balance);
+  if (opening < commissionNaira) return NextResponse.json({ error: 'Insufficient wallet balance to pay out' }, { status: 400 });
+
   const transfer = await paystack.createTransfer({
     source: 'balance',
     amount: Number(deal.agentCommission || 0),
     recipient: account.recipientCode,
     reference: `AGT_COMM_${deal.id}`,
-    reason: `Agent commission release for ${deal.reference || 'sale'}`,
+    reason: `Agent commission payout for ${deal.reference || 'sale'}`,
   });
 
   if (!transfer.status) return NextResponse.json({ error: transfer.message || 'Transfer failed' }, { status: 400 });
 
-  const wallet = await prisma.wallet.findUnique({ where: { userId: user.id } });
-  const opening = wallet ? Number(wallet.balance) : 0;
-  const closing = opening + commissionNaira;
-
+  const closing = opening - commissionNaira;
   await prisma.$transaction(async (tx) => {
-    if (wallet) await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
+    await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
     await tx.walletTransaction.create({
       data: {
-        walletId: wallet?.id ?? '',
+        walletId: wallet.id,
         userId: user.id,
-        type: 'deposit',
+        type: 'withdrawal',
         status: 'success',
         amount: commissionNaira,
         currency: 'NGN',
         openingBalance: opening,
         closingBalance: closing,
-        description: `Commission release for deal ${dealId}`,
+        description: `Commission payout for deal ${dealId}`,
         providerRef: transfer.data.transfer_code,
-        meta: { dealId, commissionStatus: 'released', flow: 'sale_commission_release' },
+        meta: { dealId, commissionStatus: 'released', flow: 'sale_commission_payout' },
       },
     });
     await tx.transaction.update({

@@ -3,7 +3,14 @@ import localFont from 'next/font/local';
 import '@/styles/globals.css';
 import './globals.css';
 import { Providers } from '@/components/providers';
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from '@/components/ui/toaster';
+import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const sourceSans3Heading = Source_Sans_3({subsets:['latin'],variable:'--font-heading'});
+
+const ibmPlexSans = IBM_Plex_Sans({subsets:['latin'],variable:'--font-sans'});
 
 const inter = localFont({
   src: [
@@ -83,7 +90,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} antialiased`}
+      className={cn("antialiased", inter.variable, "font-sans", ibmPlexSans.variable, sourceSans3Heading.variable)}
       suppressHydrationWarning
     >
       <head>
@@ -101,11 +108,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="PROPATI" />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
+        <TooltipProvider>
         <Providers>
           {children}
           <Toaster />
           <script src="/push.js" defer strategy="afterInteractive" />
         </Providers>
+        </TooltipProvider>
       </body>
     </html>
   );

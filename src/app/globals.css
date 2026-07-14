@@ -147,7 +147,7 @@
 }
 
 /* Role-based theme classes applied to body */
-body.theme-landing {
+.app-layout.theme-landing {
   --bg: var(--theme-landing-bg);
   --surface: var(--theme-landing-bg);
   --border: var(--theme-landing-bg);
@@ -156,7 +156,7 @@ body.theme-landing {
   --accent: var(--theme-landing-accent);
 }
 
-body.theme-landlord {
+.app-layout.theme-landlord {
   --bg: var(--theme-landlord-bg);
   --surface: var(--theme-landlord-surface);
   --surface-elevated: var(--theme-landlord-surface-elevated);
@@ -167,7 +167,7 @@ body.theme-landlord {
   --accent2: var(--theme-landlord-accent2);
 }
 
-body.theme-tenant {
+.app-layout.theme-tenant {
   --bg: var(--theme-tenant-bg);
   --surface: var(--theme-tenant-surface);
   --border: var(--theme-tenant-border);
@@ -177,7 +177,7 @@ body.theme-tenant {
   --accent2: var(--theme-tenant-accent2);
 }
 
-body.theme-agent {
+.app-layout.theme-agent {
   --bg: var(--theme-agent-bg);
   --surface: var(--theme-agent-surface);
   --border: var(--theme-agent-border);
@@ -187,7 +187,7 @@ body.theme-agent {
   --accent2: var(--theme-agent-accent2);
 }
 
-body.theme-admin {
+.app-layout.theme-admin {
   --bg: var(--theme-admin-bg);
   --surface: var(--theme-admin-bg);
   --border: var(--theme-admin-bg);
@@ -208,7 +208,7 @@ body.em-theme {
   --accent2: var(--theme-em-accent2);
 }
 
-body.theme-realtor {
+.app-layout.theme-realtor {
   --bg: var(--theme-realtor-bg);
   --surface: var(--theme-realtor-surface);
   --surface-elevated: var(--theme-realtor-surface-elevated);
@@ -219,7 +219,7 @@ body.theme-realtor {
   --accent2: var(--theme-realtor-accent2);
 }
 
-body.theme-admin {
+.app-layout.theme-admin {
   --bg: var(--theme-admin-bg);
   --surface: var(--theme-admin-surface);
   --surface-elevated: var(--theme-admin-surface-elevated);

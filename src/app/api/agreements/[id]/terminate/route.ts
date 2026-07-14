@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { AgreementStatus } from '@prisma/client';
+import { paystack } from '@/lib/paystack';
 
 const terminateAgreementSchema = z.object({
   agreementId: z.string().uuid(),
@@ -88,6 +89,35 @@ export async function POST(
         },
       });
     }
+
+    // Attempt to release any held agent commission for this agreement
+    try {
+      const relatedTx = await prisma.transaction.findFirst({
+        where: { agreementId: id, agentCommissionStatus: 'held' },
+        include: { agent: { select: { id: true } } },
+      });
+      if (relatedTx && relatedTx.agentId) {
+        const commissionNaira = Number(relatedTx.agentCommission || 0) / 100;
+        await prisma.$transaction(async (tx) => {
+          const wallet = await tx.wallet.findUnique({ where: { userId: relatedTx.agentId } });
+          const acct = await tx.userPaystackAccount.findUnique({ where: { userId: relatedTx.agentId } });
+          const opening = wallet ? Number(wallet.balance) : 0;
+          const closing = opening + commissionNaira;
+          if (wallet) await tx.wallet.update({ where: { id: wallet.id }, data: { balance: closing } });
+          await tx.walletTransaction.create({
+            data: { walletId: wallet?.id ?? '', userId: relatedTx.agentId, type: 'deposit', status: 'success', amount: commissionNaira, currency: 'NGN', openingBalance: opening, closingBalance: closing, description: `Commission release on agreement termination`, meta: { agreementId: id, transactionId: relatedTx.id, flow: 'termination_release' } },
+          });
+          await tx.transaction.update({ where: { id: relatedTx.id }, data: { agentCommissionStatus: 'released', agentCommissionReleasedAt: new Date(), status: 'released' } });
+        });
+        const acct = await prisma.userPaystackAccount.findUnique({ where: { userId: relatedTx.agentId } });
+        if (acct?.recipientCode) {
+          try {
+            await paystack.createTransfer({ source: 'balance', amount: Number(relatedTx.agentCommission || 0), recipient: acct.recipientCode, reference: `AGT_COMM_TERM_${relatedTx.id}`, reason: `Agent commission payout for agreement ${id}` });
+          } catch { /* swallow transfer errors in terminal flow */ }
+        }
+        await prisma.notification.create({ data: { userId: relatedTx.agentId, type: 'payment', title: 'Commission Released', body: `Commission released on terminated agreement`, data: { agreementId: id, transactionId: relatedTx.id } } });
+      }
+    } catch { /* do not block agreement termination */ }
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {

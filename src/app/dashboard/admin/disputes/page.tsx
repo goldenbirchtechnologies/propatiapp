@@ -1,55 +1,51 @@
-'use client';
-
-import { useState } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { prisma } from '@/lib/prisma';
+import DashboardShell from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
+import Link from 'next/link';
 
-export default function AdminDisputesPage() {
-  const [error, setError] = useState<string | null>(null);
-
-  if (error) {
-    return (
-      <DashboardShell navigation={ADMIN_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Disputes</h1>
-          <p className="text-muted-foreground">Manage and resolve platform disputes.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Unable to load page</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
-      </DashboardShell>
-    );
-  }
+export default async function AdminDisputesPage() {
+  const disputes = await prisma.transaction.findMany({
+    where: { confirmationStatus: 'disputed' },
+    include: { listing: { select: { title: true } }, payer: { select: { fullName: true } }, payee: { select: { fullName: true } } },
+    orderBy: { createdAt: 'desc' },
+  });
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION}>
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Disputes</h1>
-            <p className="text-muted-foreground mt-1">Manage and resolve platform disputes.</p>
+      <div className="space-y-6">
+        <h1 className="text-2xl font-bold">Disputes</h1>
+        <p className="text-muted-foreground">Resolve transaction disputes.</p>
+        {disputes.length === 0 ? (
+          <p>No open disputes.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left p-3">Transaction</th>
+                  <th className="text-left p-3">Buyer</th>
+                  <th className="text-left p-3">Seller</th>
+                  <th className="text-left p-3">Created</th>
+                  <th className="text-right p-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {disputes.map((tx) => (
+                  <tr key={tx.id} className="border-b">
+                    <td className="p-3">{tx.listing?.title ?? tx.id}</td>
+                    <td className="p-3">{tx.payer?.fullName ?? '—'}</td>
+                    <td className="p-3">{tx.payee?.fullName ?? '—'}</td>
+                    <td className="p-3">{new Date(tx.createdAt).toLocaleString('en-NG')}</td>
+                    <td className="p-3 text-right">
+                      <Link href={`/dashboard/admin/disputes/${tx.id}`} className="px-3 py-1.5 text-sm bg-primary text-white rounded-lg">Review</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-            Create Dispute
-          </button>
-        </div>
-        <div className="rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
-          <div className="text-muted-foreground mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-primary">No disputes yet</h3>
-          <p className="mt-1 text-on-surface-variant">Active disputes will appear here for management.</p>
-        </div>
-      </section>
+        )}
+      </div>
     </DashboardShell>
   );
 }

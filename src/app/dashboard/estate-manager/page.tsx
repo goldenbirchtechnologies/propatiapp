@@ -69,6 +69,20 @@ export default async function EstateManagerDashboardPage() {
       select: { status: true, occupancy: true, rent: true }
     });
 
+    const managedCollections = await prisma.transaction.findMany({
+      where: {
+        payeeId: user.id,
+        confirmationStatus: { not: 'disputed' },
+      },
+    });
+    const pendingManaged = managedCollections.filter(tx => {
+      try {
+        const md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata;
+        return md?.collectionType === 'managed';
+      } catch { return false; }
+    });
+    const pendingManagedNaira = pendingManaged.reduce((sum, tx) => sum + Number(tx.payeeAmount || tx.amount || 0), 0);
+
     unitCount = units.length;
     occupiedCount = units.filter(u => u.occupancy === 'OCCUPIED').length;
     vacantCount = units.filter(u => u.occupancy === 'VACANT').length;
@@ -180,6 +194,8 @@ export default async function EstateManagerDashboardPage() {
   const displayOccupied = hasData ? occupiedCount : mockStats.occupiedCount;
   const displayVacant = hasData ? vacantCount : mockStats.vacantCount;
   const displayMaintenance = hasData ? maintenanceCount : mockStats.maintenanceCount;
+  const displayPendingManaged = hasData ? pendingManaged.length : activeOrg ? 0 : 3;
+  pendingManagedAmountLabel = '₦' + (displayPendingManaged ? (pendingManagedNaira / 100).toLocaleString() : '0');
   const displayOccupancyRate = displayUnits > 0 ? Math.round((displayOccupied / displayUnits) * 100) : 0;
 
   const displayBilledCharges = hasData ? totalBilledServiceCharges : mockStats.totalBilledServiceCharges;
@@ -188,6 +204,7 @@ export default async function EstateManagerDashboardPage() {
 
   const displayTickets = hasData ? recentTickets : mockStats.recentTickets;
   const displayCharges = hasData ? recentServiceCharges : mockStats.recentServiceCharges;
+  let pendingManagedAmountLabel = '₦0';
 
   // Custom styling mappings
   const priorityColors: Record<string, string> = {
@@ -410,6 +427,25 @@ export default async function EstateManagerDashboardPage() {
                     }`}
                   />
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5: Pending Managed Collections */}
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-zinc-400 font-medium">Pending Managed Collections</span>
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/20">
+                  <Layers className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-3xl font-extrabold text-white font-mono">{displayPendingManaged ?? 0}</h3>
+                <p className="text-xs text-zinc-400">Awaiting disbursement to landlord</p>
+              </div>
+              <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium">
+                <span>Payables: {pendingManagedAmountLabel}</span>
               </div>
             </div>
           </div>

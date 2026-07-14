@@ -30,21 +30,24 @@ export default function WalletPage() {
   const [transactions, setTransactions] = useState<Array<Record<string, unknown>>>([]);
   const [paystackAccount, setPaystackAccount] = useState<Record<string, unknown> | null>(null);
   const [withdrawalAccount, setWithdrawalAccount] = useState<{ bankName: string; accountNumber: string; accountName: string } | null>(null);
+  const [paystackBalance, setPaystackBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
   async function load() {
     setLoading(true);
     try {
-      const [balanceRes, txRes, paystackRes] = await Promise.all([
-        fetch('/api/wallet/balance'), fetch('/api/wallet/transactions?limit=20'), fetch('/api/paystack/me'),
+      const [balanceRes, txRes, paystackRes, paystackBalanceRes] = await Promise.all([
+        fetch('/api/wallet/balance'), fetch('/api/wallet/transactions?limit=20'), fetch('/api/paystack/me'), fetch('/api/paystack/balance'),
       ]);
       const balanceJson = await balanceRes.json();
       const txJson = await txRes.json();
       const paystackJson = await paystackRes.json();
+      const paystackBalanceJson = await paystackBalanceRes.json();
       setBalance(balanceJson?.data?.balance ?? 0);
       setTransactions(txJson?.items ?? []);
       setPaystackAccount(paystackJson?.data ?? null);
+      setPaystackBalance(paystackBalanceJson?.data?.balance ?? 0);
     } catch {
       toast.error('Failed to load wallet');
     } finally {
@@ -143,9 +146,14 @@ export default function WalletPage() {
             <h1 className="text-2xl font-bold tracking-tight">Wallet</h1>
             <p className="text-muted-foreground text-sm">Paystack-linked balance and payment management.</p>
           </div>
-          <Button variant="outline" size="sm" onClick={load}>
-            <RefreshCcw className="mr-2 size-4" /> Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={load}>
+              <RefreshCcw className="mr-2 size-4" /> Refresh
+            </Button>
+            <Button variant="ghost" size="sm" onClick={async () => { await fetch('/api/paystack/balance', { method: 'POST', body: JSON.stringify({reconcile: true})}); toast.success('Reconciled'); load(); }}>
+              Reconcile Paystack
+            </Button>
+          </div>
         </div>
 
         <div className="flex gap-2 overflow-x-auto border-b border-border/60 pb-2">
@@ -166,6 +174,15 @@ export default function WalletPage() {
               <CardContent>
                 <div className="text-2xl font-bold">{loading ? '...' : formatAmount(balance ?? 0)}</div>
                 <p className="text-xs text-muted-foreground">Available funds</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Paystack customer balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{loading ? '...' : formatAmount(paystackBalance)}</div>
+                <p className="text-xs text-muted-foreground">Live customer balance</p>
               </CardContent>
             </Card>
             <Card>

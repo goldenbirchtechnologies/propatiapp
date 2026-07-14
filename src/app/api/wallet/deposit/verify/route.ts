@@ -27,11 +27,23 @@ export async function GET(request: NextRequest) {
     const updated = await txClient.wallet.upsert({ where: { userId }, update: { balance: closing }, create: { userId, currency: 'NGN', balance: closing } });
     const txn = await txClient.walletTransaction.upsert({
       where: { reference },
-      update: { status: 'success', providerRef: String(data.id), meta: data.metadata },
-      create: { walletId: updated.id, userId, reference, type: 'deposit', status: 'success', amount: amountNaira, openingBalance: opening, closingBalance: closing, providerRef: String(data.id), description: 'Wallet top-up', meta: data.metadata },
+      update: { status: 'success', providerRef: String(data.id), meta: { ...data.metadata, customerCode: data.customer?.customer_code || null } },
+      create: { walletId: updated.id, userId, reference, type: 'deposit', status: 'success', amount: amountNaira, openingBalance: opening, closingBalance: closing, providerRef: String(data.id), description: 'Wallet top-up', meta: { ...data.metadata, customerCode: data.customer?.customer_code || null } },
     });
     return txn;
   });
+
+  // Reconcile: ensure Paystack customer balance is live source for future withdrawals
+  try {
+    const account = await prisma.userPaystackAccount.findUnique({ where: { userId } });
+    if (account?.recipientCode && process.env.PAYSTACK_SECRET_KEY) {
+      const res = await fetch('https://api.paystack.co/customer/' + encodeURIComponent(account.customerCode), { headers: { Authorization: 'Bearer ' + process.env.PAYSTACK_SECRET_KEY } });
+      const body = await res.json();
+      if (res.ok && body.status && body.data?.customer) {
+        await prisma.userPaystackAccount.update({ where: { userId }, data: { customerCode: body.data.customer.customer_code, balance: body.data.customer.balance || 0 } });
+      }
+    }
+  } catch { /* non-blocking reconcile */ }
 
   return NextResponse.json({ success: true, amount: amountNaira, transaction: tx });
 }

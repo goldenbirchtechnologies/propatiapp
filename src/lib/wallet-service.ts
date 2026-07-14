@@ -63,6 +63,18 @@ export async function getUserWalletTransactions(userId: string, page = 1, limit 
   return { items, total, page, limit };
 }
 
+export async function reconcilePaystackBalance(userId: string) {
+  try {
+    const account = await prisma.userPaystackAccount.findUnique({ where: { userId } });
+    if (!account?.customerCode || !process.env.PAYSTACK_SECRET_KEY) return;
+    const res = await fetch('https://api.paystack.co/customer/' + encodeURIComponent(account.customerCode), { headers: { Authorization: 'Bearer ' + process.env.PAYSTACK_SECRET_KEY } });
+    const body = await res.json();
+    if (res.ok && body.status && body.data?.customer) {
+      await prisma.userPaystackAccount.update({ where: { userId }, data: { balance: body.data.customer.balance || 0 } });
+    }
+  } catch { /* non-blocking */ }
+}
+
 export async function initiateDeposit(userId: string, amountNaira: number) {
   const amountKobo = Math.round(amountNaira * 100);
   if (amountKobo <= 0) throw new Error('Deposit amount must be greater than zero');

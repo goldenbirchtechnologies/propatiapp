@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FileText, Eye, Calendar, Download, ChevronRight, ChevronLeft, User, DollarSign, Home, Clock } from 'lucide-react';
+import { FileText, Eye, Calendar, Download, ChevronRight, ChevronLeft, User, DollarSign, Home, Clock, Lock, Wallet } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 
 type Deal = {
   id: string;
@@ -34,6 +36,35 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
   const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' });
   const statusStyle = STATUS_STYLE[deal.status] || STATUS_STYLE.enquiries;
 
+  const [actionLoading, setActionLoading] = useState(false);
+
+  useEffect(() => { console.log('deal loaded', deal); }, [deal]);
+
+  async function closeDeal() {
+    setActionLoading(true);
+    try {
+      const res = await fetch('/api/agent/' + deal.id + '/close', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      toast.success('Deal marked closed. Commission is now held.');
+    } catch (error) { toast.error(error instanceof Error ? error.message : 'Failed'); }
+    finally { setActionLoading(false); }
+  }
+
+  async function releaseCommission() {
+    setActionLoading(true);
+    try {
+      const res = await fetch('/api/agent/' + deal.id + '/commission', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      toast.success('Commission released');
+    } catch (error) { toast.error(error instanceof Error ? error.message : 'Failed'); }
+    finally { setActionLoading(false); }
+  }
+
+  const isInEscrow = String(deal.status).toLowerCase() === 'in_escrow';
+  const showActions = isInEscrow || String(deal.status).toLowerCase() === 'commission_held';
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -58,6 +89,24 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
           {deal.status.replace(/_/g, ' ')}
         </span>
       </div>
+
+      {showActions && (
+        <div className="rounded-xl border border-border/60 bg-background p-4">
+          <h3 className="text-sm font-semibold mb-3">Deal actions</h3>
+          <div className="flex flex-wrap items-center gap-3">
+            {isInEscrow && (
+              <Button variant="secondary" onClick={closeDeal} disabled={actionLoading} className="gap-2">
+                <Lock className="h-4 w-4" /> Mark deal closed
+              </Button>
+            )}
+            {(String(deal.status).toLowerCase() === 'commission_held' || deal.agentCommissionStatus === 'held') && (
+              <Button onClick={releaseCommission} disabled={actionLoading} className="gap-2">
+                <Wallet className="h-4 w-4" /> Release commission
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-2 border-b" style={{ borderColor: 'border-outline-variant' }}>

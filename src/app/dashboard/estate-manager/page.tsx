@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export default async function EstateManagerDashboardPage() {
@@ -61,6 +62,26 @@ export default async function EstateManagerDashboardPage() {
   let recentServiceCharges: any[] = [];
   let totalBilledServiceCharges = 0;
   let totalPaidServiceCharges = 0;
+
+  const now = new Date();
+  const daysSince = (d: Date) => Math.max(0, Math.floor((now.getTime() - d.getTime()) / 86400000));
+  const smartManagedThreshold = 14;
+  const nearVoidThreshold = 3;
+
+  let managedAnalytics = {
+    totalCollected: 0,
+    totalPending: 0,
+    totalAmount: 0,
+    avgAmount: 0,
+    completionRate: 0,
+    smartCount: 0,
+    smartAmount: 0,
+    nearVoidCount: 0,
+    nearVoidAmount: 0,
+    landlordBreakdown: Record<string, { count: number; amountNaira: number }>,
+    monthlyTrend: Array<{ label: string; count: number; amountNaira: number }>,
+    recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }>,
+  };
 
   if (activeOrg) {
     // 1. Fetch unit statistics
@@ -112,7 +133,65 @@ export default async function EstateManagerDashboardPage() {
     totalPaidServiceCharges = serviceCharges
       .filter(sc => sc.status === 'paid')
       .reduce((sum, sc) => sum + Number(sc.amount), 0);
+
+    const managedTransactions = await prisma.transaction.findMany({
+      where: { payeeId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const daysSince = (d: Date) => Math.max(0, Math.floor((Date.now() - d.getTime()) / 86400000));
+    const smartManagedThreshold = 14;
+    const nearVoidThreshold = 3;
+    const monthlyStats: Record<string, { count: number; amountNaira: number }> = {};
+    let totalAmount = 0;
+    let totalCollected = 0;
+    let smartCount = 0, smartAmount = 0;
+    let nearVoidCount = 0, nearVoidAmount = 0;
+    const recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }> = [];
+
+    for (const tx of managedTransactions) {
+      try { md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata; } catch { md = {}; }
+      if (md?.collectionType !== 'managed') continue;
+      const amountNaira = Number(tx.payeeAmount || tx.amount || 0) / 100;
+      const dt = tx.createdAt instanceof Date ? tx.createdAt : new Date(tx.createdAt);
+      const statusStr = String(tx.status || 'pending').toLowerCase();
+      const settled = statusStr === 'released' || statusStr === 'success';
+      const days = daysSince(dt);
+      const monthLabel = `${dt.toLocaleString('en-NG', { month: 'short' })} ${dt.getFullYear()}`;
+      monthlyStats[monthLabel] ||= { count: 0, amountNaira: 0 };
+      monthlyStats[monthLabel].count += 1;
+      monthlyStats[monthLabel].amountNaira += amountNaira;
+      totalAmount += amountNaira;
+      if (settled) totalCollected += amountNaira;
+      else {
+        if (days > smartManagedThreshold) {
+          smartCount += 1;
+          smartAmount += amountNaira;
+          recentSmart.push({ id: tx.id, landlord: 'Managed Wallet', amountNaira, createdAt: dt });
+        }
+        if (days <= nearVoidThreshold) {
+          nearVoidCount += 1;
+          nearVoidAmount += amountNaira;
+        }
+      }
+    }
+
+    managedAnalytics = {
+      totalCollected,
+      totalPending: totalAmount - totalCollected,
+      totalAmount,
+      avgAmount: managedTransactions.length ? totalAmount / managedTransactions.length : 0,
+      completionRate: totalAmount > 0 ? Math.round((totalCollected / totalAmount) * 100) : 0,
+      smartCount,
+      smartAmount,
+      nearVoidCount,
+      nearVoidAmount,
+      landlordBreakdown: {},
+      monthlyTrend: Object.entries(monthlyStats).slice(-6).map(([label, v]) => ({ label, ...v })),
+      recentSmart: recentSmart.slice(0, 6),
+    };
   }
+
 
   const hasData = unitCount > 0;
 
@@ -470,6 +549,84 @@ export default async function EstateManagerDashboardPage() {
           </div>
         </section>
 
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-12 space-y-6">
+            <div className="flex items-end justify-between">
+              <div className="space-y-0.5">
+                <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+                  <BarChart2 className="w-4 h-4 text-zinc-400" /> Managed Collections Analytics
+                </h3>
+                <p className="text-xs text-zinc-400">Trends, smart collection breakdown, and near-void alerts.</p>
+              </div>
+              <Badge variant="outline" className="text-[10px] border-white/10 text-zinc-300 bg-white/[0.02]">
+                Rolling 6 months
+              </Badge>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              <KpiCard label="Managed Revenue" value={`₦${(managedAnalytics.totalAmount / 100).toLocaleString()}`} hint={`₦${(managedAnalytics.totalCollected / 100).toLocaleString()} collected`} />
+              <KpiCard label="Collection Rate" value={`${managedAnalytics.completionRate}%`} hint={`${managedAnalytics.totalPending ? ((managedAnalytics.totalPending / managedAnalytics.totalAmount) * 100).toFixed(1) : 0}% pending / unverified`} />
+              <KpiCard label="Avg Managed Deal" value={`₦${(managedAnalytics.avgAmount / 100).toLocaleString()}`} hint={`${managedAnalytics.smartCount} smart collections`} />
+              <KpiCard label="Near-Void Alerts" value={`${managedAnalytics.nearVoidCount}`} hint={`₦${(managedAnalytics.nearVoidAmount / 100).toLocaleString()} at risk`} />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-4 border border-white/5 bg-[#0a1120] rounded-2xl p-5 space-y-4">
+                <h4 className="font-heading text-sm font-bold text-white">Monthly Trend</h4>
+                {managedAnalytics.monthlyTrend.length === 0 ? (
+                  <p className="text-xs text-zinc-400">No managed collections yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {managedAnalytics.monthlyTrend.map((row) => (
+                      <div key={row.label} className="space-y-1">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-zinc-300">{row.label}</span>
+                          <span className="text-zinc-400">{row.count} deal{row.count === 1 ? '' : 's'}</span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <div className="h-full rounded-full bg-blue-500/80" style={{ width: `${Math.min(100, (row.amountNaira / (managedAnalytics.totalAmount || 1)) * 100)}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="lg:col-span-8 border border-white/5 bg-[#0a1120] rounded-2xl overflow-hidden">
+                <div className="p-5 flex items-center justify-between border-b border-white/5">
+                  <h4 className="font-heading text-sm font-bold text-white">Smart Collections</h4>
+                  <span className="text-[10px] text-zinc-400">{managedAnalytics.smartCount} unverified past 14d</span>
+                </div>
+                <div className="p-5">
+                  {!managedAnalytics.recentSmart.length ? (
+                    <p className="text-xs text-zinc-400">No smart collections to review.</p>
+                  ) : (
+                    <Table>
+                      <TableHeader className="border-b border-white/5">
+                        <TableRow>
+                          <TableHead className="text-zinc-400 font-medium text-xs">Transaction</TableHead>
+                          <TableHead className="text-zinc-400 font-medium text-xs">Amount</TableHead>
+                          <TableHead className="text-zinc-400 font-medium text-xs">Age</TableHead>
+                          <TableHead className="text-zinc-400 font-medium text-xs">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {managedAnalytics.recentSmart.map((item) => (
+                          <TableRow key={item.id} className="border-b border-white/5 hover:bg-white/[0.01]">
+                            <TableCell className="text-white text-xs font-medium font-mono">{item.id.slice(0, 8)}...</TableCell>
+                            <TableCell className="text-white text-xs font-semibold">₦{item.amountNaira.toLocaleString()}</TableCell>
+                            <TableCell className="text-zinc-400 text-xs">{daysSince(item.createdAt)} days</TableCell>
+                            <TableCell>
+                              <Badge className="text-[10px] border px-2 py-0.5 bg-amber-500/10 text-amber-300 border-amber-500/20">Unverified</Badge>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Bento Grid Sections */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Column: Tickets & Charges */}
@@ -680,6 +837,18 @@ export default async function EstateManagerDashboardPage() {
       </div>
       </div>
     </DashboardShell>
+  );
+}
+
+function KpiCard({ label, value, hint }: { label: string; value: string; hint: string }) {
+  return (
+    <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+      <div className="p-5 space-y-2">
+        <span className="text-[11px] text-zinc-400 font-medium">{label}</span>
+        <h3 className="text-2xl font-extrabold text-white font-mono tracking-tight">{value}</h3>
+        <p className="text-[10px] text-zinc-400">{hint}</p>
+      </div>
+    </div>
   );
 }
 

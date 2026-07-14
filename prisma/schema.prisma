@@ -747,6 +747,9 @@ model Transaction {
   agentCommissionStatus String?      @default("pending") @map("agent_commission_status") // pending | held | released | forfeited
   commissionHoldReason String?       @map("commission_hold_reason")
   agentCommissionReleasedAt DateTime? @map("agent_commission_released_at")
+  buyerConfirmedAt       DateTime?    @map("buyer_confirmed_at")
+  sellerConfirmedAt      DateTime?    @map("seller_confirmed_at")
+  confirmationStatus     String?      @default("pending") @map("confirmation_status") // pending | partially_confirmed | fully_confirmed | disputed
   description      String?
   paystackData     Json?            @map("paystack_data")
   paidAt           DateTime?        @map("paid_at")

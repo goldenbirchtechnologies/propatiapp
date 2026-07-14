@@ -8,9 +8,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   if (authResult.user.role !== 'agent' && authResult.user.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const dealId = params.id;
-  const deal = await prisma.transaction.findUnique({ where: { id: dealId }, include: { listing: true } });
+  const deal = await prisma.transaction.findUnique({ where: { id: dealId } });
   if (!deal) return NextResponse.json({ error: 'Deal not found' }, { status: 404 });
-  if (deal.status !== 'in_escrow') return NextResponse.json({ error: 'Deal is not in escrow' }, { status: 400 });
+  if (!deal.buyerConfirmedAt || !deal.sellerConfirmedAt) return NextResponse.json({ error: 'Buyer and seller must both confirm before closing', code: 'CONFIRMATION_REQUIRED' }, { status: 400 });
 
   const updated = await prisma.transaction.update({
     where: { id: dealId },

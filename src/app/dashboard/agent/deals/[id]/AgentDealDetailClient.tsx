@@ -104,6 +104,10 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
                 <Wallet className="h-4 w-4" /> Release commission
               </Button>
             )}
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={() => fetch('/api/transactions/' + deal.id + '/confirm', { method: 'POST' }).then(() => toast.success('Payment confirmed'))} disabled={actionLoading}>Confirm payment sent/received</Button>
+              <Button variant="destructive" onClick={() => fetch('/api/transactions/' + deal.id + '/dispute', { method: 'POST' }).then(() => toast.error('Dispute filed'))} disabled={actionLoading}>Dispute</Button>
+            </div>
           </div>
         </div>
       )}

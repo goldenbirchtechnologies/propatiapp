@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 
-function isInParticipants(participants: any, userId: string) {
+function isInParticipants(participants: unknown, userId: string): boolean {
   if (!Array.isArray(participants)) return false;
-  return participants.some((p: any) => p.userId === userId);
+  return (Array.isArray(participants) ? participants : []).some((p) => typeof p === "object" && p !== null && (p as { userId?: string }).userId === userId);
 }
 
 export async function POST(
@@ -35,7 +35,7 @@ export async function POST(
 
     const updated = await prisma.conversation.update({
       where: { id },
-      data: { unreadCounts: { ...(conversation.unreadCounts as any), [user.id]: 0 } },
+      data: { unreadCounts: { ...(conversation.unreadCounts as Record<string, unknown> | null), [user.id]: 0 } },
       select: { id: true, unreadCounts: true, updatedAt: true },
     });
 
@@ -46,7 +46,7 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      data: { conversationId: updated.id, unreadCount: (updated.unreadCounts as any)?.[user.id] || 0, updatedAt: updated.updatedAt },
+      data: { conversationId: updated.id, unreadCount: typeof (updated.unreadCounts as Record<string, unknown> | null)?.[user.id] === 'number' ? (updated.unreadCounts as Record<string, number>)[user.id] : 0, updatedAt: updated.updatedAt },
       message: 'Conversation marked as read',
     });
   } catch (error) {

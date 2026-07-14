@@ -16,7 +16,7 @@ export interface Notification {
   type: string;
   title: string;
   body: string;
-  data?: any;
+  data?: Record<string, unknown>;
   read: boolean;
   createdAt: string;
 }
@@ -58,8 +58,8 @@ export function useNotifications(params?: {
         searchParams.append('unreadOnly', 'true');
       }
 
-      const response: any = await api.get(`/api/notifications?${searchParams}`);
-      return response.data as NotificationsResponse;
+      const response = await api.get<NotificationsResponse>(`/api/notifications?${searchParams}`);
+      return response;
     },
     refetchInterval: 30000, // Poll every 30 seconds
     staleTime: 20000, // Consider data stale after 20 seconds
@@ -73,8 +73,8 @@ export function useUnreadCount() {
   return useQuery({
     queryKey: ['notifications', 'unread-count'],
     queryFn: async () => {
-      const response: any = await api.get('/api/notifications/unread-count');
-      return response.data.count as number;
+      const response = await api.get<{ count: number }>('/api/notifications/unread-count');
+      return response.count;
     },
     refetchInterval: 30000, // Poll every 30 seconds
     staleTime: 20000,
@@ -89,13 +89,13 @@ export function useMarkNotificationRead() {
 
   return useMutation({
     mutationFn: async (params: { id: string; read: boolean }) => {
-      const response: any = await api.patch(
+      const response = await api.patch<{ id: string }>(
         `/api/notifications/${params.id}/read`,
         {
           read: params.read,
         }
       );
-      return response.data;
+      return response;
     },
     onSuccess: () => {
       // Invalidate all notification queries
@@ -112,8 +112,8 @@ export function useMarkAllRead() {
 
   return useMutation({
     mutationFn: async () => {
-      const response: any = await api.post('/api/notifications/mark-all-read');
-      return response.data;
+      const response = await api.post<{ success: boolean }>('/api/notifications/mark-all-read');
+      return response;
     },
     onSuccess: () => {
       // Invalidate all notification queries

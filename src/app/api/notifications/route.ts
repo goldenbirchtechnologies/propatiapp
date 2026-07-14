@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: any = {
+    const where: Prisma.NotificationWhereInput = {
       userId: user.id,
     };
 
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       prisma.notification.count({ where }),
     ]);
 
-    const enriched = notifications.map((n: any) => {
+    const enriched = notifications.map((n) => {
       const data = typeof n.data === 'string' ? JSON.parse(n.data || '{}') : n.data;
       const action = data?.action;
       const transactionId = data?.transactionId;
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       type: z.string(),
       title: z.string(),
       body: z.string(),
-      data: z.record(z.any()).optional(),
+      data: z.record(z.unknown()).optional(),
     });
 
     const validated = schema.parse(body);

@@ -165,8 +165,8 @@ export async function PATCH(
 
     // Restrict admin-only fields
     if (!isAdmin) {
-      delete (validated as any).verificationTier;
-      delete (validated as any).isFeatured;
+      delete (validated as Record<string, unknown>).verificationTier;
+      delete (validated as Record<string, unknown>).isFeatured;
     }
 
     // Update listing

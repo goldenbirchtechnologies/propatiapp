@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
  * Handle subscription.create event
  * Activates the organization subscription
  */
-async function handleSubscriptionCreate(data: any) {
+async function handleSubscriptionCreate(data: Record<string, unknown>) {
   const { subscription_code, status, customer, plan, amount, next_payment_date } = data;
 
   console.log(`[Subscription Webhook] Subscription created: ${subscription_code}`);
@@ -136,7 +136,7 @@ async function handleSubscriptionCreate(data: any) {
  * Handle subscription.disable event
  * Deactivates the organization subscription
  */
-async function handleSubscriptionDisable(data: any) {
+async function handleSubscriptionDisable(data: Record<string, unknown>) {
   const { subscription_code, status } = data;
 
   console.log(`[Subscription Webhook] Subscription disabled: ${subscription_code}`);
@@ -182,7 +182,7 @@ async function handleSubscriptionDisable(data: any) {
  * Handle subscription.not_renew event
  * Pauses subscription renewal (auto-renew disabled)
  */
-async function handleSubscriptionNotRenew(data: any) {
+async function handleSubscriptionNotRenew(data: Record<string, unknown>) {
   const { subscription_code } = data;
 
   console.log(`[Subscription Webhook] Subscription set to not renew: ${subscription_code}`);
@@ -228,7 +228,7 @@ async function handleSubscriptionNotRenew(data: any) {
  * Handle invoice.payment_failed event
  * Notifies admin and owner of payment failure
  */
-async function handleInvoicePaymentFailed(data: any) {
+async function handleInvoicePaymentFailed(data: Record<string, unknown>) {
   const { subscription_code, amount, customer, invoice_code, paid, description } = data;
 
   console.log(`[Subscription Webhook] Invoice payment failed: ${invoice_code || subscription_code}`);
@@ -292,7 +292,7 @@ async function handleInvoicePaymentFailed(data: any) {
  * Handle invoice.update event
  * Updates billing information
  */
-async function handleInvoiceUpdate(data: any) {
+async function handleInvoiceUpdate(data: Record<string, unknown>) {
   const { subscription_code, amount, next_payment_date, paid } = data;
 
   console.log(`[Subscription Webhook] Invoice updated: ${subscription_code}`);

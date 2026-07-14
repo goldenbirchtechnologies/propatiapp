@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const take = limit;
 
     // Build where clause based on user role
-    const where: any = {};
+    const where: Prisma.TransactionWhereInput = {};
 
     if (user.role === 'admin') {
       // Admin can see all, apply filters
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build orderBy
-    let orderBy: any = { createdAt: 'desc' };
+    let orderBy: Record<string, 'asc' | 'desc'> = { createdAt: 'desc' };
     if (sort) {
       const sortField = sort.replace(/^[-+]/, '');
       const sortOrder = sort.startsWith('-') ? 'desc' : 'asc';

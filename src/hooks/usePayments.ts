@@ -63,7 +63,7 @@ export function useTransactions(params?: TransactionFilters) {
   return useQuery({
     queryKey: paymentsKeys.transactionList(params),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(params as any);
+      const searchParams = new URLSearchParams((params ?? {}) as Record<string, string>);
       const response = await fetch(`/api/payments/transactions?${searchParams}`);
       if (!response.ok) throw new Error('Failed to fetch transactions');
       return response.json();

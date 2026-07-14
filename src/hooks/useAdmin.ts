@@ -66,7 +66,7 @@ export function useVerificationQueue(filters?: VerificationQueueFilters) {
   return useQuery({
     queryKey: adminKeys.verificationQueue(filters),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(filters as any);
+      const searchParams = new URLSearchParams((filters ?? {}) as Record<string, string>);
       const res = await fetch(`/api/admin/verification-queue?${searchParams}`);
       if (!res.ok) throw new Error('Failed to fetch verification queue');
       return res.json();
@@ -137,7 +137,7 @@ export function useFlaggedListings(filters?: FlaggedListingsFilters) {
   return useQuery({
     queryKey: adminKeys.flaggedListings(filters),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(filters as any);
+      const searchParams = new URLSearchParams((filters ?? {}) as Record<string, string>);
       const res = await fetch(`/api/admin/flagged-listings?${searchParams}`);
       if (!res.ok) throw new Error('Failed to fetch flagged listings');
       return res.json();
@@ -234,7 +234,7 @@ export function useAdminUsers(filters?: AdminUserFilters) {
   return useQuery({
     queryKey: adminKeys.users(filters),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(filters as any);
+      const searchParams = new URLSearchParams((filters ?? {}) as Record<string, string>);
       const res = await fetch(`/api/admin/users?${searchParams}`);
       if (!res.ok) throw new Error('Failed to fetch users');
       return res.json();
@@ -358,7 +358,7 @@ export function useRevenueReports(filters?: RevenueFilters) {
   return useQuery({
     queryKey: adminKeys.revenue(filters),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(filters as any);
+      const searchParams = new URLSearchParams((filters ?? {}) as Record<string, string>);
       const res = await fetch(`/api/admin/revenue?${searchParams}`);
       if (!res.ok) throw new Error('Failed to fetch revenue reports');
       return res.json();
@@ -378,7 +378,7 @@ export function useAuditLogs(filters?: AuditLogFilters) {
   return useQuery({
     queryKey: adminKeys.auditLogs(filters),
     queryFn: async () => {
-      const searchParams = new URLSearchParams(filters as any);
+      const searchParams = new URLSearchParams((filters ?? {}) as Record<string, string>);
       const res = await fetch(`/api/admin/audit-logs?${searchParams}`);
       if (!res.ok) throw new Error('Failed to fetch audit logs');
       return res.json();

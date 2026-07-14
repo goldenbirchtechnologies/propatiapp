@@ -82,7 +82,7 @@ export function useSendMessage(conversationId: string) {
       await queryClient.cancelQueries({ queryKey: messagesKeys.conversation(conversationId) });
 
       // Snapshot the previous value
-      const previousData = queryClient.getQueryData(messagesKeys.conversation(conversationId));
+      const previousData = queryClient.getQueryData(messagesKeys.conversation(conversationId)) as { data?: unknown } | undefined;
 
       // Optimistically update the cache
       const optimisticMessage: Message = {
@@ -105,7 +105,7 @@ export function useSendMessage(conversationId: string) {
       // Update the conversation query (which includes messages)
       queryClient.setQueryData(
         messagesKeys.conversation(conversationId),
-        (old: { data: any } | undefined) => {
+        (old: { data?: { messages?: Message[]; lastMessageAt?: string; [k: string]: unknown } } | undefined) => {
           if (!old?.data) return old;
           return {
             ...old,
@@ -156,7 +156,7 @@ export function useSendMessage(conversationId: string) {
       // Replace optimistic message with server message
       queryClient.setQueryData(
         messagesKeys.conversation(conversationId),
-        (old: { data: any } | undefined) => {
+        (old: { data?: { messages?: Message[]; [k: string]: unknown } } | undefined) => {
           if (!old?.data) return old;
           return {
             ...old,

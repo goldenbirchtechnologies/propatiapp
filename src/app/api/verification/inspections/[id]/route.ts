@@ -145,7 +145,7 @@ export async function PATCH(
     }
 
     // Prepare update data
-    const updateData: any = {
+    const updateData: { updatedAt: Date; l4ScheduledAt?: Date; l4AgentId?: string; l4Status?: string; adminNotes?: string } = {
       updatedAt: new Date(),
     };
 

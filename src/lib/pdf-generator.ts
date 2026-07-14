@@ -25,10 +25,10 @@ function buildAgreementPDFBuffer(
     id: string;
   }
 ): Promise<Buffer> {
-  const doc = new (PDFDocument as any)({ size: 'A4', margin: 50 });
+  const doc = new PDFDocument({ size: 'A4', margin: 50 });
   const chunks: Buffer[] = [];
 
-  doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+  doc.on('data', (chunk: Buffer | Uint8Array) => chunks.push(Buffer.from(chunk));
 
   const data = templateData as {
     agreementId: string;

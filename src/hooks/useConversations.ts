@@ -109,9 +109,9 @@ export function useConversations(params?: { page?: number; limit?: number }) {
     queryKey: conversationsKeys.list(params),
     queryFn: async () => {
       const searchParams = new URLSearchParams(
-        params ? (Object.fromEntries(
+        params ? Object.fromEntries(
           Object.entries(params).filter(([_, v]) => v !== undefined)
-        ) as any) : {}
+        ) as Record<string, string> : {}
       );
       const response = await fetch(`/api/conversations?${searchParams}`, {
         headers: { 'Content-Type': 'application/json' },
@@ -160,9 +160,9 @@ export function useMessages(
     queryKey: conversationsKeys.messages(conversationId, params),
     queryFn: async () => {
       const searchParams = new URLSearchParams(
-        params ? (Object.fromEntries(
+        params ? Object.fromEntries(
           Object.entries(params).filter(([_, v]) => v !== undefined)
-        ) as any) : {}
+        ) as Record<string, string> : {}
       );
       const response = await fetch(
         `/api/conversations/${conversationId}/messages?${searchParams}`,
@@ -322,10 +322,10 @@ export function useSendMessage(conversationId: string) {
     },
     onError: (err, newMessage, context) => {
       // Rollback on error
-      if ((context as any)?.previousMessages) {
+      if ((context as { previousMessages?: unknown })?.previousMessages) {
         queryClient.setQueryData(
           conversationsKeys.messages(conversationId, { page: 1, limit: 50 }),
-          (context as any).previousMessages
+          (context as { previousMessages?: unknown }).previousMessages
         );
       }
     },

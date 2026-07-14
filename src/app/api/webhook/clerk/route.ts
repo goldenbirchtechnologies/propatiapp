@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const headerSignature = request.headers.get('svix-signature');
   const svixId = request.headers.get('svix-id');
   const svixTimestamp = request.headers.get('svix-timestamp');
-  const svixHeaders = { 'svix-signature': headerSignature, 'svix-id': svixId, 'svix-timestamp': svixTimestamp } as any;
+  const svixHeaders: Record<string, string | null> = { 'svix-signature': headerSignature, 'svix-id': svixId, 'svix-timestamp': svixTimestamp };
 
   // Clerk Next.js doesn't expose a verifier here; treat trusted source as webhook source in prod.
   const eventType = event.type;

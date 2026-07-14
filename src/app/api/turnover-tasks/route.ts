@@ -24,8 +24,8 @@ export async function GET(request: NextRequest) {
     if (listingId) where.listingId = listingId;
     if (propertyId) where.propertyId = propertyId;
     if (assignedToUserId) where.assignedToUserId = assignedToUserId;
-    if (status) where.status = status as any;
-    if (priority) where.priority = priority as any;
+    if (status) where.status = status as Prisma.TurnoverTaskStatus;
+    if (priority) where.priority = priority as Prisma.TurnoverTaskPriority;
 
     if (user.role === 'estate_manager') {
       where.OR = [

@@ -95,12 +95,12 @@ export async function PATCH(
     });
 
     return successResponse({ plan }, 'Plan updated successfully');
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin update plan error:', error);
-    if (error.code === 'P2025') {
+    if ((error as { code?: string })?.code === 'P2025') {
       return NextResponse.json({ error: 'Plan not found' }, { status: 404 });
     }
-    if (error.code === 'P2002') {
+    if ((error as { code?: string })?.code === 'P2002') {
       return errorResponse('A plan with this name already exists', 409);
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -132,9 +132,9 @@ export async function DELETE(
     });
 
     return successResponse({}, 'Plan deleted successfully');
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Admin delete plan error:', error);
-    if (error.code === 'P2025') {
+    if ((error as { code?: string })?.code === 'P2025') {
       return NextResponse.json({ error: 'Plan not found' }, { status: 404 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

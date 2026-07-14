@@ -5,7 +5,7 @@ export interface CreateAuditLogParams {
   action: string;
   targetType: string;
   targetId: string;
-  details?: any;
+  details?: Record<string, unknown> | null;
   ipAddress?: string;
   userAgent?: string;
 }
@@ -65,7 +65,7 @@ export async function getAuditLogs(params: {
 }) {
   const { adminId, action, targetType, startDate, endDate, page = 1, limit = 20 } = params;
 
-  const where: any = {};
+  const where: Prisma.AdminAuditLogWhereInput = {};
 
   if (adminId) where.adminId = adminId;
   if (action) where.action = action;

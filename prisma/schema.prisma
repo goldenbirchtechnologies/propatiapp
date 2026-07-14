@@ -91,6 +91,7 @@ enum TransactionType {
 enum TransactionStatus {
   pending
   in_escrow
+  commission_held
   released
   failed
   refunded
@@ -743,6 +744,9 @@ model Transaction {
   agentCommission  BigInt           @default(0) @map("agent_commission")
   payeeAmount      BigInt?          @map("payee_amount")
   paystackRef      String?          @map("paystack_ref") // Paystack transaction reference id
+  agentCommissionStatus String?      @default("pending") @map("agent_commission_status") // pending | held | released | forfeited
+  commissionHoldReason String?       @map("commission_hold_reason")
+  agentCommissionReleasedAt DateTime? @map("agent_commission_released_at")
   description      String?
   paystackData     Json?            @map("paystack_data")
   paidAt           DateTime?        @map("paid_at")

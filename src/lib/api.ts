@@ -30,6 +30,7 @@ type PaginatedResponse<T> = _PaginatedResponse<T>;
 declare global {
   interface Window {
     __CLERK_TOKEN__: string | null;
+    Clerk?: { session?: { getToken: () => Promise<string> } };
   }
 }
 
@@ -105,8 +106,8 @@ class ApiClient {
   }
 
   async getFreshToken(): Promise<string> {
-    if (typeof window !== 'undefined' && (window as unknown as { Clerk?: { session?: { getToken: () => Promise<string> } } }).Clerk?.session?.getToken) {
-      const token = await (window as unknown as { Clerk: { session: { getToken: () => Promise<string> } } }).Clerk.session.getToken();
+    if (typeof window !== 'undefined' && window.Clerk?.session?.getToken) {
+      const token = await window.Clerk.session.getToken();
       window.__CLERK_TOKEN__ = token;
       return token;
     }
@@ -115,19 +116,19 @@ class ApiClient {
 
   initializeAuth(): void {
     if (typeof window !== 'undefined') {
-      if ((window as unknown as { Clerk?: { session?: { getToken: () => Promise<string> } } }).Clerk?.session?.getToken) {
+      if (window.Clerk?.session?.getToken) {
         this.getFreshToken().catch(() => {});
       }
     }
   }
 
-  private standardizeError(error: AxiosError): { message: string; status: number; details?: unknown; code?: string } {
+  private standardizeError(error: AxiosError): { message: string; status: number; details?: unknown | null; code?: string } {
     if (error.response) {
       const data = error.response.data as ApiResponse<unknown>;
       return {
         message: data?.error || data?.message || 'An error occurred',
         status: error.response.status,
-        details: data?.details,
+        details: (data as Record<string, unknown> | null)?.details ?? null,
         code: error.code,
       };
     } else if (error.request) {
@@ -143,17 +144,17 @@ class ApiClient {
   }
 
   async post<T>(url: string, data?: unknown): Promise<T> {
-    const response = await this.client.post<T>(url, data);
+    const response = await this.client.post<T>(url, data as Parameters<typeof this.client.post>[1]);
     return response.data;
   }
 
   async put<T>(url: string, data?: unknown): Promise<T> {
-    const response = await this.client.put<T>(url, data);
+    const response = await this.client.put<T>(url, data as Parameters<typeof this.client.put>[1]);
     return response.data;
   }
 
   async patch<T>(url: string, data?: unknown): Promise<T> {
-    const response = await this.client.patch<T>(url, data);
+    const response = await this.client.patch<T>(url, data as Parameters<typeof this.client.patch>[1]);
     return response.data;
   }
 

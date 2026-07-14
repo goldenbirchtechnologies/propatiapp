@@ -19,7 +19,7 @@ export interface NotificationParams {
   title: string;
   message: string;
   actionUrl?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface EmailParams {
@@ -81,7 +81,7 @@ class NotificationService {
   }
 
   async notify(params: MultiChannelNotificationParams): Promise<void> {
-    const promises: Promise<any>[] = [];
+    const promises: Promise<unknown>[] = [];
 
     if (params.channels.includes('inapp')) {
       promises.push(this.create(params));
@@ -188,7 +188,7 @@ class NotificationService {
     title: string;
     message: string;
     actionUrl?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     channels?: NotificationChannel[];
   }) {
     const { userIds, type, title, message, actionUrl, metadata, channels = ['inapp'] } = params;

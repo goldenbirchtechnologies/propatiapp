@@ -42,25 +42,28 @@ export function verifyPaystackSignature(
  * @param body - Parsed webhook body
  * @returns Parsed webhook event with type safety
  */
-export function parsePaystackWebhook(body: any): {
+export interface PaystackWebhookBody {
   event: string;
-  data: any;
-} {
+  data: Record<string, unknown>;
+}
+
+export function parsePaystackWebhook(body: unknown): PaystackWebhookBody {
   if (!body || typeof body !== 'object') {
     throw new Error('Invalid webhook payload: body must be an object');
   }
 
-  if (!body.event || typeof body.event !== 'string') {
+  const asRecord = body as Record<string, unknown>;
+  if (!asRecord.event || typeof asRecord.event !== 'string') {
     throw new Error('Invalid webhook payload: event is required');
   }
 
-  if (!body.data || typeof body.data !== 'object') {
+  if (!asRecord.data || typeof asRecord.data !== 'object') {
     throw new Error('Invalid webhook payload: data is required');
   }
 
   return {
-    event: body.event,
-    data: body.data,
+    event: asRecord.event,
+    data: (asRecord.data as Record<string, unknown>),
   };
 }
 

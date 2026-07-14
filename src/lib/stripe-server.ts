@@ -26,10 +26,10 @@ export function getStripeInstance(): Stripe {
   }
 
   if (!client) {
-    client = new Stripe(secretKey as any, {
+    client = new Stripe(secretKey, {
       apiVersion: '2024-11-20.acacia',
       typescript: true,
-    } as any) as any;
+    });
   }
 
   return client as Stripe;
@@ -130,17 +130,15 @@ export async function verifyWebhook(
   const stripe = getStripeInstance();
   const event = await retryStripeCall(
     () =>
-      (stripe.webhooks as any).constructEvent(
+      stripe.webhooks.constructEvent(
         input.payload,
         input.signature,
-        input.secret,
-        undefined,
-        300 as any
+        input.secret
       ),
     'verifyWebhook'
   );
 
-  return event as any;
+  return event as Stripe.Event;
 }
 
 /**
@@ -162,8 +160,8 @@ export async function createRefund(
       stripe.refunds.create({
         payment_intent: paymentIntentId,
         amount,
-        ...({reason} as any),
-      } as any),
+        reason,
+      } as Stripe.RefundCreateParams),
     'createRefund'
   );
 
@@ -192,7 +190,7 @@ export async function listPaymentIntents(options?: {
     'listPaymentIntents'
   );
 
-  return paymentIntents as any;
+  return paymentIntents;
 }
 
 /**

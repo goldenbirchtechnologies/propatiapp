@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleChargeSuccess(data: any) {
+async function handleChargeSuccess(data: Record<string, unknown>) {
   const { reference, amount, status, gateway_response, paid_at, channel, currency, metadata, customer, authorization } = data;
 
   const transaction = await prisma.transaction.findUnique({
@@ -160,7 +160,7 @@ async function handleChargeSuccess(data: any) {
         const closing = current + split.amountNaira;
         await tx.wallet.update({ where: { id: walletId }, data: { balance: closing } });
         await tx.walletTransaction.create({
-          data: { walletId, userId: split.userId, reference: `${reference}_${split.type}_${split.userId}`, type: split.type as any, status: 'success', amount: split.amountNaira, currency: split.currency, openingBalance: current, closingBalance: closing, description: split.description, providerRef: String(data.id), meta: split.meta },
+          data: { walletId, userId: split.userId, reference: `${reference}_${split.type}_${split.userId}`, type: split.type as WalletTransactionType, status: 'success', amount: split.amountNaira, currency: split.currency, openingBalance: current, closingBalance: closing, description: split.description, providerRef: String(data.id), meta: split.meta },
         });
       }
     });
@@ -185,7 +185,7 @@ async function handleChargeSuccess(data: any) {
   console.log(`Transaction ${reference} moved to IN_ESCROW with wallets split`);
 }
 
-async function handleChargeFailed(data: any) {
+async function handleChargeFailed(data: Record<string, unknown>) {
   const { reference, amount, gateway_response, metadata } = data;
   const transaction = await prisma.transaction.findUnique({ where: { reference } });
   if (!transaction) {
@@ -199,7 +199,7 @@ async function handleChargeFailed(data: any) {
   console.log(`Transaction ${reference} marked as FAILED`);
 }
 
-async function handleTransferSuccess(data: any) {
+async function handleTransferSuccess(data: Record<string, unknown>) {
   const { reference, amount, recipient, reason, transfer_code } = data;
   console.log(`[Webhook] Transfer successful: ${reference} - ₦${(amount / 100).toLocaleString()}`);
 
@@ -223,7 +223,7 @@ async function handleTransferSuccess(data: any) {
   });
 }
 
-async function handleTransferFailed(data: any) {
+async function handleTransferFailed(data: Record<string, unknown>) {
   const { reference, amount, recipient, reason } = data;
   console.error(`[Webhook] Transfer failed: ${reference} - ${reason}`);
 
@@ -242,14 +242,14 @@ async function handleTransferFailed(data: any) {
   });
 }
 
-async function handleDisputeCreate(data: any) {
+async function handleDisputeCreate(data: Record<string, unknown>) {
   console.log('[Webhook] Dispute created', data.reference);
 }
 
-async function handleDisputeResolve(data: any) {
+async function handleDisputeResolve(data: Record<string, unknown>) {
   console.log('[Webhook] Dispute resolved', data.reference);
 }
 
-async function handleSubscriptionEvent(event: string, data: any) {
+async function handleSubscriptionEvent(event: string, data: Record<string, unknown>) {
   console.log(`[Webhook] Subscription event: ${event}`, data.reference);
 }

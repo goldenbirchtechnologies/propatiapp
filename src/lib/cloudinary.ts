@@ -31,7 +31,7 @@ export async function uploadImage(
   file: Buffer | string | Readable,
   options: UploadOptions = {}
 ): Promise<UploadResult> {
-  const result = await cloudinary.uploader.upload(file as any, ({
+  const result = await cloudinary.uploader.upload(String(file), {
     folder: options.folder || 'propati/images',
     resource_type: 'image',
     transformation: options.transformation || [
@@ -41,7 +41,7 @@ export async function uploadImage(
     tags: options.tags || ['propati'],
     context: options.context,
     public_id: options.public_id,
-  } as any) as any);
+  });
 
   return {
     public_id: result.public_id,
@@ -57,13 +57,13 @@ export async function uploadDocument(
   file: Buffer | string | Readable,
   options: UploadOptions = {}
 ): Promise<UploadResult> {
-  const result = await cloudinary.uploader.upload(file as any, {
+  const result = await cloudinary.uploader.upload(String(file), {
     folder: options.folder || 'propati/documents',
     resource_type: 'raw',
     tags: options.tags || ['propati', 'document'],
     context: options.context,
     public_id: options.public_id,
-  } as any as any);
+  });
 
   return {
     public_id: result.public_id,
@@ -77,7 +77,7 @@ export async function uploadVideo(
   file: Buffer | string | Readable,
   options: UploadOptions = {}
 ): Promise<UploadResult> {
-  const result = await cloudinary.uploader.upload(file as any, {
+  const result = await cloudinary.uploader.upload(String(file), {
     folder: options.folder || 'propati/videos',
     resource_type: 'video',
     tags: options.tags || ['propati', 'video'],
@@ -87,7 +87,7 @@ export async function uploadVideo(
       { width: 1280, height: 720, crop: 'limit', quality: 'auto' },
     ],
     eager_async: true,
-  } as any);
+  });
 
   return {
     public_id: result.public_id,

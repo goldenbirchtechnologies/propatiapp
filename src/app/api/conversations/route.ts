@@ -17,13 +17,35 @@ const createBodySchema = z.object({
   orgId: z.string().cuid().optional(),
 });
 
-type Ld = { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string };
-type Tm = { id: string; title?: string | null; area?: string | null; state?: string | null; price?: number | null; listingType?: string | null; images?: Array<{ url: string }> };
+type ConversationParticipant = { userId: string; role: string };
+type ConversationInclude = {
+  id: string;
+  landlordId: string;
+  tenantId: string;
+  participants: JsonValue;
+  subject: string | null;
+  lastMessageAt: string | Date;
+  status: string;
+  listing?: {
+    id: string;
+    title: string;
+    area: string;
+    state: string;
+    price: number;
+    listingType: string | null;
+    images: { url: string }[];
+  };
+}
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
-function participantUnreadCount(participants: any, userId: string) {
+function participantUnreadCount(participants: JsonValue, userId: string): number {
   if (!participants || typeof participants !== 'object') return 0;
-  const counts = participants.unreadCounts || participants;
-  return counts[userId] || 0;
+  const asMap = participants as Record<string, unknown>;
+  const counts = asMap && typeof asMap === 'object' && 'unreadCounts' in asMap
+    ? (asMap as { unreadCounts?: Record<string, number> }).unreadCounts
+    : asMap;
+  if (!counts || typeof counts !== 'object') return 0;
+  return (counts as Record<string, number>)[userId] || 0;
 }
 
 // --- LIST ---
@@ -86,10 +108,12 @@ export async function GET(request: NextRequest) {
     const conversations = [...legacyConvs, ...extraConvs];
 
     const formatted = conversations.map((conv) => {
-      const isLandlord = (conv as any).landlordId === user.id;
-      const other = isLandlord ? (conv as any).tenant : (conv as any).landlord;
-      const unread = (conv.unreadCounts as any)?.[user.id] || 0;
-      const lastMessage = (conv.messages as any)[0] || null;
+      const isLandlord = (conv as { landlordId?: string }).landlordId === user.id;
+      const other = isLandlord
+        ? (conv as { tenant?: { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string } }).tenant
+        : (conv as { landlord?: { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string } }).landlord;
+      const unread = participantUnreadCount((conv as JsonValue).participants, user.id) || 0;
+      const lastMessage = (Array.isArray((conv as { messages?: unknown[] }).messages) ? (conv as { messages?: unknown[] }).messages[0] : null);
 
       return {
         id: conv.id,
@@ -177,7 +201,7 @@ export async function POST(request: NextRequest) {
           userId: p.userId,
           type: 'message',
           title: 'New Conversation',
-          body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as any).title}` : ''}`,
+          body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as { title?: string | null } | null)?.title ?? ''}` : ''}`,
           data: { conversationId: conversation.id, listingId: validated.listingId },
         })),
       });

@@ -225,6 +225,24 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
 function TransactionRow({ transaction }: { transaction: any }) {
   const statusConfig = usePaymentStatus(transaction);
   const breakdown = usePaymentBreakdown(transaction);
+  const [confirming, setConfirming] = useState(false);
+  const isBuyer = transaction.payerId === userId;
+  const needsConfirmation = ['in_escrow', 'commission_held', 'pending'].includes(String(transaction.status || '').toLowerCase()) && !transaction.buyerConfirmedAt;
+
+  async function confirmPayment() {
+    setConfirming(true);
+    try {
+      await fetch('/api/transactions/' + transaction.id + '/confirm', { method: 'POST' });
+    } catch { }
+    finally { setConfirming(false); }
+  }
+  async function raiseDispute() {
+    setConfirming(true);
+    try {
+      await fetch('/api/transactions/' + transaction.id + '/dispute', { method: 'POST' });
+    } catch { }
+    finally { setConfirming(false); }
+  }
 
   return (
     <tr className="border-b border-outline-variant">
@@ -248,11 +266,14 @@ function TransactionRow({ transaction }: { transaction: any }) {
       </td>
       <td className="p-4">
         <div className="flex items-center gap-2">
+          {needsConfirmation && (
+            <Button size="sm" onClick={confirmPayment} disabled={confirming}>Confirm payment</Button>
+          )}
+          <Button variant="ghost" size="icon" title="Dispute" onClick={raiseDispute} disabled={confirming}>
+            <AlertCircle className="w-4 h-4" />
+          </Button>
           <Button variant="ghost" size="icon" title="View Receipt">
             <Receipt className="w-4 h-4" />
-          </Button>
-          <Button variant="ghost" size="icon" title="View Details">
-            <ChevronDown className="w-4 h-4" />
           </Button>
         </div>
       </td>

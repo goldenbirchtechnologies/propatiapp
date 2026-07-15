@@ -304,9 +304,8 @@ export default function MarketplacePage() {
                   >
                     {cat.buttonText}
                     <MaterialIcon name="arrow_forward" className="material-symbols-outlined group-hover:translate-x-2 transition-transform" />
-                      {cat.icon}
-                    </span>
                   </button>
+                </div>
                 </div>
               ))}
             </div>

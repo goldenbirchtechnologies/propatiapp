@@ -94,7 +94,6 @@ export default function VerificationOfficerRolePage() {
             </div>
           </div>
         </div>
-      </div>
 
       {/* FAB for Quick Actions */}
       <button className="fixed bottom-lg right-lg w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">

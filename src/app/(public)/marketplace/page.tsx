@@ -86,7 +86,7 @@ export default function MarketplacePage() {
       area: null,
       iconBed: 'bed',
       iconBath: 'bathtub',
-      iconArea: 'pool',
+      iconArea: 'square_foot',
       hoverTitle: 'group-hover:text-primary',
       hoverForward: 'text-primary',
       hoverForwardBg: 'bg-surface-container-low',
@@ -272,7 +272,7 @@ export default function MarketplacePage() {
                         )}
                         {property.area && (
                           <div className="flex items-center gap-1 text-muted-foreground font-label-caps">
-                            <MaterialIcon name={property.iconArea} className="material-symbols-outlined text-[16px]" /> {property.area}
+                            {property.area ? (<><MaterialIcon name={property.iconArea} className="material-symbols-outlined text-[16px]" /> {property.area}</>) : null}
                           </div>
                         )}
                       </div>

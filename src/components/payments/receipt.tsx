@@ -1,5 +1,5 @@
-import MaterialIcon from '@/components/icons/material-icon';
 'use client';
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { format } from 'date-fns';
 import { formatAmountFromKobo, formatTransactionReference } from '@/lib/payment-utils';

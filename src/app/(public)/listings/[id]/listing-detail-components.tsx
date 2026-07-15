@@ -1,5 +1,5 @@
-import MaterialIcon from '@/components/icons/material-icon';
 'use client';
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { use } from 'react';
 import { useRouter } from 'next/navigation';

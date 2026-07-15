@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Agreement Created
 // ===========================================================================
@@ -30,7 +31,7 @@ export function renderAgreementCreatedEmail(
     endDate,
     rentAmount,
   } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: 'New Rental Agreement Created — Action Required',

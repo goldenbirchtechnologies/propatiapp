@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Service (SMTP with Nodemailer)
 // Phase H: Email notifications
@@ -89,7 +90,7 @@ export interface SendPasswordResetEmailParams {
 
 export async function sendPasswordResetEmail(params: SendPasswordResetEmailParams): Promise<void> {
   const { to, userName, resetToken } = params;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
   const resetUrl = `${appUrl}/reset-password?token=${resetToken}`;
 
   const html = `

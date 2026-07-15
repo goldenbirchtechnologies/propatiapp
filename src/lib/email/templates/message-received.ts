@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: New Message Received
 // ===========================================================================
@@ -24,7 +25,7 @@ export function renderMessageReceivedEmail(
     propertyTitle,
     conversationId,
   } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: `New Message from ${senderName}${

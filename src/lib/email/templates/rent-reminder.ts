@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Rent Due Reminder
 // ===========================================================================
@@ -19,7 +20,7 @@ export function renderRentReminderEmail(
   text: string;
 } {
   const { tenantName, propertyTitle, amount, dueDate, daysUntilDue, agreementId } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   const urgencyColor = daysUntilDue <= 1 ? '#dc2626' : daysUntilDue <= 3 ? '#f59e0b' : '#2563eb';
   const urgencyMessage =

@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 
 import axios, { AxiosInstance } from 'axios';
 import { computeFees } from './fees';
@@ -363,7 +364,7 @@ class PaystackClient {
       status: true,
       message: 'Authorization URL created (MOCK)',
       data: {
-        authorization_url: `http://localhost:3000/mock-payment/${mockReference}`,
+        authorization_url: `${getAppUrl()}/mock-payment/${mockReference}`,
         access_code: `mock_access_${Date.now()}`,
         reference: mockReference,
       },

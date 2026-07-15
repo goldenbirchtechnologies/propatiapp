@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Verification Rejected
 // ===========================================================================
@@ -17,7 +18,7 @@ export function renderVerificationRejectedEmail(
   text: string;
 } {
   const { name, listingTitle, listingId, reason } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: 'Verification Update — Additional Information Required',

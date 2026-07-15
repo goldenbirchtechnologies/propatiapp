@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 import { Decimal } from "@prisma/client";
 import axios, { AxiosInstance } from 'axios';
 import crypto from 'crypto';
@@ -178,7 +179,7 @@ class RemitaClient {
     const rrr = `${Date.now()}${Math.floor(Math.random() * 1000000)}`.slice(0, 12);
     return {
       rrr,
-      paymentUrl: `http://localhost:3000/mock-stamp-payment/${rrr}?amount=${params.amount}`,
+      paymentUrl: `${getAppUrl()}/mock-stamp-payment/${rrr}?amount=${params.amount}`,
       amount: params.amount,
     };
   }
@@ -190,7 +191,7 @@ class RemitaClient {
       paid: true,
       transactionId: `TXN_REMITA_${Date.now()}`,
       certificateNumber,
-      certificateUrl: `http://localhost:3000/mock-certificates/${certificateNumber}.pdf`,
+      certificateUrl: `${getAppUrl()}/mock-certificates/${certificateNumber}.pdf`,
     };
   }
 }

@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Verification Approved
 // ===========================================================================
@@ -17,7 +18,7 @@ export function renderVerificationApprovedEmail(
   text: string;
 } {
   const { name, listingTitle, listingId, tier } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: '✓ Verification Approved — Your Property is Certified',

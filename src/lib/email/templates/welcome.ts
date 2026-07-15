@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Welcome
 // ===========================================================================
@@ -62,7 +63,7 @@ export function renderWelcomeEmail(data: WelcomeEmailData): {
         }
       </ul>
       <a href="${
-        process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+        getAppUrl()
       }/dashboard" class="button">Go to Dashboard</a>
       <p>If you have any questions, feel free to reach out to our support team.</p>
     </div>
@@ -94,7 +95,7 @@ ${
 }
 
 Visit your dashboard: ${
-      process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      getAppUrl()
     }/dashboard
 
 If you have any questions, feel free to reach out to our support team.

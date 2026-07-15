@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Inspection Scheduled
 // ===========================================================================
@@ -28,7 +29,7 @@ export function renderInspectionScheduledEmail(
     agentName,
     agentPhone,
   } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: 'Property Inspection Scheduled — Please Confirm',

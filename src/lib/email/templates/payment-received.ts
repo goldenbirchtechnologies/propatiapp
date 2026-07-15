@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Payment Received
 // ===========================================================================
@@ -26,7 +27,7 @@ export function renderPaymentReceivedEmail(
     transactionId,
     paymentType,
   } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: 'Payment Received — Transaction Confirmed',

@@ -1,3 +1,4 @@
+import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
 // PROPATI — Email Template: Verification Submitted
 // ===========================================================================
@@ -16,7 +17,7 @@ export function renderVerificationSubmittedEmail(
   text: string;
 } {
   const { name, listingTitle, listingId } = data;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = getAppUrl();
 
   return {
     subject: 'Verification Submitted — Under Review',

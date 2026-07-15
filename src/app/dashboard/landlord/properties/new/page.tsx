@@ -82,7 +82,7 @@ export default function NewListingPage() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof createListingSchema>>({
-    resolver: zodResolver(createListingSchema) as any,
+    resolver: zodResolver(createListingSchema) as unknown,
     defaultValues: {
       title: '',
       description: '',
@@ -130,7 +130,7 @@ export default function NewListingPage() {
 
   const onNext = async () => {
     const fieldsToValidate = getStepFields(step);
-    const isValid = await form.trigger(fieldsToValidate as any);
+    const isValid = await form.trigger(fieldsToValidate as unknown);
     if (isValid) {
       setStep(step + 1);
     }
@@ -145,7 +145,7 @@ export default function NewListingPage() {
       const finalData = {
         ...data,
         status: isDraft ? 'draft' : 'active',
-      } as any;
+      } as unknown;
 
       await createMutation.mutateAsync(finalData);
       toast({
@@ -273,7 +273,7 @@ export default function NewListingPage() {
               {step === 1 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="title"
                     render={({ field }) => (
                       <FormItem>
@@ -290,7 +290,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="listingType"
                     render={({ field }) => (
                       <FormItem>
@@ -315,7 +315,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="propertyType"
                     render={({ field }) => (
                       <FormItem>
@@ -342,7 +342,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="description"
                     render={({ field }) => (
                       <FormItem>
@@ -368,7 +368,7 @@ export default function NewListingPage() {
               {step === 2 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="state"
                     render={({ field }) => (
                       <FormItem>
@@ -393,7 +393,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="area"
                     render={({ field }) => (
                       <FormItem>
@@ -407,7 +407,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="address"
                     render={({ field }) => (
                       <FormItem>
@@ -422,7 +422,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="bedrooms"
                       render={({ field }) => (
                         <FormItem>
@@ -442,7 +442,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="bathrooms"
                       render={({ field }) => (
                         <FormItem>
@@ -462,7 +462,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="toilets"
                       render={({ field }) => (
                         <FormItem>
@@ -484,7 +484,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="sizeSqm"
                       render={({ field }) => (
                         <FormItem>
@@ -504,7 +504,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="floorLevel"
                       render={({ field }) => (
                         <FormItem>
@@ -533,7 +533,7 @@ export default function NewListingPage() {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="price"
                       render={({ field }) => (
                         <FormItem>
@@ -553,7 +553,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="pricePeriod"
                       render={({ field }) => (
                         <FormItem>
@@ -579,7 +579,7 @@ export default function NewListingPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="cautionDeposit"
                       render={({ field }) => (
                         <FormItem>
@@ -599,7 +599,7 @@ export default function NewListingPage() {
                     />
 
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="serviceCharge"
                       render={({ field }) => (
                         <FormItem>
@@ -620,7 +620,7 @@ export default function NewListingPage() {
                   </div>
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="availableFrom"
                     render={({ field }) => (
                       <FormItem>
@@ -635,7 +635,7 @@ export default function NewListingPage() {
 
                   {listingType === 'short_let' && (
                     <FormField
-                      control={form.control as any}
+                      control={form.control as unknown}
                       name="minimumStay"
                       render={({ field }) => (
                         <FormItem>
@@ -662,7 +662,7 @@ export default function NewListingPage() {
               {step === 4 && (
                 <div className="space-y-6">
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="furnished"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
@@ -678,7 +678,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="parkingSpaces"
                     render={({ field }) => (
                       <FormItem>
@@ -699,7 +699,7 @@ export default function NewListingPage() {
                   />
 
                   <FormField
-                    control={form.control as any}
+                    control={form.control as unknown}
                     name="amenities"
                     render={() => (
                       <FormItem>
@@ -711,7 +711,7 @@ export default function NewListingPage() {
                           {AMENITIES.map((amenity) => (
                             <FormField
                               key={amenity.id}
-                              control={form.control as any}
+                              control={form.control as unknown}
                               name="amenities"
                               render={({ field }) => {
                                 return (

@@ -568,7 +568,7 @@ function StepProfile({
   );
 }
 
-function StepDone({ role, router }: { role: Role; router: any }) {
+function StepDone({ role, router }: { role: Role; router: unknown }) {
   const next = roleNextStep[role];
   const dashboard = roleDashboard[role];
 

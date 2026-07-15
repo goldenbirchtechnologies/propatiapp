@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">6. Your Rights</h2>
                 <p className="mt-2 text-muted-foreground">
-                  Under NDPA 2023, you have the right to access, correct, delete, or port your data. You may also object to processing or withdraw consent at any time by contacting our Data Protection Officer at dpo@propati.ng.
+                  Under NDPA 2023, you have the right to access, correct, delete, or port your data. You may also object to processing or withdraw consent at unknown time by contacting our Data Protection Officer at dpo@propati.ng.
                 </p>
               </div>
 

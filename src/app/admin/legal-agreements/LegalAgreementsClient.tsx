@@ -32,7 +32,7 @@ interface Listing {
   address: string;
   area: string;
   state: string;
-  price: any;
+  price: unknown;
   propertyType: string | null;
   images: { url: string }[];
 }

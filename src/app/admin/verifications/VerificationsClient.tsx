@@ -20,7 +20,7 @@ interface Verification {
     address: string;
     state: string;
     propertyType: string | null;
-    price: any;
+    price: unknown;
   };
   owner: {
     id: string;

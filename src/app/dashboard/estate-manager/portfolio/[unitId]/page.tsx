@@ -32,7 +32,7 @@ export default function UnitDetailPage() {
   const orgId = org?.id;
 
   const { data: listingData, isLoading } = useListings({ limit: 1 });
-  const listing = listingData?.pages?.[0]?.data?.find((l: any) => l.id === unitId);
+  const listing = listingData?.pages?.[0]?.data?.find((l: unknown) => l.id === unitId);
 
   const { data: ticketsData } = useOrganizationTickets(
     orgId || '',
@@ -278,7 +278,7 @@ export default function UnitDetailPage() {
         <CardContent>
           {tickets.length > 0 ? (
             <div className="space-y-3">
-              {tickets.map((ticket: any) => (
+              {tickets.map((ticket: unknown) => (
                 <div
                   key={ticket.id}
                   className="flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"

@@ -203,7 +203,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
         <CardContent className="p-8">
           <p className="text-primary font-heading font-semibold mb-1">Need to reschedule this visit?</p>
           <p className="text-sm text-muted-foreground max-w-md mx-auto mb-5">
-            You can change your appointment time up to 24 hours before the scheduled slot without any additional fees.
+            You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
           <Button variant="outline" className="border-2 border-primary font-bold hover:bg-primary hover:text-white transition-all">
             Reschedule Appointment

@@ -43,7 +43,7 @@ export default async function AgentInspectionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AgentInspectionsClient initialInspections={initialInspections as any} />
+      <AgentInspectionsClient initialInspections={initialInspections as unknown} />
     </DashboardShell>
   );
 }

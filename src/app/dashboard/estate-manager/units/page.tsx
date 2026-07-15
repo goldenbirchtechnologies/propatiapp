@@ -130,12 +130,12 @@ export default function UnitsPage() {
   };
 
   const totalUnits = units.length;
-  const occupiedUnits = units.filter((u: any) => u.occupancy === 'OCCUPIED').length;
-  const vacantUnits = units.filter((u: any) => u.occupancy === 'VACANT').length;
-  const maintenanceUnits = units.filter((u: any) => u.status === 'MAINTENANCE').length;
-  const totalMonthlyRent = units.reduce((sum: number, u: any) => sum + (Number(u.rent) || 0), 0);
+  const occupiedUnits = units.filter((u: unknown) => u.occupancy === 'OCCUPIED').length;
+  const vacantUnits = units.filter((u: unknown) => u.occupancy === 'VACANT').length;
+  const maintenanceUnits = units.filter((u: unknown) => u.status === 'MAINTENANCE').length;
+  const totalMonthlyRent = units.reduce((sum: number, u: unknown) => sum + (Number(u.rent) || 0), 0);
 
-  const filteredUnits = units.filter((unit: any) => {
+  const filteredUnits = units.filter((unit: unknown) => {
     const matchesStatus = statusFilter === 'all' || unit.status === statusFilter;
     const matchesOccupancy = occupancyFilter === 'all' || unit.occupancy === occupancyFilter.toUpperCase();
     const matchesSearch =
@@ -344,7 +344,7 @@ export default function UnitsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredUnits.map((unit: any) => (
+                  {filteredUnits.map((unit: unknown) => (
                     <TableRow
                       key={unit.id}
                       className="cursor-pointer hover:bg-muted/30"

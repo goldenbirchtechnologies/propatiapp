@@ -45,7 +45,7 @@ export default function PortfolioPage() {
   const listings = listingsData?.data || [];
 
   // Filter listings based on search and filters
-  const filteredListings = listings.filter((listing: any) => {
+  const filteredListings = listings.filter((listing: unknown) => {
     const matchesSearch = listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       listing.address?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || listing.status === statusFilter;
@@ -194,7 +194,7 @@ export default function PortfolioPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredListings.map((listing: any) => {
+                {filteredListings.map((listing: unknown) => {
                   const isOccupied = Math.random() > 0.3; // Mock
                   return (
                     <TableRow key={listing.id}>

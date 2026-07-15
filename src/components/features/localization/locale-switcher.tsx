@@ -20,7 +20,7 @@ export function LocaleSwitcher() {
   // Extract locale prefix from pathname to build remaining path
   const segments = pathname.split('/');
   const localeInPath = segments[1];
-  const remainingPath = segments.slice(localeInPath && routing.locales.includes(localeInPath as any) ? 2 : 1).join('/');
+  const remainingPath = segments.slice(localeInPath && routing.locales.includes(localeInPath as unknown) ? 2 : 1).join('/');
 
   const switchLocale = (newLocale: string) => {
     const newPath = `/${newLocale}${remainingPath ? `/${remainingPath}` : ''}`;

@@ -74,14 +74,14 @@ export default function DisputesClient({ stats }: DisputesClientProps) {
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [selectedDispute, setSelectedDispute] = useState<any>(null);
+  const [selectedDispute, setSelectedDispute] = useState<unknown>(null);
   const [resolution, setResolution] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
 
-  const { data: disputesData, isLoading, refetch } = useDisputes() as any;
+  const { data: disputesData, isLoading, refetch } = useDisputes() as unknown;
   const adminAction = useAdminDisputeAction();
 
-  const disputes: any[] = disputesData?.data ?? [];
+  const disputes: unknown[] = disputesData?.data ?? [];
 
   const filtered = useMemo(() => {
     return disputes.filter((d) => {
@@ -97,7 +97,7 @@ export default function DisputesClient({ stats }: DisputesClientProps) {
     });
   }, [disputes, statusFilter, searchTerm]);
 
-  const openReviewModal = (dispute: any) => {
+  const openReviewModal = (dispute: unknown) => {
     setSelectedDispute(dispute);
     setResolution(dispute.resolution || '');
     setReviewModalOpen(true);
@@ -123,7 +123,7 @@ export default function DisputesClient({ stats }: DisputesClientProps) {
     }
   };
 
-  const handleQuickAction = async (dispute: any, action: string) => {
+  const handleQuickAction = async (dispute: unknown, action: string) => {
     try {
       await adminAction.mutateAsync({ disputeId: dispute.id, action });
       toast({ title: 'Updated', description: `Dispute ${action === 'resolve' ? 'resolved' : 'closed'}.` });

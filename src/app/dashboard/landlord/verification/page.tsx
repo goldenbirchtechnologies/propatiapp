@@ -123,7 +123,7 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
   );
 }
 
-function VerificationCard({ listing }: { listing: any }) {
+function VerificationCard({ listing }: { listing: unknown }) {
   const verification = listing.verification;
   const overallStatus = verification?.overallStatus || 'not_started';
   const currentLayer = verification?.currentLayer || 1;

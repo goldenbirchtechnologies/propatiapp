@@ -82,7 +82,7 @@ export function Receipt({ transaction }: ReceiptProps) {
                 Receipt #{formatTransactionReference(transaction.reference)}
               </p>
               <TransactionStatusBadge
-                status={transaction.status as any}
+                status={transaction.status as unknown}
                 className="mt-2"
               />
             </div>

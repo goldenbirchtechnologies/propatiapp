@@ -54,7 +54,7 @@ export default function AgentInvitationCard({ email }: Props) {
     return (
       <Card className="p-6">
         <p className="text-sm text-on-surface-variant">
-          You don&apos;t have any pending invites. You can still use all agent features and be assigned directly by landlords.
+          You don&apos;t have unknown pending invites. You can still use all agent features and be assigned directly by landlords.
         </p>
       </Card>
     );

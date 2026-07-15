@@ -15,7 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle, AlertCircle, Shield, Phone, Mail, IdCard, Camera, Save, Edit, LogOut, Monitor, Lock } from 'lucide-react';
 
 interface LandlordProfileClientProps {
-  user: any;
+  user: unknown;
 }
 
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {

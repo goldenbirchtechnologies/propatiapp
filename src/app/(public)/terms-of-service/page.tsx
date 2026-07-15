@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
             <div>
               <h2 className="text-xl font-bold text-foreground">2. User Accounts</h2>
               <p className="mt-2 text-muted-foreground">
-                You must complete identity verification before accessing certain features. You are responsible for maintaining the confidentiality of your account and for all activities under your account. Notify us immediately of any unauthorized use.
+                You must complete identity verification before accessing certain features. You are responsible for maintaining the confidentiality of your account and for all activities under your account. Notify us immediately of unknown unauthorized use.
               </p>
             </div>
 
@@ -66,7 +66,7 @@ export default function TermsOfServicePage() {
             <div>
               <h2 className="text-xl font-bold text-foreground">5. Prohibited Conduct</h2>
               <p className="mt-2 text-muted-foreground">
-                Users may not use the platform for fraud, money laundering, solicitation, or any unlawful purpose. Harassment, false reporting, and system manipulation are strictly prohibited and will be referred to law enforcement.
+                Users may not use the platform for fraud, money laundering, solicitation, or unknown unlawful purpose. Harassment, false reporting, and system manipulation are strictly prohibited and will be referred to law enforcement.
               </p>
             </div>
 

@@ -20,11 +20,11 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
   const [authorizationUrl, setAuthorizationUrl] = useState<string | null>(null);
 
   const { data: user } = useCurrentUser();
-  const { data: transactionsData, isLoading: transactionsLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as any;
+  const { data: transactionsData, isLoading: transactionsLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as unknown;
   const { data: wallet } = useWallet();
   const initiatePaymentMutation = useInitiatePayment();
 
-  const transactions = transactionsData?.pages.flatMap((page: any) => page.data || []) || [];
+  const transactions = transactionsData?.pages.flatMap((page: unknown) => page.data || []) || [];
 
   const handlePayRent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         amount: Number(amount) * 100, // Convert to kobo
         type: 'rent',
         metadata: { userId },
-      } as any);
+      } as unknown);
       setReference(result.reference);
       setAuthorizationUrl(result.authorizationUrl);
       // In a real app, redirect to Paystack checkout
@@ -191,7 +191,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((tx: any) => (
+                {transactions.map((tx: unknown) => (
                   <TransactionRow key={tx.id} transaction={tx} />
                 ))}
               </tbody>
@@ -222,7 +222,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
   );
 }
 
-function TransactionRow({ transaction }: { transaction: any }) {
+function TransactionRow({ transaction }: { transaction: unknown }) {
   const statusConfig = usePaymentStatus(transaction);
   const breakdown = usePaymentBreakdown(transaction);
   const [confirming, setConfirming] = useState(false);

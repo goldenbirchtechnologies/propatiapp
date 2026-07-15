@@ -24,7 +24,7 @@ interface VerificationData {
     address: string;
     state: string;
     propertyType: string | null;
-    price: any;
+    price: unknown;
   };
   owner: {
     fullName: string;
@@ -82,7 +82,7 @@ export function VerificationReviewModal({
   const handleReject = async (reason?: string | undefined) => {
     setLoading(true);
     try {
-      await onReject(verification.id, (reason as any) ?? '');
+      await onReject(verification.id, (reason as unknown) ?? '');
       setNotes('');
       onOpenChange(false);
     } finally {
@@ -330,7 +330,7 @@ export function VerificationReviewModal({
               <Textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add any notes or comments about this verification..."
+                placeholder="Add unknown notes or comments about this verification..."
                 rows={4}
               />
             </div>
@@ -377,7 +377,7 @@ export function VerificationReviewModal({
         title="Reject Verification"
         description="Please provide a reason for rejecting this verification. The landlord will be notified."
         confirmText="Reject"
-        onConfirm={handleReject as any}
+        onConfirm={handleReject as unknown}
         danger={true}
         requireReason={true}
         reasonLabel="Rejection Reason"

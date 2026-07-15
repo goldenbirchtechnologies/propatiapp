@@ -29,7 +29,7 @@ export default function ComparePage() {
     queryKey: ['listings', 'compare'],
     queryFn: async () => {
       const res = await apiEndpoints.listings.getAll({ page: 1, limit: 100 } as ListingsFilters);
-      return res as unknown as { listings: any[]; pagination: any };
+      return res as unknown as { listings: unknown[]; pagination: unknown };
     },
     staleTime: 60 * 1000,
   });
@@ -38,7 +38,7 @@ export default function ComparePage() {
 
   const allProperties: ListingData[] = React.useMemo(() => {
     return listings.map((l) => {
-      const cover = l.images?.find((img: any) => img.isCover) || l.images?.[0];
+      const cover = l.images?.find((img: unknown) => img.isCover) || l.images?.[0];
       return {
         id: l.id,
         title: l.title,
@@ -73,7 +73,7 @@ export default function ComparePage() {
               profileImage: l.agent.avatarUrl,
             }
           : undefined,
-        amenities: l.amenities?.map((a: any) => a.name),
+        amenities: l.amenities?.map((a: unknown) => a.name),
         isSaved: false,
         savedByCurrentUser: false,
         createdAt: l.createdAt,

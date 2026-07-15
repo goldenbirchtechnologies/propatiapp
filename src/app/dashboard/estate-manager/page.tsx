@@ -58,8 +58,8 @@ export default async function EstateManagerDashboardPage() {
   let occupiedCount = 0;
   let vacantCount = 0;
   let maintenanceCount = 0;
-  let recentTickets: any[] = [];
-  let recentServiceCharges: any[] = [];
+  let recentTickets: unknown[] = [];
+  let recentServiceCharges: unknown[] = [];
   let totalBilledServiceCharges = 0;
   let totalPaidServiceCharges = 0;
 
@@ -666,7 +666,7 @@ export default async function EstateManagerDashboardPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {displayTickets.map((t: any, idx: number) => (
+                        {displayTickets.map((t: unknown, idx: number) => (
                           <TableRow key={t.id || idx} className="border-b border-white/5 hover:bg-white/[0.01]">
                             <TableCell className="text-white text-xs font-semibold">
                               {t.unitRef || (t.listing ? `${t.listing.title}` : 'Unit Registry')}
@@ -732,7 +732,7 @@ export default async function EstateManagerDashboardPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {displayCharges.map((sc: any, idx: number) => (
+                        {displayCharges.map((sc: unknown, idx: number) => (
                           <TableRow key={sc.id || idx} className="border-b border-white/5 hover:bg-white/[0.01]">
                             <TableCell className="text-white text-xs font-mono font-semibold">
                               {sc.period}
@@ -818,7 +818,7 @@ export default async function EstateManagerDashboardPage() {
               </h3>
 
               <div className="relative pl-4 border-l border-white/5 space-y-6">
-                {(hasData ? recentActivityStub(recentTickets, recentServiceCharges) : mockStats.recentActivity).map((act: any) => (
+                {(hasData ? recentActivityStub(recentTickets, recentServiceCharges) : mockStats.recentActivity).map((act: unknown) => (
                   <div key={act.id} className="relative space-y-1">
                     {/* Bullet Indicator */}
                     <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-[#0a1120] ${
@@ -853,8 +853,8 @@ function KpiCard({ label, value, hint }: { label: string; value: string; hint: s
 }
 
 // Helper to generate stub activities if data is present
-function recentActivityStub(tickets: any[], charges: any[]) {
-  const list: any[] = [];
+function recentActivityStub(tickets: unknown[], charges: unknown[]) {
+  const list: unknown[] = [];
   let id = 1;
 
   if (tickets.length > 0) {

@@ -43,7 +43,7 @@ export default async function EstateManagerAgreementsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <EstateManagerAgreementsClient initialAgreements={agreements as any} />
+      <EstateManagerAgreementsClient initialAgreements={agreements as unknown} />
     </DashboardShell>
   );
 }

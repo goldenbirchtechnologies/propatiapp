@@ -321,7 +321,7 @@ export default function AgreementDetailPage() {
           <StampDutyWidget
             agreementId={agreement.id}
             annualRent={agreement.rentAmount || 0}
-            stampDuty={(agreement as any).stampDuty}
+            stampDuty={(agreement as unknown).stampDuty}
           />
         </div>
       )}

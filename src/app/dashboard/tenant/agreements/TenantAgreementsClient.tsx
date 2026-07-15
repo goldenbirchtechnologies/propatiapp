@@ -171,7 +171,7 @@ function StatCard({ label, value, icon, color = 'text-primary' }: StatCardProps)
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyAgreementState({ tab }: { tab: TabValue }) {
   const messages: Record<TabValue, string> = {
-    all: "You don't have any agreements yet.",
+    all: "You don't have unknown agreements yet.",
     active: 'No active agreements.',
     pending: 'No agreements are pending your action.',
     expired: 'No expired agreements.',

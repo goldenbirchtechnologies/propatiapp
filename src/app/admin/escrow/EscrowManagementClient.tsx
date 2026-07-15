@@ -44,7 +44,7 @@ export default function EscrowManagementClient() {
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
   const [releaseModalOpen, setReleaseModalOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [currentTransaction, setCurrentTransaction] = useState<any>(null);
+  const [currentTransaction, setCurrentTransaction] = useState<unknown>(null);
   const [bankDetails, setBankDetails] = useState({
     accountName: '',
     accountNumber: '',
@@ -53,9 +53,9 @@ export default function EscrowManagementClient() {
   const [isReleasing, setIsReleasing] = useState(false);
 
   // Fetch only transactions in escrow
-  const { data: transactionsData, isLoading, refetch } = useTransactions({ status: 'in_escrow' } as any) as any;
+  const { data: transactionsData, isLoading, refetch } = useTransactions({ status: 'in_escrow' } as unknown) as unknown;
 
-  const transactions = transactionsData?.pages?.flatMap((page: any) => page.data || []) || [];
+  const transactions = transactionsData?.pages?.flatMap((page: unknown) => page.data || []) || [];
 
   const handleSelectTransaction = (id: string) => {
     setSelectedTransactions((prev) =>
@@ -67,11 +67,11 @@ export default function EscrowManagementClient() {
     if (selectedTransactions.length === transactions.length) {
       setSelectedTransactions([]);
     } else {
-      setSelectedTransactions(transactions.map((tx: any) => tx.id));
+      setSelectedTransactions(transactions.map((tx: unknown) => tx.id));
     }
   };
 
-  const handleOpenReleaseModal = (transaction: any) => {
+  const handleOpenReleaseModal = (transaction: unknown) => {
     setCurrentTransaction(transaction);
     // Pre-fill payee bank details if available
     if (transaction.payee?.bankAccount) {
@@ -181,7 +181,7 @@ export default function EscrowManagementClient() {
           <CardContent>
             <div className="text-2xl font-bold">
               {formatAmountFromKobo(
-                transactions.reduce((sum: number, tx: any) => sum + Number(tx.amount), 0)
+                transactions.reduce((sum: number, tx: unknown) => sum + Number(tx.amount), 0)
               )}
             </div>
             <p className="text-xs text-muted-foreground">held in escrow</p>
@@ -243,7 +243,7 @@ export default function EscrowManagementClient() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {transactions.map((tx: any) => (
+                  {transactions.map((tx: unknown) => (
                     <TableRow key={tx.id}>
                       <TableCell>
                         <Checkbox

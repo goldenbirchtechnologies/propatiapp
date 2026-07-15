@@ -72,14 +72,14 @@ interface DisputeInfo {
     title: string;
     address: string;
     propertyType: string | null;
-    price: any;
+    price: unknown;
     owner: { fullName: string; email: string; phone: string | null } | null;
   } | null;
   raisedByUser: { id: string; fullName: string; email: string; phone: string | null };
   lawFirmCase: {
     id: string;
     status: string;
-    fee: any;
+    fee: unknown;
     firm: { id: string; name: string; cacNumber: string };
   } | null;
 }

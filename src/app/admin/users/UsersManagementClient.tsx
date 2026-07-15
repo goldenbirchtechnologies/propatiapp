@@ -296,7 +296,7 @@ export default function UsersManagementClient({ users: initialUsers }: UsersMana
         </div>
 
         <div className="card">
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as unknown)}>
             <TabsList className="w-full grid grid-cols-2">
               <TabsTrigger value="users">All Users ({users.length})</TabsTrigger>
               <TabsTrigger value="agent-applications">Agent Applications</TabsTrigger>

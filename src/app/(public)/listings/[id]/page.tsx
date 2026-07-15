@@ -4,7 +4,7 @@ import Link from 'next/link';
 import MaterialIcon from '@/components/icons/material-icon';
 import { useState } from 'react';
 
-export default function ListingDetailClient({ listing }: { listing: any }) {
+export default function ListingDetailClient({ listing }: { listing: unknown }) {
   const [activeImage, setActiveImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 

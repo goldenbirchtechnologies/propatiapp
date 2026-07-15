@@ -108,7 +108,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
               No applications yet
             </h3>
             <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
-              You haven&#39;t applied to any properties yet. Browse listings to get started.
+              You haven&#39;t applied to unknown properties yet. Browse listings to get started.
             </p>
             <Link href="/dashboard/tenant/search" className="btn btn-primary">
               Browse Listings

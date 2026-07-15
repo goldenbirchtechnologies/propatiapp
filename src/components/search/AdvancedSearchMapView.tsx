@@ -340,9 +340,9 @@ function FilterOverlay({
     array: FilterState[K]
   ) => {
     if (Array.isArray(array)) {
-      const newArray = (array as any).includes(value)
+      const newArray = (array as unknown).includes(value)
         ? array.filter(v => v !== value)
-        : ([...(array as any), value] as any);
+        : ([...(array as unknown), value] as unknown);
       updateFilter(key, newArray as FilterState[K]);
     }
   };
@@ -357,8 +357,8 @@ function FilterOverlay({
       priceRange: [0, 100000000],
       propertyTypes: [],
       listingTypes: [],
-      bedrooms: 'any',
-      bathrooms: 'any',
+      bedrooms: 'unknown',
+      bathrooms: 'unknown',
       verificationTier: [],
       amenities: [],
       sortBy: 'relevance',
@@ -451,7 +451,7 @@ function FilterOverlay({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="any">Any</SelectItem>
+                    <SelectItem value="unknown">Any</SelectItem>
                     <SelectItem value="1">1+</SelectItem>
                     <SelectItem value="2">2+</SelectItem>
                     <SelectItem value="3">3+</SelectItem>
@@ -469,7 +469,7 @@ function FilterOverlay({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="any">Any</SelectItem>
+                    <SelectItem value="unknown">Any</SelectItem>
                     <SelectItem value="1">1+</SelectItem>
                     <SelectItem value="2">2+</SelectItem>
                     <SelectItem value="3">3+</SelectItem>
@@ -581,8 +581,8 @@ export function AdvancedSearchMapView({
     priceRange: [0, 100000000],
     propertyTypes: [],
     listingTypes: [],
-    bedrooms: 'any',
-    bathrooms: 'any',
+    bedrooms: 'unknown',
+    bathrooms: 'unknown',
     verificationTier: [],
     amenities: [],
     sortBy: 'relevance',
@@ -619,12 +619,12 @@ export function AdvancedSearchMapView({
         return false;
       }
       // Bedrooms filter
-      if (filters.bedrooms !== 'any' && marker.bedrooms != null) {
+      if (filters.bedrooms !== 'unknown' && marker.bedrooms != null) {
         const minBedrooms = parseInt(filters.bedrooms);
         if (marker.bedrooms < minBedrooms) return false;
       }
       // Bathrooms filter
-      if (filters.bathrooms !== 'any' && marker.bathrooms != null) {
+      if (filters.bathrooms !== 'unknown' && marker.bathrooms != null) {
         const minBathrooms = parseInt(filters.bathrooms);
         if (marker.bathrooms < minBathrooms) return false;
       }

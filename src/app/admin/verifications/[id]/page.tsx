@@ -61,7 +61,7 @@ export default async function AdminVerificationDetailPage({ params }: { params: 
         userAvatar={user.avatarUrl || undefined}
       >
         <VerificationDetailClient
-          verification={verification as any}
+          verification={verification as unknown}
           initialError={'Failed to load verification details'}
         />
       </DashboardShell>

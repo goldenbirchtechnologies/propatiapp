@@ -37,7 +37,7 @@ const PRIORITY_CONFIG: Record<TurnoverPriority, { label: string; variant: 'defau
 };
 
 export default function LandlordTurnoverPage() {
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { toast } = useToast();
@@ -114,7 +114,7 @@ export default function LandlordTurnoverPage() {
             </div>
           ) : (
             <div className="divide-y divide-border">
-              {tasks.map((task: any) => (
+              {tasks.map((task: unknown) => (
                 <div
                   key={task.id}
                   className="flex items-center justify-between gap-4 p-4 hover:bg-muted/50"

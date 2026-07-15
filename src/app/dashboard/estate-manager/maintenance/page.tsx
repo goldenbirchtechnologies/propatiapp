@@ -80,13 +80,13 @@ export default function MaintenancePage() {
 
   const tickets = ticketsData?.data || [];
 
-  const filteredTickets = tickets.filter((ticket: any) => {
+  const filteredTickets = tickets.filter((ticket: unknown) => {
     const matchesPriority = priorityFilter === 'all' || ticket.priority === priorityFilter;
     const matchesAssignee = assigneeFilter === 'all' || ticket.assignedTo === assigneeFilter;
     return matchesPriority && matchesAssignee;
   });
 
-  const ticketsByStatus: Record<TicketStatus, any[]> = {
+  const ticketsByStatus: Record<TicketStatus, unknown[]> = {
     open: [],
     assigned: [],
     in_progress: [],
@@ -94,7 +94,7 @@ export default function MaintenancePage() {
     closed: [],
   };
 
-  filteredTickets.forEach((ticket: any) => {
+  filteredTickets.forEach((ticket: unknown) => {
     const status = ticket.status as TicketStatus;
     if (ticketsByStatus[status]) {
       ticketsByStatus[status].push(ticket);
@@ -235,7 +235,7 @@ export default function MaintenancePage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {ticketsByStatus[status].length > 0 ? (
-                ticketsByStatus[status].map((ticket: any) => (
+                ticketsByStatus[status].map((ticket: unknown) => (
                   <Card key={ticket.id} className="bg-surface-container-lowest">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex items-start justify-between">

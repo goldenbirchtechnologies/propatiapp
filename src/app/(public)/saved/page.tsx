@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { HeartOffIcon, SearchIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-function getImageUrl(listing: any): string {
+function getImageUrl(listing: unknown): string {
   if (typeof listing.images?.[0] === 'string') return listing.images[0];
   return listing.images?.[0]?.url || listing.coverImage || '/placeholder-property.jpg';
 }
@@ -16,7 +16,7 @@ function getImageUrl(listing: any): string {
 export default function SavedListingsPage() {
   const { data, isLoading, error, refetch } = useSavedListings({ page: 1, limit: 20 });
 
-  const listings = (data as any)?.data || (data as any)?.listings || [];
+  const listings = (data as unknown)?.data || (data as unknown)?.listings || [];
   const listingItems = Array.isArray(listings) ? listings : [];
 
   return (
@@ -75,7 +75,7 @@ export default function SavedListingsPage() {
 
         {!isLoading && !error && listingItems.length > 0 && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {listingItems.map((listing: any) => {
+            {listingItems.map((listing: unknown) => {
               const isResidential = listing.propertyType !== 'land' && listing.propertyType !== 'office' && listing.propertyType !== 'shop' && listing.propertyType !== 'warehouse';
               return (
                 <PropertyCard

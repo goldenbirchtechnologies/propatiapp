@@ -60,7 +60,7 @@ const plans = [
 ];
 
 const faqTeaserItems = [
-  { q: 'Can I switch plans later?', a: 'Yes, you can upgrade or downgrade at any time. Changes take effect at the start of your next billing cycle.' },
+  { q: 'Can I switch plans later?', a: 'Yes, you can upgrade or downgrade at unknown time. Changes take effect at the start of your next billing cycle.' },
   { q: 'Is there a free trial?', a: 'Professional and Enterprise plans include a 14-day trial with full feature access. No credit card required.' },
   { q: 'What payment methods are accepted?', a: 'Bank transfers, debit cards, and USSD via Paystack and Flutterwave.' },
 ];

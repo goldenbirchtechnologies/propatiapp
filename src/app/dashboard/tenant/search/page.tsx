@@ -32,13 +32,13 @@ export default function TenantSearchPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useListings({
-    listingType: activePurpose as any,
+    listingType: activePurpose as unknown,
     state: filters.state || undefined,
     area: filters.area || undefined,
     minPrice: filters.minPrice ? Number(filters.minPrice) : undefined,
     maxPrice: filters.maxPrice ? Number(filters.maxPrice) : undefined,
     minBedrooms: filters.bedrooms ? Number(filters.bedrooms) : undefined,
-    propertyType: filters.propertyType as any,
+    propertyType: filters.propertyType as unknown,
     status: 'active',
   });
 
@@ -193,8 +193,8 @@ export default function TenantSearchPage() {
   );
 }
 
-function ListingCard({ listing, purpose }: { listing: any; purpose: string }) {
-  const coverImage = listing.images?.find((img: any) => img.isCover) || listing.images?.[0];
+function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }) {
+  const coverImage = listing.images?.find((img: unknown) => img.isCover) || listing.images?.[0];
   const verificationTier = listing.verificationTier || 'basic';
   const isVerified = verificationTier !== 'basic';
 

@@ -75,7 +75,7 @@ export default function LedgerPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {entries.map((entry: any) => (
+                {entries.map((entry: unknown) => (
                   <TableRow key={entry.id} className="animate-fadeUp">
                     <TableCell>{new Date(entry.date || entry.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>{entry.description || entry.type || '—'}</TableCell>

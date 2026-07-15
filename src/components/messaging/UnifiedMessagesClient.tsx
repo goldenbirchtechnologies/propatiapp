@@ -36,7 +36,7 @@ type Conversation = {
   lastMessageAt?: string | null;
   unreadCount: number;
   status: string;
-  participants?: any[];
+  participants?: unknown[];
   propertyId?: string | null;
   orgId?: string | null;
 };
@@ -92,7 +92,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to load conversations');
       setConversations(json.data || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message);
     } finally {
       setLoading(false);
@@ -180,7 +180,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   }
 
   return (
-    <div className="space-y-6" style={ELEVATION_TOKENS.elevation_2 as any}>
+    <div className="space-y-6" style={ELEVATION_TOKENS.elevation_2 as unknown}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages</h1>
@@ -201,7 +201,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
         </Dialog>
       </div>
 
-      <Card className="overflow-hidden" style={ELEVATION_TOKENS.elevation_1 as any}>
+      <Card className="overflow-hidden" style={ELEVATION_TOKENS.elevation_1 as unknown}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="relative max-w-xl">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />

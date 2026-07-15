@@ -367,9 +367,9 @@ export function SearchFilters({
             label="Listing Type"
             options={listingTypeOptions}
             selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
-            onChange={(v) => onChange({ listingType: v[0] as any || 'all' })}
+            onChange={(v) => onChange({ listingType: v[0] as unknown || 'all' })}
             placeholder="All Types"
-            icon={<Home className="h-4 w-4" /> as any}
+            icon={<Home className="h-4 w-4" /> as unknown}
           />
           <MultiSelectDropdown
             label="Property Type"
@@ -377,7 +377,7 @@ export function SearchFilters({
             selectedValues={filters.propertyType || []}
             onChange={(v) => onChange({ propertyType: v })}
             placeholder="All Types"
-            icon={<Building className="h-4 w-4" /> as any}
+            icon={<Building className="h-4 w-4" /> as unknown}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -393,7 +393,7 @@ export function SearchFilters({
               {sortOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  onSelect={() => onChange({ sortBy: option.value as any })}
+                  onSelect={() => onChange({ sortBy: option.value as unknown })}
                   className={cn(filters.sortBy === option.value && 'bg-accent/10 text-accent')}
                   inset={false}
                 >
@@ -452,7 +452,7 @@ export function SearchFilters({
         {/* Location Filters */}
         <FilterSection
           title="Location"
-          icon={<MapPin className="h-4 w-4" /> as any}
+          icon={<MapPin className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.location}
           onToggle={() => toggleSection('location')}
         >
@@ -557,7 +557,7 @@ export function SearchFilters({
         {/* Price Range */}
         <FilterSection
           title="Price Range"
-          icon={<DollarSign className="h-4 w-4" /> as any}
+          icon={<DollarSign className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.price}
           onToggle={() => toggleSection('price')}
         >
@@ -572,7 +572,7 @@ export function SearchFilters({
         {/* Property Type & Listing Type */}
         <FilterSection
           title="Property Type"
-          icon={<Home className="h-4 w-4" /> as any}
+          icon={<Home className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.property}
           onToggle={() => toggleSection('property')}
         >
@@ -581,9 +581,9 @@ export function SearchFilters({
               label="Listing Type"
               options={listingTypeOptions}
               selectedValues={filters.listingType && filters.listingType !== 'all' ? [filters.listingType] : []}
-              onChange={(v) => onChange({ listingType: v[0] as any || 'all' })}
+              onChange={(v) => onChange({ listingType: v[0] as unknown || 'all' })}
               placeholder="All Types"
-              icon={<Home className="h-4 w-4" /> as any}
+              icon={<Home className="h-4 w-4" /> as unknown}
             />
             <MultiSelectDropdown
               label="Property Type"
@@ -591,7 +591,7 @@ export function SearchFilters({
               selectedValues={filters.propertyType || []}
               onChange={(v) => onChange({ propertyType: v })}
               placeholder="All Types"
-              icon={<Building className="h-4 w-4" /> as any}
+              icon={<Building className="h-4 w-4" /> as unknown}
             />
           </div>
         </FilterSection>
@@ -599,7 +599,7 @@ export function SearchFilters({
         {/* Bedrooms & Bathrooms */}
         <FilterSection
           title="Rooms"
-          icon={<Bed className="h-4 w-4" /> as any}
+          icon={<Bed className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.features}
           onToggle={() => toggleSection('features')}
         >
@@ -706,7 +706,7 @@ export function SearchFilters({
         {/* Verification Tier */}
         <FilterSection
           title="Verification"
-          icon={<Shield className="h-4 w-4" /> as any}
+          icon={<Shield className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.verification}
           onToggle={() => toggleSection('verification')}
         >
@@ -714,16 +714,16 @@ export function SearchFilters({
             label="Verification Tier"
             options={verificationTierOptions}
             selectedValues={filters.verificationTier || []}
-            onChange={(v) => onChange({ verificationTier: v as any })}
+            onChange={(v) => onChange({ verificationTier: v as unknown })}
             placeholder="All Tiers"
-            icon={<Shield className="h-4 w-4" /> as any}
+            icon={<Shield className="h-4 w-4" /> as unknown}
           />
         </FilterSection>
 
         {/* Amenities */}
         <FilterSection
           title="Amenities"
-          icon={<Square className="h-4 w-4" /> as any}
+          icon={<Square className="h-4 w-4" /> as unknown}
           isOpen={expandedSections.more}
           onToggle={() => toggleSection('more')}
         >
@@ -733,7 +733,7 @@ export function SearchFilters({
             selectedValues={filters.amenities || []}
             onChange={(v) => onChange({ amenities: v })}
             placeholder="Select amenities"
-            icon={<Square className="h-4 w-4" /> as any}
+            icon={<Square className="h-4 w-4" /> as unknown}
           />
         </FilterSection>
 

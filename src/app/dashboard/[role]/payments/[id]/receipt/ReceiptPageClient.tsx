@@ -48,7 +48,7 @@ export default function ReceiptPageClient({ transactionId }: ReceiptPageClientPr
             Back
           </Button>
         </div>
-        <Receipt transaction={transaction as any} />
+        <Receipt transaction={transaction as unknown} />
       </div>
     </div>
   );

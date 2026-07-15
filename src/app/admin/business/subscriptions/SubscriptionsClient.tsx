@@ -38,10 +38,10 @@ export interface SubscriptionPlan {
   id: string;
   name: string;
   description?: string | null;
-  priceMonthly: any;
-  priceYearly: any;
+  priceMonthly: unknown;
+  priceYearly: unknown;
   currency: string;
-  features: any;
+  features: unknown;
   maxListings: number;
   maxUsers: number;
   maxProperties: number;
@@ -69,8 +69,8 @@ export interface UserSubscription {
   plan: {
     id: string;
     name: string;
-    priceMonthly: any;
-    priceYearly: any;
+    priceMonthly: unknown;
+    priceYearly: unknown;
     currency: string;
   };
   user: {
@@ -221,7 +221,7 @@ export default function AdminSubscriptionsClient({
       toast({ title: 'Success', description: editingPlan ? 'Plan updated' : 'Plan created' });
       setPlanModalOpen(false);
       resetPlanForm();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } finally {
       setSavingPlan(false);
@@ -239,7 +239,7 @@ export default function AdminSubscriptionsClient({
       }
       setPlans((prev) => prev.filter((p) => p.id !== planId));
       toast({ title: 'Success', description: 'Plan deleted' });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     }
   };
@@ -270,7 +270,7 @@ export default function AdminSubscriptionsClient({
         </p>
       </div>
 
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as unknown)}>
         <TabsList className="w-full grid grid-cols-2 max-w-md">
           <TabsTrigger value="plans">Plans ({plans.length})</TabsTrigger>
           <TabsTrigger value="subscriptions">User Subscriptions ({subscriptions.length})</TabsTrigger>

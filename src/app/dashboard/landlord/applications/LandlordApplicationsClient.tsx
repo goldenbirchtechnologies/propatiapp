@@ -202,7 +202,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             </h3>
             <p className="text-on-surface-variant">
               {applications.length === 0
-                ? 'You have not received any applications yet.'
+                ? 'You have not received unknown applications yet.'
                 : 'No applications match the selected filters.'}
             </p>
           </CardContent>

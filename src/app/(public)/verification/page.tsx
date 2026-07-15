@@ -8,7 +8,7 @@ export default function VerificationPage() {
       num: '01',
       title: 'Document Review',
       id: 'docs',
-      desc: 'The foundation of any safe transaction starts with paper. We verify the Certificate of Occupancy (C of O) and Governor\'s Consent to ensure the seller has the legal right to transfer ownership.',
+      desc: 'The foundation of unknown safe transaction starts with paper. We verify the Certificate of Occupancy (C of O) and Governor\'s Consent to ensure the seller has the legal right to transfer ownership.',
       checks: [
         { icon: 'check_circle', title: 'C of O Authenticity', desc: 'Cross-referencing unique file numbers with state records.' },
         { icon: 'check_circle', title: "Governor's Consent Validation", desc: 'Confirming the validity of previous transfers.' },

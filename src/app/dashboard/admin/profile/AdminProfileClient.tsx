@@ -5,7 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { User, Camera, Save } from 'lucide-react';
 
-export default function AdminProfileClient({ user }: { user: any }) {
+export default function AdminProfileClient({ user }: { user: unknown }) {
   const [form, setForm] = useState({
     fullName: user.fullName || 'Admin User',
     email: user.email || 'admin@propati.ng',

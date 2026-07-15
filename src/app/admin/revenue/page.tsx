@@ -137,8 +137,8 @@ export default async function RevenueReportsPage() {
           })),
           topListings: topListings.map(l => ({
             ...l,
-            propertyType: (l as any).propertyType || (l as any).property_type || '',
-            transactions: (l as any).transactions.map((t: any) => ({
+            propertyType: (l as unknown).propertyType || (l as unknown).property_type || '',
+            transactions: (l as unknown).transactions.map((t: unknown) => ({
               amount: Number(t.amount || 0),
               platformFee: Number(t.platformFee || 0),
             })),

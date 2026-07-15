@@ -45,7 +45,7 @@ const roles: { key: Role; label: string; description: string; color: string }[] 
   },
 ];
 
-const steps: Record<Role, { title: string; description: string; icon: any }[]> = {
+const steps: Record<Role, { title: string; description: string; icon: unknown }[]> = {
   tenant: [
     {
       title: 'Search & Filter',

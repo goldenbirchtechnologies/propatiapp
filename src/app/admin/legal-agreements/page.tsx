@@ -46,7 +46,7 @@ export default async function AdminLegalAgreementsPage() {
     id: a.id,
     type: a.type,
     status: a.status,
-    lockStatus: a.lockStatus as any,
+    lockStatus: a.lockStatus as unknown,
     riskTier: a.riskTier,
     governingStatute: a.governingStatute,
     jurisdictionState: a.jurisdictionState,
@@ -60,7 +60,7 @@ export default async function AdminLegalAgreementsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <LegalAgreementsClient agreements={mapped as any[]} />
+      <LegalAgreementsClient agreements={mapped as unknown[]} />
     </DashboardShell>
   );
 }

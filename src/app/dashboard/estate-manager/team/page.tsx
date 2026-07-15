@@ -163,8 +163,8 @@ export default function TeamManagementPage() {
   }
 
   const members = membersData?.data || [];
-  const activeMembers = members.filter((m: any) => m.status === 'active');
-  const pendingMembers = members.filter((m: any) => m.status === 'pending');
+  const activeMembers = members.filter((m: unknown) => m.status === 'active');
+  const pendingMembers = members.filter((m: unknown) => m.status === 'pending');
 
   const roleLabels: Record<string, string> = {
     manager: 'Manager',
@@ -299,7 +299,7 @@ export default function TeamManagementPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {members.map((member: any) => (
+                {members.map((member: unknown) => (
                   <TableRow key={member.id}>
                     <TableCell className="font-medium">
                       {member.user?.fullName || 'Pending'}
@@ -327,7 +327,7 @@ export default function TeamManagementPage() {
                           </SelectContent>
                         </Select>
                       ) : (
-                        <Badge variant={roleColors[member.role] as any}>
+                        <Badge variant={roleColors[member.role] as unknown}>
                           {roleLabels[member.role]}
                         </Badge>
                       )}

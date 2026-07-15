@@ -79,7 +79,7 @@ export const verificationTierColors: Record<string, 'default' | 'secondary' | 'o
   certified: 'success',
 };
 
-export function ImageGallery({ images, title }: { images: any[]; title: string }) {
+export function ImageGallery({ images, title }: { images: unknown[]; title: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!images || images.length === 0) {
@@ -220,8 +220,8 @@ export function OwnerCard({
   currentUserRole,
   isAuthenticated,
 }: {
-  owner?: any;
-  agent?: any;
+  owner?: unknown;
+  agent?: unknown;
   isOwnerView?: boolean;
   listingId?: string;
   listingTitle?: string;
@@ -284,7 +284,7 @@ export function OwnerCard({
               <ContactLandlordButton
                 listingId={listingId}
                 listingTitle={listingTitle}
-                participantId={currentUserId as any}
+                participantId={currentUserId as unknown}
                 userRole={currentUserRole || 'tenant'}
                 variant="outline"
                 className="w-full"

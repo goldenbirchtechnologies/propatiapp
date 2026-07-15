@@ -407,7 +407,7 @@ export default function UnitDetailPage() {
                   </div>
                 ) : tickets.length > 0 ? (
                   <div className="space-y-3">
-                    {tickets.map((ticket: any) => (
+                    {tickets.map((ticket: unknown) => (
                       <div
                         key={ticket.id}
                         className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-sm"
@@ -472,7 +472,7 @@ export default function UnitDetailPage() {
                   </div>
                 ) : agreements.length > 0 ? (
                   <div className="space-y-3">
-                    {agreements.map((agreement: any) => (
+                    {agreements.map((agreement: unknown) => (
                       <div
                         key={agreement.id}
                         className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-sm"

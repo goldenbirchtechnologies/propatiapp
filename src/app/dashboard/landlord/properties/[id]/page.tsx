@@ -69,7 +69,7 @@ export default async function LandlordPropertyDetailPage({
       url: img.url,
       isCover: img.isCover,
     })),
-  } as any;
+  } as unknown;
 
   return (
     <DashboardShell
@@ -78,7 +78,7 @@ export default async function LandlordPropertyDetailPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <PropertyDetailClient listing={initialListing} {...({ userId: user.id } as any)} />
+      <PropertyDetailClient listing={initialListing} {...({ userId: user.id } as unknown)} />
     </DashboardShell>
   );
 }

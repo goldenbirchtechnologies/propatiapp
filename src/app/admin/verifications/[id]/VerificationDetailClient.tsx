@@ -18,7 +18,7 @@ interface VerificationDetail {
   createdAt: string;
   updatedAt: string;
   reviewedAt: string | null;
-  listing: { id: string; title: string; address: string; state: string; propertyType: string | null; price: any } | null;
+  listing: { id: string; title: string; address: string; state: string; propertyType: string | null; price: unknown } | null;
   owner: { id: string; fullName: string; email: string; phone: string | null } | null;
   reviewer: { id: string; fullName: string } | null;
   l4Agent: { id: string; fullName: string } | null;

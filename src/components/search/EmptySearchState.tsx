@@ -50,7 +50,7 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
 
       {/* Description */}
       <p className="text-gray-600 mb-8 max-w-md">
-        We couldn&apos;t find any properties matching your current filters. Try adjusting your search criteria or browse all available properties.
+        We couldn&apos;t find unknown properties matching your current filters. Try adjusting your search criteria or browse all available properties.
       </p>
 
       {/* Action Buttons */}

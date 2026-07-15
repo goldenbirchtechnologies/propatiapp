@@ -61,7 +61,7 @@ export function PaymentModal({
         metadata: {
           description: description || `Payment for ${type}`,
         },
-      } as any);
+      } as unknown);
 
       // Redirect to Paystack checkout
       if (result.authorizationUrl) {

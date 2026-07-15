@@ -33,12 +33,12 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('all');
 
-  const { data: transactionsData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as any;
+  const { data: transactionsData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as unknown;
 
-  const transactions = transactionsData?.pages?.flatMap((page: any) => page.data || []) || [];
+  const transactions = transactionsData?.pages?.flatMap((page: unknown) => page.data || []) || [];
 
   // Filter transactions based on active tab
-  const filteredTransactions = transactions.filter((tx: any) => {
+  const filteredTransactions = transactions.filter((tx: unknown) => {
     if (activeTab === 'all') return true;
     if (activeTab === 'pending') return tx.status === 'pending';
     if (activeTab === 'in_escrow') return tx.status === 'in_escrow';
@@ -96,7 +96,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                   <h3 className="text-lg font-semibold mb-2">No transactions found</h3>
                   <p className="text-muted-foreground mb-4">
                     {activeTab === 'all'
-                      ? 'You haven\'t made any payments yet'
+                      ? 'You haven\'t made unknown payments yet'
                       : `No ${activeTab} transactions`}
                   </p>
                   {activeTab === 'all' && (
@@ -120,7 +120,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredTransactions.map((tx: any) => (
+                      {filteredTransactions.map((tx: unknown) => (
                         <TableRow key={tx.id}>
                           <TableCell>
                             {format(new Date(tx.createdAt), 'MMM dd, yyyy')}

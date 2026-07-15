@@ -25,7 +25,7 @@ export default function AddListingPage() {
   });
   const [step, setStep] = useState(1);
 
-  const update = (key: string, value: any) => setForm((f) => ({ ...f, [key]: value }));
+  const update = (key: string, value: unknown) => setForm((f) => ({ ...f, [key]: value }));
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName="Landlord" userAvatar={undefined}>

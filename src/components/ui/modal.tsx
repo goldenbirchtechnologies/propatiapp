@@ -73,7 +73,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref as any}
+          ref={ref as unknown}
           className={cn(
             'fixed z-50 bg-background border border-border',
             'data-[state=open]:animate-in data-[state=closed]:animate-out',
@@ -227,7 +227,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref as any}
+          ref={ref as unknown}
           className={cn(
             'fixed z-50 bottom-0 left-0 right-0 bg-background border-t border-border',
             'rounded-t-[20px] rounded-t-[20px] shadow-2xl',
@@ -247,7 +247,7 @@ const BottomSheet = React.forwardRef<HTMLDialogElement, BottomSheetProps>(
                   headerClassName
                 )}
                 onMouseDown={handleDragStart}
-                onTouchStart={handleDragStart as any}
+                onTouchStart={handleDragStart as unknown}
               >
                 {showDragIndicator && (
                   <div className="flex-1 flex justify-center">
@@ -335,7 +335,7 @@ const Drawer = React.forwardRef<HTMLDialogElement, ModalProps>(
           onClick={handleOverlayClick}
         />
         <DialogPrimitive.Content
-          ref={ref as any}
+          ref={ref as unknown}
           className={cn(
             'fixed z-50 right-0 top-0 bottom-0 bg-background border-l border-border',
             'shadow-2xl',

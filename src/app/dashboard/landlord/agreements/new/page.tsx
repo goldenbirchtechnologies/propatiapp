@@ -38,30 +38,30 @@ export default function NewAgreementPage() {
     setValue,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(createAgreementSchema) as any,
+    resolver: zodResolver(createAgreementSchema) as unknown,
     defaultValues: {
       type: 'rental',
       rentPeriod: 'monthly',
       noticePeriodDays: 30,
     },
-  } as any);
+  } as unknown);
 
   const watchedValues = watch();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: unknown) => {
     try {
-      const agreement = await createAgreement.mutateAsync(data as any);
+      const agreement = await createAgreement.mutateAsync(data as unknown);
       toast({
         title: 'Agreement Created',
         description: 'The agreement has been created successfully.',
-      } as any);
+      } as unknown);
       router.push(`/dashboard/landlord/agreements/${agreement.id}`);
     } catch (error) {
       toast({
         title: 'Error',
         description: 'Failed to create agreement. Please try again.',
         variant: 'destructive',
-      } as any);
+      } as unknown);
     }
   };
 
@@ -80,7 +80,7 @@ export default function NewAgreementPage() {
       return [];
     }
 
-    const schedule: any[] = [];
+    const schedule: unknown[] = [];
     const start = new Date(watchedValues.startDate);
     const end = new Date(watchedValues.endDate);
     const currentDate = new Date(start);
@@ -92,7 +92,7 @@ export default function NewAgreementPage() {
       schedule.push({
         date: format(currentDate, 'MMM dd, yyyy'),
         amount: watchedValues.rentAmount,
-      } as any);
+      } as unknown);
       currentDate.setMonth(currentDate.getMonth() + interval);
     }
 
@@ -192,7 +192,7 @@ export default function NewAgreementPage() {
                 <Label htmlFor="type">Agreement Type *</Label>
                 <Select
                   value={watchedValues.type}
-                  onValueChange={(value) => setValue('type', value as any)}
+                  onValueChange={(value) => setValue('type', value as unknown)}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select agreement type" />
@@ -269,7 +269,7 @@ export default function NewAgreementPage() {
                 <Label htmlFor="rentPeriod">Payment Schedule *</Label>
                 <Select
                   value={watchedValues.rentPeriod}
-                  onValueChange={(value) => setValue('rentPeriod', value as any)}
+                  onValueChange={(value) => setValue('rentPeriod', value as unknown)}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -309,8 +309,8 @@ export default function NewAgreementPage() {
                 <Label htmlFor="terms">Additional Terms</Label>
                 <Textarea
                   id="terms"
-                  {...(register as any)('terms')}
-                  placeholder="Enter any additional terms or conditions..."
+                  {...(register as unknown)('terms')}
+                  placeholder="Enter unknown additional terms or conditions..."
                   rows={4}
                 />
               </div>
@@ -406,11 +406,11 @@ export default function NewAgreementPage() {
                 </div>
               )}
 
-              {watchedValues && (watchedValues as any).terms && (
+              {watchedValues && (watchedValues as unknown).terms && (
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Additional Terms</p>
                   <div className="bg-muted/30 rounded-lg p-4">
-                    <p className="text-sm whitespace-pre-wrap">{(watchedValues as any).terms}</p>
+                    <p className="text-sm whitespace-pre-wrap">{(watchedValues as unknown).terms}</p>
                   </div>
                 </div>
               )}

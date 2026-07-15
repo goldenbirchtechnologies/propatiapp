@@ -85,7 +85,7 @@ export default async function AgentCommissionsPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <AgentCommissionsClient
-        initialCommissions={commissions as any}
+        initialCommissions={commissions as unknown}
         totalEarned={totalEarned}
         totalPaid={totalPaid}
         totalPending={totalPending}

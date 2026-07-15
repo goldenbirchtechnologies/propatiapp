@@ -19,7 +19,7 @@ export default async function AgentPipelinePage() {
     redirect('/dashboard');
   }
 
-  const STAGE_COLORS: any = {};
+  const STAGE_COLORS: unknown = {};
 
   const agentId = user.id;
 

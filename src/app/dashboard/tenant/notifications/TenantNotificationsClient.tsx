@@ -231,7 +231,7 @@ export default function TenantNotificationsClient() {
         throw new Error('Invalid notification response');
       }
       setNotifications(notifData.data);
-      const countData = (countRes as any).count;
+      const countData = (countRes as unknown).count;
       const unreadCountFromApi = typeof countData === 'number' ? countData : undefined;
       setUnreadCount(unreadCountFromApi ?? notifData.data.filter((n) => !n.read).length);
     } catch (err) {

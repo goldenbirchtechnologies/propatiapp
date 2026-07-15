@@ -51,7 +51,7 @@ function SearchPageInner() {
     queryKey: ['listings', 'public-search'],
     queryFn: async () => {
       const res = await apiEndpoints.listings.getAll({ page: 1, limit: 100, ...filters } as ListingsFilters);
-      return res as unknown as { listings: any[]; pagination: any };
+      return res as unknown as { listings: unknown[]; pagination: unknown };
     },
     staleTime: 60 * 1000,
   });
@@ -60,7 +60,7 @@ function SearchPageInner() {
 
   const mappedProperties: Property[] = React.useMemo(() => {
     return listings.map((l) => {
-      const cover = l.images?.find((img: any) => img.isCover) || l.images?.[0];
+      const cover = l.images?.find((img: unknown) => img.isCover) || l.images?.[0];
       return {
         id: l.id,
         title: l.title,

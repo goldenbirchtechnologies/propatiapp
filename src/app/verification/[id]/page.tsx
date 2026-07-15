@@ -28,7 +28,7 @@ function statusBadge(status: VerificationOverallStatus) {
     frozen: { label: 'Frozen', variant: 'outline' },
   };
   const s = map[status] ?? { label: status, variant: 'secondary' };
-  return <Badge variant={s.variant as any}>{s.label}</Badge>;
+  return <Badge variant={s.variant as unknown}>{s.label}</Badge>;
 }
 
 // ─── Layer badge helper ────────────────────────────────────────────────────────
@@ -74,7 +74,7 @@ function OverviewTab({
   onUploadVideo,
   onConfirmIdentity,
 }: {
-  verification: any;
+  verification: unknown;
   onRetry: () => void;
   onRequestInspection: () => void;
   onUploadVideo: () => void;
@@ -162,7 +162,7 @@ function OverviewTab({
 }
 
 // ─── Layers content ───────────────────────────────────────────────────────────
-function LayersTab({ verification }: { verification: any }) {
+function LayersTab({ verification }: { verification: unknown }) {
   const { currentLayer, l1Status, l2Status, l3Status, l4Status, l5Status } = verification;
   const ALL = [
     { label: 'Layer 1 - Documents', status: l1Status, approvedAt: verification.l1SubmittedAt },
@@ -191,14 +191,14 @@ function LayersTab({ verification }: { verification: any }) {
 }
 
 // ─── Documents content ────────────────────────────────────────────────────────
-function DocumentsTab({ verification }: { verification: any }) {
+function DocumentsTab({ verification }: { verification: unknown }) {
   const docs = verification.verificationDocuments ?? [];
   if (docs.length === 0) {
     return <p className="text-sm text-muted-foreground">No documents uploaded yet.</p>;
   }
   return (
     <div className="space-y-3">
-      {docs.map((d: any) => (
+      {docs.map((d: unknown) => (
         <a key={d.id} href={d.url} target="_blank" rel="noopener" className="flex items-center justify-between rounded-md border p-3 hover:bg-muted">
           <div>
             <p className="font-medium">{d.documentType}</p>
@@ -212,7 +212,7 @@ function DocumentsTab({ verification }: { verification: any }) {
 }
 
 // ─── Timeline content ─────────────────────────────────────────────────────────
-function TimelineTab({ verification }: { verification: any }) {
+function TimelineTab({ verification }: { verification: unknown }) {
   const events: { date: Date; label: string }[] = [];
   if (verification.frozenAt) events.push({ date: verification.frozenAt, label: `Frozen: ${verification.frozenReason}` });
   if (verification.l4CompletedAt) events.push({ date: verification.l4CompletedAt, label: 'Layer 4 inspection completed' });

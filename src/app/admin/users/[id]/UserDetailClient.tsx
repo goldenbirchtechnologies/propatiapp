@@ -364,7 +364,7 @@ export default function UserDetailClient({ user: initialUser, revenueData, initi
                     <Building2 className="mx-auto h-12 w-12" />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900">No listings found</h3>
-                  <p className="mt-1 text-gray-500">This user has not created any property listings.</p>
+                  <p className="mt-1 text-gray-500">This user has not created unknown property listings.</p>
                 </div>
               )}
             </div>

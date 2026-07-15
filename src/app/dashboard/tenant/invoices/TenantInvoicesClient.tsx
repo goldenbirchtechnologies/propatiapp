@@ -15,14 +15,14 @@ const statusConfig: Record<string, { class: string; label: string }> = {
 };
 
 export default function TenantInvoicesClient() {
-  const [invoices, setInvoices] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
     setLoading(true);
     try {
       const res = await apiEndpoints.invoices.list({ page: 1, limit: 50 });
-      setInvoices((res.data as any[]) || []);
+      setInvoices((res.data as unknown[]) || []);
     } catch (error) {
       console.error('Failed to load invoices:', error);
     } finally {
@@ -63,7 +63,7 @@ export default function TenantInvoicesClient() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant">
-                {invoices.map((invoice: any) => (
+                {invoices.map((invoice: unknown) => (
                   <tr key={invoice.id} className="hover:bg-surface-container-low/60">
                     <td className="px-4 py-3 text-sm">{invoice.invoiceNumber}</td>
                     <td className="px-4 py-3 text-sm">

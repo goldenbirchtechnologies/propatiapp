@@ -74,7 +74,7 @@ interface EvidencePackData {
   fileUrls: unknown;
   payments: unknown;
   messages: unknown;
-  auditLogs: any;
+  auditLogs: unknown;
   metadata: unknown;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -107,7 +107,7 @@ const STATUS_COLORS: Record<string, string> = {
   revoked: 'bg-red-100 text-red-700',
 };
 
-function renderJsonSection(title: string, data: any, icon: React.ReactNode) {
+function renderJsonSection(title: string, data: unknown, icon: React.ReactNode) {
   const jsonStr = JSON.stringify(data, null, 2);
   return (
     <div className="space-y-2">
@@ -507,9 +507,9 @@ export default function EvidencePacksClient({
                   <Separator />
                   {(renderJsonSection(
                     'Audit Log Entries',
-                    selectedPack.auditLogs as any,
+                    selectedPack.auditLogs as unknown,
                     <ScrollText className="h-4 w-4" />
-                  ) as any)}
+                  ) as unknown)}
                   <Separator />
                   {selectedPack.metadata && (
                     <>

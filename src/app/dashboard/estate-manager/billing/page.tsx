@@ -39,7 +39,7 @@ export default async function EstateManagerBillingPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <EstateManagerBillingClient initialBills={bills as any} />
+      <EstateManagerBillingClient initialBills={bills as unknown} />
     </DashboardShell>
   );
 }

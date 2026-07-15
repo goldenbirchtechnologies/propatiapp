@@ -47,7 +47,7 @@ interface VerificationDetailClientProps {
     createdAt: string;
     updatedAt: string;
     reviewedAt: string | null;
-    listing: { id: string; title: string; address: string; state: string; propertyType?: string | null; price?: any; verificationTier: string | null } | null;
+    listing: { id: string; title: string; address: string; state: string; propertyType?: string | null; price?: unknown; verificationTier: string | null } | null;
     owner: { id: string; fullName: string; email: string; phone: string | null } | null;
     reviewer: { id: string; fullName: string } | null;
     l4Agent: { id: string; fullName: string } | null;
@@ -98,8 +98,8 @@ export default function VerificationDetailClient({
     );
   }
 
-  const frozen = isFrozen(verification as any);
-  const statusMessage = getStatusMessage(verification as any);
+  const frozen = isFrozen(verification as unknown);
+  const statusMessage = getStatusMessage(verification as unknown);
   const layerNames = [
     'Not Started',
     'Document Verification',

@@ -34,7 +34,7 @@ export default async function AdminPaymentsPage() {
   });
 
   const mapped = transactions.map((txn) => {
-    const { paystackData: _pd, ...rest } = txn as any;
+    const { paystackData: _pd, ...rest } = txn as unknown;
     return {
       ...rest,
       amount: Number(txn.amount),

@@ -209,7 +209,7 @@ export default function OnboardingBlock() {
                   Workspace preferences
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Set up how your workspace behaves. Change these any time.
+                  Set up how your workspace behaves. Change these unknown time.
                 </p>
               </div>
               <Field>

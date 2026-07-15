@@ -20,7 +20,7 @@ interface AdminVerificationClientProps {
 
 export default function AdminVerificationClient({ stats }: AdminVerificationClientProps) {
   const [activeTab, setActiveTab] = useState('pending');
-  const [selectedVerification, setSelectedVerification] = useState<any>(null);
+  const [selectedVerification, setSelectedVerification] = useState<unknown>(null);
   const [reviewAction, setReviewAction] = useState<'approve' | 'reject'>('approve');
   const [reviewNotes, setReviewNotes] = useState('');
   const [reviewLayer, setReviewLayer] = useState(1);
@@ -31,9 +31,9 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
   });
   const reviewMutation = useAdminReviewVerification();
 
-  const verifications: any[] = (queueData as any)?.data || [];
+  const verifications: unknown[] = (queueData as unknown)?.data || [];
 
-  const handleReview = (verification: any, action: 'approve' | 'reject', layer: number) => {
+  const handleReview = (verification: unknown, action: 'approve' | 'reject', layer: number) => {
     setSelectedVerification(verification);
     setReviewAction(action);
     setReviewLayer(layer);
@@ -118,8 +118,8 @@ export default function AdminVerificationClient({ stats }: AdminVerificationClie
 }
 
 function VerificationTable({ verifications, onReview, isLoading }: {
-  verifications: any[];
-  onReview: (v: any, a: 'approve' | 'reject', l: number) => void;
+  verifications: unknown[];
+  onReview: (v: unknown, a: 'approve' | 'reject', l: number) => void;
   isLoading: boolean;
 }) {
   if (isLoading && verifications.length === 0) {
@@ -168,8 +168,8 @@ function VerificationTable({ verifications, onReview, isLoading }: {
 }
 
 function VerificationRow({ verification, onReview }: {
-  verification: any;
-  onReview: (v: any, a: 'approve' | 'reject', l: number) => void;
+  verification: unknown;
+  onReview: (v: unknown, a: 'approve' | 'reject', l: number) => void;
 }) {
   const layerLabels = ['Documents', 'Identity', 'Video', 'Inspection', 'Certified'];
   const currentLayer = verification.currentLayer || 1;
@@ -283,7 +283,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function ReviewModal({ verification, action, layer, notes, onNotesChange, onSubmit, onClose, isSubmitting }: {
-  verification: any;
+  verification: unknown;
   action: 'approve' | 'reject';
   layer: number;
   notes: string;

@@ -56,7 +56,7 @@ export default function LandlordShortLetPage() {
       try {
         const res = await fetch('/api/tenant-shortlets' + (selectedListingId === 'all' ? '' : `?listingId=${selectedListingId}`));
         const json = await res.json();
-        const mapped: RequestRow[] = (json.records || []).map((r: any) => ({
+        const mapped: RequestRow[] = (json.records || []).map((r: unknown) => ({
           id: r.id,
           listingId: r.listingId,
           listingTitle: r.listing?.title || 'Property',

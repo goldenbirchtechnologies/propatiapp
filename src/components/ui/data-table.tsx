@@ -246,8 +246,8 @@ function DataTableRow<T>({
           style={{ width: column.width }}
         >
           {column.cell
-            ? column.cell((row as any)[column.accessorKey], row)
-            : String((row as any)[column.accessorKey] ?? '')}
+            ? column.cell((row as unknown)[column.accessorKey], row)
+            : String((row as unknown)[column.accessorKey] ?? '')}
         </td>
       ))}
       {actions && actions.length > 0 && (
@@ -289,7 +289,7 @@ function DataTablePagination({
   total,
   onPageChange,
   onPageSizeChange,
-}: any) {
+}: unknown) {
   const totalPages = Math.ceil(total / pageSize);
   const start = (page - 1) * pageSize + 1;
   const end = Math.min(page * pageSize, total);
@@ -352,7 +352,7 @@ function DataTableToolbar({
 }: {
   searchValue: string;
   onSearchChange: (value: string) => void;
-  filtering?: DataTableProps<any>['filtering'];
+  filtering?: DataTableProps<unknown>['filtering'];
   onClearFilters?: () => void;
   className?: string;
 }) {
@@ -380,7 +380,7 @@ function DataTableToolbar({
   );
 }
 
-function DataTableSkeleton({ columns, rows = 5 }: { columns: ColumnDef<any>[]; rows?: number }) {
+function DataTableSkeleton({ columns, rows = 5 }: { columns: ColumnDef<unknown>[]; rows?: number }) {
   return (
     <div className="rounded-lg border bg-card">
       <div className="overflow-x-auto">
@@ -484,7 +484,7 @@ export function DataTable<T>({
                     }}
                     className="h-4 w-4 rounded border-border text-accent focus:ring-accent"
                     aria-label="Select all rows"
-                    {...({ indeterminate: selection.selectedKeys.size > 0 && selection.selectedKeys.size < data.length } as any)}
+                    {...({ indeterminate: selection.selectedKeys.size > 0 && selection.selectedKeys.size < data.length } as unknown)}
                   />
                 </th>
               )}
@@ -494,7 +494,7 @@ export function DataTable<T>({
                   column={column}
                   sorting={sorting}
                   filtering={filtering}
-                  onFilterChange={filtering?.onFilterChange as any}
+                  onFilterChange={filtering?.onFilterChange as unknown}
                 />
               ))}
               {actions && actions.length > 0 && (

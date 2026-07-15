@@ -64,7 +64,7 @@ export default async function FlaggedListingsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <FlaggedListingsClient flaggedListings={flaggedListings.map(l => ({ ...l, flags: l.flags.map(f => ({ ...f, reason: (f as any).description || '', details: (f as any).description })) }))} />
+      <FlaggedListingsClient flaggedListings={flaggedListings.map(l => ({ ...l, flags: l.flags.map(f => ({ ...f, reason: (f as unknown).description || '', details: (f as unknown).description })) }))} />
     </DashboardShell>
   );
 }

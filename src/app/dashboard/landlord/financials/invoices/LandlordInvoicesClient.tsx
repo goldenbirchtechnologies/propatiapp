@@ -44,7 +44,7 @@ export default function LandlordInvoicesClient() {
       tenantId: formData.tenantId || undefined,
       amount: Number(formData.amount),
       dueDate: formData.dueDate,
-      type: formData.type as any,
+      type: formData.type as unknown,
       notes: formData.notes || undefined,
       items: [{ description: `${formData.type} payment`, amount: Number(formData.amount), quantity: 1 }],
     });
@@ -111,7 +111,7 @@ export default function LandlordInvoicesClient() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant">
-                {(invoices as unknown as Invoice[]).map((invoice: any) => (
+                {(invoices as unknown as Invoice[]).map((invoice: unknown) => (
                   <tr key={invoice.id} className="hover:bg-surface-container-low/60">
                     <td className="px-4 py-3 text-sm">{invoice.invoiceNumber}</td>
                     <td className="px-4 py-3 text-sm">

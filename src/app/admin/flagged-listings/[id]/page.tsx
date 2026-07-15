@@ -73,8 +73,8 @@ export default async function FlaggedListingDetailPage({
     images: listing.images.map((img) => ({ id: img.id, url: img.url, isCover: img.isCover })),
     flags: listing.flags.map((f) => ({
       id: f.id,
-      reason: (f as any).description || 'No reason specified',
-      details: (f as any).description || '',
+      reason: (f as unknown).description || 'No reason specified',
+      details: (f as unknown).description || '',
       status: f.status,
       createdAt: f.createdAt.toISOString(),
       flaggedByUser: {

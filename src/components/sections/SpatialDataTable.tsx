@@ -46,7 +46,7 @@ function SortIcon({ direction }: { direction: 'asc' | 'desc' | null }) {
 export function SpatialDataTable<T>({
   columns,
   data,
-  keyAccessor = ((_, i) => i) as any,
+  keyAccessor = ((_, i) => i) as unknown,
   page = 1,
   pageSize = 10,
   total,

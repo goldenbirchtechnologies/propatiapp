@@ -71,7 +71,7 @@ const verificationTierColors: Record<string, 'default' | 'secondary' | 'outline'
   certified: 'success',
 };
 
-function ImageGallery({ images, title }: { images: any[]; title: string }) {
+function ImageGallery({ images, title }: { images: unknown[]; title: string }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   if (!images || images.length === 0) {
@@ -139,7 +139,7 @@ function ImageGallery({ images, title }: { images: any[]; title: string }) {
 
       {images.length > 1 && (
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-          {images.map((image: any, index: number) => {
+          {images.map((image: unknown, index: number) => {
             const src = typeof image === 'string' ? image : image.url;
             return (
               <button
@@ -443,9 +443,9 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                 <PropertySpecs
                   bedrooms={listing.bedrooms}
                   bathrooms={listing.bathrooms}
-                  toilets={(listing as any).toilets}
+                  toilets={(listing as unknown).toilets}
                   sizeSqm={listing.sizeSqm}
-                  parkingSpaces={(listing as any).parkingSpaces}
+                  parkingSpaces={(listing as unknown).parkingSpaces}
                 />
               </CardContent>
             </Card>
@@ -500,11 +500,11 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                       Available from: {new Date(listing.availableFrom).toLocaleDateString()}
                     </span>
                   </div>
-                  {(listing as any).minimumStay && (
+                  {(listing as unknown).minimumStay && (
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
                       <span style={{ color: 'var(--text)' }}>
-                        Minimum stay: {(listing as any).minimumStay} months
+                        Minimum stay: {(listing as unknown).minimumStay} months
                       </span>
                     </div>
                   )}

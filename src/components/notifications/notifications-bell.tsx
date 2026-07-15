@@ -62,7 +62,7 @@ export function NotificationsBell({
   // Setup polling with Page Visibility API
   useEffect(() => {
     const startPolling = () => {
-      // Clear any existing interval
+      // Clear unknown existing interval
       if (pollInterval.current) {
         clearInterval(pollInterval.current);
       }

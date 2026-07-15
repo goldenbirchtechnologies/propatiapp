@@ -93,7 +93,7 @@ export default async function LandlordApplicationDetailPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <LandlordApplicationDetailClient application={serialized as any} />
+      <LandlordApplicationDetailClient application={serialized as unknown} />
     </DashboardShell>
   );
 }

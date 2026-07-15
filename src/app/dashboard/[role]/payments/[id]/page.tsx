@@ -1,42 +1,16 @@
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { getNavigationForRole } from '@/lib/navigation';
 import TransactionDetailClient from './TransactionDetailClient';
-
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
-import { getNavigationForRole } from '@/lib/navigation';
-import TransactionDetailClient from './TransactionDetailClient';
-
-interface PageProps {
-  params: Promise<{ id: string; role: string }>;
-}
 
 export default async function TransactionDetailPage({ params }: PageProps) {
   const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/login');
-  }
+  if (!userId) redirect('/login');
 
   const user = await getCurrentUserWithProfile();
-
-  if (!user) {
-    redirect('/dashboard');
-  }
+  if (!user) redirect('/dashboard');
 
   const { id } = await params;
-  const navigation = getNavigationForRole(user.role);
 
-  return (
-      navigation={navigation}
-      userRole={user.role}
-      userName={user.fullName}
-      userAvatar={user.avatarUrl || undefined}
-    >
-      <TransactionDetailClient transactionId={id} user={user} />
-  );
+  return <TransactionDetailClient transactionId={id} user={user} />;
 }

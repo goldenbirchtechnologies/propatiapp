@@ -38,7 +38,7 @@ const buildAgreementWhatsAppMessage = (agreement: {
     signed ? `Signatures: ${agreement.signatures.length} recorded` : 'Signatures: pending',
     '',
     'Review and sign quickly on your PROPATI dashboard.',
-    `Link: ${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/${agreement.type === 'sale' ? 'agent' : 'tenant'}/agreements/${agreement.id}`,
+    `Link: ${process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000'}/dashboard/${agreement.type === 'sale' ? 'agent' : 'tenant'}/agreements/${agreement.id}`,
   ]
     .filter(Boolean)
     .join('\n');

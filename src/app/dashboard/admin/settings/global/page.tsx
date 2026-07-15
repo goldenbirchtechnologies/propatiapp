@@ -33,11 +33,11 @@ export default function GlobalSettingsPage() {
           </div>
           <div className="flex gap-sm">
             <button className="flex items-center gap-sm px-lg h-11 border border-outline text-primary font-label-md rounded-xl hover:bg-surface-container-low transition-all">
-              <span className="material-symbols-outlined">undo</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=undo className="material-symbols-outlined" />
               Discard
             </button>
             <button className="flex items-center gap-sm px-lg h-11 bg-primary text-on-primary font-label-md rounded-xl hover:bg-primary/90 shadow-md transition-all">
-              <span className="material-symbols-outlined">save</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=save className="material-symbols-outlined" />
               Save Changes
             </button>
           </div>
@@ -49,27 +49,27 @@ export default function GlobalSettingsPage() {
           <div className="lg:col-span-3">
             <nav className="space-y-1 sticky top-24">
               <a className="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">tune</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=tune className="material-symbols-outlined" />
                 General
               </a>
               <a className="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">payments</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=payments className="material-symbols-outlined" />
                 Billing &amp; Fees
               </a>
               <a className="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">verified_user</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=verified_user className="material-symbols-outlined" />
                 Verification
               </a>
               <a className="flex items-center gap-sm px-md py-sm border-l-4 border-primary bg-primary/5 text-primary font-bold rounded-r-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">security</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=security className="material-symbols-outlined" />
                 Security
               </a>
               <a className="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">notifications</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=notifications className="material-symbols-outlined" />
                 Notifications
               </a>
               <a className="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md" href="#">
-                <span className="material-symbols-outlined">map</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=map className="material-symbols-outlined" />
                 Data Map
               </a>
             </nav>
@@ -81,7 +81,7 @@ export default function GlobalSettingsPage() {
             <section className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                  <span className="material-symbols-outlined">tune</span>
+                  <span className="material-symbols-outlined"><MaterialIcon name=tune className="material-symbols-outlined" />
                 </div>
                 <div>
                   <h3 className="font-headline-md text-headline-md text-primary">Platform Parameters</h3>

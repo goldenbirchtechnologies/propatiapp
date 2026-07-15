@@ -214,7 +214,7 @@ function SearchPageInner() {
                 onClick={() => setMobileFiltersOpen(true)}
                 className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant bg-surface text-sm font-medium"
               >
-                <span className="material-symbols-outlined text-[18px]">filter_list</span>
+                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=filter_list className="material-symbols-outlined" />
                 Filters
               </button>
             </div>

@@ -150,7 +150,7 @@ export default function AgentVerificationsClient() {
                 {recentActivity.map((item, idx) => (
                   <div key={idx} className="flex gap-4 relative">
                     <div className="z-10 w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shrink-0">
-                      <span className="material-symbols-outlined text-sm">{item.icon}</span>
+                      <span className="material-symbols-outlined text-sm"><MaterialIcon name={item.icon} className="material-symbols-outlined" />
                     </div>
                     <div>
                       <p className="font-headline-sm font-bold text-sm" style={{ color: 'text-primary' }}>{item.title}</p>

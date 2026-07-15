@@ -65,7 +65,7 @@ const StatCard: React.FC<StatItem> = ({ label, value, icon, color, trend }) => {
     >
       <div className="flex items-center gap-4">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${c.iconBg}`}>
-          <span className="material-symbols-outlined text-2xl">{icon}</span>
+          <span className="material-symbols-outlined text-2xl"><MaterialIcon name={icon} className="material-symbols-outlined" />
         </div>
         <div>
           <p className="text-sm text-on-surface-variant font-medium">{label}</p>

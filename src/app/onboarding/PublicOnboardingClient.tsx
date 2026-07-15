@@ -64,7 +64,7 @@ export default function PublicOnboardingClient() {
           {/* Top label */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-tertiary-fixed/15 text-on-tertiary-container px-3 py-1 rounded-full mb-4">
-              <span className="material-symbols-outlined text-[18px] text-tertiary">verified</span>
+              <span className="material-symbols-outlined text-[18px] text-tertiary"><MaterialIcon name=verified className="material-symbols-outlined" />
               <span className="text-xs font-medium tracking-wide uppercase">Secure Registration</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary mb-3">
@@ -92,12 +92,12 @@ export default function PublicOnboardingClient() {
                   ].join(' ')}
                 >
                   {isSelected && (
-                    <span className="material-symbols-outlined text-secondary-container absolute top-3 right-3 text-[20px]">
+                    <span className="material-symbols-outlined text-secondary-container absolute top-3 right-3 text-[20px]"><MaterialIcon name=
                       check_circle
-                    </span>
+                     className="material-symbols-outlined" />
                   )}
                   <div className="mt-0.5 h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[22px]">{getIcon(id)}</span>
+                    <span className="material-symbols-outlined text-[22px]"><MaterialIcon name={getIcon(id)} className="material-symbols-outlined" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-primary mb-0.5">{label}</p>

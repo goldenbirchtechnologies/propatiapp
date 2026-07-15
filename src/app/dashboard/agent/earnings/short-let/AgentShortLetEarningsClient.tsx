@@ -161,10 +161,10 @@ export default function AgentShortLetEarningsClient() {
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
-                <span className="material-symbols-outlined text-sm">chevron_left</span>
+                <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_left className="material-symbols-outlined" />
               </Button>
               <Button variant="outline" size="icon" className="h-8 w-8">
-                <span className="material-symbols-outlined text-sm">chevron_right</span>
+                <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
               </Button>
             </div>
           </CardHeader>

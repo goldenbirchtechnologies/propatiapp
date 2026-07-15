@@ -17,21 +17,21 @@ export default function VerificationPage() {
         <div className="bg-surface-container-high p-6 rounded-xl shadow-sm border border-outline-variant relative overflow-hidden">
           <div className="flex flex-col gap-4 relative z-10">
             <div className="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-2 transition-transform">
-              <span className="material-symbols-outlined text-primary text-[32px]">article</span>
+              <span className="material-symbols-outlined text-primary text-[32px]"><MaterialIcon name=article className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Deed of Assignment</div>
                 <div className="text-xs text-muted-foreground">STATUS: PENDING REVIEW</div>
               </div>
             </div>
             <div className="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-4 transition-transform">
-              <span className="material-symbols-outlined text-primary text-[32px]">receipt_long</span>
+              <span className="material-symbols-outlined text-primary text-[32px]"><MaterialIcon name=receipt_long className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Survey Plan</div>
                 <div className="text-xs text-muted-foreground">STATUS: MATCHED</div>
               </div>
             </div>
             <div className="bg-white p-4 rounded-lg border-2 border-on-tertiary-container flex items-center gap-4 hover:translate-x-6 transition-transform">
-              <span className="material-symbols-outlined text-on-tertiary-container text-[32px]">verified</span>
+              <span className="material-symbols-outlined text-on-tertiary-container text-[32px]"><MaterialIcon name=verified className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Certificate of Occupancy</div>
                 <div className="text-xs text-on-tertiary-container font-bold">VERIFIED AUTHENTIC</div>
@@ -39,7 +39,7 @@ export default function VerificationPage() {
             </div>
           </div>
           <div className="absolute -bottom-12 -right-12 opacity-10">
-            <span className="material-symbols-outlined text-[160px] text-primary">description</span>
+            <span className="material-symbols-outlined text-[160px] text-primary"><MaterialIcon name=description className="material-symbols-outlined" />
           </div>
         </div>
       ),
@@ -73,13 +73,13 @@ export default function VerificationPage() {
           <div className="space-y-4">
             <div className="aspect-[3/4] rounded-2xl bg-muted" />
             <div className="p-4 bg-surface-container rounded-xl border border-outline-variant">
-              <span className="material-symbols-outlined text-secondary">explore</span>
+              <span className="material-symbols-outlined text-secondary"><MaterialIcon name=explore className="material-symbols-outlined" />
               <p className="font-medium text-primary mt-2 text-sm">Boundary Matching</p>
             </div>
           </div>
           <div className="space-y-4">
             <div className="p-4 bg-secondary text-on-secondary rounded-xl">
-              <span className="material-symbols-outlined">warning</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=warning className="material-symbols-outlined" />
               <p className="font-medium mt-2 text-sm">Omonile Risk Check</p>
             </div>
             <div className="aspect-[3/4] rounded-2xl bg-muted" />
@@ -100,18 +100,18 @@ export default function VerificationPage() {
               <p className="text-sm text-muted-foreground">We manually verify the status of the title in state records.</p>
             </div>
             <div className="mt-4 flex items-center justify-between">
-              <span className="material-symbols-outlined text-primary text-[48px] opacity-40">gavel</span>
+              <span className="material-symbols-outlined text-primary text-[48px] opacity-40"><MaterialIcon name=gavel className="material-symbols-outlined" />
               <div className="px-4 py-2 bg-white rounded-full text-xs font-medium shadow-sm">SEARCHING: ALAUSA REGISTRY</div>
             </div>
           </div>
           <div className="bg-primary text-on-primary rounded-2xl p-6 flex flex-col justify-center text-center border border-outline-variant">
-            <span className="material-symbols-outlined text-[64px] text-on-tertiary-container mb-4">policy</span>
+            <span className="material-symbols-outlined text-[64px] text-on-tertiary-container mb-4"><MaterialIcon name=policy className="material-symbols-outlined" />
             <h3 className="font-heading font-bold mb-2">Government Acquisition Check</h3>
             <p className="text-sm opacity-70">Ensuring the land isn\'t designated for public projects.</p>
           </div>
           <div className="bg-white rounded-2xl p-6 flex items-center gap-4 border border-outline-variant">
             <div className="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined">report_problem</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=report_problem className="material-symbols-outlined" />
             </div>
             <div>
               <h4 className="font-heading font-bold text-primary text-sm">Litigation Audit</h4>
@@ -146,7 +146,7 @@ export default function VerificationPage() {
             Get Started
           </button>
           <button className="md:hidden text-primary">
-            <span className="material-symbols-outlined text-[24px]">menu</span>
+            <span className="material-symbols-outlined text-[24px]"><MaterialIcon name=menu className="material-symbols-outlined" />
           </button>
         </div>
       </header>
@@ -156,7 +156,7 @@ export default function VerificationPage() {
         <aside className="hidden lg:flex flex-col border-r border-outline-variant w-64 sticky top-[72px] h-[calc(100vh-72px)] bg-surface-container-low p-6 overflow-y-auto">
           <div className="mb-8 pt-4">
             <div className="flex items-center gap-3 mb-2">
-              <span className="material-symbols-outlined text-primary text-[32px]">shield_person</span>
+              <span className="material-symbols-outlined text-primary text-[32px]"><MaterialIcon name=shield_person className="material-symbols-outlined" />
               <h3 className="font-heading font-bold text-primary">Verification Steps</h3>
             </div>
             <p className="text-sm text-muted-foreground">Phase 1: Due Diligence</p>
@@ -168,19 +168,19 @@ export default function VerificationPage() {
                 href={`#${phase.id || phase.num}`}
                 className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-surface-container-highest"
               >
-                <span className="material-symbols-outlined text-[20px]">
+                <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=
                   {phase.num === '01' && 'info'}
                   {phase.num === '02' && 'description'}
                   {phase.num === '03' && 'visibility'}
                   {phase.num === '04' && 'gavel'}
-                </span>
+                 className="material-symbols-outlined" />
                 <span className="text-sm font-medium">{phase.title}</span>
               </Link>
             ))}
           </nav>
           <div className="mt-auto">
             <button className="w-full py-3 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center gap-2 hover:brightness-95 transition-all">
-              <span className="material-symbols-outlined text-[18px]">download</span>
+              <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=download className="material-symbols-outlined" />
               Download Checklist
             </button>
           </div>
@@ -192,7 +192,7 @@ export default function VerificationPage() {
           <section className="relative bg-primary text-on-primary overflow-hidden px-4 md:px-8 py-16 md:py-24" id="intro">
             <div className="relative z-10 max-w-4xl">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary rounded-full mb-6">
-                <span className="material-symbols-outlined text-[18px]">verified_user</span>
+                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=verified_user className="material-symbols-outlined" />
                 <span className="text-xs font-medium uppercase tracking-widest text-on-primary">Trusted Authority</span>
               </div>
               <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl mb-6 leading-tight">
@@ -220,7 +220,7 @@ export default function VerificationPage() {
                     <ul className="space-y-4">
                       {phase.checks.map((check, i) => (
                         <li key={i} className="flex gap-4 items-start">
-                          <span className="material-symbols-outlined text-on-tertiary-container mt-1">{check.icon}</span>
+                          <span className="material-symbols-outlined text-on-tertiary-container mt-1"><MaterialIcon name={check.icon} className="material-symbols-outlined" />
                           <div>
                             <h4 className="font-heading font-bold text-primary text-base">{check.title}</h4>
                             {check.desc && <p className="text-sm text-muted-foreground">{check.desc}</p>}
@@ -308,9 +308,9 @@ export default function VerificationPage() {
         <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-on-primary-container/60">&copy; {new Date().getFullYear()} VeriProp Nigeria. All rights reserved.</p>
           <div className="flex gap-4">
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">public</span>
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">chat</span>
-            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity">language</span>
+            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity"><MaterialIcon name=public className="material-symbols-outlined" />
+            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity"><MaterialIcon name=chat className="material-symbols-outlined" />
+            <span className="material-symbols-outlined opacity-60 hover:opacity-100 cursor-pointer transition-opacity"><MaterialIcon name=language className="material-symbols-outlined" />
           </div>
         </div>
       </footer>

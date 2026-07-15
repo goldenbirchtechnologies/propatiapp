@@ -24,17 +24,17 @@ export default function UsersManagementPagePagePage() {
 <header className="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 border-b border-outline-variant bg-surface flex justify-between items-center h-16 px-6">
 <div className="flex items-center flex-1 max-w-xl">
 <div className="relative w-full">
-<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"><MaterialIcon name=search className="material-symbols-outlined" />
 <input className="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search for users, IDs, or activity..." type="text"/>
 </div>
 </div>
 <div className="flex items-center gap-4">
 <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
-<span className="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=notifications className="material-symbols-outlined" />
 <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
 </button>
 <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors">
-<span className="material-symbols-outlined text-on-surface-variant">help</span>
+<span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=help className="material-symbols-outlined" />
 </button>
 <div className="h-8 w-[1px] bg-outline-variant/50 mx-2"></div>
 <div className="flex items-center gap-3 cursor-pointer p-1 rounded-lg hover:bg-surface-container-high transition-colors">
@@ -52,7 +52,7 @@ export default function UsersManagementPagePagePage() {
 <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
 <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
 <div className="p-3 bg-primary-container/5 rounded-lg text-primary">
-<span className="material-symbols-outlined text-[32px]">group</span>
+<span className="material-symbols-outlined text-[32px]"><MaterialIcon name=group className="material-symbols-outlined" />
 </div>
 <div>
 <p className="text-label-sm text-on-surface-variant">Total Users</p>
@@ -61,7 +61,7 @@ export default function UsersManagementPagePagePage() {
 </div>
 <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
 <div className="p-3 bg-tertiary-container/5 rounded-lg text-on-tertiary-container">
-<span className="material-symbols-outlined text-[32px]">bolt</span>
+<span className="material-symbols-outlined text-[32px]"><MaterialIcon name=bolt className="material-symbols-outlined" />
 </div>
 <div>
 <p className="text-label-sm text-on-surface-variant">Active Today</p>
@@ -70,7 +70,7 @@ export default function UsersManagementPagePagePage() {
 </div>
 <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
 <div className="p-3 bg-secondary-container/10 rounded-lg text-secondary">
-<span className="material-symbols-outlined text-[32px]">verified_user</span>
+<span className="material-symbols-outlined text-[32px]"><MaterialIcon name=verified_user className="material-symbols-outlined" />
 </div>
 <div>
 <p className="text-label-sm text-on-surface-variant">Pending Verification</p>
@@ -79,7 +79,7 @@ export default function UsersManagementPagePagePage() {
 </div>
 <div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
 <div className="p-3 bg-error-container rounded-lg text-error">
-<span className="material-symbols-outlined text-[32px]">report</span>
+<span className="material-symbols-outlined text-[32px]"><MaterialIcon name=report className="material-symbols-outlined" />
 </div>
 <div>
 <p className="text-label-sm text-on-surface-variant">Flagged Accounts</p>
@@ -93,7 +93,7 @@ export default function UsersManagementPagePagePage() {
 <div className="p-lg border-b border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-between gap-4">
 <div className="flex flex-wrap items-center gap-4">
 <div className="relative w-64">
-<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm"><MaterialIcon name=search className="material-symbols-outlined" />
 <input className="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none" placeholder="Name or Email" type="text"/>
 </div>
 <select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
@@ -119,7 +119,7 @@ export default function UsersManagementPagePagePage() {
 </select>
 </div>
 <button className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md transition-all active:scale-95 shadow-sm">
-<span className="material-symbols-outlined text-sm">filter_list</span>
+<span className="material-symbols-outlined text-sm"><MaterialIcon name=filter_list className="material-symbols-outlined" />
                         Advanced Filters
                     </button>
 </div>
@@ -159,7 +159,7 @@ export default function UsersManagementPagePagePage() {
 </td>
 <td className="px-lg py-4">
 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20">
-<span className="material-symbols-outlined text-[14px]">stars</span>
+<span className="material-symbols-outlined text-[14px]"><MaterialIcon name=stars className="material-symbols-outlined" />
                                         Level 5
                                     </div>
 </td>
@@ -170,7 +170,7 @@ export default function UsersManagementPagePagePage() {
 <div className="flex items-center justify-end gap-2">
 <button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<span className="material-symbols-outlined">more_vert</span>
+<span className="material-symbols-outlined"><MaterialIcon name=more_vert className="material-symbols-outlined" />
 </button>
 </div>
 </td>
@@ -197,7 +197,7 @@ export default function UsersManagementPagePagePage() {
 </td>
 <td className="px-lg py-4">
 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
-<span className="material-symbols-outlined text-[14px]">shield</span>
+<span className="material-symbols-outlined text-[14px]"><MaterialIcon name=shield className="material-symbols-outlined" />
                                         Level 3
                                     </div>
 </td>
@@ -208,7 +208,7 @@ export default function UsersManagementPagePagePage() {
 <div className="flex items-center justify-end gap-2">
 <button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<span className="material-symbols-outlined">more_vert</span>
+<span className="material-symbols-outlined"><MaterialIcon name=more_vert className="material-symbols-outlined" />
 </button>
 </div>
 </td>
@@ -235,7 +235,7 @@ export default function UsersManagementPagePagePage() {
 </td>
 <td className="px-lg py-4">
 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-on-surface-variant font-label-sm text-label-sm">
-<span className="material-symbols-outlined text-[14px]">lock_open</span>
+<span className="material-symbols-outlined text-[14px]"><MaterialIcon name=lock_open className="material-symbols-outlined" />
                                         Level 1
                                     </div>
 </td>
@@ -246,7 +246,7 @@ export default function UsersManagementPagePagePage() {
 <div className="flex items-center justify-end gap-2">
 <button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<span className="material-symbols-outlined">more_vert</span>
+<span className="material-symbols-outlined"><MaterialIcon name=more_vert className="material-symbols-outlined" />
 </button>
 </div>
 </td>
@@ -274,7 +274,7 @@ export default function UsersManagementPagePagePage() {
 <td className="px-lg py-4">
 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20 relative overflow-hidden">
 <div className="verification-shimmer absolute inset-0 opacity-20"></div>
-<span className="material-symbols-outlined text-[14px]">workspace_premium</span>
+<span className="material-symbols-outlined text-[14px]"><MaterialIcon name=workspace_premium className="material-symbols-outlined" />
                                         Level 4
                                     </div>
 </td>
@@ -285,7 +285,7 @@ export default function UsersManagementPagePagePage() {
 <div className="flex items-center justify-end gap-2">
 <button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<span className="material-symbols-outlined">more_vert</span>
+<span className="material-symbols-outlined"><MaterialIcon name=more_vert className="material-symbols-outlined" />
 </button>
 </div>
 </td>
@@ -298,7 +298,7 @@ export default function UsersManagementPagePagePage() {
 <p className="text-body-sm text-on-surface-variant">Showing <span className="font-bold text-on-surface">1 - 10</span> of 24,502 users</p>
 <div className="flex items-center gap-1">
 <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-30" disabled={true}>
-<span className="material-symbols-outlined">chevron_left</span>
+<span className="material-symbols-outlined"><MaterialIcon name=chevron_left className="material-symbols-outlined" />
 </button>
 <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold shadow-sm">1</button>
 <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">2</button>
@@ -306,7 +306,7 @@ export default function UsersManagementPagePagePage() {
 <span className="px-2 text-on-surface-variant">...</span>
 <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">245</button>
 <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">
-<span className="material-symbols-outlined">chevron_right</span>
+<span className="material-symbols-outlined"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
 </button>
 </div>
 </div>

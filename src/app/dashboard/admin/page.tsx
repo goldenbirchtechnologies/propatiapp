@@ -178,7 +178,7 @@ const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
 
   return (
     <div className={`${styles[type]} border rounded-lg p-4 flex items-center gap-3`}>
-      <span className="material-symbols-outlined text-xl">{iconMap[type]}</span>
+      <span className="material-symbols-outlined text-xl"><MaterialIcon name={iconMap[type]} className="material-symbols-outlined" />
       <p className="flex-1 text-sm font-medium">
         {message}
         {count !== undefined && <span className="ml-2 font-bold">({count})</span>}

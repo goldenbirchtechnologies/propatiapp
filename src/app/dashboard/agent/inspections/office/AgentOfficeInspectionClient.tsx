@@ -97,10 +97,10 @@ export default function AgentOfficeInspectionClient() {
                       <span className="font-headline-sm font-bold">October 2024</span>
                       <div className="flex gap-2">
                         <Button variant="outline" size="icon" className="h-8 w-8">
-                          <span className="material-symbols-outlined text-sm">chevron_left</span>
+                          <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_left className="material-symbols-outlined" />
                         </Button>
                         <Button variant="outline" size="icon" className="h-8 w-8">
-                          <span className="material-symbols-outlined text-sm">chevron_right</span>
+                          <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
                         </Button>
                       </div>
                     </div>
@@ -141,11 +141,11 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="material-symbols-outlined">wb_sunny</span>
+                          <span className="material-symbols-outlined"><MaterialIcon name=wb_sunny className="material-symbols-outlined" />
                           <span>Morning: 09:00 - 12:00</span>
                         </div>
                         {selectedSlot === 'morning' && (
-                          <span className="material-symbols-outlined text-primary">check_circle</span>
+                          <span className="material-symbols-outlined text-primary"><MaterialIcon name=check_circle className="material-symbols-outlined" />
                         )}
                       </button>
                       <button
@@ -158,11 +158,11 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="material-symbols-outlined">light_mode</span>
+                          <span className="material-symbols-outlined"><MaterialIcon name=light_mode className="material-symbols-outlined" />
                           <span>Afternoon: 14:00 - 17:00</span>
                         </div>
                         {selectedSlot === 'afternoon' && (
-                          <span className="material-symbols-outlined text-primary">check_circle</span>
+                          <span className="material-symbols-outlined text-primary"><MaterialIcon name=check_circle className="material-symbols-outlined" />
                         )}
                       </button>
                     </div>
@@ -182,7 +182,7 @@ export default function AgentOfficeInspectionClient() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-headline-sm">
-                    <span className="material-symbols-outlined text-success">fact_check</span>
+                    <span className="material-symbols-outlined text-success"><MaterialIcon name=fact_check className="material-symbols-outlined" />
                     Requirements
                   </CardTitle>
                 </CardHeader>
@@ -190,7 +190,7 @@ export default function AgentOfficeInspectionClient() {
                   <ul className="space-y-3">
                     {requirements.map((req, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-xs font-label-md uppercase tracking-wider">
-                        <span className="material-symbols-outlined text-success text-[20px] mt-0.5">check</span>
+                        <span className="material-symbols-outlined text-success text-[20px] mt-0.5"><MaterialIcon name=check className="material-symbols-outlined" />
                         {req}
                       </li>
                     ))}
@@ -238,7 +238,7 @@ export default function AgentOfficeInspectionClient() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <span className="material-symbols-outlined text-primary text-xl">calendar_month</span>
+                      <span className="material-symbols-outlined text-primary text-xl"><MaterialIcon name=calendar_month className="material-symbols-outlined" />
                     </div>
                     <div>
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Date</p>
@@ -247,7 +247,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                   <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <span className="material-symbols-outlined text-primary text-xl">schedule</span>
+                      <span className="material-symbols-outlined text-primary text-xl"><MaterialIcon name=schedule className="material-symbols-outlined" />
                     </div>
                     <div>
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Time Window</p>
@@ -256,7 +256,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                   <div className="flex items-start gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <span className="material-symbols-outlined text-primary text-xl">location_on</span>
+                      <span className="material-symbols-outlined text-primary text-xl"><MaterialIcon name=location_on className="material-symbols-outlined" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Inspection Address</p>

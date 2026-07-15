@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
 
 export default function MarketplacePage() {
   const categories = [
@@ -262,21 +263,21 @@ export default function MarketplacePage() {
                     <div className="flex justify-between items-center py-4 border-t border-border">
                       <div className="flex gap-4">
                         <div className="flex items-center gap-1 text-muted-foreground font-label-caps">
-                          <span className="material-symbols-outlined text-[16px]">{property.iconBed}</span> {property.beds}
+                          <MaterialIcon name={property.iconBed} className="material-symbols-outlined text-[16px]" /> {property.beds}
                         </div>
                         {property.iconBath && (
                           <div className="flex items-center gap-1 text-muted-foreground font-label-caps">
-                            <span className="material-symbols-outlined text-[16px]">{property.iconBath}</span> {property.baths}
+                            <MaterialIcon name={property.iconBath} className="material-symbols-outlined text-[16px]" /> {property.baths}
                           </div>
                         )}
                         {property.area && (
                           <div className="flex items-center gap-1 text-muted-foreground font-label-caps">
-                            <span className="material-symbols-outlined text-[16px]">{property.iconArea}</span> {property.area}
+                            <MaterialIcon name={property.iconArea} className="material-symbols-outlined text-[16px]" /> {property.area}
                           </div>
                         )}
                       </div>
                       <button className={`w-10 h-10 rounded-full ${property.hoverForwardBg} flex items-center justify-center ${property.hoverForward} hover:bg-primary hover:text-white transition-all`}>
-                        <span className="material-symbols-outlined">arrow_forward</span>
+                        <MaterialIcon name="arrow_forward" className="material-symbols-outlined" />
                       </button>
                     </div>
                   </div>
@@ -302,7 +303,7 @@ export default function MarketplacePage() {
                     className={`border-b-2 ${cat.color} font-bold hover:gap-4 flex items-center gap-2 transition-all group`}
                   >
                     {cat.buttonText}
-                    <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">
+                    <MaterialIcon name="arrow_forward" className="material-symbols-outlined group-hover:translate-x-2 transition-transform" />
                       {cat.icon}
                     </span>
                   </button>

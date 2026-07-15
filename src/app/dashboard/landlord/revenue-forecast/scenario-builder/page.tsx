@@ -56,7 +56,7 @@ export default function LandlordRevenueScenarioBuilderPage() {
 
           <div className="card p-5 rounded-xl bg-primary-container text-on-primary shadow-xl">
             <div className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-secondary-container">dynamic_form</span>
+              <span className="material-symbols-outlined text-secondary-container"><MaterialIcon name=dynamic_form className="material-symbols-outlined" />
               <h3 className="font-heading font-bold text-surface-bright">Scenario Builder</h3>
             </div>
             <div className="space-y-4 mb-4">

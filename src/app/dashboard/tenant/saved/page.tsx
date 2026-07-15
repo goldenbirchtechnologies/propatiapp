@@ -114,14 +114,14 @@ function SavedPropertyCard({
           className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-surface-container transition-colors"
           title="Add note"
         >
-          <span className="material-symbols-outlined text-lg text-on-surface">edit_note</span>
+          <span className="material-symbols-outlined text-lg text-on-surface"><MaterialIcon name=edit_note className="material-symbols-outlined" />
         </button>
         <button
           onClick={onRemove}
           className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-error-container transition-colors"
           title="Remove from saved"
         >
-          <span className="material-symbols-outlined text-lg text-error">delete</span>
+          <span className="material-symbols-outlined text-lg text-error"><MaterialIcon name=delete className="material-symbols-outlined" />
         </button>
       </div>
 
@@ -136,7 +136,7 @@ function SavedPropertyCard({
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="material-symbols-outlined text-6xl text-outline-variant">home</span>
+              <span className="material-symbols-outlined text-6xl text-outline-variant"><MaterialIcon name=home className="material-symbols-outlined" />
             </div>
           )}
 
@@ -144,7 +144,7 @@ function SavedPropertyCard({
           {property.listing.verified && (
             <div className="absolute bottom-3 left-3">
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-white shadow-lg">
-                <span className="material-symbols-outlined text-sm">verified</span>
+                <span className="material-symbols-outlined text-sm"><MaterialIcon name=verified className="material-symbols-outlined" />
                 Verified
               </span>
             </div>
@@ -172,7 +172,7 @@ function SavedPropertyCard({
 
           {/* Location & Details */}
           <p className="text-sm text-on-surface-variant mb-3 flex items-start gap-2">
-            <span className="material-symbols-outlined text-base mt-0.5">location_on</span>
+            <span className="material-symbols-outlined text-base mt-0.5"><MaterialIcon name=location_on className="material-symbols-outlined" />
             <span className="line-clamp-1">
               {property.listing.area}, {property.listing.state}
             </span>
@@ -182,7 +182,7 @@ function SavedPropertyCard({
           <div className="flex items-center gap-3 text-xs text-on-surface-variant mb-3">
             {property.listing.bedrooms && (
               <span className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-sm">bed</span>
+                <span className="material-symbols-outlined text-sm"><MaterialIcon name=bed className="material-symbols-outlined" />
                 {property.listing.bedrooms} bed
               </span>
             )}
@@ -190,7 +190,7 @@ function SavedPropertyCard({
               <>
                 <span>•</span>
                 <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">bathroom</span>
+                  <span className="material-symbols-outlined text-sm"><MaterialIcon name=bathroom className="material-symbols-outlined" />
                   {property.listing.bathrooms} bath
                 </span>
               </>
@@ -206,12 +206,12 @@ function SavedPropertyCard({
           {/* Saved Date */}
           <div className="flex items-center justify-between text-xs text-on-surface-variant pt-3 border-t border-outline-variant">
             <span className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm">schedule</span>
+              <span className="material-symbols-outlined text-sm"><MaterialIcon name=schedule className="material-symbols-outlined" />
               Saved {new Date(property.savedAt).toLocaleDateString()}
             </span>
             {property.notes && (
               <span className="flex items-center gap-1 text-residential-teal">
-                <span className="material-symbols-outlined text-sm">sticky_note_2</span>
+                <span className="material-symbols-outlined text-sm"><MaterialIcon name=sticky_note_2 className="material-symbols-outlined" />
                 Has notes
               </span>
             )}
@@ -226,9 +226,9 @@ function SavedPropertyCard({
 function EmptyState() {
   return (
     <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
-      <span className="material-symbols-outlined text-6xl text-outline-variant mb-4 inline-block">
+      <span className="material-symbols-outlined text-6xl text-outline-variant mb-4 inline-block"><MaterialIcon name=
         favorite_border
-      </span>
+       className="material-symbols-outlined" />
       <h3 className="font-headline-md font-bold text-on-surface mb-2">No Saved Properties</h3>
       <p className="text-on-surface-variant mb-6 max-w-md mx-auto">
         Start saving properties you're interested in to keep track of them and compare later.
@@ -237,7 +237,7 @@ function EmptyState() {
         href="/dashboard/tenant/search"
         className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
       >
-        <span className="material-symbols-outlined">search</span>
+        <span className="material-symbols-outlined"><MaterialIcon name=search className="material-symbols-outlined" />
         Browse Properties
       </Link>
     </div>
@@ -437,7 +437,7 @@ export default function SavedPropertiesPage() {
               href="/dashboard/tenant"
               className="p-2 hover:bg-surface-container rounded-lg transition-colors md:hidden"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=arrow_back className="material-symbols-outlined" />
             </Link>
             <h1 className="font-headline-xl text-on-surface">Saved Properties</h1>
           </div>
@@ -469,14 +469,14 @@ export default function SavedPropertiesPage() {
                   onClick={bulkRemove}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-error-container text-error rounded-lg text-sm font-semibold hover:bg-error/10 transition-colors"
                 >
-                  <span className="material-symbols-outlined text-lg">delete</span>
+                  <span className="material-symbols-outlined text-lg"><MaterialIcon name=delete className="material-symbols-outlined" />
                   <span className="hidden sm:inline">Remove Selected</span>
                 </button>
                 <button
                   onClick={bulkExport}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-high transition-colors"
                 >
-                  <span className="material-symbols-outlined text-lg">download</span>
+                  <span className="material-symbols-outlined text-lg"><MaterialIcon name=download className="material-symbols-outlined" />
                   <span className="hidden sm:inline">Export</span>
                 </button>
               </div>
@@ -487,7 +487,7 @@ export default function SavedPropertiesPage() {
               onClick={() => setShowFilters(!showFilters)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-high transition-colors ml-auto"
             >
-              <span className="material-symbols-outlined text-lg">tune</span>
+              <span className="material-symbols-outlined text-lg"><MaterialIcon name=tune className="material-symbols-outlined" />
               Filters
             </button>
           </div>
@@ -609,7 +609,7 @@ export default function SavedPropertiesPage() {
               onClick={() => router.push(`/compare?ids=${[...selectedIds].join(',')}`)}
               className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
             >
-              <span className="material-symbols-outlined">compare</span>
+              <span className="material-symbols-outlined"><MaterialIcon name=compare className="material-symbols-outlined" />
               Compare {selectedIds.size} Properties
             </button>
           </div>
@@ -626,7 +626,7 @@ export default function SavedPropertiesPage() {
                 onClick={() => setShowNoteModal(false)}
                 className="p-2 hover:bg-surface-container rounded-lg transition-colors"
               >
-                <span className="material-symbols-outlined">close</span>
+                <span className="material-symbols-outlined"><MaterialIcon name=close className="material-symbols-outlined" />
               </button>
             </div>
 

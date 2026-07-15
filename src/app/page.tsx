@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
 import { useState, useEffect } from 'react';
 
 
@@ -415,7 +416,7 @@ export default function HomePage() {
                       <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border mt-auto">
                         {listing.specs.map((s) => (
                           <div key={s.icon} className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
-                            <span className="material-symbols-outlined text-[16px]">{s.icon}</span>
+                            <MaterialIcon name={s.icon} className="material-symbols-outlined text-[16px]" />
                             {s.val}
                           </div>
                         ))}

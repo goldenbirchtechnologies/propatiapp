@@ -65,9 +65,9 @@ export default function LandlordRevenueForecastPage() {
           {kpis.map((kpi) => (
             <div key={kpi.label} className="card p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
-                <span className="material-symbols-outlined text-on-primary-container p-1.5 bg-surface-container rounded-lg">
+                <span className="material-symbols-outlined text-on-primary-container p-1.5 bg-surface-container rounded-lg"><MaterialIcon name=
                   {kpi.label.includes('Revenue') ? 'payments' : kpi.label.includes('Yield') ? 'trending_up' : kpi.label.includes('Occupancy') ? 'apartment' : 'security'}
-                </span>
+                 className="material-symbols-outlined" />
                 <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">{kpi.trend}</span>
               </div>
               <p className="text-sm text-muted-foreground mb-1">{kpi.label}</p>
@@ -106,7 +106,7 @@ export default function LandlordRevenueForecastPage() {
           {/* Scenario Builder */}
           <div className="card p-5 rounded-xl bg-primary-container text-on-primary shadow-xl">
             <div className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-secondary-container">dynamic_form</span>
+              <span className="material-symbols-outlined text-secondary-container"><MaterialIcon name=dynamic_form className="material-symbols-outlined" />
               <h3 className="font-heading font-bold text-surface-bright">Scenario Builder</h3>
             </div>
             <div className="space-y-4 mb-4">
@@ -191,7 +191,7 @@ export default function LandlordRevenueForecastPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-5 rounded-xl border-l-8 border-tertiary shadow-sm flex gap-4">
             <div className="p-2 bg-tertiary/10 rounded-full h-fit">
-              <span className="material-symbols-outlined text-tertiary">holiday_village</span>
+              <span className="material-symbols-outlined text-tertiary"><MaterialIcon name=holiday_village className="material-symbols-outlined" />
             </div>
             <div>
               <h4 className="font-heading font-bold text-tertiary-fixed-variant mb-1">Residential Outlook</h4>
@@ -201,7 +201,7 @@ export default function LandlordRevenueForecastPage() {
           </div>
           <div className="p-5 rounded-xl border-l-8 border-secondary shadow-sm flex gap-4">
             <div className="p-2 bg-secondary/10 rounded-full h-fit">
-              <span className="material-symbols-outlined text-secondary">business</span>
+              <span className="material-symbols-outlined text-secondary"><MaterialIcon name=business className="material-symbols-outlined" />
             </div>
             <div>
               <h4 className="font-heading font-bold text-on-secondary-fixed-variant mb-1">Commercial Outlook</h4>

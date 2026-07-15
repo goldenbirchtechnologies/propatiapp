@@ -64,13 +64,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <span className="material-symbols-outlined text-5xl">home_work</span>
+            <span className="material-symbols-outlined text-5xl"><MaterialIcon name=home_work className="material-symbols-outlined" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Active Listings</p>
             <p className="font-headline-md text-headline-md text-primary">12</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success">
-              <span className="material-symbols-outlined text-sm">trending_up</span>
+              <span className="material-symbols-outlined text-sm"><MaterialIcon name=trending_up className="material-symbols-outlined" />
               +2 since last month
             </div>
           </CardContent>
@@ -78,13 +78,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
 
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <span className="material-symbols-outlined text-5xl">pending_actions</span>
+            <span className="material-symbols-outlined text-5xl"><MaterialIcon name=pending_actions className="material-symbols-outlined" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Pending Applications</p>
             <p className="font-headline-md text-headline-md text-primary">08</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-warning">
-              <span className="material-symbols-outlined text-sm">priority_high</span>
+              <span className="material-symbols-outlined text-sm"><MaterialIcon name=priority_high className="material-symbols-outlined" />
               3 require urgent review
             </div>
           </CardContent>
@@ -96,7 +96,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
             <p className="text-xs font-medium uppercase tracking-wider text-white/70 mb-1">This Month&apos;s Rent</p>
             <p className="text-3xl font-headline-sm text-headline-sm font-bold text-primary text-white">₦4,250,000</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success-bright">
-              <span className="material-symbols-outlined text-sm">verified</span>
+              <span className="material-symbols-outlined text-sm"><MaterialIcon name=verified className="material-symbols-outlined" />
               85% Collected
             </div>
           </CardContent>
@@ -104,7 +104,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
 
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <span className="material-symbols-outlined text-5xl">verified_user</span>
+            <span className="material-symbols-outlined text-5xl"><MaterialIcon name=verified_user className="material-symbols-outlined" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Verification Status</p>
@@ -205,21 +205,21 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
                 href="/dashboard/landlord/listing/new"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <span className="material-symbols-outlined text-primary">add_circle</span>
+                <span className="material-symbols-outlined text-primary"><MaterialIcon name=add_circle className="material-symbols-outlined" />
                 <span className="text-sm font-medium">Post New Listing</span>
               </Link>
               <Link
                 href="/dashboard/landlord/applications"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <span className="material-symbols-outlined text-primary">description</span>
+                <span className="material-symbols-outlined text-primary"><MaterialIcon name=description className="material-symbols-outlined" />
                 <span className="text-sm font-medium">Review Applications</span>
               </Link>
               <Link
                 href="/dashboard/landlord/rents"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <span className="material-symbols-outlined text-primary">payments</span>
+                <span className="material-symbols-outlined text-primary"><MaterialIcon name=payments className="material-symbols-outlined" />
                 <span className="text-sm font-medium">Collect Rent</span>
               </Link>
             </div>

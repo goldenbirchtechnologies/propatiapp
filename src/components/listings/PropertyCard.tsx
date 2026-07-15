@@ -4,6 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
@@ -181,7 +182,7 @@ export function PropertyCard({
 
         {/* Location */}
         <div className="flex items-center gap-1.5 text-on-surface-variant mb-4">
-          <span className="material-symbols-outlined text-[20px]">location_on</span>
+          <MaterialIcon name="location_on" className="material-symbols-outlined text-[20px]" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
@@ -192,13 +193,13 @@ export function PropertyCard({
               <>
                 {specs.beds !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[18px]">bed</span>
+                    <MaterialIcon name="bed" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.beds} bed{specs.beds !== 1 ? 's' : ''}</span>
                   </div>
                 )}
                 {specs.baths !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[18px]">bathtub</span>
+                    <MaterialIcon name="bathtub" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.baths} bath{specs.baths !== 1 ? 's' : ''}</span>
                   </div>
                 )}
@@ -207,13 +208,13 @@ export function PropertyCard({
               <>
                 {specs.sqm !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[18px]">straighten</span>
+                    <MaterialIcon name="square_foot" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.sqm.toLocaleString()} sqm</span>
                   </div>
                 )}
                 {specs.parking !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[18px]">local_parking</span>
+                    <MaterialIcon name="local_parking" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.parking} parking</span>
                   </div>
                 )}

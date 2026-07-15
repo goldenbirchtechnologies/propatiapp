@@ -123,7 +123,7 @@ export default function AutomatedMonthlyStatementClient() {
             </div>
             <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
               <div className="flex items-center gap-2 mb-1">
-                <span className="material-symbols-outlined text-residential-teal">domain</span>
+                <span className="material-symbols-outlined text-residential-teal"><MaterialIcon name=domain className="material-symbols-outlined" />
                 <span className="font-label-sm text-on-surface-variant uppercase text-xs">
                   The Obsidian Penthouse
                 </span>
@@ -137,7 +137,7 @@ export default function AutomatedMonthlyStatementClient() {
         {/* Breakdown Table */}
         <div>
           <h4 className="font-headline-sm headline-sm mb-3 flex items-center gap-sm">
-            <span className="material-symbols-outlined text-residential-teal">analytics</span>
+            <span className="material-symbols-outlined text-residential-teal"><MaterialIcon name=analytics className="material-symbols-outlined" />
             Statement Ledger
           </h4>
           <div className="overflow-hidden border border-outline-variant rounded-xl">

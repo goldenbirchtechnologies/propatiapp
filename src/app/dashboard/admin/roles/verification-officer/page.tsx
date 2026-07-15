@@ -21,9 +21,9 @@ export default function VerificationOfficerRolePage() {
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-xs text-on-surface-variant mb-md">
           <a className="hover:text-primary transition-colors" href="#">User Management</a>
-          <span className="material-symbols-outlined text-sm">chevron_right</span>
+          <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
           <a className="hover:text-primary transition-colors" href="#">Roles</a>
-          <span className="material-symbols-outlined text-sm">chevron_right</span>
+          <span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
           <span className="text-primary font-bold">Verification Officer</span>
         </nav>
 
@@ -39,11 +39,11 @@ export default function VerificationOfficerRolePage() {
             </p>
             <div className="flex items-center gap-xl mt-md">
               <div className="flex items-center gap-sm text-on-surface">
-                <span className="material-symbols-outlined text-primary">group</span>
+                <span className="material-symbols-outlined text-primary"><MaterialIcon name=group className="material-symbols-outlined" />
                 <span className="font-bold">14 Assigned Users</span>
               </div>
               <div className="flex items-center gap-sm text-on-surface">
-                <span className="material-symbols-outlined text-primary">update</span>
+                <span className="material-symbols-outlined text-primary"><MaterialIcon name=update className="material-symbols-outlined" />
                 <span className="text-sm opacity-70">Modified 2 days ago</span>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function VerificationOfficerRolePage() {
           <div className="flex items-center gap-md">
             <button className="px-lg py-2.5 border border-primary text-primary rounded-lg font-bold hover:bg-surface-container transition-all">Discard</button>
             <button className="px-xl py-2.5 bg-primary-container text-white rounded-lg font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">save</span>
+              <span className="material-symbols-outlined text-sm"><MaterialIcon name=save className="material-symbols-outlined" />
               Save Changes
             </button>
           </div>
@@ -65,7 +65,7 @@ export default function VerificationOfficerRolePage() {
               <div className="p-md bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
                 <h3 className="font-headline-sm text-primary">Permission Matrix</h3>
                 <button className="text-primary text-sm font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">select_all</span> Select All
+                  <span className="material-symbols-outlined text-sm"><MaterialIcon name=select_all className="material-symbols-outlined" /> Select All
                 </button>
               </div>
               <div className="p-0 overflow-x-auto">
@@ -85,7 +85,7 @@ export default function VerificationOfficerRolePage() {
                       <td className="px-lg py-lg">
                         <div className="flex items-center gap-md">
                           <div className="p-2 bg-secondary-fixed rounded-lg">
-                            <span className="material-symbols-outlined text-on-secondary-fixed">verified_user</span>
+                            <span className="material-symbols-outlined text-on-secondary-fixed"><MaterialIcon name=verified_user className="material-symbols-outlined" />
                           </div>
                           <div>
                             <p className="font-bold text-primary">Verification</p>
@@ -112,7 +112,7 @@ export default function VerificationOfficerRolePage() {
                       <td className="px-lg py-lg">
                         <div className="flex items-center gap-md">
                           <div className="p-2 bg-surface-container-high rounded-lg">
-                            <span className="material-symbols-outlined text-primary">domain</span>
+                            <span className="material-symbols-outlined text-primary"><MaterialIcon name=domain className="material-symbols-outlined" />
                           </div>
                           <div>
                             <p className="font-bold text-primary">Property Listings</p>
@@ -139,7 +139,7 @@ export default function VerificationOfficerRolePage() {
                       <td className="px-lg py-lg">
                         <div className="flex items-center gap-md">
                           <div className="p-2 bg-surface-container-high rounded-lg">
-                            <span className="material-symbols-outlined text-primary">group</span>
+                            <span className="material-symbols-outlined text-primary"><MaterialIcon name=group className="material-symbols-outlined" />
                           </div>
                           <div>
                             <p className="font-bold text-primary">User Management</p>
@@ -166,7 +166,7 @@ export default function VerificationOfficerRolePage() {
                       <td className="px-lg py-lg">
                         <div className="flex items-center gap-md">
                           <div className="p-2 bg-error-container rounded-lg">
-                            <span className="material-symbols-outlined text-error">payments</span>
+                            <span className="material-symbols-outlined text-error"><MaterialIcon name=payments className="material-symbols-outlined" />
                           </div>
                           <div>
                             <p className="font-bold text-primary">Financials</p>
@@ -197,7 +197,7 @@ export default function VerificationOfficerRolePage() {
               <div className="p-md bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
                 <h3 className="font-headline-sm text-primary">Assigned Users</h3>
                 <button className="px-md py-1.5 bg-primary text-white rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary-container transition-all">
-                  <span className="material-symbols-outlined text-sm">person_add</span> Add User
+                  <span className="material-symbols-outlined text-sm"><MaterialIcon name=person_add className="material-symbols-outlined" /> Add User
                 </button>
               </div>
               <div className="p-md">
@@ -215,7 +215,7 @@ export default function VerificationOfficerRolePage() {
                       </div>
                     </div>
                     <button className="text-on-surface-variant hover:text-error transition-colors">
-                      <span className="material-symbols-outlined text-md">close</span>
+                      <span className="material-symbols-outlined text-md"><MaterialIcon name=close className="material-symbols-outlined" />
                     </button>
                   </div>
                   <div className="flex items-center justify-between p-sm border border-outline-variant rounded-lg">
@@ -231,7 +231,7 @@ export default function VerificationOfficerRolePage() {
                       </div>
                     </div>
                     <button className="text-on-surface-variant hover:text-error transition-colors">
-                      <span className="material-symbols-outlined text-md">close</span>
+                      <span className="material-symbols-outlined text-md"><MaterialIcon name=close className="material-symbols-outlined" />
                     </button>
                   </div>
                   <div className="flex items-center justify-between p-sm border border-outline-variant rounded-lg">
@@ -243,7 +243,7 @@ export default function VerificationOfficerRolePage() {
                       </div>
                     </div>
                     <button className="text-on-surface-variant hover:text-error transition-colors">
-                      <span className="material-symbols-outlined text-md">close</span>
+                      <span className="material-symbols-outlined text-md"><MaterialIcon name=close className="material-symbols-outlined" />
                     </button>
                   </div>
                   <div className="flex items-center justify-between p-sm border border-outline-variant rounded-lg">
@@ -255,7 +255,7 @@ export default function VerificationOfficerRolePage() {
                       </div>
                     </div>
                     <button className="text-on-surface-variant hover:text-error transition-colors">
-                      <span className="material-symbols-outlined text-md">close</span>
+                      <span className="material-symbols-outlined text-md"><MaterialIcon name=close className="material-symbols-outlined" />
                     </button>
                   </div>
                 </div>
@@ -351,7 +351,7 @@ export default function VerificationOfficerRolePage() {
 
       {/* FAB for Quick Actions */}
       <button className="fixed bottom-lg right-lg w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">
-        <span className="material-symbols-outlined font-bold">history</span>
+        <span className="material-symbols-outlined font-bold"><MaterialIcon name=history className="material-symbols-outlined" />
       </button>
     </DashboardShell>
   );

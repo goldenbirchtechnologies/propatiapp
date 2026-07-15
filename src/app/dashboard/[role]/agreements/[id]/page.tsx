@@ -13,6 +13,8 @@ import { AgreementStatusBadge } from '@/components/agreements/agreement-status-b
 import { RentScheduleTable, type RentScheduleEntry } from '@/components/agreements/rent-schedule-table';
 import { StampDutyWidget } from '@/components/agreements/stamp-duty-widget';
 import { useToast } from '@/hooks/use-toast';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export default function AgreementDetailPage() {
   const params = useParams();

@@ -9,6 +9,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { SearchIcon, SlidersHorizontal, X } from 'lucide-react';
 import PublicNav from '@/components/navigation/public-nav';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 type ShortletItem = {
   id: string;

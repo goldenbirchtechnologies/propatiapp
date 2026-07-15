@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   ChevronRight, CreditCard, Shield, Zap, Home, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

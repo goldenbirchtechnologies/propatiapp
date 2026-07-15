@@ -6,6 +6,8 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { Building2 as BuildingIcon, ShieldCheck as ShieldCheckIcon, Clock as ClockIcon, Plus as PlusIcon, Check as CheckIcon, X as XIcon, Loader as LoaderIcon, ArrowRight as ArrowRightIcon } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export default async function LandlordVerificationPage() {
   const { userId } = await auth();

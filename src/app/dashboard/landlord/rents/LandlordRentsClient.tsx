@@ -6,6 +6,8 @@ import { DashboardSection } from '@/components/layout/DashboardShell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   DollarSign as CurrencyIcon,
   Shield as ShieldIcon,
   Clock as ClockIcon,

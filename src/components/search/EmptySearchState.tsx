@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 interface EmptySearchStateProps {
   onResetFilters: () => void;

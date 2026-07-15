@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, MapPin, Home, DollarSign, Percent, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 const SkeletonStatRow = () => (

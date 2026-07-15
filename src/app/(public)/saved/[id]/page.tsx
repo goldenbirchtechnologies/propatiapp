@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   MapPin,
   Bed,
   Bath,

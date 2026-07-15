@@ -7,6 +7,8 @@ import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export interface Agent {
   id: string;

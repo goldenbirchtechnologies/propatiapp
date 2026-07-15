@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, FileText, Calendar, History, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 interface BusinessListingDetailClientProps {
   type: string;

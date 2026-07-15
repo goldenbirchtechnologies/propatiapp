@@ -9,6 +9,7 @@ import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import MaterialIcon from '@/components/icons/material-icon';
 
 export interface NavItem {
   label: string;
@@ -631,7 +632,7 @@ export function DashboardShell({
                         onClick={() => setSidebarOpen(false)}
                       >
                         {item.icon && <span className="icon-slot">{item.icon}</span>}
-                        {!sidebarCollapsed && <MaterialIcon name="{item.label}" className="material-symbols-outlined" />}
+                        {!sidebarCollapsed && <MaterialIcon name={item.label} className="material-symbols-outlined" />}
                       </Link>
                     )}
                   </li>
@@ -781,7 +782,7 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
                 style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
               >
                 {child.icon && <span className="icon-slot">{child.icon}</span>}
-                <MaterialIcon name="{child.label}" className="material-symbols-outlined" />
+                <MaterialIcon name={child.label} className="material-symbols-outlined" />
               </Link>
             </li>
           ))}

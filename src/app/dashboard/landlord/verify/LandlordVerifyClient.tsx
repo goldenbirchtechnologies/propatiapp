@@ -3,6 +3,8 @@
 import { Shield, FileText, CheckCircle, Clock, ArrowRight as ArrowRightIcon, Building2 as BuildingIcon } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardSection } from '@/components/layout/DashboardShell';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 type Verification = {
   id: string;

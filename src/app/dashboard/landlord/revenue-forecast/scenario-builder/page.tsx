@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { DynamicForm, TrendingUp } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export default function LandlordRevenueScenarioBuilderPage() {
   const [error, setError] = useState<string | null>(null);

@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   ChevronRight,
   ChevronDown,
   LogOut,

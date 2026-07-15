@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { TrendingUp, Wallet, Building2, Shield } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 const kpis = [
   { label: 'Projected Gross Revenue', value: '₦512.4M', trend: '+8.2% YoY', icon: Wallet },

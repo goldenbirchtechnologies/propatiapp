@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { Search, ChevronDown, ChevronUp } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export interface SearchFilters {
   location?: string;

@@ -4,6 +4,8 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   MapPin,
   Bed,
   Bath,

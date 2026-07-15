@@ -12,6 +12,8 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { NAIGERIAN_STATES, LAGOS_AREAS } from '@/lib/utils';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export interface SearchFiltersData {
   query?: string;

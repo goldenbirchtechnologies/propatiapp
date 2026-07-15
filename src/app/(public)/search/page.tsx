@@ -12,6 +12,8 @@ import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/Proper
 import { LoadingState } from '@/components/feedback/LoadingState';
 import { FailureState } from '@/components/feedback/FailureState';
 import { ListingsFilters } from '@/lib/api';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 // ============================================================================
 // TYPES

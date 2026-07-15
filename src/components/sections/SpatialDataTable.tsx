@@ -4,6 +4,8 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { SpatialSection } from './SpatialSection';
 import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export interface ColumnDef<T> {
   key: string;

@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input';
 // @ts-expect-error react-scroll-area types not declared
 import { ScrollArea } from '@/components/ui/react-scroll-area';
 import type { ListingData } from '@/components/listings/listing-card';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 // Types
 interface MapBounds {

@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchIcon, StarIcon, CheckCircle2, ShieldCheck, BedDouble, Bath, Wifi, Car } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 const MOCK_SHORTLET = {
   id: 'sl-1',

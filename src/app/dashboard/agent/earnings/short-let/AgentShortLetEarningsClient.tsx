@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
+import MaterialIcon from '@/components/icons/material-icon';
+
   Wallet,
   CalendarDays,
   Download,

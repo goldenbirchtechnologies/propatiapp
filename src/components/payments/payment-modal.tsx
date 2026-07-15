@@ -8,6 +8,8 @@ import { Loader2, CreditCard } from 'lucide-react';
 import { formatAmountFromKobo, calculatePaymentBreakdown } from '@/lib/payment-utils';
 import { useInitiatePayment } from '@/hooks/usePayments';
 import { useToast } from '@/hooks/use-toast';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 interface PaymentModalProps {
   open: boolean;

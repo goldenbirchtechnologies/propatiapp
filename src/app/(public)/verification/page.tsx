@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export default function VerificationPage() {
   const phases = [

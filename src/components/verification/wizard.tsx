@@ -14,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { DroppableArea } from '@/components/ui/droppable-area';
 import { formatRelativeTime } from '@/lib/utils';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export type VerificationLayer = 1 | 2 | 3 | 4 | 5;
 

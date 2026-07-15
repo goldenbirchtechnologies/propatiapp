@@ -11,6 +11,8 @@ import { ArrowLeft, Cog, Bell, Shield, Save, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { StatCard } from '@/components/admin/stat-card';
 import { Users, Activity, AlertTriangle } from 'lucide-react';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 interface SettingsClientProps {
   initialError?: string;

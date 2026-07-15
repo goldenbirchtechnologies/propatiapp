@@ -3,6 +3,8 @@
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export default function GlobalSettingsPage() {
   const { user } = useUser();

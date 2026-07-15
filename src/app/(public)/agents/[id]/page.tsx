@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AgentCard, type Agent } from '@/components/agents/AgentCard';
 import { ALL_AGENTS, generateMockAgents } from '@/lib/mock-agents';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 const verificationColors = {
   basic: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',

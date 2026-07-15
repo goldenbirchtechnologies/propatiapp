@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import MaterialIcon from '@/components/icons/material-icon';
+
 
 export type PropertyCategory = 'residential' | 'commercial';
 

@@ -1,4 +1,3 @@
-'use client'
 
 
 import MaterialIcon from '@/components/icons/material-icon';

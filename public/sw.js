@@ -1,8 +1,8 @@
 const CACHE = 'propati-shell-v1';
-const ASSETS = ['/','/manifest','/icon-192.png','/icon-512.png'];
+const ASSETS = ['/','/manifest.json','/icon-192.png','/icon-512.png','/favicon.ico'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(url => new Request(url, {{cache: 'reload'}}))).catch(() => self.skipWaiting())));
 });
 
 self.addEventListener('activate', (event) => {

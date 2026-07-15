@@ -32,7 +32,7 @@ export default function AuditEventDetailPage() {
             <span className="px-sm py-xs bg-surface-container-highest text-primary font-label-sm rounded-lg uppercase tracking-wider">RBAC</span>
             <div className="flex items-center gap-xs px-sm py-xs bg-tertiary-container text-tertiary-fixed font-label-sm rounded-full">
               <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-              <span>Verified Immutable</span>
+              <MaterialIcon name="Verified Immutable" className="material-symbols-outlined" />
             </div>
           </div>
           <h2 className="font-headline-lg text-headline-lg text-primary tracking-tight">Event Detail: Permission Update</h2>

@@ -51,9 +51,9 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="flex flex-col md:flex-row md:items-center justify-between gap-md">
 <div className="space-y-xs">
 <div className="flex items-center gap-xs text-on-surface-variant font-label-sm">
-<span>Queues</span>
+<MaterialIcon name="Queues" className="material-symbols-outlined" />
 <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
-<span>High Priority</span>
+<MaterialIcon name="High Priority" className="material-symbols-outlined" />
 <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
 <span className="text-primary">#EV-98231</span>
 </div>

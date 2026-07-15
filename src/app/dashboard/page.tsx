@@ -1,4 +1,5 @@
-import { getCurrentUser, getRoleRedirectPath } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
+import { getRoleRedirectPath } from '@/lib/redirects';
 import { redirect } from 'next/navigation';
 
 export default async function DashboardRootPage() {

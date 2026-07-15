@@ -111,7 +111,7 @@ function DataTableHeaderCell<T>({
       onClick={handleSort}
     >
       <div className="flex items-center gap-2 justify-between">
-        <MaterialIcon name="{column.header}" className="material-symbols-outlined" />
+        <MaterialIcon name={column.header} className="material-symbols-outlined" />
         <div className="flex items-center gap-1">
           {column.enableSorting && (
             <span className={cn('flex items-center', isSorted && 'text-accent')}>

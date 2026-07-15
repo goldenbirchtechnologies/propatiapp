@@ -358,7 +358,7 @@ export default function SearchFilters({
             onClick={() => setShowAllAmenities(!showAllAmenities)}
             className="flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
           >
-            <MaterialIcon name="{showAllAmenities ? 'Show Less' : 'Show More'}" className="material-symbols-outlined" />
+            <MaterialIcon name={showAllAmenities ? 'Show Less' : 'Show More'} className="material-symbols-outlined" />
             {showAllAmenities ? (
               <ChevronUp className="h-4 w-4" />
             ) : (

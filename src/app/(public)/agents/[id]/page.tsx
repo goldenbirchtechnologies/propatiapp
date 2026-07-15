@@ -146,7 +146,7 @@ function AgentProfileInner() {
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <MapPin className="h-4 w-4 text-on-surface-variant" />
-                    <MaterialIcon name="{agent.location}" className="material-symbols-outlined" />
+                    <MaterialIcon name={agent.location} className="material-symbols-outlined" />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <Briefcase className="h-4 w-4 text-on-surface-variant" />

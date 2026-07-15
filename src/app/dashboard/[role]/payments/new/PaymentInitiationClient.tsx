@@ -243,7 +243,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                       <span className="text-on-surface-variant">
                         Platform Fee ({((breakdown.platformFee / breakdown.amount) * 100).toFixed(1)}%)
                       </span>
-                      <MaterialIcon name="{formatAmountFromKobo(breakdown.platformFee)}" className="material-symbols-outlined" />
+                      <MaterialIcon name={formatAmountFromKobo(breakdown.platformFee)} className="material-symbols-outlined" />
                     </div>
                   )}
                   {breakdown.agentCommission > 0 && (
@@ -254,7 +254,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   )}
                   <div className="border-t pt-3 flex justify-between font-bold text-lg">
                     <MaterialIcon name="Total to Pay" className="material-symbols-outlined" />
-                    <MaterialIcon name="{formatAmountFromKobo(breakdown.total)}" className="material-symbols-outlined" />
+                    <MaterialIcon name={formatAmountFromKobo(breakdown.total)} className="material-symbols-outlined" />
                   </div>
                 </div>
 

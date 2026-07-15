@@ -375,7 +375,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
                       color: isApproved ? 'var(--green)' : isCurrent ? 'var(--accent)' : 'var(--muted)',
                     }}
                   >
-                    {isApproved ? <Shield className="w-5 h-5" /> : <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />}
+                    {isApproved ? <Shield className="w-5 h-5" /> : <MaterialIcon name={index + 1} className="material-symbols-outlined" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-primary">{layer.label}</p>

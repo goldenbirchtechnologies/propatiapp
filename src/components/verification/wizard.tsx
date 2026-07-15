@@ -145,7 +145,7 @@ function StepIndicator({
         ) : isActive && step.status === 'in_progress' ? (
           <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
         ) : (
-          <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />
+          <MaterialIcon name={index + 1} className="material-symbols-outlined" />
         )}
       </div>
 

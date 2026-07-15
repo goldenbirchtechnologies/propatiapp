@@ -203,7 +203,7 @@ function ComparisonRow({
         )}
       >
         {icon}
-        <MaterialIcon name="{label}" className="material-symbols-outlined" />
+        <MaterialIcon name={label} className="material-symbols-outlined" />
       </div>
       {values.map((value, index) => (
         <div
@@ -241,7 +241,7 @@ function MobileComparisonCard({
           <div key={idx} className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
               {feature.icon}
-              <MaterialIcon name="{feature.label}" className="material-symbols-outlined" />
+              <MaterialIcon name={feature.label} className="material-symbols-outlined" />
             </div>
             <div className="text-sm font-medium text-right flex-1">
               {feature.getValue(property)}

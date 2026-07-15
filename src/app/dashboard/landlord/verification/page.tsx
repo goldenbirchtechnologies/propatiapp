@@ -206,7 +206,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
                 {isApproved ? (
                   <CheckIcon className="w-4 h-4" />
                 ) : (
-                  <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />
+                  <MaterialIcon name={index + 1} className="material-symbols-outlined" />
                 )}
               </div>
               <div className="flex-1 min-w-0">

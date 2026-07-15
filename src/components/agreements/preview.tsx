@@ -370,7 +370,7 @@ function TermItem({ label, value, icon }: { label: string; value: string; icon: 
     <div className="p-3 bg-muted/30 rounded-lg">
       <div className="flex items-center gap-2 text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>
         {icon}
-        <MaterialIcon name="{label}" className="material-symbols-outlined" />
+        <MaterialIcon name={label} className="material-symbols-outlined" />
       </div>
       <p className="font-medium" style={{ color: 'var(--text)' }}>{value}</p>
     </div>
@@ -671,7 +671,7 @@ export function AgreementListItem({
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm" style={{ color: 'var(--muted)' }}>
               <span className="truncate">{agreement.property.address}, {agreement.property.city}</span>
-              <MaterialIcon name="{typeLabels[agreement.type]}" className="material-symbols-outlined" />
+              <MaterialIcon name={typeLabels[agreement.type]} className="material-symbols-outlined" />
               <span>Ref: <code className="font-mono">{agreement.reference}</code></span>
             </div>
           </div>

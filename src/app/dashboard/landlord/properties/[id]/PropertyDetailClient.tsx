@@ -465,7 +465,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 <div className="flex items-center gap-4">
                   <div
                     className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-on-surface-variant">
-                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />}
+                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <MaterialIcon name={index + 1} className="material-symbols-outlined" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-primary">

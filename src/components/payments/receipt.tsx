@@ -144,7 +144,7 @@ export function Receipt({ transaction }: ReceiptProps) {
             {transaction.platformFee > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Platform Fee</span>
-                <MaterialIcon name="{formatAmountFromKobo(transaction.platformFee)}" className="material-symbols-outlined" />
+                <MaterialIcon name={formatAmountFromKobo(transaction.platformFee)} className="material-symbols-outlined" />
               </div>
             )}
             {transaction.agentCommission > 0 && (

@@ -208,7 +208,7 @@ export default function CommunityPage() {
                       <MapPin className="h-3.5 w-3.5" />
                       <span className="font-medium">{event.location}</span>
                       <span className="text-border">·</span>
-                      <MaterialIcon name="{event.time}" className="material-symbols-outlined" />
+                      <MaterialIcon name={event.time} className="material-symbols-outlined" />
                     </div>
 
                     <div className="mt-5 flex items-center justify-between">

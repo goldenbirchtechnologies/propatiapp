@@ -29,7 +29,7 @@ import {
 import { FrozenState } from '@/components/feedback/FrozenState';
 import { formatDateTime, formatRelativeTime } from '@/lib/utils';
 import { isFrozen, getStatusMessage } from '@/lib/verification-helpers';
-import { VerificationLayerStatus } from '@prisma/client';
+type VerificationLayerStatus = 'pending' | 'approved' | 'rejected';
 
 interface VerificationDetailClientProps {
   verification: {

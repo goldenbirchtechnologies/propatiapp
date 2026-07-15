@@ -18,7 +18,7 @@ import {
 import { ArrowLeft, Building2, DollarSign, Calendar, Ban, CheckCircle2, Mail, UserCog } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { UserRole } from '@prisma/client';
+type UserRole = 'landlord' | 'tenant' | 'agent' | 'admin' | 'estate_manager';
 
 interface UserData {
   id: string;

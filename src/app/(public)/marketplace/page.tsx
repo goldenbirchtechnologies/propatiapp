@@ -139,11 +139,11 @@ export default function MarketplacePage() {
                   {/* Category Toggles */}
                   <div className="flex items-center justify-center gap-4">
                     <button className="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all bg-primary text-white">
-                      <span className="material-symbols-outlined">home</span>
+                      <MaterialIcon name="home" className="material-symbols-outlined" />
                       Residential
                     </button>
                     <button className="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all bg-surface-container-high text-muted-foreground hover:bg-surface-container-highest">
-                      <span className="material-symbols-outlined">business</span>
+                      <MaterialIcon name="business" className="material-symbols-outlined" />
                       Commercial
                     </button>
                   </div>
@@ -194,11 +194,11 @@ export default function MarketplacePage() {
                         href="/properties/advanced-search"
                         className="flex items-center gap-2 text-xs font-label-caps text-muted-foreground hover:text-primary transition-colors"
                       >
-                        <span className="material-symbols-outlined text-[18px]">tune</span>
+                        <MaterialIcon name="tune" className="material-symbols-outlined text-[18px]" />
                         Advanced Filters
                       </Link>
                       <button className="flex items-center gap-2 text-xs font-label-caps text-muted-foreground hover:text-primary transition-colors">
-                        <span className="material-symbols-outlined text-[18px]">map</span>
+                        <MaterialIcon name="map" className="material-symbols-outlined text-[18px]" />
                         Map View
                       </button>
                     </div>
@@ -257,7 +257,7 @@ export default function MarketplacePage() {
                       {property.title}
                     </h3>
                     <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                      <span className="material-symbols-outlined text-[18px]">location_on</span>
+                      <MaterialIcon name="location_on" className="material-symbols-outlined text-[18px]" />
                       <span className="text-sm">{property.location}</span>
                     </div>
                     <div className="flex justify-between items-center py-4 border-t border-border">
@@ -355,9 +355,9 @@ export default function MarketplacePage() {
                 &copy; {new Date().getFullYear()} PROPATI Real Estate. Professional Standards Assured.
               </span>
               <div className="flex gap-6">
-                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">public</span>
-                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">share</span>
-                <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary">hub</span>
+                <MaterialIcon name="public" className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary" />
+                <MaterialIcon name="share" className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary" />
+                <MaterialIcon name="hub" className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary" />
               </div>
             </div>
           </div>

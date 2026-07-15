@@ -1,6 +1,12 @@
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getNavigationForRole } from '@/lib/navigation';
+import TransactionDetailClient from './TransactionDetailClient';
+
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { getNavigationForRole } from '@/lib/navigation';
 import TransactionDetailClient from './TransactionDetailClient';
@@ -26,13 +32,11 @@ export default async function TransactionDetailPage({ params }: PageProps) {
   const navigation = getNavigationForRole(user.role);
 
   return (
-    <DashboardShell
       navigation={navigation}
       userRole={user.role}
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
       <TransactionDetailClient transactionId={id} user={user} />
-    </DashboardShell>
   );
 }

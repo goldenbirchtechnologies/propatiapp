@@ -421,7 +421,7 @@ export default function HomePage() {
                           </div>
                         ))}
                         <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
-                          <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                          <MaterialIcon name="arrow_forward" className="material-symbols-outlined text-[18px]" />
                         </button>
                       </div>
                     </div>
@@ -444,7 +444,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-full hover:brightness-110 transition-all shadow-lg shadow-primary/20"
               >
                 View all listings
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <MaterialIcon name="arrow_forward" className="material-symbols-outlined text-[18px]" />
               </Link>
             </div>
           </div>

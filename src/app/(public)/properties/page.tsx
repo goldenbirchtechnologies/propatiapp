@@ -240,7 +240,7 @@ export default function PropertiesPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 text-muted-foreground mb-4">
-                        <span className="material-symbols-outlined text-[18px]">location_on</span>
+                        <MaterialIcon name="location_on" className="material-symbols-outlined text-[18px]" />
                         <span className="text-sm">{listing.location}</span>
                       </div>
                       <div className="mt-auto pt-4 border-t border-border flex justify-between items-center">

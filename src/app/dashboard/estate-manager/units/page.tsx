@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useUnits } from '@/hooks/useUnits';
-import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -147,7 +146,6 @@ export default function UnitsPage() {
 
   if (error) {
     return (
-      <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={() => router.back()}>
@@ -175,12 +173,10 @@ export default function UnitsPage() {
             </CardContent>
           </Card>
         </div>
-      </DashboardShell>
     );
   }
 
   return (
-    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -377,6 +373,5 @@ export default function UnitsPage() {
           </div>
         </Card>
       </div>
-    </DashboardShell>
   );
 }

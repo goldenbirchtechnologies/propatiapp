@@ -141,7 +141,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full">
       {/* Top Navigation */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${

@@ -32,7 +32,7 @@ export default function AdminProfileSecurityPage() {
                 />
               </div>
               <button className="absolute -bottom-2 -right-2 bg-primary text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg hover:bg-primary-container transition-colors">
-                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=photo_camera className="material-symbols-outlined" />
+                <MaterialIcon name="photo_camera" className="material-symbols-outlined" />
               </button>
             </div>
             <div className="flex-1 space-y-4 text-center md:text-left">
@@ -63,7 +63,7 @@ export default function AdminProfileSecurityPage() {
             <div className="z-10">
               <div className="flex items-center justify-between mb-6">
                 <h4 className="font-headline-sm text-headline-sm text-secondary-fixed">Account Security</h4>
-                <span className="material-symbols-outlined text-secondary-container"><MaterialIcon name=shield_with_heart className="material-symbols-outlined" />
+                <MaterialIcon name="shield_with_heart" className="material-symbols-outlined" />
               </div>
               <div className="space-y-4">
                 <div className="flex justify-between items-center pb-2 border-b border-on-primary-container/30">
@@ -84,7 +84,7 @@ export default function AdminProfileSecurityPage() {
             </div>
             {/* Decorative element */}
             <div className="absolute -bottom-10 -right-10 opacity-10">
-              <span className="material-symbols-outlined text-[160px]"><MaterialIcon name=lock className="material-symbols-outlined" />
+              <MaterialIcon name="lock" className="material-symbols-outlined" />
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function AdminProfileSecurityPage() {
           <section className="bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined"><MaterialIcon name=person className="material-symbols-outlined" />
+                <MaterialIcon name="person" className="material-symbols-outlined" />
               </div>
               <h4 className="font-headline-sm text-headline-sm text-primary">Personal Information</h4>
             </div>
@@ -148,7 +148,7 @@ export default function AdminProfileSecurityPage() {
           <section className="bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant flex flex-col">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined"><MaterialIcon name=security className="material-symbols-outlined" />
+                <MaterialIcon name="security" className="material-symbols-outlined" />
               </div>
               <h4 className="font-headline-sm text-headline-sm text-primary">Security & Authentication</h4>
             </div>
@@ -156,7 +156,7 @@ export default function AdminProfileSecurityPage() {
               {/* Password Management */}
               <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-primary"><MaterialIcon name=lock_reset className="material-symbols-outlined" />
+                  <MaterialIcon name="lock_reset" className="material-symbols-outlined" />
                   <div>
                     <p className="font-bold text-primary text-body-md">Password Management</p>
                     <p className="text-xs text-on-surface-variant">Last changed 2 days ago</p>
@@ -170,7 +170,7 @@ export default function AdminProfileSecurityPage() {
               {/* MFA Setup */}
               <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-secondary-container"><MaterialIcon name=smartphone className="material-symbols-outlined" />
+                  <MaterialIcon name="smartphone" className="material-symbols-outlined" />
                   <div>
                     <p className="font-bold text-primary text-body-md">Multi-Factor Authentication</p>
                     <p className="text-xs text-on-surface-variant">Authenticator app enabled</p>
@@ -184,7 +184,7 @@ export default function AdminProfileSecurityPage() {
               {/* Active Sessions */}
               <div className="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-primary"><MaterialIcon name=devices className="material-symbols-outlined" />
+                  <MaterialIcon name="devices" className="material-symbols-outlined" />
                   <div>
                     <p className="font-bold text-primary text-body-md">Active Sessions</p>
                     <p className="text-xs text-on-surface-variant">3 sessions across 2 devices</p>
@@ -202,7 +202,7 @@ export default function AdminProfileSecurityPage() {
         <div className="lg:col-span-5 bg-surface-container-lowest rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-outline-variant">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-              <span className="material-symbols-outlined"><MaterialIcon name=history_edu className="material-symbols-outlined" />
+              <MaterialIcon name="history_edu" className="material-symbols-outlined" />
             </div>
             <h4 className="font-headline-sm text-headline-sm text-primary">Security Audit Log</h4>
           </div>
@@ -237,7 +237,7 @@ export default function AdminProfileSecurityPage() {
         <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-surface-container-lowest border-t border-outline-variant flex gap-3 z-50">
           <button className="flex-1 py-3 bg-primary text-white rounded-xl font-bold shadow-lg">Save All Changes</button>
           <button className="w-14 h-14 bg-surface-container-high text-primary rounded-xl flex items-center justify-center">
-            <span className="material-symbols-outlined"><MaterialIcon name=help className="material-symbols-outlined" />
+            <MaterialIcon name="help" className="material-symbols-outlined" />
           </button>
         </div>
       </div>

@@ -86,7 +86,7 @@ export default function JoinPage() {
                 >
                   <div className="flex justify-between items-start">
                     <div className={`text-3xl transition-colors ${isActive ? 'text-secondary' : 'text-primary'}`}>
-                      <span className="material-symbols-outlined"><MaterialIcon name={role.icon} className="material-symbols-outlined" />
+                      <MaterialIcon name={role.icon} className="material-symbols-outlined" />
                     </div>
                     <div className={`transition-all duration-300 ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
                       <span className="material-symbols-outlined text-secondary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -161,9 +161,9 @@ export default function JoinPage() {
           <div>
             <h4 className="text-sm font-bold text-white mb-4">Social</h4>
             <div className="flex gap-4">
-              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform"><MaterialIcon name=public className="material-symbols-outlined" />
-              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform"><MaterialIcon name=share className="material-symbols-outlined" />
-              <span className="material-symbols-outlined text-secondary-fixed cursor-pointer hover:scale-110 transition-transform"><MaterialIcon name=verified_user className="material-symbols-outlined" />
+              <MaterialIcon name="public" className="material-symbols-outlined" />
+              <MaterialIcon name="share" className="material-symbols-outlined" />
+              <MaterialIcon name="verified_user" className="material-symbols-outlined" />
             </div>
             <p className="mt-6 text-xs text-on-primary-container">&copy; {new Date().getFullYear()} EstateVerify Nigeria. All rights reserved.</p>
           </div>

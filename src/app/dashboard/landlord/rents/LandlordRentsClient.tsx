@@ -146,7 +146,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-4xl font-headline-sm text-headline-sm font-bold text-primary text-white mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-success-bright">
-                <span className="material-symbols-outlined text-sm"><MaterialIcon name=trending_up className="material-symbols-outlined" />
+                <MaterialIcon name="trending_up" className="material-symbols-outlined" />
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
               <div className="bg-surface-container-lowest/10 px-3 py-1 rounded-full text-xs font-bold text-white">
@@ -178,7 +178,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-destructive">₦2,450,000</p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">14 Units Overdue</span>
-              <span className="material-symbols-outlined text-destructive"><MaterialIcon name=warning className="material-symbols-outlined" />
+              <MaterialIcon name="warning" className="material-symbols-outlined" />
             </div>
           </CardContent>
         </Card>
@@ -252,7 +252,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 <h4 className="font-headline-sm text-headline-sm font-semibold text-primary">Revenue Distribution</h4>
                 <p className="text-xs text-muted-foreground">Monthly collection performance</p>
               </div>
-              <span className="material-symbols-outlined text-muted-foreground cursor-pointer hover:text-primary transition-colors"><MaterialIcon name=info className="material-symbols-outlined" />
+              <MaterialIcon name="info" className="material-symbols-outlined" />
             </div>
             <div className="h-64 flex items-end justify-between gap-3">
               {monthlyRevenue.map((val, i) => (

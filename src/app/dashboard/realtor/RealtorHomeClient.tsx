@@ -155,7 +155,7 @@ const PipelineColumn: React.FC<PipelineColumnProps> = ({ stage, count, deals }) 
         ))
       ) : (
         <div className="text-center py-8 text-muted-foreground">
-          <span className="material-symbols-outlined text-3xl mb-2 block"><MaterialIcon name=inbox className="material-symbols-outlined" />
+          <MaterialIcon name="inbox" className="material-symbols-outlined" />
           <p className="text-xs">No deals in this stage</p>
         </div>
       )}
@@ -175,7 +175,7 @@ const QuickActionCard: React.FC<QuickActionCardProps> = ({ icon, title, descript
         className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-100/80 to-emerald-200/60
         flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
       >
-        <span className="material-symbols-outlined text-2xl text-emerald-600"><MaterialIcon name={icon} className="material-symbols-outlined" />
+        <MaterialIcon name={icon} className="material-symbols-outlined" />
       </div>
       <div className="flex-1">
         <h4 className="font-semibold text-primary mb-1 group-hover:text-emerald-600 transition-colors duration-300">
@@ -306,7 +306,7 @@ export default function RealtorHomeClient() {
               </p>
             </div>
             <div className="hidden sm:flex items-center gap-3">
-              <span className="material-symbols-outlined text-4xl"><MaterialIcon name=real_estate_agent className="material-symbols-outlined" />
+              <MaterialIcon name="real_estate_agent" className="material-symbols-outlined" />
             </div>
           </div>
         </div>
@@ -337,7 +337,7 @@ export default function RealtorHomeClient() {
           <div className="bg-gradient-to-r from-commercial-gold to-commercial-gold/90 rounded-xl p-6 text-white">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Commission Summary</h2>
-              <span className="material-symbols-outlined text-3xl"><MaterialIcon name=account_balance_wallet className="material-symbols-outlined" />
+              <MaterialIcon name="account_balance_wallet" className="material-symbols-outlined" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
@@ -392,9 +392,7 @@ export default function RealtorHomeClient() {
         <section>
           <h2 className="text-xl font-bold text-primary mb-4">Recent Activity</h2>
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 text-center shadow-sm">
-            <span className="material-symbols-outlined text-5xl text-muted-foreground mb-3 block"><MaterialIcon name=
-              history
-             className="material-symbols-outlined" />
+            <MaterialIcon  className="material-symbols-outlined" />
             <p className="text-on-surface-variant mb-1 font-medium">No recent activity</p>
             <p className="text-sm text-muted-foreground">Your activity feed will appear here</p>
           </div>

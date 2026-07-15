@@ -94,14 +94,14 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
               <div>
                 <h1 className="text-3xl font-bold text-foreground mb-2">{listing.title}</h1>
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="location_on" className="material-symbols-outlined text-[18px]" />
+                  <MaterialIcon name=""location_on"" className="material-symbols-outlined text-[18px]" />
                   <span className="text-sm">{listing.location}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-6 py-6 border-y border-border">
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="bed" className="material-symbols-outlined text-[24px] text-primary" />
+                  <MaterialIcon name=""bed"" className="material-symbols-outlined text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.beds}</span>
                     <span className="text-xs text-muted-foreground">Bedrooms</span>
@@ -109,7 +109,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 </div>
                 <div className="w-px h-10 bg-border" />
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="bathtub" className="material-symbols-outlined text-[24px] text-primary" />
+                  <MaterialIcon name=""bathtub"" className="material-symbols-outlined text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.baths}</span>
                     <span className="text-xs text-muted-foreground">Bathrooms</span>
@@ -117,7 +117,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 </div>
                 <div className="w-px h-10 bg-border" />
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="square_foot" className="material-symbols-outlined text-[24px] text-primary" />
+                  <MaterialIcon name=""square_foot"" className="material-symbols-outlined text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.area}</span>
                     <span className="text-xs text-muted-foreground">sq.m</span>

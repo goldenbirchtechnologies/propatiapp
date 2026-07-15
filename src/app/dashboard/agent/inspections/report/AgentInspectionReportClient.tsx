@@ -64,7 +64,7 @@ export default function AgentInspectionReportClient() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="h-8 w-8">
-            <span className="material-symbols-outlined text-sm"><MaterialIcon name=arrow_back className="material-symbols-outlined" />
+            <MaterialIcon name="arrow_back" className="material-symbols-outlined" />
           </Button>
           <h1 className="text-headline-sm font-bold">Inspection Details</h1>
         </div>
@@ -90,11 +90,11 @@ export default function AgentInspectionReportClient() {
             <h2 className="text-headline-sm font-bold">Mainland Regional Office HQ</h2>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-white/80">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm"><MaterialIcon name=tag className="material-symbols-outlined" />
+                <MaterialIcon name="tag" className="material-symbols-outlined" />
                 <span className="text-xs font-label-md uppercase tracking-wider">#INS-2024-0882</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm"><MaterialIcon name=calendar_today className="material-symbols-outlined" />
+                <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
                 <span className="text-xs font-label-md uppercase tracking-wider">August 24, 2024</span>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function AgentInspectionReportClient() {
           {/* Audit Categories */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-primary"><MaterialIcon name=analytics className="material-symbols-outlined" />
+              <MaterialIcon name="analytics" className="material-symbols-outlined" />
               <h3 className="text-headline-sm font-bold">Compliance Assessment</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -152,7 +152,7 @@ export default function AgentInspectionReportClient() {
                   <CardContent className="p-5">
                     <div className="flex justify-between items-start mb-4">
                       <div className="p-2 bg-muted rounded-lg">
-                        <span className="material-symbols-outlined text-primary"><MaterialIcon name={cat.icon} className="material-symbols-outlined" />
+                        <MaterialIcon name={cat.icon} className="material-symbols-outlined" />
                       </div>
                       <span className="px-3 py-1 rounded-full bg-success/10 text-success text-[10px] font-label-md uppercase tracking-wider border border-outline-variant font-bold">
                         VERIFIED
@@ -168,7 +168,7 @@ export default function AgentInspectionReportClient() {
                       ))}
                     </ul>
                     <button className="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
-                      View Original <span className="material-symbols-outlined text-sm"><MaterialIcon name=open_in_new className="material-symbols-outlined" />
+                      View Original <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
                     </button>
                   </CardContent>
                 </Card>
@@ -179,7 +179,7 @@ export default function AgentInspectionReportClient() {
           {/* Evidence Gallery */}
           <section>
             <div className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-primary"><MaterialIcon name=photo_library className="material-symbols-outlined" />
+              <MaterialIcon name="photo_library" className="material-symbols-outlined" />
               <h3 className="text-headline-sm font-bold">Evidence Gallery</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

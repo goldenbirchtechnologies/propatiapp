@@ -99,7 +99,7 @@ export default function AutoPayConfigurationClient() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="font-heading text-lg">Payment Method</CardTitle>
               <button className="text-primary font-label-md label-md hover:underline flex items-center gap-xs">
-                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=add_circle className="material-symbols-outlined" /> Add New
+                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name="add_circle" className="material-symbols-outlined" /> Add New
               </button>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -194,7 +194,7 @@ export default function AutoPayConfigurationClient() {
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary"><MaterialIcon name={
+                    <MaterialIcon name={
                       cat.id === 'rent' ? 'home' : cat.id === 'utilities' ? 'bolt' : 'cleaning_services'
                     } className="material-symbols-outlined" />
                     <span className="font-body-md font-medium">{cat.label}</span>
@@ -246,11 +246,11 @@ export default function AutoPayConfigurationClient() {
       <footer className="mt-6 pt-4 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-on-tertiary-container text-[20px]"><MaterialIcon name=lock className="material-symbols-outlined" />
+            <MaterialIcon name="lock" className="material-symbols-outlined" />
             <span className="text-body-sm text-on-surface-variant">Bank-grade Encryption</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-on-tertiary-container text-[20px]"><MaterialIcon name=verified className="material-symbols-outlined" />
+            <MaterialIcon name="verified" className="material-symbols-outlined" />
             <span className="text-body-sm text-on-surface-variant">Central Bank Licensed</span>
           </div>
         </div>

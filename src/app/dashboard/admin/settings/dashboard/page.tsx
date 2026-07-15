@@ -41,7 +41,7 @@ export default function SettingsDashboardPage() {
           {/* General Configuration */}
           <div className="lg:col-span-4 glass-card p-lg rounded-xl flex flex-col gap-md">
             <div className="flex items-center gap-sm">
-              <span className="material-symbols-outlined text-primary"><MaterialIcon name=tune className="material-symbols-outlined" />
+              <MaterialIcon name="tune" className="material-symbols-outlined" />
               <h3 className="font-headline-sm text-headline-sm">General Configuration</h3>
             </div>
             <div className="space-y-md">
@@ -76,7 +76,7 @@ export default function SettingsDashboardPage() {
             <div>
               <div className="flex items-center justify-between mb-lg">
                 <div className="flex items-center gap-sm">
-                  <span className="material-symbols-outlined text-primary"><MaterialIcon name=security className="material-symbols-outlined" />
+                  <MaterialIcon name="security" className="material-symbols-outlined" />
                   <h3 className="font-headline-sm text-headline-sm">Security Overview</h3>
                 </div>
                 <span className="px-md py-1 rounded-full text-label-sm font-label-sm verified-pill">Secured</span>
@@ -97,20 +97,20 @@ export default function SettingsDashboardPage() {
               </div>
             </div>
             <button className="w-full mt-md text-primary font-label-md flex items-center justify-center gap-sm hover:underline">
-              View Full Security Log <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=arrow_forward className="material-symbols-outlined" />
+              View Full Security Log <MaterialIcon name="arrow_forward" className="material-symbols-outlined" />
             </button>
           </div>
 
           {/* Integration Status Widget */}
           <div className="lg:col-span-4 glass-card p-lg rounded-xl">
             <div className="flex items-center gap-sm mb-lg">
-              <span className="material-symbols-outlined text-primary"><MaterialIcon name=hub className="material-symbols-outlined" />
+              <MaterialIcon name="hub" className="material-symbols-outlined" />
               <h3 className="font-headline-sm text-headline-sm">Integration Status</h3>
             </div>
             <div className="space-y-lg">
               <div className="flex items-center gap-md">
                 <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
-                  <span className="material-symbols-outlined"><MaterialIcon name=check_circle className="material-symbols-outlined" />
+                  <MaterialIcon name="check_circle" className="material-symbols-outlined" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-primary">Payment Gateway</p>
@@ -119,7 +119,7 @@ export default function SettingsDashboardPage() {
               </div>
               <div className="flex items-center gap-md">
                 <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
-                  <span className="material-symbols-outlined"><MaterialIcon name=check_circle className="material-symbols-outlined" />
+                  <MaterialIcon name="check_circle" className="material-symbols-outlined" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-primary">SMS Service</p>
@@ -128,7 +128,7 @@ export default function SettingsDashboardPage() {
               </div>
               <div className="flex items-center gap-md">
                 <div className="w-10 h-10 rounded-full bg-warning/10 flex items-center justify-center text-warning">
-                  <span className="material-symbols-outlined"><MaterialIcon name=warning className="material-symbols-outlined" />
+                  <MaterialIcon name="warning" className="material-symbols-outlined" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-primary">Email (SendGrid)</p>
@@ -194,7 +194,7 @@ export default function SettingsDashboardPage() {
             {/* Asymmetric Detail Section: System Health */}
             <div className="p-lg rounded-xl bg-surface-container-low border border-outline-variant">
               <div className="flex items-center gap-sm mb-lg">
-                <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=monitoring className="material-symbols-outlined" />
+                <MaterialIcon name="monitoring" className="material-symbols-outlined" />
                 <h4 className="font-headline-sm text-primary">System Health</h4>
               </div>
               <div className="grid grid-cols-2 gap-4">

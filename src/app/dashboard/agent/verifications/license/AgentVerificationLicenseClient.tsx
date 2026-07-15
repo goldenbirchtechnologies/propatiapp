@@ -265,7 +265,7 @@ export default function AgentVerificationLicenseClient() {
                             : 'bg-muted text-muted-foreground'
                       }`}
                     >
-                      <span className="material-symbols-outlined text-sm"><MaterialIcon name={step.status} className="material-symbols-outlined" />
+                      <MaterialIcon name={step.status} className="material-symbols-outlined" />
                     </div>
                     <div>
                       <p className="text-sm font-bold">{step.label}</p>

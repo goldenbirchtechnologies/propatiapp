@@ -55,7 +55,7 @@ const MarketStatCard: React.FC<MarketStat> = ({ label, value, change, positive, 
     >
       <div className="flex items-center gap-4">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${iconBg}`}>
-          <span className="material-symbols-outlined text-2xl"><MaterialIcon name={icon} className="material-symbols-outlined" />
+          <MaterialIcon name={icon} className="material-symbols-outlined" />
         </div>
         <div>
           <p className="text-sm text-on-surface-variant font-medium">{label}</p>

@@ -19,9 +19,9 @@ export default function AuditEventDetailPage() {
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-sm text-label-sm text-on-surface-variant mb-md">
         <a className="hover:text-primary" href="#">Home</a>
-        <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+        <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
         <a className="hover:text-primary" href="#">Audit Logs</a>
-        <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+        <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
         <span className="text-on-surface font-bold">Event #EV-9821</span>
       </nav>
 
@@ -39,11 +39,11 @@ export default function AuditEventDetailPage() {
         </div>
         <div className="flex items-center gap-sm">
           <button className="flex items-center gap-sm px-lg h-11 border border-outline text-primary font-label-md rounded-xl hover:bg-surface-container-low transition-all active:scale-95">
-            <span className="material-symbols-outlined"><MaterialIcon name=download className="material-symbols-outlined" />
+            <MaterialIcon name="download" className="material-symbols-outlined" />
             Export JSON
           </button>
           <button className="flex items-center gap-sm px-lg h-11 bg-primary text-on-primary font-label-md rounded-xl hover:bg-primary/90 shadow-md transition-all active:scale-95">
-            <span className="material-symbols-outlined"><MaterialIcon name=flag className="material-symbols-outlined" />
+            <MaterialIcon name="flag" className="material-symbols-outlined" />
             Flag for Review
           </button>
         </div>
@@ -65,7 +65,7 @@ export default function AuditEventDetailPage() {
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-on-surface-variant">Timestamp</span>
           <div className="flex items-center gap-sm mt-xs text-on-surface">
-            <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=schedule className="material-symbols-outlined" />
+            <MaterialIcon name="schedule" className="material-symbols-outlined" />
             <span className="font-body-md font-medium">
               Oct 27, 2023 - 14:22:10 <span className="text-label-sm opacity-60">WAT</span>
             </span>
@@ -74,7 +74,7 @@ export default function AuditEventDetailPage() {
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-on-surface-variant">Origin IP</span>
           <div className="flex items-center gap-sm mt-xs text-on-surface">
-            <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=location_on className="material-symbols-outlined" />
+            <MaterialIcon name="location_on" className="material-symbols-outlined" />
             <span className="font-body-md font-medium">
               192.168.1.1 <span className="text-label-sm opacity-60">(Lagos, NG)</span>
             </span>
@@ -83,7 +83,7 @@ export default function AuditEventDetailPage() {
         <div className="flex flex-col gap-xs">
           <span className="text-label-sm text-on-surface-variant">Action</span>
           <div className="flex items-center gap-sm mt-xs text-on-surface">
-            <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=edit_note className="material-symbols-outlined" />
+            <MaterialIcon name="edit_note" className="material-symbols-outlined" />
             <span className="font-body-md font-medium">Modified &quot;Verification Officer&quot; Role</span>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function AuditEventDetailPage() {
         <section className="lg:col-span-8 flex flex-col h-full bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
           <div className="bg-surface-container p-md border-b border-outline-variant flex justify-between items-center">
             <div className="flex items-center gap-md">
-              <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=code className="material-symbols-outlined" />
+              <MaterialIcon name="code" className="material-symbols-outlined" />
               <h3 className="font-label-md text-primary uppercase tracking-wider font-bold">JSON Payload Diff</h3>
             </div>
             <div className="flex gap-sm">
@@ -128,7 +128,7 @@ export default function AuditEventDetailPage() {
             </div>
           </div>
           <div className="mt-auto p-md bg-surface-container-low text-label-sm text-on-surface-variant/70 italic flex items-center gap-sm">
-            <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=info className="material-symbols-outlined" />
+            <MaterialIcon name="info" className="material-symbols-outlined" />
             Hash SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
           </div>
         </section>
@@ -182,7 +182,7 @@ export default function AuditEventDetailPage() {
             </div>
             <button className="w-full mt-xl py-md text-label-md font-bold text-primary hover:text-secondary transition-colors border-t border-outline-variant/30 flex items-center justify-center gap-sm">
               View Full Admin Audit Trail
-              <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=arrow_forward className="material-symbols-outlined" />
+              <MaterialIcon name="arrow_forward" className="material-symbols-outlined" />
             </button>
           </div>
 

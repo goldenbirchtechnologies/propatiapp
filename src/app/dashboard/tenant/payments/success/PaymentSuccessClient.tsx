@@ -70,7 +70,7 @@ export default function PaymentSuccessPage() {
                 <h3 className="font-headline-lg headline-lg text-primary">₦1,450,000.00</h3>
               </div>
               <div className="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-md font-bold flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=verified className="material-symbols-outlined" />
+                <MaterialIcon name="verified" className="material-symbols-outlined" />
                 Verified
               </div>
             </div>
@@ -78,7 +78,7 @@ export default function PaymentSuccessPage() {
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Payment Method</span>
                 <div className="flex items-center gap-2 font-semibold">
-                  <span className="material-symbols-outlined text-primary"><MaterialIcon name=credit_card className="material-symbols-outlined" />
+                  <MaterialIcon name="credit_card" className="material-symbols-outlined" />
                   <span>Visa ending in 4242</span>
                 </div>
               </div>
@@ -199,15 +199,15 @@ export default function PaymentSuccessPage() {
       <footer className="pt-5 border-t border-outline-variant flex flex-col items-center gap-4">
         <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
           <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=security className="material-symbols-outlined" />
+            <MaterialIcon name="security" className="material-symbols-outlined" />
             <span className="text-label-sm">PCI-DSS Compliant</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=encrypted className="material-symbols-outlined" />
+            <MaterialIcon name="encrypted" className="material-symbols-outlined" />
             <span className="text-label-sm">256-bit SSL Encryption</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=verified_user className="material-symbols-outlined" />
+            <MaterialIcon name="verified_user" className="material-symbols-outlined" />
             <span className="text-label-sm">Central Bank Regulated</span>
           </div>
         </div>

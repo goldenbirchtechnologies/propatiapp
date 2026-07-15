@@ -543,7 +543,7 @@ function ListingsPageInner() {
                   )}
                   aria-label="Grid view"
                 >
-                  <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=grid_view className="material-symbols-outlined" />
+                  <MaterialIcon name="grid_view" className="material-symbols-outlined" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
@@ -555,7 +555,7 @@ function ListingsPageInner() {
                   )}
                   aria-label="List view"
                 >
-                  <span className="material-symbols-outlined text-[20px]"><MaterialIcon name=format_list_bulleted className="material-symbols-outlined" />
+                  <MaterialIcon name="format_list_bulleted" className="material-symbols-outlined" />
                 </button>
               </div>
             </div>

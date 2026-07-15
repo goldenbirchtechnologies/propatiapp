@@ -23,22 +23,21 @@ export default function AuditLogsPagePagePage() {
 <div className="flex items-center w-1/3">
 <div className="relative w-full max-w-sm">
 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=search className="material-symbols-outlined" />
-</span>
+<MaterialIcon name="search" className="material-symbols-outlined" />
 <input className="block w-full pl-10 pr-3 py-2 border border-outline-variant rounded-lg bg-surface-container-low text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search audit events, IPs, or admins..." type="text"/>
 </div>
 </div>
 <div className="flex items-center gap-6">
 <div className="flex items-center gap-2">
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
-<span className="material-symbols-outlined"><MaterialIcon name=notifications className="material-symbols-outlined" />
+<MaterialIcon name="notifications" className="material-symbols-outlined" />
 <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
 </button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
-<span className="material-symbols-outlined"><MaterialIcon name=help className="material-symbols-outlined" />
+<MaterialIcon name="help" className="material-symbols-outlined" />
 </button>
 <button className="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
-<span className="material-symbols-outlined"><MaterialIcon name=settings className="material-symbols-outlined" />
+<MaterialIcon name="settings" className="material-symbols-outlined" />
 </button>
 </div>
 <div className="h-8 w-[1px] bg-outline-variant mx-2"></div>
@@ -66,12 +65,12 @@ export default function AuditLogsPagePagePage() {
 <p className="font-label-md text-label-md text-on-surface-variant mb-1">Total Events (24h)</p>
 <h3 className="font-headline-lg text-headline-lg text-primary">12,842</h3>
 <p className="text-on-tertiary-container flex items-center font-label-sm text-label-sm mt-2">
-<span className="material-symbols-outlined text-[16px] mr-1"><MaterialIcon name=trending_up className="material-symbols-outlined" />
+<MaterialIcon name="trending_up" className="material-symbols-outlined" />
                         +14.2% from yesterday
                     </p>
 </div>
 <div className="bg-surface-container-low p-3 rounded-lg text-primary">
-<span className="material-symbols-outlined text-[28px]"><MaterialIcon name=query_stats className="material-symbols-outlined" />
+<MaterialIcon name="query_stats" className="material-symbols-outlined" />
 </div>
 </div>
 {'{'}/* Metric Card 2 */{'}'}
@@ -80,12 +79,12 @@ export default function AuditLogsPagePagePage() {
 <p className="font-label-md text-label-md text-on-surface-variant mb-1">Security Flags</p>
 <h3 className="font-headline-lg text-headline-lg text-error">24</h3>
 <p className="text-error flex items-center font-label-sm text-label-sm mt-2">
-<span className="material-symbols-outlined text-[16px] mr-1"><MaterialIcon name=warning className="material-symbols-outlined" />
+<MaterialIcon name="warning" className="material-symbols-outlined" />
                         3 critical pending review
                     </p>
 </div>
 <div className="bg-error-container p-3 rounded-lg text-on-error-container">
-<span className="material-symbols-outlined text-[28px]"><MaterialIcon name=gpp_maybe className="material-symbols-outlined" />
+<MaterialIcon name="gpp_maybe" className="material-symbols-outlined" />
 </div>
 </div>
 {'{'}/* Metric Card 3 */{'}'}
@@ -98,14 +97,14 @@ export default function AuditLogsPagePagePage() {
                     </p>
 </div>
 <div className="bg-secondary-fixed p-3 rounded-lg text-on-secondary-fixed">
-<span className="material-symbols-outlined text-[28px]"><MaterialIcon name=admin_panel_settings className="material-symbols-outlined" />
+<MaterialIcon name="admin_panel_settings" className="material-symbols-outlined" />
 </div>
 </div>
 </div>
 {'{'}/* Filter Bar */{'}'}
 <div className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant mb-lg flex flex-wrap items-center gap-4">
 <div className="flex items-center gap-2">
-<span className="material-symbols-outlined text-on-surface-variant text-[20px]"><MaterialIcon name=filter_list className="material-symbols-outlined" />
+<MaterialIcon name="filter_list" className="material-symbols-outlined" />
 <span className="font-label-md text-label-md text-on-surface font-bold">Filters</span>
 </div>
 <div className="h-6 w-[1px] bg-outline-variant mx-2"></div>
@@ -113,7 +112,7 @@ export default function AuditLogsPagePagePage() {
 <div className="relative">
 <button className="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-lg font-label-md text-label-md bg-surface hover:bg-surface-container-low transition-colors">
 <span>Oct 20 - Oct 27, 2023</span>
-<span className="material-symbols-outlined text-[18px]"><MaterialIcon name=calendar_today className="material-symbols-outlined" />
+<MaterialIcon name="calendar_today" className="material-symbols-outlined" />
 </button>
 </div>
 {'{'}/* Administrator */{'}'}
@@ -140,7 +139,7 @@ export default function AuditLogsPagePagePage() {
 <option>High / Critical</option>
 </select>
 <button className="ml-auto flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
-<span className="material-symbols-outlined text-[18px]"><MaterialIcon name=download className="material-symbols-outlined" />
+<MaterialIcon name="download" className="material-symbols-outlined" />
                 Export CSV
             </button>
 </div>
@@ -189,7 +188,7 @@ export default function AuditLogsPagePagePage() {
                             </td>
 <td className="px-6 py-4 text-center">
 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=visibility className="material-symbols-outlined" />
+<MaterialIcon name="visibility" className="material-symbols-outlined" />
 </button>
 </td>
 </tr>
@@ -222,7 +221,7 @@ export default function AuditLogsPagePagePage() {
                             </td>
 <td className="px-6 py-4 text-center">
 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=visibility className="material-symbols-outlined" />
+<MaterialIcon name="visibility" className="material-symbols-outlined" />
 </button>
 </td>
 </tr>
@@ -255,7 +254,7 @@ export default function AuditLogsPagePagePage() {
                             </td>
 <td className="px-6 py-4 text-center">
 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=visibility className="material-symbols-outlined" />
+<MaterialIcon name="visibility" className="material-symbols-outlined" />
 </button>
 </td>
 </tr>
@@ -288,7 +287,7 @@ export default function AuditLogsPagePagePage() {
                             </td>
 <td className="px-6 py-4 text-center">
 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=visibility className="material-symbols-outlined" />
+<MaterialIcon name="visibility" className="material-symbols-outlined" />
 </button>
 </td>
 </tr>
@@ -321,7 +320,7 @@ export default function AuditLogsPagePagePage() {
                             </td>
 <td className="px-6 py-4 text-center">
 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=visibility className="material-symbols-outlined" />
+<MaterialIcon name="visibility" className="material-symbols-outlined" />
 </button>
 </td>
 </tr>
@@ -333,7 +332,7 @@ export default function AuditLogsPagePagePage() {
 <p className="font-label-sm text-label-sm text-on-surface-variant">Showing 1 to 5 of 12,842 entries</p>
 <div className="flex items-center gap-2">
 <button className="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low disabled:opacity-50" disabled={true}>
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=chevron_left className="material-symbols-outlined" />
+<MaterialIcon name="chevron_left" className="material-symbols-outlined" />
 </button>
 <button className="px-4 py-2 bg-primary text-white rounded-lg font-label-md text-label-md">1</button>
 <button className="px-4 py-2 hover:bg-surface-container-low rounded-lg font-label-md text-label-md">2</button>
@@ -341,7 +340,7 @@ export default function AuditLogsPagePagePage() {
 <span className="px-2 text-on-surface-variant">...</span>
 <button className="px-4 py-2 hover:bg-surface-container-low rounded-lg font-label-md text-label-md">2,568</button>
 <button className="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low">
-<span className="material-symbols-outlined text-[20px]"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+<MaterialIcon name="chevron_right" className="material-symbols-outlined" />
 </button>
 </div>
 </div>

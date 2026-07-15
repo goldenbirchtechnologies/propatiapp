@@ -232,7 +232,7 @@ function AgentProfileInner() {
                         {listing.title}
                       </h3>
                       <div className="flex items-center gap-1.5 text-on-surface-variant">
-                        <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=location_on className="material-symbols-outlined" />
+                        <MaterialIcon name="location_on" className="material-symbols-outlined" />
                         <span className="text-sm line-clamp-1">{listing.location}</span>
                       </div>
                     </div>

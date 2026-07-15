@@ -24,20 +24,20 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <header className="bg-surface sticky top-0 z-40 border-b border-outline-variant flex justify-between items-center px-lg py-sm w-full">
 <div className="flex items-center gap-lg">
 <div className="md:hidden">
-<span className="material-symbols-outlined text-primary"><MaterialIcon name=menu className="material-symbols-outlined" />
+<MaterialIcon name="menu" className="material-symbols-outlined" />
 </div>
 <div className="relative">
-<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"><MaterialIcon name=search className="material-symbols-outlined" />
+<MaterialIcon name="search" className="material-symbols-outlined" />
 <input className="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 focus:ring-2 focus:ring-primary-container font-body-sm" placeholder="Search queues..." type="text"/>
 </div>
 </div>
 <div className="flex items-center gap-md">
 <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
-<span className="material-symbols-outlined"><MaterialIcon name=notifications className="material-symbols-outlined" />
+<MaterialIcon name="notifications" className="material-symbols-outlined" />
 <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
 </button>
 <button className="flex items-center gap-sm px-4 py-2 hover:bg-surface-container-high rounded-full transition-colors border border-outline-variant">
-<span className="material-symbols-outlined"><MaterialIcon name=help_outline className="material-symbols-outlined" />
+<MaterialIcon name="help_outline" className="material-symbols-outlined" />
 <span className="font-label-md">Support</span>
 </button>
 <div className="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden border border-outline">
@@ -52,9 +52,9 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="space-y-xs">
 <div className="flex items-center gap-xs text-on-surface-variant font-label-sm">
 <span>Queues</span>
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+<MaterialIcon name="chevron_right" className="material-symbols-outlined" />
 <span>High Priority</span>
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+<MaterialIcon name="chevron_right" className="material-symbols-outlined" />
 <span className="text-primary">#EV-98231</span>
 </div>
 <h2 className="font-headline-lg text-headline-lg text-primary">The Obsidian Penthouse</h2>
@@ -91,7 +91,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 {'{'}/* Step 1 */{'}'}
 <div className="flex gap-md relative">
 <div className="w-6 h-6 rounded-full bg-on-tertiary-container text-white flex items-center justify-center z-10">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=check className="material-symbols-outlined" />
+<MaterialIcon name="check" className="material-symbols-outlined" />
 </div>
 <div className="flex-grow">
 <p className="font-label-md text-primary">KYC Submission</p>
@@ -101,7 +101,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 {'{'}/* Step 2 */{'}'}
 <div className="flex gap-md relative">
 <div className="w-6 h-6 rounded-full bg-on-tertiary-container text-white flex items-center justify-center z-10">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=check className="material-symbols-outlined" />
+<MaterialIcon name="check" className="material-symbols-outlined" />
 </div>
 <div className="flex-grow">
 <p className="font-label-md text-primary">C of O Verification</p>
@@ -111,7 +111,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 {'{'}/* Step 3 */{'}'}
 <div className="flex gap-md relative">
 <div className="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center z-10 ring-4 ring-background">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=pending className="material-symbols-outlined" />
+<MaterialIcon name="pending" className="material-symbols-outlined" />
 </div>
 <div className="flex-grow">
 <p className="font-label-md text-secondary">Physical Inspection</p>
@@ -121,7 +121,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 {'{'}/* Step 4 */{'}'}
 <div className="flex gap-md relative">
 <div className="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center z-10">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=radio_button_unchecked className="material-symbols-outlined" />
+<MaterialIcon name="radio_button_unchecked" className="material-symbols-outlined" />
 </div>
 <div className="flex-grow">
 <p className="font-label-md text-on-surface-variant">Final Certification</p>
@@ -152,7 +152,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="space-y-1">
 <p className="font-headline-sm text-primary">Banana Island, Ikoyi</p>
 <p className="text-body-sm text-on-surface-variant flex items-center gap-xs">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=location_on className="material-symbols-outlined" />
+<MaterialIcon name="location_on" className="material-symbols-outlined" />
                                 Zone A, Waterfront District, Lagos
                             </p>
 </div>
@@ -174,7 +174,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </div>
 </div>
 <div className="flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-lg h-32 hover:bg-surface-container-low transition-colors cursor-pointer">
-<span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=add_circle className="material-symbols-outlined" />
+<MaterialIcon name="add_circle" className="material-symbols-outlined" />
 <p className="font-label-sm text-on-surface-variant mt-2">Add Document</p>
 </div>
 </div>
@@ -185,7 +185,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="flex items-center justify-between">
 <h3 className="font-headline-sm text-headline-sm text-primary">Physical Inspection Report</h3>
 <button className="text-secondary font-label-md flex items-center gap-xs">
-                            View Full Report <span className="material-symbols-outlined"><MaterialIcon name=open_in_new className="material-symbols-outlined" />
+                            View Full Report <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
 </button>
 </div>
 <div className="grid grid-cols-1 md:grid-cols-3 gap-xl">
@@ -197,15 +197,15 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <p className="font-label-sm text-on-surface-variant uppercase tracking-widest">Utility Verification</p>
 <ul className="space-y-2">
 <li className="flex items-center gap-sm text-body-sm">
-<span className="material-symbols-outlined text-on-tertiary-container text-lg"><MaterialIcon name=check_circle className="material-symbols-outlined" />
+<MaterialIcon name="check_circle" className="material-symbols-outlined" />
                                     Independent Power Grid Access
                                 </li>
 <li className="flex items-center gap-sm text-body-sm">
-<span className="material-symbols-outlined text-on-tertiary-container text-lg"><MaterialIcon name=check_circle className="material-symbols-outlined" />
+<MaterialIcon name="check_circle" className="material-symbols-outlined" />
                                     Central Water Treatment Verified
                                 </li>
 <li className="flex items-center gap-sm text-body-sm">
-<span className="material-symbols-outlined text-on-tertiary-container text-lg"><MaterialIcon name=check_circle className="material-symbols-outlined" />
+<MaterialIcon name="check_circle" className="material-symbols-outlined" />
                                     Fibre Optic Connectivity Confirmed
                                 </li>
 </ul>
@@ -242,7 +242,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </div>
 {'{'}/* Aesthetic Corner Element */{'}'}
 <div className="absolute bottom-[-10%] right-[-5%] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
-<span className="material-symbols-outlined text-[200px]"><MaterialIcon name=shield className="material-symbols-outlined" />
+<MaterialIcon name="shield" className="material-symbols-outlined" />
 </div>
 </div>
 {'{'}/* Activity Log */{'}'}
@@ -251,7 +251,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2">
 <div className="flex gap-md pb-4 border-b border-outline-variant">
 <div className="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=history className="material-symbols-outlined" />
+<MaterialIcon name="history" className="material-symbols-outlined" />
 </div>
 <div className="space-y-1">
 <p className="text-body-sm"><span className="font-bold">System</span> automatically flagged location discrepancy</p>
@@ -260,7 +260,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </div>
 <div className="flex gap-md pb-4 border-b border-outline-variant">
 <div className="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=edit className="material-symbols-outlined" />
+<MaterialIcon name="edit" className="material-symbols-outlined" />
 </div>
 <div className="space-y-1">
 <p className="text-body-sm"><span className="font-bold">Admin Sarah</span> manually resolved location issue</p>
@@ -269,7 +269,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </div>
 <div className="flex gap-md pb-4 border-b border-outline-variant">
 <div className="w-8 h-8 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center">
-<span className="material-symbols-outlined text-sm"><MaterialIcon name=image className="material-symbols-outlined" />
+<MaterialIcon name="image" className="material-symbols-outlined" />
 </div>
 <div className="space-y-1">
 <p className="text-body-sm"><span className="font-bold">Inspector Funke</span> uploaded 12 inspection photos</p>
@@ -278,7 +278,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 </div>
 <div className="flex gap-md">
 <div className="w-8 h-8 rounded-full bg-secondary-container/20 flex-shrink-0 flex items-center justify-center">
-<span className="material-symbols-outlined text-sm text-secondary"><MaterialIcon name=priority_high className="material-symbols-outlined" />
+<MaterialIcon name="priority_high" className="material-symbols-outlined" />
 </div>
 <div className="space-y-1">
 <p className="text-body-sm">Pending final review by <span className="font-bold">Managing Partner</span></p>
@@ -297,7 +297,7 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 {'{'}/* BottomNavBar (Mobile Shared Component) */{'}'}
 <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface flex justify-around items-center py-sm border-t border-outline-variant z-50">
 <a className="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
-<span className="material-symbols-outlined"><MaterialIcon name=dashboard className="material-symbols-outlined" />
+<MaterialIcon name="dashboard" className="material-symbols-outlined" />
 <span className="text-[10px] font-label-sm">Home</span>
 </a>
 <a className="flex flex-col items-center gap-1 text-primary font-bold" href="#">
@@ -305,11 +305,11 @@ export default function VerificationQueueDetailObsidianPenthousePagePagePage() {
 <span className="text-[10px] font-label-sm">Queue</span>
 </a>
 <a className="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
-<span className="material-symbols-outlined"><MaterialIcon name=domain className="material-symbols-outlined" />
+<MaterialIcon name="domain" className="material-symbols-outlined" />
 <span className="text-[10px] font-label-sm">Units</span>
 </a>
 <a className="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
-<span className="material-symbols-outlined"><MaterialIcon name=settings className="material-symbols-outlined" />
+<MaterialIcon name="settings" className="material-symbols-outlined" />
 <span className="text-[10px] font-label-sm">Settings</span>
 </a>
 </nav>

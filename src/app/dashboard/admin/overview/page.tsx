@@ -26,7 +26,7 @@ export default function AdminOverviewPage() {
           <button className="px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">Monthly</button>
           <div className="h-4 w-[1px] bg-outline-variant mx-2"></div>
           <button className="flex items-center gap-xs px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">
-            <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=calendar_today className="material-symbols-outlined" />
+            <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
             <span>Oct 24, 2023</span>
           </button>
         </div>
@@ -38,10 +38,10 @@ export default function AdminOverviewPage() {
         <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="p-sm bg-primary-container/5 rounded-lg">
-              <span className="material-symbols-outlined text-primary-container"><MaterialIcon name=groups className="material-symbols-outlined" />
+              <MaterialIcon name="groups" className="material-symbols-outlined" />
             </div>
             <span className="text-emerald-600 flex items-center text-label-sm">
-              <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=trending_up className="material-symbols-outlined" />
+              <MaterialIcon name="trending_up" className="material-symbols-outlined" />
               +12.5%
             </span>
           </div>
@@ -55,7 +55,7 @@ export default function AdminOverviewPage() {
         <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="p-sm bg-error-container/10 rounded-lg">
-              <span className="material-symbols-outlined text-error"><MaterialIcon name=priority_high className="material-symbols-outlined" />
+              <MaterialIcon name="priority_high" className="material-symbols-outlined" />
             </div>
             <span className="text-error flex items-center text-label-sm font-bold">URGENT</span>
           </div>
@@ -69,10 +69,10 @@ export default function AdminOverviewPage() {
         <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="p-sm bg-secondary/10 rounded-lg">
-              <span className="material-symbols-outlined text-secondary"><MaterialIcon name=payments className="material-symbols-outlined" />
+              <MaterialIcon name="payments" className="material-symbols-outlined" />
             </div>
             <span className="text-emerald-600 flex items-center text-label-sm">
-              <span className="material-symbols-outlined text-[16px]"><MaterialIcon name=trending_up className="material-symbols-outlined" />
+              <MaterialIcon name="trending_up" className="material-symbols-outlined" />
               +8.2%
             </span>
           </div>
@@ -86,7 +86,7 @@ export default function AdminOverviewPage() {
         <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="p-sm bg-on-surface-variant/10 rounded-lg">
-              <span className="material-symbols-outlined text-on-surface-variant"><MaterialIcon name=report className="material-symbols-outlined" />
+              <MaterialIcon name="report" className="material-symbols-outlined" />
             </div>
             <span className="text-on-surface-variant flex items-center text-label-sm">Stable</span>
           </div>
@@ -104,7 +104,7 @@ export default function AdminOverviewPage() {
           <div className="p-lg border-b border-outline-variant flex justify-between items-center">
             <h3 className="font-headline-sm text-headline-sm text-primary">Verification Queue</h3>
             <button className="text-primary-container font-semibold hover:underline text-body-sm flex items-center gap-xs">
-              View All <span className="material-symbols-outlined text-[18px]"><MaterialIcon name=chevron_right className="material-symbols-outlined" />
+              View All <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
             </button>
           </div>
           <div className="overflow-x-auto">
@@ -145,7 +145,7 @@ export default function AdminOverviewPage() {
                   </td>
                   <td className="px-lg py-md">
                     <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <span className="material-symbols-outlined"><MaterialIcon name=visibility className="material-symbols-outlined" />
+                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
                     </button>
                   </td>
                 </tr>
@@ -176,7 +176,7 @@ export default function AdminOverviewPage() {
                   </td>
                   <td className="px-lg py-md">
                     <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <span className="material-symbols-outlined"><MaterialIcon name=visibility className="material-symbols-outlined" />
+                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
                     </button>
                   </td>
                 </tr>
@@ -207,7 +207,7 @@ export default function AdminOverviewPage() {
                   </td>
                   <td className="px-lg py-md">
                     <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <span className="material-symbols-outlined"><MaterialIcon name=visibility className="material-symbols-outlined" />
+                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
                     </button>
                   </td>
                 </tr>
@@ -220,7 +220,7 @@ export default function AdminOverviewPage() {
         <div className="bg-surface rounded-xl border border-outline-variant card-shadow p-lg flex flex-col">
           <div className="flex items-center justify-between mb-lg">
             <h3 className="font-headline-sm text-headline-sm text-primary flex items-center gap-sm">
-              <span className="material-symbols-outlined text-error"><MaterialIcon name=warning className="material-symbols-outlined" />
+              <MaterialIcon name="warning" className="material-symbols-outlined" />
               Risk Alerts
             </h3>
             <span className="bg-error text-on-error px-2 py-0.5 rounded-full text-[10px] font-bold">4 NEW</span>

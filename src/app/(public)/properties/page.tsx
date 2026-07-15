@@ -246,15 +246,15 @@ export default function PropertiesPage() {
                       <div className="mt-auto pt-4 border-t border-border flex justify-between items-center">
                         <div className="flex gap-4">
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name="bed" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name=""bed"" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.beds}</span>
                           </div>
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name="bathtub" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name=""bathtub"" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.baths}</span>
                           </div>
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name="square_foot" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name=""square_foot"" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.area}</span>
                           </div>
                         </div>

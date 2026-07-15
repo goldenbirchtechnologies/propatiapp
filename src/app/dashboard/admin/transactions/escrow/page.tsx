@@ -26,11 +26,11 @@ export default function EscrowTransactionsPage() {
         </div>
         <div className="flex items-center gap-sm">
           <div className="flex items-center bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
-            <span className="material-symbols-outlined text-outline mr-2"><MaterialIcon name=calendar_today className="material-symbols-outlined" />
+            <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
             <span className="text-body-sm font-medium">Oct 1 - Oct 31, 2023</span>
           </div>
           <button className="bg-primary text-white px-md py-2 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-all">
-            <span className="material-symbols-outlined"><MaterialIcon name=download className="material-symbols-outlined" />
+            <MaterialIcon name="download" className="material-symbols-outlined" />
             Export Report
           </button>
         </div>
@@ -67,7 +67,7 @@ export default function EscrowTransactionsPage() {
         <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm">
             <span className="text-body-sm text-on-surface-variant font-medium">Pending Settlements</span>
-            <span className="material-symbols-outlined text-outline"><MaterialIcon name=pending_actions className="material-symbols-outlined" />
+            <MaterialIcon name="pending_actions" className="material-symbols-outlined" />
           </div>
           <div className="font-headline-md text-headline-md text-primary">
             42 <span className="text-body-sm font-normal text-on-surface-variant ml-1">(₦85.2M)</span>
@@ -79,7 +79,7 @@ export default function EscrowTransactionsPage() {
         <div className="bg-surface-container-lowest p-lg rounded-xl border-2 border-error/20 bg-error/5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between mb-sm text-error">
             <span className="text-body-sm font-bold">Flagged / Disputed</span>
-            <span className="material-symbols-outlined"><MaterialIcon name=warning className="material-symbols-outlined" />
+            <MaterialIcon name="warning" className="material-symbols-outlined" />
           </div>
           <div className="font-headline-md text-headline-md text-error">
             3 <span className="text-body-sm font-normal text-on-surface-variant ml-1">(₦4.2M)</span>
@@ -97,7 +97,7 @@ export default function EscrowTransactionsPage() {
               <h3 className="font-headline-sm text-headline-sm text-primary">Recent Transactions</h3>
               <div className="flex items-center gap-sm">
                 <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest">
-                  <span className="material-symbols-outlined text-outline text-sm mr-2"><MaterialIcon name=filter_alt className="material-symbols-outlined" />
+                  <MaterialIcon name="filter_alt" className="material-symbols-outlined" />
                   <select className="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
                     <option>All Types</option>
                     <option>Rent</option>
@@ -105,7 +105,7 @@ export default function EscrowTransactionsPage() {
                   </select>
                 </div>
                 <div className="flex items-center border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest">
-                  <span className="material-symbols-outlined text-outline text-sm mr-2"><MaterialIcon name=verified className="material-symbols-outlined" />
+                  <MaterialIcon name="verified" className="material-symbols-outlined" />
                   <select className="border-none focus:ring-0 text-body-sm p-0 bg-transparent cursor-pointer">
                     <option>All Statuses</option>
                     <option>Funded</option>
@@ -148,7 +148,7 @@ export default function EscrowTransactionsPage() {
                     <td className="px-md py-4 text-body-sm text-on-surface-variant">24 Oct, 2023</td>
                     <td className="px-md py-4">
                       <a className="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
-                        Audit Trail <span className="material-symbols-outlined text-sm"><MaterialIcon name=open_in_new className="material-symbols-outlined" />
+                        Audit Trail <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
                       </a>
                     </td>
                   </tr>
@@ -169,7 +169,7 @@ export default function EscrowTransactionsPage() {
                     <td className="px-md py-4 text-body-sm text-on-surface-variant">22 Oct, 2023</td>
                     <td className="px-md py-4">
                       <a className="text-error hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
-                        Review Case <span className="material-symbols-outlined text-sm"><MaterialIcon name=priority_high className="material-symbols-outlined" />
+                        Review Case <MaterialIcon name="priority_high" className="material-symbols-outlined" />
                       </a>
                     </td>
                   </tr>
@@ -190,7 +190,7 @@ export default function EscrowTransactionsPage() {
                     <td className="px-md py-4 text-body-sm text-on-surface-variant">20 Oct, 2023</td>
                     <td className="px-md py-4">
                       <a className="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
-                        Audit Trail <span className="material-symbols-outlined text-sm"><MaterialIcon name=open_in_new className="material-symbols-outlined" />
+                        Audit Trail <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
                       </a>
                     </td>
                   </tr>
@@ -211,7 +211,7 @@ export default function EscrowTransactionsPage() {
                     <td className="px-md py-4 text-body-sm text-on-surface-variant">19 Oct, 2023</td>
                     <td className="px-md py-4">
                       <a className="text-primary hover:underline text-body-sm font-semibold flex items-center gap-1" href="#">
-                        Audit Trail <span className="material-symbols-outlined text-sm"><MaterialIcon name=open_in_new className="material-symbols-outlined" />
+                        Audit Trail <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
                       </a>
                     </td>
                   </tr>
@@ -235,7 +235,7 @@ export default function EscrowTransactionsPage() {
           <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between mb-md">
               <h3 className="font-headline-sm text-headline-sm text-primary">Escrow Health</h3>
-              <span className="material-symbols-outlined text-emerald-600"><MaterialIcon name=verified_user className="material-symbols-outlined" />
+              <MaterialIcon name="verified_user" className="material-symbols-outlined" />
             </div>
             <div className="relative flex justify-center py-4">
               {/* Simple Donut Visualization */}
@@ -268,7 +268,7 @@ export default function EscrowTransactionsPage() {
           <div className="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm">
             <div className="flex items-center justify-between mb-md">
               <h3 className="font-headline-sm text-headline-sm text-primary">Recent Flags</h3>
-              <span className="material-symbols-outlined text-error"><MaterialIcon name=flag className="material-symbols-outlined" />
+              <MaterialIcon name="flag" className="material-symbols-outlined" />
             </div>
             <div className="space-y-4">
               <div className="flex items-start gap-3">

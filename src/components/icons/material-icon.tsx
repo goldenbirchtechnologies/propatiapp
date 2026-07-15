@@ -39,5 +39,17 @@ export default function MaterialIcon({ name, className = "material-symbols-outli
   if (Comp) {
     return <Comp className={className} aria-hidden="true" focusable="false" />;
   }
-  return <span className={className} aria-hidden="true" focusable="false">{name}</span>;
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+    </svg>
+  );
 }

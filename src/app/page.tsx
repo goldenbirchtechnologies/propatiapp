@@ -139,7 +139,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
       {/* Top Navigation */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -310,8 +310,7 @@ export default function HomePage() {
         </section>
 
         {/* Stats */}
-        <section className="relative -mt-12 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <section className="relative -mt-12 z-20"><div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, i) => (
               <FadeIn key={stat.label} delay={i * 0.08} y={16}>
                 <div className="bg-card rounded-2xl p-6 shadow-elevated border-border text-center">
@@ -325,7 +324,7 @@ export default function HomePage() {
         </section>
 
         {/* How it works */}
-        <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-24">
           <div className="max-w-2xl mb-14">
             <SectionLabel>How it works</SectionLabel>
             <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-foreground leading-tight">
@@ -350,9 +349,8 @@ export default function HomePage() {
         </section>
 
         {/* Featured listings */}
-        <section className="py-16 bg-card">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <section className="py-16 bg-card"><div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 w-full">
               <div>
                 <SectionLabel>Featured</SectionLabel>
                 <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-foreground leading-tight">
@@ -414,7 +412,7 @@ export default function HomePage() {
                         </svg>
                         {listing.location}
                       </div>
-                      <div className="flex items-center gap-4 pt-4 border-t border-border mt-auto">
+                      <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border mt-auto">
                         {listing.specs.map((s) => (
                           <div key={s.icon} className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
                             <span className="material-symbols-outlined text-[16px]">{s.icon}</span>
@@ -523,16 +521,16 @@ export default function HomePage() {
 
         {/* Categories */}
         <section className="pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10">
             <div>
               <SectionLabel>Categories</SectionLabel>
-              <h2 className="font-heading font-extrabold text-3xl text-foreground">Popular listings</h2>
+              <h2 className="font-heading font-extrabold text-3xl text-foreground leading-tight">Popular listings</h2>
             </div>
-            <Link href="/properties" className="text-sm font-semibold text-primary hover:underline">
+            <Link href="/properties" className="text-sm font-semibold text-primary hover:underline whitespace-nowrap">
               View all →
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full">
             {categories.map((cat, i) => (
               <FadeIn key={cat.label} delay={i * 0.06} y={16}>
                 <Link

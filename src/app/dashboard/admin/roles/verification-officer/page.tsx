@@ -64,11 +64,11 @@ export default function VerificationOfficerRolePage() {
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
               <div className="p-md bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
                 <h3 className="font-headline-sm text-primary">Permission Matrix</h3>
-                <button className="text-primary text-sm font-bold flex items-center gap-1">
+                <button type="button" className="text-primary text-sm font-bold flex items-center gap-1">
                   <MaterialIcon name="select_all" className="material-symbols-outlined" />
-                    <input className="flex-1 bg-surface border-outline-variant rounded-lg text-sm" type="time" defaultValue="18:00" />
-                  </div>
-                  <p className="text-[10px] text-on-surface-variant">Access will be blocked outside these hours.</p>
+                  <input className="flex-1 bg-surface border-outline-variant rounded-lg text-sm" type="time" defaultValue="18:00" />
+                </button>
+                <p className="text-[10px] text-on-surface-variant">Access will be blocked outside these hours.</p>
                 </div>
 
                 <hr className="border-outline-variant" />

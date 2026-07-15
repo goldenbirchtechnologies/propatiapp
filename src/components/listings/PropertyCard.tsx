@@ -182,7 +182,7 @@ export function PropertyCard({
 
         {/* Location */}
         <div className="flex items-center gap-1.5 text-on-surface-variant mb-4">
-          <MaterialIcon name=""location_on"" className="material-symbols-outlined text-[20px]" />
+          <MaterialIcon name="location_on" className="material-symbols-outlined text-[20px]" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
@@ -193,13 +193,13 @@ export function PropertyCard({
               <>
                 {specs.beds !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <MaterialIcon name=""bed"" className="material-symbols-outlined text-[18px]" />
+                    <MaterialIcon name="bed" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.beds} bed{specs.beds !== 1 ? 's' : ''}</span>
                   </div>
                 )}
                 {specs.baths !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <MaterialIcon name=""bathtub"" className="material-symbols-outlined text-[18px]" />
+                    <MaterialIcon name="bathtub" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.baths} bath{specs.baths !== 1 ? 's' : ''}</span>
                   </div>
                 )}
@@ -208,13 +208,13 @@ export function PropertyCard({
               <>
                 {specs.sqm !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <MaterialIcon name=""square_foot"" className="material-symbols-outlined text-[18px]" />
+                    <MaterialIcon name="square_foot" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.sqm.toLocaleString()} sqm</span>
                   </div>
                 )}
                 {specs.parking !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <MaterialIcon name=""local_parking"" className="material-symbols-outlined text-[18px]" />
+                    <MaterialIcon name="local_parking" className="material-symbols-outlined text-[18px]" />
                     <span className="font-medium">{specs.parking} parking</span>
                   </div>
                 )}

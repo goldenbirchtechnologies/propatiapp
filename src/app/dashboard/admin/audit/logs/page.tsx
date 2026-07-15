@@ -22,9 +22,10 @@ export default function AuditLogsPagePagePage() {
 <header className="fixed top-0 left-64 right-0 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
 <div className="flex items-center w-1/3">
 <div className="relative w-full max-w-sm">
-<span className="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
-<MaterialIcon name="search" className="material-symbols-outlined" />
-<input className="block w-full pl-10 pr-3 py-2 border border-outline-variant rounded-lg bg-surface-container-low text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search audit events, IPs, or admins..." type="text"/>
+  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
+    <MaterialIcon name="search" className="material-symbols-outlined" />
+  </span>
+  <input className="block w-full pl-10 pr-3 py-2 border border-outline-variant rounded-lg bg-surface-container-low text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search audit events, IPs, or admins..." type="text"/>
 </div>
 </div>
 <div className="flex items-center gap-6">

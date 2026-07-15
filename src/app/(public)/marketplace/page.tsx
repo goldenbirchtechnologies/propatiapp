@@ -277,7 +277,7 @@ export default function MarketplacePage() {
                         )}
                       </div>
                       <button className={`w-10 h-10 rounded-full ${property.hoverForwardBg} flex items-center justify-center ${property.hoverForward} hover:bg-primary hover:text-white transition-all`}>
-                        <MaterialIcon name=""arrow_forward"" className="material-symbols-outlined" />
+                        <MaterialIcon name="arrow_forward" className="material-symbols-outlined" />
                       </button>
                     </div>
                   </div>
@@ -303,7 +303,7 @@ export default function MarketplacePage() {
                     className={`border-b-2 ${cat.color} font-bold hover:gap-4 flex items-center gap-2 transition-all group`}
                   >
                     {cat.buttonText}
-                    <MaterialIcon name=""arrow_forward"" className="material-symbols-outlined group-hover:translate-x-2 transition-transform" />
+                    <MaterialIcon name="arrow_forward" className="material-symbols-outlined group-hover:translate-x-2 transition-transform" />
                       {cat.icon}
                     </span>
                   </button>

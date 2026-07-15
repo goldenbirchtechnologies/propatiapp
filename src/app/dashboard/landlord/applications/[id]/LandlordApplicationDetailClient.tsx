@@ -1,9 +1,10 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import MaterialIcon from '@/components/icons/material-icon';
 import {
 
   ArrowLeft,

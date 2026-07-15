@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -42,7 +44,6 @@ interface DisputeDetail {
   evidencePack: { id: string; status: string } | null;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 interface DisputeDetailClientProps {
   dispute: DisputeDetail;
   initialError?: string;

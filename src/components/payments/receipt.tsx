@@ -1,4 +1,5 @@
-'use client';
+'use client'
+
 import MaterialIcon from '@/components/icons/material-icon';
 
 import { format } from 'date-fns';

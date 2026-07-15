@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -6,7 +8,6 @@ import { api, apiEndpoints } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { CategoryToggle, type PropertyCategory } from '@/components/search/CategoryToggle';
 import SearchFiltersComponent, { type SearchFilters } from '@/components/search/SearchFilters';
-import MaterialIcon from '@/components/icons/material-icon';
 import MobileFilterSheet from '@/components/search/MobileFilterSheet';
 import EmptySearchState from '@/components/search/EmptySearchState';
 import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/PropertyCard';

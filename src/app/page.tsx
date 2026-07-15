@@ -1,8 +1,9 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import MaterialIcon from '@/components/icons/material-icon';
 import { useState, useEffect } from 'react';
 
 

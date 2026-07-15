@@ -1,5 +1,6 @@
+'use client'
+
 import MaterialIcon from '@/components/icons/material-icon';
-'use client';
 
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, MapPin, Home, DollarSign, Percent, BarChart3 } from 'lucide-react';

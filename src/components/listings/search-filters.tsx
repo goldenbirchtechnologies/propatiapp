@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import { X, Filter, SlidersHorizontal, ChevronDown, ChevronUp, MapPin, Home, Building, DollarSign, Bed, Bath, Square, Search, Shield } from 'lucide-react';
@@ -35,7 +37,6 @@ export interface SearchFiltersData {
   page?: number;
   limit?: number;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 export interface SearchFiltersProps {
   filters: SearchFiltersData;

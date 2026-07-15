@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -22,7 +24,6 @@ interface PaymentModalProps {
   description?: string;
   hasAgent?: boolean;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 export function PaymentModal({
   open,

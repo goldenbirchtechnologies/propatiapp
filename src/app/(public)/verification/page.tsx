@@ -1,7 +1,8 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import Link from 'next/link';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export default function VerificationPage() {

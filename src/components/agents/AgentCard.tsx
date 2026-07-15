@@ -1,7 +1,8 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
-import MaterialIcon from '@/components/icons/material-icon';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star } from 'lucide-react';

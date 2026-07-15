@@ -1,8 +1,9 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { Shield, FileText, CheckCircle, Clock, ArrowRight as ArrowRightIcon, Building2 as BuildingIcon } from 'lucide-react';
 import Link from 'next/link';
-import MaterialIcon from '@/components/icons/material-icon';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 
 

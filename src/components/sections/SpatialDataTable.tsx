@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -15,7 +17,6 @@ export interface ColumnDef<T> {
   className?: string;
   cell?: (row: T, index: number) => React.ReactNode;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 export interface SpatialDataTableProps<T> {
   columns: ColumnDef<T>[];

@@ -1,3 +1,8 @@
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
+
+'use client'
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
@@ -15,7 +20,6 @@ export default async function LandlordVerificationPage() {
     redirect('/login');
   }
 
-import MaterialIcon from '@/components/icons/material-icon';
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {

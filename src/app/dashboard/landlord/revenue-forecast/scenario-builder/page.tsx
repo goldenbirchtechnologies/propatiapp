@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -27,7 +29,6 @@ export default function LandlordRevenueScenarioBuilderPage() {
     );
   }
 
-import MaterialIcon from '@/components/icons/material-icon';
   const base = 512.4;
   const multiplier = (occupancy / 95) * (1 + (rentAppreciation - 5) / 100);
   const calculated = (base * multiplier).toFixed(1);

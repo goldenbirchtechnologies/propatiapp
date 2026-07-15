@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -21,7 +23,6 @@ export interface ColumnDef<T> {
   align?: 'left' | 'center' | 'right';
   className?: string;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 export interface DataTableProps<T> {
   columns: ColumnDef<T>[];

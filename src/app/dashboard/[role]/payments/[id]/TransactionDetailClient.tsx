@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
@@ -29,7 +31,6 @@ interface User {
   role: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 interface TransactionDetailClientProps {
   transactionId: string;
   user: User;

@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -12,7 +14,6 @@ export interface CategoryToggleProps {
   className?: string;
   disabled?: boolean;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 /**
  * CategoryToggle - Residential/Commercial category selector

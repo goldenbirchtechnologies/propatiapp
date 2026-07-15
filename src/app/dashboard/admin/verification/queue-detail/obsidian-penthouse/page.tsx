@@ -1,5 +1,6 @@
+'use client'
+
 import MaterialIcon from '@/components/icons/material-icon';
-'use client';
 
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';

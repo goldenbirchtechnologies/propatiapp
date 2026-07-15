@@ -1,5 +1,6 @@
+'use client'
+
 import MaterialIcon from '@/components/icons/material-icon';
-'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';

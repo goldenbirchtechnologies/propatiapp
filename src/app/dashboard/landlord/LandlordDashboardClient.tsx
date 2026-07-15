@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -13,7 +15,6 @@ interface LandlordDashboardClientProps {
   userName?: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 const applications = [
   { initials: 'EO', name: 'Emeka Okafor', listing: '3BR Luxury Flat, Lekki Ph 1', status: 'Pending', date: 'Oct 24, 2023', color: 'bg-surface-container' },
   { initials: 'SA', name: 'Sade Adekunle', listing: 'Penthouse, Victoria Island', status: 'Verified', date: 'Oct 22, 2023', color: 'bg-success-bright/10 text-success' },

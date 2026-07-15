@@ -1,7 +1,8 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState, useEffect } from 'react';
-import MaterialIcon from '@/components/icons/material-icon';
 import Link from 'next/link';
 import { Users, UserPlus, Phone, Mail, Calendar, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';

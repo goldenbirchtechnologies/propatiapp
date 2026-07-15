@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -12,7 +14,6 @@ interface BusinessListingDetailClientProps {
   type: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 export default function BusinessListingDetailClient({ type }: BusinessListingDetailClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');

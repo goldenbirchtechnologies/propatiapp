@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -37,7 +39,6 @@ interface VerificationForm {
   verificationStatus: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 export default function AdminLawFirmsClient() {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({

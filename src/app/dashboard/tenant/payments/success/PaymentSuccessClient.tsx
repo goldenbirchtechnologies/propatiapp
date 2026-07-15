@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -27,7 +29,6 @@ export default function PaymentSuccessPage() {
       return () => clearTimeout(timer);
     }
   }, [countdown]);
-import MaterialIcon from '@/components/icons/material-icon';
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">

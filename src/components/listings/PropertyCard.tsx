@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import Image from 'next/image';
@@ -28,7 +30,6 @@ export interface PropertyCardProps {
   onClick?: () => void;
   className?: string;
 }
-import MaterialIcon from '@/components/icons/material-icon';
 
 const categoryColors = {
   residential: 'bg-residential-teal text-white',

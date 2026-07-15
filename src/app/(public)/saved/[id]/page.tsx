@@ -1,5 +1,6 @@
+'use client'
+
 import MaterialIcon from '@/components/icons/material-icon';
-'use client';
 
 import * as React from 'react';
 import Image from 'next/image';

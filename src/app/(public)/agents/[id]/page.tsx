@@ -1,10 +1,11 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import * as React from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import MaterialIcon from '@/components/icons/material-icon';
 import { Star, MapPin, Briefcase, Users, Phone, Mail, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';

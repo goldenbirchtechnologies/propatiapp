@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -47,7 +49,6 @@ interface UserData {
   };
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 interface RevenueData {
   _sum: {
     amount: number | null;

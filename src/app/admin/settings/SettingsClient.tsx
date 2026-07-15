@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -17,7 +19,6 @@ interface SettingsClientProps {
   initialError?: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 export default function SettingsClient({ initialError }: SettingsClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('general');

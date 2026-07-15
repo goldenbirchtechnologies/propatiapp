@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -21,7 +23,6 @@ interface User {
   role: string;
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 interface PaymentInitiationClientProps {
   user: User;
 }

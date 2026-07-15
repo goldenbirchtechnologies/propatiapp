@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -26,7 +28,6 @@ interface VerificationDetail {
   documents: { id: string; documentType: string; url: string; uploadedAt: string }[];
 }
 
-import MaterialIcon from '@/components/icons/material-icon';
 interface VerificationDetailClientProps {
   verification: VerificationDetail;
   initialError?: string;

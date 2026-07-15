@@ -1,4 +1,6 @@
-'use client';
+'use client'
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -31,7 +33,6 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
     );
   }
 
-import MaterialIcon from '@/components/icons/material-icon';
   const searchCategories = [
     { label: 'Rent', href: '/dashboard/tenant/search?type=rent' },
     { label: 'Buy', href: '/dashboard/tenant/search?type=buy' },

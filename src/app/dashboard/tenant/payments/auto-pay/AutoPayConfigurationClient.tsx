@@ -99,35 +99,7 @@ export default function AutoPayConfigurationClient() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="font-heading text-lg">Payment Method</CardTitle>
               <button className="text-primary font-label-md label-md hover:underline flex items-center gap-xs">
-                <span className="material-symbols-outlined text-[18px]"><MaterialIcon name="add_circle" className="material-symbols-outlined" /> Add New
-              </button>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {paymentMethods.map((method) => (
-                <button
-                  key={method.id}
-                  onClick={() => setSelectedMethod(method)}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                    selectedMethod.id === method.id
-                      ? 'border-[#0a2540] bg-surface-container-low'
-                      : 'border-outline-variant hover:border-primary'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-6 rounded flex items-center justify-center text-[10px] text-white font-bold ${
-                      method.badge === 'VISA' ? 'bg-primary-dark' : 'bg-secondary-container text-primary-dark'
-                    }`}>
-                      {method.badge}
-                    </div>
-                    <div className="text-left">
-                      <p className="font-body-md font-semibold text-primary">{method.label}</p>
-                      <p className="text-body-sm text-on-surface-variant">{method.sub}</p>
-                    </div>
-                  </div>
-                  {selectedMethod.id === method.id && (
-                    <span className="material-symbols-outlined text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      check_circle
-                    </span>
+                <MaterialIcon name="add_circle" className="material-symbols-outlined" />
                   )}
                 </button>
               ))}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   CheckCircle2, FileText, Download, Printer, ChevronRight,
 } from 'lucide-react';
@@ -28,6 +27,7 @@ export default function PaymentSuccessPage() {
       return () => clearTimeout(timer);
     }
   }, [countdown]);
+import MaterialIcon from '@/components/icons/material-icon';
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">

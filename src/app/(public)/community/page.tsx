@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, Users, TrendingUp, ArrowRight, CheckCircle2 } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 /* ================================================================

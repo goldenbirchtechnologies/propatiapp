@@ -4,7 +4,6 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
@@ -29,6 +28,7 @@ export interface PropertyCardProps {
   onClick?: () => void;
   className?: string;
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 const categoryColors = {
   residential: 'bg-residential-teal text-white',

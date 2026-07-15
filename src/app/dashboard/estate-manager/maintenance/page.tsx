@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   useOrganizationTickets,
   useUpdateOrganizationTicket,

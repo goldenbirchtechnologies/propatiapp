@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Search, Filter, Plus, DollarSign, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 type Deal = {

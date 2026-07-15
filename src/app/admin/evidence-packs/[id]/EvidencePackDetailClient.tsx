@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   Table,
   TableBody,
@@ -48,6 +47,7 @@ interface CustodyEntry {
   createdAt: string;
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 interface Exhibit {
   id: string;
   exhibitNumber: string;

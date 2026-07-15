@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export const metadata = {
@@ -15,6 +14,7 @@ interface OrderRow {
   highlight?: boolean;
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 const ORDER_SUMMARY: OrderRow[] = [
   { label: 'Reference', value: 'PROP-2025-42B7A9' },
   { label: 'Amount', value: '₦ 185,000.00' },

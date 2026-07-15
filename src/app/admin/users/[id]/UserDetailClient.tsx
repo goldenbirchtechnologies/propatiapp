@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ActionConfirmationDialog } from '@/components/admin/action-confirmation-dialog';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   Select,
   SelectContent,
@@ -48,6 +47,7 @@ interface UserData {
   };
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 interface RevenueData {
   _sum: {
     amount: number | null;

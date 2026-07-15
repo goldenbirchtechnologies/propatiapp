@@ -4,7 +4,6 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { SpatialSection } from './SpatialSection';
 import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export interface ColumnDef<T> {
@@ -16,6 +15,7 @@ export interface ColumnDef<T> {
   className?: string;
   cell?: (row: T, index: number) => React.ReactNode;
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 export interface SpatialDataTableProps<T> {
   columns: ColumnDef<T>[];

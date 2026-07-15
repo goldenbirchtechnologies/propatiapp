@@ -6,13 +6,13 @@ import { api, apiEndpoints } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { CategoryToggle, type PropertyCategory } from '@/components/search/CategoryToggle';
 import SearchFiltersComponent, { type SearchFilters } from '@/components/search/SearchFilters';
+import MaterialIcon from '@/components/icons/material-icon';
 import MobileFilterSheet from '@/components/search/MobileFilterSheet';
 import EmptySearchState from '@/components/search/EmptySearchState';
 import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/PropertyCard';
 import { LoadingState } from '@/components/feedback/LoadingState';
 import { FailureState } from '@/components/feedback/FailureState';
 import { ListingsFilters } from '@/lib/api';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 // ============================================================================

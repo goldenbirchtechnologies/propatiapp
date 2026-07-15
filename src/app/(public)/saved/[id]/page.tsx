@@ -1,3 +1,4 @@
+import MaterialIcon from '@/components/icons/material-icon';
 'use client';
 
 import * as React from 'react';
@@ -5,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   MapPin,
   Bed,

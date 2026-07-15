@@ -1,9 +1,9 @@
+import MaterialIcon from '@/components/icons/material-icon';
 'use client';
 
 import { format } from 'date-fns';
 import { formatAmountFromKobo, formatTransactionReference } from '@/lib/payment-utils';
 import { TransactionStatusBadge } from './transaction-status-badge';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 interface ReceiptProps {

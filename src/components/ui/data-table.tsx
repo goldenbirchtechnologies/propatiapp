@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export interface ColumnDef<T> {
@@ -22,6 +21,7 @@ export interface ColumnDef<T> {
   align?: 'left' | 'center' | 'right';
   className?: string;
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 export interface DataTableProps<T> {
   columns: ColumnDef<T>[];

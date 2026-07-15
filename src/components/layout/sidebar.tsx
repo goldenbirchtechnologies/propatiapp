@@ -1,3 +1,4 @@
+import MaterialIcon from '@/components/icons/material-icon';
 'use client';
 
 import * as React from 'react';
@@ -7,7 +8,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   ChevronRight,
   ChevronDown,

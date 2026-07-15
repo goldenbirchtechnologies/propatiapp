@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export default function TenantDashboardClient({ userName }: { userName?: string }) {
@@ -32,6 +31,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
     );
   }
 
+import MaterialIcon from '@/components/icons/material-icon';
   const searchCategories = [
     { label: 'Rent', href: '/dashboard/tenant/search?type=rent' },
     { label: 'Buy', href: '/dashboard/tenant/search?type=buy' },

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export default function JoinPage() {

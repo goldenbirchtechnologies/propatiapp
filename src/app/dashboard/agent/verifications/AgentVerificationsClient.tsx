@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   CheckCircle,
   Clock,

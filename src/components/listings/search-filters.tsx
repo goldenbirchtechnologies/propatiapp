@@ -12,7 +12,6 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { NAIGERIAN_STATES, LAGOS_AREAS } from '@/lib/utils';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export interface SearchFiltersData {
@@ -36,6 +35,7 @@ export interface SearchFiltersData {
   page?: number;
   limit?: number;
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 export interface SearchFiltersProps {
   filters: SearchFiltersData;

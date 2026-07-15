@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export type PropertyCategory = 'residential' | 'commercial';
@@ -13,6 +12,7 @@ export interface CategoryToggleProps {
   className?: string;
   disabled?: boolean;
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 /**
  * CategoryToggle - Residential/Commercial category selector

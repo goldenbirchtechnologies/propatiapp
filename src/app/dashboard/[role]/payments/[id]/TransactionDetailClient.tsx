@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   ArrowLeft,
   Download,
@@ -30,6 +29,7 @@ interface User {
   role: string;
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 interface TransactionDetailClientProps {
   transactionId: string;
   user: User;

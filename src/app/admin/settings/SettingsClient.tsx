@@ -11,13 +11,13 @@ import { ArrowLeft, Cog, Bell, Shield, Save, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { StatCard } from '@/components/admin/stat-card';
 import { Users, Activity, AlertTriangle } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 interface SettingsClientProps {
   initialError?: string;
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 export default function SettingsClient({ initialError }: SettingsClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('general');

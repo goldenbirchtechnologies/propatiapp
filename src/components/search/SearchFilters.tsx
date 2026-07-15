@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { Search, ChevronDown, ChevronUp } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export interface SearchFilters {
@@ -14,6 +13,7 @@ export interface SearchFilters {
   verificationTier?: number;
   amenities?: string[];
 }
+import MaterialIcon from '@/components/icons/material-icon';
 
 interface SearchFiltersProps {
   category: 'residential' | 'commercial';

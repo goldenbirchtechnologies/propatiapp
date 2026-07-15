@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 const shimmerBg = 'bg-outline-variant';

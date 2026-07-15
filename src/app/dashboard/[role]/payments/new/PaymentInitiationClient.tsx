@@ -12,7 +12,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useInitiatePayment } from '@/hooks/usePayments';
 import { useAgreements } from '@/hooks/useAgreements';
 import { calculatePaymentBreakdown, formatAmountFromKobo, nairaToKobo } from '@/lib/payment-utils';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 interface User {
@@ -22,6 +21,7 @@ interface User {
   role: string;
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 interface PaymentInitiationClientProps {
   user: User;
 }

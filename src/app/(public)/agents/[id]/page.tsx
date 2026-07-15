@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AgentCard, type Agent } from '@/components/agents/AgentCard';
 import { ALL_AGENTS, generateMockAgents } from '@/lib/mock-agents';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 const verificationColors = {

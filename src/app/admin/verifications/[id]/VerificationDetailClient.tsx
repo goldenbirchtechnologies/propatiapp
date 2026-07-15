@@ -7,7 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, CheckCircle2, XCircle, FileText, ClipboardList } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 interface VerificationDetail {
@@ -27,6 +26,7 @@ interface VerificationDetail {
   documents: { id: string; documentType: string; url: string; uploadedAt: string }[];
 }
 
+import MaterialIcon from '@/components/icons/material-icon';
 interface VerificationDetailClientProps {
   verification: VerificationDetail;
   initialError?: string;

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { DynamicForm, TrendingUp } from 'lucide-react';
-import MaterialIcon from '@/components/icons/material-icon';
 
 
 export default function LandlordRevenueScenarioBuilderPage() {
@@ -28,6 +27,7 @@ export default function LandlordRevenueScenarioBuilderPage() {
     );
   }
 
+import MaterialIcon from '@/components/icons/material-icon';
   const base = 512.4;
   const multiplier = (occupancy / 95) * (1 + (rentAppreciation - 5) / 100);
   const calculated = (base * multiplier).toFixed(1);

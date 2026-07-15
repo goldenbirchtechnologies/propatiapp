@@ -1,3 +1,4 @@
+import MaterialIcon from '@/components/icons/material-icon';
 'use client';
 
 import * as React from 'react';
@@ -11,7 +12,6 @@ import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-import MaterialIcon from '@/components/icons/material-icon';
 
   Select,
   SelectContent,

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import MaterialIcon from '@/components/icons/material-icon';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
@@ -9,7 +10,6 @@ import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import MaterialIcon from '@/components/icons/material-icon';
 
 export interface NavItem {
   label: string;

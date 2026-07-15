@@ -1,6 +1,7 @@
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { prisma } from '@/lib/prisma';

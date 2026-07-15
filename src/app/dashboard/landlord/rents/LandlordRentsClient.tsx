@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import MaterialIcon from '@/components/icons/material-icon';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';

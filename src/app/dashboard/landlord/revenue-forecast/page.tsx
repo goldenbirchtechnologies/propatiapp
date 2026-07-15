@@ -1,3 +1,4 @@
+import MaterialIcon from '@/components/icons/material-icon';
 'use client';
 
 import { useState } from 'react';

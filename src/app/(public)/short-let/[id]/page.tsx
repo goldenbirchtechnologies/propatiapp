@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import MaterialIcon from '@/components/icons/material-icon';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';

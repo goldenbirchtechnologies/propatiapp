@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import MaterialIcon from '@/components/icons/material-icon';
 import { ChevronRight, CheckCircle, AlertCircle, XCircle, Clock, FileText, User, Camera, MapPin, Shield, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import MaterialIcon from '@/components/icons/material-icon';
 import { Download, Printer, Pen, Check, X, AlertCircle, FileText, User, Building, Calendar, Clock, DollarSign, Key, Hash, Shield, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';

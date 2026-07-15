@@ -160,7 +160,7 @@ export default function WalletPage() {
           {TABS.map((item) => (
             <Button key={item.key} variant={tab === item.key ? 'secondary' : 'ghost'} onClick={() => setTab(item.key)} className="gap-2">
               {item.icon}
-              <span className="hidden sm:inline">{item.label}</span>
+              <span className="hidden md:inline">{item.label}</span>
             </Button>
           ))}
         </div>

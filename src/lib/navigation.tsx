@@ -68,7 +68,6 @@ export const AGENT_NAVIGATION: NavItem[] = [
   { label: 'My Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
   { label: 'My Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
   { label: 'Market', href: '/dashboard/agent/market', icon: <TrendingUp className="h-5 w-5" /> },
-  { label: 'Referrals', href: '/dashboard/agent/referrals', icon: <UserPlus className="h-5 w-5" /> },
   { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Invitations', href: '/dashboard/agent/invites', icon: <Mail className="h-5 w-5" /> },
   { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },

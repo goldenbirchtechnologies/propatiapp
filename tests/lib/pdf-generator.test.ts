@@ -40,7 +40,7 @@ vi.mock('@/lib/agreement-templates', () => ({
 // Mock pdfkit: call listeners on next tick after `end()`
 vi.mock('pdfkit', () => {
   class MockPDFDocument {
-    on(event: string, cb: Function) {
+    on(event: string, cb: (...args: unknown[]) => void) {
       if (event === 'end') {
         setTimeout(cb, 0);
       }

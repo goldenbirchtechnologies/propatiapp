@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
     const paystackAccount = await prisma.userPaystackAccount.findUnique({ where: { userId: user.id } });
     const nameParts = String(userRecord.fullName || 'User').split(' ');
     const customerCode = paystackAccount?.customerCode;
-    let metadata: Record<string, unknown> = { walletDeposit: true, userId: user.id };
-    let customerEmail = userRecord.email;
+    const metadata: Record<string, unknown> = { walletDeposit: true, userId: user.id };
+    const customerEmail = userRecord.email;
     if (customerCode) metadata.customerCode = customerCode;
 
     const reference = `WAL_DEP_${Date.now()}_${Buffer.from(user.id).toString('hex').slice(0,8)}`;

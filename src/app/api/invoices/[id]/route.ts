@@ -59,8 +59,8 @@ export async function PATCH(
       where: { id },
       data: {
         ...body,
-        status: body.status as string
-        type: body.type as string
+        status: body.status as string,
+        type: body.type as string,
         paidAt: body.status === 'paid' ? new Date() : invoice.paidAt,
       },
       include: {

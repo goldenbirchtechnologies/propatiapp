@@ -107,3 +107,5 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
     </div>
   );
 }
+
+export default SignupForm;

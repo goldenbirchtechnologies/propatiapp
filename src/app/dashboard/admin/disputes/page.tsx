@@ -4,11 +4,16 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import Link from 'next/link';
 
 export default async function AdminDisputesPage() {
-  const disputes = await prisma.transaction.findMany({
-    where: { confirmationStatus: 'disputed' },
-    include: { listing: { select: { title: true } }, payer: { select: { fullName: true } }, payee: { select: { fullName: true } } },
-    orderBy: { createdAt: 'desc' },
-  });
+  let disputes: Awaited<ReturnType<typeof prisma.transaction.findMany>> = [];
+  try {
+    disputes = await prisma.transaction.findMany({
+      where: { confirmationStatus: 'disputed' },
+      include: { listing: { select: { title: true } }, payer: { select: { fullName: true } }, payee: { select: { fullName: true } } },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.error('AdminDisputesPage fetch failed', error);
+  }
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION}>

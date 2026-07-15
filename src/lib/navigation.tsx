@@ -5,7 +5,7 @@ import {
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
   Landmark, CircleDollarSign, ChevronRight, BadgePercent
-, Wallet2 , Clock } from 'lucide-react';
+, Wallet2 , Clock , UserPlus } from 'lucide-react';
 
 export interface NavItem {
   label: string;

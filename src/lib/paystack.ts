@@ -391,7 +391,7 @@ class PaystackClient {
         metadata: {},
         fees: 1500,
         customer: { id: 123, email: 'test@example.com', customer_code: 'CUS_mock123' },
-        authorization: ***
+        authorization: {
           authorization_code: 'AUTH_mock',
           bin: '408408',
           last4: '4081',

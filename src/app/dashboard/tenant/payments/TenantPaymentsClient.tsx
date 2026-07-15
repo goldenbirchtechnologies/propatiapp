@@ -233,14 +233,18 @@ function TransactionRow({ transaction }: { transaction: any }) {
     setConfirming(true);
     try {
       await fetch('/api/transactions/' + transaction.id + '/confirm', { method: 'POST' });
-    } catch { }
+    } catch {
+      // empty catch on purpose
+    }
     finally { setConfirming(false); }
   }
   async function raiseDispute() {
     setConfirming(true);
     try {
       await fetch('/api/transactions/' + transaction.id + '/dispute', { method: 'POST' });
-    } catch { }
+    } catch {
+      // empty catch on purpose
+    }
     finally { setConfirming(false); }
   }
 

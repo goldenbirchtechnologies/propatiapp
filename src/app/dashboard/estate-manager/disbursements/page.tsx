@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DashboardShell from '@/components/layout/DashboardShell';
@@ -8,7 +9,7 @@ import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-export default function DisbursementsPage() {
+function DisbursementsForm() {
   const search = useSearchParams();
   const [listingRef, setListingRef] = useState(() => search.get('reference') || '');
   const [landlordId, setLandlordId] = useState(() => search.get('landlordId') || '');
@@ -41,5 +42,13 @@ export default function DisbursementsPage() {
         </CardContent>
       </Card>
     </DashboardShell>
+  );
+}
+
+export default function DisbursementsPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-sm text-muted-foreground">Loading…</div>}>
+      <DisbursementsForm />
+    </Suspense>
   );
 }

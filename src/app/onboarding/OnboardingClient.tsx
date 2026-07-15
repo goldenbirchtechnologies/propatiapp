@@ -532,7 +532,8 @@ function StepProfile({
           />
         </Field>
       )}
-              <>
+      {role === 'realtor' && (
+        <>
           <Field label="Bio">
             <textarea
               value={bio}

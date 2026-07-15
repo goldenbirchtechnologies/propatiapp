@@ -35,7 +35,7 @@ export async function POST(
         const dispute = await prisma.dispute.update({
           where: { id: params.id },
           data: {
-            status: newStatus as string
+            status: newStatus as string,
             adminId: user.id,
             resolution: resolution || undefined,
             resolvedAt: newStatus === 'resolved' || newStatus === 'closed' ? new Date() : undefined,

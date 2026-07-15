@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import DashboardShell from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';

@@ -844,3 +844,4 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
 }
 
 export { CollapsibleNavItem };
+export default DashboardShell;

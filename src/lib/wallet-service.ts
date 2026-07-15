@@ -88,3 +88,7 @@ export async function initiateDeposit(userId: string, amountNaira: number) {
   });
   return { reference, authorizationUrl: result.data?.authorization_url };
 }
+
+export function getSystemWalletUserId(): string | null {
+  return process.env.SYSTEM_USER_ID || null;
+}

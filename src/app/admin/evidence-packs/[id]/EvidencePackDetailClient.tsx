@@ -4,7 +4,477 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+  ArrowLeft,
+  FileText,
+  Scale,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Hash,
+  ExternalLink,
+  Building2,
+  PenLine,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+// ---------------------------------------------------------------------------
+// Types
+interface CustodyEntry {
+  id: string;
+  action: string;
+  stateHash: string;
+  exhibitRef: string | null;
+  note: string | null;
+  ipAddress: string | null;
+  createdAt: string;
+}
+interface Exhibit {
+  exhibitNumber: string;
+  category: string;
+  contentHash: string | null;
+  title: string;
+  description: string | null;
+  url: string | null;
+  sourceRecordId: string | null;
+  sourceTable: string | null;
+  sortOrder: number;
+interface DisputeInfo {
+  type: string;
+  status: string;
+  description: string;
+  resolution: string | null;
+  listing: {
+    address: string;
+    propertyType: string | null;
+    price: unknown;
+    owner: { fullName: string; email: string; phone: string | null } | null;
+  } | null;
+  raisedByUser: { id: string; fullName: string; email: string; phone: string | null };
+  lawFirmCase: {
+    fee: unknown;
+    firm: { id: string; name: string; cacNumber: string };
+interface LawFirmInfo {
+  name: string;
+  cacNumber: string;
+  billingEmail: string;
+export interface EvidencePackDetail {
+  disputeId: string;
+  lawFirmId: string | null;
+  fileUrls: unknown;
+  payments: unknown;
+  messages: unknown;
+  auditLogs: unknown;
+  metadata: unknown;
+  updatedAt: string;
+  exhibitPrefix: string | null;
+  exhibitCount: number;
+  sealHash: string | null;
+  sealedAt: string | null;
+  sealedBy: string | null;
+  chainHash: string | null;
+  dispute: DisputeInfo;
+  lawFirm: LawFirmInfo | null;
+  exhibits: Exhibit[];
+  custodyEntries: CustodyEntry[];
+interface EvidencePackDetailClientProps {
+  evidencePack: EvidencePackDetail | null;
+  initialError?: string;
+  initialEmpty?: boolean;
+// Helpers
+const STATUS_COLORS: Record<string, string> = {
+  draft: 'bg-gray-100 text-gray-700',
+  final: 'bg-blue-100 text-blue-700',
+  sealed: 'bg-green-100 text-green-700',
+  revoked: 'bg-red-100 text-red-700',
+};
+const ACTION_COLORS: Record<string, string> = {
+  created: 'bg-blue-100 text-blue-800',
+  updated: 'bg-yellow-100 text-yellow-800',
+  sealed: 'bg-green-100 text-green-800',
+  revoked: 'bg-red-100 text-red-800',
+  exported: 'bg-purple-100 text-purple-800',
+function renderJsonSection(title: string, data: unknown): React.ReactNode {
+  const jsonStr = JSON.stringify(data, null, 2);
+  return (
+    <div className="space-y-2">
+      <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>
+        {title}
+      </p>
+      <pre
+        className="rounded-md bg-muted p-4 text-xs overflow-x-auto max-h-[400px] overflow-y-auto"
+        style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+      >
+        {jsonStr}
+      </pre>
+    </div>
+  );
+// Sub-components
+function ErrorState({
+  error,
+  onRetry,
+  onBack,
+}: {
+  error: string;
+  onRetry: () => void;
+  onBack: () => void;
+}) {
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1
+            className="font-heading font-bold flex items-center gap-3"
+            style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}
+            <Scale className="h-7 w-7" />
+            Evidence Pack Details
+          </h1>
+          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            Unable to load page
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back
+        </Button>
+      <div
+        className="rounded-lg border border-red-200 bg-red-50 p-6"
+        style={{ background: 'var(--surface-elevated)', borderColor: 'var(--border)' }}
+        <p className="text-red-800 font-medium">Unable to load page</p>
+        <p className="text-red-600 text-sm mt-1">{error}</p>
+        <button
+          onClick={onRetry}
+          className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
+          Retry
+        </button>
+function EmptyState({ onBack }: { onBack: () => void }) {
+            Not found
+        className="card p-12 text-center"
+        style={{ borderColor: 'var(--border)' }}
+        <FileText
+          className="mx-auto h-10 w-10 mb-3"
+          style={{ color: 'var(--muted)' }}
+        />
+        <p style={{ color: 'var(--muted)' }}>
+          Evidence pack not found. It may have been deleted or the ID is invalid.
+        <Button
+          className="mt-4"
+          onClick={() => (window.location.href = '/admin/evidence-packs')}
+          View all evidence packs
+function StatusBadge({ status }: { status: string }) {
+    <Badge
+      className={cn('text-sm', STATUS_COLORS[status] ?? '')}
+      style={{ color: 'var(--text)' }}
+      {status}
+    </Badge>
+// Main Component
+export default function EvidencePackDetailClient({
+  evidencePack,
+  initialError,
+  initialEmpty,
+}: EvidencePackDetailClientProps) {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(initialError || null);
+  const [pack, setPack] = useState<EvidencePackDetail | null>(evidencePack);
+  const [entryAction, setEntryAction] = useState('viewed');
+  const [entryNote, setEntryNote] = useState('');
+  const [entryExhibitRef, setEntryExhibitRef] = useState('');
+  // If server-side passed empty flag, render empty state
+  if (initialEmpty && !pack) {
+    return <EmptyState onBack={() => router.back()} />;
+  // If server-side passed an error and no data
+  if (initialError && !pack) {
+      <ErrorState
+        error={initialError}
+        onRetry={() => router.refresh()}
+        onBack={() => router.back()}
+  if (!pack) {
+  const handleApprove = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/admin/evidence-packs/${pack.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'final' }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to approve evidence pack');
+      toast({ title: 'Success', description: 'Evidence pack finalized' });
+      router.refresh();
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: err instanceof Error ? err.message : 'Failed to update evidence pack',
+        variant: 'destructive',
+      setError(err instanceof Error ? err.message : 'Action failed');
+    } finally {
+      setLoading(false);
+  const handleReject = async () => {
+        body: JSON.stringify({ status: 'revoked' }),
+        throw new Error(data.error || 'Failed to reject evidence pack');
+      toast({ title: 'Success', description: 'Evidence pack revoked' });
+  const actionInProgress = loading;
+  const handleAddCustodyEntry = async () => {
+    if (!entryAction) {
+        title: 'Validation',
+        description: 'Please select an action.',
+      return;
+      const body: Record<string, unknown> = { action: entryAction };
+      if (entryNote) body.note = entryNote;
+      if (entryExhibitRef) body.exhibitRef = entryExhibitRef;
+      const res = await fetch(`/api/admin/evidence-packs/${pack!.id}`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        throw new Error(data.error || 'Failed to add custody entry');
+      const data = await res.json();
+      if (data.success && data.data) {
+        setPack({
+          ...pack!,
+          custodyEntries: [data.data, ...pack!.custodyEntries],
+          chainHash: data.data.stateHash,
+          updatedAt: data.data.createdAt,
+        } as EvidencePackDetail);
+      setEntryNote('');
+      setEntryExhibitRef('');
+      setEntryAction('viewed');
+      toast({ title: 'Success', description: 'Custody entry added' });
+        description: err instanceof Error ? err.message : 'Failed to add custody entry',
+      {/* Header */}
+        <div className="flex items-center gap-3">
+          <Button variant="outline" onClick={() => router.back()}>
+          <div className="h-6 w-px bg-border" />
+          <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+              onClick={() => router.push('/admin/evidence-packs')}
+              className="hover:underline"
+              style={{ color: 'var(--accent)' }}
+              Evidence Packs
+            <MaterialIcon name="/" className="material-symbols-outlined" />
+            <span className="font-medium truncate max-w-[180px]" style={{ color: 'var(--text)' }}>
+              {pack.id.slice(-8).toUpperCase()}
+            </span>
+          </nav>
+        <StatusBadge status={pack.status} />
+      {/* Info grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="card p-6 space-y-4">
+          <div className="flex items-center gap-2">
+            <Scale className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+            <h3
+              className="font-heading font-bold"
+              Dispute Information
+            </h3>
+          <div className="space-y-3 text-sm">
+              <p className="text-xs font-medium uppercase" style={{ color: 'var(--muted)' }}>
+                Dispute
+              <p className="font-medium" style={{ color: 'var(--text)' }}>
+                {pack.dispute.type}
+              <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                Raised by {pack.dispute.raisedByUser.fullName} ({pack.dispute.raisedByUser.email})
+            {pack.dispute.listing && (
+                  Listing
+                  {pack.dispute.listing.title}
+                  {pack.dispute.listing.address}
+            )}
+            {pack.dispute.lawFirmCase && (
+                  Law Firm Case
+                  {pack.dispute.lawFirmCase.firm.name}
+                  {pack.dispute.lawFirmCase.status}
+            <Building2 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+              Pack Details
+                Assigned Firm
+                {pack.lawFirm?.name || '—'}
+              {pack.lawFirm?.cacNumber && (
+                  CAC: {pack.lawFirm.cacNumber}
+            <div className="grid grid-cols-2 gap-3">
+                  Created
+                <p className="text-sm" style={{ color: 'var(--text)' }}>
+                  {format(new Date(pack.createdAt), 'dd MMM yyyy, HH:mm')}
+                  Updated
+                  {format(new Date(pack.updatedAt), 'dd MMM yyyy, HH:mm')}
+              {pack.sealedAt && (
+                    Sealed At
+                    {format(new Date(pack.sealedAt), 'dd MMM yyyy, HH:mm')}
+              {pack.sealHash && (
+                    Seal Hash
+                  <p className="text-xs font-mono" style={{ color: 'var(--text)' }}>
+                    {pack.sealHash}
+      {/* Actions */}
+      <div className="card p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <CheckCircle2 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+            Administrative Actions
+        <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
+          Update the evidence pack workflow. Approving will finalize the pack; rejecting will revoke it.
+        <div className="flex flex-wrap gap-3">
+            onClick={handleApprove}
+            disabled={actionInProgress || pack.status === 'final' || pack.status === 'sealed'}
+            className="flex items-center gap-2"
+            <CheckCircle2 className="h-4 w-4" />
+            {actionInProgress ? 'Processing…' : 'Approve / Finalize'}
+            variant="destructive"
+            onClick={handleReject}
+            disabled={actionInProgress || pack.status === 'revoked'}
+            <XCircle className="h-4 w-4" />
+            {actionInProgress ? 'Processing…' : 'Reject / Revoke'}
+        {error && (
+          <p className="text-sm text-red-600 mt-3">
+            {error}
+      {/* File List (Exhibits) */}
+          <FileText className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+            Exhibits & Files ({pack.exhibits.length})
+        {pack.exhibits.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>
+              No exhibits recorded for this pack yet.
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Exhibit #</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Hash</TableHead>
+                  <TableHead>Source</TableHead>
+                  <TableHead>URL</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {pack.exhibits.map((ex) => (
+                  <TableRow key={ex.id}>
+                    <TableCell className="font-mono text-xs">
+                      {ex.exhibitNumber}
+                    </TableCell>
+                    <TableCell>
+                      <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+                        {ex.title}
+                      {ex.description && (
+                          {ex.description}
+                      <Badge variant="outline" className="text-xs">
+                        {ex.category}
+                    <TableCell className="font-mono text-xs" style={{ color: 'var(--muted)' }}>
+                      {ex.contentHash ? (
+                        <span className="flex items-center gap-1">
+                          <Hash className="h-3 w-3" />
+                          {ex.contentHash.slice(0, 12)}…
+                        '—'
+                    <TableCell className="text-xs" style={{ color: 'var(--muted)' }}>
+                      {ex.sourceTable ? `${ex.sourceTable}:${ex.sourceRecordId}` : '—'}
+                      {ex.url ? (
+                        <a
+                          href={ex.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm underline flex items-center gap-1"
+                          View <ExternalLink className="h-3 w-3" />
+                        </a>
+                        <span className="text-sm" style={{ color: 'var(--muted)' }}>—</span>
+                ))}
+              </TableBody>
+            </Table>
+      {/* Raw File URLs */}
+      {pack.fileUrls != null && (
+          {renderJsonSection('File URLs & Artifacts', pack.fileUrls)}
+      {/* Custody Entry Form */}
+          <PenLine className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+            Add Chain-of-Custody Entry
+          Record an event in this pack's chain of custody (view, transfer, seal, etc.).
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Label htmlFor="custody-action">Action</Label>
+            <select
+              id="custody-action"
+              value={entryAction}
+              onChange={(e) => setEntryAction(e.target.value)}
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+              style={{ background: 'var(--surface-elevated)', color: 'var(--text)', borderColor: 'var(--border)' }}
+              <option value="viewed">Viewed</option>
+              <option value="downloaded">Downloaded</option>
+              <option value="transferred">Transferred</option>
+              <option value="sealed">Sealed</option>
+              <option value="exported">Exported</option>
+              <option value="printed">Printed</option>
+            </select>
+            <Label htmlFor="custody-exhibit">Exhibit Ref (optional)</Label>
+            <Input
+              id="custody-exhibit"
+              placeholder="e.g. EX-001"
+              value={entryExhibitRef}
+              onChange={(e) => setEntryExhibitRef(e.target.value)}
+              className="mt-1"
+            <Label htmlFor="custody-note">Note (optional)</Label>
+            <Textarea
+              id="custody-note"
+              placeholder="Who / why / circumstances…"
+              value={entryNote}
+              onChange={(e) => setEntryNote(e.target.value)}
+              rows={1}
+        <div className="mt-4 flex justify-end">
+          <Button onClick={handleAddCustodyEntry} disabled={loading}>
+            <PenLine className="h-4 w-4 mr-2" />
+            Add Entry
+      {/* Status Timeline */}
+          <Clock className="h-5 w-5" style={{ color: 'var(--accent)' }} />
+            Status Timeline ({pack.custodyEntries.length})
+        {pack.custodyEntries.length === 0 ? (
+            <Clock
+              No custody entries yet.
+          <div className="space-y-0">
+            {pack.custodyEntries.map((entry, idx) => (
+              <div key={entry.id} className="relative flex gap-4 pb-6">
+                {idx !== pack.custodyEntries.length - 1 && (
+                    className="absolute left-[11px] top-5 bottom-0 w-px"
+                    style={{ background: 'var(--border)' }}
+                  className="mt-1 h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                  style={{
+                    background: 'var(--primary)',
+                    color: 'white',
+                  }}
+                  {idx + 1}
+                  className="flex-1 rounded-lg border p-3"
+                  style={{ borderColor: 'var(--border)', background: 'var(--surface-elevated)' }}
+                        className={cn('text-xs', ACTION_COLORS[entry.action] ?? '')}
+                        variant="outline"
+                        {entry.action}
+                      {entry.exhibitRef && (
+                        <span className="text-xs font-mono" style={{ color: 'var(--muted)' }}>
+                          {entry.exhibitRef}
+                    <span className="text-xs" style={{ color: 'var(--muted)' }}>
+                      {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
+                  {entry.note && (
+                    <p className="text-sm mt-2" style={{ color: 'var(--text)' }}>
+                      {entry.note}
+                  <p className="text-xs mt-2 font-mono" style={{ color: 'var(--muted)' }}>
+                    Hash: {entry.stateHash}
+                  {entry.ipAddress && (
+                    <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                      IP: {entry.ipAddress}
+      {/* Raw Data Sections */}
+        {pack.payments != null && (
+            {renderJsonSection('Payment Records', pack.payments)}
+        {pack.messages != null && (
+            {renderJsonSection('Message Threads', pack.messages)}
+        {pack.auditLogs != null && (
+            {renderJsonSection('Audit Log Entries', pack.auditLogs)}
+        {pack.metadata != null && (
+            {renderJsonSection('Metadata', pack.metadata)}
 import MaterialIcon from '@/components/icons/material-icon';
+
+'use client';
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
 
   Table,
   TableBody,

@@ -7,7 +7,167 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import {
+  ArrowLeft,
+  Download,
+  CreditCard,
+  Building,
+  User,
+  Calendar,
+  FileText,
+  Loader2,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+} from 'lucide-react';
+import { useTransaction } from '@/hooks/usePayments';
+import { TransactionStatusBadge } from '@/components/payments/transaction-status-badge';
+import { formatAmountFromKobo, formatTransactionReference } from '@/lib/payment-utils';
+interface User {
+  id: string;
+  role: string;
+}
+interface TransactionDetailClientProps {
+  transactionId: string;
+  user: User;
+export default function TransactionDetailClient({ transactionId, user }: TransactionDetailClientProps) {
+  const router = useRouter();
+  const { data: transaction, isLoading } = useTransaction(transactionId);
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-on-surface-variant" />
+      </div>
+    );
+  if (!transaction) {
+      <div className="text-center py-12">
+        <AlertCircle className="h-12 w-12 mx-auto mb-4 text-on-surface-variant" />
+        <h2 className="text-2xl font-bold mb-2">Transaction Not Found</h2>
+        <p className="text-on-surface-variant mb-4">
+          The transaction you're looking for doesn't exist or you don't have access to it.
+        </p>
+        <Button onClick={() => router.push('/dashboard/payments')}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Transactions
+        </Button>
+  const handleDownloadReceipt = () => {
+    router.push(`/dashboard/payments/${transactionId}/receipt`);
+  };
+    <div className="max-w-4xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => router.back()}>
+            <ArrowLeft className="h-5 w-5" />
+          <div>
+            <h1 className="text-3xl font-bold">Transaction Details</h1>
+            <p className="text-on-surface-variant">
+              Reference: {formatTransactionReference(transaction.reference)}
+        {(transaction.status === 'released' || transaction.status === 'completed') && (
+          <Button onClick={handleDownloadReceipt}>
+            <Download className="mr-2 h-4 w-4" />
+            Download Receipt
+        )}
+      {/* Status Card */}
+      <Card>
+        <CardHeader>
+              <CardTitle>Payment Status</CardTitle>
+              <CardDescription>Current status of this transaction</CardDescription>
+            <TransactionStatusBadge status={transaction.status} />
+        </CardHeader>
+        <CardContent>
+          {/* Status Timeline */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="bg-success/10 rounded-full p-2 mt-1">
+                <CheckCircle className="h-4 w-4 text-success" />
+              <div className="flex-1">
+                <p className="font-semibold">Payment Initiated</p>
+                <p className="text-sm text-on-surface-variant">
+                  {format(new Date(transaction.createdAt), 'PPpp')}
+            {transaction.status !== 'pending' && transaction.status !== 'failed' && (
+                <div className="bg-primary/10 rounded-full p-2 mt-1">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <p className="font-semibold">Payment Verified - In Escrow</p>
+                    Funds are being held securely
+                  <p className="font-semibold">Payment Released</p>
+                    {transaction.releasedAt
+                      ? format(new Date(transaction.releasedAt), 'PPpp')
+                      : 'Completed'}
+            {transaction.status === 'failed' && (
+                <div className="bg-destructive/10 rounded-full p-2 mt-1">
+                  <AlertCircle className="h-4 w-4 text-destructive" />
+                  <p className="font-semibold">Payment Failed</p>
+                    The payment could not be processed
+        </CardContent>
+      </Card>
+      {/* Amount Breakdown */}
+          <CardTitle>Amount Breakdown</CardTitle>
+          <div className="space-y-3">
+            <div className="flex justify-between text-lg">
+              <span className="text-on-surface-variant">Payment Amount</span>
+              <span className="font-bold">{formatAmountFromKobo(transaction.amount)}</span>
+            <Separator />
+            {transaction.platformFee > 0 && (
+              <div className="flex justify-between">
+                <span className="text-on-surface-variant">Platform Fee</span>
+                <MaterialIcon name={formatAmountFromKobo(transaction.platformFee)} className="material-symbols-outlined" />
+            {transaction.agentCommission > 0 && (
+                <span className="text-on-surface-variant">Agent Commission</span>
+                <span>{formatAmountFromKobo(transaction.agentCommission)}</span>
+            {transaction.payeeAmount && (
+                <span className="text-on-surface-variant">Amount to Landlord</span>
+                <span className="font-semibold">{formatAmountFromKobo(transaction.payeeAmount)}</span>
+      {/* Transaction Information */}
+          <CardTitle>Transaction Information</CardTitle>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-on-surface-variant mb-2">
+                <CreditCard className="h-4 w-4" />
+                <span className="text-sm font-semibold">Payment Type</span>
+              <Badge variant="outline" className="capitalize">
+                {transaction.type.replace('_', ' ')}
+              </Badge>
+                <FileText className="h-4 w-4" />
+                <span className="text-sm font-semibold">Reference</span>
+              <p className="font-mono text-sm">{transaction.reference}</p>
+                <User className="h-4 w-4" />
+                <span className="text-sm font-semibold">Payer</span>
+              <p className="font-medium">{transaction.payer?.fullName || 'N/A'}</p>
+              <p className="text-sm text-on-surface-variant">{transaction.payer?.email || ''}</p>
+                <span className="text-sm font-semibold">Payee</span>
+              <p className="font-medium">{transaction.payee?.fullName || 'N/A'}</p>
+              <p className="text-sm text-on-surface-variant">{transaction.payee?.email || ''}</p>
+      {/* Property/Agreement Information */}
+      {transaction.listing && (
+            <CardTitle>Related Property</CardTitle>
+            <div className="flex items-start gap-4">
+              <div className="bg-surface-container-low rounded-lg p-3">
+                <Building className="h-6 w-6" />
+                <h3 className="font-semibold">{transaction.listing.title}</h3>
+                <p className="text-sm text-on-surface-variant">{transaction.listing.area}</p>
+                {transaction.agreements?.[0] && (
+                  <div className="mt-2">
+                    <Badge variant="secondary">
+                      Agreement: {transaction.agreements[0].id.slice(-8).toUpperCase()}
+      {/* Escrow Information */}
+      {transaction.status === 'in_escrow' && (
+        <Card className="border-outline-variant bg-primary/10/50">
+            <CardTitle className="text-primary">Escrow Protection</CardTitle>
+            <p className="text-sm text-primary">
+              Your payment is being held securely in escrow. The funds will be released to the landlord
+              once the transaction is completed and verified by the admin.
 import MaterialIcon from '@/components/icons/material-icon';
+
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { format } from 'date-fns';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import {
 
   ArrowLeft,
   Download,

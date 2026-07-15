@@ -61,9 +61,7 @@ export default function PropertiesPage() {
                 <option>Townhouses</option>
                 <option>Land</option>
               </select>
-              <span className="material-symbols-outlined absolute right-2 bottom-2 pointer-events-none text-muted-foreground text-[18px]">
-                expand_more
-              </span>
+              <MaterialIcon name="expand_more" className="material-symbols-outlined absolute right-2 bottom-2 pointer-events-none text-muted-foreground text-[18px]" />
             </div>
 
             {/* Location */}
@@ -72,9 +70,7 @@ export default function PropertiesPage() {
                 Location
               </label>
               <div className="flex items-center bg-muted border border-outline-variant rounded-lg px-3 py-2">
-                <span className="material-symbols-outlined text-muted-foreground mr-2 text-[18px]">
-                  location_on
-                </span>
+                <MaterialIcon name="location_on" className="material-symbols-outlined text-muted-foreground mr-2 text-[18px]" />
                 <input
                   className="bg-transparent border-none p-0 focus:ring-0 text-sm w-full"
                   placeholder="Lekki, VI, Ikeja..."
@@ -107,7 +103,7 @@ export default function PropertiesPage() {
             <div className="flex items-center gap-3">
               <div className="h-10 w-[1px] bg-border hidden sm:block" />
               <button className="flex items-center gap-2 px-3 py-2 bg-muted rounded-lg hover:bg-muted/80 transition-colors">
-                <span className="material-symbols-outlined text-[20px]">filter_list</span>
+                <MaterialIcon name="filter_list" className="material-symbols-outlined text-[20px]" />
                 <span className="text-sm font-medium">All Filters</span>
               </button>
               <div className="h-10 w-[1px] bg-border hidden sm:block" />
@@ -220,7 +216,7 @@ export default function PropertiesPage() {
                         </span>
                       </div>
                       <button className="absolute top-3 right-3 bg-background/80 backdrop-blur-md p-2 rounded-full text-primary hover:text-destructive transition-colors">
-                        <span className="material-symbols-outlined text-[18px]">favorite</span>
+                        <MaterialIcon name="favorite" className="material-symbols-outlined text-[18px]" />
                       </button>
                     </div>
                     <div className="p-5 flex flex-col flex-1">
@@ -246,15 +242,15 @@ export default function PropertiesPage() {
                       <div className="mt-auto pt-4 border-t border-border flex justify-between items-center">
                         <div className="flex gap-4">
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name=""bed"" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name="bed" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.beds}</span>
                           </div>
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name=""bathtub"" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name="bathtub" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.baths}</span>
                           </div>
                           <div className="flex items-center gap-1 text-muted-foreground">
-                            <MaterialIcon name=""square_foot"" className="material-symbols-outlined text-[20px] text-primary" />
+                            <MaterialIcon name="square_foot" className="material-symbols-outlined text-[20px] text-primary" />
                             <span className="text-sm font-medium">{listing.area}</span>
                           </div>
                         </div>
@@ -267,7 +263,7 @@ export default function PropertiesPage() {
               {/* Pagination */}
               <div className="mt-8 flex justify-center items-center gap-4 pb-8">
                 <button className="p-2 border border-border rounded-lg hover:bg-muted transition-colors disabled:opacity-30">
-                  <span className="material-symbols-outlined">chevron_left</span>
+                  <MaterialIcon name="chevron_left" className="material-symbols-outlined" />
                 </button>
                 <div className="flex gap-2">
                   <button className="w-10 h-10 rounded-lg bg-primary text-white font-bold">1</button>
@@ -277,7 +273,7 @@ export default function PropertiesPage() {
                   <button className="w-10 h-10 rounded-lg hover:bg-muted transition-colors">15</button>
                 </div>
                 <button className="p-2 border border-border rounded-lg hover:bg-muted transition-colors">
-                  <span className="material-symbols-outlined">chevron_right</span>
+                  <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
                 </button>
               </div>
             </div>

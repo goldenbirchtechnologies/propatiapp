@@ -1,8 +1,7 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
 
-'use client'
+import MaterialIcon from '@/components/icons/material-icon';
 import React from 'react';
 import Link from 'next/link';
 

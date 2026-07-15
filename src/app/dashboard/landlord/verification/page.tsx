@@ -1,8 +1,7 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
 
-'use client'
+import MaterialIcon from '@/components/icons/material-icon';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';

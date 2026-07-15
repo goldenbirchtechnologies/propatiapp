@@ -1,8 +1,7 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
 
-'use client'
+import MaterialIcon from '@/components/icons/material-icon';
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

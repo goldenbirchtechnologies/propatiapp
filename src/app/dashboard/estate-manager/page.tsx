@@ -1,8 +1,7 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
 
-'use client'
+import MaterialIcon from '@/components/icons/material-icon';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';

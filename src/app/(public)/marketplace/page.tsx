@@ -178,7 +178,7 @@ export default function MarketplacePage() {
                   <div className="flex flex-wrap items-center justify-between gap-6 pt-4 border-t border-border">
                     <div className="flex flex-col gap-2 items-start w-full md:w-1/2">
                       <div className="flex justify-between w-full text-xs font-label-caps text-muted-foreground">
-                        <span>Budget Range</span>
+                        <MaterialIcon name="Budget Range" className="material-symbols-outlined" />
                         <span className="font-bold text-primary">₦500k - ₦50M+</span>
                       </div>
                       <input
@@ -305,7 +305,6 @@ export default function MarketplacePage() {
                     {cat.buttonText}
                     <MaterialIcon name="arrow_forward" className="material-symbols-outlined group-hover:translate-x-2 transition-transform" />
                   </button>
-                </div>
                 </div>
               ))}
             </div>

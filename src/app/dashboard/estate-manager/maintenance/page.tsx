@@ -229,7 +229,7 @@ export default function MaintenancePage() {
           <Card key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-semibold flex items-center justify-between">
-                <span>{label}</span>
+                <MaterialIcon name="{label}" className="material-symbols-outlined" />
                 <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>
               </CardTitle>
             </CardHeader>

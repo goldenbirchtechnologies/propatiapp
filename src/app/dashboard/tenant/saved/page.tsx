@@ -188,7 +188,7 @@ function SavedPropertyCard({
             )}
             {property.listing.bathrooms && (
               <>
-                <span>•</span>
+                <MaterialIcon name="•" className="material-symbols-outlined" />
                 <span className="flex items-center gap-1">
                   <MaterialIcon name="bathroom" className="material-symbols-outlined" />
                   {property.listing.bathrooms} bath
@@ -197,8 +197,8 @@ function SavedPropertyCard({
             )}
             {property.listing.sqm && (
               <>
-                <span>•</span>
-                <span>{property.listing.sqm} sqm</span>
+                <MaterialIcon name="•" className="material-symbols-outlined" />
+                <MaterialIcon name="{property.listing.sqm} sqm" className="material-symbols-outlined" />
               </>
             )}
           </div>

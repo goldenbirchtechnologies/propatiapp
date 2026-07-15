@@ -219,10 +219,10 @@ export default function AgreementDetailPage() {
             <p className="text-on-surface-variant">{agreement.listing?.address}</p>
             <div className="flex gap-4 text-sm">
               {agreement.listing?.bedrooms && (
-                <span>{agreement.listing.bedrooms} Bedrooms</span>
+                <MaterialIcon name="{agreement.listing.bedrooms} Bedrooms" className="material-symbols-outlined" />
               )}
               {agreement.listing?.bathrooms && (
-                <span>{agreement.listing.bathrooms} Bathrooms</span>
+                <MaterialIcon name="{agreement.listing.bathrooms} Bathrooms" className="material-symbols-outlined" />
               )}
             </div>
           </div>

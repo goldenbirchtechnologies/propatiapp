@@ -134,9 +134,9 @@ export default function FlaggedListingDetailClient({ listing }: { listing: Listi
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
         <Link href="/admin" className="hover:underline">Admin</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <Link href="/admin/flagged-listings" className="hover:underline">Flagged Listings</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <span style={{ color: 'var(--text)' }} className="font-medium truncate">{listing.title}</span>
       </nav>
 

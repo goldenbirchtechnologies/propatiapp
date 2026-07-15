@@ -146,15 +146,15 @@ export default function ShortLetDetailPage() {
                 <div className="space-y-2 border-t border-slate-100 pt-3 text-sm">
                   <div className="flex items-center justify-between text-slate-600">
                     <span>₦{MOCK_SHORTLET.pricePerNight.toLocaleString()} x {nights} nights</span>
-                    <span>₦{subtotal.toLocaleString()}</span>
+                    <MaterialIcon name="₦{subtotal.toLocaleString()}" className="material-symbols-outlined" />
                   </div>
                   <div className="flex items-center justify-between text-slate-600">
-                    <span>Service fee (5%)</span>
-                    <span>₦{serviceFee.toLocaleString()}</span>
+                    <MaterialIcon name="Service fee (5%)" className="material-symbols-outlined" />
+                    <MaterialIcon name="₦{serviceFee.toLocaleString()}" className="material-symbols-outlined" />
                   </div>
                   <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-base font-semibold text-slate-900">
-                    <span>Total</span>
-                    <span>₦{total.toLocaleString()}</span>
+                    <MaterialIcon name="Total" className="material-symbols-outlined" />
+                    <MaterialIcon name="₦{total.toLocaleString()}" className="material-symbols-outlined" />
                   </div>
                 </div>
               )}

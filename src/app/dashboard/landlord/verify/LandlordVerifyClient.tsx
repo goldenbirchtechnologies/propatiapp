@@ -99,8 +99,8 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   {/* Progress */}
                   <div className="mb-4">
                     <div className="text-on-surface-variant">
-                      <span>Progress</span>
-                      <span>{progress}%</span>
+                      <MaterialIcon name="Progress" className="material-symbols-outlined" />
+                      <MaterialIcon name="{progress}%" className="material-symbols-outlined" />
                     </div>
                     <div className="h-2 rounded-full bg-muted/30">
                       <div
@@ -133,7 +133,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                                   : 'bg-outline-variant text-on-surface-variant'
                             }
                           >
-                            {isApproved ? <CheckCircle className="w-4 h-4" /> : <span>{index + 1}</span>}
+                            {isApproved ? <CheckCircle className="w-4 h-4" /> : <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-primary">

@@ -88,7 +88,7 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
                 clipRule="evenodd"
               />
             </svg>
-            <span>Try broadening your price range or location area</span>
+            <MaterialIcon name="Try broadening your price range or location area" className="material-symbols-outlined" />
           </li>
           <li className="flex items-start">
             <svg

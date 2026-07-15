@@ -560,13 +560,13 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   {ownerContact.phone && (
                     <div className="flex items-center gap-2 text-on-surface-variant">
                       <Phone className="h-4 w-4" />
-                      <span>{ownerContact.phone}</span>
+                      <MaterialIcon name="{ownerContact.phone}" className="material-symbols-outlined" />
                     </div>
                   )}
                   {ownerContact.email && (
                     <div className="flex items-center gap-2 text-on-surface-variant">
                       <Mail className="h-4 w-4" />
-                      <span>{ownerContact.email}</span>
+                      <MaterialIcon name="{ownerContact.email}" className="material-symbols-outlined" />
                     </div>
                   )}
                 </CardContent>

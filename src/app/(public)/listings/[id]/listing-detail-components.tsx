@@ -259,8 +259,8 @@ export function OwnerCard({
               {name}
             </p>
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              {isAgent && <span>Verified Agent</span>}
-              {!isAgent && <span>Property Owner</span>}
+              {isAgent && <MaterialIcon name="Verified Agent" className="material-symbols-outlined" />}
+              {!isAgent && <MaterialIcon name="Property Owner" className="material-symbols-outlined" />}
               {isVerified && (
                 <CheckCircle className="h-3 w-3 text-green-500 ml-1" />
               )}

@@ -478,7 +478,7 @@ export function Sidebar({
 
       <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
         <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>
-          <span>v1.0.0</span>
+          <MaterialIcon name="v1.0.0" className="material-symbols-outlined" />
           <span style={{ flex: 1 }} />
           <Button
             variant="ghost"

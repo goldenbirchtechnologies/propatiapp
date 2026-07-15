@@ -27,7 +27,7 @@ export default function AdminOverviewPage() {
           <div className="h-4 w-[1px] bg-outline-variant mx-2"></div>
           <button className="flex items-center gap-xs px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">
             <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
-            <span>Oct 24, 2023</span>
+            <MaterialIcon name="Oct 24, 2023" className="material-symbols-outlined" />
           </button>
         </div>
       </div>
@@ -326,10 +326,10 @@ export default function AdminOverviewPage() {
               </div>
             </div>
             <div className="flex justify-between border-t border-on-primary/10 pt-sm text-[10px] text-on-primary-container font-medium uppercase tracking-widest">
-              <span>Week 1</span>
-              <span>Week 2</span>
-              <span>Week 3</span>
-              <span>Week 4</span>
+              <MaterialIcon name="Week 1" className="material-symbols-outlined" />
+              <MaterialIcon name="Week 2" className="material-symbols-outlined" />
+              <MaterialIcon name="Week 3" className="material-symbols-outlined" />
+              <MaterialIcon name="Week 4" className="material-symbols-outlined" />
             </div>
           </div>
         </div>
@@ -342,7 +342,7 @@ export default function AdminOverviewPage() {
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             API: Healthy
           </span>
-          <span>Node: NG-LAG-01</span>
+          <MaterialIcon name="Node: NG-LAG-01" className="material-symbols-outlined" />
         </div>
         <div>
           &copy; 2023 EstateVerify Systems. Secure Administrative Access.

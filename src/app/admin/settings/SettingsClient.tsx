@@ -108,7 +108,7 @@ export default function SettingsClient({ initialError }: SettingsClientProps) {
             <button onClick={() => router.push('/admin')} className="hover:text-foreground">
               Admin
             </button>
-            <span>/</span>
+            <MaterialIcon name="/" className="material-symbols-outlined" />
             <span className="text-foreground font-medium">Settings</span>
           </nav>
         </div>

@@ -110,7 +110,7 @@ export function PaymentModal({
             )}
 
             <div className="border-t pt-3 flex justify-between font-bold">
-              <span>Total to Pay</span>
+              <MaterialIcon name="Total to Pay" className="material-symbols-outlined" />
               <span className="text-lg">{formatAmountFromKobo(breakdown.total)}</span>
             </div>
           </div>

@@ -76,7 +76,7 @@ export function CategoryToggle({
         >
           home
         </span>
-        <span>Residential</span>
+        <MaterialIcon name="Residential" className="material-symbols-outlined" />
       </button>
 
       {/* Commercial Button */}
@@ -106,7 +106,7 @@ export function CategoryToggle({
         >
           business
         </span>
-        <span>Commercial</span>
+        <MaterialIcon name="Commercial" className="material-symbols-outlined" />
       </button>
     </div>
   );

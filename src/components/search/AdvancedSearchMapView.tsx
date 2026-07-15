@@ -385,9 +385,9 @@ function FilterOverlay({
               <div className="space-y-3">
                 <Label className="text-sm font-semibold">Price Range</Label>
                 <div className="flex items-center gap-2 text-sm">
-                  <span>₦{localFilters.priceRange[0].toLocaleString()}</span>
+                  <MaterialIcon name="₦{localFilters.priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
                   <span className="text-muted-foreground">-</span>
-                  <span>₦{localFilters.priceRange[1].toLocaleString()}</span>
+                  <MaterialIcon name="₦{localFilters.priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
                 </div>
                 <Slider
                   min={0}

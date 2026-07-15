@@ -79,7 +79,7 @@ export default function PaymentSuccessPage() {
                 <span className="text-on-surface-variant">Payment Method</span>
                 <div className="flex items-center gap-2 font-semibold">
                   <MaterialIcon name="credit_card" className="material-symbols-outlined" />
-                  <span>Visa ending in 4242</span>
+                  <MaterialIcon name="Visa ending in 4242" className="material-symbols-outlined" />
                 </div>
               </div>
               <div className="flex justify-between">

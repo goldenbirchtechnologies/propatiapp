@@ -30,7 +30,7 @@ export default function BusinessListingDetailClient({ type }: BusinessListingDet
           <button onClick={() => router.push('/admin/business')} className="hover:text-foreground">
             Business
           </button>
-          <span>/</span>
+          <MaterialIcon name="/" className="material-symbols-outlined" />
           <span className="text-foreground font-medium truncate max-w-[200px]">{title}</span>
         </nav>
       </div>

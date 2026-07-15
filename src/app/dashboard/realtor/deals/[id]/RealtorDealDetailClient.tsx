@@ -114,9 +114,9 @@ export default function RealtorDealDetailClient({ deal }: { deal: Deal }) {
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-on-surface-variant" >
         <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <Link href="/dashboard/agent/deals" className="hover:underline text-primary">Deals</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <span  className="font-medium truncate">{deal.title}</span>
       </nav>
 

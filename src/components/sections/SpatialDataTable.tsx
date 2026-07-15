@@ -103,7 +103,7 @@ export function SpatialDataTable<T>({
                     onClick={() => col.sortable && handleSort(col.key)}
                   >
                     <div className="flex items-center gap-2">
-                      <span>{col.header}</span>
+                      <MaterialIcon name="{col.header}" className="material-symbols-outlined" />
                       {col.sortable && <SortIcon direction={isSorted ? sort.direction : null} />}
                     </div>
                   </th>

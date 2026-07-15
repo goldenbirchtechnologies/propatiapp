@@ -105,7 +105,7 @@ export default function AgentOfficeInspectionClient() {
                       </div>
                     </div>
                     <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2" style={{ color: 'text-on-surface-variant' }}>
-                      <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                      <MaterialIcon name="M" className="material-symbols-outlined" /><MaterialIcon name="T" className="material-symbols-outlined" /><MaterialIcon name="W" className="material-symbols-outlined" /><MaterialIcon name="T" className="material-symbols-outlined" /><MaterialIcon name="F" className="material-symbols-outlined" /><MaterialIcon name="S" className="material-symbols-outlined" /><MaterialIcon name="S" className="material-symbols-outlined" />
                     </div>
                     <div className="grid grid-cols-7 gap-1 text-center text-sm">
                       {days.map((d) => (
@@ -142,7 +142,7 @@ export default function AgentOfficeInspectionClient() {
                       >
                         <div className="flex items-center gap-3">
                           <MaterialIcon name="wb_sunny" className="material-symbols-outlined" />
-                          <span>Morning: 09:00 - 12:00</span>
+                          <MaterialIcon name="Morning: 09:00 - 12:00" className="material-symbols-outlined" />
                         </div>
                         {selectedSlot === 'morning' && (
                           <MaterialIcon name="check_circle" className="material-symbols-outlined" />
@@ -159,7 +159,7 @@ export default function AgentOfficeInspectionClient() {
                       >
                         <div className="flex items-center gap-3">
                           <MaterialIcon name="light_mode" className="material-symbols-outlined" />
-                          <span>Afternoon: 14:00 - 17:00</span>
+                          <MaterialIcon name="Afternoon: 14:00 - 17:00" className="material-symbols-outlined" />
                         </div>
                         {selectedSlot === 'afternoon' && (
                           <MaterialIcon name="check_circle" className="material-symbols-outlined" />

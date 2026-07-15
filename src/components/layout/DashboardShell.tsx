@@ -631,7 +631,7 @@ export function DashboardShell({
                         onClick={() => setSidebarOpen(false)}
                       >
                         {item.icon && <span className="icon-slot">{item.icon}</span>}
-                        {!sidebarCollapsed && <span>{item.label}</span>}
+                        {!sidebarCollapsed && <MaterialIcon name="{item.label}" className="material-symbols-outlined" />}
                       </Link>
                     )}
                   </li>
@@ -781,7 +781,7 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
                 style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
               >
                 {child.icon && <span className="icon-slot">{child.icon}</span>}
-                <span>{child.label}</span>
+                <MaterialIcon name="{child.label}" className="material-symbols-outlined" />
               </Link>
             </li>
           ))}

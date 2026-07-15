@@ -389,7 +389,7 @@ export default function EscrowManagementClient() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Bank:</span>
-                  <span>{bankDetails.bankName}</span>
+                  <MaterialIcon name="{bankDetails.bankName}" className="material-symbols-outlined" />
                 </div>
               </div>
             </div>

@@ -313,9 +313,9 @@ function ListingsPageInner() {
             className="mb-4"
           />
           <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-            <span>₦{(filters.priceMin / 1000000).toFixed(0)}M</span>
-            <span>-</span>
-            <span>₦{(filters.priceMax / 1000000).toFixed(0)}M</span>
+            <MaterialIcon name="₦{(filters.priceMin / 1000000).toFixed(0)}M" className="material-symbols-outlined" />
+            <MaterialIcon name="-" className="material-symbols-outlined" />
+            <MaterialIcon name="₦{(filters.priceMax / 1000000).toFixed(0)}M" className="material-symbols-outlined" />
           </div>
         </div>
       </div>

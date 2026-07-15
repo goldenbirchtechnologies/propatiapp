@@ -104,7 +104,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <div className="text-2xl font-bold text-foreground">₦1.85M</div>
             <div className="mt-2 flex items-center gap-2 text-xs text-success">
               <TrendingUp className="h-4 w-4" />
-              <span>On track</span>
+              <MaterialIcon name="On track" className="material-symbols-outlined" />
             </div>
           </CardContent>
         </Card>

@@ -178,7 +178,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             {transaction.platformFee > 0 && (
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Platform Fee</span>
-                <span>{formatAmountFromKobo(transaction.platformFee)}</span>
+                <MaterialIcon name="{formatAmountFromKobo(transaction.platformFee)}" className="material-symbols-outlined" />
               </div>
             )}
 

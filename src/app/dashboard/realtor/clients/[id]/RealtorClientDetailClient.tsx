@@ -83,9 +83,9 @@ export default function RealtorClientDetailClient({ client }: { client: Client }
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
         <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <Link href="/dashboard/agent/clients" className="hover:underline">Clients</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <span style={{ color: 'var(--text)' }} className="font-medium">{client.fullName}</span>
       </nav>
 

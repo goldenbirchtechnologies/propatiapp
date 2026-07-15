@@ -112,7 +112,7 @@ export default function AuditLogsPagePagePage() {
 {'{'}/* Date Range */{'}'}
 <div className="relative">
 <button className="flex items-center gap-2 px-3 py-2 border border-outline-variant rounded-lg font-label-md text-label-md bg-surface hover:bg-surface-container-low transition-colors">
-<span>Oct 20 - Oct 27, 2023</span>
+<MaterialIcon name="Oct 20 - Oct 27, 2023" className="material-symbols-outlined" />
 <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
 </button>
 </div>

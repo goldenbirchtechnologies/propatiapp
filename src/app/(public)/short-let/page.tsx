@@ -73,8 +73,8 @@ export default function ShortLetListingsPage() {
                 <div className="mt-2 space-y-2">
                   <Slider value={priceRange} onValueChange={setPriceRange} min={0} max={200000} step={5000} />
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>₦{priceRange[0].toLocaleString()}</span>
-                    <span>₦{priceRange[1].toLocaleString()}</span>
+                    <MaterialIcon name="₦{priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
+                    <MaterialIcon name="₦{priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
                   </div>
                 </div>
               </div>
@@ -115,8 +115,8 @@ export default function ShortLetListingsPage() {
                   <div className="mt-2 space-y-2">
                     <Slider value={priceRange} onValueChange={setPriceRange} min={0} max={200000} step={5000} />
                     <div className="flex items-center justify-between text-xs text-slate-500">
-                      <span>₦{priceRange[0].toLocaleString()}</span>
-                      <span>₦{priceRange[1].toLocaleString()}</span>
+                      <MaterialIcon name="₦{priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
+                      <MaterialIcon name="₦{priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
                     </div>
                   </div>
                 </div>

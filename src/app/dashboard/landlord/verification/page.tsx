@@ -168,7 +168,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
       {/* Progress Bar */}
       <div className="mb-4">
         <div className="text-on-surface-variant">
-          <span>Progress</span>
+          <MaterialIcon name="Progress" className="material-symbols-outlined" />
           <span>{((verification ? Object.values({ l1: verification.l1Status, l2: verification.l2Status, l3: verification.l3Status, l4: verification.l4Status, l5: verification.l5Status || 'pending' }).filter(s => s === 'approved').length : 0) / 5) * 100}%</span>
         </div>
         <div className="bg-muted/30">
@@ -204,7 +204,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
                 {isApproved ? (
                   <CheckIcon className="w-4 h-4" />
                 ) : (
-                  <span>{index + 1}</span>
+                  <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />
                 )}
               </div>
               <div className="flex-1 min-w-0">

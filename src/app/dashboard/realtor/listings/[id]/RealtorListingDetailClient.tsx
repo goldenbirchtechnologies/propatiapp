@@ -180,9 +180,9 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-on-surface-variant">
         <Link href="/dashboard/agent" className="hover:underline">Dashboard</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <Link href="/dashboard/agent/listings" className="hover:underline">Listings</Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <span className="text-primary font-medium truncate">{listing.title}</span>
       </nav>
 
@@ -373,7 +373,7 @@ export default function RealtorListingDetailClient({ listing, ownerName }: { lis
                       color: isApproved ? 'var(--green)' : isCurrent ? 'var(--accent)' : 'var(--muted)',
                     }}
                   >
-                    {isApproved ? <Shield className="w-5 h-5" /> : <span>{index + 1}</span>}
+                    {isApproved ? <Shield className="w-5 h-5" /> : <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-primary">{layer.label}</p>

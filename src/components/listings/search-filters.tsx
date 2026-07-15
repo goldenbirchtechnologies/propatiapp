@@ -244,8 +244,8 @@ function PriceRangeSlider({
   return (
     <div className="space-y-2">
       <div className="flex justify-between text-xs font-medium" style={{ color: 'var(--muted)' }}>
-        <span>Min: {formatPrice(values[0])}</span>
-        <span>Max: {formatPrice(values[1])}</span>
+        <MaterialIcon name="Min: {formatPrice(values[0])}" className="material-symbols-outlined" />
+        <MaterialIcon name="Max: {formatPrice(values[1])}" className="material-symbols-outlined" />
       </div>
       <Slider
         min={min}

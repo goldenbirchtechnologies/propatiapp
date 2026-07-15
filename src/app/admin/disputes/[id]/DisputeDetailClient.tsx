@@ -166,7 +166,7 @@ export default function DisputeDetailClient({ dispute: initialDispute, initialEr
             <button onClick={() => router.push('/admin/disputes')} className="hover:text-foreground">
               Disputes
             </button>
-            <span>/</span>
+            <MaterialIcon name="/" className="material-symbols-outlined" />
             <span className="text-foreground font-medium truncate max-w-[200px]">{dispute.id.slice(-8).toUpperCase()}</span>
           </nav>
         </div>

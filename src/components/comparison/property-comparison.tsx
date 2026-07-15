@@ -201,7 +201,7 @@ function ComparisonRow({
         )}
       >
         {icon}
-        <span>{label}</span>
+        <MaterialIcon name="{label}" className="material-symbols-outlined" />
       </div>
       {values.map((value, index) => (
         <div
@@ -239,7 +239,7 @@ function MobileComparisonCard({
           <div key={idx} className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
               {feature.icon}
-              <span>{feature.label}</span>
+              <MaterialIcon name="{feature.label}" className="material-symbols-outlined" />
             </div>
             <div className="text-sm font-medium text-right flex-1">
               {feature.getValue(property)}
@@ -574,7 +574,7 @@ export function PropertyComparison({
                   more {displayedProperties.length < maxProperties - 1 ? 'properties' : 'property'}
                 </span>
               ) : (
-                <span>Maximum number of properties reached</span>
+                <MaterialIcon name="Maximum number of properties reached" className="material-symbols-outlined" />
               )}
             </div>
             <div className="flex gap-2">

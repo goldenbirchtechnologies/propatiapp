@@ -144,15 +144,15 @@ function AgentProfileInner() {
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <MapPin className="h-4 w-4 text-on-surface-variant" />
-                    <span>{agent.location}</span>
+                    <MaterialIcon name="{agent.location}" className="material-symbols-outlined" />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <Briefcase className="h-4 w-4 text-on-surface-variant" />
-                    <span>{agent.experience} years experience</span>
+                    <MaterialIcon name="{agent.experience} years experience" className="material-symbols-outlined" />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <Users className="h-4 w-4 text-on-surface-variant" />
-                    <span>{agent.clientsServed} clients served</span>
+                    <MaterialIcon name="{agent.clientsServed} clients served" className="material-symbols-outlined" />
                   </div>
                 </div>
 

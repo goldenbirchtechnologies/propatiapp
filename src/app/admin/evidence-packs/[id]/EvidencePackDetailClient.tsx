@@ -418,7 +418,7 @@ export default function EvidencePackDetailClient({
             >
               Evidence Packs
             </button>
-            <span>/</span>
+            <MaterialIcon name="/" className="material-symbols-outlined" />
             <span className="font-medium truncate max-w-[180px]" style={{ color: 'var(--text)' }}>
               {pack.id.slice(-8).toUpperCase()}
             </span>

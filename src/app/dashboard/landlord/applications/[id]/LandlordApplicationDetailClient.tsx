@@ -137,11 +137,11 @@ export default function LandlordApplicationDetailClient({
         <Link href="/dashboard/landlord" className="hover:underline">
           Dashboard
         </Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <Link href="/dashboard/landlord/applications" className="hover:underline">
           Applications
         </Link>
-        <span>/</span>
+        <MaterialIcon name="/" className="material-symbols-outlined" />
         <span className="$1 $2">
           {application.listing.title}
         </span>

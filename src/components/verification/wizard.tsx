@@ -143,7 +143,7 @@ function StepIndicator({
         ) : isActive && step.status === 'in_progress' ? (
           <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
         ) : (
-          <span>{index + 1}</span>
+          <MaterialIcon name="{index + 1}" className="material-symbols-outlined" />
         )}
       </div>
 
@@ -493,9 +493,9 @@ export function VerificationWizard({
         <div className="relative">
           <Progress value={overallProgress} className="h-2" />
           <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-            <span>0%</span>
-            <span>{overallProgress}%</span>
-            <span>100%</span>
+            <MaterialIcon name="0%" className="material-symbols-outlined" />
+            <MaterialIcon name="{overallProgress}%" className="material-symbols-outlined" />
+            <MaterialIcon name="100%" className="material-symbols-outlined" />
           </div>
         </div>
 

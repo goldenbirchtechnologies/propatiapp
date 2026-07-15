@@ -218,7 +218,7 @@ export default function VerificationDetailClient({
             <button onClick={() => router.push('/verification')} className="hover:text-foreground">
               Verifications
             </button>
-            <span>/</span>
+            <MaterialIcon name="/" className="material-symbols-outlined" />
             <span className="text-foreground font-medium truncate max-w-[180px]">
               {verification.id.slice(-8).toUpperCase()}
             </span>

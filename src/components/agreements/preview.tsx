@@ -123,7 +123,7 @@ function AgreementHeader({ agreement, currentUserRole }: { agreement: AgreementD
           <p className="text-sm" style={{ color: 'var(--muted)' }}>{config.description}</p>
         </div>
         <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-          <span>Ref: </span>
+          <MaterialIcon name="Ref: " className="material-symbols-outlined" />
           <code className="font-mono bg-muted px-2 py-1 rounded">{agreement.reference}</code>
         </div>
       </div>
@@ -368,7 +368,7 @@ function TermItem({ label, value, icon }: { label: string; value: string; icon: 
     <div className="p-3 bg-muted/30 rounded-lg">
       <div className="flex items-center gap-2 text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>
         {icon}
-        <span>{label}</span>
+        <MaterialIcon name="{label}" className="material-symbols-outlined" />
       </div>
       <p className="font-medium" style={{ color: 'var(--text)' }}>{value}</p>
     </div>
@@ -425,7 +425,7 @@ function SignaturesSection({ agreement, currentUserRole, currentUserId, onSign }
             <div className="space-y-2 text-sm" style={{ color: 'var(--muted)' }}>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>Signed: {formatDate(signature.signedAt)}</span>
+                <MaterialIcon name="Signed: {formatDate(signature.signedAt)}" className="material-symbols-outlined" />
               </div>
               <div className="flex items-center gap-2">
                 <Hash className="h-4 w-4" />
@@ -669,7 +669,7 @@ export function AgreementListItem({
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm" style={{ color: 'var(--muted)' }}>
               <span className="truncate">{agreement.property.address}, {agreement.property.city}</span>
-              <span>{typeLabels[agreement.type]}</span>
+              <MaterialIcon name="{typeLabels[agreement.type]}" className="material-symbols-outlined" />
               <span>Ref: <code className="font-mono">{agreement.reference}</code></span>
             </div>
           </div>

@@ -212,7 +212,7 @@ export default function UserDetailClient({ user: initialUser, revenueData, initi
               <button onClick={() => router.push('/admin/users')} className="hover:text-foreground">
                 Users
               </button>
-              <span>/</span>
+              <MaterialIcon name="/" className="material-symbols-outlined" />
               <span className="text-foreground font-medium truncate max-w-[200px]">{user.fullName}</span>
             </nav>
           </div>

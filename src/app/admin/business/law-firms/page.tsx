@@ -215,7 +215,7 @@ export default function AdminLawFirmsClient() {
               </div>
               {(firm.callToBarNumber || firm.nbaEnrollmentNumber || firm.principalPartnerName) && (
                 <div className="mt-2 pt-2 border-t text-xs text-gray-500">
-                  {firm.callToBarNumber && <span>Call to Bar: {firm.callToBarNumber}</span>}
+                  {firm.callToBarNumber && <MaterialIcon name="Call to Bar: {firm.callToBarNumber}" className="material-symbols-outlined" />}
                   {firm.nbaEnrollmentNumber && <span className="ml-3">NBA: {firm.nbaEnrollmentNumber}</span>}
                   {firm.principalPartnerName && <span className="ml-3">Partner: {firm.principalPartnerName}</span>}
                 </div>

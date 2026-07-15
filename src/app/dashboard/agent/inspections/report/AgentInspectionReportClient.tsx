@@ -162,7 +162,7 @@ export default function AgentInspectionReportClient() {
                     <ul className="space-y-2 mb-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
                       {cat.items.map((item, i) => (
                         <li key={i} className="flex justify-between">
-                          <span>{item.label}:</span>
+                          <MaterialIcon name="{item.label}:" className="material-symbols-outlined" />
                           <span className="font-mono font-bold">{item.value}</span>
                         </li>
                       ))}

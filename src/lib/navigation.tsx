@@ -40,6 +40,8 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
   { label: 'Withdrawals', href: '/dashboard/landlord/financials/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
   { label: 'Overdue Payments', href: '/dashboard/landlord/financials/overdue', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Invoices', href: '/dashboard/landlord/financials/invoices', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Receipts', href: '/dashboard/landlord/receipts', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Statements', href: '/dashboard/landlord/statements', icon: <FileText className="h-5 w-5" /> },
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [
@@ -74,6 +76,8 @@ export const AGENT_NAVIGATION: NavItem[] = [
   { label: 'Schedule', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
   { label: 'Messages', href: '/dashboard/agent/messages', icon: <MessageSquare className="h-5 w-5" /> },
+  { label: 'Receipts', href: '/dashboard/agent/receipts', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Statements', href: '/dashboard/agent/statements', icon: <FileText className="h-5 w-5" /> },
 ];
 
 export const ADMIN_NAVIGATION: NavItem[] = [
@@ -91,6 +95,17 @@ export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'MFA Settings', href: '/dashboard/admin/settings/mfa', icon: <ShieldCheck className="h-5 w-5" /> },
   { label: 'Withdrawals', href: '/dashboard/admin/transactions/withdrawals', icon: <CircleDollarSign className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/admin/profile', icon: <User className="h-5 w-5" /> },
+];
+
+
+export const ACCOUNTANT_NAVIGATION: NavItem[] = [
+  { label: 'Dashboard', href: '/dashboard/accountant', icon: <ChartNoAxesCombined className="h-5 w-5" /> },
+  { label: 'Reports', href: '/dashboard/accountant/reports', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Invoices', href: '/dashboard/accountant/invoices', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Receipts', href: '/dashboard/accountant/receipts', icon: <Wallet2 className="h-5 w-5" /> },
+  { label: 'Statements', href: '/dashboard/accountant/statements', icon: <CalendarDays className="h-5 w-5" /> },
+  { label: 'Messages', href: '/dashboard/accountant/messages', icon: <MessageSquare className="h-5 w-5" /> },
+  { label: 'My Profile', href: '/dashboard/accountant/profile', icon: <User className="h-5 w-5" /> },
 ];
 
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
@@ -119,6 +134,9 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Financial Scenario', href: '/dashboard/estate-manager/financials/scenario', icon: <Sliders className="h-5 w-5" /> },
   { label: 'Revenue Signature', href: '/dashboard/estate-manager/reports/revenue-signature', icon: <FileText className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
+  { label: 'Invoices', href: '/dashboard/estate-manager/invoices', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Receipts', href: '/dashboard/estate-manager/receipts', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Statements', href: '/dashboard/estate-manager/statements', icon: <FileText className="h-5 w-5" /> },
 ];
 
 /**
@@ -136,6 +154,8 @@ export function getNavigationForRole(role: string): NavItem[] {
       return ADMIN_NAVIGATION;
     case 'estate_manager':
       return ESTATE_MANAGER_NAVIGATION;
+    case 'accountant':
+      return ACCOUNTANT_NAVIGATION;
     default:
       return TENANT_NAVIGATION; // Default fallback
   }

@@ -1,0 +1,18 @@
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
+import AutomatedMonthlyStatementClient from '@/app/dashboard/tenant/payments/statements/AutomatedMonthlyStatementClient';
+
+export default async function AccountantStatementsPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'accountant') redirect('/dashboard');
+  return (
+    <DashboardShell navigation={ACCOUNTANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+      <AutomatedMonthlyStatementClient />
+    </DashboardShell>
+  );
+}

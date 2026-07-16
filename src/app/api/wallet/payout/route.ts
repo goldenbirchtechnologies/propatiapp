@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const senderWallet = await prisma.wallet.findUnique({ where: { userId: user.id } });
     if (!senderWallet) return NextResponse.json({ error: 'Wallet not found' }, { status: 400 });
     const senderBalance = Number(senderWallet.balance);
-    if (senderBalance * 100 < amountKobo / 100) return NextResponse.json({ error: 'Insufficient balance' }, { status: 400 });
+    if (senderBalance * 100 < amountKobo) return NextResponse.json({ error: 'Insufficient balance' }, { status: 400 });
 
     const transfer = await paystack.createTransfer({
       source: 'balance',

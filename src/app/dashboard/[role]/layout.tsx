@@ -1,66 +1,50 @@
-'use client';
-
-import { useEffect, useState, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@clerk/nextjs';
-import { getNavigationForRole, type NavItem } from '@/lib/navigation';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
-import { Button } from '@/components/ui/button';
-import { Lock } from 'lucide-react';
+import { getNavigationForRole } from '@/lib/navigation';
+import { ReactNode } from 'react';
+import { UserRole } from '@prisma/client';
 
-export default function RoleLayout({
+// Map URL slug → canonical Prisma role
+const SLUG_TO_ROLE: Record<string, UserRole> = {
+  landlord: 'landlord',
+  tenant: 'tenant',
+  agent: 'agent',
+  realtor: 'agent',   // alias
+  admin: 'admin',
+  'estate-manager': 'estate_manager',
+};
+
+export default async function RoleLayout({
   children,
-  role,
+  params,
 }: {
   children: ReactNode;
-  role?: string;
+  params: Promise<{ role: string }>;
 }) {
-  const [hydrating, setHydrating] = useState(true);
-  const { user, isLoaded } = useUser();
-  const router = useRouter();
+  const user = await getCurrentUserWithProfile();
 
-  const expectedRole = (role || 'tenant').toLowerCase();
-  const mappedRole = expectedRole === 'estate-manager' ? 'estate_manager' : expectedRole;
-  const userRole = typeof user?.publicMetadata?.role === 'string' ? user.publicMetadata.role : '';
-  const allowed = !!user && mappedRole === userRole;
-  const navigation = getNavigationForRole(allowed ? userRole : mappedRole);
-
-  useEffect(() => {
-    if (!isLoaded) return;
-    setHydrating(false);
-  }, [isLoaded]);
-
-  if (!isLoaded || hydrating) {
-    return (
-      <DashboardShell navigation={navigation} userRole={mappedRole} shellLoading>
-        {children}
-      </DashboardShell>
-    );
+  if (!user) {
+    redirect('/login');
   }
 
-  if (!user || !allowed) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="max-w-md w-full rounded-xl border border-border bg-card p-8 text-center">
-          <Lock className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-          <h1 className="text-xl font-bold text-foreground">Restricted Access</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Your role doesn&apos;t allow access to this dashboard area.
-          </p>
-          <Button className="mt-6" onClick={() => router.push('/dashboard')}>
-            Back to dashboard
-          </Button>
-        </div>
-      </div>
-    );
+  const { role: roleSlug } = await params;
+  const canonicalRole = SLUG_TO_ROLE[roleSlug.toLowerCase()] ?? (roleSlug as UserRole);
+
+  // Enforce that the URL role matches the authenticated user's actual role from Prisma
+  if (user.role !== canonicalRole) {
+    redirect(getRoleRedirectPath(user.role));
   }
+
+  const navigation = getNavigationForRole(canonicalRole);
+  const displayName = user.fullName || 'User';
 
   return (
     <DashboardShell
       navigation={navigation}
-      userRole={mappedRole}
-      userName={(user.fullName as string | undefined) || (user.firstName as string) || 'User'}
-      userAvatar={user.imageUrl}
+      userRole={canonicalRole}
+      userName={displayName}
+      userAvatar={user.avatarUrl || undefined}
     >
       {children}
     </DashboardShell>

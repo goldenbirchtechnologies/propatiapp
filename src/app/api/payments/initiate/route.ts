@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
       landlordId: string;
       agentId: string | null;
       rentAmount: unknown;
+      listingId: string;
     } | null = null;
     if (validated.agreementId) {
       agreement = await prisma.agreement.findUnique({
@@ -51,10 +52,12 @@ export async function POST(request: NextRequest) {
           landlordId: true,
           agentId: true,
           rentAmount: true,
+          listingId: true,
         },
       });
       if (!agreement) return NextResponse.json({ error: 'Agreement not found' }, { status: 404 });
       if (agreement.tenantId !== user.id) return NextResponse.json({ error: 'FORBIDDEN: Not the tenant on this agreement' }, { status: 403 });
+      if (agreement.listingId !== listing.id) return NextResponse.json({ error: 'Agreement does not belong to this listing' }, { status: 400 });
       if (!['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed', 'fully_signed'].includes(agreement.status)) {
         return NextResponse.json({ error: 'Agreement not ready for payment' }, { status: 400 });
       }
@@ -83,6 +86,32 @@ export async function POST(request: NextRequest) {
     const randomStr = randomBytes(4).toString('hex');
     const reference = `PROPATI_${validated.type}_${timestamp}_${randomStr}`.toUpperCase();
 
+    const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/payments/callback?reference=${reference}`;
+    const paystackResponse = await paystack.initializeTransaction({
+      email: validated.email,
+      amount: amountKobo,
+      reference,
+      callback_url: callbackUrl,
+      metadata: {
+        listingId: listing.id,
+        userId: user.id,
+        type: validated.type,
+        collectionType: validated.collectionType,
+        managedById: managerId,
+        custom_fields: [
+          { display_name: 'Property', variable_name: 'property_title', value: listing.title },
+          { display_name: 'Transaction Type', variable_name: 'transaction_type', value: validated.type },
+          { display_name: 'Collection', variable_name: 'collection_type', value: validated.collectionType },
+        ],
+        ...validated.metadata,
+      },
+      channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
+    });
+
+    if (!paystackResponse?.data?.authorization_url) {
+      return NextResponse.json({ error: 'Failed to initialize payment' }, { status: 502 });
+    }
+
     const transaction = await prisma.$transaction(async (tx) => {
       const newTransaction = await tx.transaction.create({
         data: {
@@ -108,39 +137,34 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      if (validated.agreementId) {
-        await tx.agreement.update({
-          where: { id: validated.agreementId },
-          data: { transactions: { connect: { id: newTransaction.id } } },
-        });
+      let agreementId = validated.agreementId;
+    if (!agreementId) {
+      const candidate = await prisma.agreement.findFirst({
+        where: { listingId: listing.id, tenantId: user.id },
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, status: true },
+      });
+      if (candidate && ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed', 'fully_signed'].includes(candidate.status)) {
+        agreementId = candidate.id;
+      }
+    }
+
+    if (agreementId) {
+      const linkedAgreement = await prisma.agreement.findUnique({
+        where: { id: agreementId },
+        select: { id: true, listingId: true },
+      });
+      if (!linkedAgreement || linkedAgreement.listingId !== listing.id) {
+        return NextResponse.json({ error: 'Invalid agreement for this listing' }, { status: 400 });
       }
 
-
+      await prisma.agreement.update({
+        where: { id: agreementId },
+        data: { transactions: { connect: { id: newTransaction.id } } },
+      });
+    }
 
       return newTransaction;
-    });
-
-    const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/payments/callback?reference=${reference}`;
-    const paystackResponse = await paystack.initializeTransaction({
-      email: validated.email,
-      amount: amountKobo,
-      reference,
-      callback_url: callbackUrl,
-      metadata: {
-        transactionId: transaction.id,
-        listingId: listing.id,
-        userId: user.id,
-        type: validated.type,
-        collectionType: validated.collectionType,
-        managedById: managerId,
-        custom_fields: [
-          { display_name: 'Property', variable_name: 'property_title', value: listing.title },
-          { display_name: 'Transaction Type', variable_name: 'transaction_type', value: validated.type },
-          { display_name: 'Collection', variable_name: 'collection_type', value: validated.collectionType },
-        ],
-        ...validated.metadata,
-      },
-      channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
     });
 
     const payeeName = transaction.payee?.fullName || 'Landlord';

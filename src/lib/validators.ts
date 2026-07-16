@@ -220,10 +220,11 @@ export const verifyPaymentSchema = z.object({
 });
 
 export const releaseEscrowSchema = z.object({
-  recipientBankCode: z.string().min(3, 'Bank code is required'),
-  recipientAccountNumber: z.string().regex(/^\d{10}$/, 'Account number must be 10 digits'),
-  recipientName: z.string().min(2, 'Recipient name is required'),
+  accountName: z.string().min(2, 'Account name is required'),
+  accountNumber: z.string().regex(/^\d{10}$/, 'Account number must be 10 digits'),
+  bankCode: z.string().min(3, 'Bank code is required'),
   amount: z.number().positive().optional(),
+  transferType: z.enum(['payee_only', 'split', 'refund_payer']).default('payee_only'),
   reason: z.string().min(5, 'Reason is required').optional(),
 });
 

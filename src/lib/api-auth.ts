@@ -72,6 +72,18 @@ export const requireLandlord = requireRole(['landlord', 'admin']);
 export const requireTenant = requireRole(['tenant', 'admin']);
 export const requireRealtor = requireRole(['realtor', 'admin']);
 
+/**
+ * Blocks admin-only fields from self-update routes. Intended for use in
+ * PATCH routes where the caller authenticates as the resource owner but must
+ * not be able to promote themselves or mutate privileged columns.
+ */
+export function isAdminWriteGate(request: NextRequest): NextResponse | null {
+  throw new Error(
+    'Admin-only mutation blocked: caller authenticated as owner, not admin. '
+    + 'Use a route guarded by requireAdmin for privileged field writes.'
+  );
+}
+
 // Helper to create standardized API responses
 export function successResponse<T>(data: T, message?: string) {
   return NextResponse.json({ success: true, data, message });

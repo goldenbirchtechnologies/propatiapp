@@ -66,12 +66,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true, event: event.event });
   } catch (error) {
     console.error('[Webhook] Error processing Paystack webhook:', error);
-    return NextResponse.json({ error: 'Webhook processing failed', received: true }, { status: 200 });
+    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 });
   }
 }
 
 async function handleChargeSuccess(data: Record<string, unknown>) {
   const { reference, amount, status, gateway_response, paid_at, channel, currency, metadata, customer, authorization } = data;
+  const safeMeta = (metadata || {}) as Record<string, unknown>;
 
   const transaction = await prisma.transaction.findUnique({
     where: { reference },
@@ -188,8 +189,8 @@ async function handleChargeSuccess(data: Record<string, unknown>) {
         prisma.wallet.update({ where: { id: wallet.id }, data: { balance: closing } }),
         prisma.walletTransaction.upsert({
           where: { reference },
-          update: { status: 'success', providerRef: String(data.id), meta },
-          create: { walletId: wallet.id, userId: metadata.userId, reference, type: 'deposit', status: 'success', amount: amountNaira, openingBalance: opening, closingBalance: closing, providerRef: String(data.id), description: 'Wallet top-up', meta },
+          update: { status: 'success', providerRef: String(data.id), meta: safeMeta },
+          create: { walletId: wallet.id, userId: metadata.userId, reference, type: 'deposit', status: 'success', amount: amountNaira, openingBalance: opening, closingBalance: closing, providerRef: String(data.id), description: 'Wallet top-up', meta: safeMeta },
         }),
       ]);
     }

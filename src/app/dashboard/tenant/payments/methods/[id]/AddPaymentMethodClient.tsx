@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  CreditCard, Lock, Eye, EyeOff, Verified
+  CreditCard, Lock, Eye, EyeOff, Verified, Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

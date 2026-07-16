@@ -104,10 +104,14 @@ export default function EscrowManagementClient() {
     setIsReleasing(true);
 
     try {
-      const response = await fetch(`/api/payments/${currentTransaction.id}/release`, {
+      const response = await fetch(`/api/payments/release-escrow/${currentTransaction.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bankDetails }),
+        body: JSON.stringify({
+          accountName: bankDetails.accountName,
+          accountNumber: bankDetails.accountNumber,
+          bankCode: bankDetails.bankName,
+        }),
       });
 
       if (!response.ok) {

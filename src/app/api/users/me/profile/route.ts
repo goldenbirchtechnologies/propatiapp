@@ -6,13 +6,14 @@ import { UserRole, EmploymentStatus, EmploymentType } from '@prisma/client';
 export async function PATCH(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
+  // Role and other admin-only fields are gated in lib/api-auth.ts by requiring specific roles.
+  // This route only permits regular profile field updates from the owner.
   const { user } = authResult;
 
   try {
     const body = await request.json();
 
     const {
-      role,
       fullName,
       phone,
       profileBio,
@@ -29,18 +30,10 @@ export async function PATCH(request: NextRequest) {
 
     const data: Record<string, unknown> = {};
 
-    if (role !== undefined) {
-      const validRoles: UserRole[] = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'];
-      if (!validRoles.includes(role)) {
-        return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
-      }
-      data.role = role as UserRole;
-    }
-
     if (fullName !== undefined) data.fullName = String(fullName).trim();
     if (phone !== undefined) data.phone = phone ? String(phone).trim() : null;
     if (profileBio !== undefined) data.profileBio = profileBio ? String(profileBio) : null;
-    if (agentBio !== undefined) data.agentBio = agentBio ? String(agentBio) : null;
+    if (agentBio !== undefined) data.agentBio = String(agentBio);
     if (agentAreas !== undefined) data.agentAreas = agentAreas;
     if (companyName !== undefined) data.companyName = companyName ? String(companyName) : null;
 
@@ -57,7 +50,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (employerName !== undefined) data.employerName = employerName ? String(employerName) : null;
-    if (jobTitle !== undefined) data.jobTitle = jobTitle ? String(jobTitle) : null;
+    if (jobTitle !== undefined) data.jobTitle = String(jobTitle);
     if (yearlyIncome !== undefined) {
       const val = Number(yearlyIncome);
       data.yearlyIncome = Number.isFinite(val) && val > 0 ? BigInt(Math.floor(val)) : null;

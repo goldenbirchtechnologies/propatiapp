@@ -78,13 +78,22 @@ export async function POST(
       }
     }
 
+    const { accountName, accountNumber, bankCode, amount, transferType = 'payee_only', reason } = validated;
+
+    const maxReleaseAmountKobo = Number(transaction.payeeAmount) || Number(transaction.amount);
+    const requestedAmountKobo = amount ? Math.round(amount * 100) : maxReleaseAmountKobo;
+
+    if (requestedAmountKobo <= 0) {
+      return NextResponse.json({ error: 'Release amount must be greater than zero' }, { status: 400 });
+    }
+    if (requestedAmountKobo > maxReleaseAmountKobo) {
+      return NextResponse.json({ error: 'Release amount exceeds the available payee amount for this transaction' }, { status: 400 });
+    }
+
     // Resolve account name with Paystack
-    let accountName: string;
+    let resolvedAccountName: string;
     try {
-      const resolveResponse = await paystack.resolveAccountNumber(
-        validated.recipientAccountNumber,
-        validated.recipientBankCode
-      );
+      const resolveResponse = await paystack.resolveAccountNumber(accountNumber, bankCode);
 
       if (!resolveResponse.status || !resolveResponse.data.account_name) {
         return NextResponse.json(
@@ -93,17 +102,16 @@ export async function POST(
         );
       }
 
-      accountName = resolveResponse.data.account_name;
+      resolvedAccountName = resolveResponse.data.account_name;
 
-      // Verify the name matches (fuzzy match for case/space differences)
-      const normalizedInput = validated.recipientName.toLowerCase().replace(/\s+/g, '');
-      const normalizedAccount = accountName.toLowerCase().replace(/\s+/g, '');
+      const normalizedInput = accountName.toLowerCase().replace(/\s+/g, '');
+      const normalizedAccount = resolvedAccountName.toLowerCase().replace(/\s+/g, '');
 
       if (!normalizedInput.includes(normalizedAccount) && !normalizedAccount.includes(normalizedInput)) {
         return NextResponse.json(
           {
             error: 'Account name mismatch',
-            details: `Provided: ${validated.recipientName}, Bank: ${accountName}`,
+            details: `Provided: ${accountName}, Bank: ${resolvedAccountName}`,
           },
           { status: 400 }
         );
@@ -121,9 +129,9 @@ export async function POST(
     try {
       const recipientResponse = await paystack.createTransferRecipient({
         type: 'nuban',
-        name: accountName,
-        account_number: validated.recipientAccountNumber,
-        bank_code: validated.recipientBankCode,
+        name: resolvedAccountName,
+        account_number: accountNumber,
+        bank_code: bankCode,
         currency: 'NGN',
       });
 
@@ -143,11 +151,6 @@ export async function POST(
       );
     }
 
-    // Calculate transfer amounts
-    const payeeAmount = validated.amount
-      ? Math.round(validated.amount * 100)
-      : Number(transaction.payeeAmount);
-
     const agentCommission = Number(transaction.agentCommission);
     const transferReference = `ESCROW_RELEASE_${transaction.id}_${Date.now()}`;
 
@@ -156,9 +159,9 @@ export async function POST(
     try {
       const transferResponse = await paystack.createTransfer({
         source: 'balance',
-        amount: payeeAmount,
+        amount: requestedAmountKobo,
         recipient: recipientCode,
-        reason: validated.reason || `Escrow release for ${transaction.listing?.title || 'property'}`,
+        reason: reason || `Escrow release for ${transaction.listing?.title || 'property'}`,
         reference: transferReference,
       });
 
@@ -173,6 +176,30 @@ export async function POST(
         { error: 'Failed to initiate transfer', details: error instanceof Error ? error.message : 'Unknown error' },
         { status: 500 }
       );
+    }
+
+    // Handle agent commission for split/non-sale transactions
+    if (transferType === 'split' && transaction.agentId && agentCommission > 0) {
+      const isSale = String(transaction.type).toLowerCase() === 'sale';
+      if (!isSale) {
+        try {
+          const acct = await prisma.userPaystackAccount.findUnique({
+            where: { userId: transaction.agentId },
+            select: { recipientCode: true },
+          });
+          if (acct?.recipientCode) {
+            await paystack.createTransfer({
+              source: 'balance',
+              amount: agentCommission,
+              recipient: acct.recipientCode,
+              reference: `AGT_COMM_${transaction.id}_${Date.now()}`,
+              reason: `Agent commission payout for ${transaction.listing?.title || 'property'}`,
+            });
+          }
+        } catch (error) {
+          console.error('Agent commission payout failed:', error);
+        }
+      }
     }
 
     // Update transaction status
@@ -198,11 +225,11 @@ export async function POST(
         userId: transaction.payeeId,
         type: 'payment',
         title: 'Funds Released',
-        body: `₦${(payeeAmount / 100).toLocaleString()} has been transferred to your account (${validated.recipientAccountNumber}).`,
+        body: `₦${(requestedAmountKobo / 100).toLocaleString()} has been transferred to your account (${accountNumber}).`,
         data: {
           transactionId: transaction.id,
           transferReference,
-          accountNumber: validated.recipientAccountNumber,
+          accountNumber,
         },
       },
     });
@@ -217,9 +244,7 @@ export async function POST(
       },
     });
 
-    // Handle agent commission if applicable
     if (transaction.agentId && agentCommission > 0) {
-      // Create separate notification for agent
       await prisma.notification.create({
         data: {
           userId: transaction.agentId,
@@ -229,45 +254,23 @@ export async function POST(
           data: { transactionId: transaction.id, commission: agentCommission },
         },
       });
-
-      // Auto-payout commission for non-sale transactions when agent has a saved recipient
-      const isSale = String(transaction.type).toLowerCase() === 'sale';
-      if (!isSale) {
-        const acct = await prisma.userPaystackAccount.findUnique({
-          where: { userId: transaction.agentId },
-          select: { recipientCode: true },
-        });
-        if (acct?.recipientCode) {
-          try {
-            await paystack.createTransfer({
-              source: 'balance',
-              amount: Number(transaction.agentCommission || 0),
-              recipient: acct.recipientCode,
-              reference: `AGT_COMM_${transaction.id}_${Date.now()}`,
-              reason: `Agent commission payout for ${transaction.listing?.title || 'property'}`,
-            });
-          } catch (error) {
-            console.error('Agent commission auto-payout failed:', error);
-          }
-        }
-      }
     }
 
-    console.log(`Escrow released: Transaction ${id} - ₦${(payeeAmount / 100).toLocaleString()} to ${accountName}`);
+    console.log(`Escrow released: Transaction ${id} - ₦${(requestedAmountKobo / 100).toLocaleString()} to ${resolvedAccountName}`);
 
     return NextResponse.json({
       success: true,
       transfer: {
         transferCode: transferResult.transfer_code,
         reference: transferReference,
-        amount: payeeAmount,
-        amountFormatted: (payeeAmount / 100).toLocaleString('en-NG', {
+        amount: requestedAmountKobo,
+        amountFormatted: (requestedAmountKobo / 100).toLocaleString('en-NG', {
           style: 'currency',
           currency: 'NGN',
           minimumFractionDigits: 0,
         }),
-        recipient: accountName,
-        accountNumber: validated.recipientAccountNumber,
+        recipient: resolvedAccountName,
+        accountNumber,
         status: transferResult.status,
       },
       transaction: updated,

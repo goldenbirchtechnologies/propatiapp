@@ -103,9 +103,11 @@ export default function AutoPayConfigurationClient() {
               <CardTitle className="font-heading text-lg">Payment Method</CardTitle>
               <button className="text-primary font-label-md label-md hover:underline flex items-center gap-xs">
                 <MaterialIcon name="add_circle" className="material-symbols-outlined" />
-                  )}
-                </button>
-              ))}
+                Add
+              </button>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">Auto-pay method will appear here once configured.</p>
             </CardContent>
           </Card>
 

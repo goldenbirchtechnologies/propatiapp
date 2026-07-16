@@ -9,6 +9,9 @@ export default async function LandlordDashboardPage() {
   if (!user) {
     redirect('/login');
   }
+  if (user.role !== 'landlord') {
+    redirect(getRoleRedirectPath(user.role));
+  }
 
   const displayName = user.fullName || 'User';
 

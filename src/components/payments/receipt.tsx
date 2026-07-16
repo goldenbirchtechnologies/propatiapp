@@ -43,7 +43,7 @@ export function Receipt({ transaction }: ReceiptProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white">
+    <div className="max-w-3xl mx-auto bg-surface-elevated">
       {/* Print styles */}
       <style jsx global>{`
         @media print {

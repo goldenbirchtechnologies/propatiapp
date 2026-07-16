@@ -214,7 +214,7 @@ export default function HelpCenterPage() {
                 </div>
                 <div className="space-y-4">
                   {articles.map((article, i) => (
-                    <div key={i} className="bg-white p-6 rounded-xl border border-outline-variant flex items-center gap-6 group hover:bg-surface-bright transition-colors cursor-pointer">
+                    <div key={i} className="bg-surface-elevated p-6 rounded-xl border border-outline-variant flex items-center gap-6 group hover:bg-surface-bright transition-colors cursor-pointer">
                       <div className="hidden sm:block w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-muted" />
                       <div className="flex-1">
                         <div className="flex gap-2 mb-2">
@@ -240,7 +240,7 @@ export default function HelpCenterPage() {
                     Contact Support
                   </Link>
                 </div>
-                <div className="bg-white p-8 rounded-xl border border-outline-variant">
+                <div className="bg-surface-elevated p-8 rounded-xl border border-outline-variant">
                   <h3 className="font-heading font-bold text-lg mb-4">Market Stats</h3>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">

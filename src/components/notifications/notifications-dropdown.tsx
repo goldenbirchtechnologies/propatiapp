@@ -147,7 +147,7 @@ export function NotificationsDropdown({
     <div
       ref={dropdownRef}
       className={cn(
-        'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-xl border border-gray-200 z-50',
+        'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-surface-elevated rounded-lg shadow-xl border border-outline z-50',
         position === 'right' ? 'right-0' : 'left-0'
       )}
       role="dialog"
@@ -231,7 +231,7 @@ export function NotificationsDropdown({
                       <div
                         className={cn(
                           'w-8 h-8 rounded-full flex items-center justify-center',
-                          notification.read ? 'bg-gray-100' : 'bg-white'
+                          notification.read ? 'bg-muted' : 'bg-surface-elevated'
                         )}
                       >
                         <Icon className={cn('w-4 h-4', iconColor)} />

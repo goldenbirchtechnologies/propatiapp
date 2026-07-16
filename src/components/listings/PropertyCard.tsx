@@ -115,7 +115,7 @@ export function PropertyCard({
       onClick={onClick}
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+      <div className="pressable relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
         <Image
           src={image}
           alt={title}
@@ -143,8 +143,8 @@ export function PropertyCard({
         <button
           onClick={handleSave}
           className={cn(
-            'absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm',
-            'transition-colors duration-200 hover:bg-white',
+            'absolute top-3 right-3 p-2 rounded-full bg-surface-elevated/90 backdrop-blur-sm',
+            'transition-colors duration-200 hover:bg-surface',
             'shadow-sm hover:shadow-md',
             isSaved && 'text-red-500'
           )}

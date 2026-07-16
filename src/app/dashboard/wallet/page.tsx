@@ -158,9 +158,9 @@ export default function WalletPage() {
 
         <div className="flex gap-2 overflow-x-auto border-b border-border/60 pb-2">
           {TABS.map((item) => (
-            <Button key={item.key} variant={tab === item.key ? 'secondary' : 'ghost'} onClick={() => setTab(item.key)} className="gap-2">
+            <Button key={item.key} variant={tab === item.key ? 'secondary' : 'ghost'} onClick={() => setTab(item.key)} className="gap-2 pressable">
               {item.icon}
-              <span className="hidden md:inline">{item.label}</span>
+              <span className="inline">{item.label}</span>
             </Button>
           ))}
         </div>

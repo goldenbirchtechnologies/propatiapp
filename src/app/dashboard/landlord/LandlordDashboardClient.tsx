@@ -157,7 +157,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
                   </td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{app.date}</td>
                   <td className="px-6 py-4 text-right">
-                    <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors">more_vert</button>
+                    <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
                   </td>
                 </tr>
               ))}
@@ -171,7 +171,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
         <Card className="lg:col-span-2">
           <div className="p-6 border-b border-outline-variant flex items-center justify-between">
             <h5 className="font-headline-sm text-headline-sm font-semibold text-primary">Rent Schedule</h5>
-            <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors">calendar_month</button>
+            <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="Calendar">calendar_month</button>
           </div>
           <div className="p-6 space-y-6">
             {rentSchedule.map((item, idx) => (

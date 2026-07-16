@@ -314,7 +314,7 @@ export default function GlobalSettingsPage() {
                         type="password"
                         defaultValue="sk_tes...p7dc"
                       />
-                      <button className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="content_copy">
+                      <button className="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" aria-label="Copy" data-icon="content_copy">
                         content_copy
                       </button>
                     </div>

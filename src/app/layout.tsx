@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_NG',
@@ -100,6 +103,9 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
         <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="description" content="PROPATI - Nigeria's Most Trusted Property Marketplace" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -107,9 +113,12 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="PROPATI" />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-foreground focus:text-background focus:rounded-md">Skip to main content</a>
         <TooltipProvider>
         <Providers>
-          {children}
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
           <Toaster />
           <script src="/push.js" defer strategy="afterInteractive" />
         </Providers>

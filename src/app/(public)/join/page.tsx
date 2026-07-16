@@ -133,7 +133,7 @@ export default function JoinPage() {
           showOverlay ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
+        <div className="bg-surface-elevated p-8 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-secondary border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-medium text-primary">Configuring your dashboard...</p>
         </div>

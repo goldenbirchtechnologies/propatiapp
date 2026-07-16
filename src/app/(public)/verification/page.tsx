@@ -19,21 +19,21 @@ export default function VerificationPage() {
       visual: (
         <div className="bg-surface-container-high p-6 rounded-xl shadow-sm border border-outline-variant relative overflow-hidden">
           <div className="flex flex-col gap-4 relative z-10">
-            <div className="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-2 transition-transform">
+            <div className="bg-surface-elevated p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-2 transition-transform">
               <MaterialIcon name="article" className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Deed of Assignment</div>
                 <div className="text-xs text-muted-foreground">STATUS: PENDING REVIEW</div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-4 transition-transform">
+            <div className="bg-surface-elevated p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-4 transition-transform">
               <MaterialIcon name="receipt_long" className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Survey Plan</div>
                 <div className="text-xs text-muted-foreground">STATUS: MATCHED</div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg border-2 border-on-tertiary-container flex items-center gap-4 hover:translate-x-6 transition-transform">
+            <div className="bg-surface-elevated p-4 rounded-lg border-2 border-on-tertiary-container flex items-center gap-4 hover:translate-x-6 transition-transform">
               <MaterialIcon name="verified" className="material-symbols-outlined" />
               <div>
                 <div className="font-medium text-primary">Certificate of Occupancy</div>
@@ -104,7 +104,7 @@ export default function VerificationPage() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <MaterialIcon name="gavel" className="material-symbols-outlined" />
-              <div className="px-4 py-2 bg-white rounded-full text-xs font-medium shadow-sm">SEARCHING: ALAUSA REGISTRY</div>
+              <div className="px-4 py-2 bg-card rounded-full text-xs font-medium shadow-sm">SEARCHING: ALAUSA REGISTRY</div>
             </div>
           </div>
           <div className="bg-primary text-on-primary rounded-2xl p-6 flex flex-col justify-center text-center border border-outline-variant">
@@ -112,7 +112,7 @@ export default function VerificationPage() {
             <h3 className="font-heading font-bold mb-2">Government Acquisition Check</h3>
             <p className="text-sm opacity-70">Ensuring the land isn\'t designated for public projects.</p>
           </div>
-          <div className="bg-white rounded-2xl p-6 flex items-center gap-4 border border-outline-variant">
+          <div className="bg-surface-elevated rounded-2xl p-6 flex items-center gap-4 border border-outline-variant">
             <div className="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center shrink-0">
               <MaterialIcon name="report_problem" className="material-symbols-outlined" />
             </div>
@@ -261,7 +261,7 @@ export default function VerificationPage() {
                   <Link href="/verification/start" className="px-8 py-3 bg-primary text-on-primary rounded-xl font-medium hover:brightness-110 transition-all shadow-md active:scale-95">
                     Start Your Verification Now
                   </Link>
-                  <Link href="#" className="px-8 py-3 bg-white text-primary border border-primary rounded-xl font-medium hover:bg-surface-container-low transition-all">
+                  <Link href="#" className="px-8 py-3 bg-surface-elevated text-primary border border-primary rounded-xl font-medium hover:bg-surface-container-low transition-all">
                     View Sample Report
                   </Link>
                 </div>

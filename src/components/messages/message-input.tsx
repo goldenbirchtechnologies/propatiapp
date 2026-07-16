@@ -69,7 +69,7 @@ export function MessageInput({
   const canSend = content.trim().length > 0 && !isOverLimit && !isSending && !disabled;
 
   return (
-    <div className="border-t bg-white p-4">
+    <div className="border-t bg-surface-elevated p-4">
       <div className="flex items-end gap-2">
         {/* Textarea */}
         <div className="flex-1 relative">

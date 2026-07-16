@@ -1,5 +1,3 @@
-'use client'
-
 import MaterialIcon from '@/components/icons/material-icon';
 
 import Image from 'next/image';
@@ -141,7 +139,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full container">
       {/* Top Navigation */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -276,7 +274,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-surface-elevated text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
                 >
                   Start Free — it takes 2 minutes
                 </Link>
@@ -306,7 +304,7 @@ export default function HomePage() {
 
             <div className="hidden sm:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/60">
               <span className="text-xs tracking-widest uppercase">Scroll</span>
-              <span className="w-px h-8 bg-white/30 animate-pulse" />
+              <span className="w-px h-8 bg-white/30 animate-pulse" / />
             </div>
           </div>
         </section>
@@ -396,11 +394,11 @@ export default function HomePage() {
                         </span>
                       </div>
                       <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-white/95 text-primary text-xs font-bold rounded-full shadow-lg">
+                        <span className="px-3 py-1 bg-surface-elevated text-primary text-xs font-bold rounded-full shadow-lg">
                           {listing.kind}
                         </span>
                       </div>
-                      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-primary shadow">
+                      <div className="absolute bottom-4 right-4 bg-surface-elevated/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-primary shadow">
                         {listing.price}
                       </div>
                     </div>
@@ -562,7 +560,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-surface-elevated text-foreground font-bold rounded-full hover:scale-[1.02] transition-all shadow-xl"
                 >
                   Create free account
                 </Link>

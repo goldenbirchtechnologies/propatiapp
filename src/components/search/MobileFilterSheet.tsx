@@ -60,16 +60,16 @@ export default function MobileFilterSheet({
       </div>
 
       {/* Fixed Action Buttons */}
-      <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4 flex gap-3">
+      <div className="sticky bottom-0 left-0 right-0 bg-surface-elevated border-t border-border px-6 py-4 flex gap-3">
         <button
           onClick={handleReset}
-          className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors"
+          className="flex-1 px-6 py-3 border border-border text-foreground font-medium rounded-lg hover:bg-muted active:bg-muted/80 transition-colors"
         >
           Reset
         </button>
         <button
           onClick={handleApply}
-          className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors"
+          className="flex-1 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 active:bg-primary/80 transition-colors"
         >
           Apply Filters
         </button>

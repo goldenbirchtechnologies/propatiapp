@@ -68,7 +68,7 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
         </button>
         <Link
           href="/properties"
-          className="px-6 py-3 bg-white text-green-600 font-medium rounded-lg border-2 border-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200"
+          className="px-6 py-3 bg-surface-elevated border-border font-medium rounded-lg hover:bg-muted transition-colors duration-200"
         >
           Browse all properties
         </Link>

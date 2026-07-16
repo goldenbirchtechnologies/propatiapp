@@ -33,7 +33,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             </Link>
           </nav>
           <div className="flex items-center gap-3">
-            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground">
+            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground" aria-label="Back">
               notifications
             </button>
             <Link href="/login" className="text-sm font-semibold text-primary hover:underline">
@@ -60,7 +60,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 <div className="w-full h-full bg-muted" />
                 <button
                   onClick={() => setIsFavorite(!isFavorite)}
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full hover:bg-white transition-colors"
+                  className="absolute top-4 right-4 bg-surface-elevated/90 backdrop-blur-md p-2 rounded-full hover:bg-surface transition-colors"
                 >
                   <span className={`material-symbols-outlined ${isFavorite ? 'text-destructive' : 'text-muted-foreground'}`}>
                     favorite

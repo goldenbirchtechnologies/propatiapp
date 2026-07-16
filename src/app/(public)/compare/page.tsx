@@ -309,11 +309,11 @@ export default function ComparePage() {
                   return (
                     <div key={property.id} className="relative group">
                       <PropertyCard {...cardProps} />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
                         <Button
                           onClick={() => handleAddProperty(property)}
                           size="sm"
-                          className="gap-2 bg-white text-on-surface hover:bg-white/90 font-semibold shadow-lg"
+                          className="gap-2 bg-surface-elevated text-on-surface hover:bg-surface font-semibold shadow-lg"
                         >
                           <PlusIcon className="h-4 w-4" />
                           Add to Compare

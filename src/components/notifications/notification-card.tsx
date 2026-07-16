@@ -56,7 +56,7 @@ export function NotificationCard({
       className={cn(
         'relative p-4 rounded-lg border transition-all cursor-pointer',
         notification.read
-          ? 'bg-white border-gray-200 hover:border-gray-300'
+          ? 'bg-surface-elevated border-border'
           : 'bg-blue-50/50 border-blue-200 hover:border-blue-300',
         compact && 'p-3'
       )}

@@ -172,7 +172,7 @@ function ListingImage({
             size="icon"
             onClick={onSaveClick}
             className={cn(
-              'bg-white/90 backdrop-blur-sm hover:bg-white',
+              'bg-surface-elevated/90 backdrop-blur-sm hover:bg-surface',
               isSaved && 'text-red-500'
             )}
             aria-label={isSaved ? 'Remove from saved' : 'Save listing'}

@@ -35,7 +35,7 @@ export default function ProfileNotifications({ title, description, items }: Prof
               aria-checked={item.enabled}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-ring shadow ring-0 transition duration-200 ease-in-out ${
                   item.enabled ? 'translate-x-5' : 'translate-x-0'
                 }`}
               />

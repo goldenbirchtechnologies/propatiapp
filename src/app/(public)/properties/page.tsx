@@ -30,7 +30,7 @@ export default function PropertiesPage() {
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground">
+            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground" aria-label="Search">
               notifications
             </button>
             <div className="h-8 w-[1px] bg-border mx-1 hidden sm:block" />
@@ -286,7 +286,7 @@ export default function PropertiesPage() {
               <div className="w-full h-full relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50" />
                 {/* Map Legend */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-border max-w-[200px]">
+                <div className="absolute top-4 right-4 bg-surface-elevated/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-border max-w-[200px]">
                   <h4 className="text-sm font-bold mb-2">Verification Legend</h4>
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 text-xs">
@@ -346,7 +346,7 @@ export default function PropertiesPage() {
                   placeholder="Email address"
                   type="email"
                 />
-                <button className="bg-secondary text-primary font-bold px-3 py-2 rounded-lg material-symbols-outlined text-[18px]">
+                <button className="bg-secondary text-primary font-bold px-3 py-2 rounded-lg material-symbols-outlined text-[18px]" aria-label="Filter">
                   arrow_forward
                 </button>
               </div>

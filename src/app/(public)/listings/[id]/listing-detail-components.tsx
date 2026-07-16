@@ -122,19 +122,19 @@ export function ImageGallery({ images, title }: { images: unknown[]; title: stri
               variant="ghost"
               size="icon"
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-surface-elevated/90 hover:bg-surface opacity-0 group-hover:opacity-100 transition-opacity"
               aria-label="Previous image"
             >
-              <ChevronLeft className="h-6 w-6 text-black" />
+              <ChevronLeft className="h-6 w-6 text-foreground" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-surface-elevated/90 hover:bg-surface opacity-0 group-hover:opacity-100 transition-opacity"
               aria-label="Next image"
             >
-              <ChevronRight className="h-6 w-6 text-black" />
+              <ChevronRight className="h-6 w-6 text-foreground" />
             </Button>
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-sm px-3 py-1 rounded-full">

@@ -126,7 +126,7 @@ export function NotificationsBell({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'relative p-2 rounded-lg transition-all',
-          'bg-white hover:bg-gray-50 text-gray-700',
+          'bg-surface-elevated hover:bg-muted text-foreground',
           'border border-gray-200 hover:border-gray-300',
           isAnimating && 'animate-bounce'
         )}

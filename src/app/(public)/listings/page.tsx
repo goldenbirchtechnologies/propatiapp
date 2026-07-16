@@ -514,8 +514,8 @@ function ListingsPageInner() {
       <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
         <div className="flex gap-8">
           {/* Sidebar Filters - Desktop */}
-          <aside className="hidden xl:block w-80 shrink-0">
-            <div className="sticky top-[180px] bg-white rounded-xl border border-outline-variant p-6 shadow-sm">
+          <aside className="hidden lg:block w-80 shrink-0">
+            <div className="sticky top-[180px] bg-surface-elevated rounded-xl border border-outline-variant p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-on-surface mb-6">Filters</h2>
               {renderFilters()}
             </div>

@@ -135,7 +135,7 @@ export default function MarketplacePage() {
               </h1>
 
               {/* Advanced Search Box */}
-              <div className="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl max-w-4xl mx-auto border border-white/20">
+              <div className="bg-surface-elevated/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl max-w-4xl mx-auto border border-outline">
                 <div className="flex flex-col gap-6">
                   {/* Category Toggles */}
                   <div className="flex items-center justify-center gap-4">
@@ -219,7 +219,7 @@ export default function MarketplacePage() {
                 <p className="text-muted-foreground">Verified listings curated for professional standards and reliability.</p>
               </div>
               <div className="flex bg-muted p-1 rounded-full border border-border">
-                <button className="px-6 py-2 rounded-full font-bold text-sm bg-white shadow-sm text-primary">All</button>
+                <button className="px-6 py-2 rounded-full font-bold text-sm bg-surface-elevated shadow-sm text-primary border border-outline">All</button>
                 <button className="px-6 py-2 rounded-full font-bold text-sm text-muted-foreground hover:text-primary transition-colors">
                   Residential
                 </button>
@@ -249,7 +249,7 @@ export default function MarketplacePage() {
                         {property.listingType}
                       </span>
                     </div>
-                    <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg font-label-caps text-primary font-bold">
+                    <div className="absolute bottom-4 right-4 bg-surface-elevated/90 backdrop-blur-md px-3 py-1 rounded-lg font-label-caps text-primary font-bold">
                       {property.price}
                     </div>
                   </div>

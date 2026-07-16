@@ -199,7 +199,7 @@ export default function SearchFilters({
   }, [onFilterChange, maxPrice]);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
+    <div className="bg-surface-elevated rounded-lg shadow-sm border border-outline-variant p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
         <button
@@ -230,7 +230,7 @@ export default function SearchFilters({
             />
           </div>
           {showLocationDropdown && filteredLocations.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+            <div className="absolute z-10 w-full mt-1 bg-surface-elevated border border-outline rounded-lg shadow-lg max-h-60 overflow-y-auto">
               {filteredLocations.map((location) => (
                 <button
                   key={location}

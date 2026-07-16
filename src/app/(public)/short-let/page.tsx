@@ -64,7 +64,7 @@ export default function ShortLetListingsPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
         <aside className="hidden w-64 shrink-0 lg:block">
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-outline-variant bg-surface-elevated p-4 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">Filters</h2>
               <button className="text-xs text-slate-500 hover:text-slate-700">Reset</button>
@@ -107,7 +107,7 @@ export default function ShortLetListingsPage() {
           </div>
 
           {showFilters && (
-            <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 lg:hidden">
+            <div className="mb-6 rounded-2xl border border-outline-variant bg-surface-elevated p-4 lg:hidden">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500">Filters</h2>
                 <button onClick={() => setShowFilters(false)}><X className="h-4 w-4 text-slate-500" /></button>
@@ -141,7 +141,7 @@ export default function ShortLetListingsPage() {
           )}
 
           {!loading && listings.length === 0 && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-surface-elevated p-8 text-center shadow-sm">
               <p className="text-slate-600">No short-let listings available yet.</p>
             </div>
           )}
@@ -149,14 +149,14 @@ export default function ShortLetListingsPage() {
           {!loading && listings.length > 0 && (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {listings.map((item) => (
-                <article key={item.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+                <article key={item.id} className="rounded-2xl border border-outline-variant bg-surface-elevated shadow-sm transition hover:shadow-md">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-slate-100">
                     {item.image ? (
                       <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-slate-400">No image</div>
                     )}
-                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs font-semibold capitalize text-slate-900">short let</span>
+                    <span className="absolute left-3 top-3 rounded-full bg-surface-elevated px-2 py-1 text-xs font-semibold capitalize text-foreground">short let</span>
                   </div>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2">

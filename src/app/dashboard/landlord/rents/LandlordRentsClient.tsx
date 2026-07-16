@@ -234,7 +234,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                         <RentStatusBadge status={tx.status} />
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors">more_vert</button>
+                        <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
                       </td>
                     </tr>
                   ))}
@@ -289,7 +289,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 </div>
               </div>
             </div>
-            <Button className="mt-6 w-full bg-warning text-black hover:bg-warning font-bold">
+            <Button className="mt-6 w-full bg-warning text-foreground hover:bg-warning font-bold">
               <Wallet className="h-4 w-4" />
               Request Instant Payout
             </Button>

@@ -34,7 +34,7 @@ export function TicketCard({ ticket, onClick }: TicketCardProps) {
 
   return (
     <Card
-      className="bg-white cursor-pointer hover:shadow-md transition-shadow"
+      className="bg-surface-elevated cursor-pointer hover:shadow-md transition-shadow"
       onClick={onClick}
     >
       <CardContent className="p-4 space-y-2">

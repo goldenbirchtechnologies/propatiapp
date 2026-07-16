@@ -263,7 +263,7 @@ export function BottomSheet({
       {/* Sheet */}
       <div
         ref={sheetRef}
-        className={`absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out ${className}`}
+        className={`absolute bottom-0 left-0 right-0 bg-surface-elevated rounded-t-2xl shadow-2xl transition-transform duration-300 ease-out ${className}`}
         style={{
           height: `${snapPointHeight}vh`,
           maxHeight: `${snapPointHeight}vh`,
@@ -357,7 +357,7 @@ export function MobileNavDrawer({
       <div
         ref={drawerRef}
         className={`
-          absolute top-0 bottom-0 bg-white shadow-2xl
+          absolute top-0 bottom-0 bg-surface-elevated shadow-2xl
           transition-transform duration-300 ease-out
           ${position === 'left' ? 'left-0' : 'right-0'}
           ${isOpen ? 'translate-x-0' : position === 'left' ? '-translate-x-full' : 'translate-x-full'}

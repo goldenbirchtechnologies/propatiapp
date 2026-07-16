@@ -88,12 +88,12 @@ export default function ShortLetDetailPage() {
               ))}
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-outline-variant bg-surface-elevated p-6 shadow-sm">
               <h2 className="text-lg font-semibold">About this place</h2>
               <p className="mt-2 text-slate-700">{MOCK_SHORTLET.description}</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-surface-elevated p-6 shadow-sm">
               <h2 className="text-lg font-semibold">House rules</h2>
               <ul className="mt-3 list-inside list-disc space-y-1 text-slate-700">
                 {MOCK_SHORTLET.rules.map((r) => <li key={r}>{r}</li>)}
@@ -104,7 +104,7 @@ export default function ShortLetDetailPage() {
 
         {/* Booking card */}
         <aside className="lg:col-span-1">
-          <div className="sticky top-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="sticky top-4 rounded-2xl border border-outline-variant bg-surface-elevated p-6 shadow-sm">
             <div className="flex items-baseline justify-between">
               <span className="text-2xl font-bold text-slate-900">₦{MOCK_SHORTLET.pricePerNight.toLocaleString()}</span>
               <span className="text-sm text-slate-500">/ night</span>

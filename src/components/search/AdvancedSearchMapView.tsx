@@ -199,7 +199,7 @@ function MapMarker({
       {/* Price label */}
       <div className={cn(
         'absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap',
-        'bg-white px-2 py-1 rounded-md shadow-md text-xs font-semibold',
+        'bg-surface-elevated px-2 py-1 rounded-md shadow-md text-xs font-semibold',
         'border border-gray-200',
         isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none',
         'transition-opacity duration-200'
@@ -271,7 +271,7 @@ function PropertyHoverCard({ property, onClose }: { property: PropertyMarker; on
           )}
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
+            className="absolute top-2 right-2 p-1.5 bg-surface-elevated/90 backdrop-blur-sm rounded-full hover:bg-surface transition-colors"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -772,11 +772,11 @@ export function AdvancedSearchMapView({
           variant="outline"
           size="icon"
           onClick={() => setShowFilters(true)}
-          className="bg-white shadow-lg hover:shadow-xl"
+          className="bg-surface-elevated shadow-lg hover:shadow-xl"
         >
           <SlidersHorizontal className="h-5 w-5" />
         </Button>
-        <div className="flex flex-col gap-1 bg-white rounded-lg shadow-lg p-1">
+        <div className="flex flex-col gap-1 bg-surface-elevated rounded-lg shadow-lg p-1">
           <Button variant="ghost" size="icon" onClick={handleZoomIn}>
             <ZoomIn className="h-5 w-5" />
           </Button>
@@ -785,7 +785,7 @@ export function AdvancedSearchMapView({
             <ZoomOut className="h-5 w-5" />
           </Button>
         </div>
-        <Button variant="outline" size="icon" className="bg-white shadow-lg hover:shadow-xl">
+        <Button variant="outline" size="icon" className="bg-surface-elevated shadow-lg hover:shadow-xl">
           <Layers className="h-5 w-5" />
         </Button>
       </div>

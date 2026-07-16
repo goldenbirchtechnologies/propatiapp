@@ -619,7 +619,7 @@ export default function SavedPropertiesPage() {
 
       {/* Note Modal */}
       {showNoteModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Saved item preview" />
           <div className="bg-surface-container-lowest rounded-lg max-w-lg w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-headline-md font-bold text-on-surface">Add Note</h3>

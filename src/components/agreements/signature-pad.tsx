@@ -66,7 +66,7 @@ export function SignaturePad({ onSign, agreementId, disabled = false }: Signatur
             </p>
           </div>
 
-          <div className="border-2 border-gray-300 rounded-lg bg-white">
+          <div className="border-2 border-border rounded-lg bg-surface-elevated">
             <SignatureCanvas
               ref={sigCanvas}
               canvasProps={{

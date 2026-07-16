@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
-import { TransactionStatus } from '@prisma/client';
 import { getSystemWalletUserId } from '@/lib/wallet-service';
 
 export async function POST(request: NextRequest) {

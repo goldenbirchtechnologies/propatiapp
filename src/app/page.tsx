@@ -304,7 +304,7 @@ export default function HomePage() {
 
             <div className="hidden sm:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/60">
               <span className="text-xs tracking-widest uppercase">Scroll</span>
-              <span className="w-px h-8 bg-white/30 animate-pulse" / />
+              <span className="w-px h-8 bg-white/30 animate-pulse"></span>
             </div>
           </div>
         </section>

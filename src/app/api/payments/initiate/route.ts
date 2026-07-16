@@ -4,7 +4,7 @@ import { initiatePaymentSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { paystack } from '@/lib/paystack';
 import { computeFees } from '@/lib/fees';
-import { TransactionType, TransactionStatus } from '@prisma/client';
+import { TransactionType } from '@prisma/client';
 import { notificationService } from '@/lib/notification-service';
 import { randomBytes } from 'crypto';
 

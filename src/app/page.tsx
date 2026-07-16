@@ -1,6 +1,6 @@
-import MaterialIcon from '@/components/icons/material-icon';
-
 'use client';
+
+import MaterialIcon from '@/components/icons/material-icon';
 
 import Image from 'next/image';
 import Link from 'next/link';

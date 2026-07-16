@@ -20,7 +20,7 @@ export default function AuditEventDetailPage() {
       {/* Ported from audit_event_detail_permission_update_propati_admin.html */}
 
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-sm text-label-sm text-on-surface-variant mb-md">
+      <nav className="flex items-center gap-sm text-label-sm text-muted-foreground mb-md">
         <a className="hover:text-primary" href="#">Home</a>
         <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
         <a className="hover:text-primary" href="#">Audit Logs</a>

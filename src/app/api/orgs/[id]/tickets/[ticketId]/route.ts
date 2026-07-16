@@ -3,6 +3,7 @@ import { withAuth } from '@/lib/api-auth';
 import { updateMaintenanceTicketSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { notificationService } from '@/lib/notification-service';
 
 const ticketUpdateSchema = updateMaintenanceTicketSchema.extend({
   ticketId: z.string().uuid(),
@@ -167,7 +168,59 @@ export async function PATCH(
       },
     });
 
-    // TODO: Send notifications on status change/assignment
+    const statusChanged = validated.status && ticket.status !== updated.status;
+    const assignmentChanged = validated.assignedTo && ticket.assignedTo !== updated.assignedTo;
+
+    if (statusChanged || assignmentChanged) {
+      const managerIds = await prisma.orgMember.findMany({
+        where: { orgId: id, role: { in: ['manager', 'maintenance'] } },
+        select: { userId: true },
+      });
+
+      const participantIds = [ticket.raisedBy, updated.assignedTo || null];
+      const previousAssigneeChanged = assignmentChanged ? ticket.assignedTo : null;
+      const notifyUserIds = [
+        ...participantIds,
+        previousAssigneeChanged,
+        ...(managerIds || []).map((m) => m.userId),
+      ].filter(Boolean) as string[];
+
+      if (notifyUserIds.length > 0) {
+        let notificationTitle = 'Maintenance Ticket Updated';
+        let notificationMessage = `Ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} was updated.`;
+
+        if (statusChanged) {
+          if (updated.status === 'resolved') {
+            notificationTitle = 'Maintenance Ticket Resolved';
+            notificationMessage = `Your maintenance ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} has been resolved.`;
+          } else if (updated.status === 'closed') {
+            notificationTitle = 'Maintenance Ticket Closed';
+            notificationMessage = `Your maintenance ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} has been closed.`;
+          } else if (updated.status === 'in_progress') {
+            notificationTitle = 'Maintenance Ticket In Progress';
+            notificationMessage = `Your maintenance ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} is now in progress.`;
+          } else if (updated.status === 'assigned') {
+            notificationTitle = 'Maintenance Ticket Assigned';
+            notificationMessage = `A maintenance ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} has been assigned.`;
+          }
+        }
+
+        if (assignmentChanged && !statusChanged) {
+          notificationTitle = 'Maintenance Ticket Assigned';
+          notificationMessage = `A maintenance ticket for ${(updated.listing as { title?: string } | null)?.title || 'a property'} has been assigned.`;
+        }
+
+        notificationService.notifyUsersForEvent({
+          userIds: notifyUserIds,
+          type: 'maintenance',
+          title: notificationTitle,
+          message: notificationMessage,
+          actionUrl: `/dashboard/orgs/${id}/tickets/${ticketId}`,
+          metadata: { ticketId: updated.id, listingId: updated.listingId, oldStatus: ticket.status, newStatus: updated.status },
+          channels: ['inapp'],
+        }).catch(() => undefined);
+      }
+    }
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {

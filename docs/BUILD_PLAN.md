@@ -14,7 +14,7 @@
 |------|--------|-------|
 | Core Infrastructure (Phase 1–2) | ✅ Done | App Router, Prisma, Clerk, Paystack, Notifications, Verification all functional |
 | Agent Listings Screen (Phase 3) | ⚠️ Partial | Agent pipeline screens exist; realtor buy/sell pages missing |
-| Admin Console (Phase 4) | ⚠️ Partial | Most admin pages wired; `admin/agreements` page absent |
+|| Admin Console (Phase 4) | ✅ Done | Most admin pages wired; `admin/agreements` page present |
 | PDF Reports & Agreements (Phase 5) | ✅ Done | AgreementPDF, ReceiptPDF, EM monthly reports implemented |
 | Notifications System (Phase 6) | ✅ Done | Bell, email/SMS, cron jobs active |
 | Prembly NIN Production (Phase 7) | ⚠️ Needs Credentials | Code ready; production keys must be set in Railway env |

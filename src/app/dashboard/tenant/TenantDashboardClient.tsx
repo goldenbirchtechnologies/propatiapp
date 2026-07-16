@@ -1,7 +1,5 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
-
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { LayoutDashboard, Home, FileText, MessageSquare, Bell, Settings, Search, Receipt, Heart, FileCheck, HelpCircle, TrendingUp } from 'lucide-react';
@@ -25,10 +23,14 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-8 w-64" />
+      <div className="space-y-6">
+        <Skeleton className="h-10 w-64" />
         <Skeleton className="h-40 w-full" />
-        <Skeleton className="h-64 w-full" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <Skeleton key={i} className="h-24 w-full" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -54,10 +56,10 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Welcome back, {greeting}</h1>
+            <h1 className="text-headline-lg-mobile font-bold text-foreground">Welcome back, {greeting}</h1>
             <p className="text-muted-foreground mt-1">Track your search, tenancy, and payments.</p>
           </div>
           <div className="flex items-center gap-2">
@@ -68,7 +70,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Search Hub */}
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
         <Tabs defaultValue="residential" className="w-full">
           <TabsList>
             <TabsTrigger value="residential">Residential</TabsTrigger>
@@ -104,10 +106,10 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <CardTitle className="text-sm text-muted-foreground">Total Payments Made</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">₦1.85M</div>
+            <div className="font-headline-md text-headline-md text-primary">₦1.85M</div>
             <div className="mt-2 flex items-center gap-2 text-xs text-success">
               <TrendingUp className="h-4 w-4" />
-              <MaterialIcon name="On track" className="material-symbols-outlined" />
+              <span className="font-medium">On track</span>
             </div>
           </CardContent>
         </Card>
@@ -116,7 +118,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <CardTitle className="text-sm text-muted-foreground">Active Applications</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">3</div>
+            <div className="font-headline-md text-headline-md text-primary">3</div>
             <p className="text-xs text-muted-foreground">1 pending review</p>
           </CardContent>
         </Card>
@@ -125,19 +127,19 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <CardTitle className="text-sm text-muted-foreground">Saved Properties</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">12</div>
+            <div className="font-headline-md text-headline-md text-primary">12</div>
             <p className="text-xs text-muted-foreground">4 updated this week</p>
           </CardContent>
         </Card>
       </section>
 
       {/* Current Property */}
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="h-40 w-full md:w-64 rounded-xl bg-muted" />
           <div className="flex-1 space-y-2">
             <Badge variant="secondary">Active Lease</Badge>
-            <h2 className="text-xl font-bold text-foreground">2 Bed Flat · Ikoyi</h2>
+            <h2 className="font-headline-sm text-headline-sm text-primary">2 Bed Flat · Ikoyi</h2>
             <p className="text-sm text-muted-foreground">Landlord: Adebayo Estates</p>
             <p className="text-sm text-muted-foreground">Next rent due in 18 days</p>
             <div className="flex flex-wrap gap-2 pt-2">
@@ -151,39 +153,44 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
 
       {/* Recent Payments */}
       <section className="rounded-2xl border border-border bg-card shadow-sm">
-        <div className="flex items-center justify-between p-6">
-          <h2 className="text-lg font-bold text-foreground">Recent Payments</h2>
+        <div className="section-content">
+        <div className="flex items-center justify-between p-lg">
+          <h2 className="font-headline-sm text-headline-sm text-primary">Recent Payments</h2>
           <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-primary">View All</Link>
         </div>
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Reference</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Receipt</TableHead>
+            <TableRow className="bg-surface-container-high/50">
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Date</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Reference</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Amount</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Status</TableHead>
+              <TableHead className="text-right text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Receipt</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="divide-y divide-outline-variant/30">
             {[1, 2, 3].map(row => (
-              <TableRow key={row}>
-                <TableCell className="text-sm text-muted-foreground">2026-06-{10 + row}</TableCell>
-                <TableCell className="text-sm">TXN-{1000 + row}</TableCell>
-                <TableCell className="text-sm font-semibold">₦450,000</TableCell>
-                <TableCell>
+              <TableRow key={row} className="hover:bg-surface-container/30 transition-colors">
+                <TableCell className="px-lg py-4 text-sm text-muted-foreground">2026-06-{10 + row}</TableCell>
+                <TableCell className="px-lg py-4 text-sm">TXN-{1000 + row}</TableCell>
+                <TableCell className="px-lg py-4 text-sm font-semibold">₦450,000</TableCell>
+                <TableCell className="px-lg py-4">
                   <Badge variant="secondary" className="bg-success/10 text-success">Paid</Badge>
                 </TableCell>
-                <TableCell className="text-right text-sm text-primary">Download</TableCell>
+                <TableCell className="px-lg py-4 text-right text-sm text-primary">Download</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        </div>
+        <div className="section-empty-msg items-center justify-center p-8 text-center">
+          <p className="text-sm text-muted-foreground">No payments yet.</p>
+        </div>
       </section>
 
       {/* Recommended */}
       <section className="space-y-3">
-        <h2 className="text-lg font-bold text-foreground">Recommended for You</h2>
+        <h2 className="font-headline-sm text-headline-sm text-primary">Recommended for You</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {recommended.map(item => (
             <Card key={item.title} className="transition hover:shadow-lg">
@@ -204,7 +211,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Recent Activity Overview</CardTitle>
+            <CardTitle className="font-headline-sm text-headline-sm">Recent Activity Overview</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
@@ -213,17 +220,17 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Next Rent Due</div>
-              <div className="mt-2 text-2xl font-bold text-foreground">18 days</div>
+              <div className="mt-2 font-headline-md text-headline-md text-primary">18 days</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Saved Searches</div>
-              <div className="mt-2 text-2xl font-bold text-foreground">4</div>
+              <div className="mt-2 font-headline-md text-headline-md text-primary">4</div>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Pending Lease</CardTitle>
+            <CardTitle className="font-headline-sm text-headline-sm">Pending Lease</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Progress value={45} />
@@ -234,8 +241,8 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Help */}
-      <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-foreground">Help Center</h2>
+      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
+        <h2 className="font-headline-sm text-headline-sm text-primary">Help Center</h2>
         <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
           <Link href="/dashboard/tenant/messages" className="rounded-xl border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary">Chat with verified agent</Link>
           <Link href="/dashboard/support" className="rounded-xl border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary">Tenant Rights & FAQs</Link>

@@ -401,10 +401,18 @@ export function Sidebar({
     if (!mobileOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onMobileClose) {
+        onMobileClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = prev;
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, onMobileClose]);
 
   return (
     <aside

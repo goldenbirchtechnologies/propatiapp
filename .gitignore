@@ -52,3 +52,6 @@ ehthumbs.db
 Desktop.ini
 .gstack/
 .hotplate/
+
+# ESLint cache
+.eslintcache

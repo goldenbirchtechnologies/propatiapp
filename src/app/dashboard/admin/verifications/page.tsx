@@ -34,7 +34,7 @@ export default function AdminVerificationsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Verifications</h1>
-            <p className="text-muted-foreground mt-1">Manage platform-wide user verifications.</p>
+            <p className="mt-1 text-muted-foreground">Manage platform-wide user verifications.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
             New Batch
@@ -47,7 +47,7 @@ export default function AdminVerificationsPage() {
             </svg>
           </div>
           <h3 className="text-lg font-medium text-primary">No verifications yet</h3>
-          <p className="mt-1 text-on-surface-variant">Batch verification results will appear here.</p>
+          <p className="mt-1 text-muted-foreground">Batch verification results will appear here.</p>
         </div>
       </section>
     </DashboardShell>

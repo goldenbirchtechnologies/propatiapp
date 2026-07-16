@@ -198,7 +198,7 @@ export async function POST(
       },
     });
 
-    // TODO: Send notification to assigned user and org managers
+    // Notify assigned user and org managers
     const managerIds = await prisma.orgMember.findMany({
       where: { orgId, role: { in: ['manager', 'maintenance'] } },
       select: { userId: true },

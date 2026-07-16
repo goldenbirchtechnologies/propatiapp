@@ -14,8 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-// @ts-expect-error react-scroll-area types not declared
-import { ScrollArea } from '@/components/ui/react-scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ListingData } from '@/components/listings/listing-card';
 
 

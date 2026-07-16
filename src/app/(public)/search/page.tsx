@@ -49,6 +49,9 @@ function SearchPageInner() {
   const [displayedCount, setDisplayedCount] = React.useState(8);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const observerTarget = React.useRef<HTMLDivElement>(null);
+  const [savedIds, setSavedIds] = React.useState<Set<string>>(new Set());
+  const savedIdsRef = React.useRef<Set<string>>(savedIds);
+  savedIdsRef.current = savedIds;
 
   const { data: listingsData, isLoading, error, refetch } = useQuery({
     queryKey: ['listings', 'public-search'],
@@ -81,7 +84,7 @@ function SearchPageInner() {
           sqm: l.area ?? undefined,
           parking: l.parkingSpaces ?? undefined,
         },
-        isSaved: false,
+        isSaved: savedIdsRef.current.has(l.id),
       };
     });
   }, [listings]);
@@ -144,9 +147,35 @@ function SearchPageInner() {
     setFilters({});
   };
 
-  const handleSave = (_id: string) => {
-    // TODO: implement save
-  };
+  const handleSave = React.useCallback(async (listingId: string) => {
+    const wasSaved = savedIdsRef.current.has(listingId);
+
+    // Optimistic flip
+    setSavedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(listingId)) {
+        next.delete(listingId);
+      } else {
+        next.add(listingId);
+      }
+      return next;
+    });
+
+    try {
+      await apiEndpoints.listings.save(listingId);
+    } catch {
+      // Roll back on failure so the UI stays consistent with reality
+      setSavedIds((prev) => {
+        const next = new Set(prev);
+        if (wasSaved) {
+          next.add(listingId);
+        } else {
+          next.delete(listingId);
+        }
+        return next;
+      });
+    }
+  }, []);
 
   if (error) {
     return (

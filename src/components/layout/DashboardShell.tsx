@@ -252,7 +252,13 @@ function LoadingShell() {
       className="app-layout"
       aria-busy="true"
       aria-label="Loading dashboard"
-      style={{ minHeight: '100vh' }}
+      style={{
+        minHeight: '100vh',
+        '--text': '#f8f6f0',
+        '--muted': 'rgba(255,255,255,0.65)',
+        '--surface-elevated': '#093057',
+        '--border': 'rgba(255,255,255,0.18)',
+      }}
     >
       {/* Skeleton sidebar */}
       <aside
@@ -261,9 +267,8 @@ function LoadingShell() {
         aria-label="Loading navigation"
         style={{
           width: 'var(--sidebar-width)',
-          background: 'linear-gradient(180deg, #06203d 0%, #093057 100%)',
-          borderRight: '1px solid rgba(255,255,255,0.18)',
-          color: '#f8f6f0',
+          color: 'var(--text)',
+          borderRight: '1px solid var(--border)',
         }}
       >
         <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
@@ -338,7 +343,7 @@ function LoadingShell() {
           style={{
             height: 'var(--topbar-height)',
             padding: '0 var(--space-xxl)',
-            background: 'hsl(var(--surface-container-lowest) / 1)',
+            background: 'var(--surface)',
             borderBottom: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
@@ -533,6 +538,15 @@ export function DashboardShell({
     } catch { /* noop */ }
   }, [sidebarCollapsed]);
 
+  // Close mobile sidebar on Escape for accessibility
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSidebarOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const toggleSidebar = () => setSidebarCollapsed((prev) => !prev);
 
   // Early return after hooks to avoid Rules-of-Hooks violations
@@ -570,22 +584,22 @@ export function DashboardShell({
           .sb-header-bar { justify-content: space-between; }
           .sb-user-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
           .sb-user-text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-          .sb-user-name { color: #fff; font-weight: 600; font-size: 14px; line-height: 20px; }
-          .sb-user-role { color: rgba(255,255,255,0.65); font-size: 11px; line-height: 16px; text-transform: capitalize; }
+          .sb-user-name { color: var(--text); font-weight: 600; font-size: 14px; line-height: 20px; }
+          .sb-user-role { color: var(--muted); font-size: 11px; line-height: 16px; text-transform: capitalize; }
           .sb-nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
-          .sb-nav-item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: rgba(255,255,255,0.9); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
-          .sb-nav-item.active, .sb-nav-item[aria-current='true'] { color: #000; background: #ffca28; border-left-color: #b45309; }
+          .sb-nav-item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: var(--text); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
+          .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: var(--accent); border-left-color: var(--accent2); }
           .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
           .sb-footer-bar { justify-content: center; }
-          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); border: none; cursor: pointer; transition: background-color 0.15s ease; }
-          .sb-signout-btn:hover { background: rgba(255,255,255,0.16); }
+          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--text); background: var(--surface-elevated); border: none; cursor: pointer; transition: background-color 0.15s ease; }
+          .sb-signout-btn:hover { background: var(--surface-elevated); }
         `}</style>
         <div className="sb-inner">
           <div className="sb-header-bar">
             <Link href="/dashboard" className="flex items-center gap-2">
               <img src="/brand/propati-logo.png" alt="PROPATI" width="32" height="32" className="rounded-full" style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
               {!sidebarCollapsed && (
-                <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.7)' }}>Dashboard</span>
+                <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Dashboard</span>
               )}
             </Link>
           </div>
@@ -593,8 +607,8 @@ export function DashboardShell({
           <div className="sb-user-card">
             <div className="sb-user-row">
               <div
-                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white"
-                style={{ background: 'hsl(var(--secondary-container) / 1)', color: 'hsl(var(--on-secondary-container) / 1)' }}
+                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold"
+                style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
               >
                 {userAvatar ? (
                   <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
@@ -661,7 +675,7 @@ export function DashboardShell({
           <div className="flex items-center gap-4">
             <button
               className="md:hidden p-2 rounded-lg"
-              style={{ background: 'hsl(var(--surface-container-low) / 1)', color: 'hsl(var(--foreground) / 1)' }}
+              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
               onClick={() => setSidebarOpen(true)}
               aria-label="Open menu"
             >
@@ -673,7 +687,7 @@ export function DashboardShell({
             </button>
             <button
               className="hidden md:flex p-2 rounded-lg"
-              style={{ background: 'hsl(var(--surface-container-low) / 1)', color: 'hsl(var(--foreground) / 1)' }}
+              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
               onClick={toggleSidebar}
               aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
@@ -693,9 +707,9 @@ export function DashboardShell({
             </button>
 
             {/* Search pill */}
-            <div className="hidden md:flex flex-1 max-w-md items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'hsl(var(--border) / 1)', background: 'hsl(var(--surface-container-low) / 1)' }}>
-              <Search size={16} style={{ color: 'hsl(var(--muted-foreground) / 1)' }} />
-              <span className="text-sm" style={{ color: 'hsl(var(--muted-foreground) / 1)' }}>Search...</span>
+            <div className="hidden md:flex flex-1 max-w-md items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'var(--border)', background: 'var(--surface-elevated)' }}>
+              <Search size={16} style={{ color: 'var(--muted-foreground)' }} />
+              <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Search...</span>
             </div>
           </div>
 
@@ -706,7 +720,7 @@ export function DashboardShell({
               className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
               aria-label="Help"
             >
-              <HelpCircle size={20} style={{ color: 'hsl(var(--muted-foreground) / 1)' }} />
+              <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
             <NotificationsBell position="right" userRole={userRole} />
             <UserButton
@@ -804,8 +818,8 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
       <nav
         className="fixed inset-x-0 bottom-0 z-50 hidden h-16 items-center justify-around border-t md:hidden"
         style={{
-          background: 'hsl(var(--surface-container-lowest) / 1)',
-          borderTopColor: 'hsl(var(--border) / 1)',
+          background: 'var(--surface)',
+          borderTopColor: 'var(--border)',
         }}
         aria-label="Mobile navigation"
       >
@@ -817,7 +831,7 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
               href={item.href}
               className="flex flex-col items-center gap-1 px-2 py-1"
               style={{
-                color: active ? 'hsl(var(--amber) / 1)' : 'hsl(var(--muted-foreground) / 1)',
+                color: active ? 'var(--amber)' : 'var(--muted-foreground)',
                 transition: 'color var(--transition-fast)',
               }}
             >
@@ -830,11 +844,7 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
       <Link
         href="/dashboard"
         aria-label="Dashboard"
-        className="fixed bottom-6 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg md:hidden"
-        style={{
-          background: 'hsl(var(--secondary-container) / 1)',
-          color: 'hsl(var(--on-secondary-container) / 1)',
-        }}
+        className="fixed bottom-6 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg md:hidden bg-secondary-container text-on-secondary-container"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />

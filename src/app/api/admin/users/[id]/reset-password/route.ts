@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email/email-service';
+import crypto from 'crypto';
 
 export async function POST(
   req: NextRequest,
@@ -53,9 +54,17 @@ export async function POST(
       );
     }
 
-    // TODO: Persist resetToken with expiry in DB once a reset-token model exists.
-    // For now the token is ephemeral; the email notifies the user an admin
-    // initiated a reset and includes a fallback contact-support message.
+    // Persist the hashed reset token with a 1-hour expiry. Using upsert so a
+    // previous unexpired token is replaced atomically (prevents reuse of an old
+    // token once a fresh one is issued).
+    const tokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+    await prisma.passwordReset.upsert({
+      where: { userId: targetUser.id },
+      create: { userId: targetUser.id, tokenHash, expiresAt },
+      update: { tokenHash, expiresAt },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

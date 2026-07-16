@@ -4,6 +4,8 @@ import { paginationSchema, inviteOrgMemberSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 import { OrgMemberRole, OrgMemberStatus } from '@prisma/client';
 import { z } from 'zod';
+import { sendEmail } from '@/lib/email';
+import { getAppUrl } from '@/lib/urls';
 
 const updateMemberSchema = z.object({
   role: z.enum(['manager', 'accountant', 'maintenance', 'owner_view']).optional(),
@@ -121,7 +123,7 @@ export async function POST(
 
     const org = await prisma.organisation.findUnique({
       where: { id },
-      select: { ownerId: true, maxSeats: true },
+      select: { ownerId: true, maxSeats: true, name: true },
     });
 
     if (!org) {
@@ -172,6 +174,25 @@ export async function POST(
           },
           include: { user: { select: { id: true, fullName: true, email: true, avatarUrl: true } } },
         });
+
+        const reactAcceptUrl = `${getAppUrl()}/orgs/${id}/invite/accept?token=${updated.inviteToken}`;
+        const reactHtml = `
+          <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #1e3a5f;">You're Invited Back!</h1>
+            <p>${user.fullName} has invited you to rejoin <strong>${org.name}</strong> on PROPATI.</p>
+            <a href="${reactAcceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
+          </div>
+        `;
+        try {
+          await sendEmail({
+            to: updated.user.email,
+            subject: `You're invited back to ${org.name} on PROPATI`,
+            html: reactHtml,
+          });
+        } catch (error) {
+          console.error('Failed to send reactivation invitation email:', error);
+        }
+
         return NextResponse.json({ success: true, data: updated }, { status: 201 });
       }
     }
@@ -192,7 +213,28 @@ export async function POST(
       },
     });
 
-    // TODO: Send invitation email with inviteToken
+    const acceptUrl = `${getAppUrl()}/orgs/${id}/invite/accept?token=${member.inviteToken}`;
+    const inviteHtml = `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">You're Invited!</h1>
+        <p>${user.fullName} has invited you to join <strong>${org.name}</strong> on PROPATI.</p>
+        <p>Click the button below to accept the invitation:</p>
+        <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
+        <p style="margin-top: 16px; color: #666;">If the button doesn't work, copy and paste this URL into your browser:<br/>${acceptUrl}</p>
+      </div>
+    `;
+    const inviteText = `You're invited!\n\n${user.fullName} has invited you to join ${org.name} on PROPATI.\n\nAccept your invitation by visiting:\n${acceptUrl}\n\nIf you did not expect this invitation, you can ignore this email.`;
+
+    try {
+      await sendEmail({
+        to: validated.email,
+        subject: `Invitation to join ${org.name} on PROPATI`,
+        html: inviteHtml,
+        text: inviteText,
+      });
+    } catch (error) {
+      console.error('Failed to send invitation email:', error);
+    }
 
     return NextResponse.json({ success: true, data: member }, { status: 201 });
   } catch (error) {

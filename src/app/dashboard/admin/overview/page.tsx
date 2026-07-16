@@ -21,14 +21,14 @@ export default function AdminOverviewPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
         <div>
           <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">Platform Overview</h1>
-          <p className="text-on-surface-variant font-body-md">System health and verification analytics for Today.</p>
+          <p className="text-muted-foreground font-body-md">System health and verification analytics for Today.</p>
         </div>
         <div className="flex items-center gap-sm bg-surface-container rounded-lg p-1 border border-outline-variant">
           <button className="px-md py-1.5 bg-surface text-primary font-semibold rounded shadow-sm text-body-sm">Daily</button>
-          <button className="px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">Weekly</button>
-          <button className="px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">Monthly</button>
+          <button className="px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">Weekly</button>
+          <button className="px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">Monthly</button>
           <div className="h-4 w-[1px] bg-outline-variant mx-2"></div>
-          <button className="flex items-center gap-xs px-md py-1.5 text-on-surface-variant hover:text-primary transition-colors text-body-sm">
+          <button className="flex items-center gap-xs px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">
             <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
             <MaterialIcon name="Oct 24, 2023" className="material-symbols-outlined" />
           </button>
@@ -49,7 +49,7 @@ export default function AdminOverviewPage() {
             </span>
           </div>
           <div className="mt-md">
-            <span className="text-on-surface-variant text-label-md">Total Active Users</span>
+            <span className="text-muted-foreground text-label-md">Total Active Users</span>
             <h2 className="text-headline-md font-bold mt-xs">18,492</h2>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function AdminOverviewPage() {
             <span className="text-error flex items-center text-label-sm font-bold">URGENT</span>
           </div>
           <div className="mt-md">
-            <span className="text-on-surface-variant text-label-md">Pending Verifications</span>
+            <span className="text-muted-foreground text-label-md">Pending Verifications</span>
             <h2 className="text-headline-md font-bold mt-xs">142</h2>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AdminOverviewPage() {
             </span>
           </div>
           <div className="mt-md">
-            <span className="text-on-surface-variant text-label-md">Platform Revenue (GTV)</span>
+            <span className="text-muted-foreground text-label-md">Platform Revenue (GTV)</span>
             <h2 className="text-headline-md font-bold mt-xs">₦4.2M</h2>
           </div>
         </div>
@@ -91,10 +91,10 @@ export default function AdminOverviewPage() {
             <div className="p-sm bg-on-surface-variant/10 rounded-lg">
               <MaterialIcon name="report" className="material-symbols-outlined" />
             </div>
-            <span className="text-on-surface-variant flex items-center text-label-sm">Stable</span>
+            <span className="text-muted-foreground flex items-center text-label-sm">Stable</span>
           </div>
           <div className="mt-md">
-            <span className="text-on-surface-variant text-label-md">Active Disputes</span>
+            <span className="text-muted-foreground text-label-md">Active Disputes</span>
             <h2 className="text-headline-md font-bold mt-xs">24</h2>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function AdminOverviewPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-surface-container-low text-on-surface-variant font-label-md border-b border-outline-variant">
+                <tr className="bg-surface-container-low text-muted-foreground font-label-md border-b border-outline-variant">
                   <th className="px-lg py-md font-medium">Property Name</th>
                   <th className="px-lg py-md font-medium">Landlord</th>
                   <th className="px-lg py-md font-medium">Level</th>
@@ -131,7 +131,7 @@ export default function AdminOverviewPage() {
                       </div>
                       <div>
                         <div className="font-bold text-primary">Skyline Penthouse</div>
-                        <div className="text-body-sm text-on-surface-variant">Ikoyi, Lagos</div>
+                        <div className="text-body-sm text-muted-foreground">Ikoyi, Lagos</div>
                       </div>
                     </div>
                   </td>
@@ -162,18 +162,18 @@ export default function AdminOverviewPage() {
                       </div>
                       <div>
                         <div className="font-bold text-primary">Emerald Gardens</div>
-                        <div className="text-body-sm text-on-surface-variant">Lekki Phase 1</div>
+                        <div className="text-body-sm text-muted-foreground">Lekki Phase 1</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-lg py-md text-body-md">Fatima Yusuf</td>
                   <td className="px-lg py-md">
-                    <span className="inline-block px-3 py-1 rounded-full bg-outline-variant/20 text-on-surface font-label-md text-xs">
+                    <span className="inline-block px-3 py-1 rounded-full bg-outline-variant/20 text-foreground font-label-md text-xs">
                       LEVEL 2
                     </span>
                   </td>
                   <td className="px-lg py-md">
-                    <span className="px-sm py-1 rounded bg-surface-container-high text-on-surface-variant font-medium text-xs border border-outline-variant uppercase">
+                    <span className="px-sm py-1 rounded bg-surface-container-high text-muted-foreground font-medium text-xs border border-outline-variant uppercase">
                       Pending
                     </span>
                   </td>
@@ -193,7 +193,7 @@ export default function AdminOverviewPage() {
                       </div>
                       <div>
                         <div className="font-bold text-primary">The Apex Duplex</div>
-                        <div className="text-body-sm text-on-surface-variant">Victoria Island</div>
+                        <div className="text-body-sm text-muted-foreground">Victoria Island</div>
                       </div>
                     </div>
                   </td>
@@ -233,23 +233,23 @@ export default function AdminOverviewPage() {
             <div className="p-md bg-error-container/5 border-l-4 border-error rounded-r-lg hover:bg-error-container/10 transition-colors">
               <div className="flex justify-between items-start">
                 <span className="font-bold text-primary text-body-sm">Flagged Account: @user829</span>
-                <span className="text-[10px] text-on-surface-variant uppercase">14m ago</span>
+                <span className="text-[10px] text-muted-foreground uppercase">14m ago</span>
               </div>
-              <p className="text-body-sm text-on-surface-variant mt-1">
+              <p className="text-body-sm text-muted-foreground mt-1">
                 High frequency transaction pattern detected from unverified IP.
               </p>
               <div className="mt-sm flex gap-sm">
                 <button className="text-xs font-bold text-error hover:underline">Investigate</button>
-                <button className="text-xs font-bold text-on-surface-variant hover:underline">Dismiss</button>
+                <button className="text-xs font-bold text-muted-foreground hover:underline">Dismiss</button>
               </div>
             </div>
 
             <div className="p-md bg-surface-container-high border-l-4 border-secondary rounded-r-lg">
               <div className="flex justify-between items-start">
                 <span className="font-bold text-primary text-body-sm">Listing Discrepancy</span>
-                <span className="text-[10px] text-on-surface-variant uppercase">2h ago</span>
+                <span className="text-[10px] text-muted-foreground uppercase">2h ago</span>
               </div>
-              <p className="text-body-sm text-on-surface-variant mt-1">
+              <p className="text-body-sm text-muted-foreground mt-1">
                 &quot;Maitama Manor&quot; coordinates don&apos;t match provided land registry docs.
               </p>
               <div className="mt-sm flex gap-sm">
@@ -260,14 +260,14 @@ export default function AdminOverviewPage() {
             <div className="p-md bg-surface-container border-l-4 border-outline rounded-r-lg">
               <div className="flex justify-between items-start">
                 <span className="font-bold text-primary text-body-sm">Suspicious Withdrawal</span>
-                <span className="text-[10px] text-on-surface-variant uppercase">4h ago</span>
+                <span className="text-[10px] text-muted-foreground uppercase">4h ago</span>
               </div>
-              <p className="text-body-sm text-on-surface-variant mt-1">
+              <p className="text-body-sm text-muted-foreground mt-1">
                 ₦850,000 flagged for manual AML review.
               </p>
             </div>
           </div>
-          <button className="mt-auto w-full py-2 border border-outline text-on-surface-variant text-body-sm font-semibold rounded-lg hover:bg-surface-container-high transition-colors">
+          <button className="mt-auto w-full py-2 border border-outline text-muted-foreground text-body-sm font-semibold rounded-lg hover:bg-surface-container-high transition-colors">
             Security Log History
           </button>
         </div>
@@ -339,7 +339,7 @@ export default function AdminOverviewPage() {
       </div>
 
       {/* Footer / System Status */}
-      <footer className="mt-auto px-lg py-md border-t border-outline-variant bg-surface-container-low flex justify-between items-center text-on-surface-variant text-label-sm">
+      <footer className="mt-auto px-lg py-md border-t border-outline-variant bg-surface-container-low flex justify-between items-center text-muted-foreground text-label-sm">
         <div className="flex items-center gap-md">
           <span className="flex items-center gap-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>

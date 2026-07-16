@@ -12,7 +12,7 @@
 | Prisma Schema | 40+ models, 30+ enums | 0 missing models | ~100% |
 | API Routes | 134 route.ts files | screening-calls, evidence-packs (public) | ~95% |
 | Dashboard Pages | 90 of 95 nav targets | 5 realtor pages | ~95% |
-| Admin Pages | 14 pages (incl. business/) | admin/agreements | ~93% |
+|| Admin Pages | 15 pages (incl. business/) | None | ~100% |
 | Hooks | 17 hooks | None critical | ~95% |
 | Lib Layer | 49 files | No test infrastructure | ~90% |
 | Components | 70 files | Some realtor-specific components | ~85% |

@@ -18,7 +18,7 @@ export default function AdminPropertiesPage() {
             <p className="text-red-600 text-sm mt-1">{error}</p>
             <button
               onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90"
             >
               Retry
             </button>
@@ -36,7 +36,7 @@ export default function AdminPropertiesPage() {
             <h1 className="text-3xl font-bold text-foreground">Properties</h1>
             <p className="text-muted-foreground mt-1">Manage and approve property listings.</p>
           </div>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+          <button className="px-4 py-2 bg-success text-success-foreground rounded-lg hover:opacity-90">
             Add Property
           </button>
         </div>
@@ -47,7 +47,7 @@ export default function AdminPropertiesPage() {
             </svg>
           </div>
           <h3 className="text-lg font-medium text-primary">No properties listed</h3>
-          <p className="mt-1 text-on-surface-variant">Approved properties will appear here.</p>
+          <p className="mt-1 text-muted-foreground">Approved properties will appear here.</p>
         </div>
       </section>
     </DashboardShell>

@@ -97,9 +97,9 @@ export function createRateLimiter(config: RateLimiterConfig) {
 export type RateLimiterDriver = 'memory' | 'vercel_kv';
 
 export async function createRateLimiterVercelKV(config: RateLimiterConfig) {
-  // TODO: Uncomment and implement after @vercel/kv is installed.
-  //
-  //   import { kv } from '@vercel/kv';
+  // Documented production stub: keep this as a drop-in replacement once
+  // `@vercel/kv` is installed. Until then it intentionally throws so call
+  // sites can migrate to it behind an env flag without silent failures.
   //
   //   return {
   //     async limit(key: string): Promise<RateLimitResult> {

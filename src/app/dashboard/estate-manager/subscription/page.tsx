@@ -1,6 +1,6 @@
 'use client';
 
-import { useOrganizations } from '@/hooks/useOrganizations';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,45 +16,43 @@ import {
 } from '@/components/ui/table';
 import { Check, Crown, Building2, Users, FileText, TrendingUp, ExternalLink } from 'lucide-react';
 
+function SubscriptionSkeleton() {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-96" />
+      <Skeleton className="h-96" />
+    </div>
+  );
+}
+
 export default function SubscriptionPage() {
-  const { data: orgsData, isLoading: orgsLoading } = useOrganizations();
-  const org = orgsData?.data?.[0];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['estate-manager', 'subscription'],
+    queryFn: async () => {
+      const res = await fetch('/api/dashboard/estate-manager/subscription');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to load subscription data');
+      }
+      return res.json();
+    },
+  });
 
-  // Mock billing history
-  const billingHistory = [
-    {
-      id: '1',
-      date: '2024-06-01',
-      plan: 'Growth',
-      amount: 50000,
-      status: 'paid',
-    },
-    {
-      id: '2',
-      date: '2024-05-01',
-      plan: 'Growth',
-      amount: 50000,
-      status: 'paid',
-    },
-    {
-      id: '3',
-      date: '2024-04-01',
-      plan: 'Starter',
-      amount: 20000,
-      status: 'paid',
-    },
-  ];
+  if (isLoading) {
+    return <SubscriptionSkeleton />;
+  }
 
-  if (orgsLoading) {
+  if (error) {
     return (
-      <div className="space-y-6">
-        <Skeleton className="h-10 w-64" />
-        <Skeleton className="h-96" />
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
+        <p className="text-muted-foreground">{error.message}</p>
       </div>
     );
   }
 
-  if (!org) {
+  if (data?.noOrg || !data?.org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
@@ -63,75 +61,48 @@ export default function SubscriptionPage() {
     );
   }
 
-  const plans = [
-    {
-      name: 'Starter',
-      price: 20000,
-      period: 'month',
-      maxUnits: 20,
-      maxSeats: 1,
-      features: [
-        'Up to 20 units',
-        '1 team member',
-        'Basic reporting',
-        'Email support',
-        'Mobile app access',
-      ],
-      current: org.planTier === 'starter',
-    },
-    {
-      name: 'Growth',
-      price: 50000,
-      period: 'month',
-      maxUnits: 100,
-      maxSeats: 5,
-      features: [
-        'Up to 100 units',
-        '5 team members',
-        'Advanced reporting',
-        'Priority support',
-        'Mobile app access',
-        'Custom branding',
-        'API access',
-      ],
-      current: org.planTier === 'growth',
-      popular: true,
-    },
-    {
-      name: 'Enterprise',
-      price: 150000,
-      period: 'month',
-      maxUnits: 999,
-      maxSeats: 20,
-      features: [
-        'Unlimited units',
-        '20+ team members',
-        'Custom reporting',
-        'Dedicated support',
-        'Mobile app access',
-        'Custom branding',
-        'API access',
-        'SSO & advanced security',
-        'Training & onboarding',
-      ],
-      current: org.planTier === 'enterprise',
-    },
-  ];
+  const org = data.org;
+  const subscription = data.subscription;
+  const planDetails = data.planDetails;
+  const availablePlans = data.availablePlans || [];
+  const billingHistory = data.billingHistory || [];
+  const unitCount = data.unitCount ?? 0;
+  const teamMemberCount = data.teamMemberCount ?? 0;
+
+  const plans = availablePlans.map((plan) => ({
+    name: plan.name,
+    price: plan.price,
+    period: 'month',
+    maxUnits: plan.maxUnits === -1 ? 999 : plan.maxUnits,
+    maxSeats: plan.maxTeamMembers === -1 ? 20 : plan.maxTeamMembers,
+    features: plan.features,
+    current: org.planTier === 'starter'
+      ? plan.id === 'starter'
+      : org.planTier === 'growth'
+        ? plan.id === 'professional'
+        : plan.id === 'enterprise',
+    popular: plan.id === 'professional',
+  }));
+
+  const maxUnits = org.maxUnits ?? 0;
+  const maxSeats = org.maxSeats ?? 0;
 
   const usageStats = [
     {
       label: 'Units',
-      used: org.maxUnits || 0, // Mock: actual units count
-      limit: org.maxUnits,
-      percentage: ((org.maxUnits || 0) / org.maxUnits) * 100,
+      used: unitCount,
+      limit: maxUnits === -1 ? 999 : maxUnits,
+      percentage: maxUnits === -1 ? (unitCount > 0 ? 100 : 0) : maxUnits > 0 ? Math.min((unitCount / maxUnits) * 100, 100) : 0,
     },
     {
       label: 'Team Members',
-      used: 3, // Mock
-      limit: org.maxSeats,
-      percentage: (3 / org.maxSeats) * 100,
+      used: teamMemberCount,
+      limit: maxSeats === -1 ? 20 : maxSeats,
+      percentage: maxSeats === -1 ? (teamMemberCount > 0 ? 100 : 0) : maxSeats > 0 ? Math.min((teamMemberCount / maxSeats) * 100, 100) : 0,
     },
   ];
+
+  const currentPlan = plans.find((p) => p.current);
 
   return (
     <div className="space-y-6">
@@ -154,10 +125,19 @@ export default function SubscriptionPage() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-bold capitalize">{org.planTier} Plan</h3>
+              <h3 className="text-2xl font-bold capitalize">
+                {currentPlan ? `${currentPlan.name} Plan` : `${org.planTier} Plan`}
+              </h3>
               <p className="text-muted-foreground">
-                ₦{plans.find((p) => p.current)?.price.toLocaleString()}/month
+                {currentPlan
+                  ? `₦${currentPlan.price.toLocaleString()}/month`
+                  : 'Custom plan'}
               </p>
+              {subscription && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </p>
+              )}
             </div>
             <Badge variant="default" className="text-sm">
               Active
@@ -171,7 +151,7 @@ export default function SubscriptionPage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-muted-foreground">{stat.label}</span>
                   <span className="text-sm font-medium">
-                    {stat.used} / {stat.limit}
+                    {stat.used} / {stat.limit === 999 ? 'Unlimited' : stat.limit}
                   </span>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
@@ -279,19 +259,29 @@ export default function SubscriptionPage() {
                         day: 'numeric',
                       })}
                     </TableCell>
-                    <TableCell>{entry.plan}</TableCell>
+                    <TableCell className="capitalize">{entry.plan}</TableCell>
                     <TableCell>₦{entry.amount.toLocaleString()}</TableCell>
                     <TableCell>
                       <Badge
-                        variant={entry.status === 'paid' ? 'success' : 'secondary'}
+                        variant={entry.status === 'paid' || entry.status === 'released' || entry.status === 'success' ? 'success' : 'secondary'}
                       >
                         {entry.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button size="sm" variant="ghost">
-                        Download
-                      </Button>
+                      {entry.reference ? (
+                        <Button size="sm" variant="ghost" asChild>
+                          <a
+                            href={`https://dashboard.paystack.com/#/transactions/${entry.reference}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View
+                          </a>
+                        </Button>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -300,7 +290,10 @@ export default function SubscriptionPage() {
           ) : (
             <div className="text-center py-12">
               <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <p className="text-muted-foreground">No billing history</p>
+              <p className="text-muted-foreground">No billing history yet</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Your first billing entry will appear here once your subscription is active.
+              </p>
             </div>
           )}
         </CardContent>

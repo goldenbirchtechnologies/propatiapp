@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useListings } from '@/hooks/useListings';
 import { useOrganizationTickets } from '@/hooks/useOrganizationTickets';
 import { useOrganizations } from '@/hooks/useOrganizations';
+import { useUnits } from '@/hooks/useUnits';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,6 +34,10 @@ export default function UnitDetailPage() {
 
   const { data: listingData, isLoading } = useListings({ limit: 1 });
   const listing = listingData?.pages?.[0]?.data?.find((l: unknown) => l.id === unitId);
+
+  const { data: unitsData } = useUnits(orgId || '', { limit: 100 });
+  const units = unitsData?.data || [];
+  const unit = units.find((u: unknown) => u.listingId === listing?.id) || null;
 
   const { data: ticketsData } = useOrganizationTickets(
     orgId || '',
@@ -67,21 +72,14 @@ export default function UnitDetailPage() {
     );
   }
 
-  const isOccupied = Math.random() > 0.5; // Mock
-  const currentTenant = isOccupied
-    ? {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+234 801 234 5678',
-        moveInDate: '2024-01-15',
-      }
-    : null;
+  const isOccupied = unit?.occupancy === 'OCCUPIED';
+  const currentTenant = isOccupied ? unit.currentTenant : null;
 
-  const lease = isOccupied
+  const lease = isOccupied && unit
     ? {
-        startDate: '2024-01-15',
-        endDate: '2025-01-14',
-        rentAmount: listing.price,
+        startDate: unit.leaseStartDate,
+        endDate: unit.leaseEndDate,
+        rentAmount: unit.rent,
         status: 'active',
       }
     : null;
@@ -191,7 +189,7 @@ export default function UnitDetailPage() {
               <div className="space-y-3">
                 <div>
                   <p className="text-sm text-muted-foreground">Name</p>
-                  <p className="font-medium">{currentTenant.name}</p>
+                  <p className="font-medium">{currentTenant.fullName}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Email</p>
@@ -199,14 +197,16 @@ export default function UnitDetailPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium">{currentTenant.phone}</p>
+                  <p className="font-medium">{currentTenant.phone || '—'}</p>
                 </div>
+                {unit.leaseStartDate && (
                 <div>
                   <p className="text-sm text-muted-foreground">Move-in Date</p>
                   <p className="font-medium">
-                    {new Date(currentTenant.moveInDate).toLocaleDateString()}
+                    {new Date(unit.leaseStartDate).toLocaleDateString()}
                   </p>
                 </div>
+                )}
                 <Button variant="outline" className="w-full mt-4">
                   View Tenant Profile
                 </Button>

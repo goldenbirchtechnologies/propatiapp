@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationListings } from '@/hooks/useOrganizations';
+import { useUnits, usePortfolioOverview } from '@/hooks/useUnits';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,6 +36,13 @@ export default function PortfolioPage() {
   const org = orgsData?.data?.[0];
   const orgId = org?.id;
 
+  const { data: portfolioData } = usePortfolioOverview(orgId ?? '');
+  const { data: unitsData } = useUnits(orgId ?? '', { limit: 100 });
+
+  const portfolioUnits = portfolioData?.data?.units || {};
+  const units = unitsData?.data || [];
+  const unitsByListingId = new Map(units.map((u: unknown) => [u.listingId, u]));
+
   // Only fetch listings when we have a valid organization ID to avoid repeated requests
   const { data: listingsData, isLoading: listingsLoading } = useOrganizationListings(
     orgId ?? '',
@@ -49,11 +57,11 @@ export default function PortfolioPage() {
     const matchesSearch = listing.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       listing.address?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || listing.status === statusFilter;
-    // Mock occupancy filtering (would need real data)
-    const isOccupied = Math.random() > 0.3; // Mock: 70% occupied
+    const unit = unitsByListingId.get(listing.id);
+    const unitOccupancy = unit?.occupancy?.toUpperCase?.() || 'VACANT';
     const matchesOccupancy = occupancyFilter === 'all' ||
-      (occupancyFilter === 'occupied' && isOccupied) ||
-      (occupancyFilter === 'vacant' && !isOccupied);
+      (occupancyFilter === 'occupied' && unitOccupancy === 'OCCUPIED') ||
+      (occupancyFilter === 'vacant' && unitOccupancy === 'VACANT');
 
     return matchesSearch && matchesStatus && matchesOccupancy;
   });
@@ -76,9 +84,9 @@ export default function PortfolioPage() {
     );
   }
 
-  const totalUnits = listings.length;
-  const occupiedUnits = Math.floor(totalUnits * 0.7); // Mock
-  const vacantUnits = totalUnits - occupiedUnits;
+  const totalUnits = portfolioUnits.totalUnits ?? listings.length;
+  const occupiedUnits = portfolioUnits.occupiedUnits ?? 0;
+  const vacantUnits = portfolioUnits.vacantUnits ?? 0;
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -195,7 +203,8 @@ export default function PortfolioPage() {
               </TableHeader>
               <TableBody>
                 {filteredListings.map((listing: unknown) => {
-                  const isOccupied = Math.random() > 0.3; // Mock
+                  const unit = unitsByListingId.get(listing.id);
+                  const isOccupied = unit?.occupancy?.toUpperCase?.() === 'OCCUPIED';
                   return (
                     <TableRow key={listing.id}>
                       <TableCell>

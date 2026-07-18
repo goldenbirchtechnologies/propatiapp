@@ -1,37 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Download, Filter, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
-const mockPL = {
-  totalRevenue: 185000000,
-  totalExpenses: 122000000,
-  netProfit: 63000000,
-  margin: 34.1,
-  revenueBreakdown: [
-    { label: 'Rental Income', amount: 158000000 },
-    { label: 'Service Charges', amount: 20000000 },
-    { label: 'Other Income', amount: 7000000 },
-  ],
-  expenseBreakdown: [
-    { label: 'Maintenance', amount: 45000000 },
-    { label: 'Utilities', amount: 32000000 },
-    { label: 'Salaries', amount: 28000000 },
-    { label: 'Insurance', amount: 12000000 },
-    { label: 'Other Expenses', amount: 5000000 },
-  ],
-  monthlyTrend: [
-    { month: 'Jan', revenue: 28, expenses: 19, profit: 9 },
-    { month: 'Feb', revenue: 29, expenses: 20, profit: 9 },
-    { month: 'Mar', revenue: 30, expenses: 21, profit: 9 },
-    { month: 'Apr', revenue: 31, expenses: 20, profit: 11 },
-    { month: 'May', revenue: 33, expenses: 21, profit: 12 },
-    { month: 'Jun', revenue: 34, expenses: 21, profit: 13 },
-  ],
-};
+interface PLData {
+  totalRevenue: number;
+  totalExpenses: number;
+  netProfit: number;
+  margin: number;
+  revenueBreakdown: { label: string; amount: number }[];
+  expenseBreakdown: { label: string; amount: number }[];
+  monthlyTrend: { month: string; revenue: number; expenses: number; profit: number }[];
+  unitCount: number;
+  occupiedUnits: number;
+  pendingPayments: number;
+  pendingPaymentsAmount: number;
+  hasData: boolean;
+}
 
 function StatCardSkeleton() {
   return (
@@ -53,20 +40,61 @@ function RowSkeleton() {
   );
 }
 
+function formatNaira(amount: number) {
+  if (amount >= 1e9) return `₦${(amount / 1e9).toFixed(1)}B`;
+  if (amount >= 1e6) return `₦${(amount / 1e6).toFixed(1)}M`;
+  if (amount >= 1e3) return `₦${(amount / 1e3).toFixed(1)}K`;
+  return `₦${amount.toLocaleString()}`;
+}
+
+function formatNairaFull(amount: number) {
+  return `₦${amount.toLocaleString()}`;
+}
+
 export default function EstateManagerFinancialsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [period, setPeriod] = useState('month');
+  const [pl, setPL] = useState<PLData | null>(null);
+  const [noOrg, setNoOrg] = useState(false);
 
-  useState(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  });
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch('/api/dashboard/estate-manager/financials');
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || `HTTP ${res.status}`);
+        }
+        const json = await res.json();
+        if (cancelled) return;
+
+        if (json.noOrg) {
+          setNoOrg(true);
+          setPL(null);
+        } else {
+          setNoOrg(false);
+          setPL(json.pl);
+        }
+      } catch (err) {
+        if (cancelled) return;
+        setError(err instanceof Error ? err : new Error('Failed to load financials'));
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => { cancelled = true; };
+  }, []);
 
   const retry = () => {
-    setLoading(true);
     setError(null);
-    setTimeout(() => setLoading(false), 700);
+    setLoading(true);
   };
 
   if (error) {
@@ -88,6 +116,8 @@ export default function EstateManagerFinancialsPage() {
       </DashboardShell>
     );
   }
+
+  const isEmpty = !loading && !error && !noOrg && pl && !pl.hasData;
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
@@ -128,7 +158,19 @@ export default function EstateManagerFinancialsPage() {
               <div className="rounded-lg" style={{ height: 256, background: 'border-border', opacity: 0.3 }} />
             </div>
           </>
-        ) : (
+        ) : noOrg ? (
+          <div className="rounded-lg border border-border bg-muted/5 p-8 text-center">
+            <Wallet className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
+            <p className="text-sm font-medium" style={{ color: 'text-primary' }}>No organisation linked</p>
+            <p className="text-xs text-muted-foreground mt-1">Create or join an organisation to see financial summaries.</p>
+          </div>
+        ) : isEmpty ? (
+          <div className="rounded-lg border border-border bg-muted/5 p-8 text-center">
+            <Wallet className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
+            <p className="text-sm font-medium" style={{ color: 'text-primary' }}>No financial data yet</p>
+            <p className="text-xs text-muted-foreground mt-1">Add units, generate service charges, and record allocations to see your P&L.</p>
+          </div>
+        ) : pl ? (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="card p-4">
@@ -136,32 +178,32 @@ export default function EstateManagerFinancialsPage() {
                   <Wallet className="w-4 h-4 text-success" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Revenue</p>
                 </div>
-                <p className="text-2xl font-bold text-success">₦{(mockPL.totalRevenue / 1e6).toFixed(0)}M</p>
-                <p className="text-xs text-success mt-1">+5.3% vs last period</p>
+                <p className="text-2xl font-bold text-success">{formatNaira(pl.totalRevenue)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{pl.pendingPayments > 0 ? `${pl.pendingPayments} pending · ${formatNaira(pl.pendingPaymentsAmount)}` : 'All collections settled'}</p>
               </div>
               <div className="card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingDown className="w-4 h-4 text-destructive" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Expenses</p>
                 </div>
-                <p className="text-2xl font-bold text-destructive">₦{(mockPL.totalExpenses / 1e6).toFixed(0)}M</p>
-                <p className="text-xs text-destructive mt-1">+2.1% vs last period</p>
+                <p className="text-2xl font-bold text-destructive">{formatNaira(pl.totalExpenses)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{pl.unitCount > 0 ? `${pl.unitCount} units managed` : 'Based on allocations'}</p>
               </div>
               <div className="card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4" style={{ color: 'text-info' }} />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Net Profit</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>₦{(mockPL.netProfit / 1e6).toFixed(0)}M</p>
-                <p className="text-xs text-success mt-1">+12.4% vs last period</p>
+                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{formatNaira(pl.netProfit)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{pl.occupiedUnits} occupied units</p>
               </div>
               <div className="card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Filter className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Profit Margin</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{mockPL.margin}%</p>
-                <p className="text-xs text-success mt-1">+2.8pp vs last period</p>
+                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{pl.margin}%</p>
+                <p className="text-xs text-muted-foreground mt-1">Based on billed revenue</p>
               </div>
             </div>
 
@@ -179,19 +221,20 @@ export default function EstateManagerFinancialsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockPL.revenueBreakdown.map((row, i) => {
-                      const share = ((row.amount / mockPL.totalRevenue) * 100).toFixed(1);
+                    {pl.revenueBreakdown.map((row, i) => {
+                      const total = pl.totalRevenue || 1;
+                      const share = ((row.amount / total) * 100).toFixed(1);
                       return (
                         <tr key={i} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'border-border' }}>
                           <td className="p-4 text-sm" style={{ color: 'text-primary' }}>{row.label}</td>
-                          <td className="p-4 text-sm font-medium text-right text-success">₦{row.amount.toLocaleString()}</td>
+                          <td className="p-4 text-sm font-medium text-right text-success">{formatNairaFull(row.amount)}</td>
                           <td className="p-4 text-sm text-right hidden sm:table-cell" style={{ color: 'text-muted-foreground' }}>{share}%</td>
                         </tr>
                       );
                     })}
                     <tr className="border-b" style={{ borderColor: 'border-border' }}>
                       <td className="p-4 text-sm font-bold" style={{ color: 'text-primary' }}>Total Revenue</td>
-                      <td className="p-4 text-sm font-bold text-right text-success">₦{mockPL.totalRevenue.toLocaleString()}</td>
+                      <td className="p-4 text-sm font-bold text-right text-success">{formatNairaFull(pl.totalRevenue)}</td>
                       <td className="p-4 text-sm font-bold text-right hidden sm:table-cell" style={{ color: 'text-muted-foreground' }}>100%</td>
                     </tr>
                   </tbody>
@@ -211,19 +254,20 @@ export default function EstateManagerFinancialsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockPL.expenseBreakdown.map((row, i) => {
-                      const share = ((row.amount / mockPL.totalExpenses) * 100).toFixed(1);
+                    {pl.expenseBreakdown.map((row, i) => {
+                      const total = pl.totalExpenses || 1;
+                      const share = ((row.amount / total) * 100).toFixed(1);
                       return (
                         <tr key={i} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'border-border' }}>
                           <td className="p-4 text-sm" style={{ color: 'text-primary' }}>{row.label}</td>
-                          <td className="p-4 text-sm font-medium text-right text-destructive">₦{row.amount.toLocaleString()}</td>
+                          <td className="p-4 text-sm font-medium text-right text-destructive">{formatNairaFull(row.amount)}</td>
                           <td className="p-4 text-sm text-right hidden sm:table-cell" style={{ color: 'text-muted-foreground' }}>{share}%</td>
                         </tr>
                       );
                     })}
                     <tr className="border-b" style={{ borderColor: 'border-border' }}>
                       <td className="p-4 text-sm font-bold" style={{ color: 'text-primary' }}>Total Expenses</td>
-                      <td className="p-4 text-sm font-bold text-right text-destructive">₦{mockPL.totalExpenses.toLocaleString()}</td>
+                      <td className="p-4 text-sm font-bold text-right text-destructive">{formatNairaFull(pl.totalExpenses)}</td>
                       <td className="p-4 text-sm font-bold text-right hidden sm:table-cell" style={{ color: 'text-muted-foreground' }}>100%</td>
                     </tr>
                   </tbody>
@@ -233,23 +277,43 @@ export default function EstateManagerFinancialsPage() {
 
             <div className="card p-6">
               <h3 className="font-headline-sm font-bold mb-4" style={{ color: 'text-primary' }}>Profit Trend</h3>
-              <div className="h-64 flex items-center justify-center border border-border border-dashed rounded-lg">
-                <div className="text-center">
-                  <TrendingUp className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-muted-foreground' }} />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Monthly profit trend chart</p>
-                  <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>Hook chart library here</p>
-                  <div className="mt-3 flex flex-wrap justify-center gap-3">
-                    {mockPL.monthlyTrend.map((m) => (
-                      <span key={m.month} className="text-xs font-label-md uppercase tracking-wider px-2 py-1 rounded-full bg-muted" style={{ color: 'text-primary' }}>
-                        {m.month}: ₦{m.profit}M
-                      </span>
-                    ))}
-                  </div>
+              <div className="h-64 flex items-end justify-between gap-2 border border-border rounded-lg p-4">
+                {pl.monthlyTrend.map((m) => {
+                  const maxVal = Math.max(...pl.monthlyTrend.map(t => Math.max(t.revenue, t.expenses, 1)), 1);
+                  const revenueHeight = Math.max(8, (m.revenue / maxVal) * 100);
+                  const expenseHeight = Math.max(8, (m.expenses / maxVal) * 100);
+                  return (
+                    <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
+                      <div className="w-full flex items-end gap-1 justify-center" style={{ height: 200 }}>
+                        <div
+                          className="w-2 rounded-t bg-success/80"
+                          style={{ height: `${revenueHeight}%` }}
+                          title={`Revenue: ${formatNaira(m.revenue)}`}
+                        />
+                        <div
+                          className="w-2 rounded-t bg-destructive/80"
+                          style={{ height: `${expenseHeight}%` }}
+                          title={`Expenses: ${formatNaira(m.expenses)}`}
+                        />
+                      </div>
+                      <span className="text-[10px] font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{m.month}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center justify-center gap-4 mt-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-sm bg-success/80" />
+                  <span className="text-xs text-muted-foreground">Revenue</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-sm bg-destructive/80" />
+                  <span className="text-xs text-muted-foreground">Expenses</span>
                 </div>
               </div>
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </DashboardShell>
   );

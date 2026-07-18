@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import Image from 'next/image';
@@ -83,7 +83,7 @@ export function AgentCard({ agent, className }: AgentCardProps) {
   return (
     <article
       className={cn(
-        'group relative bg-white dark:bg-card rounded-xl overflow-hidden border border-outline-variant',
+        'group relative bg-background dark:bg-card rounded-xl overflow-hidden border border-outline-variant',
         'transition-all duration-200 card-hover flex flex-col',
         className
       )}
@@ -129,7 +129,7 @@ export function AgentCard({ agent, className }: AgentCardProps) {
 
           {/* Location */}
           <div className="flex items-center gap-1.5 text-on-surface-variant mb-3">
-            <MaterialIcon name="location_on" className="material-symbols-outlined" />
+            <AppIcon name="location_on" className="lucide" />
             <span className="text-sm line-clamp-1">{agent.location}</span>
           </div>
 
@@ -172,7 +172,7 @@ export function AgentCardSkeleton({ count = 1 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="bg-white dark:bg-card rounded-xl overflow-hidden border border-outline-variant animate-pulse flex flex-col"
+          className="bg-background dark:bg-card rounded-xl overflow-hidden border border-outline-variant animate-pulse flex flex-col"
         >
           {/* Skeleton image */}
           <div className="relative w-full aspect-[4/3] bg-surface-container-low" />

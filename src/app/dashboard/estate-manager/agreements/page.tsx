@@ -21,7 +21,6 @@ export default async function EstateManagerAgreementsPage() {
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/agent',
   };
   if (!user) redirect("/login");
   if (user.role !== 'estate_manager') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');

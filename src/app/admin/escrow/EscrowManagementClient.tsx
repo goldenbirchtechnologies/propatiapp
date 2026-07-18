@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { format } from 'date-fns';
@@ -396,7 +396,7 @@ export default function EscrowManagementClient() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Bank:</span>
-                  <MaterialIcon name={bankDetails.bankName} className="material-symbols-outlined" />
+                  <AppIcon name={bankDetails.bankName} className="lucide" />
                 </div>
               </div>
             </div>

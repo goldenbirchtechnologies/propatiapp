@@ -1,57 +1,82 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export default function leasenegotiationgradeaservicedofficepropaticommercialPage() {
-  const { user } = useUser();
+export const metadata = {
+  title: 'Lease Negotiation – Landlord',
+  description: 'Commercial lease negotiation workspace.',
+};
+
+export default async function CommercialLeaseNegotiationPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
+
+  const agreements = await prisma.agreement.findMany({
+    where: {
+      landlordId: user.id,
+      status: { in: ['review_required', 'pending_signature'] },
+    },
+    include: {
+      tenant: { select: { fullName: true } },
+      listing: { select: { title: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 20,
+  });
 
   return (
-    <DashboardShell
-      navigation={LANDLORD_NAVIGATION}
-      userRole="landlord"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Landlord'}
-      userAvatar={user?.imageUrl}
-    >
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Lease Negotiation Grade A Serviced Office Commercial</h1>
-          <p className="text-muted-foreground mt-1">Lease Negotiation Workspace | PROPATI Commercial PROPATI Commercial Gold Verified Agent Agent Profile gavel Workspace de...</p>
+        <section>
+          <h1 className="text-2xl font-bold text-foreground">Lease Negotiation Workspace</h1>
+          <p className="text-muted-foreground mt-1">
+            PROPATI Commercial — Finalize commercial lease terms with tenants and agents.
+          </p>
         </section>
-        <div className="grid gap-4 md:grid-cols-2">
+
+        {agreements.length === 0 ? (
           <Card>
-            <CardHeader><CardTitle>Grade A Serviced Office</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_negotiation_grade_a_serviced_office_propati_commercial.</p></CardContent>
+            <CardContent className="p-8 text-center">
+              <p className="text-muted-foreground">No agreements in negotiation.</p>
+            </CardContent>
           </Card>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="default">Sign Document</Button>
-          <Button variant="default">Submit Counter-Offer</Button>
-          <Button variant="default">Accept Proposed Terms</Button>
-        </div>
-        <Card>
-          <CardContent className="pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-              <li>Commercial</li>
-              <li>Gold Verified Agent</li>
-              <li>Agent Profile</li>
-              <li>Ref ID: PR-1092-VI</li>
-              <li>Finalize Negotiation</li>
-              <li>Review the terms before proceeding to legal drafting.</li>
-              <li>Based on the current market data for VI, we are proposing a 5% escalation instead of 10% for a longer 3-year term.</li>
-              <li>The landlord is reviewing the request for 5% escalation. They value the 3-year commitment but need to offset facility costs.</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>lease_negotiation_grade_a_serviced_office_propati_commercial.html</strong></p>
-          </CardContent>
-        </Card>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {agreements.map((agr) => (
+              <Card key={agr.id}>
+                <CardHeader>
+                  <CardTitle className="text-base">
+                    {agr.listing.title} — {agr.tenant.fullName}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2 text-sm">
+                  <p>
+                    <span className="text-muted-foreground">Rent:</span>{' '}
+                    {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Term:</span>{' '}
+                    {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} →{' '}
+                    {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Deposit:</span>{' '}
+                    {agr.cautionDeposit ? `₦${Number(agr.cautionDeposit).toLocaleString()}` : '—'}
+                  </p>
+                  <Badge variant="secondary">{agr.status.replace('_', ' ')}</Badge>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </DashboardShell>
   );

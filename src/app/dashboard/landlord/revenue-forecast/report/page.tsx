@@ -1,94 +1,97 @@
-'use client';
-
-import { useState } from 'react';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import { Download, Share, FileText } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
+import { parseKoboToNaira } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const reports = [
-  { id: 'RPT-001', title: 'Q1 2024 Revenue Forecast', date: 'Mar 31, 2024', status: 'Signed' },
-  { id: 'RPT-002', title: 'Q2 2024 Revenue Forecast', date: 'Jun 30, 2024', status: 'Pending Signature' },
-  { id: 'RPT-003', title: 'Annual FY 2024-2025 Forecast', date: 'Dec 15, 2024', status: 'Draft' },
-];
+export const metadata = {
+  title: 'Revenue Forecast Reports – Landlord',
+  description: 'Signed and archived financial projections.',
+};
 
-export default function LandlordRevenueForecastReportPage() {
-  const [error, setError] = useState<string | null>(null);
+export default async function LandlordRevenueForecastReportPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
 
-  if (error) {
-    return (
-      <DashboardShell navigation={LANDLORD_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Revenue Forecast Reports</h1>
-          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
-            <p className="text-destructive font-medium">Error</p>
-            <p className="text-destructive text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
-          </div>
-        </section>
-      </DashboardShell>
-    );
-  }
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
+
+  const now = new Date();
+  const yearStart = new Date(now.getFullYear(), 0, 1);
+  const yearEnd = new Date(now.getFullYear(), 11, 31);
+
+  const monthlyData = await prisma.$queryRaw<{ month: string; revenue: bigint; count: bigint }[]>`
+    SELECT
+      to_char("createdAt", 'YYYY-MM') AS month,
+      SUM("amount")::bigint AS revenue,
+      COUNT(*)::bigint AS count
+    FROM "transactions"
+    WHERE "payeeId" = ${user.id}
+      AND ("status" = 'released' OR "status" = 'success')
+      AND "createdAt" >= ${yearStart}
+    GROUP BY to_char("createdAt", 'YYYY-MM')
+    ORDER BY month ASC
+  `;
+
+  const totalRevenue = monthlyData.reduce((sum, m) => sum + Number(m.revenue), 0);
+  const totalCount = monthlyData.reduce((sum, m) => sum + Number(m.count), 0);
 
   return (
-    <DashboardShell navigation={LANDLORD_NAVIGATION}>
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Revenue Forecast Reports</h1>
-            <p className="text-muted-foreground mt-1">Signed and archived financial projections.</p>
+            <p className="text-muted-foreground mt-1">Archived financial projections derived from transaction history.</p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-sm font-medium">
-              <Share className="w-4 h-4" /> Share
-            </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
-              <Download className="w-4 h-4" /> Export Data
-            </button>
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-surface-container-lowest text-sm font-medium">
+              Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
+            </span>
           </div>
         </div>
 
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden bg-surface-container-lowest">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-surface-container-high border-b border-outline-variant">
-                <tr>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Report ID</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Title</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Date</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant">
-                {reports.map((rpt) => (
-                  <tr key={rpt.id} className="hover:bg-surface-container-low transition-colors">
-                    <td className="px-5 py-4 text-sm font-mono text-muted-foreground">{rpt.id}</td>
-                    <td className="px-5 py-4 text-sm font-medium text-primary">{rpt.title}</td>
-                    <td className="px-5 py-4 text-sm text-muted-foreground">{rpt.date}</td>
-                    <td className="px-5 py-4">
-                      <span className={`tag ${rpt.status === 'Signed' ? 'bg-success/10 text-success border-success/20' : rpt.status === 'Pending Signature' ? 'bg-warning/10 text-warning border-warning/20' : 'bg-muted/30 text-muted-foreground border-muted/50'}`}>
-                        {rpt.status}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex gap-2">
-                        <button className="text-sm text-secondary hover:underline flex items-center gap-1">
-                          <FileText className="w-4 h-4" /> PDF
-                        </button>
-                        <button className="text-sm text-primary hover:underline flex items-center gap-1">
-                          <FileText className="w-4 h-4" /> Signed Copy
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Forecast Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {monthlyData.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-6 text-center">No revenue reports available yet.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-muted-foreground border-b">
+                    <tr>
+                      <th className="py-3 font-medium">Month</th>
+                      <th className="py-3 font-medium">Transactions</th>
+                      <th className="py-3 text-right font-medium">Revenue (₦)</th>
+                      <th className="py-3 font-medium">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {monthlyData.map((row) => (
+                      <tr key={row.month} className="border-b last:border-0">
+                        <td className="py-3 font-medium">{row.month}</td>
+                        <td className="py-3">{Number(row.count)}</td>
+                        <td className="py-3 text-right font-mono">₦{parseKoboToNaira(Number(row.revenue)).toLocaleString()}</td>
+                        <td className="py-3">
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-success border-success/20">
+                            Closed
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </DashboardShell>
   );
 }
-
-

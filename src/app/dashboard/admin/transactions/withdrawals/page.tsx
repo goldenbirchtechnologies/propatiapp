@@ -1,69 +1,277 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { prisma } from '@/lib/prisma';
 
-export default function withdrawalsfundmanagementpropatifinancialsPage() {
-  const { user } = useUser();
+export const dynamic = 'force-dynamic';
+
+export default async function AdminWithdrawalsPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/login');
+  if (user.role !== 'admin') redirect('/dashboard/tenant');
+
+  // Aggregate financial stats from platform transactions
+  const [
+    totalReleased,
+    totalInEscrow,
+    totalPlatformFees,
+    totalWalletBalance,
+    walletCount,
+    releasedTxCount,
+  ] = await Promise.all([
+    prisma.transaction.aggregate({
+      _sum: { amount: true, platformFee: true },
+      where: { status: 'released' },
+    }),
+    prisma.transaction.aggregate({
+      _sum: { amount: true },
+      where: { status: 'in_escrow' },
+    }),
+    prisma.transaction.aggregate({
+      _sum: { platformFee: true },
+      where: { status: { in: ['released', 'in_escrow'] } },
+    }),
+    prisma.wallet.aggregate({
+      _sum: { balance: true },
+    }),
+    prisma.wallet.count(),
+    prisma.transaction.count({ where: { status: 'released' } }),
+  ]);
+
+  // Recent transaction feed
+  const recentTransactions = await prisma.transaction.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 15,
+    select: {
+      id: true,
+      reference: true,
+      status: true,
+      type: true,
+      amount: true,
+      platformFee: true,
+      currency: true,
+      createdAt: true,
+      payer: { select: { fullName: true, email: true } },
+      payee: { select: { fullName: true, email: true } },
+    },
+  });
+
+  const releasedAmount = totalReleased._sum.amount ? Number(totalReleased._sum.amount) : 0;
+  const escrowedAmount = totalInEscrow._sum.amount ? Number(totalInEscrow._sum.amount) : 0;
+  const feeTotal = totalPlatformFees._sum.platformFee ? Number(totalPlatformFees._sum.platformFee) : 0;
+  const totalWallet = totalWalletBalance._sum.balance ? Number(totalWalletBalance._sum.balance) : 0;
 
   return (
     <DashboardShell
       navigation={ADMIN_NAVIGATION}
-      userRole="admin"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Admin'}
-      userAvatar={user?.imageUrl}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
     >
-      <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Withdrawals Fund Management Financials</h1>
-          <p className="text-muted-foreground mt-1">Payout & Withdrawal Management | VerifProp Admin VerifProp Admin Verified Enterprise dashboard Overview payments Rent Co...</p>
-        </section>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader><CardTitle>₦ 4,820,500.00</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from withdrawals_fund_management_propati_financials.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>₦ 1,240,000.00</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from withdrawals_fund_management_propati_financials.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>₦ 28,500,750.00</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from withdrawals_fund_management_propati_financials.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>Request Successful</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from withdrawals_fund_management_propati_financials.</p></CardContent>
-          </Card>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="default">Withdraw Funds</Button>
-          <Button variant="default">Done</Button>
-        </div>
-        <Card>
-          <CardContent className="pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-              <li>Manage your earnings, bank accounts, and withdrawal history with bank-grade security protocols.</li>
-              <li>Available for Withdrawal</li>
-              <li>Pending Clearance</li>
-              <li>Total Withdrawn</li>
-              <li>Min: ₦1,000 | Max: ₦1,000,000/day</li>
-              <li>Funds will be deposited within 2-24 business hours following security validation.</li>
-              <li>Access Bank PLC</li>
-              <li>**** 8821 • Primary</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>withdrawals_fund_management_propati_financials.html</strong></p>
-          </CardContent>
-        </Card>
-      </div>
+      <WithdrawalsClient
+        stats={{
+          releasedAmount,
+          escrowedAmount,
+          feeTotal,
+          totalWallet,
+          walletCount,
+          releasedTxCount,
+        }}
+        transactions={recentTransactions}
+      />
     </DashboardShell>
+  );
+}
+
+function WithdrawalsClient({
+  stats,
+  transactions,
+}: {
+  stats: {
+    releasedAmount: number;
+    escrowedAmount: number;
+    feeTotal: number;
+    totalWallet: number;
+    walletCount: number;
+    releasedTxCount: number;
+  };
+  transactions: {
+    id: string;
+    reference: string | null;
+    status: string;
+    type: string;
+    amount: number;
+    platformFee: number;
+    currency: string;
+    createdAt: Date;
+    payer: { fullName: string; email: string } | null;
+    payee: { fullName: string; email: string } | null;
+  }[];
+}) {
+  'use client';
+
+  const formatKobo = (val: number) =>
+    new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      maximumFractionDigits: 0,
+    }).format(val / 100);
+
+  const initials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+
+  const statusClass = (s: string) => {
+    switch (s) {
+      case 'released':
+        return 'bg-emerald-600 text-white';
+      case 'in_escrow':
+        return 'bg-secondary-container text-on-secondary-container';
+      case 'pending':
+        return 'bg-outline-variant text-primary';
+      case 'failed':
+        return 'bg-error/10 text-error';
+      default:
+        return 'bg-outline-variant/30 text-muted-foreground';
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">
+          Withdrawals &amp; Financials
+        </h1>
+        <p className="text-muted-foreground font-body-md mt-1">
+          Platform payouts, escrow balances, and wallet overview.
+        </p>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            label: 'Total Withdrawn / Released',
+            value: formatKobo(stats.releasedAmount),
+            sub: `${stats.releasedTxCount.toLocaleString()} transactions`,
+          },
+          {
+            label: 'In Escrow Balance',
+            value: formatKobo(stats.escrowedAmount),
+            sub: 'Held in escrow',
+          },
+          {
+            label: 'Platform Fee Revenue',
+            value: formatKobo(stats.feeTotal),
+            sub: 'Net collected',
+          },
+          {
+            label: 'Total Wallet Holdings',
+            value: formatKobo(stats.totalWallet),
+            sub: `${stats.walletCount.toLocaleString()} wallets registered`,
+          },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm"
+          >
+            <div className="text-sm text-muted-foreground font-medium mb-2">{card.label}</div>
+            <div className="font-headline-md text-headline-md text-primary leading-tight">{card.value}</div>
+            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Transaction Feed */}
+      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-md bg-surface-container-low">
+          <h3 className="font-headline-sm text-primary">Recent Transactions</h3>
+          <span className="text-xs text-muted-foreground">
+            Showing {transactions.length} most recent
+          </span>
+        </div>
+        {transactions.length === 0 ? (
+          <p className="p-lg text-sm text-muted-foreground text-center">No transactions found.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-container border-b border-outline-variant">
+                  {['ID', 'Type', 'Amount', 'Fee', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
+                    <th
+                      key={h}
+                      className="px-md py-3 font-label-md text-label-sm text-muted-foreground uppercase tracking-wider"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {transactions.map((tx) => (
+                  <tr key={tx.id} className="hover:bg-surface-container-low transition-colors">
+                    <td className="px-md py-4 font-label-sm text-label-sm text-primary whitespace-nowrap">
+                      {tx.reference || tx.id.slice(0, 12)}
+                    </td>
+                    <td className="px-md py-4 text-body-sm capitalize">{tx.type.replace(/_/g, ' ')}</td>
+                    <td className="px-md py-4 font-bold text-primary text-body-sm whitespace-nowrap">
+                      {formatKobo(tx.amount)}
+                    </td>
+                    <td className="px-md py-4 text-xs text-muted-foreground whitespace-nowrap">
+                      {tx.platformFee > 0 ? formatKobo(tx.platformFee) : '—'}
+                    </td>
+                    <td className="px-md py-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold text-on-secondary-container shrink-0">
+                          {initials(tx.payer?.fullName || '??')}
+                        </div>
+                        <span className="text-body-sm truncate max-w-[140px]">{tx.payer?.fullName || '—'}</span>
+                      </div>
+                    </td>
+                    <td className="px-md py-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-tertiary-container flex items-center justify-center text-[10px] font-bold shrink-0">
+                          {initials(tx.payee?.fullName || '??')}
+                        </div>
+                        <span className="text-body-sm truncate max-w-[140px]">{tx.payee?.fullName || '—'}</span>
+                      </div>
+                    </td>
+                    <td className="px-md py-4">
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider ${statusClass(tx.status)}`}
+                      >
+                        {tx.status.replace(/_/g, ' ')}
+                      </span>
+                    </td>
+                    <td className="px-md py-4 text-body-sm text-muted-foreground whitespace-nowrap">
+                      {tx.createdAt.toLocaleDateString('en-NG', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <div className="px-6 py-3 border-t border-outline-variant flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            {transactions.length} records shown
+          </p>
+          <span className="text-xs text-muted-foreground">Kibo-based aggregation (kobo units)</span>
+        </div>
+      </div>
+    </div>
   );
 }

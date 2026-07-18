@@ -592,4 +592,7 @@ export const apiEndpoints = {
     markPaid: (id: string) => api.post<any>(`/invoices/${id}/mark-paid`, {}),
     receipt: (id: string) => api.get<any>(`/invoices/${id}/receipt`),
   },
+  tenants: {
+    getAll: (orgId: string) => api.get<any>(`/dashboard/estate-manager/tenants?orgId=${encodeURIComponent(orgId)}`),
+  },
 };

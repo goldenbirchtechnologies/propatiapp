@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -149,7 +149,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-4xl font-headline-sm text-headline-sm font-bold text-primary text-white mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-success-bright">
-                <MaterialIcon name="trending_up" className="material-symbols-outlined" />
+                <AppIcon name="trending_up" className="lucide" />
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
               <div className="bg-surface-container-lowest/10 px-3 py-1 rounded-full text-xs font-bold text-white">
@@ -181,7 +181,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-destructive">₦2,450,000</p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">14 Units Overdue</span>
-              <MaterialIcon name="warning" className="material-symbols-outlined" />
+              <AppIcon name="warning" className="lucide" />
             </div>
           </CardContent>
         </Card>
@@ -234,7 +234,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                         <RentStatusBadge status={tx.status} />
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
+                        <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
                       </td>
                     </tr>
                   ))}
@@ -255,7 +255,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 <h4 className="font-headline-sm text-headline-sm font-semibold text-primary">Revenue Distribution</h4>
                 <p className="text-xs text-muted-foreground">Monthly collection performance</p>
               </div>
-              <MaterialIcon name="info" className="material-symbols-outlined" />
+              <AppIcon name="info" className="lucide" />
             </div>
             <div className="h-64 flex items-end justify-between gap-3">
               {monthlyRevenue.map((val, i) => (
@@ -311,9 +311,9 @@ function RentStatusBadge({ status }: { status: string }) {
   const cfg = config[status] || { className: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
-      {status === 'released' && <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}
-      {status === 'pending' && <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>}
-      {status === 'in_escrow' && <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>}
+      {status === 'released' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}
+      {status === 'pending' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>}
+      {status === 'in_escrow' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>}
       {cfg.label}
     </span>
   );

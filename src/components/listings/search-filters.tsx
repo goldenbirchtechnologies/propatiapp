@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { X, Filter, SlidersHorizontal, ChevronDown, ChevronUp, MapPin, Home, Building, DollarSign, Bed, Bath, Square, Search, Shield } from 'lucide-react';
@@ -247,8 +247,8 @@ function PriceRangeSlider({
   return (
     <div className="space-y-2">
       <div className="flex justify-between text-xs font-medium" style={{ color: 'var(--muted)' }}>
-        <MaterialIcon name="Min: {formatPrice(values[0])}" className="material-symbols-outlined" />
-        <MaterialIcon name="Max: {formatPrice(values[1])}" className="material-symbols-outlined" />
+        <AppIcon name="Min: {formatPrice(values[0])}" className="lucide" />
+        <AppIcon name="Max: {formatPrice(values[1])}" className="lucide" />
       </div>
       <Slider
         min={min}

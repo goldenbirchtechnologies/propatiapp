@@ -36,24 +36,24 @@ export default function EstateManagerTurnoverPage() {
       <div className="space-y-6">
         <div>
           <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Turnover</h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
+          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Vacate / handover checklist and inspection tracking</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card className="p-4">
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Pending Handovers</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Pending Handovers</p>
             <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{queue.length}</p>
           </Card>
           <Card className="p-4">
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Inspections</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Inspections</p>
             <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{inspections.length}</p>
           </Card>
           <Card className="p-4">
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Avg Score</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Avg Score</p>
             <p className="text-2xl font-bold text-success">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
           </Card>
           <Card className="p-4">
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Open Issues</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Open Issues</p>
             <p className="text-2xl font-bold text-destructive">{queue.filter((t) => t.priority === 'high').length}</p>
           </Card>
         </div>
@@ -64,16 +64,16 @@ export default function EstateManagerTurnoverPage() {
           </CardHeader>
           <CardContent>
             {queue.length === 0 ? (
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>No inspections in queue.</p>
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>No inspections in queue.</p>
             ) : (
               <div className="space-y-3">
                 {queue.map((t) => (
                   <div key={t.id} className="card p-4 flex items-center justify-between">
                     <div>
                       <p className="font-medium text-sm" style={{ color: 'text-primary' }}>{t.title}</p>
-                      <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{t.unit} · {t.category}</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{t.unit} · {t.category}</p>
                     </div>
-                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-destructive/10 text-destructive border border-outline-variant' : t.priority === 'medium' ? 'bg-warning/10 text-warning border border-outline-variant' : 'bg-muted text-on-surface-variant border border-outline-variant')}>{t.priority}</span>
+                    <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-destructive/10 text-destructive border border-border' : t.priority === 'medium' ? 'bg-warning/10 text-warning border border-border' : 'bg-muted text-muted-foreground border border-border')}>{t.priority}</span>
                   </div>
                 ))}
               </div>
@@ -87,7 +87,7 @@ export default function EstateManagerTurnoverPage() {
           </CardHeader>
           <CardContent>
             {inspections.length === 0 ? (
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>No inspections yet.</p>
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>No inspections yet.</p>
             ) : (
               <div className="space-y-3">
                 {inspections.map((ins) => (
@@ -95,13 +95,13 @@ export default function EstateManagerTurnoverPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-sm" style={{ color: 'text-primary' }}>Unit {ins.unit}</p>
-                        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                       </div>
-                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-success/10 text-success border border-outline-variant' : 'bg-warning/10 text-warning border border-outline-variant')}>{ins.result}</span>
+                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-success/10 text-success border border-border' : 'bg-warning/10 text-warning border border-border')}>{ins.result}</span>
                     </div>
                     <div className="mt-3">
                       <Progress value={ins.score} className="h-2" />
-                      <p className="text-xs font-label-md uppercase tracking-wider mt-1 text-right" style={{ color: 'text-on-surface-variant' }}>{ins.score}%</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider mt-1 text-right" style={{ color: 'text-muted-foreground' }}>{ins.score}%</p>
                     </div>
                   </div>
                 ))}

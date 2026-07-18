@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -45,7 +45,7 @@ export default function PaymentSuccessPage() {
       <section className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-tertiary-container mb-4 shadow-[0_20px_50px_rgba(0,158,111,0.2)]">
           <span
-            className="material-symbols-outlined text-success-bright text-5xl"
+            className="lucide text-success-bright text-5xl"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             check_circle
@@ -73,7 +73,7 @@ export default function PaymentSuccessPage() {
                 <h3 className="font-headline-lg headline-lg text-primary">₦1,450,000.00</h3>
               </div>
               <div className="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-md font-bold flex items-center gap-1">
-                <MaterialIcon name="verified" className="material-symbols-outlined" />
+                <AppIcon name="verified" className="lucide" />
                 Verified
               </div>
             </div>
@@ -81,8 +81,8 @@ export default function PaymentSuccessPage() {
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Payment Method</span>
                 <div className="flex items-center gap-2 font-semibold">
-                  <MaterialIcon name="credit_card" className="material-symbols-outlined" />
-                  <MaterialIcon name="Visa ending in 4242" className="material-symbols-outlined" />
+                  <AppIcon name="credit_card" className="lucide" />
+                  <AppIcon name="Visa ending in 4242" className="lucide" />
                 </div>
               </div>
               <div className="flex justify-between">
@@ -202,15 +202,15 @@ export default function PaymentSuccessPage() {
       <footer className="pt-5 border-t border-outline-variant flex flex-col items-center gap-4">
         <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
           <div className="flex items-center gap-1">
-            <MaterialIcon name="security" className="material-symbols-outlined" />
+            <AppIcon name="security" className="lucide" />
             <span className="text-label-sm">PCI-DSS Compliant</span>
           </div>
           <div className="flex items-center gap-1">
-            <MaterialIcon name="encrypted" className="material-symbols-outlined" />
+            <AppIcon name="encrypted" className="lucide" />
             <span className="text-label-sm">256-bit SSL Encryption</span>
           </div>
           <div className="flex items-center gap-1">
-            <MaterialIcon name="verified_user" className="material-symbols-outlined" />
+            <AppIcon name="verified_user" className="lucide" />
             <span className="text-label-sm">Central Bank Regulated</span>
           </div>
         </div>

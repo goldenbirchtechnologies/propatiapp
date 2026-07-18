@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
@@ -140,11 +140,11 @@ export default function LandlordApplicationDetailClient({
         <Link href="/dashboard/landlord" className="hover:underline">
           Dashboard
         </Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <Link href="/dashboard/landlord/applications" className="hover:underline">
           Applications
         </Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <span className="$1 $2">
           {application.listing.title}
         </span>

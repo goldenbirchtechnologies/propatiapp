@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -111,7 +111,7 @@ export default function SettingsClient({ initialError }: SettingsClientProps) {
             <button onClick={() => router.push('/admin')} className="hover:text-foreground">
               Admin
             </button>
-            <MaterialIcon name="/" className="material-symbols-outlined" />
+            <AppIcon name="/" className="lucide" />
             <span className="text-foreground font-medium">Settings</span>
           </nav>
         </div>

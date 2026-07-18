@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -244,7 +244,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                       <span className="text-on-surface-variant">
                         Platform Fee ({((breakdown.platformFee / breakdown.amount) * 100).toFixed(1)}%)
                       </span>
-                      <MaterialIcon name={formatAmountFromKobo(breakdown.platformFee)} className="material-symbols-outlined" />
+                      <AppIcon name={formatAmountFromKobo(breakdown.platformFee)} className="lucide" />
                     </div>
                   )}
                   {breakdown.agentCommission > 0 && (
@@ -254,8 +254,8 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                     </div>
                   )}
                   <div className="border-t pt-3 flex justify-between font-bold text-lg">
-                    <MaterialIcon name="Total to Pay" className="material-symbols-outlined" />
-                    <MaterialIcon name={formatAmountFromKobo(breakdown.total)} className="material-symbols-outlined" />
+                    <AppIcon name="Total to Pay" className="lucide" />
+                    <AppIcon name={formatAmountFromKobo(breakdown.total)} className="lucide" />
                   </div>
                 </div>
 

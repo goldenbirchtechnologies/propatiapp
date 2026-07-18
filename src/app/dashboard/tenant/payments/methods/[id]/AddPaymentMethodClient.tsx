@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  CreditCard, Lock, Eye, EyeOff, Verified, Shield
+  CreditCard, Lock, Eye, EyeOff, Verified, Shield, HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -190,9 +190,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <div className="space-y-2">
                       <Label className="font-label-md label-md text-on-surface-variant flex items-center gap-xs">
                         CVV
-                        <span className="material-symbols-outlined text-[16px] text-on-surface-variant cursor-help" title="3-digit security code on the back of your card">
-                          info
-                        </span>
+                        <HelpCircle className="text-[16px] text-on-surface-variant cursor-help" title="3-digit security code on the back of your card" />
                       </Label>
                       <div className="relative">
                         <Input

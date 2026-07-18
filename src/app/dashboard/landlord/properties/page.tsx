@@ -245,7 +245,7 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary border border-primary/20 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/30">
           <svg
             width="10"
             height="10"

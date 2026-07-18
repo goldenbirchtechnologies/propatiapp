@@ -1,108 +1,127 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
+import { formatCurrency, parseKoboToNaira } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Download,
-  MoreVertical,
-} from 'lucide-react';
+import Link from 'next/link';
 
-const projections = [
-  { month: 'July 2026', projected: '₦5.2M', actual: '₦5.1M', status: 'On Track' },
-  { month: 'August 2026', projected: '₦5.3M', actual: '—', status: 'Forecast' },
-  { month: 'September 2026', projected: '₦5.5M', actual: '—', status: 'Forecast' },
-  { month: 'October 2026', projected: '₦5.7M', actual: '—', status: 'Forecast' },
-];
+export const metadata = {
+  title: 'Financial Forecasting – Landlord',
+  description: 'Revenue projections and payout forecasting.',
+};
 
-export default function LandlordFinancialForecastingPage() {
-  const { user } = useUser();
+export default async function LandlordFinancialForecastingPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
+
+  const now = new Date();
+  const yearStart = new Date(now.getFullYear(), 0, 1);
+  const yearEnd = new Date(now.getFullYear(), 11, 31);
+
+  const [totalRevenueKobo, monthlyData] = await Promise.all([
+    prisma.transaction.aggregate({
+      where: { payeeId: user.id, status: 'released', createdAt: { gte: yearStart, lte: yearEnd } },
+      _sum: { amount: true },
+    }),
+    prisma.$queryRaw<{ month: string; revenue: bigint; count: bigint }[]>`
+      SELECT
+        to_char("createdAt", 'YYYY-MM') AS month,
+        SUM("amount")::bigint AS revenue,
+        COUNT(*)::bigint AS count
+      FROM "transactions"
+      WHERE "payeeId" = ${user.id}
+        AND ("status" = 'released' OR "status" = 'success')
+        AND "createdAt" >= ${yearStart}
+      GROUP BY to_char("createdAt", 'YYYY-MM')
+      ORDER BY month ASC
+    `,
+  ]);
+
+  const totalRevenue = parseKoboToNaira(Number(totalRevenueKobo._sum?.amount ?? 0));
+  const nowMonth = now.toISOString().slice(0, 7);
+  const currentMonth = monthlyData.find((m) => m.month === nowMonth);
+  const currentMonthRevenue = currentMonth ? parseKoboToNaira(Number(currentMonth.revenue)) : 0;
 
   return (
-    <DashboardShell
-      navigation={LANDLORD_NAVIGATION}
-      userRole="landlord"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Landlord'}
-      userAvatar={user?.imageUrl}
-    >
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Financial Forecast</h1>
             <p className="text-muted-foreground mt-1">
-              Revenue projections and payout forecasting.
+              Revenue projections and payout forecasting for {now.getFullYear()}.
             </p>
           </div>
-          <Button variant="outline" className="gap-2">
-            <Download className="h-4 w-4" />
-            Export
-          </Button>
+          <Link
+            href="/dashboard/landlord/revenue-forecast/report"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-surface-container-low transition-colors text-sm font-medium"
+          >
+            View Full Forecast →
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Projected Annual Revenue</p>
-              <p className="text-2xl font-bold mt-2">₦62.4M</p>
-              <p className="text-sm text-success mt-1">+4.8% YoY</p>
+              <p className="text-2xl font-bold mt-2">₦{totalRevenue.toLocaleString()}</p>
+              <p className="text-sm text-success mt-1">From collected payments</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Collections to Date</p>
-              <p className="text-2xl font-bold mt-2">₦21.8M</p>
-              <p className="text-sm text-muted-foreground mt-1">35% of annual target</p>
+              <p className="text-sm text-muted-foreground">This Month</p>
+              <p className="text-2xl font-bold mt-2">₦{currentMonthRevenue.toLocaleString()}</p>
+              <p className="text-sm text-muted-foreground mt-1">{currentMonth ? Number(currentMonth.count) : 0} transactions</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Occupancy Impact</p>
-              <p className="text-2xl font-bold mt-2">92%</p>
-              <p className="text-sm text-success mt-1">Above 85% threshold</p>
+              <p className="text-sm text-muted-foreground">Transactions YTD</p>
+              <p className="text-2xl font-bold mt-2">
+                {monthlyData.reduce((sum, m) => sum + Number(m.count), 0)}
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">{monthlyData.length} active months</p>
             </CardContent>
           </Card>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Revenue Projections</CardTitle>
+            <CardTitle>Monthly Revenue Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="text-muted-foreground">
-                  <tr className="border-b">
-                    <th className="py-3 font-medium">Month</th>
-                    <th className="py-3 font-medium">Projected</th>
-                    <th className="py-3 font-medium">Actual</th>
-                    <th className="py-3 font-medium">Status</th>
-                    <th className="py-3 font-medium text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projections.map((row) => (
-                    <tr key={row.month} className="border-b last:border-0">
-                      <td className="py-3 font-medium">{row.month}</td>
-                      <td className="py-3">{row.projected}</td>
-                      <td className="py-3">{row.actual}</td>
-                      <td className="py-3">
-                        <Badge variant={row.status === 'On Track' ? 'default' : 'secondary'}>
-                          {row.status}
-                        </Badge>
-                      </td>
-                      <td className="py-3 text-right">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </td>
+            {monthlyData.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-6 text-center">No revenue data available yet.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-muted-foreground border-b">
+                    <tr>
+                      <th className="py-3 font-medium">Month</th>
+                      <th className="py-3 font-medium">Transactions</th>
+                      <th className="py-3 text-right font-medium">Revenue</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {monthlyData.map((row) => (
+                      <tr key={row.month} className="border-b last:border-0">
+                        <td className="py-3 font-medium">{row.month}</td>
+                        <td className="py-3">{Number(row.count)}</td>
+                        <td className="py-3 text-right font-mono">₦{parseKoboToNaira(Number(row.revenue)).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

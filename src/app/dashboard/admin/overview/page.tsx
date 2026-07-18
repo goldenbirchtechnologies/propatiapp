@@ -1,356 +1,252 @@
-'use client'
-
-import MaterialIcon from '@/components/icons/material-icon';
-
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
-import { useUser } from '@clerk/nextjs';
+import { prisma } from '@/lib/prisma';
+import AppIcon from '@/components/icons/app-icon';
+export const dynamic = 'force-dynamic';
 
+function formatCurrency(value: number, currency = 'NGN') {
+  if (!value && value !== 0) return currency === 'NGN' ? '₦0' : `${currency} 0`;
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(value);
+}
 
-export default function AdminOverviewPage() {
-  const { user } = useUser();
+export default async function AdminOverviewPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/login');
+  if (user.role !== 'admin') redirect('/dashboard/tenant');
+
+  // Pull real KPIs
+  const [
+    totalUsers,
+    activeUsers,
+    pendingVerifications,
+    totalListings,
+    activeListings,
+    totalTransactions,
+    escrowedTransactions,
+    totalDisputes,
+    totalRevenue,
+    recentUsers,
+  ] = await Promise.all([
+    prisma.user.count(),
+    prisma.user.count({ where: { isActive: true } }),
+    prisma.verification.count({ where: { status: 'in_progress' } }),
+    prisma.listing.count(),
+    prisma.listing.count({ where: { status: 'active' } }),
+    prisma.transaction.count(),
+    prisma.transaction.count({ where: { status: 'in_escrow' } }),
+    prisma.dispute.count(),
+    prisma.transaction.aggregate({
+      _sum: { amount: true },
+      where: { status: { in: ['released', 'in_escrow'] } },
+    }),
+    prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: { id: true, fullName: true, email: true, role: true, createdAt: true },
+    }),
+  ]);
+
+  const gtv = totalRevenue._sum.amount ? Number(totalRevenue._sum.amount) : 0;
+  const disputeCount = totalDisputes;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const newToday = await prisma.user.count({
+    where: { createdAt: { gte: today } },
+  });
 
   return (
     <DashboardShell
       navigation={ADMIN_NAVIGATION}
-      userRole="admin"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Admin'}
-      userAvatar={user?.imageUrl}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
     >
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
-        <div>
-          <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">Platform Overview</h1>
-          <p className="text-muted-foreground font-body-md">System health and verification analytics for Today.</p>
-        </div>
-        <div className="flex items-center gap-sm bg-surface-container rounded-lg p-1 border border-outline-variant">
-          <button className="px-md py-1.5 bg-surface text-primary font-semibold rounded shadow-sm text-body-sm">Daily</button>
-          <button className="px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">Weekly</button>
-          <button className="px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">Monthly</button>
-          <div className="h-4 w-[1px] bg-outline-variant mx-2"></div>
-          <button className="flex items-center gap-xs px-md py-1.5 text-muted-foreground hover:text-primary transition-colors text-body-sm">
-            <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
-            <MaterialIcon name="Oct 24, 2023" className="material-symbols-outlined" />
-          </button>
-        </div>
-      </div>
-
-      {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-lg">
-        {/* KPI Card: Total Active Users */}
-        <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
-          <div className="flex justify-between items-start">
-            <div className="p-sm bg-primary-container/5 rounded-lg">
-              <MaterialIcon name="groups" className="material-symbols-outlined" />
-            </div>
-            <span className="text-emerald-600 flex items-center text-label-sm">
-              <MaterialIcon name="trending_up" className="material-symbols-outlined" />
-              +12.5%
-            </span>
-          </div>
-          <div className="mt-md">
-            <span className="text-muted-foreground text-label-md">Total Active Users</span>
-            <h2 className="text-headline-md font-bold mt-xs">18,492</h2>
-          </div>
-        </div>
-
-        {/* KPI Card: Pending Verifications */}
-        <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
-          <div className="flex justify-between items-start">
-            <div className="p-sm bg-error-container/10 rounded-lg">
-              <MaterialIcon name="priority_high" className="material-symbols-outlined" />
-            </div>
-            <span className="text-error flex items-center text-label-sm font-bold">URGENT</span>
-          </div>
-          <div className="mt-md">
-            <span className="text-muted-foreground text-label-md">Pending Verifications</span>
-            <h2 className="text-headline-md font-bold mt-xs">142</h2>
-          </div>
-        </div>
-
-        {/* KPI Card: Platform Revenue */}
-        <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
-          <div className="flex justify-between items-start">
-            <div className="p-sm bg-secondary/10 rounded-lg">
-              <MaterialIcon name="payments" className="material-symbols-outlined" />
-            </div>
-            <span className="text-emerald-600 flex items-center text-label-sm">
-              <MaterialIcon name="trending_up" className="material-symbols-outlined" />
-              +8.2%
-            </span>
-          </div>
-          <div className="mt-md">
-            <span className="text-muted-foreground text-label-md">Platform Revenue (GTV)</span>
-            <h2 className="text-headline-md font-bold mt-xs">₦4.2M</h2>
-          </div>
-        </div>
-
-        {/* KPI Card: Active Disputes */}
-        <div className="bg-surface p-lg rounded-xl border border-outline-variant card-shadow card-hover flex flex-col justify-between">
-          <div className="flex justify-between items-start">
-            <div className="p-sm bg-on-surface-variant/10 rounded-lg">
-              <MaterialIcon name="report" className="material-symbols-outlined" />
-            </div>
-            <span className="text-muted-foreground flex items-center text-label-sm">Stable</span>
-          </div>
-          <div className="mt-md">
-            <span className="text-muted-foreground text-label-md">Active Disputes</span>
-            <h2 className="text-headline-md font-bold mt-xs">24</h2>
-          </div>
-        </div>
-      </div>
-
-      {/* Bento Layout Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-lg">
-        {/* Verification Queue Table (Left 2/3) */}
-        <div className="lg:col-span-2 bg-surface rounded-xl border border-outline-variant card-shadow overflow-hidden flex flex-col">
-          <div className="p-lg border-b border-outline-variant flex justify-between items-center">
-            <h3 className="font-headline-sm text-headline-sm text-primary">Verification Queue</h3>
-            <button className="text-primary-container font-semibold hover:underline text-body-sm flex items-center gap-xs">
-              View All <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
-            </button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-surface-container-low text-muted-foreground font-label-md border-b border-outline-variant">
-                  <th className="px-lg py-md font-medium">Property Name</th>
-                  <th className="px-lg py-md font-medium">Landlord</th>
-                  <th className="px-lg py-md font-medium">Level</th>
-                  <th className="px-lg py-md font-medium">Status</th>
-                  <th className="px-lg py-md font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant">
-                {/* Row 1 */}
-                <tr className="hover:bg-surface-container-lowest transition-colors">
-                  <td className="px-lg py-md">
-                    <div className="flex items-center gap-md">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-high overflow-hidden">
-                        <div className="w-full h-full bg-surface-container-high" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-primary">Skyline Penthouse</div>
-                        <div className="text-body-sm text-muted-foreground">Ikoyi, Lagos</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-lg py-md text-body-md">Obi Okonjo</td>
-                  <td className="px-lg py-md">
-                    <span className="inline-block px-3 py-1 rounded-full bg-tertiary-container text-tertiary-fixed font-label-md text-xs verification-shimmer">
-                      LEVEL 5
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <span className="px-sm py-1 rounded bg-secondary-container/20 text-secondary-container font-medium text-xs border border-secondary-container/30 uppercase">
-                      Review
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
-                    </button>
-                  </td>
-                </tr>
-
-                {/* Row 2 */}
-                <tr className="hover:bg-surface-container-lowest transition-colors">
-                  <td className="px-lg py-md">
-                    <div className="flex items-center gap-md">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-high overflow-hidden">
-                        <div className="w-full h-full bg-surface-container-high" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-primary">Emerald Gardens</div>
-                        <div className="text-body-sm text-muted-foreground">Lekki Phase 1</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-lg py-md text-body-md">Fatima Yusuf</td>
-                  <td className="px-lg py-md">
-                    <span className="inline-block px-3 py-1 rounded-full bg-outline-variant/20 text-foreground font-label-md text-xs">
-                      LEVEL 2
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <span className="px-sm py-1 rounded bg-surface-container-high text-muted-foreground font-medium text-xs border border-outline-variant uppercase">
-                      Pending
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
-                    </button>
-                  </td>
-                </tr>
-
-                {/* Row 3 */}
-                <tr className="hover:bg-surface-container-lowest transition-colors">
-                  <td className="px-lg py-md">
-                    <div className="flex items-center gap-md">
-                      <div className="w-10 h-10 rounded-lg bg-surface-container-high overflow-hidden">
-                        <div className="w-full h-full bg-surface-container-high" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-primary">The Apex Duplex</div>
-                        <div className="text-body-sm text-muted-foreground">Victoria Island</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-lg py-md text-body-md">Chidi Nwosu</td>
-                  <td className="px-lg py-md">
-                    <span className="inline-block px-3 py-1 rounded-full bg-secondary-fixed text-secondary-fixed-dim font-label-md text-xs">
-                      LEVEL 4
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <span className="px-sm py-1 rounded bg-error-container/20 text-error font-medium text-xs border border-error/30 uppercase">
-                      Action Required
-                    </span>
-                  </td>
-                  <td className="px-lg py-md">
-                    <button className="p-2 hover:bg-primary-container/10 rounded-lg text-primary-container">
-                      <MaterialIcon name="visibility" className="material-symbols-outlined" />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Risk Alerts (Right 1/3) */}
-        <div className="bg-surface rounded-xl border border-outline-variant card-shadow p-lg flex flex-col">
-          <div className="flex items-center justify-between mb-lg">
-            <h3 className="font-headline-sm text-headline-sm text-primary flex items-center gap-sm">
-              <MaterialIcon name="warning" className="material-symbols-outlined" />
-              Risk Alerts
-            </h3>
-            <span className="bg-error text-on-error px-2 py-0.5 rounded-full text-[10px] font-bold">4 NEW</span>
-          </div>
-          <div className="space-y-md">
-            {/* Alert Item */}
-            <div className="p-md bg-error-container/5 border-l-4 border-error rounded-r-lg hover:bg-error-container/10 transition-colors">
-              <div className="flex justify-between items-start">
-                <span className="font-bold text-primary text-body-sm">Flagged Account: @user829</span>
-                <span className="text-[10px] text-muted-foreground uppercase">14m ago</span>
-              </div>
-              <p className="text-body-sm text-muted-foreground mt-1">
-                High frequency transaction pattern detected from unverified IP.
-              </p>
-              <div className="mt-sm flex gap-sm">
-                <button className="text-xs font-bold text-error hover:underline">Investigate</button>
-                <button className="text-xs font-bold text-muted-foreground hover:underline">Dismiss</button>
-              </div>
-            </div>
-
-            <div className="p-md bg-surface-container-high border-l-4 border-secondary rounded-r-lg">
-              <div className="flex justify-between items-start">
-                <span className="font-bold text-primary text-body-sm">Listing Discrepancy</span>
-                <span className="text-[10px] text-muted-foreground uppercase">2h ago</span>
-              </div>
-              <p className="text-body-sm text-muted-foreground mt-1">
-                &quot;Maitama Manor&quot; coordinates don&apos;t match provided land registry docs.
-              </p>
-              <div className="mt-sm flex gap-sm">
-                <button className="text-xs font-bold text-primary-container hover:underline">Verify Map</button>
-              </div>
-            </div>
-
-            <div className="p-md bg-surface-container border-l-4 border-outline rounded-r-lg">
-              <div className="flex justify-between items-start">
-                <span className="font-bold text-primary text-body-sm">Suspicious Withdrawal</span>
-                <span className="text-[10px] text-muted-foreground uppercase">4h ago</span>
-              </div>
-              <p className="text-body-sm text-muted-foreground mt-1">
-                ₦850,000 flagged for manual AML review.
-              </p>
-            </div>
-          </div>
-          <button className="mt-auto w-full py-2 border border-outline text-muted-foreground text-body-sm font-semibold rounded-lg hover:bg-surface-container-high transition-colors">
-            Security Log History
-          </button>
-        </div>
-
-        {/* Platform Activity Chart (Full Width Bottom) */}
-        <div className="lg:col-span-3 bg-primary-container text-on-primary rounded-xl p-lg relative overflow-hidden h-[320px]">
-          {/* Background texture/pattern using CSS only */}
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}
-          ></div>
-          <div className="relative z-10 flex flex-col h-full">
-            <div className="flex justify-between items-center mb-xl">
-              <div>
-                <h3 className="font-headline-sm text-headline-sm">Platform Growth Trends</h3>
-                <p className="text-on-primary-container font-body-sm">New Listings vs Verified Users (Last 30 Days)</p>
-              </div>
-              <div className="flex gap-lg">
-                <div className="flex items-center gap-sm">
-                  <span className="w-3 h-3 rounded-full bg-secondary"></span>
-                  <span className="text-body-sm">Listings</span>
-                </div>
-                <div className="flex items-center gap-sm">
-                  <span className="w-3 h-3 rounded-full bg-tertiary-fixed"></span>
-                  <span className="text-body-sm">Verified Users</span>
-                </div>
-              </div>
-            </div>
-            {/* Visual representation of a chart using divs */}
-            <div className="flex-grow flex items-end gap-md pb-md">
-              {/* Chart bars */}
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[30%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[45%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[40%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[55%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[60%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[50%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[75%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[85%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-100 rounded-t-sm h-[85%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-100 rounded-t-sm h-[95%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[65%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[70%]"></div>
-              </div>
-              <div className="flex-1 flex flex-col justify-end gap-1 group cursor-pointer">
-                <div className="w-full bg-secondary opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[50%]"></div>
-                <div className="w-full bg-tertiary-fixed opacity-40 hover:opacity-100 transition-all rounded-t-sm h-[60%]"></div>
-              </div>
-            </div>
-            <div className="flex justify-between border-t border-on-primary/10 pt-sm text-[10px] text-on-primary-container font-medium uppercase tracking-widest">
-              <MaterialIcon name="Week 1" className="material-symbols-outlined" />
-              <MaterialIcon name="Week 2" className="material-symbols-outlined" />
-              <MaterialIcon name="Week 3" className="material-symbols-outlined" />
-              <MaterialIcon name="Week 4" className="material-symbols-outlined" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer / System Status */}
-      <footer className="mt-auto px-lg py-md border-t border-outline-variant bg-surface-container-low flex justify-between items-center text-muted-foreground text-label-sm">
-        <div className="flex items-center gap-md">
-          <span className="flex items-center gap-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            API: Healthy
-          </span>
-          <MaterialIcon name="Node: NG-LAG-01" className="material-symbols-outlined" />
-        </div>
-        <div>
-          &copy; 2023 EstateVerify Systems. Secure Administrative Access.
-        </div>
-      </footer>
+      <AdminOverviewClient
+        kpi={{
+          totalUsers,
+          activeUsers,
+          newToday,
+          pendingVerifications,
+          totalListings,
+          activeListings,
+          totalTransactions,
+          escrowedTransactions,
+          disputeCount,
+          gtv,
+        }}
+        recentUsers={recentUsers}
+      />
     </DashboardShell>
+  );
+}
+
+function AdminOverviewClient({
+  kpi,
+  recentUsers,
+}: {
+  kpi: {
+    totalUsers: number;
+    activeUsers: number;
+    newToday: number;
+    pendingVerifications: number;
+    totalListings: number;
+    activeListings: number;
+    totalTransactions: number;
+    escrowedTransactions: number;
+    disputeCount: number;
+    gtv: number;
+  };
+  recentUsers: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+    createdAt: Date;
+  }[];
+}) {
+  'use client';
+
+  const initials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+
+  return (
+    <div className="space-y-6">
+      {/* KPI Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            label: 'Total Users',
+            value: kpi.totalUsers.toLocaleString(),
+            sub: `${kpi.activeUsers.toLocaleString()} active · ${kpi.newToday} new today`,
+            icon: 'groups',
+          },
+          {
+            label: 'Pending Verifications',
+            value: String(kpi.pendingVerifications),
+            sub: 'Awaiting review',
+            icon: 'pending_actions',
+            accent: 'warning',
+          },
+          {
+            label: 'Platform Revenue (GTV)',
+            value: formatCurrency(kpi.gtv / 100),
+            sub: `${kpi.totalTransactions.toLocaleString()} transactions`,
+            icon: 'payments',
+          },
+          {
+            label: 'Active Disputes',
+            value: String(kpi.disputeCount),
+            sub: `${kpi.escrowedTransactions} in escrow`,
+            icon: 'report',
+            accent: kpi.disputeCount > 0 ? 'error' : undefined,
+          },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm hover:shadow-md transition-all"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm text-muted-foreground font-medium">{card.label}</span>
+              <AppIcon name={card.icon} className="lucide" size={20} />
+            </div>
+            <div className="text-headline-md font-bold text-primary">{card.value}</div>
+            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Recent Users + Quick Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Users Table */}
+        <div className="lg:col-span-2 rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
+          <div className="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+            <h3 className="font-headline-sm text-primary">Newest Users</h3>
+            <span className="text-xs text-muted-foreground">Last 5 signups</span>
+          </div>
+          {recentUsers.length === 0 ? (
+            <p className="p-lg text-sm text-muted-foreground text-center">No users registered yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-surface-container text-muted-foreground border-b border-outline-variant">
+                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
+                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
+                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-outline-variant">
+                  {recentUsers.map((u) => (
+                    <tr key={u.id} className="hover:bg-surface-container-low transition-colors">
+                      <td className="px-lg py-md">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">
+                            {initials(u.fullName || u.email)}
+                          </div>
+                          <div>
+                            <div className="font-bold text-primary text-sm">{u.fullName}</div>
+                            <div className="text-xs text-muted-foreground">{u.email}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-lg py-md text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
+                      <td className="px-lg py-md text-body-sm text-muted-foreground">
+                        {u.createdAt.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Platform Health Sidebar */}
+        <div className="space-y-4">
+          <div className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm">
+            <h3 className="font-headline-sm text-primary mb-3">Platform Health</h3>
+            <div className="space-y-3">
+              {[
+                { label: 'Active Listings', value: `${kpi.activeListings.toLocaleString()} / ${kpi.totalListings.toLocaleString()}` },
+                { label: 'Transactions in Escrow', value: kpi.escrowedTransactions.toLocaleString() },
+                { label: 'Pending Verifications', value: kpi.pendingVerifications.toLocaleString() },
+                { label: 'Total Listings', value: kpi.totalListings.toLocaleString() },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{item.label}</span>
+                  <span className="font-bold text-primary">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm">
+            <h3 className="font-headline-sm text-primary mb-2">Trend Snapshot</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Revenue tracked to date includes{' '}
+              <span className="font-bold text-primary">released</span> and{' '}
+              <span className="font-bold text-secondary">in-escrow</span> transactions.
+              {kpi.disputeCount > 0 && (
+                <> <span className="text-error font-bold">{kpi.disputeCount}</span> open disputes require attention.</>
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

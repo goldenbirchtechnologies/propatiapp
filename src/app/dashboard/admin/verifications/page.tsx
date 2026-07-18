@@ -1,55 +1,101 @@
-'use client';
-
-import { useState } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
+import { DashboardShell } from '@/components/layout/DashboardShell';
 
-export default function AdminVerificationsPage() {
-  const [error, setError] = useState<string | null>(null);
+export default async function AdminVerificationsPage() {
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/login');
+  if (user.role !== 'admin') redirect(getRoleRedirectPath(user.role));
 
-  if (error) {
-    return (
-      <DashboardShell navigation={ADMIN_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Verifications</h1>
-          <p className="text-muted-foreground">Manage platform-wide user verifications.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Unable to load page</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
-      </DashboardShell>
-    );
-  }
+  const displayName = user.fullName || 'Admin';
+
+  const [totalVerifications, pendingCount, inProgressCount, certifiedCount, recentVerifications] = await Promise.all([
+    prisma.verification.count(),
+    prisma.verification.count({ where: { overallStatus: 'not_started' } }),
+    prisma.verification.count({ where: { overallStatus: 'in_progress' } }),
+    prisma.verification.count({ where: { overallStatus: 'certified' } }),
+    prisma.verification.findMany({
+      take: 10,
+      orderBy: { updatedAt: 'desc' },
+      include: {
+        listing: { select: { title: true, address: true } },
+        owner: { select: { fullName: true } },
+      },
+    }),
+  ]);
 
   return (
-    <DashboardShell navigation={ADMIN_NAVIGATION}>
-      <section className="space-y-6">
+    <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Verifications</h1>
-            <p className="mt-1 text-muted-foreground">Manage platform-wide user verifications.</p>
+            <p className="text-muted-foreground mt-1">Manage platform-wide user verifications.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
             New Batch
           </button>
         </div>
-        <div className="rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
-          <div className="text-muted-foreground mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Total</p>
+            <p className="text-2xl font-bold text-foreground mt-2">{totalVerifications.toLocaleString()}</p>
           </div>
-          <h3 className="text-lg font-medium text-primary">No verifications yet</h3>
-          <p className="mt-1 text-muted-foreground">Batch verification results will appear here.</p>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Not Started</p>
+            <p className="text-2xl font-bold text-foreground mt-2">{pendingCount.toLocaleString()}</p>
+          </div>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">In Progress</p>
+            <p className="text-2xl font-bold text-amber-600 mt-2">{inProgressCount.toLocaleString()}</p>
+          </div>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Certified</p>
+            <p className="text-2xl font-bold text-green-600 mt-2">{certifiedCount.toLocaleString()}</p>
+          </div>
         </div>
-      </section>
+
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-border">
+            <h2 className="text-lg font-semibold text-foreground">Recent Verifications</h2>
+          </div>
+          {recentVerifications.length === 0 ? (
+            <div className="p-12 text-center">
+              <p className="text-muted-foreground">No verifications yet.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-muted-foreground">
+                    <th className="p-3 font-medium">Listing</th>
+                    <th className="p-3 font-medium">Owner</th>
+                    <th className="p-3 font-medium">Layer</th>
+                    <th className="p-3 font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentVerifications.map((ver) => (
+                    <tr key={ver.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
+                      <td className="p-3 text-foreground">{ver.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-foreground">{ver.owner?.fullName ?? '—'}</td>
+                      <td className="p-3 text-foreground">{ver.currentLayer}</td>
+                      <td className="p-3">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground">
+                          {ver.overallStatus.replace(/_/g, ' ')}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
     </DashboardShell>
   );
 }

@@ -283,7 +283,7 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
                   {conv.listing?.title ? ` — ${conv.listing.title}` : ''}
                 </p>
                 {conv.unreadCount > 0 && (
-                  <Badge variant="default" className="rounded-full px-2 py-0 text-xs" style={{ background: 'var(--accent)', color: '#fff' }}>
+                  <Badge variant="default" className="rounded-full px-2 py-0 text-xs">
                     {conv.unreadCount}
                   </Badge>
                 )}

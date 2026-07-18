@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { Suspense } from 'react';
@@ -316,9 +316,9 @@ function ListingsPageInner() {
             className="mb-4"
           />
           <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-            <MaterialIcon name="₦{(filters.priceMin / 1000000).toFixed(0)}M" className="material-symbols-outlined" />
-            <MaterialIcon name="-" className="material-symbols-outlined" />
-            <MaterialIcon name="₦{(filters.priceMax / 1000000).toFixed(0)}M" className="material-symbols-outlined" />
+            <AppIcon name="₦{(filters.priceMin / 1000000).toFixed(0)}M" className="lucide" />
+            <AppIcon name="-" className="lucide" />
+            <AppIcon name="₦{(filters.priceMax / 1000000).toFixed(0)}M" className="lucide" />
           </div>
         </div>
       </div>
@@ -546,7 +546,7 @@ function ListingsPageInner() {
                   )}
                   aria-label="Grid view"
                 >
-                  <MaterialIcon name="grid_view" className="material-symbols-outlined" />
+                  <AppIcon name="grid_view" className="lucide" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
@@ -558,7 +558,7 @@ function ListingsPageInner() {
                   )}
                   aria-label="List view"
                 >
-                  <MaterialIcon name="format_list_bulleted" className="material-symbols-outlined" />
+                  <AppIcon name="format_list_bulleted" className="lucide" />
                 </button>
               </div>
             </div>

@@ -1,55 +1,98 @@
-'use client';
-
-import { useState } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
+import { DashboardShell } from '@/components/layout/DashboardShell';
 
-export default function AdminPropertiesPage() {
-  const [error, setError] = useState<string | null>(null);
+export default async function AdminPropertiesPage() {
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/login');
+  if (user.role !== 'admin') redirect(getRoleRedirectPath(user.role));
 
-  if (error) {
-    return (
-      <DashboardShell navigation={ADMIN_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Properties</h1>
-          <p className="text-muted-foreground">Manage and approve property listings.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Unable to load page</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
-      </DashboardShell>
-    );
-  }
+  const displayName = user.fullName || 'Admin';
+
+  const [totalListings, activeCount, draftCount, recentListings, flaggedCount] = await Promise.all([
+    prisma.listing.count(),
+    prisma.listing.count({ where: { status: 'active' } }),
+    prisma.listing.count({ where: { status: 'draft' } }),
+    prisma.listing.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, title: true, status: true, listingType: true, createdAt: true, ownerId: true },
+    }),
+    prisma.listingFlag.count({ where: { status: 'open' } }),
+  ]);
 
   return (
-    <DashboardShell navigation={ADMIN_NAVIGATION}>
-      <section className="space-y-6">
+    <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Properties</h1>
             <p className="text-muted-foreground mt-1">Manage and approve property listings.</p>
           </div>
-          <button className="px-4 py-2 bg-success text-success-foreground rounded-lg hover:opacity-90">
+          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
             Add Property
           </button>
         </div>
-        <div className="rounded-lg border border-border bg-surface-container-lowest p-12 text-center shadow-card">
-          <div className="text-muted-foreground mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Total Listings</p>
+            <p className="text-2xl font-bold text-foreground mt-2">{totalListings.toLocaleString()}</p>
           </div>
-          <h3 className="text-lg font-medium text-primary">No properties listed</h3>
-          <p className="mt-1 text-muted-foreground">Approved properties will appear here.</p>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Active</p>
+            <p className="text-2xl font-bold text-green-600 mt-2">{activeCount.toLocaleString()}</p>
+          </div>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Draft</p>
+            <p className="text-2xl font-bold text-amber-600 mt-2">{draftCount.toLocaleString()}</p>
+          </div>
+          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+            <p className="text-muted-foreground text-sm">Open Flags</p>
+            <p className="text-2xl font-bold text-red-600 mt-2">{flaggedCount.toLocaleString()}</p>
+          </div>
         </div>
-      </section>
+
+        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-border">
+            <h2 className="text-lg font-semibold text-foreground">Recent Listings</h2>
+          </div>
+          {recentListings.length === 0 ? (
+            <div className="p-12 text-center">
+              <p className="text-muted-foreground">No properties listed.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-muted-foreground">
+                    <th className="p-3 font-medium">Title</th>
+                    <th className="p-3 font-medium">Type</th>
+                    <th className="p-3 font-medium">Status</th>
+                    <th className="p-3 font-medium">Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentListings.map((listing) => (
+                    <tr key={listing.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
+                      <td className="p-3 text-foreground">{listing.title}</td>
+                      <td className="p-3 text-foreground capitalize">{listing.listingType.replace(/_/g, ' ')}</td>
+                      <td className="p-3">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground capitalize">
+                          {listing.status}
+                        </span>
+                      </td>
+                      <td className="p-3 text-foreground">{new Date(listing.createdAt).toLocaleDateString('en-NG')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
     </DashboardShell>
   );
 }

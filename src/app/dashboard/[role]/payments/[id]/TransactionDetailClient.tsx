@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
@@ -181,7 +181,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             {transaction.platformFee > 0 && (
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Platform Fee</span>
-                <MaterialIcon name={formatAmountFromKobo(transaction.platformFee)} className="material-symbols-outlined" />
+                <AppIcon name={formatAmountFromKobo(transaction.platformFee)} className="lucide" />
               </div>
             )}
 

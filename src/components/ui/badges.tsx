@@ -15,23 +15,23 @@ const listingTypeConfig: Record<
 > = {
   rent: {
     label: 'For Rent',
-    colorClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    colorClass: 'bg-type-rent/10 text-type-rent dark:bg-type-rent/20 dark:text-type-rent',
   },
   sale: {
     label: 'For Sale',
-    colorClass: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    colorClass: 'bg-type-sale/10 text-type-sale dark:bg-type-sale/20 dark:text-type-sale',
   },
   short_let: {
     label: 'Short Let',
-    colorClass: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+    colorClass: 'bg-type-shortlet/10 text-type-shortlet dark:bg-type-shortlet/20 dark:text-type-shortlet',
   },
   share: {
     label: 'Room Share',
-    colorClass: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
+    colorClass: 'bg-type-roomshare/10 text-type-roomshare dark:bg-type-roomshare/20 dark:text-type-roomshare',
   },
   commercial: {
     label: 'Commercial',
-    colorClass: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+    colorClass: 'bg-commercial-gold/10 text-commercial-gold dark:bg-commercial-gold/20 dark:text-commercial-gold',
   },
 };
 
@@ -69,13 +69,13 @@ const verificationTierConfig: Record<
 > = {
   basic: {
     label: 'Basic',
-    colorClass: 'bg-muted text-muted-foreground border border-border',
+    colorClass: 'inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground dark:text-muted-foreground border border-border',
   },
   verified: {
     label: 'VERIFIED',
-    colorClass: 'inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800',
+    colorClass: 'inline-flex items-center gap-1 rounded-full bg-verification-verified/10 px-2.5 py-0.5 text-xs font-bold text-verification-verified border border-verification-verified/20 dark:bg-verification-verified/20 dark:text-verification-verified dark:border-verification-verified/40',
     icon: (
-      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white">
+      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-verification-verified text-white">
         <svg
           width="10"
           height="10"
@@ -93,9 +93,9 @@ const verificationTierConfig: Record<
   },
   inspected: {
     label: 'INSPECTED',
-    colorClass: 'inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800',
+    colorClass: 'inline-flex items-center gap-1 rounded-full bg-verification-inspected/10 px-2.5 py-0.5 text-xs font-bold text-verification-inspected border border-verification-inspected/20 dark:bg-verification-inspected/20 dark:text-verification-inspected dark:border-verification-inspected/40',
     icon: (
-      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-white">
+      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-verification-inspected text-white">
         <svg
           width="10"
           height="10"
@@ -113,9 +113,9 @@ const verificationTierConfig: Record<
   },
   certified: {
     label: 'CERTIFIED',
-    colorClass: 'inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800',
+    colorClass: 'inline-flex items-center gap-1 rounded-full bg-verification-certified/10 px-2.5 py-0.5 text-xs font-bold text-verification-certified border border-verification-certified/20 dark:bg-verification-certified/20 dark:text-verification-certified dark:border-verification-certified/40',
     icon: (
-      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white">
+      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-verification-certified text-white">
         <svg
           width="10"
           height="10"
@@ -168,7 +168,7 @@ export const VerifiedIconBadge = React.forwardRef<HTMLDivElement, VerifiedIconBa
       <div
         ref={ref}
         className={cn(
-          'relative inline-flex items-center justify-center text-emerald-600 dark:text-emerald-400',
+          'relative inline-flex items-center justify-center text-verification-verified dark:text-verification-verified',
           className
         )}
         {...props}

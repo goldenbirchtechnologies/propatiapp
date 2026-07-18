@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { Download, Printer, Pen, Check, X, AlertCircle, FileText, User, Building, Calendar, Clock, DollarSign, Key, Hash, Shield, ChevronDown, ChevronUp } from 'lucide-react';
@@ -126,7 +126,7 @@ function AgreementHeader({ agreement, currentUserRole }: { agreement: AgreementD
           <p className="text-sm" style={{ color: 'var(--muted)' }}>{config.description}</p>
         </div>
         <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-          <MaterialIcon name="Ref: " className="material-symbols-outlined" />
+          <AppIcon name="Ref: " className="lucide" />
           <code className="font-mono bg-muted px-2 py-1 rounded">{agreement.reference}</code>
         </div>
       </div>
@@ -371,7 +371,7 @@ function TermItem({ label, value, icon }: { label: string; value: string; icon: 
     <div className="p-3 bg-muted/30 rounded-lg">
       <div className="flex items-center gap-2 text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>
         {icon}
-        <MaterialIcon name={label} className="material-symbols-outlined" />
+        <AppIcon name={label} className="lucide" />
       </div>
       <p className="font-medium" style={{ color: 'var(--text)' }}>{value}</p>
     </div>
@@ -428,7 +428,7 @@ function SignaturesSection({ agreement, currentUserRole, currentUserId, onSign }
             <div className="space-y-2 text-sm" style={{ color: 'var(--muted)' }}>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <MaterialIcon name="Signed: {formatDate(signature.signedAt)}" className="material-symbols-outlined" />
+                <AppIcon name="Signed: {formatDate(signature.signedAt)}" className="lucide" />
               </div>
               <div className="flex items-center gap-2">
                 <Hash className="h-4 w-4" />
@@ -672,7 +672,7 @@ export function AgreementListItem({
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm" style={{ color: 'var(--muted)' }}>
               <span className="truncate">{agreement.property.address}, {agreement.property.city}</span>
-              <MaterialIcon name={typeLabels[agreement.type]} className="material-symbols-outlined" />
+              <AppIcon name={typeLabels[agreement.type]} className="lucide" />
               <span>Ref: <code className="font-mono">{agreement.reference}</code></span>
             </div>
           </div>

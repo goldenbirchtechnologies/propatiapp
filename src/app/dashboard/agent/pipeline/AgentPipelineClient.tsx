@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -158,8 +158,8 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
       </div>
 
       <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" style={{ borderColor: 'border-outline-variant', color: 'text-on-surface-variant' }}>
-        <MaterialIcon name="₦{deal.value.toLocaleString()}" className="material-symbols-outlined" />
-        <MaterialIcon name={deal.lastContact} className="material-symbols-outlined" />
+        <AppIcon name="₦{deal.value.toLocaleString()}" className="lucide" />
+        <AppIcon name={deal.lastContact} className="lucide" />
       </div>
 
       {expanded && (

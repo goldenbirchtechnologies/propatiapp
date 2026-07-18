@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import Image from 'next/image';
@@ -563,13 +563,13 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   {ownerContact.phone && (
                     <div className="flex items-center gap-2 text-on-surface-variant">
                       <Phone className="h-4 w-4" />
-                      <MaterialIcon name={ownerContact.phone} className="material-symbols-outlined" />
+                      <AppIcon name={ownerContact.phone} className="lucide" />
                     </div>
                   )}
                   {ownerContact.email && (
                     <div className="flex items-center gap-2 text-on-surface-variant">
                       <Mail className="h-4 w-4" />
-                      <MaterialIcon name={ownerContact.email} className="material-symbols-outlined" />
+                      <AppIcon name={ownerContact.email} className="lucide" />
                     </div>
                   )}
                 </CardContent>

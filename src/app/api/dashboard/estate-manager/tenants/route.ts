@@ -36,33 +36,8 @@ export async function GET(request: NextRequest) {
       },
       select: {
         id: true,
-        clerkId: true,
-        email: true,
-        phone: true,
         fullName: true,
-        role: true,
-        avatarUrl: true,
-        ninVerified: true,
-        idVerified: true,
-        phoneVerified: true,
-        employmentStatus: true,
-        employmentType: true,
-        employerName: true,
-        jobTitle: true,
-        yearlyIncome: true,
-        incomeVerified: true,
-        profileBio: true,
-        profileCompleted: true,
-        guarantorName: true,
-        guarantorPhone: true,
-        guarantorRelationship: true,
-        isActive: true,
-        isBanned: true,
-        banReason: true,
-        notificationPreferences: true,
-        createdAt: true,
-        updatedAt: true,
-        lastLogin: true,
+        email: true,
         currentlyRentingUnits: {
           select: {
             id: true,
@@ -71,13 +46,38 @@ export async function GET(request: NextRequest) {
             status: true,
             occupancy: true,
             organizationId: true,
+            leaseStartDate: true,
+            leaseEndDate: true,
           },
         },
       },
       orderBy: { fullName: 'asc' },
     });
 
-    return NextResponse.json({ success: true, data: tenants });
+    const mappedTenants = tenants.map((tenant) => {
+      const unit = tenant.currentlyRentingUnits[0];
+      const leaseEnd = unit?.leaseEndDate ? new Date(unit.leaseEndDate).toISOString().split('T')[0] : '-';
+      const occupancy = unit?.occupancy;
+      const status =
+        occupancy === 'NOTICE_GIVEN'
+          ? 'notice_period'
+          : occupancy === 'OCCUPIED'
+            ? 'active'
+            : 'pending';
+      const noticePeriod = occupancy === 'NOTICE_GIVEN';
+
+      return {
+        id: tenant.id,
+        name: tenant.fullName,
+        email: tenant.email,
+        unit: unit ? `${unit.buildingName ? `${unit.buildingName} ` : ''}${unit.unitNumber}` : '-',
+        status,
+        leaseEnd,
+        noticePeriod,
+      };
+    });
+
+    return NextResponse.json({ success: true, data: mappedTenants });
   } catch (error) {
     console.error('Tenants GET error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

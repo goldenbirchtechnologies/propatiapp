@@ -1,72 +1,94 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export default function leaseagreementreviewpropaticommercialPage() {
-  const { user } = useUser();
+export const metadata = {
+  title: 'Commercial Leases Review – Landlord',
+  description: 'Review proposed commercial lease terms.',
+};
+
+export default async function CommercialAgreementsReviewPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
+
+  const agreements = await prisma.agreement.findMany({
+    where: {
+      landlordId: user.id,
+      OR: [{ status: 'pending_signature' }, { status: 'review_required' }],
+    },
+    include: {
+      tenant: { select: { fullName: true } },
+      listing: { select: { title: true, address: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 20,
+  });
 
   return (
-    <DashboardShell
-      navigation={LANDLORD_NAVIGATION}
-      userRole="landlord"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Landlord'}
-      userAvatar={user?.imageUrl}
-    >
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Lease Agreement Review Commercial</h1>
-          <p className="text-muted-foreground mt-1">Lease Agreement Review | PROPATI Commercial PROPATI Commercial Gold Verified Agent gavel Workspace description Agreement...</p>
+        <section>
+          <h1 className="text-2xl font-bold text-foreground">Commercial Lease Agreement Review</h1>
+          <p className="text-muted-foreground mt-1">
+            Gold Verified Agent workspace — review proposed commercial terms.
+          </p>
         </section>
-        <div className="grid gap-4 md:grid-cols-2">
+
+        {agreements.length === 0 ? (
           <Card>
-            <CardHeader><CardTitle>1. PARTIES</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_agreement_review_propati_commercial.</p></CardContent>
+            <CardContent className="p-8 text-center">
+              <p className="text-muted-foreground">No agreements currently pending review.</p>
+            </CardContent>
           </Card>
-          <Card>
-            <CardHeader><CardTitle>2. THE PREMISES</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_agreement_review_propati_commercial.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>3. TERM</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_agreement_review_propati_commercial.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>4. RENT AND DEPOSIT</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_agreement_review_propati_commercial.</p></CardContent>
-          </Card>
-          <Card>
-            <CardHeader><CardTitle>5. PERMITTED USE</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from lease_agreement_review_propati_commercial.</p></CardContent>
-          </Card>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="default">New Negotiation</Button>
-          <Button variant="default">Download PDF</Button>
-        </div>
-        <Card>
-          <CardContent className="pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-              <li>Gold Verified Agent</li>
-              <li>Reference: PROP-2024-88492-L</li>
-              <li>THIS LEASE AGREEMENT (the "Lease") is made this 24th day of May, 2024.</li>
-              <li>The Premises shall be used solely for general corporate office purposes and for no other purpose without the prior written consent of the Landlord.</li>
-              <li>The Landlord shall be responsible for structural repairs including the roof, exterior walls, and common areas. The Tenant shall be responsible for all internal non-structural repairs and day-to-day maintenance of the interior Premises.</li>
-              <li>Landlord Signature</li>
-              <li>Signed: 2024-05-23 14:22 WAT</li>
-              <li>Tenant Signature</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>lease_agreement_review_propati_commercial.html</strong></p>
-          </CardContent>
-        </Card>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {agreements.map((agr) => (
+              <Card key={agr.id}>
+                <CardHeader>
+                  <CardTitle className="text-base font-semibold">
+                    {agr.listing.title} — {agr.listing.address}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2 text-sm">
+                  <p>
+                    <span className="text-muted-foreground">Tenant:</span> {agr.tenant.fullName}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Rent:</span>{' '}
+                    {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
+                    {agr.rentPeriod ? `/${agr.rentPeriod}` : ''}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Term:</span>{' '}
+                    {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} →{' '}
+                    {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Deposit:</span>{' '}
+                    {agr.cautionDeposit ? `₦${Number(agr.cautionDeposit).toLocaleString()}` : '—'}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Service Charge:</span>{' '}
+                    {agr.serviceCharge ? `₦${Number(agr.serviceCharge).toLocaleString()}/yr` : '—'}
+                  </p>
+                  <div>
+                    <Badge variant={agr.status === 'draft' ? 'secondary' : 'outline'}>
+                      {agr.status.replace('_', ' ')}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </DashboardShell>
   );

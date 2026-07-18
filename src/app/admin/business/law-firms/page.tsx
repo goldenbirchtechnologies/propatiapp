@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -218,7 +218,7 @@ export default function AdminLawFirmsClient() {
               </div>
               {(firm.callToBarNumber || firm.nbaEnrollmentNumber || firm.principalPartnerName) && (
                 <div className="mt-2 pt-2 border-t text-xs text-gray-500">
-                  {firm.callToBarNumber && <MaterialIcon name="Call to Bar: {firm.callToBarNumber}" className="material-symbols-outlined" />}
+                  {firm.callToBarNumber && <AppIcon name="Call to Bar: {firm.callToBarNumber}" className="lucide" />}
                   {firm.nbaEnrollmentNumber && <span className="ml-3">NBA: {firm.nbaEnrollmentNumber}</span>}
                   {firm.principalPartnerName && <span className="ml-3">Partner: {firm.principalPartnerName}</span>}
                 </div>

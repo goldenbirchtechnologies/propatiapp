@@ -1,4 +1,4 @@
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -45,7 +45,6 @@ export default async function EstateManagerDashboardPage() {
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/agent',
   };
 
   if (user.role !== 'estate_manager') {
@@ -348,7 +347,7 @@ export default async function EstateManagerDashboardPage() {
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/dashboard/estate-manager/units">
               <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-5 py-2.5 transition-all flex items-center gap-2 group shadow-lg shadow-blue-500/10">
-                <MaterialIcon name="View Portfolio" className="material-symbols-outlined" />
+                <AppIcon name="View Portfolio" className="lucide" />
                 <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
                   <ArrowRight className="w-3 h-3" />
                 </span>
@@ -357,7 +356,7 @@ export default async function EstateManagerDashboardPage() {
             <Link href="/dashboard/estate-manager/bulk-import">
               <Button variant="outline" className="rounded-full border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-zinc-300 font-medium text-xs px-5 py-2.5 flex items-center gap-2">
                 <Plus className="w-4 h-4" />
-                <MaterialIcon name="Bulk Import" className="material-symbols-outlined" />
+                <AppIcon name="Bulk Import" className="lucide" />
               </Button>
             </Link>
           </div>
@@ -526,7 +525,7 @@ export default async function EstateManagerDashboardPage() {
                 <p className="text-xs text-zinc-400">Awaiting disbursement to landlord</p>
               </div>
               <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium">
-                <MaterialIcon name="Payables: {pendingManagedAmountLabel}" className="material-symbols-outlined" />
+                <AppIcon name="Payables: {pendingManagedAmountLabel}" className="lucide" />
               </div>
             </div>
           </div>

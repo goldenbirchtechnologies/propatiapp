@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { format } from 'date-fns';
 import { formatAmountFromKobo, formatTransactionReference } from '@/lib/payment-utils';
@@ -145,7 +145,7 @@ export function Receipt({ transaction }: ReceiptProps) {
             {transaction.platformFee > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Platform Fee</span>
-                <MaterialIcon name={formatAmountFromKobo(transaction.platformFee)} className="material-symbols-outlined" />
+                <AppIcon name={formatAmountFromKobo(transaction.platformFee)} className="lucide" />
               </div>
             )}
             {transaction.agentCommission > 0 && (

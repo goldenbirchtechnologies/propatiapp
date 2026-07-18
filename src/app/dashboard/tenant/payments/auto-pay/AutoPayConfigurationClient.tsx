@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -102,7 +102,7 @@ export default function AutoPayConfigurationClient() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="font-heading text-lg">Payment Method</CardTitle>
               <button className="text-primary font-label-md label-md hover:underline flex items-center gap-xs">
-                <MaterialIcon name="add_circle" className="material-symbols-outlined" />
+                <AppIcon name="add_circle" className="lucide" />
                 Add
               </button>
             </CardHeader>
@@ -142,7 +142,7 @@ export default function AutoPayConfigurationClient() {
                   <p className="font-label-md text-label-md text-on-surface-variant">
                     MAXIMUM PAYMENT LIMIT (OPTIONAL)
                   </p>
-                  <span className="material-symbols-outlined text-on-surface-variant cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
+                  <span className="lucide text-on-surface-variant cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
                     info
                   </span>
                 </div>
@@ -171,9 +171,9 @@ export default function AutoPayConfigurationClient() {
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <MaterialIcon name={
+                    <AppIcon name={
                       cat.id === 'rent' ? 'home' : cat.id === 'utilities' ? 'bolt' : 'cleaning_services'
-                    } className="material-symbols-outlined" />
+                    } className="lucide" />
                     <span className="font-body-md font-medium">{cat.label}</span>
                   </div>
                   <Switch checked={cat.active} />
@@ -187,7 +187,7 @@ export default function AutoPayConfigurationClient() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#feae2c]/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
             <CardContent className="p-5 space-y-4 relative z-10">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <span className="lucide text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
                   verified_user
                 </span>
                 <span className="font-label-sm label-sm tracking-widest text-on-primary-container uppercase">
@@ -223,11 +223,11 @@ export default function AutoPayConfigurationClient() {
       <footer className="mt-6 pt-4 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <MaterialIcon name="lock" className="material-symbols-outlined" />
+            <AppIcon name="lock" className="lucide" />
             <span className="text-body-sm text-on-surface-variant">Bank-grade Encryption</span>
           </div>
           <div className="flex items-center gap-2">
-            <MaterialIcon name="verified" className="material-symbols-outlined" />
+            <AppIcon name="verified" className="lucide" />
             <span className="text-body-sm text-on-surface-variant">Central Bank Licensed</span>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -25,7 +25,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             PROPATI
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/properties" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+            <Link href="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground">
               Browse
             </Link>
             <Link href="/help-center" className="text-sm font-medium text-muted-foreground hover:text-foreground">
@@ -33,7 +33,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             </Link>
           </nav>
           <div className="flex items-center gap-3">
-            <button className="material-symbols-outlined p-2 hover:bg-muted rounded-full text-muted-foreground" aria-label="Back">
+            <button className="lucide p-2 hover:bg-muted rounded-full text-muted-foreground" aria-label="Back">
               notifications
             </button>
             <Link href="/login" className="text-sm font-semibold text-primary hover:underline">
@@ -46,8 +46,8 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link href="/properties" className="hover:text-foreground">Properties</Link>
-          <MaterialIcon name="chevron_right" className="material-symbols-outlined text-[16px]" />
+          <Link href="/listings" className="hover:text-foreground">Listings</Link>
+          <AppIcon name="chevron_right" className="lucide text-[16px]" />
           <span className="text-foreground">{listing.title}</span>
         </nav>
 
@@ -62,7 +62,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                   onClick={() => setIsFavorite(!isFavorite)}
                   className="absolute top-4 right-4 bg-surface-elevated/90 backdrop-blur-md p-2 rounded-full hover:bg-surface transition-colors"
                 >
-                  <span className={`material-symbols-outlined ${isFavorite ? 'text-destructive' : 'text-muted-foreground'}`}>
+                  <span className={`lucide ${isFavorite ? 'text-destructive' : 'text-muted-foreground'}`}>
                     favorite
                   </span>
                 </button>
@@ -95,14 +95,14 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
               <div>
                 <h1 className="text-3xl font-bold text-foreground mb-2">{listing.title}</h1>
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="location_on" className="material-symbols-outlined text-[18px]" />
+                  <AppIcon name="location_on" className="lucide text-[18px]" />
                   <span className="text-sm">{listing.location}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-6 py-6 border-y border-border">
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="bed" className="material-symbols-outlined text-[24px] text-primary" />
+                  <AppIcon name="bed" className="lucide text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.beds}</span>
                     <span className="text-xs text-muted-foreground">Bedrooms</span>
@@ -110,7 +110,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 </div>
                 <div className="w-px h-10 bg-border" />
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="bathtub" className="material-symbols-outlined text-[24px] text-primary" />
+                  <AppIcon name="bathtub" className="lucide text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.baths}</span>
                     <span className="text-xs text-muted-foreground">Bathrooms</span>
@@ -118,7 +118,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 </div>
                 <div className="w-px h-10 bg-border" />
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <MaterialIcon name="square_foot" className="material-symbols-outlined text-[24px] text-primary" />
+                  <AppIcon name="square_foot" className="lucide text-[24px] text-primary" />
                   <div>
                     <span className="block text-lg font-bold text-foreground">{listing.area}</span>
                     <span className="text-xs text-muted-foreground">sq.m</span>
@@ -142,7 +142,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {['Parking', 'Security', 'Power Supply', 'Water Supply', 'WiFi', 'Swimming Pool', 'Gym', 'Garden', 'Elevator'].map((amenity) => (
                     <div key={amenity} className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                      <MaterialIcon name="check_circle" className="material-symbols-outlined text-primary text-[18px]" />
+                      <AppIcon name="check_circle" className="lucide text-primary text-[18px]" />
                       <span className="text-sm">{amenity}</span>
                     </div>
                   ))}
@@ -162,14 +162,14 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                   href={`tel:+2348000000000`}
                   className="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95"
                 >
-                  <MaterialIcon name="call" className="material-symbols-outlined" />
+                  <AppIcon name="call" className="lucide" />
                   Contact Agent
                 </Link>
                 <Link
                   href={`mailto:agent@propati.com?subject=Inquiry about ${listing.title}`}
                   className="w-full bg-muted text-foreground py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-muted/80 transition-all"
                 >
-                  <MaterialIcon name="mail" className="material-symbols-outlined" />
+                  <AppIcon name="mail" className="lucide" />
                   Send Email
                 </Link>
                 <Link
@@ -178,7 +178,7 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                   rel="noopener noreferrer"
                   className="w-full bg-green-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95"
                 >
-                  <MaterialIcon name="chat" className="material-symbols-outlined" />
+                  <AppIcon name="chat" className="lucide" />
                   WhatsApp
                 </Link>
               </div>

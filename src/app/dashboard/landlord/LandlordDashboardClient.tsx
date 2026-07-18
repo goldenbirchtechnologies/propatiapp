@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -67,13 +67,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <MaterialIcon name="home_work" className="material-symbols-outlined" />
+            <AppIcon name="home_work" className="lucide" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Active Listings</p>
             <p className="font-headline-md text-headline-md text-primary">12</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success">
-              <MaterialIcon name="trending_up" className="material-symbols-outlined" />
+              <AppIcon name="trending_up" className="lucide" />
               +2 since last month
             </div>
           </CardContent>
@@ -81,13 +81,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
 
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <MaterialIcon name="pending_actions" className="material-symbols-outlined" />
+            <AppIcon name="pending_actions" className="lucide" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Pending Applications</p>
             <p className="font-headline-md text-headline-md text-primary">08</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-warning">
-              <MaterialIcon name="priority_high" className="material-symbols-outlined" />
+              <AppIcon name="priority_high" className="lucide" />
               3 require urgent review
             </div>
           </CardContent>
@@ -99,7 +99,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
             <p className="text-xs font-medium uppercase tracking-wider text-white/70 mb-1">This Month&apos;s Rent</p>
             <p className="text-3xl font-headline-sm text-headline-sm font-bold text-primary text-white">₦4,250,000</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success-bright">
-              <MaterialIcon name="verified" className="material-symbols-outlined" />
+              <AppIcon name="verified" className="lucide" />
               85% Collected
             </div>
           </CardContent>
@@ -107,7 +107,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
 
         <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <MaterialIcon name="verified_user" className="material-symbols-outlined" />
+            <AppIcon name="verified_user" className="lucide" />
           </div>
           <CardContent className="p-6">
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Verification Status</p>
@@ -157,7 +157,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
                   </td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{app.date}</td>
                   <td className="px-6 py-4 text-right">
-                    <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
+                    <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
                   </td>
                 </tr>
               ))}
@@ -171,13 +171,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
         <Card className="lg:col-span-2">
           <div className="p-6 border-b border-outline-variant flex items-center justify-between">
             <h5 className="font-headline-sm text-headline-sm font-semibold text-primary">Rent Schedule</h5>
-            <button className="material-symbols-outlined text-muted-foreground hover:text-primary transition-colors" aria-label="Calendar">calendar_month</button>
+            <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="Calendar">calendar_month</button>
           </div>
           <div className="p-6 space-y-6">
             {rentSchedule.map((item, idx) => (
               <div key={idx} className="relative flex items-center gap-4">
                 <div className={cn('absolute left-0 w-10 h-10 rounded-full flex items-center justify-center ring-8 ring-background', item.bg)}>
-                  <span className="material-symbols-outlined text-white text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                  <span className="lucide text-white text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
                 <div className="ml-12">
                   <p className="text-sm font-semibold">{item.title}</p>
@@ -208,21 +208,21 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
                 href="/dashboard/landlord/listing/new"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <MaterialIcon name="add_circle" className="material-symbols-outlined" />
+                <AppIcon name="add_circle" className="lucide" />
                 <span className="text-sm font-medium">Post New Listing</span>
               </Link>
               <Link
                 href="/dashboard/landlord/applications"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <MaterialIcon name="description" className="material-symbols-outlined" />
+                <AppIcon name="description" className="lucide" />
                 <span className="text-sm font-medium">Review Applications</span>
               </Link>
               <Link
                 href="/dashboard/landlord/rents"
                 className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
               >
-                <MaterialIcon name="payments" className="material-symbols-outlined" />
+                <AppIcon name="payments" className="lucide" />
                 <span className="text-sm font-medium">Collect Rent</span>
               </Link>
             </div>

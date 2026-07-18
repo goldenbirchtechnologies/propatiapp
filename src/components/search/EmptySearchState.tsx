@@ -1,7 +1,7 @@
 'use client'
 
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 import React from 'react';
 import Link from 'next/link';
 
@@ -67,7 +67,7 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
           Reset Filters
         </button>
         <Link
-          href="/properties"
+          href="/listings"
           className="px-6 py-3 bg-surface-elevated border-border font-medium rounded-lg hover:bg-muted transition-colors duration-200"
         >
           Browse all properties
@@ -93,7 +93,7 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
                 clipRule="evenodd"
               />
             </svg>
-            <MaterialIcon name="Try broadening your price range or location area" className="material-symbols-outlined" />
+            <AppIcon name="Try broadening your price range or location area" className="lucide" />
           </li>
           <li className="flex items-start">
             <svg

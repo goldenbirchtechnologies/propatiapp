@@ -1,324 +1,358 @@
-'use client'
-
-import MaterialIcon from '@/components/icons/material-icon';
-
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
-import { useUser } from '@clerk/nextjs';
+import { prisma } from '@/lib/prisma';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import AppIcon from '@/components/icons/app-icon';
+export const dynamic = 'force-dynamic';
 
+const PAGE_SIZE = 20;
 
-export default function UsersManagementPagePagePage() {
-  const { user } = useUser();
-  
+export default async function AdminUsersManagementPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user) redirect('/login');
+  if (user.role !== 'admin') redirect('/dashboard/tenant');
+
+  // Read search params (Next.js 15 — awaited)
+  const sp = await searchParams;
+  const page = Math.max(1, parseInt((sp.page as string) || '1', 10) || 1);
+  const roleFilter = (sp.role as string) || '';
+  const statusFilter = (sp.status as string) || '';
+
+  const where: Record<string, unknown> = {};
+  if (roleFilter) where.role = roleFilter;
+  if (statusFilter === 'active') where.isActive = true;
+  if (statusFilter === 'suspended') where.isBanned = true;
+  if (statusFilter === 'inactive') where.isActive = false;
+
+  const [totalUsers, activeUsers, verifiedUsers, flaggedUsers, users] = await Promise.all([
+    prisma.user.count(),
+    prisma.user.count({ where: { isActive: true } }),
+    prisma.user.count({ where: { phoneVerified: true } }),
+    prisma.user.count({ where: { isBanned: true } }),
+    prisma.user.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        phone: true,
+        role: true,
+        isActive: true,
+        isBanned: true,
+        phoneVerified: true,
+        idVerified: true,
+        createdAt: true,
+        lastLogin: true,
+      },
+    }),
+  ]);
+
+  const totalPages = Math.ceil(totalUsers / PAGE_SIZE);
+
   return (
     <DashboardShell
       navigation={ADMIN_NAVIGATION}
-      userRole="admin"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Admin'}
-      userAvatar={user?.imageUrl}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
     >
-      {/* Ported from user_management_console_propati_admin.html */}
-      
-{'{'}/* SideNavBar */{'}'}
-
-{'{'}/* Main Content Shell */{'}'}
-<main className="ml-64 min-h-screen flex flex-col">
-{'{'}/* TopAppBar */{'}'}
-<header className="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 border-b border-outline-variant bg-surface flex justify-between items-center h-16 px-6">
-<div className="flex items-center flex-1 max-w-xl">
-<div className="relative w-full">
-<MaterialIcon name="search" className="material-symbols-outlined" />
-<input className="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search for users, IDs, or activity..." type="text"/>
-</div>
-</div>
-<div className="flex items-center gap-4">
-<button className="p-2 hover:bg-surface-container-high rounded-full transition-colors relative">
-<MaterialIcon name="notifications" className="material-symbols-outlined" />
-<span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<button className="p-2 hover:bg-surface-container-high rounded-full transition-colors">
-<MaterialIcon name="help" className="material-symbols-outlined" />
-</button>
-<div className="h-8 w-[1px] bg-outline-variant/50 mx-2"></div>
-<div className="flex items-center gap-3 cursor-pointer p-1 rounded-lg hover:bg-surface-container-high transition-colors">
-<div className="text-right">
-<p className="text-label-md font-bold text-primary">Admin_Tolu</p>
-<p className="text-[10px] text-on-surface-variant">Super Admin</p>
-</div>
-<div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-[12px] font-bold">TA</div>
-</div>
-</div>
-</header>
-{'{'}/* Content Canvas */{'}'}
-<div className="mt-16 p-lg space-y-lg flex-1 overflow-y-auto custom-scrollbar bg-surface-bright">
-{'{'}/* Summary Row */{'}'}
-<div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
-<div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
-<div className="p-3 bg-primary-container/5 rounded-lg text-primary">
-<MaterialIcon name="group" className="material-symbols-outlined" />
-</div>
-<div>
-<p className="text-label-sm text-on-surface-variant">Total Users</p>
-<h2 className="text-headline-md font-bold text-primary">24,502</h2>
-</div>
-</div>
-<div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
-<div className="p-3 bg-tertiary-container/5 rounded-lg text-on-tertiary-container">
-<MaterialIcon name="bolt" className="material-symbols-outlined" />
-</div>
-<div>
-<p className="text-label-sm text-on-surface-variant">Active Today</p>
-<h2 className="text-headline-md font-bold text-on-tertiary-container">1,240</h2>
-</div>
-</div>
-<div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
-<div className="p-3 bg-secondary-container/10 rounded-lg text-secondary">
-<MaterialIcon name="verified_user" className="material-symbols-outlined" />
-</div>
-<div>
-<p className="text-label-sm text-on-surface-variant">Pending Verification</p>
-<h2 className="text-headline-md font-bold text-secondary">84</h2>
-</div>
-</div>
-<div className="bg-surface-container-lowest border border-outline-variant p-md rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center gap-4">
-<div className="p-3 bg-error-container rounded-lg text-error">
-<MaterialIcon name="report" className="material-symbols-outlined" />
-</div>
-<div>
-<p className="text-label-sm text-on-surface-variant">Flagged Accounts</p>
-<h2 className="text-headline-md font-bold text-error">12</h2>
-</div>
-</div>
-</div>
-{'{'}/* Management Table Section */{'}'}
-<section className="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col">
-{'{'}/* Filters Header */{'}'}
-<div className="p-lg border-b border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-between gap-4">
-<div className="flex flex-wrap items-center gap-4">
-<div className="relative w-64">
-<MaterialIcon name="search" className="material-symbols-outlined" />
-<input className="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none" placeholder="Name or Email" type="text"/>
-</div>
-<select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
-<option value="">All Roles</option>
-<option>Tenant</option>
-<option>Landlord</option>
-<option>Agent</option>
-<option>Estate Manager</option>
-</select>
-<select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
-<option value="">Verification Level</option>
-<option>Level 1</option>
-<option>Level 2</option>
-<option>Level 3</option>
-<option>Level 4</option>
-<option>Level 5</option>
-</select>
-<select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary/10 outline-none min-w-[140px]">
-<option value="">Status</option>
-<option>Active</option>
-<option>Suspended</option>
-<option>Inactive</option>
-</select>
-</div>
-<button className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md transition-all active:scale-95 shadow-sm">
-<MaterialIcon name="filter_list" className="material-symbols-outlined" />
-                        Advanced Filters
-                    </button>
-</div>
-{'{'}/* Table Content */{'}'}
-<div className="overflow-x-auto">
-<table className="w-full text-left border-collapse">
-<thead>
-<tr className="bg-surface-container text-on-surface-variant border-b border-outline-variant">
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Verification</th>
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined Date</th>
-<th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider text-right">Actions</th>
-</tr>
-</thead>
-<tbody className="divide-y divide-outline-variant/50">
-{'{'}/* Row 1 */{'}'}
-<tr className="row-hover-effect transition-all duration-200">
-<td className="px-lg py-4">
-<div className="flex items-center gap-3">
-<div className="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary-container font-bold">CO</div>
-<div>
-<p className="font-bold text-primary">Chidi Okoro</p>
-<p className="text-body-sm text-on-surface-variant">chidi.okoro@example.ng</p>
-</div>
-</div>
-</td>
-<td className="px-lg py-4">
-<span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Landlord</span>
-</td>
-<td className="px-lg py-4">
-<div className="flex items-center gap-2 text-on-tertiary-container font-medium">
-<span className="w-2 h-2 bg-on-tertiary-container rounded-full"></span>
-                                        Active
-                                    </div>
-</td>
-<td className="px-lg py-4">
-<div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20">
-<MaterialIcon name="stars" className="material-symbols-outlined" />
-                                        Level 5
-                                    </div>
-</td>
-<td className="px-lg py-4 text-on-surface-variant text-body-sm">
-                                    Oct 12, 2023
-                                </td>
-<td className="px-lg py-4 text-right">
-<div className="flex items-center justify-end gap-2">
-<button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
-<button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<MaterialIcon name="more_vert" className="material-symbols-outlined" />
-</button>
-</div>
-</td>
-</tr>
-{'{'}/* Row 2 */{'}'}
-<tr className="row-hover-effect transition-all duration-200">
-<td className="px-lg py-4">
-<div className="flex items-center gap-3">
-<div className="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">AA</div>
-<div>
-<p className="font-bold text-primary">Amina Abubakar</p>
-<p className="text-body-sm text-on-surface-variant">a.abubakar@realestate.com</p>
-</div>
-</div>
-</td>
-<td className="px-lg py-4">
-<span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Agent</span>
-</td>
-<td className="px-lg py-4">
-<div className="flex items-center gap-2 text-secondary font-medium">
-<span className="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
-                                        Suspended
-                                    </div>
-</td>
-<td className="px-lg py-4">
-<div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
-<MaterialIcon name="shield" className="material-symbols-outlined" />
-                                        Level 3
-                                    </div>
-</td>
-<td className="px-lg py-4 text-on-surface-variant text-body-sm">
-                                    Jan 05, 2024
-                                </td>
-<td className="px-lg py-4 text-right">
-<div className="flex items-center justify-end gap-2">
-<button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
-<button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<MaterialIcon name="more_vert" className="material-symbols-outlined" />
-</button>
-</div>
-</td>
-</tr>
-{'{'}/* Row 3 */{'}'}
-<tr className="row-hover-effect transition-all duration-200">
-<td className="px-lg py-4">
-<div className="flex items-center gap-3">
-<div className="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center text-on-surface-variant font-bold">EM</div>
-<div>
-<p className="font-bold text-primary">Emeka Mensah</p>
-<p className="text-body-sm text-on-surface-variant">emeka.m@gmail.com</p>
-</div>
-</div>
-</td>
-<td className="px-lg py-4">
-<span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Tenant</span>
-</td>
-<td className="px-lg py-4">
-<div className="flex items-center gap-2 text-on-surface-variant font-medium">
-<span className="w-2 h-2 bg-outline rounded-full"></span>
-                                        Inactive
-                                    </div>
-</td>
-<td className="px-lg py-4">
-<div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-on-surface-variant font-label-sm text-label-sm">
-<MaterialIcon name="lock_open" className="material-symbols-outlined" />
-                                        Level 1
-                                    </div>
-</td>
-<td className="px-lg py-4 text-on-surface-variant text-body-sm">
-                                    Mar 22, 2024
-                                </td>
-<td className="px-lg py-4 text-right">
-<div className="flex items-center justify-end gap-2">
-<button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
-<button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<MaterialIcon name="more_vert" className="material-symbols-outlined" />
-</button>
-</div>
-</td>
-</tr>
-{'{'}/* Row 4 */{'}'}
-<tr className="row-hover-effect transition-all duration-200">
-<td className="px-lg py-4">
-<div className="flex items-center gap-3">
-<div className="w-10 h-10 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed font-bold">SJ</div>
-<div>
-<p className="font-bold text-primary">Sarah Johnson</p>
-<p className="text-body-sm text-on-surface-variant">s.johnson@propati.manager</p>
-</div>
-</div>
-</td>
-<td className="px-lg py-4">
-<span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-on-surface-variant font-medium">Estate Manager</span>
-</td>
-<td className="px-lg py-4">
-<div className="flex items-center gap-2 text-on-tertiary-container font-medium">
-<span className="w-2 h-2 bg-on-tertiary-container rounded-full"></span>
-                                        Active
-                                    </div>
-</td>
-<td className="px-lg py-4">
-<div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20 relative overflow-hidden">
-<div className="verification-shimmer absolute inset-0 opacity-20"></div>
-<MaterialIcon name="workspace_premium" className="material-symbols-outlined" />
-                                        Level 4
-                                    </div>
-</td>
-<td className="px-lg py-4 text-on-surface-variant text-body-sm">
-                                    Nov 30, 2023
-                                </td>
-<td className="px-lg py-4 text-right">
-<div className="flex items-center justify-end gap-2">
-<button className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-label-md text-label-sm underline decoration-primary/20">View Profile</button>
-<button className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
-<MaterialIcon name="more_vert" className="material-symbols-outlined" />
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-{'{'}/* Pagination Footer */{'}'}
-<div className="p-lg border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
-<p className="text-body-sm text-on-surface-variant">Showing <span className="font-bold text-on-surface">1 - 10</span> of 24,502 users</p>
-<div className="flex items-center gap-1">
-<button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-30" disabled={true}>
-<MaterialIcon name="chevron_left" className="material-symbols-outlined" />
-</button>
-<button className="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold shadow-sm">1</button>
-<button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">2</button>
-<button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">3</button>
-<span className="px-2 text-on-surface-variant">...</span>
-<button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">245</button>
-<button className="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors">
-<MaterialIcon name="chevron_right" className="material-symbols-outlined" />
-</button>
-</div>
-</div>
-</section>
-</div>
-{'{'}/* Floating Action Button (for specific tasks only) */{'}'}
-{'{'}/* Suppressed per Relevance Check: Primary action 'Add New User' is in Sidebar and Header logic could handle it, but adding a subtle FAB for 'Support/Reports' could be valid if allowed, however we will follow the suppression rule for Details/Transactional. */{'}'}
-</main>
-
+      <UsersManagementClient
+        users={users}
+        totalUsers={totalUsers}
+        activeUsers={activeUsers}
+        verifiedUsers={verifiedUsers}
+        flaggedUsers={flaggedUsers}
+        currentPage={page}
+        totalPages={totalPages}
+        roleFilter={roleFilter}
+        statusFilter={statusFilter}
+      />
     </DashboardShell>
+  );
+}
+
+function UsersManagementClient({
+  users,
+  totalUsers,
+  activeUsers,
+  verifiedUsers,
+  flaggedUsers,
+  currentPage,
+  totalPages,
+  roleFilter,
+  statusFilter,
+}: {
+  users: {
+    id: string;
+    fullName: string;
+    email: string;
+    phone: string | null;
+    role: string;
+    isActive: boolean;
+    isBanned: boolean;
+    phoneVerified: boolean;
+    idVerified: boolean;
+    createdAt: Date;
+    lastLogin: Date | null;
+  }[];
+  totalUsers: number;
+  activeUsers: number;
+  verifiedUsers: number;
+  flaggedUsers: number;
+  currentPage: number;
+  totalPages: number;
+  roleFilter: string;
+  statusFilter: string;
+}) {
+  'use client';
+
+  const buildHref = (page: number) => {
+    const params = new URLSearchParams();
+    if (page > 1) params.set('page', String(page));
+    if (roleFilter) params.set('role', roleFilter);
+    if (statusFilter) params.set('status', statusFilter);
+    const qs = params.toString();
+    return `/dashboard/admin/users/management${qs ? `?${qs}` : ''}`;
+  };
+
+  const initials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+
+  const VerificationBadge = ({ user }: { user: (typeof users)[0] }) => {
+    if (user.idVerified)
+      return (
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20">
+          <AppIcon name="verified" className="lucide" size={16} />
+          Lvl 5
+        </span>
+      );
+    if (user.phoneVerified)
+      return (
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
+          <AppIcon name="stars" className="lucide" size={16} />
+          Lvl 2
+        </span>
+      );
+    return (
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-muted-foreground font-label-sm text-label-sm border border-outline-variant">
+        Lvl 1
+      </span>
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Summary Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-lg">
+        {[
+          { label: 'Total Users', value: totalUsers.toLocaleString(), icon: 'group' },
+          { label: 'Active Today', value: activeUsers.toLocaleString(), icon: 'bolt' },
+          { label: 'Verified Users', value: verifiedUsers.toLocaleString(), icon: 'verified_user' },
+          { label: 'Flagged Accounts', value: flaggedUsers.toLocaleString(), icon: 'report', isError: flaggedUsers > 0 },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className="rounded-xl border border-outline-variant bg-surface p-md shadow-sm flex items-center gap-4"
+          >
+            <div className="p-3 rounded-lg bg-primary-container/5 text-primary shrink-0">
+              <AppIcon name={card.icon} className="lucide" size={28} />
+            </div>
+            <div>
+              <p
+                className={`text-label-sm ${card.isError ? 'text-error' : 'text-muted-foreground'}`}
+              >
+                {card.label}
+              </p>
+              <h2
+                className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-primary'}`}
+              >
+                {card.value}
+              </h2>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden flex flex-col">
+        <div className="p-lg border-b border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="relative w-64">
+              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search name or email…"
+                className="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
+              />
+            </div>
+            <select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+              <option value="">All Roles</option>
+              {['tenant', 'landlord', 'agent', 'admin', 'estate_manager'].map((r) => (
+                <option key={r} value={r} selected={roleFilter === r}>
+                  {r.replace('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                </option>
+              ))}
+            </select>
+            <select
+              className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
+              defaultValue={statusFilter}
+            >
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="suspended">Suspended</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <span className="text-xs text-muted-foreground whitespace-nowrap">
+            Showing{' '}
+            <span className="font-bold">
+              {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
+              {Math.min(currentPage * PAGE_SIZE, totalUsers)}
+            </span>{' '}
+            of <span className="font-bold">{totalUsers.toLocaleString()}</span>
+          </span>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto flex-1">
+          {users.length === 0 ? (
+            <p className="p-lg text-sm text-muted-foreground text-center">No users match the current filters.</p>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-container text-muted-foreground border-b border-outline-variant sticky top-0">
+                  {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
+                    <th
+                      key={h}
+                      className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/50">
+                {users.map((u) => (
+                  <tr key={u.id} className="hover:bg-surface-container-low transition-all duration-200">
+                    <td className="px-lg py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary-container font-bold text-sm">
+                          {initials(u.fullName)}
+                        </div>
+                        <div>
+                          <p className="font-bold text-primary">{u.fullName}</p>
+                          <p className="text-body-sm text-muted-foreground">{u.email}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-lg py-4">
+                      <span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-muted-foreground font-medium capitalize">
+                        {u.role.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="px-lg py-4">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            u.isBanned
+                              ? 'bg-error'
+                              : u.isActive
+                                ? 'bg-on-tertiary-container'
+                                : 'bg-outline-variant'
+                          }`}
+                        />
+                        <span
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-on-tertiary-container' : 'text-muted-foreground'}`}
+                        >
+                          {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-lg py-4">
+                      <VerificationBadge user={u} />
+                    </td>
+                    <td className="px-lg py-4 text-muted-foreground text-body-sm">
+                      {u.createdAt.toLocaleDateString('en-NG', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Pagination */}
+        <div className="px-lg py-3 border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+          <p className="text-body-sm text-muted-foreground">
+            Showing{' '}
+            <span className="font-bold">
+              {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
+              {Math.min(currentPage * PAGE_SIZE, totalUsers)}
+            </span>{' '}
+            of <span className="font-bold">{totalUsers.toLocaleString()}</span> users
+          </p>
+          <div className="flex items-center gap-1">
+            <a
+              href={buildHref(currentPage - 1)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant transition-colors ${
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-surface-container-high text-primary'
+              }`}
+            >
+              <ChevronLeft className="!w-5 !h-5" />
+            </a>
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNum: number;
+              if (totalPages <= 5) pageNum = i + 1;
+              else if (currentPage <= 3) pageNum = i + 1;
+              else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
+              else pageNum = currentPage - 2 + i;
+              return (
+                <a
+                  key={pageNum}
+                  href={buildHref(pageNum)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-lg font-label-md text-label-md transition-colors ${
+                    pageNum === currentPage
+                      ? 'bg-primary text-on-primary shadow-sm font-bold'
+                      : 'border border-outline-variant text-muted-foreground hover:bg-surface-container-high'
+                  }`}
+                >
+                  {pageNum}
+                </a>
+              );
+            })}
+            <a
+              href={buildHref(currentPage + 1)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant transition-colors ${
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-surface-container-high text-primary'
+              }`}
+            >
+              <ChevronRight className="!w-5 !h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

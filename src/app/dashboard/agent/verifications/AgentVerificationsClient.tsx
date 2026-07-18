@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -89,7 +89,7 @@ export default function AgentVerificationsClient() {
                         idx < 2 ? 'bg-success text-white' : idx === 2 ? 'bg-warning text-white' : 'opacity-40 bg-muted text-on-surface-variant'
                       )}
                     >
-                      <span className="material-symbols-outlined text-[18px]">{idx < 2 ? 'check' : idx === 2 ? 'pending' : 'location_on'}</span>
+                      <span className="lucide text-[18px]">{idx < 2 ? 'check' : idx === 2 ? 'pending' : 'location_on'}</span>
                     </div>
                     <span className="text-[10px] font-label-md uppercase tracking-wider text-center" style={{ color: 'text-on-surface-variant' }}>{step}</span>
                   </div>
@@ -104,7 +104,7 @@ export default function AgentVerificationsClient() {
                 <CardContent className="p-5 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-2 bg-muted rounded-lg">
-                      <span className="material-symbols-outlined" style={{ color: 'text-primary' }}>{mod.icon}</span>
+                      <span className="lucide" style={{ color: 'text-primary' }}>{mod.icon}</span>
                     </div>
                     {statusBadge(mod.status)}
                   </div>
@@ -153,7 +153,7 @@ export default function AgentVerificationsClient() {
                 {recentActivity.map((item, idx) => (
                   <div key={idx} className="flex gap-4 relative">
                     <div className="z-10 w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shrink-0">
-                      <MaterialIcon name={item.icon} className="material-symbols-outlined" />
+                      <AppIcon name={item.icon} className="lucide" />
                     </div>
                     <div>
                       <p className="font-headline-sm font-bold text-sm" style={{ color: 'text-primary' }}>{item.title}</p>

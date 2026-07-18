@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -164,10 +164,10 @@ export default function AgentShortLetEarningsClient() {
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
-                <MaterialIcon name="chevron_left" className="material-symbols-outlined" />
+                <AppIcon name="chevron_left" className="lucide" />
               </Button>
               <Button variant="outline" size="icon" className="h-8 w-8">
-                <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
+                <AppIcon name="chevron_right" className="lucide" />
               </Button>
             </div>
           </CardHeader>

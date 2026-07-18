@@ -532,28 +532,6 @@ function StepProfile({
           />
         </Field>
       )}
-      {role === 'realtor' && (
-        <>
-          <Field label="Bio">
-            <textarea
-              value={bio}
-              onChange={(e) => onChange.bio(e.target.value)}
-              placeholder="Tell us about your real estate experience..."
-              rows={3}
-              className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-            />
-          </Field>
-          <Field label="Service Areas" hint="Comma separated">
-            <input
-              type="text"
-              value={serviceAreas}
-              onChange={(e) => onChange.serviceAreas(e.target.value)}
-              placeholder="Lekki, Victoria Island, Ikeja"
-              className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </Field>
-        </>
-      )}
 
       <button
         type="button"

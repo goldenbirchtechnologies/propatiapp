@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -152,7 +152,7 @@ export default function VerificationDetailClient({ verification: initialVerifica
             <button onClick={() => router.push('/admin/verifications')} className="hover:text-foreground">
               Verifications
             </button>
-            <MaterialIcon name="/" className="material-symbols-outlined" />
+            <AppIcon name="/" className="lucide" />
             <span className="text-foreground font-medium truncate max-w-[180px]">{verification.id.slice(-8).toUpperCase()}</span>
           </nav>
         </div>

@@ -25,7 +25,6 @@ export default async function FlaggedListingDetailPage({
       tenant: '/dashboard/tenant',
       agent: '/dashboard/agent',
       estate_manager: '/dashboard/estate-manager',
-      realtor: '/dashboard/agent',
     };
     redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
   }

@@ -1,56 +1,84 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
-export default function moveincoordinationpropaticommercialPage() {
-  const { user } = useUser();
+export const metadata = {
+  title: 'Move-In Coordination – Landlord',
+  description: 'Coordinate commercial move-in appointments.',
+};
+
+export default async function CommercialMoveInPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
+
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
+
+  const recentBookings = await prisma.booking.findMany({
+    where: {
+      listing: { ownerId: user.id, listingType: 'commercial' },
+    },
+    include: {
+      guest: { select: { fullName: true } },
+      listing: { select: { title: true, address: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 10,
+  });
 
   return (
-    <DashboardShell
-      navigation={LANDLORD_NAVIGATION}
-      userRole="landlord"
-      userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Landlord'}
-      userAvatar={user?.imageUrl}
-    >
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Move In Coordination Commercial</h1>
-          <p className="text-muted-foreground mt-1">PROPATI Commercial | Move-in Coordination Hub PROPATI Gold Verified Agent gavel Workspace description Agreements payment...</p>
+        <section>
+          <h1 className="text-2xl font-bold text-foreground">Move-In Coordination — Commercial</h1>
+          <p className="text-muted-foreground mt-1">
+            Welcoming new tenants for commercial grade-A serviced offices.
+          </p>
         </section>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader><CardTitle>Welcome to your new HQ</CardTitle></CardHeader>
-            <CardContent><p className="text-sm text-muted-foreground">Content from move_in_coordination_propati_commercial.</p></CardContent>
-          </Card>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="default">New Negotiation</Button>
-          <Button variant="default">View Digital Key</Button>
-          <Button variant="default">Download Welcome Pack</Button>
-          <Button variant="default">Reschedule Appointment</Button>
-        </div>
+
         <Card>
-          <CardContent className="pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-              <li>Gold Verified Agent</li>
-              <li>Escrow Clearance</li>
-              <li>₦12,450,000.00</li>
-              <li>Collection Point</li>
-              <li>Main Lobby Concierge</li>
-              <li>Thursday, Oct 12th</li>
-              <li>10:00 AM — 11:30 AM</li>
-              <li>Preparation Checklist</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>move_in_coordination_propati_commercial.html</strong></p>
+          <CardHeader>
+            <CardTitle>Upcoming Move-Ins</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {recentBookings.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-6 text-center">
+                No commercial move-ins scheduled yet.
+              </p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-muted-foreground border-b">
+                    <tr>
+                      <th className="py-3 font-medium">Property</th>
+                      <th className="py-3 font-medium">Tenant</th>
+                      <th className="py-3 font-medium">Check-in</th>
+                      <th className="py-3 font-medium">Check-out</th>
+                      <th className="py-3 font-medium">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recentBookings.map((b) => (
+                      <tr key={b.id} className="border-b last:border-0">
+                        <td className="py-3 font-medium">{b.listing.title}</td>
+                        <td className="py-3">{b.guest.fullName}</td>
+                        <td className="py-3">{b.checkIn}</td>
+                        <td className="py-3">{b.checkOut}</td>
+                        <td className="py-3">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                            {b.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

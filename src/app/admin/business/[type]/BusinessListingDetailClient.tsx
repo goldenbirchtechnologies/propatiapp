@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,7 @@ export default function BusinessListingDetailClient({ type }: BusinessListingDet
           <button onClick={() => router.push('/admin/business')} className="hover:text-foreground">
             Business
           </button>
-          <MaterialIcon name="/" className="material-symbols-outlined" />
+          <AppIcon name="/" className="lucide" />
           <span className="text-foreground font-medium truncate max-w-[200px]">{title}</span>
         </nav>
       </div>

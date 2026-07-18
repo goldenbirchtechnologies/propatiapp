@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -117,7 +117,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary border border-primary/20 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/30">
           <svg
             width="10"
             height="10"
@@ -223,11 +223,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <Link href="/dashboard/landlord" className="hover:underline">
           Dashboard
         </Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <Link href="/dashboard/landlord/properties" className="hover:underline">
           Properties
         </Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <span className="$1 $2">
           {listing.title}
         </span>
@@ -466,7 +466,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 <div className="flex items-center gap-4">
                   <div
                     className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-on-surface-variant">
-                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <MaterialIcon name={index + 1} className="material-symbols-outlined" />}
+                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <AppIcon name={index + 1} className="lucide" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-primary">

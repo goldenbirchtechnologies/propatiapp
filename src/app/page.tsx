@@ -1,6 +1,6 @@
 'use client';
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -417,12 +417,12 @@ export default function HomePage() {
                       <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border mt-auto">
                         {listing.specs.map((s) => (
                           <div key={s.icon} className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
-                            <MaterialIcon name={s.icon} className="material-symbols-outlined text-[16px]" />
+                            <AppIcon name={s.icon} className="lucide text-[16px]" />
                             {s.val}
                           </div>
                         ))}
                         <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
-                          <MaterialIcon name="arrow_forward" className="material-symbols-outlined text-[18px]" />
+                          <AppIcon name="arrow_forward" className="lucide text-[18px]" />
                         </button>
                       </div>
                     </div>
@@ -445,7 +445,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-full hover:brightness-110 transition-all shadow-lg shadow-primary/20"
               >
                 View all listings
-                <MaterialIcon name="arrow_forward" className="material-symbols-outlined text-[18px]" />
+                <AppIcon name="arrow_forward" className="lucide text-[18px]" />
               </Link>
             </div>
           </div>
@@ -528,7 +528,7 @@ export default function HomePage() {
               <SectionLabel>Categories</SectionLabel>
               <h2 className="font-heading font-extrabold text-3xl text-foreground leading-tight">Popular listings</h2>
             </div>
-            <Link href="/properties" className="text-sm font-semibold text-primary hover:underline whitespace-nowrap">
+            <Link href="/listings" className="text-sm font-semibold text-primary hover:underline whitespace-nowrap">
               View all →
             </Link>
           </div>
@@ -655,7 +655,7 @@ export default function HomePage() {
 
       {/* Material Symbols */}
       <style jsx global>{`
-        .material-symbols-outlined {
+        .lucide {
           font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
       `}</style>

@@ -1,6 +1,6 @@
 'use client';
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 import { useState, useEffect } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
@@ -65,7 +65,7 @@ const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: S
         <p className={`text-primary font-headline-md mb-1`}>{value}</p>
         {trend && (
           <div className="flex items-center gap-1">
-            <span className={`material-symbols-outlined text-sm ${trendUp ? 'text-success' : 'text-destructive'}`}>
+            <span className={`lucide text-sm ${trendUp ? 'text-success' : 'text-destructive'}`}>
               {trendUp ? 'trending_up' : 'trending_down'}
             </span>
             <span className={`text-xs font-medium ${trendUp ? 'text-success' : 'text-destructive'}`}>{trend}</span>
@@ -73,7 +73,7 @@ const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: S
         )}
       </div>
       <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
-        <span className={`material-symbols-outlined text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
+        <span className={`lucide text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
       </div>
     </div>
   </div>
@@ -94,7 +94,7 @@ const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass
     <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
       <div className="flex items-center gap-3">
         <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
-          <span className={`material-symbols-outlined text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
+          <span className={`lucide text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
         </div>
         <div className="flex-1">
           <h3 className={`font-headline-sm text-primary mb-1`}>{title}</h3>
@@ -178,7 +178,7 @@ const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
 
   return (
     <div className={`${styles[type]} border rounded-lg p-4 flex items-center gap-3`}>
-      <MaterialIcon name={iconMap[type]} className="material-symbols-outlined" />
+      <AppIcon name={iconMap[type]} className="lucide" />
       <p className="flex-1 text-sm font-medium">
         {message}
         {count !== undefined && <span className="ml-2 font-bold">({count})</span>}

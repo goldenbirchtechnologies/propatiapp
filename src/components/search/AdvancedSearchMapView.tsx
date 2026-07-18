@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
@@ -387,9 +387,9 @@ function FilterOverlay({
               <div className="space-y-3">
                 <Label className="text-sm font-semibold">Price Range</Label>
                 <div className="flex items-center gap-2 text-sm">
-                  <MaterialIcon name="₦{localFilters.priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
+                  <AppIcon name="₦{localFilters.priceRange[0].toLocaleString()}" className="lucide" />
                   <span className="text-muted-foreground">-</span>
-                  <MaterialIcon name="₦{localFilters.priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
+                  <AppIcon name="₦{localFilters.priceRange[1].toLocaleString()}" className="lucide" />
                 </div>
                 <Slider
                   min={0}

@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -106,7 +106,7 @@ export function SpatialDataTable<T>({
                     onClick={() => col.sortable && handleSort(col.key)}
                   >
                     <div className="flex items-center gap-2">
-                      <MaterialIcon name={col.header} className="material-symbols-outlined" />
+                      <AppIcon name={col.header} className="lucide" />
                       {col.sortable && <SortIcon direction={isSorted ? sort.direction : null} />}
                     </div>
                   </th>

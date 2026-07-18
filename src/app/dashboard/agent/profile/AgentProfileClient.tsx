@@ -1,0 +1,149 @@
+'use client';
+
+import { useMemo } from 'react';
+import {
+  Mail,
+  Phone,
+  Shield,
+  Calendar,
+  UserCircle,
+  Pencil,
+  Save,
+  X,
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+
+type ProfileData = {
+  id: string;
+  email: string;
+  phone: string | null;
+  role: string;
+  fullName: string;
+  avatarUrl: string | null;
+  createdAt: string;
+  agentTier: string;
+  agentApproved: boolean;
+  profileBio: string | null;
+  ninVerified: boolean;
+  phoneVerified: boolean;
+  idVerified: boolean;
+};
+
+export default function AgentProfileClient({
+  user,
+}: {
+  user: ProfileData;
+}) {
+  const formattedDate = useMemo(
+    () =>
+      new Date(user.createdAt).toLocaleDateString('en-NG', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }),
+    [user.createdAt],
+  );
+
+  const mask = (v: string | null) => (v ? v.slice(0, 3) + '••••••' : 'Not provided');
+
+  const tierColor =
+    user.agentTier === 'premium'
+      ? 'bg-success/10 text-success border border-success-bright/20'
+      : user.agentTier === 'standard'
+        ? 'bg-primary/10 text-primary border border-primary/20'
+        : 'bg-muted text-on-surface-variant border border-outline-variant';
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-headline-sm font-bold text-headline-sm text-primary">My Profile</h1>
+        <p className="text-sm text-on-surface-variant mt-1">Manage your agent account details and preferences</p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-4">
+            {user.avatarUrl ? (
+              <img
+                src={user.avatarUrl}
+                alt={user.fullName}
+                className="h-16 w-16 rounded-full border border-outline-variant"
+              />
+            ) : (
+              <div className="h-16 w-16 rounded-full bg-primary/10 border border-outline-variant flex items-center justify-center">
+                <UserCircle className="h-8 w-8 text-primary" />
+              </div>
+            )}
+            <div>
+              <CardTitle className="text-lg">{user.fullName}</CardTitle>
+              <p className="text-xs text-on-surface-variant mt-1">Agent since {formattedDate}</p>
+              <div className="flex items-center gap-2 mt-2">
+                <Badge variant="outline" className={tierColor}>{user.agentTier}</Badge>
+                {user.agentApproved && (
+                  <Badge variant="outline" className="bg-success/10 text-success border border-success-bright/20">Approved</Badge>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
+              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
+                <Mail className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Email</p>
+                <p className="text-sm text-primary mt-0.5 truncate">{user.email}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
+              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
+                <Phone className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Phone</p>
+                <p className="text-sm text-primary mt-0.5">
+                  {user.phone ? '••••••' : 'Not provided'}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
+              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
+                <Shield className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Role</p>
+                <p className="text-sm text-primary mt-0.5 capitalize">{user.role}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
+              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
+                <Calendar className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Member Since</p>
+                <p className="text-sm text-primary mt-0.5">{formattedDate}</p>
+              </div>
+            </div>
+          </div>
+
+          {user.profileBio && (
+            <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
+              <p className="text-xs uppercase tracking-wider text-on-surface-variant mb-2">Bio</p>
+              <p className="text-sm text-primary">{user.profileBio}</p>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            <Button variant="default" className="gap-2"><Pencil className="h-4 w-4" /> Edit Profile</Button>
+            <Button variant="outline" className="gap-2"><Shield className="h-4 w-4" /> Verification Status</Button>
+            <Button variant="outline" className="gap-2"><Phone className="h-4 w-4" /> Change Phone</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

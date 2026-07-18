@@ -1,74 +1,89 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import DashboardShell from '@/components/layout/DashboardShell';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
+import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import { DollarSign, TrendingUp, AlertCircle, RefreshCcw } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
+import { formatCurrency, parseKoboToNaira } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
+import Link from 'next/link';
 
-export default function LandlordFinancialsPage() {
-  const [error, setError] = useState<string | null>(null);
-  const [transactions, setTransactions] = useState<Array<Record<string, unknown>>>([]);
-  const [loading, setLoading] = useState(true);
+export const metadata = {
+  title: 'Financials – Landlord',
+  description: 'Overview of income, expenses, and payout history.',
+};
 
-  async function load() {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/wallet/transactions?limit=50', { cache: 'no-store' });
-      const data = await res.json();
-      setTransactions(data?.items ?? []);
-    } catch (e) { setError('Failed to load transactions'); }
-    finally { setLoading(false); }
-  }
+export default async function LandlordFinancialsPage() {
+  const { userId } = await auth();
+  if (!userId) redirect('/login');
 
-  useEffect(() => { load(); }, []);
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') redirect('/dashboard');
 
-  if (error) {
-    return (
-      <DashboardShell navigation={LANDLORD_NAVIGATION}>
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Financials</h1>
-          <p className="text-muted-foreground mt-1">Overview of income, expenses, and payout history.</p>
-          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
-            <p className="text-destructive font-medium">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
-          </div>
-        </section>
-      </DashboardShell>
-    );
-  }
+  const [transactions, pendingCount, totalIncomeKobo] = await Promise.all([
+    prisma.transaction.findMany({
+      where: { OR: [{ payeeId: user.id }, { payerId: user.id }] },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+      include: { listing: { select: { title: true } } },
+    }),
+    prisma.transaction.count({
+      where: {
+        OR: [{ payeeId: user.id }, { payerId: user.id }],
+        status: { in: ['pending', 'in_escrow'] },
+      },
+    }),
+    prisma.transaction.aggregate({
+      where: { payeeId: user.id, status: 'success' },
+      _sum: { amount: true },
+    }),
+  ]);
+
+  const totalIncome = parseKoboToNaira(totalIncomeKobo._sum.amount || 0);
+
+  const statusBadgeVariant: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+    success: 'default',
+    released: 'default',
+    pending: 'secondary',
+    in_escrow: 'secondary',
+    disputed: 'destructive',
+    failed: 'destructive',
+  };
 
   return (
-    <DashboardShell navigation={LANDLORD_NAVIGATION}>
-      <section className="space-y-6">
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Financials</h1>
+            <h1 className="text-3xl font-bold text-foreground tracking-tight">Financials</h1>
             <p className="text-muted-foreground mt-1">Overview of income, expenses, and payout history.</p>
           </div>
-          <Button variant="outline" size="sm" onClick={load}><RefreshCcw className="mr-2 size-4" /> Refresh</Button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Total Income</CardTitle></CardHeader>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total Income</CardTitle>
+            </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₦{Number((transactions.reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0) / 100)).toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">From wallet transactions</p>
+              <div className="text-2xl font-bold">₦{totalIncome.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">From received transactions</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Pending</CardTitle></CardHeader>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">Pending / In Escrow</CardTitle>
+            </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{transactions.filter(tx => String(tx.status).toLowerCase() === 'pending' || String(tx.status).toLowerCase() === 'in_escrow').length}</div>
+              <div className="text-2xl font-bold">{pendingCount}</div>
               <p className="text-xs text-muted-foreground">Awaiting confirmation</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Transactions</CardTitle></CardHeader>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">Transactions</CardTitle>
+            </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{transactions.length}</div>
               <p className="text-xs text-muted-foreground">Recent total</p>
@@ -76,64 +91,52 @@ export default function LandlordFinancialsPage() {
           </Card>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-          {loading && (
-            <div className="p-8">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-10 w-full animate-pulse rounded bg-muted/30 mb-2" />
-              ))}
-            </div>
-          )}
-          {!loading && transactions.length === 0 && (
-            <div className="p-12 text-center">
-              <DollarSign className="mx-auto h-8 w-8 text-muted-foreground" />
-              <h3 className="mt-2 text-lg font-medium text-primary">No transactions yet</h3>
-              <p className="text-on-surface-variant">Transactions will appear here as they occur.</p>
-            </div>
-          )}
-          {!loading && transactions.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-outline-variant">
-                    <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Date</th>
-                    <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Reference</th>
-                    <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Amount</th>
-                    <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
-                    <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transactions.map((tx) => {
-                    const key = String(tx.id ?? tx.reference ?? Math.random());
-                    const st = String(tx.status || '').toLowerCase();
-                    return (
-                      <tr key={key} className="border-b border-outline-variant">
-                        <td className="p-4 text-on-surface-variant">{new Date(String(tx.createdAt ?? '')).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
-                        <td className="p-4 text-primary">{String(tx.reference ?? tx.id ?? '—').slice(-8)}</td>
-                        <td className="p-4 text-right text-headline-sm text-primary">₦{Number(tx.amount || 0).toLocaleString()}</td>
-                        <td className="p-4">
-                          <Badge variant={st === 'released' || st === 'success' ? 'success' : st === 'pending' || st === 'in_escrow' ? 'secondary' : st === 'disputed' ? 'destructive' : 'outline'} className="capitalize">{String(tx.status ?? 'unknown').replace(/_/g, ' ')}</Badge>
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {transactions.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-6 text-center">No transactions yet.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="text-muted-foreground border-b">
+                    <tr>
+                      <th className="py-3 font-medium">Date</th>
+                      <th className="py-3 font-medium">Reference</th>
+                      <th className="py-3 font-medium">Listing</th>
+                      <th className="py-3 font-medium">Type</th>
+                      <th className="py-3 text-right font-medium">Amount</th>
+                      <th className="py-3 font-medium">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transactions.map((tx) => (
+                      <tr key={tx.id} className="border-b last:border-0">
+                        <td className="py-3 text-muted-foreground">
+                          {new Date(tx.createdAt).toLocaleDateString('en-NG')}
                         </td>
-                        <td className="p-4">
-                          <div className="flex items-center justify-end gap-2">
-                            {(['in_escrow','pending'].includes(st)) && (
-                              <Button size="sm" onClick={async () => { await fetch('/api/transactions/' + tx.id + '/confirm', { method: 'POST' }); toast.success('Payment confirmed'); load(); }}>Confirm</Button>
-                            )}
-                            {['in_escrow','pending','partially_confirmed','fully_confirmed'].includes(st) && (
-                              <Button variant="destructive" size="sm" onClick={async () => { await fetch('/api/transactions/' + tx.id + '/dispute', { method: 'POST' }); toast.error('Dispute filed'); load(); }}>Dispute</Button>
-                            )}
-                          </div>
+                        <td className="py-3 font-mono text-xs">{tx.reference || tx.id}</td>
+                        <td className="py-3">{tx.listing?.title || '—'}</td>
+                        <td className="py-3 capitalize">{tx.type.replace('_', ' ')}</td>
+                        <td className="py-3 text-right font-mono">
+                          ₦{formatCurrency(Number(tx.amount))}
+                        </td>
+                        <td className="py-3">
+                          <Badge variant={statusBadgeVariant[tx.status] || 'outline'} className="capitalize">
+                            {tx.status.replace(/_/g, ' ')}
+                          </Badge>
                         </td>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </section>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </DashboardShell>
   );
 }

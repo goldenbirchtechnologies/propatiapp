@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -66,7 +66,7 @@ export default function JoinPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-secondary-container/10 text-secondary px-4 py-1.5 rounded-full mb-6">
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              <span className="lucide text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
               <span className="text-xs font-medium uppercase tracking-wider">Secure Registration</span>
             </div>
             <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">Choose your role</h1>
@@ -89,10 +89,10 @@ export default function JoinPage() {
                 >
                   <div className="flex justify-between items-start">
                     <div className={`text-3xl transition-colors ${isActive ? 'text-secondary' : 'text-primary'}`}>
-                      <MaterialIcon name={role.icon} className="material-symbols-outlined" />
+                      <AppIcon name={role.icon} className="lucide" />
                     </div>
                     <div className={`transition-all duration-300 ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
-                      <span className="material-symbols-outlined text-secondary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                      <span className="lucide text-secondary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                     </div>
                   </div>
                   <h3 className="font-heading font-bold text-lg text-primary">{role.title}</h3>
@@ -164,9 +164,9 @@ export default function JoinPage() {
           <div>
             <h4 className="text-sm font-bold text-white mb-4">Social</h4>
             <div className="flex gap-4">
-              <MaterialIcon name="public" className="material-symbols-outlined" />
-              <MaterialIcon name="share" className="material-symbols-outlined" />
-              <MaterialIcon name="verified_user" className="material-symbols-outlined" />
+              <AppIcon name="public" className="lucide" />
+              <AppIcon name="share" className="lucide" />
+              <AppIcon name="verified_user" className="lucide" />
             </div>
             <p className="mt-6 text-xs text-on-primary-container">&copy; {new Date().getFullYear()} EstateVerify Nigeria. All rights reserved.</p>
           </div>

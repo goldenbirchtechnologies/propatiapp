@@ -28,9 +28,7 @@ export function LandingPage() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
-              <Link href="/properties" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
-                Properties
-              </Link>
+              <Link href="/listings" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
               <Link href="/about" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
                 About
               </Link>
@@ -96,7 +94,7 @@ export function LandingPage() {
                 <SignUpButton>
                   Start Free →
                 </SignUpButton>
-                <Link href="/properties" className="btn btn-secondary text-lg px-8 py-4 w-full sm:w-auto">
+                <Link href="/listings" className="btn btn-secondary text-lg px-8 py-4 w-full sm:w-auto">
                   Browse Listings
                 </Link>
               </div>
@@ -126,8 +124,8 @@ export function LandingPage() {
               <h2 className="font-heading font-bold" style={{ fontSize: '1.5rem', color: 'var(--text)' }}>
                 Popular Categories
               </h2>
-              <Link href="/properties" className="text-sm font-medium" style={{ color: 'var(--accent)' }}>
-                View All →
+              <Link href="/listings" className="text-sm font-medium" style={{ color: 'var(--accent)' }}>
+                Browse Listings
               </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -76,8 +76,8 @@ export default function ShortLetListingsPage() {
                 <div className="mt-2 space-y-2">
                   <Slider value={priceRange} onValueChange={setPriceRange} min={0} max={200000} step={5000} />
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <MaterialIcon name="₦{priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
-                    <MaterialIcon name="₦{priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
+                    <AppIcon name="₦{priceRange[0].toLocaleString()}" className="lucide" />
+                    <AppIcon name="₦{priceRange[1].toLocaleString()}" className="lucide" />
                   </div>
                 </div>
               </div>
@@ -118,8 +118,8 @@ export default function ShortLetListingsPage() {
                   <div className="mt-2 space-y-2">
                     <Slider value={priceRange} onValueChange={setPriceRange} min={0} max={200000} step={5000} />
                     <div className="flex items-center justify-between text-xs text-slate-500">
-                      <MaterialIcon name="₦{priceRange[0].toLocaleString()}" className="material-symbols-outlined" />
-                      <MaterialIcon name="₦{priceRange[1].toLocaleString()}" className="material-symbols-outlined" />
+                      <AppIcon name="₦{priceRange[0].toLocaleString()}" className="lucide" />
+                      <AppIcon name="₦{priceRange[1].toLocaleString()}" className="lucide" />
                     </div>
                   </div>
                 </div>

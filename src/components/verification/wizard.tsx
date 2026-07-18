@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { ChevronRight, CheckCircle, AlertCircle, XCircle, Clock, FileText, User, Camera, MapPin, Shield, Award } from 'lucide-react';
@@ -146,7 +146,7 @@ function StepIndicator({
         ) : isActive && step.status === 'in_progress' ? (
           <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
         ) : (
-          <MaterialIcon name={index + 1} className="material-symbols-outlined" />
+          <AppIcon name={index + 1} className="lucide" />
         )}
       </div>
 
@@ -496,9 +496,9 @@ export function VerificationWizard({
         <div className="relative">
           <Progress value={overallProgress} className="h-2" />
           <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-            <MaterialIcon name="0%" className="material-symbols-outlined" />
-            <MaterialIcon name="{overallProgress}%" className="material-symbols-outlined" />
-            <MaterialIcon name="100%" className="material-symbols-outlined" />
+            <AppIcon name="0%" className="lucide" />
+            <AppIcon name="{overallProgress}%" className="lucide" />
+            <AppIcon name="100%" className="lucide" />
           </div>
         </div>
 

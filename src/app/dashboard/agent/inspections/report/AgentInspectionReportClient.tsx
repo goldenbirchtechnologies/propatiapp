@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -67,7 +67,7 @@ export default function AgentInspectionReportClient() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="h-8 w-8">
-            <MaterialIcon name="arrow_back" className="material-symbols-outlined" />
+            <AppIcon name="arrow_back" className="lucide" />
           </Button>
           <h1 className="text-headline-sm font-bold">Inspection Details</h1>
         </div>
@@ -93,11 +93,11 @@ export default function AgentInspectionReportClient() {
             <h2 className="text-headline-sm font-bold">Mainland Regional Office HQ</h2>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-white/80">
               <div className="flex items-center gap-2">
-                <MaterialIcon name="tag" className="material-symbols-outlined" />
+                <AppIcon name="tag" className="lucide" />
                 <span className="text-xs font-label-md uppercase tracking-wider">#INS-2024-0882</span>
               </div>
               <div className="flex items-center gap-2">
-                <MaterialIcon name="calendar_today" className="material-symbols-outlined" />
+                <AppIcon name="calendar_today" className="lucide" />
                 <span className="text-xs font-label-md uppercase tracking-wider">August 24, 2024</span>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function AgentInspectionReportClient() {
           {/* Audit Categories */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <MaterialIcon name="analytics" className="material-symbols-outlined" />
+              <AppIcon name="analytics" className="lucide" />
               <h3 className="text-headline-sm font-bold">Compliance Assessment</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -155,7 +155,7 @@ export default function AgentInspectionReportClient() {
                   <CardContent className="p-5">
                     <div className="flex justify-between items-start mb-4">
                       <div className="p-2 bg-muted rounded-lg">
-                        <MaterialIcon name={cat.icon} className="material-symbols-outlined" />
+                        <AppIcon name={cat.icon} className="lucide" />
                       </div>
                       <span className="px-3 py-1 rounded-full bg-success/10 text-success text-[10px] font-label-md uppercase tracking-wider border border-outline-variant font-bold">
                         VERIFIED
@@ -165,13 +165,13 @@ export default function AgentInspectionReportClient() {
                     <ul className="space-y-2 mb-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
                       {cat.items.map((item, i) => (
                         <li key={i} className="flex justify-between">
-                          <MaterialIcon name="{item.label}:" className="material-symbols-outlined" />
+                          <AppIcon name="{item.label}:" className="lucide" />
                           <span className="font-mono font-bold">{item.value}</span>
                         </li>
                       ))}
                     </ul>
                     <button className="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
-                      View Original <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
+                      View Original <AppIcon name="open_in_new" className="lucide" />
                     </button>
                   </CardContent>
                 </Card>
@@ -182,7 +182,7 @@ export default function AgentInspectionReportClient() {
           {/* Evidence Gallery */}
           <section>
             <div className="flex items-center gap-2 mb-4">
-              <MaterialIcon name="photo_library" className="material-symbols-outlined" />
+              <AppIcon name="photo_library" className="lucide" />
               <h3 className="text-headline-sm font-bold">Evidence Gallery</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

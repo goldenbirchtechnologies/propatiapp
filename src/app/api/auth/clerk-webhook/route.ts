@@ -134,7 +134,7 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   const publicMetadata = data.public_metadata as Record<string, unknown>;
   
   // Validate role against allowed enum values
-  const allowedRoles = ['landlord', 'tenant', 'agent', 'realtor', 'admin', 'estate_manager'] as const;
+  const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
   type AllowedRole = typeof allowedRoles[number];
   const rawRole = publicMetadata?.role;
   const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;

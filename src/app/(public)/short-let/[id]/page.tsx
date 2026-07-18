@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useParams } from 'next/navigation';
@@ -149,15 +149,15 @@ export default function ShortLetDetailPage() {
                 <div className="space-y-2 border-t border-slate-100 pt-3 text-sm">
                   <div className="flex items-center justify-between text-slate-600">
                     <span>₦{MOCK_SHORTLET.pricePerNight.toLocaleString()} x {nights} nights</span>
-                    <MaterialIcon name="₦{subtotal.toLocaleString()}" className="material-symbols-outlined" />
+                    <AppIcon name="₦{subtotal.toLocaleString()}" className="lucide" />
                   </div>
                   <div className="flex items-center justify-between text-slate-600">
-                    <MaterialIcon name="Service fee (5%)" className="material-symbols-outlined" />
-                    <MaterialIcon name="₦{serviceFee.toLocaleString()}" className="material-symbols-outlined" />
+                    <AppIcon name="Service fee (5%)" className="lucide" />
+                    <AppIcon name="₦{serviceFee.toLocaleString()}" className="lucide" />
                   </div>
                   <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-base font-semibold text-slate-900">
-                    <MaterialIcon name="Total" className="material-symbols-outlined" />
-                    <MaterialIcon name="₦{total.toLocaleString()}" className="material-symbols-outlined" />
+                    <AppIcon name="Total" className="lucide" />
+                    <AppIcon name="₦{total.toLocaleString()}" className="lucide" />
                   </div>
                 </div>
               )}

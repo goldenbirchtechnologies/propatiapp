@@ -39,7 +39,7 @@ interface UtilityAllocationItem {
 }
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft' },
+  draft: { class: 'bg-surface text-muted-foreground border-border', label: 'Draft' },
   sent: { class: 'bg-primary/10 text-primary border-primary/20', label: 'Sent' },
   paid: { class: 'bg-success/10 text-success border-success/20', label: 'Paid' },
   overdue: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Overdue' },
@@ -133,7 +133,7 @@ export default function UtilitiesPage() {
           >
             Utility Allocations
           </h1>
-          <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
+          <p className="text-muted-foreground" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage utility allocations for your portfolio
           </p>
         </div>
@@ -204,7 +204,7 @@ export default function UtilitiesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-4 flex flex-wrap items-center gap-4">
+      <div className="bg-background rounded-xl border border-border shadow-sm p-4 flex flex-wrap items-center gap-4">
         <Filter className="h-4 w-4 text-muted-foreground" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
@@ -234,7 +234,7 @@ export default function UtilitiesPage() {
         </Select>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div className="bg-background rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -249,23 +249,23 @@ export default function UtilitiesPage() {
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-outline-variant">
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+              <tr className="border-b border-border">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Unit
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Type
                 </th>
-                <th className="text-right p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <th className="text-right p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Amount
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Billing Period
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Status
                 </th>
               </tr>
@@ -279,7 +279,7 @@ export default function UtilitiesPage() {
                 return (
                   <tr
                     key={allocation.id}
-                    className="border-b border-outline-variant transition-colors hover:bg-muted/30"
+                    className="border-b border-border transition-colors hover:bg-muted/30"
                   >
                     <td className="p-4 text-sm text-primary">
                       <span className="font-medium">{allocation.unit?.unitNumber}</span>

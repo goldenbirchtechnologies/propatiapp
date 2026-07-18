@@ -55,8 +55,8 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-outline-variant shadow-sm bg-surface-container-lowest p-6">
-            <div className="border-b border-outline-variant pb-4 mb-6 flex justify-between items-start">
+          <div className="lg:col-span-2 rounded-xl border border-border shadow-sm bg-background p-6">
+            <div className="border-b border-border pb-4 mb-6 flex justify-between items-start">
               <div>
                 <h2 className="font-heading text-xl font-bold text-primary uppercase">Commercial Lease Agreement</h2>
                 <p className="text-sm text-muted-foreground mt-1">Reference: PROP-2024-88492-L</p>
@@ -88,11 +88,11 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-outline-variant shadow-sm bg-surface-container-lowest p-5">
+          <div className="rounded-xl border border-border shadow-sm bg-background p-5">
             <h3 className="font-heading font-bold text-primary mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (
-                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface-container-low rounded-lg border border-outline-variant">
+                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-border">
                   <span className="text-sm font-medium text-primary">{clause.title}</span>
                   <span className="tag tag-amber">Pending</span>
                 </div>

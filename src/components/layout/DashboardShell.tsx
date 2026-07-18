@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
@@ -646,8 +646,13 @@ export function DashboardShell({
                         aria-current={itemActive ? 'true' : undefined}
                         onClick={() => setSidebarOpen(false)}
                       >
-                        {item.icon && <span className="icon-slot">{item.icon}</span>}
-                        {!sidebarCollapsed && <MaterialIcon name={item.label} className="material-symbols-outlined" />}
+                        <span className="icon-slot">
+                          {item.icon
+                            ? item.icon
+                            : !sidebarCollapsed
+                            ? <AppIcon name={item.label} className="lucide" size={18} />
+                            : <AppIcon name="help" className="lucide" size={18} />}
+                        </span>
                       </Link>
                     )}
                   </li>
@@ -772,8 +777,11 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >
-        {item.icon && <span className="icon-slot">{item.icon}</span>}
-        <span className="flex-1">{item.label}</span>
+        <span className="icon-slot">
+          {item.icon
+            ? item.icon
+            : <AppIcon name={item.label} className="lucide" size={18} />}
+        </span>
         <svg
           width="18"
           height="18"
@@ -796,8 +804,11 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
                 className="sb-nav-item"
                 style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
               >
-                {child.icon && <span className="icon-slot">{child.icon}</span>}
-                <MaterialIcon name={child.label} className="material-symbols-outlined" />
+                <span className="icon-slot">
+                  {child.icon
+                    ? child.icon
+                    : <AppIcon name={child.label} className="lucide" size={16} />}
+                </span>
               </Link>
             </li>
           ))}

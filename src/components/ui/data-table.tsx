@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -112,7 +112,7 @@ function DataTableHeaderCell<T>({
       onClick={handleSort}
     >
       <div className="flex items-center gap-2 justify-between">
-        <MaterialIcon name={column.header} className="material-symbols-outlined" />
+        <AppIcon name={column.header} className="lucide" />
         <div className="flex items-center gap-1">
           {column.enableSorting && (
             <span className={cn('flex items-center', isSorted && 'text-accent')}>

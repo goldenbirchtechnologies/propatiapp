@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -36,8 +36,6 @@ export default function PublicOnboardingClient() {
         return 'handshake';
       case 'estate_manager':
         return 'corporate_fare';
-      case 'realtor':
-        return 'real_estate_agent';
       default:
         return 'person';
     }
@@ -67,7 +65,7 @@ export default function PublicOnboardingClient() {
           {/* Top label */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-tertiary-fixed/15 text-on-tertiary-container px-3 py-1 rounded-full mb-4">
-              <MaterialIcon name="verified" className="material-symbols-outlined" />
+              <AppIcon name="verified" className="lucide" />
               <span className="text-xs font-medium tracking-wide uppercase">Secure Registration</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary mb-3">
@@ -95,10 +93,10 @@ export default function PublicOnboardingClient() {
                   ].join(' ')}
                 >
                   {isSelected && (
-                    <MaterialIcon  className="material-symbols-outlined" />
+                    <AppIcon  className="lucide" />
                   )}
                   <div className="mt-0.5 h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <MaterialIcon name={getIcon(id)} className="material-symbols-outlined" />
+                    <AppIcon name={getIcon(id)} className="lucide" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-primary mb-0.5">{label}</p>
@@ -183,7 +181,7 @@ export default function PublicOnboardingClient() {
 
       {/* Material Symbols */}
       <style jsx global>{`
-        .material-symbols-outlined {
+        .lucide {
           font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
       `}</style>

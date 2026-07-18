@@ -10,7 +10,6 @@ const SLUG_TO_ROLE: Record<string, UserRole> = {
   landlord: 'landlord',
   tenant: 'tenant',
   agent: 'agent',
-  realtor: 'agent',   // alias
   admin: 'admin',
   'estate-manager': 'estate_manager',
 };

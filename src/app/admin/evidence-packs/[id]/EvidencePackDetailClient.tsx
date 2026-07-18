@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -421,7 +421,7 @@ export default function EvidencePackDetailClient({
             >
               Evidence Packs
             </button>
-            <MaterialIcon name="/" className="material-symbols-outlined" />
+            <AppIcon name="/" className="lucide" />
             <span className="font-medium truncate max-w-[180px]" style={{ color: 'var(--text)' }}>
               {pack.id.slice(-8).toUpperCase()}
             </span>

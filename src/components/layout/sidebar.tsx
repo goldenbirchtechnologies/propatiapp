@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -489,7 +489,7 @@ export function Sidebar({
 
       <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
         <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>
-          <MaterialIcon name="v1.0.0" className="material-symbols-outlined" />
+          <AppIcon name="tag" className="lucide" size={12} />
           <span style={{ flex: 1 }} />
           <Button
             variant="ghost"

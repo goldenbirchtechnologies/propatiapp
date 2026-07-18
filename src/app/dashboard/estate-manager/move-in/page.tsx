@@ -14,7 +14,7 @@ export default function EstateManagerMoveInPage() {
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-primary">Move-in Coordination</h1>
-          <p className="text-on-surface-variant">Unable to load move-in details.</p>
+          <p className="text-muted-foreground">Unable to load move-in details.</p>
           <div className="rounded-lg border border-red-200 bg-red-50 p-6">
             <p className="text-red-800 font-medium">Error</p>
             <p className="text-red-600 text-sm mt-1">{error}</p>
@@ -35,7 +35,7 @@ export default function EstateManagerMoveInPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-primary">Move-in Coordination Hub</h1>
-          <p className="text-on-surface-variant mt-1">
+          <p className="text-muted-foreground mt-1">
             Handover and onboarding workflow for commercial tenants.
           </p>
         </div>
@@ -43,21 +43,21 @@ export default function EstateManagerMoveInPage() {
         {/* Hero Banner */}
         <div className="rounded-xl bg-primary text-white p-8 md:p-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-secondary-container/20 text-secondary-container px-3 py-1 rounded-full border border-secondary-container/30 mb-4 text-sm font-medium">
+            <div className="inline-flex items-center gap-2 bg-bg-secondary/20 text-bg-secondary px-3 py-1 rounded-full border border-bg-secondary/30 mb-4 text-sm font-medium">
               <ClipboardList className="w-4 h-4" />
               Handover Ready
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Welcome to your new HQ</h2>
             <p className="text-primary-fixed text-lg mb-6">
               Congratulations on securing your premium commercial space at{' '}
-              <span className="text-secondary-container font-bold">The Pinnacle Plaza, Suite 402</span>.
+              <span className="text-bg-secondary font-bold">The Pinnacle Plaza, Suite 402</span>.
               Everything is ready for your official move-in.
             </p>
             <div className="flex gap-3">
-              <button className="px-5 py-2.5 bg-secondary-container text-primary rounded-lg font-bold hover:scale-105 transition-transform">
+              <button className="px-5 py-2.5 bg-bg-secondary text-primary rounded-lg font-bold hover:scale-105 transition-transform">
                 View Digital Key
               </button>
-              <button className="px-5 py-2.5 border border-on-primary-container text-on-primary rounded-lg font-bold hover:bg-on-primary-container/10 transition-colors">
+              <button className="px-5 py-2.5 border border-text-primary-foreground text-on-primary rounded-lg font-bold hover:bg-text-primary-foreground/10 transition-colors">
                 Download Welcome Pack
               </button>
             </div>
@@ -66,7 +66,7 @@ export default function EstateManagerMoveInPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Payment Status */}
-          <div className="lg:col-span-4 card p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between">
+          <div className="lg:col-span-4 card p-5 rounded-xl border border-border shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <h3 className="font-heading font-bold text-primary">Payment Status</h3>
@@ -74,20 +74,20 @@ export default function EstateManagerMoveInPage() {
                   <Inbox className="w-5 h-5" />
                 </span>
               </div>
-              <div className="bg-tertiary-container text-on-tertiary p-4 rounded-lg border-l-4 border-on-tertiary-container mb-4">
+              <div className="bg-tertiary-container text-on-tertiary p-4 rounded-lg border-l-4 border-text-muted-foreground mb-4">
                 <p className="text-xs font-medium opacity-70 uppercase mb-1">Escrow Clearance</p>
                 <div className="flex items-center gap-3">
                   <p className="font-heading text-xl font-bold">₦12,450,000.00</p>
-                  <span className="bg-on-tertiary-container text-white px-2 py-0.5 rounded text-[10px] font-bold">CLEARED</span>
+                  <span className="bg-text-muted-foreground text-white px-2 py-0.5 rounded text-[10px] font-bold">CLEARED</span>
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-on-surface-variant">Security Deposit</span>
+                  <span className="text-muted-foreground">Security Deposit</span>
                   <span className="font-bold text-primary">Verified</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-on-surface-variant">Service Charge (Yr 1)</span>
+                  <span className="text-muted-foreground">Service Charge (Yr 1)</span>
                   <span className="font-bold text-primary">Settled</span>
                 </div>
                 <div className="w-full bg-surface-variant h-2 rounded-full overflow-hidden">
@@ -98,7 +98,7 @@ export default function EstateManagerMoveInPage() {
           </div>
 
           {/* Key Handover Schedule */}
-          <div className="lg:col-span-8 card p-5 rounded-xl border border-outline-variant shadow-sm">
+          <div className="lg:col-span-8 card p-5 rounded-xl border border-border shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-heading font-bold text-primary">Key Handover Schedule</h3>
               <span className="text-xs font-bold text-secondary bg-secondary-fixed/30 px-3 py-1 rounded-full">
@@ -107,38 +107,38 @@ export default function EstateManagerMoveInPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="flex flex-col gap-4">
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-outline-variant">
-                  <div className="w-full h-full bg-surface-variant flex items-center justify-center text-on-surface-variant text-sm">
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
+                  <div className="w-full h-full bg-surface-variant flex items-center justify-center text-muted-foreground text-sm">
                     Property Image
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg border border-outline-variant">
-                  <div className="p-2 bg-secondary-container text-primary rounded-full">
+                <div className="flex items-center gap-3 p-3 bg-surface rounded-lg border border-border">
+                  <div className="p-2 bg-bg-secondary text-primary rounded-full">
                     <CalendarClock className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-on-surface-variant uppercase">Thursday, Oct 12th</p>
+                    <p className="text-xs text-muted-foreground uppercase">Thursday, Oct 12th</p>
                     <p className="font-bold text-primary">10:00 AM — 11:30 AM</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-sm font-bold text-on-surface-variant mb-2">Preparation Checklist</p>
+                <p className="text-sm font-bold text-muted-foreground mb-2">Preparation Checklist</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 border-secondary-container flex items-center justify-center">
-                    <ClipboardList className="w-3 h-3 text-secondary-container" />
+                  <div className="w-5 h-5 rounded-full border-2 border-bg-secondary flex items-center justify-center">
+                    <ClipboardList className="w-3 h-3 text-bg-secondary" />
                   </div>
                   <span className="text-sm font-medium text-primary">Print Handover Protocol Form</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 border-secondary-container flex items-center justify-center">
-                    <ClipboardList className="w-3 h-3 text-secondary-container" />
+                  <div className="w-5 h-5 rounded-full border-2 border-bg-secondary flex items-center justify-center">
+                    <ClipboardList className="w-3 h-3 text-bg-secondary" />
                   </div>
                   <span className="text-sm font-medium text-primary">Assign IT Representative for Biometric Access</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center" />
-                  <span className="text-sm text-on-surface-variant">Final Inventory Signature</span>
+                  <div className="w-5 h-5 rounded-full border-2 border-border flex items-center justify-center" />
+                  <span className="text-sm text-muted-foreground">Final Inventory Signature</span>
                 </div>
                 <button className="w-full mt-4 py-2 border-2 border-secondary text-secondary rounded-lg font-bold hover:bg-secondary hover:text-white transition-all">
                   Reschedule Appointment
@@ -149,8 +149,8 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Utility & HVAC Onboarding */}
-        <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden">
-          <div className="p-5 border-b border-outline-variant">
+        <div className="rounded-xl border border-border shadow-sm overflow-hidden">
+          <div className="p-5 border-b border-border">
             <h3 className="font-heading font-bold text-primary">Utility &amp; HVAC Onboarding</h3>
           </div>
           <div className="p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -159,8 +159,8 @@ export default function EstateManagerMoveInPage() {
               { icon: 'ac_unit', label: 'HVAC System', status: 'TESTING REQUIRED', color: 'text-secondary', isBuiltIn: true },
               { icon: Wifi, label: 'Fibre Optic', status: 'READY', color: 'text-tertiary' },
             ].map((item, idx) => (
-              <div key={idx} className="p-5 bg-surface border border-outline-variant rounded-xl text-center hover:border-secondary-container transition-colors">
-                <span className={`material-symbols-outlined text-3xl ${item.color} mb-3`} style={item.isBuiltIn ? { fontVariationSettings: "'FILL' 1" } : undefined}>
+              <div key={idx} className="p-5 bg-surface border border-border rounded-xl text-center hover:border-bg-secondary transition-colors">
+                <span className={` text-3xl ${item.color} mb-3`} style={item.isBuiltIn ? { fontVariationSettings: "'FILL' 1" } : undefined}>
                   {item.label === 'HVAC System' ? 'ac_unit' : item.label === 'Electrical' ? 'bolt' : 'wifi'}
                 </span>
                 <p className="text-sm font-bold text-primary mb-1">{item.label}</p>
@@ -168,9 +168,9 @@ export default function EstateManagerMoveInPage() {
               </div>
             ))}
           </div>
-          <div className="p-4 bg-surface-container rounded-lg flex items-center gap-3 border-t border-outline-variant">
-            <Info className="w-5 h-5 text-on-surface-variant shrink-0" />
-            <p className="text-sm text-on-surface-variant">
+          <div className="p-4 bg-surface-container rounded-lg flex items-center gap-3 border-t border-border">
+            <Info className="w-5 h-5 text-muted-foreground shrink-0" />
+            <p className="text-sm text-muted-foreground">
               Temperature controls for Suite 402 can be managed via the{' '}
               <a href="#" className="text-secondary font-bold underline">PROPATI Smart Facility App</a> starting from handover day.
             </p>
@@ -178,9 +178,9 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Facility Contacts */}
-        <div className="rounded-xl bg-primary-container text-on-primary-container shadow-sm overflow-hidden">
+        <div className="rounded-xl bg-primary-container text-text-primary-foreground shadow-sm overflow-hidden">
           <div className="p-5 border-b border-white/10">
-            <h3 className="font-heading font-bold text-secondary-container">Facility Contacts</h3>
+            <h3 className="font-heading font-bold text-bg-secondary">Facility Contacts</h3>
           </div>
           <div className="p-5 space-y-4">
             {[
@@ -194,17 +194,17 @@ export default function EstateManagerMoveInPage() {
                   </div>
                   <div>
                     <p className="font-bold text-white">{contact.name}</p>
-                    <p className="text-xs text-on-surface-variant">{contact.role}</p>
+                    <p className="text-xs text-muted-foreground">{contact.role}</p>
                   </div>
                 </div>
-                <button className="p-2 text-secondary-container hover:bg-secondary-container hover:text-primary rounded-full transition-colors">
+                <button className="p-2 text-bg-secondary hover:bg-bg-secondary hover:text-primary rounded-full transition-colors">
                   {contact.action === 'call' ? <Phone className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
                 </button>
               </div>
             ))}
             <div className="pt-3 border-t border-white/10">
-              <p className="text-xs text-on-surface-variant uppercase opacity-60">24/7 Concierge Hotline</p>
-              <p className="font-heading font-bold text-secondary-container">0-800-PROPATI-SOS</p>
+              <p className="text-xs text-muted-foreground uppercase opacity-60">24/7 Concierge Hotline</p>
+              <p className="font-heading font-bold text-bg-secondary">0-800-PROPATI-SOS</p>
             </div>
           </div>
         </div>

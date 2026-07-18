@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useState } from 'react';
@@ -209,7 +209,7 @@ export default function CommunityPage() {
                       <MapPin className="h-3.5 w-3.5" />
                       <span className="font-medium">{event.location}</span>
                       <span className="text-border">·</span>
-                      <MaterialIcon name={event.time} className="material-symbols-outlined" />
+                      <AppIcon name={event.time} className="lucide" />
                     </div>
 
                     <div className="mt-5 flex items-center justify-between">

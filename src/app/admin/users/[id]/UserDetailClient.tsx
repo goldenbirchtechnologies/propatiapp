@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -215,7 +215,7 @@ export default function UserDetailClient({ user: initialUser, revenueData, initi
               <button onClick={() => router.push('/admin/users')} className="hover:text-foreground">
                 Users
               </button>
-              <MaterialIcon name="/" className="material-symbols-outlined" />
+              <AppIcon name="/" className="lucide" />
               <span className="text-foreground font-medium truncate max-w-[200px]">{user.fullName}</span>
             </nav>
           </div>

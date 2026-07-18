@@ -21,7 +21,6 @@ export default async function UserDetailPage({ params }: { params: { id: string 
     agent: '/dashboard/agent',
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
-    realtor: '/dashboard/agent',
   };
   if (!user) redirect('/login');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');

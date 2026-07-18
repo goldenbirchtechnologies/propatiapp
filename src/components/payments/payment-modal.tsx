@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -113,7 +113,7 @@ export function PaymentModal({
             )}
 
             <div className="border-t pt-3 flex justify-between font-bold">
-              <MaterialIcon name="Total to Pay" className="material-symbols-outlined" />
+              <AppIcon name="Total to Pay" className="lucide" />
               <span className="text-lg">{formatAmountFromKobo(breakdown.total)}</span>
             </div>
           </div>

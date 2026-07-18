@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import Link from 'next/link';
 
@@ -20,21 +20,21 @@ export default function VerificationPage() {
         <div className="bg-surface-container-high p-6 rounded-xl shadow-sm border border-outline-variant relative overflow-hidden">
           <div className="flex flex-col gap-4 relative z-10">
             <div className="bg-surface-elevated p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-2 transition-transform">
-              <MaterialIcon name="article" className="material-symbols-outlined" />
+              <AppIcon name="article" className="lucide" />
               <div>
                 <div className="font-medium text-primary">Deed of Assignment</div>
                 <div className="text-xs text-muted-foreground">STATUS: PENDING REVIEW</div>
               </div>
             </div>
             <div className="bg-surface-elevated p-4 rounded-lg border border-outline-variant flex items-center gap-4 hover:translate-x-4 transition-transform">
-              <MaterialIcon name="receipt_long" className="material-symbols-outlined" />
+              <AppIcon name="receipt_long" className="lucide" />
               <div>
                 <div className="font-medium text-primary">Survey Plan</div>
                 <div className="text-xs text-muted-foreground">STATUS: MATCHED</div>
               </div>
             </div>
             <div className="bg-surface-elevated p-4 rounded-lg border-2 border-on-tertiary-container flex items-center gap-4 hover:translate-x-6 transition-transform">
-              <MaterialIcon name="verified" className="material-symbols-outlined" />
+              <AppIcon name="verified" className="lucide" />
               <div>
                 <div className="font-medium text-primary">Certificate of Occupancy</div>
                 <div className="text-xs text-on-tertiary-container font-bold">VERIFIED AUTHENTIC</div>
@@ -42,7 +42,7 @@ export default function VerificationPage() {
             </div>
           </div>
           <div className="absolute -bottom-12 -right-12 opacity-10">
-            <MaterialIcon name="description" className="material-symbols-outlined" />
+            <AppIcon name="description" className="lucide" />
           </div>
         </div>
       ),
@@ -76,13 +76,13 @@ export default function VerificationPage() {
           <div className="space-y-4">
             <div className="aspect-[3/4] rounded-2xl bg-muted" />
             <div className="p-4 bg-surface-container rounded-xl border border-outline-variant">
-              <MaterialIcon name="explore" className="material-symbols-outlined" />
+              <AppIcon name="explore" className="lucide" />
               <p className="font-medium text-primary mt-2 text-sm">Boundary Matching</p>
             </div>
           </div>
           <div className="space-y-4">
             <div className="p-4 bg-secondary text-on-secondary rounded-xl">
-              <MaterialIcon name="warning" className="material-symbols-outlined" />
+              <AppIcon name="warning" className="lucide" />
               <p className="font-medium mt-2 text-sm">Omonile Risk Check</p>
             </div>
             <div className="aspect-[3/4] rounded-2xl bg-muted" />
@@ -103,18 +103,18 @@ export default function VerificationPage() {
               <p className="text-sm text-muted-foreground">We manually verify the status of the title in state records.</p>
             </div>
             <div className="mt-4 flex items-center justify-between">
-              <MaterialIcon name="gavel" className="material-symbols-outlined" />
+              <AppIcon name="gavel" className="lucide" />
               <div className="px-4 py-2 bg-card rounded-full text-xs font-medium shadow-sm">SEARCHING: ALAUSA REGISTRY</div>
             </div>
           </div>
           <div className="bg-primary text-on-primary rounded-2xl p-6 flex flex-col justify-center text-center border border-outline-variant">
-            <MaterialIcon name="policy" className="material-symbols-outlined" />
+            <AppIcon name="policy" className="lucide" />
             <h3 className="font-heading font-bold mb-2">Government Acquisition Check</h3>
             <p className="text-sm opacity-70">Ensuring the land isn\'t designated for public projects.</p>
           </div>
           <div className="bg-surface-elevated rounded-2xl p-6 flex items-center gap-4 border border-outline-variant">
             <div className="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center shrink-0">
-              <MaterialIcon name="report_problem" className="material-symbols-outlined" />
+              <AppIcon name="report_problem" className="lucide" />
             </div>
             <div>
               <h4 className="font-heading font-bold text-primary text-sm">Litigation Audit</h4>
@@ -149,7 +149,7 @@ export default function VerificationPage() {
             Get Started
           </button>
           <button className="md:hidden text-primary">
-            <MaterialIcon name="menu" className="material-symbols-outlined" />
+            <AppIcon name="menu" className="lucide" />
           </button>
         </div>
       </header>
@@ -159,7 +159,7 @@ export default function VerificationPage() {
         <aside className="hidden lg:flex flex-col border-r border-outline-variant w-64 sticky top-[72px] h-[calc(100vh-72px)] bg-surface-container-low p-6 overflow-y-auto">
           <div className="mb-8 pt-4">
             <div className="flex items-center gap-3 mb-2">
-              <MaterialIcon name="shield_person" className="material-symbols-outlined" />
+              <AppIcon name="shield_person" className="lucide" />
               <h3 className="font-heading font-bold text-primary">Verification Steps</h3>
             </div>
             <p className="text-sm text-muted-foreground">Phase 1: Due Diligence</p>
@@ -171,14 +171,14 @@ export default function VerificationPage() {
                 href={`#${phase.id || phase.num}`}
                 className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-surface-container-highest"
               >
-                {phase.num === '01' ? <MaterialIcon name="info" className="material-symbols-outlined text-[20px]" /> : phase.num === '02' ? <MaterialIcon name="description" className="material-symbols-outlined text-[20px]" /> : phase.num === '03' ? <MaterialIcon name="visibility" className="material-symbols-outlined text-[20px]" /> : phase.num === '04' ? <MaterialIcon name="gavel" className="material-symbols-outlined text-[20px]" /> : null}
+                {phase.num === '01' ? <AppIcon name="info" className="lucide text-[20px]" /> : phase.num === '02' ? <AppIcon name="description" className="lucide text-[20px]" /> : phase.num === '03' ? <AppIcon name="visibility" className="lucide text-[20px]" /> : phase.num === '04' ? <AppIcon name="gavel" className="lucide text-[20px]" /> : null}
                 <span className="text-sm font-medium">{phase.title}</span>
               </Link>
             ))}
           </nav>
           <div className="mt-auto">
             <button className="w-full py-3 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center gap-2 hover:brightness-95 transition-all">
-              <MaterialIcon name="download" className="material-symbols-outlined" />
+              <AppIcon name="download" className="lucide" />
               Download Checklist
             </button>
           </div>
@@ -190,7 +190,7 @@ export default function VerificationPage() {
           <section className="relative bg-primary text-on-primary overflow-hidden px-4 md:px-8 py-16 md:py-24" id="intro">
             <div className="relative z-10 max-w-4xl">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary rounded-full mb-6">
-                <MaterialIcon name="verified_user" className="material-symbols-outlined" />
+                <AppIcon name="verified_user" className="lucide" />
                 <span className="text-xs font-medium uppercase tracking-widest text-on-primary">Trusted Authority</span>
               </div>
               <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl mb-6 leading-tight">
@@ -218,7 +218,7 @@ export default function VerificationPage() {
                     <ul className="space-y-4">
                       {phase.checks.map((check, i) => (
                         <li key={i} className="flex gap-4 items-start">
-                          <MaterialIcon name={check.icon} className="material-symbols-outlined" />
+                          <AppIcon name={check.icon} className="lucide" />
                           <div>
                             <h4 className="font-heading font-bold text-primary text-base">{check.title}</h4>
                             {check.desc && <p className="text-sm text-muted-foreground">{check.desc}</p>}
@@ -248,7 +248,7 @@ export default function VerificationPage() {
             <div className="max-w-4xl mx-auto text-center glass-card rounded-[40px] border-2 border-on-tertiary-container shadow-2xl relative p-8 md:p-16">
               <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                 <div className="w-24 h-24 bg-on-tertiary-container rounded-full flex items-center justify-center shadow-lg border-8 border-surface">
-                  <span className="material-symbols-outlined text-[48px] text-white" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                  <span className="lucide text-[48px] text-white" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                 </div>
               </div>
               <div className="mt-8">
@@ -306,9 +306,9 @@ export default function VerificationPage() {
         <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-on-primary-container/60">&copy; {new Date().getFullYear()} VeriProp Nigeria. All rights reserved.</p>
           <div className="flex gap-4">
-            <MaterialIcon name="public" className="material-symbols-outlined" />
-            <MaterialIcon name="chat" className="material-symbols-outlined" />
-            <MaterialIcon name="language" className="material-symbols-outlined" />
+            <AppIcon name="public" className="lucide" />
+            <AppIcon name="chat" className="lucide" />
+            <AppIcon name="language" className="lucide" />
           </div>
         </div>
       </footer>

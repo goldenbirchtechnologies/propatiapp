@@ -27,18 +27,18 @@ import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  low: { label: 'Low', className: 'bg-muted text-on-surface-variant border border-outline-variant' },
-  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-outline-variant' },
-  high: { label: 'High', className: 'bg-warning/10 text-warning border border-outline-variant' },
-  urgent: { label: 'Urgent', className: 'bg-destructive/10 text-destructive border border-outline-variant' },
+  low: { label: 'Low', className: 'bg-muted text-muted-foreground border border-border' },
+  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-border' },
+  high: { label: 'High', className: 'bg-warning/10 text-warning border border-border' },
+  urgent: { label: 'Urgent', className: 'bg-destructive/10 text-destructive border border-border' },
 };
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  open: { label: 'Open', className: 'bg-destructive/10 text-destructive border border-outline-variant' },
-  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-outline-variant' },
-  in_progress: { label: 'In Progress', className: 'bg-warning/10 text-warning border border-outline-variant' },
-  resolved: { label: 'Resolved', className: 'bg-success/10 text-success border border-outline-variant' },
-  closed: { label: 'Closed', className: 'bg-muted text-on-surface-variant border border-outline-variant' },
+  open: { label: 'Open', className: 'bg-destructive/10 text-destructive border border-border' },
+  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-border' },
+  in_progress: { label: 'In Progress', className: 'bg-warning/10 text-warning border border-border' },
+  resolved: { label: 'Resolved', className: 'bg-success/10 text-success border border-border' },
+  closed: { label: 'Closed', className: 'bg-muted text-muted-foreground border border-border' },
 };
 
 const statusTimeline = [
@@ -115,9 +115,9 @@ export default function MaintenanceDetailPage() {
           </div>
           <Card className="border-destructive/30 bg-destructive/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-on-surface-variant' }} />
+              <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-muted-foreground' }} />
               <p className="font-medium" style={{ color: 'text-primary' }}>Unable to load maintenance request</p>
-              <p className="text-sm mt-1 mb-4" style={{ color: 'text-on-surface-variant' }}>
+              <p className="text-sm mt-1 mb-4" style={{ color: 'text-muted-foreground' }}>
                 {error instanceof Error ? error.message : 'Request not found or access denied.'}
               </p>
               <div className="flex gap-3">
@@ -146,13 +146,13 @@ export default function MaintenanceDetailPage() {
         <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
           <ol className="flex items-center gap-2">
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Home</Link>
+              <Link href="/dashboard/estate-manager" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Home</Link>
             </li>
-            <li className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>/</li>
+            <li className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>/</li>
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager/maintenance" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Maintenance</Link>
+              <Link href="/dashboard/estate-manager/maintenance" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Maintenance</Link>
             </li>
-            <li className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>/</li>
+            <li className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>/</li>
             <li className="font-medium text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-primary' }}>{ticket.title}</li>
           </ol>
         </nav>
@@ -164,7 +164,7 @@ export default function MaintenanceDetailPage() {
               <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
                 {ticket.title}
               </h1>
-              <p className="flex items-center gap-1 mt-1 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+              <p className="flex items-center gap-1 mt-1 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
                 <MapPin className="h-4 w-4" />
                 {ticket.listing?.title || ticket.listing?.address || 'No location linked'}
               </p>
@@ -185,18 +185,18 @@ export default function MaintenanceDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Category</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Category</p>
                 <p className="font-medium capitalize text-sm" style={{ color: 'text-primary' }}>{ticket.category || '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Description</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Description</p>
                 <p className="font-medium text-sm" style={{ color: 'text-primary' }}>
                   {ticket.description || 'No description provided.'}
                 </p>
               </div>
               <Separator />
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Created</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Created</p>
                 <p className="font-medium flex items-center gap-2 text-sm" style={{ color: 'text-primary' }}>
                   <Calendar className="h-4 w-4" />
                   {new Date(ticket.createdAt).toLocaleString()}
@@ -204,7 +204,7 @@ export default function MaintenanceDetailPage() {
               </div>
               {ticket.resolvedAt && (
                 <div>
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Resolved</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Resolved</p>
                   <p className="font-medium flex items-center gap-2 text-sm" style={{ color: 'text-primary' }}>
                     <CheckCircle2 className="h-4 w-4" />
                     {new Date(ticket.resolvedAt).toLocaleString()}
@@ -225,19 +225,19 @@ export default function MaintenanceDetailPage() {
                 <div className="flex items-center gap-4">
                   <div
                     className="h-12 w-12 rounded-full flex items-center justify-center text-lg font-bold"
-                    style={{ background: 'bg-surface-container-low', color: 'text-primary' }}
+                    style={{ background: 'bg-surface', color: 'text-primary' }}
                   >
                     {ticket.assignedToUser.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div>
                     <p className="font-medium" style={{ color: 'text-primary' }}>{ticket.assignedToUser.fullName}</p>
-                    <p className="text-sm" style={{ color: 'text-on-surface-variant' }}>{ticket.assignedToUser.email}</p>
+                    <p className="text-sm" style={{ color: 'text-muted-foreground' }}>{ticket.assignedToUser.email}</p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-on-surface-variant', opacity: 0.5 }} />
-                  <p className="text-sm" style={{ color: 'text-on-surface-variant' }}>Unassigned</p>
+                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
+                  <p className="text-sm" style={{ color: 'text-muted-foreground' }}>Unassigned</p>
                 </div>
               )}
             </CardContent>
@@ -261,25 +261,25 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'bg-primary/10' : 'border-outline-variant',
-                          color: isCompleted ? 'text-primary' : 'text-on-surface-variant',
+                          background: isCompleted ? 'bg-primary/10' : 'border-border',
+                          color: isCompleted ? 'text-primary' : 'text-muted-foreground',
                         }}
                       >
                         {step.icon}
                       </div>
                       {index < statusTimeline.length - 1 && (
-                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-primary' : 'border-outline-variant' }} />
+                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-primary' : 'border-border' }} />
                       )}
                     </div>
                     <div className="pb-8">
-                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-primary' : 'text-on-surface-variant' }}>{step.label}</p>
+                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-primary' : 'text-muted-foreground' }}>{step.label}</p>
                       {isCurrent && ticket.status === step.status && (
-                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
+                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
                           Current step — {new Date(ticket.createdAt).toLocaleString()}
                         </p>
                       )}
                       {isCompleted && !isCurrent && (
-                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
+                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
                           {new Date(ticket.updatedAt || ticket.createdAt).toLocaleString()}
                         </p>
                       )}

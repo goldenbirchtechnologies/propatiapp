@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useCallback, useMemo } from 'react';
 import { Search, ChevronDown, ChevronUp } from 'lucide-react';
@@ -359,7 +359,7 @@ export default function SearchFilters({
             onClick={() => setShowAllAmenities(!showAllAmenities)}
             className="flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
           >
-            <MaterialIcon name={showAllAmenities ? 'Show Less' : 'Show More'} className="material-symbols-outlined" />
+            <AppIcon name={showAllAmenities ? 'Show Less' : 'Show More'} className="lucide" />
             {showAllAmenities ? (
               <ChevronUp className="h-4 w-4" />
             ) : (

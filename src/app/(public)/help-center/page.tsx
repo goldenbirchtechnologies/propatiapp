@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -97,18 +97,18 @@ export default function HelpCenterPage() {
                     : 'text-on-primary-container/70 hover:text-on-primary-container hover:bg-primary/20'
                 }`}
               >
-                <MaterialIcon name={role.icon} className="material-symbols-outlined" />
+                <AppIcon name={role.icon} className="lucide" />
                 <span className="text-sm font-medium">{role.label}</span>
               </Link>
             ))}
           </nav>
           <div className="mt-auto pb-8 flex flex-col gap-4 border-t border-white/10 pt-6">
             <Link href="/privacy-policy" className="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container p-2">
-              <MaterialIcon name="gavel" className="material-symbols-outlined" />
+              <AppIcon name="gavel" className="lucide" />
               <span className="text-xs">Privacy Policy</span>
             </Link>
             <Link href="/terms-of-service" className="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container p-2">
-              <MaterialIcon name="description" className="material-symbols-outlined" />
+              <AppIcon name="description" className="lucide" />
               <span className="text-xs">Terms of Service</span>
             </Link>
             <button className="bg-secondary text-primary font-medium py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-95 transition-all">
@@ -127,7 +127,7 @@ export default function HelpCenterPage() {
                 Secure Your Property Journey
               </h1>
               <div className="relative max-w-2xl mx-auto group">
-                <MaterialIcon  className="material-symbols-outlined" />
+                <AppIcon  className="lucide" />
                 <input
                   type="text"
                   placeholder="How can we help you today?"
@@ -161,7 +161,7 @@ export default function HelpCenterPage() {
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${
                     role.active ? 'bg-secondary text-primary' : 'bg-primary-container text-white'
                   }`}>
-                    <MaterialIcon name={role.icon} className="material-symbols-outlined" />
+                    <AppIcon name={role.icon} className="lucide" />
                   </div>
                   <h3 className="font-heading font-bold text-lg mb-2">{role.label}</h3>
                   <p className="text-muted-foreground text-sm mb-6 flex-1">
@@ -173,20 +173,20 @@ export default function HelpCenterPage() {
                   <ul className="space-y-3 mt-auto">
                     {role.label === 'Tenants' && (
                       <>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Rentals <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Secure Payments <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Rentals <AppIcon name="chevron_right" className="lucide" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Secure Payments <AppIcon name="chevron_right" className="lucide" /></Link></li>
                       </>
                     )}
                     {role.label === 'Landlords' && (
                       <>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Listing Guide <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Verification <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Listing Guide <AppIcon name="chevron_right" className="lucide" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Verification <AppIcon name="chevron_right" className="lucide" /></Link></li>
                       </>
                     )}
                     {role.label === 'Agents' && (
                       <>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Agent Tools <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
-                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Lead Gen <MaterialIcon name="chevron_right" className="material-symbols-outlined" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Agent Tools <AppIcon name="chevron_right" className="lucide" /></Link></li>
+                        <li><Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">Lead Gen <AppIcon name="chevron_right" className="lucide" /></Link></li>
                       </>
                     )}
                     {role.label === 'Verification' && (
@@ -209,7 +209,7 @@ export default function HelpCenterPage() {
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="font-heading font-bold text-xl">Trending Help Articles</h2>
                   <Link href="#" className="text-primary text-sm font-medium flex items-center gap-2">
-                    View All <MaterialIcon name="arrow_forward" className="material-symbols-outlined" />
+                    View All <AppIcon name="arrow_forward" className="lucide" />
                   </Link>
                 </div>
                 <div className="space-y-4">
@@ -226,7 +226,7 @@ export default function HelpCenterPage() {
                         <h4 className="font-heading font-bold text-base mb-1 group-hover:text-secondary transition-colors">{article.title}</h4>
                         <p className="text-muted-foreground text-sm line-clamp-1">{article.desc}</p>
                       </div>
-                      <MaterialIcon name="open_in_new" className="material-symbols-outlined" />
+                      <AppIcon name="open_in_new" className="lucide" />
                     </div>
                   ))}
                 </div>
@@ -274,13 +274,13 @@ export default function HelpCenterPage() {
               <p className="text-muted-foreground text-sm mb-6">Nigeria's premier property marketplace built on trust, transparency, and verified transactions.</p>
               <div className="flex gap-4">
                 <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <MaterialIcon name="public" className="material-symbols-outlined" />
+                  <AppIcon name="public" className="lucide" />
                 </Link>
                 <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <MaterialIcon name="chat" className="material-symbols-outlined" />
+                  <AppIcon name="chat" className="lucide" />
                 </Link>
                 <Link href="#" className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white hover:bg-secondary transition-colors">
-                  <MaterialIcon name="mail" className="material-symbols-outlined" />
+                  <AppIcon name="mail" className="lucide" />
                 </Link>
               </div>
             </div>

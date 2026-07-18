@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -100,15 +100,15 @@ export default function AgentOfficeInspectionClient() {
                       <span className="font-headline-sm font-bold">October 2024</span>
                       <div className="flex gap-2">
                         <Button variant="outline" size="icon" className="h-8 w-8">
-                          <MaterialIcon name="chevron_left" className="material-symbols-outlined" />
+                          <AppIcon name="chevron_left" className="lucide" />
                         </Button>
                         <Button variant="outline" size="icon" className="h-8 w-8">
-                          <MaterialIcon name="chevron_right" className="material-symbols-outlined" />
+                          <AppIcon name="chevron_right" className="lucide" />
                         </Button>
                       </div>
                     </div>
                     <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2" style={{ color: 'text-on-surface-variant' }}>
-                      <MaterialIcon name="M" className="material-symbols-outlined" /><MaterialIcon name="T" className="material-symbols-outlined" /><MaterialIcon name="W" className="material-symbols-outlined" /><MaterialIcon name="T" className="material-symbols-outlined" /><MaterialIcon name="F" className="material-symbols-outlined" /><MaterialIcon name="S" className="material-symbols-outlined" /><MaterialIcon name="S" className="material-symbols-outlined" />
+                      <AppIcon name="M" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="W" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="F" className="lucide" /><AppIcon name="S" className="lucide" /><AppIcon name="S" className="lucide" />
                     </div>
                     <div className="grid grid-cols-7 gap-1 text-center text-sm">
                       {days.map((d) => (
@@ -144,11 +144,11 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <MaterialIcon name="wb_sunny" className="material-symbols-outlined" />
-                          <MaterialIcon name="Morning: 09:00 - 12:00" className="material-symbols-outlined" />
+                          <AppIcon name="wb_sunny" className="lucide" />
+                          <AppIcon name="Morning: 09:00 - 12:00" className="lucide" />
                         </div>
                         {selectedSlot === 'morning' && (
-                          <MaterialIcon name="check_circle" className="material-symbols-outlined" />
+                          <AppIcon name="check_circle" className="lucide" />
                         )}
                       </button>
                       <button
@@ -161,11 +161,11 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <MaterialIcon name="light_mode" className="material-symbols-outlined" />
-                          <MaterialIcon name="Afternoon: 14:00 - 17:00" className="material-symbols-outlined" />
+                          <AppIcon name="light_mode" className="lucide" />
+                          <AppIcon name="Afternoon: 14:00 - 17:00" className="lucide" />
                         </div>
                         {selectedSlot === 'afternoon' && (
-                          <MaterialIcon name="check_circle" className="material-symbols-outlined" />
+                          <AppIcon name="check_circle" className="lucide" />
                         )}
                       </button>
                     </div>
@@ -185,7 +185,7 @@ export default function AgentOfficeInspectionClient() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-headline-sm">
-                    <MaterialIcon name="fact_check" className="material-symbols-outlined" />
+                    <AppIcon name="fact_check" className="lucide" />
                     Requirements
                   </CardTitle>
                 </CardHeader>
@@ -193,7 +193,7 @@ export default function AgentOfficeInspectionClient() {
                   <ul className="space-y-3">
                     {requirements.map((req, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-xs font-label-md uppercase tracking-wider">
-                        <MaterialIcon name="check" className="material-symbols-outlined" />
+                        <AppIcon name="check" className="lucide" />
                         {req}
                       </li>
                     ))}
@@ -241,7 +241,7 @@ export default function AgentOfficeInspectionClient() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <MaterialIcon name="calendar_month" className="material-symbols-outlined" />
+                      <AppIcon name="calendar_month" className="lucide" />
                     </div>
                     <div>
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Date</p>
@@ -250,7 +250,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                   <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <MaterialIcon name="schedule" className="material-symbols-outlined" />
+                      <AppIcon name="schedule" className="lucide" />
                     </div>
                     <div>
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Time Window</p>
@@ -259,7 +259,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                   <div className="flex items-start gap-4 p-3 bg-muted rounded-lg">
                     <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
-                      <MaterialIcon name="location_on" className="material-symbols-outlined" />
+                      <AppIcon name="location_on" className="lucide" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Inspection Address</p>

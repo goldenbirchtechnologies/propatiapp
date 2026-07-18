@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useParams } from 'next/navigation';
@@ -147,15 +147,15 @@ function AgentProfileInner() {
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <MapPin className="h-4 w-4 text-on-surface-variant" />
-                    <MaterialIcon name={agent.location} className="material-symbols-outlined" />
+                    <AppIcon name={agent.location} className="lucide" />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <Briefcase className="h-4 w-4 text-on-surface-variant" />
-                    <MaterialIcon name="{agent.experience} years experience" className="material-symbols-outlined" />
+                    <AppIcon name="{agent.experience} years experience" className="lucide" />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-on-surface">
                     <Users className="h-4 w-4 text-on-surface-variant" />
-                    <MaterialIcon name="{agent.clientsServed} clients served" className="material-symbols-outlined" />
+                    <AppIcon name="{agent.clientsServed} clients served" className="lucide" />
                   </div>
                 </div>
 
@@ -235,7 +235,7 @@ function AgentProfileInner() {
                         {listing.title}
                       </h3>
                       <div className="flex items-center gap-1.5 text-on-surface-variant">
-                        <MaterialIcon name="location_on" className="material-symbols-outlined" />
+                        <AppIcon name="location_on" className="lucide" />
                         <span className="text-sm line-clamp-1">{listing.location}</span>
                       </div>
                     </div>

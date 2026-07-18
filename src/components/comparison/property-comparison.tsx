@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import Image from 'next/image';
@@ -204,7 +204,7 @@ function ComparisonRow({
         )}
       >
         {icon}
-        <MaterialIcon name={label} className="material-symbols-outlined" />
+        <AppIcon name={label} className="lucide" />
       </div>
       {values.map((value, index) => (
         <div
@@ -242,7 +242,7 @@ function MobileComparisonCard({
           <div key={idx} className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
               {feature.icon}
-              <MaterialIcon name={feature.label} className="material-symbols-outlined" />
+              <AppIcon name={feature.label} className="lucide" />
             </div>
             <div className="text-sm font-medium text-right flex-1">
               {feature.getValue(property)}
@@ -577,7 +577,7 @@ export function PropertyComparison({
                   more {displayedProperties.length < maxProperties - 1 ? 'properties' : 'property'}
                 </span>
               ) : (
-                <MaterialIcon name="Maximum number of properties reached" className="material-symbols-outlined" />
+                <AppIcon name="Maximum number of properties reached" className="lucide" />
               )}
             </div>
             <div className="flex gap-2">

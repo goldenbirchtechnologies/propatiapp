@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -72,14 +72,14 @@ export function CategoryToggle({
       >
         <span
           className={cn(
-            'material-symbols-outlined text-[20px]',
+            'lucide text-[20px]',
             'select-none'
           )}
           aria-hidden="true"
         >
           home
         </span>
-        <MaterialIcon name="Residential" className="material-symbols-outlined" />
+        <AppIcon name="Residential" className="lucide" />
       </button>
 
       {/* Commercial Button */}
@@ -102,14 +102,14 @@ export function CategoryToggle({
       >
         <span
           className={cn(
-            'material-symbols-outlined text-[20px]',
+            'lucide text-[20px]',
             'select-none'
           )}
           aria-hidden="true"
         >
           business
         </span>
-        <MaterialIcon name="Commercial" className="material-symbols-outlined" />
+        <AppIcon name="Commercial" className="lucide" />
       </button>
     </div>
   );

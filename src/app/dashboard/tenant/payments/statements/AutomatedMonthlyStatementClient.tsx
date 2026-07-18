@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import {
@@ -126,7 +126,7 @@ export default function AutomatedMonthlyStatementClient() {
             </div>
             <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
               <div className="flex items-center gap-2 mb-1">
-                <MaterialIcon name="domain" className="material-symbols-outlined" />
+                <AppIcon name="domain" className="lucide" />
                 <span className="font-label-sm text-on-surface-variant uppercase text-xs">
                   The Obsidian Penthouse
                 </span>
@@ -140,7 +140,7 @@ export default function AutomatedMonthlyStatementClient() {
         {/* Breakdown Table */}
         <div>
           <h4 className="font-headline-sm headline-sm mb-3 flex items-center gap-sm">
-            <MaterialIcon name="analytics" className="material-symbols-outlined" />
+            <AppIcon name="analytics" className="lucide" />
             Statement Ledger
           </h4>
           <div className="overflow-hidden border border-outline-variant rounded-xl">

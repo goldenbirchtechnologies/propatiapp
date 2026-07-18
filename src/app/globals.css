@@ -70,14 +70,6 @@
   --theme-em-accent: #2563eb;
   --theme-em-accent2: #1d4ed8;
 
-  --theme-realtor-bg: #0b1220;
-  --theme-realtor-surface: #0f1a2e;
-  --theme-realtor-surface-elevated: #152238;
-  --theme-realtor-border: rgba(255, 255, 255, 0.07);
-  --theme-realtor-text: #dde7f3;
-  --theme-realtor-muted: #4f6f8a;
-  --theme-realtor-accent: #2563eb;
-  --theme-realtor-accent2: #1d4ed8;
 
   /* Admin */
   --theme-admin-bg: #0c0e12;
@@ -94,6 +86,12 @@
   --font-body: 'Outfit', system-ui, sans-serif;
   --font-body-fallback: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-sans: 'Outfit', system-ui, sans-serif;
+
+  /* Verification tokens */
+  --verification-basic: #737373;
+  --verification-verified: #10b981;
+  --verification-inspected: #6366f1;
+  --verification-certified: #0d9488;
 
   /* Font Scale */
   --text-hero: clamp(2rem, 4.5vw, 3.2rem);
@@ -209,18 +207,24 @@ body.em-theme {
   --muted: var(--theme-em-muted);
   --accent: var(--theme-em-accent);
   --accent2: var(--theme-em-accent2);
+  --primary: var(--theme-em-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--theme-em-surface-elevated);
+  --secondary-foreground: var(--theme-em-text);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --muted-foreground: var(--theme-em-muted);
+  --accent-foreground: #ffffff;
+  --popover: var(--theme-em-surface);
+  --popover-foreground: var(--theme-em-text);
+  --card: var(--theme-em-surface);
+  --card-foreground: var(--theme-em-text);
+  --input: var(--theme-em-border);
+  --ring: var(--theme-em-accent);
+  --background: var(--theme-em-bg);
+  --foreground: var(--theme-em-text);
 }
 
-.app-layout.theme-realtor {
-  --bg: var(--theme-realtor-bg);
-  --surface: var(--theme-realtor-surface);
-  --surface-elevated: var(--theme-realtor-surface-elevated);
-  --border: var(--theme-realtor-border);
-  --text: var(--theme-realtor-text);
-  --muted: var(--theme-realtor-muted);
-  --accent: var(--theme-realtor-accent);
-  --accent2: var(--theme-realtor-accent2);
-}
 
 .app-layout.theme-admin {
   --bg: var(--theme-admin-bg);

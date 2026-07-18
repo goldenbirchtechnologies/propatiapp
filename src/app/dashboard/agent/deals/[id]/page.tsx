@@ -1,12 +1,61 @@
-import { prisma } from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
+import { DashboardShell } from '@/components/layout/DashboardShell';
+import { AGENT_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import AgentDealDetailClient from './AgentDealDetailClient';
 
-export default async function DealDetailPage({ params }: { params: { id: string } }) {
+export default async function DealDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect('/login');
+  }
+
+  const user = await getCurrentUserWithProfile();
+
+  if (!user || user.role !== 'agent') {
+    redirect('/dashboard');
+  }
+
   const deal = await prisma.transaction.findUnique({
     where: { id: params.id },
-    include: { listing: { select: { id: true, title: true, area: true } }, payer: { select: { fullName: true, email: true } } },
+    include: {
+      listing: { select: { id: true, title: true, area: true } },
+      payer: { select: { fullName: true, email: true } },
+    },
   });
-  if (!deal) redirect('/dashboard/agent/deals');
-  return <AgentDealDetailClient deal={{ ...deal, property: deal.listing?.title || 'Unknown', client: deal.payer?.fullName || 'Unknown', agent: '', value: Number(deal.amount) / 100, type: deal.type === 'sale' ? 'buy' : deal.type, createdAt: deal.createdAt.toISOString(), lastContact: deal.updatedAt.toISOString(), documents: [], timeline: [] }} />;
+
+  if (!deal || deal.agentId !== user.id) {
+    redirect('/dashboard/agent/deals');
+  }
+
+  const serialized = {
+    ...deal,
+    property: deal.listing?.title || 'Unknown',
+    client: deal.payer?.fullName || 'Unknown',
+    agent: '',
+    value: Number(deal.amount) / 100,
+    type: deal.type === 'sale' ? 'buy' : deal.type,
+    createdAt: deal.createdAt.toISOString(),
+    lastContact: deal.updatedAt.toISOString(),
+    documents: [],
+    timeline: [],
+  };
+
+  return (
+    <DashboardShell
+      navigation={AGENT_NAVIGATION}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
+      <AgentDealDetailClient deal={serialized} />
+    </DashboardShell>
+  );
 }

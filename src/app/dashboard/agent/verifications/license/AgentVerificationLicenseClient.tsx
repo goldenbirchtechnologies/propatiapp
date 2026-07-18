@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -268,7 +268,7 @@ export default function AgentVerificationLicenseClient() {
                             : 'bg-muted text-muted-foreground'
                       }`}
                     >
-                      <MaterialIcon name={step.status} className="material-symbols-outlined" />
+                      <AppIcon name={step.status} className="lucide" />
                     </div>
                     <div>
                       <p className="text-sm font-bold">{step.label}</p>

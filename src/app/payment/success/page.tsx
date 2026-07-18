@@ -1,7 +1,7 @@
 'use client'
 
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -58,7 +58,7 @@ export default function PaymentSuccessPage() {
               {NEXT_STEPS.map((step) => (
                 <li key={step} className="flex items-start gap-2">
                   <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  <MaterialIcon name={step} className="material-symbols-outlined" />
+                  <AppIcon name={step} className="lucide" />
                 </li>
               ))}
             </ul>

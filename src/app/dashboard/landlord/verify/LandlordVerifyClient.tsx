@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { Shield, FileText, CheckCircle, Clock, ArrowRight as ArrowRightIcon, Building2 as BuildingIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -102,8 +102,8 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   {/* Progress */}
                   <div className="mb-4">
                     <div className="text-on-surface-variant">
-                      <MaterialIcon name="Progress" className="material-symbols-outlined" />
-                      <MaterialIcon name="{progress}%" className="material-symbols-outlined" />
+                      <AppIcon name="Progress" className="lucide" />
+                      <AppIcon name="{progress}%" className="lucide" />
                     </div>
                     <div className="h-2 rounded-full bg-muted/30">
                       <div
@@ -136,7 +136,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                                   : 'bg-outline-variant text-on-surface-variant'
                             }
                           >
-                            {isApproved ? <CheckCircle className="w-4 h-4" /> : <MaterialIcon name={index + 1} className="material-symbols-outlined" />}
+                            {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-primary">

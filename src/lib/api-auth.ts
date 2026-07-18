@@ -70,7 +70,6 @@ export const requireAgent = requireRole(['agent', 'admin']);
 export const requireEstateManager = requireRole(['estate_manager', 'admin']);
 export const requireLandlord = requireRole(['landlord', 'admin']);
 export const requireTenant = requireRole(['tenant', 'admin']);
-export const requireRealtor = requireRole(['realtor', 'admin']);
 
 /**
  * Blocks admin-only fields from self-update routes. Intended for use in

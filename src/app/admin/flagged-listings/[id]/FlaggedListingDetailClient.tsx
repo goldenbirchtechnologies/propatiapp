@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
@@ -137,9 +137,9 @@ export default function FlaggedListingDetailClient({ listing }: { listing: Listi
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
         <Link href="/admin" className="hover:underline">Admin</Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <Link href="/admin/flagged-listings" className="hover:underline">Flagged Listings</Link>
-        <MaterialIcon name="/" className="material-symbols-outlined" />
+        <AppIcon name="/" className="lucide" />
         <span style={{ color: 'var(--text)' }} className="font-medium truncate">{listing.title}</span>
       </nav>
 

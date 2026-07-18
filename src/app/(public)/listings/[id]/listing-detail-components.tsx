@@ -1,6 +1,6 @@
 'use client'
 
-import MaterialIcon from '@/components/icons/material-icon';
+import AppIcon from '@/components/icons/app-icon';
 
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
@@ -262,8 +262,8 @@ export function OwnerCard({
               {name}
             </p>
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              {isAgent && <MaterialIcon name="Verified Agent" className="material-symbols-outlined" />}
-              {!isAgent && <MaterialIcon name="Property Owner" className="material-symbols-outlined" />}
+              {isAgent && <AppIcon name="Verified Agent" className="lucide" />}
+              {!isAgent && <AppIcon name="Property Owner" className="lucide" />}
               {isVerified && (
                 <CheckCircle className="h-3 w-3 text-green-500 ml-1" />
               )}

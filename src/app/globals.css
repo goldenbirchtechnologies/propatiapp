@@ -166,6 +166,23 @@
   --muted: var(--theme-landlord-muted);
   --accent: var(--theme-landlord-accent);
   --accent2: var(--theme-landlord-accent2);
+  --surface-variant: var(--theme-landlord-surface);
+  --surface-container: var(--theme-landlord-surface);
+  --surface-container-lowest: var(--theme-landlord-surface);
+  --surface-container-low: var(--theme-landlord-surface);
+  --surface-container-high: var(--theme-landlord-surface-elevated);
+  --surface-container-highest: var(--theme-landlord-surface-elevated);
+  --surface-dim: var(--theme-landlord-bg);
+  --surface-bright: var(--theme-landlord-surface-elevated);
+  --on-surface: var(--theme-landlord-text);
+  --on-surface-variant: var(--theme-landlord-muted);
+  --inverse-surface: var(--theme-landlord-text);
+  --inverse-on-surface: var(--theme-landlord-bg);
+  --outline: var(--theme-landlord-muted);
+  --outline-variant: var(--theme-landlord-border);
+  --primary-container: var(--theme-landlord-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-landlord-accent);
 }
 
 .app-layout.theme-tenant {
@@ -176,6 +193,24 @@
   --muted: var(--theme-tenant-muted);
   --accent: var(--theme-tenant-accent);
   --accent2: var(--theme-tenant-accent2);
+  --surface-variant: var(--theme-tenant-bg);
+  --surface-container: var(--theme-tenant-surface);
+  --surface-container-lowest: var(--theme-tenant-surface);
+  --surface-container-low: var(--theme-tenant-surface);
+  --surface-container-high: var(--theme-tenant-bg);
+  --surface-container-highest: var(--theme-tenant-bg);
+  --surface-dim: var(--theme-tenant-bg);
+  --surface-bright: var(--theme-tenant-surface);
+  --surface-elevated: var(--theme-tenant-surface);
+  --on-surface: var(--theme-tenant-text);
+  --on-surface-variant: var(--theme-tenant-muted);
+  --inverse-surface: #1a1a1a;
+  --inverse-on-surface: var(--theme-tenant-surface);
+  --outline: var(--theme-tenant-muted);
+  --outline-variant: var(--theme-tenant-border);
+  --primary-container: var(--theme-tenant-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-tenant-accent);
 }
 
 .app-layout.theme-agent {
@@ -186,6 +221,24 @@
   --muted: var(--theme-agent-muted);
   --accent: var(--theme-agent-accent);
   --accent2: var(--theme-agent-accent2);
+  --surface-variant: var(--theme-agent-surface);
+  --surface-container: var(--theme-agent-surface);
+  --surface-container-lowest: var(--theme-agent-bg);
+  --surface-container-low: var(--theme-agent-bg);
+  --surface-container-high: var(--theme-agent-surface);
+  --surface-container-highest: var(--theme-agent-surface);
+  --surface-dim: var(--theme-agent-bg);
+  --surface-bright: var(--theme-agent-surface);
+  --surface-elevated: var(--theme-agent-surface);
+  --on-surface: var(--theme-agent-text);
+  --on-surface-variant: var(--theme-agent-muted);
+  --inverse-surface: var(--theme-agent-text);
+  --inverse-on-surface: var(--theme-agent-bg);
+  --outline: var(--theme-agent-muted);
+  --outline-variant: var(--theme-agent-border);
+  --primary-container: var(--theme-agent-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-agent-accent);
 }
 
 .app-layout.theme-admin {
@@ -195,6 +248,24 @@
   --text: var(--theme-tenant-text);
   --muted: var(--theme-tenant-muted);
   --accent: var(--theme-admin-accent);
+  --surface-variant: var(--theme-admin-surface);
+  --surface-container: var(--theme-admin-surface);
+  --surface-container-lowest: var(--theme-admin-bg);
+  --surface-container-low: var(--theme-admin-bg);
+  --surface-container-high: var(--theme-admin-surface-elevated);
+  --surface-container-highest: var(--theme-admin-surface-elevated);
+  --surface-dim: var(--theme-admin-bg);
+  --surface-bright: var(--theme-admin-surface-elevated);
+  --surface-elevated: var(--theme-admin-surface-elevated);
+  --on-surface: var(--theme-admin-text);
+  --on-surface-variant: var(--theme-admin-muted);
+  --inverse-surface: var(--theme-admin-text);
+  --inverse-on-surface: var(--theme-admin-bg);
+  --outline: var(--theme-admin-muted);
+  --outline-variant: var(--theme-admin-border);
+  --primary-container: var(--theme-admin-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-admin-accent);
 }
 
 body.theme-estate-manager,
@@ -223,6 +294,23 @@ body.em-theme {
   --ring: var(--theme-em-accent);
   --background: var(--theme-em-bg);
   --foreground: var(--theme-em-text);
+  --surface-variant: var(--theme-em-surface);
+  --surface-container: var(--theme-em-surface);
+  --surface-container-lowest: var(--theme-em-surface);
+  --surface-container-low: var(--theme-em-bg);
+  --surface-container-high: var(--theme-em-surface-elevated);
+  --surface-container-highest: var(--theme-em-surface-elevated);
+  --surface-dim: var(--theme-em-bg);
+  --surface-bright: var(--theme-em-surface-elevated);
+  --on-surface: var(--theme-em-text);
+  --on-surface-variant: var(--theme-em-muted);
+  --inverse-surface: var(--theme-em-text);
+  --inverse-on-surface: var(--theme-em-bg);
+  --outline: var(--theme-em-muted);
+  --outline-variant: var(--theme-em-border);
+  --primary-container: var(--theme-em-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-em-accent);
 }
 
 
@@ -235,6 +323,23 @@ body.em-theme {
   --muted: var(--theme-admin-muted);
   --accent: var(--theme-admin-accent);
   --accent2: var(--theme-admin-accent2);
+  --surface-variant: var(--theme-admin-surface);
+  --surface-container: var(--theme-admin-surface);
+  --surface-container-lowest: var(--theme-admin-bg);
+  --surface-container-low: var(--theme-admin-bg);
+  --surface-container-high: var(--theme-admin-surface-elevated);
+  --surface-container-highest: var(--theme-admin-surface-elevated);
+  --surface-dim: var(--theme-admin-bg);
+  --surface-bright: var(--theme-admin-surface-elevated);
+  --on-surface: var(--theme-admin-text);
+  --on-surface-variant: var(--theme-admin-muted);
+  --inverse-surface: var(--theme-admin-text);
+  --inverse-on-surface: var(--theme-admin-bg);
+  --outline: var(--theme-admin-muted);
+  --outline-variant: var(--theme-admin-border);
+  --primary-container: var(--theme-admin-accent);
+  --on-primary-container: #ffffff;
+  --surface-tint: var(--theme-admin-accent);
 }
 
 html {
@@ -514,14 +619,14 @@ a:hover {
   top: 0;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #06203d 0%, #093057 100%);
-  color: #f8f6f0;
+  background: var(--surface);
+  color: var(--text);
   text-rendering: optimizeLegibility;
 }
 .sidebar .nav-item,
 .sidebar .sb-user-card,
 .sidebar .sb-footer {
-  color: rgba(248, 246, 240, 0.9);
+  color: var(--text);
 }
 
 .sidebar.collapsed {
@@ -533,7 +638,7 @@ a:hover {
 }
 
 .sb-user-card {
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid var(--border);
 }
 
 .sb-nav {
@@ -543,10 +648,10 @@ a:hover {
 }
 
 .sb-footer {
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--border);
   margin-top: auto;
   padding: 16px;
-  color: rgba(255,255,255,0.5);
+  color: var(--muted);
   font-size: 12px;
 }
 

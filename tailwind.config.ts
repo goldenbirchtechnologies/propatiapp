@@ -69,28 +69,28 @@ const config: Config = {
           foreground: 'hsl(var(--on-frozen))',
         },
 
-        // Reference surface tokens (RGB values match ui_design_reference)
-        'surface-variant': '#d2e4ff',
+        // Legacy surface tokens - now theme-driven via CSS variables
+        'surface-variant': 'hsl(var(--surface-variant))',
         surface: {
-          DEFAULT: '#f9f9ff',
-          dim: '#cfdaf2',
-          bright: '#f9f9ff',
+          DEFAULT: 'hsl(var(--surface))',
+          dim: 'hsl(var(--surface-dim))',
+          bright: 'hsl(var(--surface-bright))',
           container: {
-            lowest: '#ffffff',
-            low: '#f1f3ff',
-            DEFAULT: '#e8eeff',
-            high: '#e3e8f9',
-            highest: '#dde2f3',
+            lowest: 'hsl(var(--surface-container-lowest))',
+            low: 'hsl(var(--surface-container-low))',
+            DEFAULT: 'hsl(var(--surface-container))',
+            high: 'hsl(var(--surface-container-high))',
+            highest: 'hsl(var(--surface-container-highest))',
           },
-          variant: '#dde2f3',
-          tint: '#006b5b',
+          variant: 'hsl(var(--surface-variant))',
+          tint: 'hsl(var(--surface-tint))',
         },
         'on-surface': {
-          DEFAULT: '#161c27',
-          variant: '#43474d',
+          DEFAULT: 'hsl(var(--on-surface))',
+          variant: 'hsl(var(--on-surface-variant))',
         },
-        'inverse-surface': '#263143',
-        'inverse-on-surface': '#ecf1ff',
+        'inverse-surface': 'hsl(var(--inverse-surface))',
+        'inverse-on-surface': 'hsl(var(--inverse-on-surface))',
 
         // Reference primary / dark shell
         'primary-dark': '#000f22',
@@ -135,8 +135,8 @@ const config: Config = {
 
         // Outline
         outline: {
-          DEFAULT: '#74777e',
-          variant: '#c4c6ce',
+          DEFAULT: 'hsl(var(--outline))',
+          variant: 'hsl(var(--outline-variant))',
         },
 
         // Semantic feedback colors

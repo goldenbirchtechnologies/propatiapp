@@ -82,69 +82,63 @@ export default function MaintenanceDetailPage() {
   if (isLoading) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
-
         <ErrorBoundary>
-
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <Skeleton className="h-10 w-10 rounded-lg" />
-            <div className="space-y-2">
-              <Skeleton className="h-8 w-64" />
-              <Skeleton className="h-4 w-96" />
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-10 w-10 rounded-lg" />
+              <div className="space-y-2">
+                <Skeleton className="h-8 w-64" />
+                <Skeleton className="h-4 w-96" />
+              </div>
             </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              <Skeleton className="h-80 rounded-xl" />
+              <Skeleton className="h-80 rounded-xl" />
+            </div>
+            <Skeleton className="h-48 rounded-xl" />
           </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            <Skeleton className="h-80 rounded-xl" />
-            <Skeleton className="h-80 rounded-xl" />
-          </div>
-          <Skeleton className="h-48 rounded-xl" />
-        </div>
-      
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 
   if (error || !ticket) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
-
         <ErrorBoundary>
-
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => router.back()}>
-              <ArrowLeft className="h-4 w-4 mr-2" /> Back
-            </Button>
-            <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
-                Maintenance Request
-              </h1>
-            </div>
-          </div>
-          <Card className="border-destructive/30 bg-destructive/5">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-muted-foreground' }} />
-              <p className="font-medium" style={{ color: 'text-primary' }}>Unable to load maintenance request</p>
-              <p className="text-sm mt-1 mb-4" style={{ color: 'text-muted-foreground' }}>
-                {error instanceof Error ? error.message : 'Request not found or access denied.'}
-              </p>
-              <div className="flex gap-3">
-                <Button variant="outline" onClick={handleRetry}>
-                  <RefreshCw className="h-4 w-4 mr-2" /> Retry
-                </Button>
-                <Button asChild>
-                  <Link href="/dashboard/estate-manager/maintenance">
-                    <ArrowLeft className="h-4 w-4 mr-2" /> Back to Maintenance
-                  </Link>
-                </Button>
+          <div className="space-y-6">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="sm" onClick={() => router.back()}>
+                <ArrowLeft className="h-4 w-4 mr-2" /> Back
+              </Button>
+              <div>
+                <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
+                  Maintenance Request
+                </h1>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      
+            </div>
+            <Card className="border-destructive/30 bg-destructive/5">
+              <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-muted-foreground' }} />
+                <p className="font-medium" style={{ color: 'text-primary' }}>Unable to load maintenance request</p>
+                <p className="text-sm mt-1 mb-4" style={{ color: 'text-muted-foreground' }}>
+                  {error instanceof Error ? error.message : 'Request not found or access denied.'}
+                </p>
+                <div className="flex gap-3">
+                  <Button variant="outline" onClick={handleRetry}>
+                    <RefreshCw className="h-4 w-4 mr-2" /> Retry
+                  </Button>
+                  <Button asChild>
+                    <Link href="/dashboard/estate-manager/maintenance">
+                      <ArrowLeft className="h-4 w-4 mr-2" /> Back to Maintenance
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 

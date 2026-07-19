@@ -22,21 +22,18 @@ export default function EstateManagerLeaseNegotiationPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
-
         <ErrorBoundary>
-
-        <div className="space-y-6">
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Lease Negotiation</h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unable to load negotiation terms.</p>
-          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
-            <p className="text-destructive font-medium mb-1">Error</p>
-            <p className="text-sm text-muted-foreground mb-3">{error}</p>
-            <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
+          <div className="space-y-6">
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Lease Negotiation</h1>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unable to load negotiation terms.</p>
+            <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
+              <p className="text-destructive font-medium mb-1">Error</p>
+              <p className="text-sm text-muted-foreground mb-3">{error}</p>
+              <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
+            </div>
           </div>
-        </div>
-      
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 

@@ -13,26 +13,18 @@ export default function EstateManagerMoveInPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
-
         <ErrorBoundary>
-
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-primary">Move-in Coordination</h1>
-          <p className="text-muted-foreground">Unable to load move-in details.</p>
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <p className="text-red-800 font-medium">Error</p>
-            <p className="text-red-600 text-sm mt-1">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
-      
+          <section className="space-y-6">
+            <h1 className="text-3xl font-bold text-primary">Move-in Coordination</h1>
+            <p className="text-muted-foreground">Unable to load move-in details.</p>
+            <div className="rounded-lg border border-red-200 bg-red-50 p-6">
+              <p className="text-red-800 font-medium">Error</p>
+              <p className="text-red-600 text-sm mt-1">{error}</p>
+              <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Retry</button>
+            </div>
+          </section>
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 

@@ -101,25 +101,22 @@ export default function EstateManagerFinancialsPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
-
         <ErrorBoundary>
-
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Financials</h1>
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Profit and loss summary</p>
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Financials</h1>
+                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Profit and loss summary</p>
+              </div>
+            </div>
+            <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
+              <p className="text-destructive font-medium mb-1">Unable to load financials</p>
+              <p className="text-sm text-muted-foreground mb-3">{error.message}</p>
+              <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
             </div>
           </div>
-          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
-            <p className="text-destructive font-medium mb-1">Unable to load financials</p>
-            <p className="text-sm text-muted-foreground mb-3">{error.message}</p>
-            <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
-          </div>
-        </div>
-      
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 

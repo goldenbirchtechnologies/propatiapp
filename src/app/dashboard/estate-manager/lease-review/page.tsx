@@ -20,21 +20,18 @@ export default function EstateManagerLeaseReviewPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
-
         <ErrorBoundary>
-
-        <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
-          <p className="text-muted-foreground">Unable to load agreement.</p>
-          <div className="bg-destructive/10 rounded-xl border border-destructive/20 p-6">
-            <p className="text-destructive font-medium">Error</p>
-            <p className="text-destructive/80 text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90">Retry</button>
-          </div>
-        </section>
-      
+          <section className="space-y-6">
+            <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
+            <p className="text-muted-foreground">Unable to load agreement.</p>
+            <div className="bg-destructive/10 rounded-xl border border-destructive/20 p-6">
+              <p className="text-destructive font-medium">Error</p>
+              <p className="text-destructive/80 text-sm mt-1">{error}</p>
+              <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90">Retry</button>
+            </div>
+          </section>
         </ErrorBoundary>
-</DashboardShell>
+      </DashboardShell>
     );
   }
 

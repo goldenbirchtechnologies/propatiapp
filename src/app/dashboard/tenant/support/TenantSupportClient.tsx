@@ -39,7 +39,7 @@ export default function TenantSupportPage() {
             Access 24/7 support, track your requests, and manage your tenancy with Nigeria&apos;s most trusted property platform.
           </p>
           <div className="relative max-w-xl mx-auto">
-            <div className="flex items-center bg-card rounded-2xl shadow-xl border border-outline-variant p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
+            <div className="flex items-center bg-card rounded-2xl shadow-xl border border-border p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
               <Search className="w-5 h-5 text-on-surface-variant px-3" />
               <Input
                 placeholder="Search for payments, maintenance, lease terms..."
@@ -95,7 +95,7 @@ export default function TenantSupportPage() {
             {faqs.map((faq) => (
               <button
                 key={faq.q}
-                className="w-full p-4 rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors cursor-pointer flex items-center justify-between group text-left"
+                className="w-full p-4 rounded-xl border border-border hover:bg-surface-container-low transition-colors cursor-pointer flex items-center justify-between group text-left"
               >
                 <div className="flex items-center gap-3">
                   <svg className="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
@@ -117,7 +117,7 @@ export default function TenantSupportPage() {
               For immediate safety concerns, flooding, or security breaches, please use our priority emergency line.
             </p>
             <div className="mt-auto">
-              <Button className="w-full bg-destructive text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90">
+              <Button className="w-full bg-destructive text-foreground font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90">
                 <Phone className="w-4 h-4" /> Call Now
               </Button>
               <p className="text-center text-xs text-destructive/80 mt-3 font-mono">Available 24 hours a day, 7 days a week.</p>
@@ -129,24 +129,24 @@ export default function TenantSupportPage() {
       {/* Chat Widget */}
       <div className="fixed bottom-6 right-6 z-50">
         {chatOpen && (
-          <div className="mb-4 w-80 bg-card rounded-2xl shadow-2xl border border-outline-variant flex flex-col overflow-hidden animate-in">
-            <div className="bg-primary p-4 text-white flex items-center justify-between">
+          <div className="mb-4 w-80 bg-card rounded-2xl shadow-2xl border border-border flex flex-col overflow-hidden animate-in">
+            <div className="bg-primary p-4 text-foreground flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                 <span className="text-sm font-bold">Support Agent Online</span>
               </div>
-              <button onClick={() => setChatOpen(false)} className="text-white/70 hover:text-white">
+              <button onClick={() => setChatOpen(false)} className="text-foreground/70 hover:text-foreground">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
             <div className="p-4 bg-surface-container-low/30 space-y-3 overflow-y-auto max-h-64">
-              <div className="bg-card p-3 rounded-xl text-sm max-w-[85%] border border-outline-variant">
+              <div className="bg-card p-3 rounded-xl text-sm max-w-[85%] border border-border">
                 Hello! I&apos;m David from PROPATI Support. How can I assist you?
               </div>
             </div>
-            <div className="p-3 border-t border-outline-variant flex gap-2">
-              <Input placeholder="Type a message..." className="bg-card text-sm border-outline-variant" />
-              <Button size="icon" className="bg-primary text-white rounded-lg">
+            <div className="p-3 border-t border-border flex gap-2">
+              <Input placeholder="Type a message..." className="bg-card text-sm border-border" />
+              <Button size="icon" className="bg-primary text-foreground rounded-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
               </Button>
             </div>
@@ -154,7 +154,7 @@ export default function TenantSupportPage() {
         )}
         <Button
           onClick={() => setChatOpen(!chatOpen)}
-          className="flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-full shadow-xl hover:scale-105 transition-transform"
+          className="flex items-center gap-2 bg-primary text-foreground px-5 py-3 rounded-full shadow-xl hover:scale-105 transition-transform"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-4.72C3.512 14.042 3 12.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
           <span className="font-semibold text-sm">Chat with Support</span>

@@ -94,7 +94,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-heading text-lg font-semibold text-primary">Technician</h3>
-                <span className="px-3 py-1 bg-teal-500 text-white text-xs font-semibold rounded-full flex items-center gap-1">
+                <span className="px-3 py-1 bg-teal-500 text-foreground text-xs font-semibold rounded-full flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> VERIFIED
                 </span>
               </div>
@@ -205,7 +205,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <p className="text-sm text-muted-foreground max-w-md mx-auto mb-5">
             You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
-          <Button variant="outline" className="border-2 border-primary font-bold hover:bg-primary hover:text-white transition-all">
+          <Button variant="outline" className="border-2 border-primary font-bold hover:bg-primary hover:text-foreground transition-all">
             Reschedule Appointment
           </Button>
         </CardContent>

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft' },
+  draft: { class: 'bg-surface-container-low text-on-surface-variant border-border', label: 'Draft' },
   sent: { class: 'bg-blue-50 text-blue-700 border-blue-200', label: 'Sent' },
   paid: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Paid' },
   overdue: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Overdue' },

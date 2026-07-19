@@ -87,7 +87,7 @@ const statusConfig: Record<
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-surface-container-low text-on-surface-variant border-outline-variant',
+    className: 'bg-surface-container-low text-on-surface-variant border-border',
   },
 };
 
@@ -271,7 +271,7 @@ export default function TenantApplicationDetailClient({
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-headline-sm text-white"
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-headline-sm text-foreground"
                       style={{
                         background: `linear-gradient(135deg, var(--accent), var(--accent2))`, }}
                     >
@@ -382,7 +382,7 @@ export default function TenantApplicationDetailClient({
                     {initial.listing.images.map((img) => (
                       <div
                         key={img.id}
-                        className="rounded-xl overflow-hidden border border-outline-variant"
+                        className="rounded-xl overflow-hidden border border-border"
                       >
                         <img
                           src={img.url}

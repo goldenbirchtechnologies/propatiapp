@@ -181,7 +181,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
           ) : (
             <table className="w-full">
               <thead>
-                <tr className="border-b border-outline-variant">
+                <tr className="border-b border-border">
                   <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Date</th>
                   <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Type</th>
                   <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Property</th>
@@ -199,7 +199,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
           )}
         </div>
         {(hasNextPage || isFetchingNextPage) && (
-          <div className="p-4 border-t border-outline-variant">
+          <div className="p-4 border-t border-border">
             <Button
               variant="outline"
               onClick={handleLoadMore}
@@ -249,7 +249,7 @@ function TransactionRow({ transaction }: { transaction: unknown }) {
   }
 
   return (
-    <tr className="border-b border-outline-variant">
+    <tr className="border-b border-border">
       <td className="p-4 text-on-surface-variant">
         {format(new Date(transaction.createdAt), 'dd MMM yyyy')}
       </td>
@@ -287,7 +287,7 @@ function TransactionRow({ transaction }: { transaction: unknown }) {
 
 function TransactionRowSkeleton() {
   return (
-    <tr className="border-b animate-pulse border-outline-variant">
+    <tr className="border-b animate-pulse border-border">
       <td className="p-4"><div className="h-4 w-24 bg-surface-container" /></td>
       <td className="p-4"><div className="h-6 w-20 rounded bg-surface-container" /></td>
       <td className="p-4"><div className="h-4 w-32 bg-surface-container" /></td>

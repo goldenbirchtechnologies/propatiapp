@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
 
 const publicNavLinks = [
-  { href: '/search', label: 'Search' },
   { href: '/listings', label: 'Find Property' },
   { href: '/compare', label: 'Compare' },
 ];

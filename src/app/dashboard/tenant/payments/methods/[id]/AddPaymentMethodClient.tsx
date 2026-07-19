@@ -95,7 +95,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
           <Card>
             <CardContent className="p-6 md:p-8">
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-full bg-primary-dark text-white flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-primary text-foreground flex items-center justify-center">
                   <CreditCard className="w-5 h-5" />
                 </div>
                 <div>
@@ -156,7 +156,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                           style={{ filter: 'grayscale(1) opacity(0.5)' }}
                           src={networkIcons.mastercard.src}
                         />
-                        <div className="h-4 px-1 bg-primary-dark text-[8px] font-bold text-white rounded flex items-center justify-center">
+                        <div className="h-4 px-1 bg-primary text-[8px] font-bold text-foreground rounded flex items-center justify-center">
                           VERVE
                         </div>
                       </div>
@@ -169,7 +169,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         Expiry Date
                       </Label>
                       <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm">
                           <option value="">MM</option>
                           {months.map((m) => (
                             <option key={m} value={m}>
@@ -177,7 +177,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                             </option>
                           ))}
                         </select>
-                        <select className="h-11 px-3 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm">
                           <option value="">YY</option>
                           {years.map((y) => (
                             <option key={y} value={y}>
@@ -230,7 +230,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <select
                       value={selectedBank}
                       onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest appearance-none text-sm"
+                      className="w-full h-11 px-4 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm"
                     >
                       <option value="">Choose your bank</option>
                       {banks.map((b) => (
@@ -263,7 +263,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <Label className="font-label-md label-md text-on-surface-variant">
                       Account Name
                     </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-surface-container rounded-lg border border-outline-variant text-sm">
+                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-surface-container rounded-lg border border-border text-sm">
                       <span className={accountName.includes('Fetching') ? 'text-on-surface-variant' : 'text-primary font-semibold'}>
                         {accountName}
                       </span>
@@ -291,7 +291,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
         {/* Right: Security bento */}
         <div className="space-y-5">
-          <Card className="bg-surface-variant border-outline-variant">
+          <Card className="bg-surface-variant border-border">
             <CardContent className="p-6 flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-4">
                 <Lock className="w-7 h-7 text-primary" />
@@ -300,8 +300,8 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
               <p className="text-sm text-on-surface-variant">Your financial data is secured by 256-bit SSL encryption.</p>
             </CardContent>
           </Card>
-          <Card className="bg-muted border-outline-variant flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-outline-variant">
+          <Card className="bg-muted border-border flex items-center gap-4 p-5">
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-border">
               <Shield className="w-5 h-5 text-primary" />
             </div>
             <div>

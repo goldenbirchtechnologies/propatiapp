@@ -41,7 +41,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
       </div>
 
       <div className="card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-outline-variant">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-border">
           {['all', 'released', 'pending', 'failed'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'border-transparent hover:bg-muted/50')}>{f === 'released' ? 'Paid' : f}</button>
           ))}
@@ -55,7 +55,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-outline-variant">
+              <tr className="border-b border-border">
                 <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Reference</th>
                 <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Description</th>
                 <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Amount</th>
@@ -68,7 +68,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
               {filtered.map((r) => {
                 const sc = statusConfig[r.status] || statusConfig.pending;
                 return (
-                  <tr key={r.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
+                  <tr key={r.id} className="border-b transition-colors hover:bg-muted/30 border-border">
                     <td className="p-4 font-mono text-sm text-primary">{r.ref.slice(-8).toUpperCase()}</td>
                     <td className="p-4 text-sm text-primary">{r.title}</td>
                     <td className="p-4 text-sm font-medium text-right text-primary">₦{r.amount.toLocaleString()}</td>

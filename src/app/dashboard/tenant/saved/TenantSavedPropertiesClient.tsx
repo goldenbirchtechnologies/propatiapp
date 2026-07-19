@@ -47,7 +47,7 @@ interface TenantSavedPropertiesClientProps {
 // Skeleton Components
 function SkeletonPropertyCard() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden animate-pulse">
+    <div className="bg-surface-container-lowest rounded-lg border border-border overflow-hidden animate-pulse">
       <div className="aspect-video bg-surface-variant"></div>
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
@@ -100,7 +100,7 @@ function SavedPropertyCard({
   return (
     <div
       className={`bg-surface-container-lowest rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
-        selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-outline-variant'
+        selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-border'
       }`}
     >
       {/* Selection Checkbox */}
@@ -149,7 +149,7 @@ function SavedPropertyCard({
           {/* Verification Badge */}
           {property.listing.verified && (
             <div className="absolute bottom-3 left-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-white shadow-lg">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-foreground shadow-lg">
                 <AppIcon name="verified" className="lucide" />
                 Verified
               </span>
@@ -218,7 +218,7 @@ function SavedPropertyCard({
           </div>
 
           {/* Saved Date */}
-          <div className="flex items-center justify-between text-xs text-on-surface-variant pt-3 border-t border-outline-variant">
+          <div className="flex items-center justify-between text-xs text-on-surface-variant pt-3 border-t border-border">
             <span className="flex items-center gap-1">
               <AppIcon name="schedule" className="lucide" />
               Saved {new Date(property.savedAt).toLocaleDateString()}
@@ -243,7 +243,7 @@ function formatPrice(price: number): string {
 // Empty State Component
 function EmptyState() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-12 text-center">
+    <div className="bg-surface-container-lowest rounded-lg border border-border p-12 text-center">
       <AppIcon name="bookmark_remove" className="lucide" />
       <h3 className="font-headline-md font-bold text-on-surface mb-2">No Saved Properties</h3>
       <p className="text-on-surface-variant mb-6 max-w-md mx-auto">
@@ -251,7 +251,7 @@ function EmptyState() {
       </p>
       <Link
         href="/dashboard/tenant/search"
-        className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-foreground rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
       >
         <AppIcon name="search" className="lucide" />
         Browse Properties
@@ -395,7 +395,7 @@ export default function TenantSavedPropertiesClient({
 
         {/* Action Bar */}
         {!isLoading && properties.length > 0 && (
-          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
+          <div className="bg-surface-container-lowest rounded-lg border border-border p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
             {/* Selection */}
             <div className="flex items-center gap-3">
               <input
@@ -442,7 +442,7 @@ export default function TenantSavedPropertiesClient({
 
         {/* Filters Panel */}
         {showFilters && !isLoading && (
-          <div className="bg-surface-container-lowest rounded-lg border border-outline-variant p-4 md:p-6 mb-6">
+          <div className="bg-surface-container-lowest rounded-lg border border-border p-4 md:p-6 mb-6">
             <h3 className="font-headline-sm font-bold text-on-surface mb-4">Filter & Sort</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -454,7 +454,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.listingType}
                   onChange={e => setFilters({ ...filters, listingType: e.target.value })}
-                  className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Types</option>
                   <option value="rent">For Rent</option>
@@ -473,7 +473,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.propertyType}
                   onChange={e => setFilters({ ...filters, propertyType: e.target.value })}
-                  className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Properties</option>
                   <option value="apartment">Apartment</option>
@@ -493,7 +493,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.priceRange}
                   onChange={e => setFilters({ ...filters, priceRange: e.target.value })}
-                  className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Prices</option>
                   <option value="0-1000000">Under ₦1M</option>
@@ -511,7 +511,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.sortBy}
                   onChange={e => setFilters({ ...filters, sortBy: e.target.value })}
-                  className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="recent">Recently Saved</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -555,7 +555,7 @@ export default function TenantSavedPropertiesClient({
           <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 md:static md:transform-none md:mt-8">
             <button
               onClick={() => router.push(`/compare?ids=${[...selectedIds].join(',')}`)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-foreground rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
             >
               <AppIcon name="compare" className="lucide" />
               Compare {selectedIds.size} Properties
@@ -587,14 +587,14 @@ export default function TenantSavedPropertiesClient({
               value={noteText}
               onChange={e => setNoteText(e.target.value)}
               placeholder="Add your thoughts, reminders, or questions about this property..."
-              className="w-full px-4 py-3 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal resize-none"
+              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal resize-none"
               rows={5}
             />
 
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={saveNote}
-                className="flex-1 px-4 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-colors"
+                className="flex-1 px-4 py-3 bg-residential-teal text-foreground rounded-lg font-semibold hover:bg-residential-teal/90 transition-colors"
               >
                 Save Note
               </button>

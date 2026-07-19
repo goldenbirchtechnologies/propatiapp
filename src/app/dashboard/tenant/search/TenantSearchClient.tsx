@@ -44,6 +44,11 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
     propertyType: '',
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
+
+  const handleSave = (id: string) => {
+    setSavedIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+  };
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useListings({
     listingType: activePurpose as unknown,
@@ -120,7 +125,7 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
 
         {/* Filters */}
         {showFilters && (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-outline-variant">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-border">
             <Input
               placeholder="State"
               value={filters.state}
@@ -278,7 +283,14 @@ function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }
             {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
           </span>
           <Button variant="ghost" size="icon" className="bg-surface-container-lowest/90 hover:bg-surface-container-lowest">
-            <Heart className="w-4 h-4" />
+            <Heart
+              className="w-4 h-4"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSave((listing as { id: string }).id);
+              }}
+            />
           </Button>
         </div>
         <div className="absolute bottom-2 left-2 right-2 flex justify-end gap-2">

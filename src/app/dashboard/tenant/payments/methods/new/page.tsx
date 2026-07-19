@@ -100,7 +100,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   alt="Add Payment Method Modal Reference"
                   width={480}
                   height={360}
-                  className="rounded-lg border border-outline-variant"
+                  className="rounded-lg border border-border"
                 />
               </CardContent>
             </Card>

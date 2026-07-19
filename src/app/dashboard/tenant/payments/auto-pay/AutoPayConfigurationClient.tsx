@@ -70,7 +70,7 @@ export default function AutoPayConfigurationClient() {
       </div>
 
       {/* Master Toggle Card */}
-      <Card className="border-outline-variant">
+      <Card className="border-border">
         <CardContent className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-success-bright text-on-tertiary-fixed flex items-center justify-center">
@@ -127,7 +127,7 @@ export default function AutoPayConfigurationClient() {
                       className={`p-3 rounded-lg text-body-sm font-semibold transition-all border ${
                         opt.active
                           ? 'border-2 border-[#0a2540] bg-surface-container-low text-primary'
-                          : 'border border-outline-variant hover:border-primary'
+                          : 'border border-border hover:border-primary'
                       }`}
                     >
                       {opt.label}
@@ -152,7 +152,7 @@ export default function AutoPayConfigurationClient() {
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-heading-sm text-headline-sm"
+                    className="pl-10 pr-4 py-3 bg-surface-container-low border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-heading-sm text-headline-sm"
                   />
                 </div>
               </div>
@@ -183,24 +183,24 @@ export default function AutoPayConfigurationClient() {
           </Card>
 
           {/* Summary & Security */}
-          <Card className="bg-[#0a2540] text-white border-none shadow-xl relative overflow-hidden">
+          <Card className=" text-foreground border-none shadow-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#feae2c]/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
             <CardContent className="p-5 space-y-4 relative z-10">
               <div className="flex items-center gap-2">
                 <span className="lucide text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
                   verified_user
                 </span>
-                <span className="font-label-sm label-sm tracking-widest text-on-primary-container uppercase">
+                <span className="font-label-sm label-sm tracking-widest text-primary-foreground uppercase">
                   Secure Automation
                 </span>
               </div>
               <div className="space-y-1">
-                <p className="text-body-sm text-on-primary-container">Next scheduled payment</p>
+                <p className="text-body-sm text-primary-foreground">Next scheduled payment</p>
                 <p className="font-headline-md headline-md">₦450,000.00</p>
                 <p className="text-secondary-container font-bold text-body-md">September 27, 2023</p>
               </div>
               <div className="pt-3 border-t border-on-primary-container/20">
-                <p className="text-body-sm text-on-primary-container italic">
+                <p className="text-body-sm text-primary-foreground italic">
                   Payments are processed at 09:00 AM WAT. Ensure sufficient funds are available.
                 </p>
               </div>
@@ -209,7 +209,7 @@ export default function AutoPayConfigurationClient() {
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <Button className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
+            <Button className="w-full py-3 bg-primary text-foreground rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
               Save Configuration
             </Button>
             <Button variant="outline" className="w-full py-3 border border-outline text-on-surface-variant rounded-xl font-bold hover:bg-surface-variant transition-all">
@@ -220,7 +220,7 @@ export default function AutoPayConfigurationClient() {
       </div>
 
       {/* Info Footer */}
-      <footer className="mt-6 pt-4 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="mt-6 pt-4 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <AppIcon name="lock" className="lucide" />

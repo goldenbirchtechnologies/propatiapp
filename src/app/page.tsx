@@ -141,7 +141,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 w-full container">
+    <div className="min-h-screen theme-landing app-layout bg-background text-foreground antialiased selection:bg-primary/20 w-full container">
       {/* Top Navigation */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -381,60 +381,62 @@ export default function HomePage() {
             <div className="grid md:grid-cols-3 gap-6">
               {featuredListings.map((listing, i) => (
                 <FadeIn key={listing.title} delay={i * 0.1} y={20}>
-                  <article className="group bg-card rounded-2xl overflow-hidden border-border hover:shadow-card-hover transition-all duration-300 h-full flex flex-col cursor-pointer">
-                    <div className="relative h-64 overflow-hidden">
-                      <Image
-                        src={listing.img}
-                        alt={listing.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="absolute top-4 left-4 flex gap-2">
-                        <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full shadow-lg">
-                          {listing.type}
-                        </span>
+                  <Link key={listing.title} href={`/listings/${listing.id}`} className="contents">
+                    <article className="group bg-card rounded-2xl overflow-hidden border-border hover:shadow-card-hover transition-all duration-300 h-full flex flex-col cursor-pointer">
+                      <div className="relative h-64 overflow-hidden">
+                        <Image
+                          src={listing.img}
+                          alt={listing.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute top-4 left-4 flex gap-2">
+                          <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full shadow-lg">
+                            {listing.type}
+                          </span>
+                        </div>
+                        <div className="absolute top-4 right-4">
+                          <span className="px-3 py-1 bg-surface-elevated text-primary text-xs font-bold rounded-full shadow-lg">
+                            {listing.kind}
+                          </span>
+                        </div>
+                        <div className="absolute bottom-4 right-4 bg-surface-elevated/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-primary shadow">
+                          {listing.price}
+                        </div>
                       </div>
-                      <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-surface-elevated text-primary text-xs font-bold rounded-full shadow-lg">
-                          {listing.kind}
-                        </span>
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="font-heading font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
+                          {listing.title}
+                        </h3>
+                        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-5">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                          </svg>
+                          {listing.location}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border mt-auto">
+                          {listing.specs.map((s) => (
+                            <div key={s.icon} className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
+                              <AppIcon name={s.icon} className="lucide text-[16px]" />
+                              {s.val}
+                            </div>
+                          ))}
+                          <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                            <AppIcon name="arrow_forward" className="lucide text-[18px]" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="absolute bottom-4 right-4 bg-surface-elevated/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-primary shadow">
-                        {listing.price}
-                      </div>
-                    </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="font-heading font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {listing.title}
-                      </h3>
-                      <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-5">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                        </svg>
-                        {listing.location}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border mt-auto">
-                        {listing.specs.map((s) => (
-                          <div key={s.icon} className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
-                            <AppIcon name={s.icon} className="lucide text-[16px]" />
-                            {s.val}
-                          </div>
-                        ))}
-                        <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
-                          <AppIcon name="arrow_forward" className="lucide text-[18px]" />
-                        </button>
-                      </div>
-                    </div>
-                    {listing.verified && (
-                      <div className="px-6 pb-4">
-                        <span className="inline-flex items-center gap-1 text-xs text-green-700 font-semibold bg-green-50 px-2 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                          Verified Property
-                        </span>
-                      </div>
-                    )}
-                  </article>
+                      {listing.verified && (
+                        <div className="px-6 pb-4">
+                          <span className="inline-flex items-center gap-1 text-xs text-green-700 font-semibold bg-green-50 px-2 py-1 rounded-full">
+                            <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                            Verified Property
+                          </span>
+                        </div>
+                      )}
+                    </article>
+                  </Link>
                 </FadeIn>
               ))}
             </div>
@@ -612,10 +614,10 @@ export default function HomePage() {
             <div>
               <h4 className="font-heading font-bold text-foreground mb-4">Tenants</h4>
               <ul className="space-y-2.5 text-sm text-muted-foreground">
-                <li><Link href="/properties?purpose=rent" className="hover:text-primary transition-colors">Rent a Property</Link></li>
-                <li><Link href="/properties?purpose=buy" className="hover:text-primary transition-colors">Buy a Property</Link></li>
-                <li><Link href="/properties?purpose=short-let" className="hover:text-primary transition-colors">Short-let Stays</Link></li>
-                <li><Link href="/screening" className="hover:text-primary transition-colors">Tenant Screening</Link></li>
+                <li><Link href="/listings?listingType=rent" className="hover:text-primary transition-colors">Rent a Property</Link></li>
+                <li><Link href="/listings?listingType=sale" className="hover:text-primary transition-colors">Buy a Property</Link></li>
+                <li><Link href="/listings?listingType=short_let" className="hover:text-primary transition-colors">Short-let Stays</Link></li>
+                <li><Link href="/verification" className="hover:text-primary transition-colors">Tenant Screening</Link></li>
               </ul>
             </div>
 
@@ -624,7 +626,7 @@ export default function HomePage() {
               <ul className="space-y-2.5 text-sm text-muted-foreground">
                 <li><Link href="/dashboard/landlord" className="hover:text-primary transition-colors">List Property</Link></li>
                 <li><Link href="/verification" className="hover:text-primary transition-colors">Property Verification</Link></li>
-                <li><Link href="/rent-collection" className="hover:text-primary transition-colors">Rent Collection</Link></li>
+                <li><Link href="/dashboard/landlord/rent" className="hover:text-primary transition-colors">Rent Collection</Link></li>
                 <li><Link href="/agreements" className="hover:text-primary transition-colors">Digital Agreements</Link></li>
               </ul>
             </div>
@@ -632,10 +634,10 @@ export default function HomePage() {
             <div>
               <h4 className="font-heading font-bold text-foreground mb-4">Company</h4>
               <ul className="space-y-2.5 text-sm text-muted-foreground">
-                <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+                <li><Link href="/about-us" className="hover:text-primary transition-colors">About Us</Link></li>
                 <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
                 <li><Link href="/press" className="hover:text-primary transition-colors">Press</Link></li>
-                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
+                <li><Link href="/contact-us" className="hover:text-primary transition-colors">Contact</Link></li>
               </ul>
             </div>
           </div>
@@ -645,8 +647,8 @@ export default function HomePage() {
               © 2024 PROPATI Technologies Ltd. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-muted-foreground">
-              <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
-              <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
+              <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy</Link>
+              <Link href="/terms-of-agreement" className="hover:text-primary transition-colors">Terms</Link>
               <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
             </div>
           </div>

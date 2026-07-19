@@ -1,8 +1,12 @@
-const CACHE = 'propati-shell-v1';
-const ASSETS = ['/','/manifest.json','/icon-192.png','/icon-512.png','/favicon.ico'];
+/*! Propati shell cache — network-first, no-store safe.
+   Bump CACHE to invalidate all stored assets when changing strategy. */
+const CACHE = 'propati-shell-v2';
+const ASSETS = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png', '/favicon.ico'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(url => new Request(url, {{cache: 'reload'}}))).catch(() => self.skipWaiting())));
+  event.waitUntil(
+    caches.open(CACHE).then((cache) => cache.addAll(ASSETS).then(() => self.skipWaiting()))
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -12,11 +16,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
-  event.respondWith(caches.match(req).then(cached => cached || fetch(req).then(resp => {
-    if (resp && resp.status === 200) {
-      const clone = resp.clone();
-      caches.open(CACHE).then(c => c.put(req, clone));
-    }
-    return resp;
-  }).catch(() => cached || new Response('Offline', { status: 503 }))));
+
+  event.respondWith(
+    caches.match(req).then((cached) => {
+      const networkFetch = fetch(req).then((resp) => {
+        if (!resp || resp.status !== 200) return resp;
+
+        const cacheControl = resp.headers.get('cache-control') || '';
+        if (cacheControl.includes('no-store')) return resp;
+
+        const clone = resp.clone();
+        caches.open(CACHE).then((cache) => cache.put(req, clone));
+        return resp;
+      }).catch(() => cached || new Response('Offline', { status: 503 }));
+
+      return cached || networkFetch;
+    })
+  );
 });

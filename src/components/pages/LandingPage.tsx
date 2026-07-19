@@ -29,10 +29,12 @@ export function LandingPage() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               <Link href="/listings" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
-              <Link href="/about" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
+                Listings
+              </Link>
+              <Link href="/about-us" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
                 About
               </Link>
-              <Link href="/contact" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
+              <Link href="/contact-us" className="text-sm font-medium transition-colors hover:text-[var(--accent)]" style={{ color: 'var(--text)' }}>
                 Contact
               </Link>
             </div>
@@ -219,10 +221,10 @@ export function LandingPage() {
             <div>
               <h4 className="font-bold mb-4" style={{ color: 'var(--text)' }}>For Tenants</h4>
               <ul className="space-y-2 text-sm" style={{ color: 'var(--muted)' }}>
-                <li><Link href="/properties?purpose=rent" className="hover:text-[var(--accent)]">Rent a Property</Link></li>
-                <li><Link href="/properties?purpose=buy" className="hover:text-[var(--accent)]">Buy a Property</Link></li>
-                <li><Link href="/properties?purpose=short-let" className="hover:text-[var(--accent)]">Short-let Stays</Link></li>
-                <li><Link href="/screening" className="hover:text-[var(--accent)]">Tenant Screening</Link></li>
+                <li><Link href="/listings?listingType=rent" className="hover:text-[var(--accent)]">Rent a Property</Link></li>
+                <li><Link href="/listings?listingType=sale" className="hover:text-[var(--accent)]">Buy a Property</Link></li>
+                <li><Link href="/listings?listingType=short_let" className="hover:text-[var(--accent)]">Short-let Stays</Link></li>
+                <li><Link href="/verification" className="hover:text-[var(--accent)]">Tenant Screening</Link></li>
               </ul>
             </div>
             <div>
@@ -230,17 +232,17 @@ export function LandingPage() {
               <ul className="space-y-2 text-sm" style={{ color: 'var(--muted)' }}>
                 <li><Link href="/dashboard/landlord" className="hover:text-[var(--accent)]">List Property</Link></li>
                 <li><Link href="/verification" className="hover:text-[var(--accent)]">Property Verification</Link></li>
-                <li><Link href="/rent-collection" className="hover:text-[var(--accent)]">Rent Collection</Link></li>
+                <li><Link href="/dashboard/landlord/rent" className="hover:text-[var(--accent)]">Rent Collection</Link></li>
                 <li><Link href="/agreements" className="hover:text-[var(--accent)]">Digital Agreements</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4" style={{ color: 'var(--text)' }}>Company</h4>
               <ul className="space-y-2 text-sm" style={{ color: 'var(--muted)' }}>
-                <li><Link href="/about" className="hover:text-[var(--accent)]">About Us</Link></li>
+                <li><Link href="/about-us" className="hover:text-[var(--accent)]">About Us</Link></li>
                 <li><Link href="/careers" className="hover:text-[var(--accent)]">Careers</Link></li>
                 <li><Link href="/press" className="hover:text-[var(--accent)]">Press</Link></li>
-                <li><Link href="/contact" className="hover:text-[var(--accent)]">Contact</Link></li>
+                <li><Link href="/contact-us" className="hover:text-[var(--accent)]">Contact</Link></li>
               </ul>
             </div>
           </div>
@@ -250,8 +252,8 @@ export function LandingPage() {
                 © 2024 PROPATI. All rights reserved.
               </p>
               <div className="flex items-center gap-6">
-                <Link href="/privacy" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Privacy</Link>
-                <Link href="/terms" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Terms</Link>
+                <Link href="/privacy-policy" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Privacy</Link>
+                <Link href="/terms-of-agreement" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Terms</Link>
                 <Link href="/cookies" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Cookies</Link>
               </div>
             </div>

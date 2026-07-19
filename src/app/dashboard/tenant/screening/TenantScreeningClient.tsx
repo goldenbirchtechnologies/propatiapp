@@ -40,7 +40,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
       </div>
 
       <div className="card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-outline-variant">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-border">
           {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize border transition-colors ${filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'hover:bg-muted/50'}`}>{f}</button>
           ))}
@@ -54,7 +54,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-outline-variant">
+              <tr className="border-b border-border">
                 <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Landlord</th>
                 <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Property</th>
                 <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
@@ -66,7 +66,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
               {filtered.map((s) => {
                 const sc = statusConfig[s.status] || statusConfig.scheduled;
                 return (
-                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
+                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-border">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <div className="$1 $2"><User className="w-4 h-4" /></div>

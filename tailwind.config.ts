@@ -19,78 +19,78 @@ const config: Config = {
     },
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground)',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: 'var(--accent)',
+          foreground: 'var(--accent-foreground)',
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: 'var(--popover)',
+          foreground: 'var(--popover-foreground)',
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
         },
         verification: {
-          basic: 'hsl(var(--verification-basic))',
-          verified: 'hsl(var(--verification-verified))',
-          inspected: 'hsl(var(--verification-inspected))',
-          certified: 'hsl(var(--verification-certified))',
+          basic: 'var(--verification-basic)',
+          verified: 'var(--verification-verified)',
+          inspected: 'var(--verification-inspected)',
+          certified: 'var(--verification-certified)',
         },
         'success-bright': '#71fbc0',
         success: {
-          DEFAULT: 'hsl(var(--success))',
+          DEFAULT: 'var(--success)',
           bright: '#50dea5',
         },
-        warning: 'hsl(var(--warning))',
+        warning: 'var(--warning)',
         frozen: {
-          DEFAULT: 'hsl(var(--frozen))',
-          foreground: 'hsl(var(--on-frozen))',
+          DEFAULT: 'var(--frozen)',
+          foreground: 'var(--on-frozen)',
         },
 
         // Legacy surface tokens - now theme-driven via CSS variables
-        'surface-variant': 'hsl(var(--surface-variant))',
+        'surface-variant': 'var(--surface-variant)',
         surface: {
-          DEFAULT: 'hsl(var(--surface))',
-          dim: 'hsl(var(--surface-dim))',
-          bright: 'hsl(var(--surface-bright))',
+          DEFAULT: 'var(--surface)',
+          dim: 'var(--surface-dim)',
+          bright: 'var(--surface-bright)',
           container: {
-            lowest: 'hsl(var(--surface-container-lowest))',
-            low: 'hsl(var(--surface-container-low))',
-            DEFAULT: 'hsl(var(--surface-container))',
-            high: 'hsl(var(--surface-container-high))',
-            highest: 'hsl(var(--surface-container-highest))',
+            lowest: 'var(--surface-container-lowest)',
+            low: 'var(--surface-container-low)',
+            DEFAULT: 'var(--surface-container)',
+            high: 'var(--surface-container-high)',
+            highest: 'var(--surface-container-highest)',
           },
-          variant: 'hsl(var(--surface-variant))',
-          tint: 'hsl(var(--surface-tint))',
+          variant: 'var(--surface-variant)',
+          tint: 'var(--surface-tint)',
         },
         'on-surface': {
-          DEFAULT: 'hsl(var(--on-surface))',
-          variant: 'hsl(var(--on-surface-variant))',
+          DEFAULT: 'var(--on-surface)',
+          variant: 'var(--on-surface-variant)',
         },
-        'inverse-surface': 'hsl(var(--inverse-surface))',
-        'inverse-on-surface': 'hsl(var(--inverse-on-surface))',
+        'inverse-surface': 'var(--inverse-surface)',
+        'inverse-on-surface': 'var(--inverse-on-surface)',
 
         // Reference primary / dark shell
         'primary-dark': '#000f22',
@@ -135,8 +135,8 @@ const config: Config = {
 
         // Outline
         outline: {
-          DEFAULT: 'hsl(var(--outline))',
-          variant: 'hsl(var(--outline-variant))',
+          DEFAULT: 'var(--outline)',
+          variant: 'var(--outline-variant)',
         },
 
         // Semantic feedback colors

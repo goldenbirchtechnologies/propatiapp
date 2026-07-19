@@ -27,7 +27,7 @@ export default function TenantMaintenanceClient({ initialTickets }: { initialTic
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full">
-            <thead><tr className="border-b border-outline-variant">
+            <thead><tr className="border-b border-border">
               <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Title</th>
               <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Priority</th>
               <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
@@ -35,7 +35,7 @@ export default function TenantMaintenanceClient({ initialTickets }: { initialTic
             </tr></thead>
             <tbody>
               {initialTickets.map((t) => (
-                <tr key={t.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
+                <tr key={t.id} className="border-b transition-colors hover:bg-muted/30 border-border">
                   <td className="p-4 font-medium text-sm text-primary">{t.title}</td>
                   <td className="p-4 text-sm capitalize text-primary">{t.priority}</td>
                   <td className="p-4 text-sm capitalize text-on-surface-variant">{t.status}</td>

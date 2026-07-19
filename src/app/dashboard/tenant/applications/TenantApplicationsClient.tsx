@@ -40,7 +40,7 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
   under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
   accepted: { label: 'Accepted', className: 'bg-success/10 text-success border-success-bright/20' },
   rejected: { label: 'Not Successful', className: 'bg-destructive/10 text-destructive border-destructive/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-border' },
 };
 
 export default function TenantApplicationsClient({ applications: initial }: { applications: Application[] }) {

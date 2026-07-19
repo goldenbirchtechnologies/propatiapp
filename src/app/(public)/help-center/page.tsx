@@ -57,7 +57,7 @@ export default function HelpCenterPage() {
               <Link href="/guides" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Guides
               </Link>
-              <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/contact-us" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Contact Us
               </Link>
               <Link href="/resources" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">

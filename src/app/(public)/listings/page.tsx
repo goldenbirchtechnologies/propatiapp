@@ -606,6 +606,7 @@ function ListingsPageInner() {
                       key={property.id}
                       {...property}
                       onSave={handleSaveProperty}
+                      onClick={() => router.push(`/listings/${property.id}`)}
                     />
                   ))}
                 </div>

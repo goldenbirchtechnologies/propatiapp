@@ -63,7 +63,7 @@ export default function PaymentSuccessPage() {
       {/* Transaction Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Main Summary Card */}
-        <div className="md:col-span-7 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant flex flex-col justify-between">
+        <div className="md:col-span-7 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-border flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-5">
               <div>
@@ -77,7 +77,7 @@ export default function PaymentSuccessPage() {
                 Verified
               </div>
             </div>
-            <div className="space-y-3 border-t border-outline-variant pt-5">
+            <div className="space-y-3 border-t border-border pt-5">
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Payment Method</span>
                 <div className="flex items-center gap-2 font-semibold">
@@ -96,7 +96,7 @@ export default function PaymentSuccessPage() {
             </div>
           </div>
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <Button className="flex-1 items-center justify-center gap-2 bg-primary-container text-white hover:bg-primary transition-all active:scale-95">
+            <Button className="flex-1 items-center justify-center gap-2 bg-primary-container text-foreground hover:bg-primary transition-all active:scale-95">
               <Download className="w-4 h-4" /> Download Receipt
             </Button>
             <Link href="/dashboard/tenant" className="flex-1">
@@ -115,14 +115,14 @@ export default function PaymentSuccessPage() {
                 Payment Breakdown
               </h4>
               <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-outline-variant/30">
+                <div className="flex justify-between items-center py-2 border-b border-border/30">
                   <div className="flex flex-col">
                     <span className="font-semibold text-primary">Q4 Rent (Oct - Dec)</span>
                     <span className="text-body-sm text-on-surface-variant">Prime Apartments, Unit 4B</span>
                   </div>
                   <span className="font-medium">₦1,200,000.00</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-outline-variant/30">
+                <div className="flex justify-between items-center py-2 border-b border-border/30">
                   <span className="text-on-surface-variant">Service Charge</span>
                   <span className="font-medium">₦200,000.00</span>
                 </div>
@@ -134,7 +134,7 @@ export default function PaymentSuccessPage() {
             </CardContent>
           </Card>
 
-          <div className="relative overflow-hidden rounded-xl h-32 border border-outline-variant cursor-pointer group">
+          <div className="relative overflow-hidden rounded-xl h-32 border border-border cursor-pointer group">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
               style={{
@@ -143,7 +143,7 @@ export default function PaymentSuccessPage() {
               }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 text-white">
+            <div className="absolute bottom-4 left-4 text-foreground">
               <p className="text-label-sm uppercase tracking-wider opacity-80">Connected Property</p>
               <h5 className="font-bold">The Lux Apartments, Ikoyi</h5>
             </div>
@@ -188,7 +188,7 @@ export default function PaymentSuccessPage() {
       </div>
 
       {/* Footer */}
-      <div className="text-center p-6 border-t border-outline-variant">
+      <div className="text-center p-6 border-t border-border">
         <p className="text-sm text-muted-foreground">
           You will be redirected to your Property Dashboard in{' '}
           <span className="font-bold text-primary">{countdown}s</span>
@@ -199,7 +199,7 @@ export default function PaymentSuccessPage() {
       </div>
 
       {/* Trust Footer */}
-      <footer className="pt-5 border-t border-outline-variant flex flex-col items-center gap-4">
+      <footer className="pt-5 border-t border-border flex flex-col items-center gap-4">
         <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
           <div className="flex items-center gap-1">
             <AppIcon name="security" className="lucide" />

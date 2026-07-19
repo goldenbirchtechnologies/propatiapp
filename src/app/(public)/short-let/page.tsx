@@ -4,6 +4,7 @@ import AppIcon from '@/components/icons/app-icon';
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -149,36 +150,38 @@ export default function ShortLetListingsPage() {
           {!loading && listings.length > 0 && (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {listings.map((item) => (
-                <article key={item.id} className="rounded-2xl border border-outline-variant bg-surface-elevated shadow-sm transition hover:shadow-md">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-slate-100">
-                    {item.image ? (
-                      <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-slate-400">No image</div>
-                    )}
-                    <span className="absolute left-3 top-3 rounded-full bg-surface-elevated px-2 py-1 text-xs font-semibold capitalize text-foreground">short let</span>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
+                <Link key={item.id} href={`/short-let/${item.id}`} className="contents">
+                  <article className="rounded-2xl border border-outline-variant bg-surface-elevated shadow-sm transition hover:shadow-md">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-slate-100">
+                      {item.image ? (
+                        <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-slate-400">No image</div>
+                      )}
+                      <span className="absolute left-3 top-3 rounded-full bg-surface-elevated px-2 py-1 text-xs font-semibold capitalize text-foreground">short let</span>
                     </div>
-                    <p className="mt-1 flex items-center gap-1 text-sm text-slate-600">
-                      <SearchIcon className="h-3.5 w-3.5" /> {item.location}
-                    </p>
-                    {(item.beds || item.baths) && (
-                      <p className="mt-1 text-xs text-slate-500">
-                        {(item.beds ? `${item.beds} bed` : '')}{(item.beds && item.baths) ? ' · ' : ''}{item.baths ? `${item.baths} bath` : ''}
-                      </p>
-                    )}
-                    <div className="mt-3 flex items-end justify-between">
-                      <div>
-                        <span className="text-lg font-semibold text-slate-900">₦{Number(item.pricePerNight).toLocaleString()}</span>
-                        <span className="text-sm text-slate-500"> / night</span>
+                    <div className="p-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
                       </div>
-                      <Button size="sm">Book now</Button>
+                      <p className="mt-1 flex items-center gap-1 text-sm text-slate-600">
+                        <SearchIcon className="h-3.5 w-3.5" /> {item.location}
+                      </p>
+                      {(item.beds || item.baths) && (
+                        <p className="mt-1 text-xs text-slate-500">
+                          {(item.beds ? `${item.beds} bed` : '')}{(item.beds && item.baths) ? ' · ' : ''}{item.baths ? `${item.baths} bath` : ''}
+                        </p>
+                      )}
+                      <div className="mt-3 flex items-end justify-between">
+                        <div>
+                          <span className="text-lg font-semibold text-slate-900">₦{Number(item.pricePerNight).toLocaleString()}</span>
+                          <span className="text-sm text-slate-500"> / night</span>
+                        </div>
+                        <Button size="sm">Book now</Button>
+                      </div>
                     </div>
-                  </div>
-                </article>
+                  </article>
+                </Link>
               ))}
             </div>
           )}

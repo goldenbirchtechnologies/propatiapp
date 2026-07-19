@@ -158,7 +158,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                 <User className="w-10 h-10 text-on-surface-variant" />
               )}
             </div>
-            <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest border-outline-variant">
+            <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest border-border">
               <Camera className="w-4 h-4 text-primary" />
             </button>
           </div>

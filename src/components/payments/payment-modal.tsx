@@ -138,7 +138,7 @@ export function PaymentModal({
               className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               I agree to the{' '}
-              <a href="/terms" target="_blank" className="text-primary underline">
+              <a href="/terms-of-agreement" target="_blank" className="text-primary underline">
                 terms and conditions
               </a>{' '}
               and understand that this payment will be held in escrow until the transaction is completed.

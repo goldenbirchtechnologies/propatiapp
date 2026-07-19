@@ -308,7 +308,12 @@ export default function ComparePage() {
                   const cardProps = toCardProps(property);
                   return (
                     <div key={property.id} className="relative group">
-                      <PropertyCard {...cardProps} />
+                      <PropertyCard
+                        {...cardProps}
+                        onClick={() => {
+                          if (property.id) router.push(`/listings/${property.id}`);
+                        }}
+                      />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
                         <Button
                           onClick={() => handleAddProperty(property)}

@@ -52,7 +52,7 @@ export default function AutomatedMonthlyStatementClient() {
       </nav>
 
       {/* Top Toolbar Actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-outline-variant pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-4">
         <div className="flex items-center gap-4">
           <FileText className="w-5 h-5 text-primary" />
           <h2 className="font-heading text-headline-lg text-primary">Statement Details</h2>
@@ -74,9 +74,9 @@ export default function AutomatedMonthlyStatementClient() {
       </div>
 
       {/* A4 Report Layout */}
-      <div className="bg-surface-container-lowest p-6 md:p-10 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
+      <div className="bg-surface-container-lowest p-6 md:p-10 rounded-xl border border-border shadow-sm flex flex-col gap-6 overflow-hidden relative max-w-4xl mx-auto">
         {/* Branding & Period */}
-        <div className="flex flex-col md:flex-row justify-between items-start border-b border-outline-variant pb-5 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start border-b border-border pb-5 gap-4">
           <div>
             <h1 className="font-headline-md headline-md font-bold text-primary tracking-tight">PROPATI</h1>
             <p className="font-label-sm label-sm text-[#835500] uppercase tracking-widest mt-1">
@@ -100,7 +100,7 @@ export default function AutomatedMonthlyStatementClient() {
 
         {/* Summary Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2 bg-primary-dark text-white p-5 rounded-xl flex flex-col justify-between shadow-lg">
+          <div className="md:col-span-2 bg-primary text-foreground p-5 rounded-xl flex flex-col justify-between shadow-lg">
             <div>
               <p className="font-label-sm opacity-70 mb-2">TOTAL AMOUNT DUE</p>
               <h3 className="font-headline-xl headline-xl">₦ 1,450,000.00</h3>
@@ -117,14 +117,14 @@ export default function AutomatedMonthlyStatementClient() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="bg-surface-container-high p-4 rounded-xl border border-outline-variant flex flex-col items-center justify-center text-center">
+            <div className="bg-surface-container-high p-4 rounded-xl border border-border flex flex-col items-center justify-center text-center">
               <p className="font-label-sm text-on-surface-variant mb-2 uppercase">Payment Status</p>
               <div className="px-3 py-1 bg-warning/10 text-warning rounded-full flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
                 <span className="font-label-md label-md">Awaiting Payment</span>
               </div>
             </div>
-            <div className="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+            <div className="bg-surface-container-low p-4 rounded-xl border border-border">
               <div className="flex items-center gap-2 mb-1">
                 <AppIcon name="domain" className="lucide" />
                 <span className="font-label-sm text-on-surface-variant uppercase text-xs">
@@ -143,7 +143,7 @@ export default function AutomatedMonthlyStatementClient() {
             <AppIcon name="analytics" className="lucide" />
             Statement Ledger
           </h4>
-          <div className="overflow-hidden border border-outline-variant rounded-xl">
+          <div className="overflow-hidden border border-border rounded-xl">
             <table className="w-full text-left border-collapse">
               <thead className="bg-surface-container-highest text-on-surface font-label-md label-md">
                 <tr>
@@ -154,7 +154,7 @@ export default function AutomatedMonthlyStatementClient() {
               </thead>
               <tbody className="font-body-sm">
                 {ledgerRows.map((row, i) => (
-                  <tr key={i} className="border-b border-outline-variant even:bg-[#f9f9ff]">
+                  <tr key={i} className="border-b border-border even:bg-[#f9f9ff]">
                     <td className="p-3">
                       <p className="font-bold">{row.desc}</p>
                       <p className="text-xs text-on-surface-variant">{row.sub}</p>
@@ -174,7 +174,7 @@ export default function AutomatedMonthlyStatementClient() {
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-primary-dark text-white font-bold">
+              <tfoot className="bg-primary text-foreground font-bold">
                 <tr>
                   <td className="p-3 text-right font-headline-sm" colspan="2">Total Current Charges</td>
                   <td className="p-3 text-right font-headline-sm">₦ 1,450,000.00</td>
@@ -186,13 +186,13 @@ export default function AutomatedMonthlyStatementClient() {
 
         {/* History Sparkline / Mini-Table */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          <div className="p-5 bg-surface-container-low border border-outline-variant rounded-xl">
+          <div className="p-5 bg-surface-container-low border border-border rounded-xl">
             <h5 className="font-label-md text-on-surface-variant mb-3">PAYMENT HISTORY (LAST 3)</h5>
             <div className="space-y-2">
               {paymentHistory.map((item, i) => (
                 <div
                   key={i}
-                  className={`flex justify-between items-center pb-2 ${i < paymentHistory.length - 1 ? 'border-b border-dashed border-outline-variant' : ''}`}
+                  className={`flex justify-between items-center pb-2 ${i < paymentHistory.length - 1 ? 'border-b border-dashed border-border' : ''}`}
                 >
                   <div>
                     <p className="text-xs font-bold">{item.statement}</p>
@@ -204,7 +204,7 @@ export default function AutomatedMonthlyStatementClient() {
             </div>
           </div>
 
-          <div className="p-5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col justify-center items-center text-center">
+          <div className="p-5 bg-surface-container-lowest border border-border rounded-xl flex flex-col justify-center items-center text-center">
             <div className="w-12 h-12 mb-3 bg-tertiary-container rounded-full flex items-center justify-center">
               <FileText className="w-6 h-6 text-tertiary-fixed" style={{ fontVariationSettings: "'FILL' 1" }} />
             </div>
@@ -216,7 +216,7 @@ export default function AutomatedMonthlyStatementClient() {
         </div>
 
         {/* Report Footer */}
-        <footer className="mt-auto pt-5 border-t border-outline-variant flex flex-col md:flex-row justify-between items-end gap-4">
+        <footer className="mt-auto pt-5 border-t border-border flex flex-col md:flex-row justify-between items-end gap-4">
           <div className="max-w-md">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="w-4 h-4 text-[#009e6f]" />

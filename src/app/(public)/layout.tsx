@@ -12,19 +12,11 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, isLoaded } = useAuth();
+  const { userId, isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
 
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col h-full bg-background">
 
       {/* Page Content */}
       <main className="flex-1">
@@ -32,7 +24,7 @@ export default function PublicLayout({
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-12 bg-muted/30">
+      <footer className="border-t py-12 bg-muted/30 mt-auto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
@@ -48,7 +40,7 @@ export default function PublicLayout({
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/listings?listingType=rent" className="hover:text-foreground transition-colors">Rent Apartments</Link></li>
                 <li><Link href="/listings?listingType=short_let" className="hover:text-foreground transition-colors">Short Let</Link></li>
-                <li><Link href="/dashboard/search" className="hover:text-foreground transition-colors">Tenant Dashboard</Link></li>
+                <li><Link href="/dashboard/tenant" className="hover:text-foreground transition-colors">Tenant Dashboard</Link></li>
               </ul>
             </nav>
             <nav>

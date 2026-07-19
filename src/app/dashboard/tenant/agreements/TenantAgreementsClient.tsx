@@ -68,7 +68,7 @@ const statusConfig: Record<
   string,
   { class: string; label: string; icon: React.ReactNode }
 > = {
-  draft: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Draft', icon: <FileText className="w-3 h-3 mr-1" /> },
+  draft: { class: 'bg-surface-container-low text-on-surface-variant border-border', label: 'Draft', icon: <FileText className="w-3 h-3 mr-1" /> },
   pending_landlord: {
     class: 'bg-primary/10 text-primary border-primary/30',
     label: 'Pending Landlord',
@@ -91,7 +91,7 @@ const statusConfig: Record<
     icon: <CheckCircle2 className="w-3 h-3 mr-1" />,
   },
   terminated: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Terminated', icon: <XCircle className="w-3 h-3 mr-1" /> },
-  expired: { class: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: 'Expired', icon: <AlertTriangle className="w-3 h-3 mr-1" /> },
+  expired: { class: 'bg-surface-container-low text-on-surface-variant border-border', label: 'Expired', icon: <AlertTriangle className="w-3 h-3 mr-1" /> },
 };
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -297,7 +297,7 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
       </div>
 
       {/* Actions + Signatures row */}
-      <div className="border-t px-5 py-3 flex flex-wrap items-center justify-between gap-2 border-outline-variant">
+      <div className="border-t px-5 py-3 flex flex-wrap items-center justify-between gap-2 border-border">
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href={`/dashboard/tenant/agreements/${agreement.id}`}
@@ -336,7 +336,7 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
                     className={cn(
                       'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0',
                       sig
-                        ? 'bg-success text-white'
+                        ? 'bg-success text-foreground'
                         : 'bg-muted text-muted-foreground'
                     )}
                   >

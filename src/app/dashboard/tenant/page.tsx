@@ -52,59 +52,59 @@ export default async function TenantDashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">
-                Welcome back, <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">{displayName}</span>
+              <h1 className="text-3xl font-extrabold tracking-tight">
+                Welcome back, <span className="text-primary">{displayName}</span>
               </h1>
-              <p className="text-zinc-400 text-sm mt-1">Track your tenancy, payments, and saved properties.</p>
+              <p className="text-muted-foreground text-sm mt-1">Track your tenancy, payments, and saved properties.</p>
             </div>
           </header>
 
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Saved Properties</p>
-                <p className="text-2xl font-extrabold text-white font-mono">{savedCount}</p>
+                <p className="text-xs text-muted-foreground font-medium mb-1">Saved Properties</p>
+                <p className="text-2xl font-extrabold font-mono">{savedCount}</p>
               </CardContent>
             </Card>
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Active Agreements</p>
-                <p className="text-2xl font-extrabold text-white font-mono">{activeAgreementCount}</p>
+                <p className="text-xs text-muted-foreground font-medium mb-1">Active Agreements</p>
+                <p className="text-2xl font-extrabold font-mono">{activeAgreementCount}</p>
               </CardContent>
             </Card>
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Transactions</p>
-                <p className="text-2xl font-extrabold text-white font-mono">{recentTransactions.length}</p>
+                <p className="text-xs text-muted-foreground font-medium mb-1">Transactions</p>
+                <p className="text-2xl font-extrabold font-mono">{recentTransactions.length}</p>
               </CardContent>
             </Card>
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Role</p>
-                <p className="text-lg font-bold text-emerald-400 capitalize">Tenant</p>
+                <p className="text-xs text-muted-foreground font-medium mb-1">Role</p>
+                <p className="text-lg font-bold text-primary capitalize">Tenant</p>
               </CardContent>
             </Card>
           </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-white text-base">Recent Agreements</CardTitle>
+                <CardTitle className="text-base">Recent Agreements</CardTitle>
               </CardHeader>
               <CardContent>
                 {recentAgreements.length === 0 ? (
-                  <p className="text-zinc-400 text-sm py-6 text-center">No agreements yet.</p>
+                  <p className="text-muted-foreground text-sm py-6 text-center">No agreements yet.</p>
                 ) : (
                   <div className="space-y-3">
                     {recentAgreements.map((agreement) => (
                       <Link
                         key={agreement.id}
                         href={`/dashboard/tenant/agreements/${agreement.id}`}
-                        className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-4 transition hover:border-emerald-500/30"
+                        className="flex items-center justify-between rounded-xl border border-border p-4 transition hover:border-primary"
                       >
                         <div>
-                          <p className="text-sm font-semibold text-white">{agreement.listing?.title || 'Unknown listing'}</p>
-                          <p className="text-xs text-zinc-400">{agreement.listing?.address || ''}</p>
+                          <p className="text-sm font-semibold">{agreement.listing?.title || 'Unknown listing'}</p>
+                          <p className="text-xs text-muted-foreground">{agreement.listing?.address || ''}</p>
                         </div>
                         <Badge variant="secondary" className="text-[11px] capitalize">
                           {agreement.status.replace('_', ' ')}
@@ -116,25 +116,25 @@ export default async function TenantDashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-[#0e1726] border-white/5">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-white text-base">Recent Payments</CardTitle>
+                <CardTitle className="text-base">Recent Payments</CardTitle>
               </CardHeader>
               <CardContent>
                 {recentTransactions.length === 0 ? (
-                  <p className="text-zinc-400 text-sm py-6 text-center">No payments yet.</p>
+                  <p className="text-muted-foreground text-sm py-6 text-center">No payments yet.</p>
                 ) : (
                   <div className="space-y-3">
                     {recentTransactions.map((tx) => (
                       <div
                         key={tx.id}
-                        className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-4"
+                        className="flex items-center justify-between rounded-xl border border-border p-4"
                       >
                         <div>
-                          <p className="text-sm font-semibold text-white capitalize">{tx.type.replace('_', ' ')}</p>
-                          <p className="text-xs text-zinc-400 capitalize">{tx.status.replace('_', ' ')}</p>
+                          <p className="text-sm font-semibold capitalize">{tx.type.replace('_', ' ')}</p>
+                          <p className="text-xs text-muted-foreground capitalize">{tx.status.replace('_', ' ')}</p>
                         </div>
-                        <p className="text-sm font-mono text-zinc-300">{formatCurrency(Number(tx.amount))}</p>
+                        <p className="text-sm font-mono">{formatCurrency(Number(tx.amount))}</p>
                       </div>
                     ))}
                   </div>

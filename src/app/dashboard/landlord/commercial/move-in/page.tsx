@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,6 +33,9 @@ export default async function CommercialMoveInPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <section>
           <h1 className="text-2xl font-bold text-foreground">Move-In Coordination — Commercial</h1>
@@ -82,6 +86,8 @@ export default async function CommercialMoveInPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

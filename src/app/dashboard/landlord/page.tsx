@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -47,6 +48,9 @@ export default async function LandlordDashboardPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="dashboard-content-area fade-up">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -143,6 +147,8 @@ export default async function LandlordDashboardPage() {
           </div>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

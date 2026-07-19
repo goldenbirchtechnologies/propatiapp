@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -140,6 +141,9 @@ export default function WalletPage() {
 
   return (
     <DashboardShell navigation={navItems} userRole="wallet" userName={userName} userAvatar={user?.imageUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="wallet-shell max-w-5xl space-y-4">
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -342,7 +346,9 @@ export default function WalletPage() {
           </div>
         )}
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

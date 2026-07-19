@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,9 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
       userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Tenant'}
       userAvatar={user?.imageUrl}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
           <div className="flex items-center gap-3">
@@ -119,6 +123,8 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
           </div>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
@@ -69,6 +70,9 @@ export default async function AdminUsersManagementPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <UsersManagementClient
         users={users}
         totalUsers={totalUsers}
@@ -80,7 +84,9 @@ export default async function AdminUsersManagementPage({
         roleFilter={roleFilter}
         statusFilter={statusFilter}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

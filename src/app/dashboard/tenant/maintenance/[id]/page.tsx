@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import TenantMaintenanceTrackingClient from './TenantMaintenanceTrackingClient';
 
@@ -21,7 +22,12 @@ export default async function Page(props: { params: { id: string } }) {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <TenantMaintenanceTrackingClient requestId={id} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

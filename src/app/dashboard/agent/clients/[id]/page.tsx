@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AgentClientDetailClient from './AgentClientDetailClient';
@@ -82,7 +83,12 @@ export default async function AgentClientDetailPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AgentClientDetailClient client={{ ...client, deals }} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

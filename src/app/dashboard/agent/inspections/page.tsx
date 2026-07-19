@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AgentInspectionsClient from './AgentInspectionsClient';
@@ -43,7 +44,12 @@ export default async function AgentInspectionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AgentInspectionsClient initialInspections={initialInspections as unknown} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

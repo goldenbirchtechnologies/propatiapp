@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
         })
       : [];
 
-    const messages = conversations.flatMap((c) =>
+    const messages = (conversations || []).flatMap((c) =>
       c.messages.map((m) => ({
         messageId: m.id,
         conversationId: c.id,

@@ -1,6 +1,7 @@
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import EstateManagerBillingClient from './EstateManagerBillingClient';
@@ -39,7 +40,12 @@ export default async function EstateManagerBillingPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <EstateManagerBillingClient initialBills={bills as unknown} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

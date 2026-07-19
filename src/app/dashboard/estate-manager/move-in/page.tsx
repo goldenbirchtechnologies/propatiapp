@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Inbox, Zap, CalendarClock, FileText, Phone, MessageSquare, ClipboardList, Info, Wifi } from 'lucide-react';
 
@@ -12,6 +13,9 @@ export default function EstateManagerMoveInPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
+
+        <ErrorBoundary>
+
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-primary">Move-in Coordination</h1>
           <p className="text-muted-foreground">Unable to load move-in details.</p>
@@ -26,12 +30,17 @@ export default function EstateManagerMoveInPage() {
             </button>
           </div>
         </section>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-primary">Move-in Coordination Hub</h1>
@@ -209,7 +218,9 @@ export default function EstateManagerMoveInPage() {
           </div>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

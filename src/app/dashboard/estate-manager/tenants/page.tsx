@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Users, Search, Filter } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -79,6 +80,9 @@ export default function EstateManagerTenantsPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Tenants</h1>
@@ -90,7 +94,9 @@ export default function EstateManagerTenantsPage() {
             <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
           </div>
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
@@ -120,6 +126,9 @@ export default function EstateManagerTenantsPage() {
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -247,6 +256,8 @@ export default function EstateManagerTenantsPage() {
           </div>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

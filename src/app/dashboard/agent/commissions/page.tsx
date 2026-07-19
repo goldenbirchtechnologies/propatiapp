@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AgentCommissionsClient from './AgentCommissionsClient';
@@ -84,6 +85,9 @@ export default async function AgentCommissionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AgentCommissionsClient
         initialCommissions={commissions as unknown}
         totalEarned={totalEarned}
@@ -93,6 +97,8 @@ export default async function AgentCommissionsPage() {
           window.location.reload();
         }}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

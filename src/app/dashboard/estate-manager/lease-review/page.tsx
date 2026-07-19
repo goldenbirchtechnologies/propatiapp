@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { FileText, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
 
@@ -19,6 +20,9 @@ export default function EstateManagerLeaseReviewPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
+
+        <ErrorBoundary>
+
         <section className="space-y-6">
           <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
           <p className="text-muted-foreground">Unable to load agreement.</p>
@@ -28,12 +32,17 @@ export default function EstateManagerLeaseReviewPage() {
             <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90">Retry</button>
           </div>
         </section>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -101,6 +110,8 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 
 export default async function AdminVerificationPage() {
   const user = await getCurrentUserWithProfile();
@@ -29,6 +30,9 @@ export default async function AdminVerificationPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -91,6 +95,8 @@ export default async function AdminVerificationPage() {
           )}
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

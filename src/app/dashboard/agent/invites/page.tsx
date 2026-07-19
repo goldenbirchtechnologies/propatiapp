@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentInvitationCard from '@/components/agent-invites/AgentInvitationCard';
 
@@ -16,6 +17,9 @@ export default async function AgentInvitesPage() {
 
   return (
     <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName={user.fullName}>
+
+      <ErrorBoundary>
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
         <div>
           <h3 className="font-heading text-headline-lg text-primary">Invitations</h3>
@@ -23,6 +27,8 @@ export default async function AgentInvitesPage() {
         </div>
         <AgentInvitationCard email={user.email ?? ''} />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

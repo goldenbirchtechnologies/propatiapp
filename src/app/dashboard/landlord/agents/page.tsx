@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import AgentInviteManagementClient from './AgentInviteManagementClient';
 
@@ -16,6 +17,9 @@ export default async function LandlordAgentsPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName}>
+
+      <ErrorBoundary>
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
         <div className="flex items-end justify-between">
           <div>
@@ -25,6 +29,8 @@ export default async function LandlordAgentsPage() {
         </div>
         <AgentInviteManagementClient />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

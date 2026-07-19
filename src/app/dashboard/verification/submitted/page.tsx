@@ -9,6 +9,7 @@ import {
   ACCOUNTANT_NAVIGATION,
 } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import VerificationSubmittedClient from './VerificationSubmittedClient';
 
 export const dynamic = 'force-dynamic';
@@ -47,6 +48,9 @@ export default async function VerificationSubmittedPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
@@ -58,6 +62,8 @@ export default async function VerificationSubmittedPage({
         </div>
         <VerificationSubmittedClient listingId={listingId || null} layer={layer || '1'} />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import AdminDashboardClient from './AdminDashboardClient';
 
 export default async function AdminDashboardPage() {
@@ -22,7 +23,12 @@ export default async function AdminDashboardPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AdminDashboardClient userName={displayName} userAvatar={user.avatarUrl || undefined} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

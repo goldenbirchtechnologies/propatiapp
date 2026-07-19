@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import AutomatedMonthlyStatementClient from '@/app/dashboard/tenant/payments/statements/AutomatedMonthlyStatementClient';
 
@@ -12,7 +13,12 @@ export default async function AdminStatementsPage() {
   if (!user || user.role !== 'admin') redirect('/dashboard');
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <AutomatedMonthlyStatementClient />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

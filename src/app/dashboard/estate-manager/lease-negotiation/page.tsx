@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Gavel, FileText, CheckCircle2, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,9 @@ export default function EstateManagerLeaseNegotiationPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Lease Negotiation</h1>
           <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unable to load negotiation terms.</p>
@@ -30,12 +34,17 @@ export default function EstateManagerLeaseNegotiationPage() {
             <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
           </div>
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -105,6 +114,8 @@ export default function EstateManagerLeaseNegotiationPage() {
           </div>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

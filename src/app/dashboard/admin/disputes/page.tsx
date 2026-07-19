@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import Link from 'next/link';
 
@@ -17,6 +18,9 @@ export default async function AdminDisputesPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Disputes</h1>
         <p className="text-muted-foreground">Resolve transaction disputes.</p>
@@ -51,6 +55,8 @@ export default async function AdminDisputesPage() {
           </div>
         )}
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

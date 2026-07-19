@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AppIcon from '@/components/icons/app-icon';
@@ -72,12 +73,17 @@ export default async function AdminAuditLogsPagePage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AuditLogsClient
         logs={mapped}
         adminUsers={adminUsers}
         stats={{ todayCount, suspiciousCount, adminActionCount }}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

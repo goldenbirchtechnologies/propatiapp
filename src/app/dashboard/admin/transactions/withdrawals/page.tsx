@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 
@@ -73,6 +74,9 @@ export default async function AdminWithdrawalsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <WithdrawalsClient
         stats={{
           releasedAmount,
@@ -84,7 +88,9 @@ export default async function AdminWithdrawalsPage() {
         }}
         transactions={recentTransactions}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import RevenueSignatureClient from './RevenueSignatureClient';
 
@@ -158,11 +159,16 @@ export default async function RevenueSignaturePage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <RevenueSignatureClient
         {...data}
         hasRealData={!!activeOrg && totalRevenue > 0}
         orgName={activeOrg?.name}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

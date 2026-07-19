@@ -9,6 +9,7 @@ import {
   ACCOUNTANT_NAVIGATION,
 } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationStep3VideoClient from './VerificationStep3VideoClient';
 
@@ -77,6 +78,9 @@ export default async function VerificationStep3VideoPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
@@ -95,6 +99,8 @@ export default async function VerificationStep3VideoPage({
           l2Status={verification?.l2Status || null}
         />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

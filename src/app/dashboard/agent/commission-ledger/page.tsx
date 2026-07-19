@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +23,9 @@ export default function CommissionLedgerPage() {
   const formatAmount = (v: number | string | bigint) => new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(v));
   return (
     <DashboardShell navigation={[{label:'Dashboard',href:'/dashboard/agent'},{label:'Commissions',href:'/dashboard/agent/commissions'},{label:'Commission Ledger',href:'/dashboard/agent/commission-ledger'}]} userRole="agent" userName="Agent">
+
+      <ErrorBoundary>
+
       <Card>
         <CardHeader><CardTitle>Commission ledger</CardTitle></CardHeader>
         <CardContent>
@@ -44,6 +48,8 @@ export default function CommissionLedgerPage() {
           </div>
         </CardContent>
       </Card>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

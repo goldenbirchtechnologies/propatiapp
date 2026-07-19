@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { BarChart3, TrendingUp, Download, Loader2 } from 'lucide-react';
 
@@ -90,6 +91,9 @@ export default function EstateManagerReportsPage() {
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager">
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -226,6 +230,8 @@ export default function EstateManagerReportsPage() {
           </table>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

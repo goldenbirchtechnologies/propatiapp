@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { AlertTriangle } from 'lucide-react';
@@ -79,6 +80,9 @@ export default async function AdminEscrowTransactionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <EscrowClient
         stats={{
           gtv,
@@ -91,7 +95,9 @@ export default async function AdminEscrowTransactionsPage() {
         escrowed={recentEscrowed}
         disputed={recentDisputed}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldLabel } from '@/components/ui/field';
@@ -30,6 +31,9 @@ function DisbursementsForm() {
   }
   return (
     <DashboardShell navigation={[{label:'Dashboard',href:'/dashboard/estate-manager'},{label:'Disbursements',href:'/dashboard/estate-manager/disbursements'}]} userRole="estate_manager" userName="Manager">
+
+      <ErrorBoundary>
+
       <Card className="max-w-xl">
         <CardHeader><CardTitle>Disburse to landlord</CardTitle></CardHeader>
         <CardContent>
@@ -41,7 +45,9 @@ function DisbursementsForm() {
           </form>
         </CardContent>
       </Card>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

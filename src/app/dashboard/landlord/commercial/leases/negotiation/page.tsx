@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,6 +35,9 @@ export default async function CommercialLeaseNegotiationPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <section>
           <h1 className="text-2xl font-bold text-foreground">Lease Negotiation Workspace</h1>
@@ -78,6 +82,8 @@ export default async function CommercialLeaseNegotiationPage() {
           </div>
         )}
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

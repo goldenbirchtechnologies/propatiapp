@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Download, Filter, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 
@@ -100,6 +101,9 @@ export default function EstateManagerFinancialsPage() {
   if (error) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -113,7 +117,9 @@ export default function EstateManagerFinancialsPage() {
             <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
           </div>
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
@@ -121,6 +127,9 @@ export default function EstateManagerFinancialsPage() {
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -315,6 +324,8 @@ export default function EstateManagerFinancialsPage() {
           </>
         ) : null}
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

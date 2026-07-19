@@ -2,6 +2,7 @@
 
 import { useUser } from '@clerk/nextjs';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,9 @@ export default function overduepaymentnoticepropatifinancialsPage() {
       userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Tenant'}
       userAvatar={user?.imageUrl}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
           <h1 className="text-2xl font-bold text-foreground">Overdue Payment Notice Financials</h1>
@@ -49,6 +53,8 @@ export default function overduepaymentnoticepropatifinancialsPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

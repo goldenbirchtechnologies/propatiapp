@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import {
 
@@ -316,6 +317,9 @@ export default async function EstateManagerDashboardPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <div className="dashboard-content-area fade-up">
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 overflow-hidden">
         {/* Glow Orb Background */}
@@ -837,7 +841,9 @@ export default async function EstateManagerDashboardPage() {
         </section>
       </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }
 

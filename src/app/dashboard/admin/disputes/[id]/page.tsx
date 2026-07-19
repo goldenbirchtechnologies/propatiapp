@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import Link from 'next/link';
 
@@ -12,16 +13,24 @@ export default async function AdminDisputeDetailPage({ params }: { params: { id:
   if (!tx || tx.confirmationStatus !== 'disputed') {
     return (
       <DashboardShell navigation={ADMIN_NAVIGATION}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <h1 className="text-2xl font-bold">Dispute not found</h1>
           <Link href="/dashboard/admin/disputes" className="text-blue-600 underline">Back to disputes</Link>
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <div>
@@ -54,6 +63,8 @@ export default async function AdminDisputeDetailPage({ params }: { params: { id:
           <Link href={`/api/admin/deal/${tx.id}`} className="px-4 py-2 bg-destructive text-white rounded-lg">Cancel deal / refund</Link>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

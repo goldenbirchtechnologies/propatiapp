@@ -110,6 +110,7 @@ export default function UnitDetailPage() {
   if (loading) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+        <ErrorBoundary>
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Skeleton className="h-10 w-10 rounded-lg" />
@@ -124,6 +125,7 @@ export default function UnitDetailPage() {
           </div>
           <Skeleton className="h-64 rounded-xl" />
         </div>
+        </ErrorBoundary>
       </DashboardShell>
     );
   }

@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import GlobalSettingsClient from './GlobalSettingsClient';
 
 export default async function AdminGlobalSettingsPage() {
@@ -22,7 +23,12 @@ export default async function AdminGlobalSettingsPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <GlobalSettingsClient />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

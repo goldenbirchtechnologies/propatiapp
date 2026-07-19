@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import AdminFlagsClient from './AdminFlagsClient';
 
 export default async function AdminFlagsPage() {
@@ -32,7 +33,12 @@ export default async function AdminFlagsPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <AdminFlagsClient flags={flags} />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

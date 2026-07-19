@@ -53,7 +53,7 @@ function AgentsPageInner() {
   }, []);
 
   const specialties = useMemo(() => {
-    const set = new Set<string>(ALL_AGENTS.flatMap((a) => a.specialty));
+    const set = new Set<string>((ALL_AGENTS || []).flatMap((a) => a.specialty));
     return Array.from(set).sort();
   }, []);
 

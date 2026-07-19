@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import ScenarioBuilderClient from './ScenarioBuilderClient';
 
@@ -103,11 +104,16 @@ export default async function ScenarioBuilderPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <ScenarioBuilderClient
         scenarios={monthlyScenarios.length > 0 ? monthlyScenarios : fallbackScenarios}
         hasRealData={!!activeOrg && totalUnits > 0}
         orgName={activeOrg?.name}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

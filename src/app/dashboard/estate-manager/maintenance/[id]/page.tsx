@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -81,6 +82,9 @@ export default function MaintenanceDetailPage() {
   if (isLoading) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Skeleton className="h-10 w-10 rounded-lg" />
@@ -95,13 +99,18 @@ export default function MaintenanceDetailPage() {
           </div>
           <Skeleton className="h-48 rounded-xl" />
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
   if (error || !ticket) {
     return (
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+        <ErrorBoundary>
+
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={() => router.back()}>
@@ -133,7 +142,9 @@ export default function MaintenanceDetailPage() {
             </CardContent>
           </Card>
         </div>
-      </DashboardShell>
+      
+        </ErrorBoundary>
+</DashboardShell>
     );
   }
 
@@ -141,6 +152,9 @@ export default function MaintenanceDetailPage() {
 
   return (
     <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
@@ -291,6 +305,8 @@ export default function MaintenanceDetailPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

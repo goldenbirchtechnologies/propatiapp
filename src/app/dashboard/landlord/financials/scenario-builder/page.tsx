@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -114,6 +115,9 @@ export default async function LandlordScenarioBuilderPage() {
 
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Advanced Scenario Builder</h1>
@@ -176,6 +180,8 @@ export default async function LandlordScenarioBuilderPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

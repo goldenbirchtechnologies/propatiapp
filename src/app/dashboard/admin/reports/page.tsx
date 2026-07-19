@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { buildCSV, buildPDFBuffer, type ReportSummary } from '@/lib/reports-service';
 
@@ -145,6 +146,9 @@ export default function AdminReportsPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION}>
+
+      <ErrorBoundary>
+
       <section className="space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -302,6 +306,8 @@ export default function AdminReportsPage() {
           </div>
         )}
       </section>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

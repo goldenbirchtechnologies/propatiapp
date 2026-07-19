@@ -2,6 +2,7 @@
 
 import { useUser } from '@clerk/nextjs';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,9 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
       userName={(user?.fullName as string | undefined) || (user?.firstName as string) || 'Estate_manager'}
       userAvatar={user?.imageUrl}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
           <h1 className="text-2xl font-bold text-foreground">Refined Revenue Forecasting Advanced Scenario Builder Owner Console</h1>
@@ -52,6 +56,8 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
           </CardContent>
         </Card>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

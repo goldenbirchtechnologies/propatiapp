@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentPipelineClient from './AgentPipelineClient';
 
@@ -189,6 +190,9 @@ export default async function AgentPipelinePage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <AgentPipelineClient
         initialData={{
           stages,
@@ -201,6 +205,8 @@ export default async function AgentPipelinePage() {
           },
         }}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

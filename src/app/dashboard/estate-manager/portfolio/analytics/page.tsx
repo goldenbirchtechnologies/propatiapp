@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import PortfolioAnalyticsClient from './PortfolioAnalyticsClient';
 
@@ -118,11 +119,16 @@ export default async function PortfolioAnalyticsPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <PortfolioAnalyticsClient
         {...data}
         hasRealData={!!activeOrg && totalUnits > 0}
         orgName={activeOrg?.name}
       />
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

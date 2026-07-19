@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { formatCurrency, parseKoboToNaira } from '@/lib/utils';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import Link from 'next/link';
 
 export default async function AdminPaymentsPage() {
@@ -29,6 +30,9 @@ export default async function AdminPaymentsPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Payments</h1>
@@ -94,6 +98,8 @@ export default async function AdminPaymentsPage() {
           )}
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

@@ -9,6 +9,7 @@ import {
   ACCOUNTANT_NAVIGATION,
 } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationChecklistClient from './VerificationChecklistClient';
 
@@ -80,6 +81,9 @@ export default async function VerificationChecklistPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
@@ -106,6 +110,8 @@ export default async function VerificationChecklistPage({
           reviewedAt={verification?.reviewedAt || null}
         />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

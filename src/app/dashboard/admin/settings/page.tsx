@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 
 export default async function AdminSettingsPage() {
   const user = await getCurrentUserWithProfile();
@@ -20,6 +21,9 @@ export default async function AdminSettingsPage() {
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={displayName} userAvatar={user.avatarUrl || undefined}>
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Settings</h1>
@@ -49,6 +53,8 @@ export default async function AdminSettingsPage() {
           <p className="text-muted-foreground">Platform settings will appear here.</p>
         </div>
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import DashboardShell from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -21,6 +22,9 @@ export default function ManagedCollectionsPage() {
   const formatAmount = (v: number | bigint) => new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(v));
   return (
     <DashboardShell navigation={[{label:'Dashboard',href:'/dashboard/estate-manager'},{label:'Managed Collections',href:'/dashboard/estate-manager/collections'}]} userRole="estate_manager" userName="Manager">
+
+      <ErrorBoundary>
+
       <Card>
         <CardHeader>
           <CardTitle>Managed collections</CardTitle>
@@ -48,6 +52,8 @@ export default function ManagedCollectionsPage() {
           </div>
         </CardContent>
       </Card>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

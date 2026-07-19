@@ -9,6 +9,7 @@ import {
   ACCOUNTANT_NAVIGATION,
 } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationStep4InspectionClient from './VerificationStep4InspectionClient';
 
@@ -83,6 +84,9 @@ export default async function VerificationStep4InspectionPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
+
+      <ErrorBoundary>
+
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
@@ -108,6 +112,8 @@ export default async function VerificationStep4InspectionPage({
           l3Status={verification?.l3Status || null}
         />
       </div>
-    </DashboardShell>
+    
+      </ErrorBoundary>
+</DashboardShell>
   );
 }

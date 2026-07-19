@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Phone, CheckCircle, XCircle, Clock, User, Shield } from 'lucide-react';
 
@@ -26,7 +27,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>Screening Calls</h1>
+        <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>Screening Calls</h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>View landlord and tenant screening results</p>
       </div>
 
@@ -47,9 +48,10 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
         </div>
         {filtered.length === 0 ? (
           <div className="card-body text-center py-16">
-            <Phone className="$1 $2" style={{ opacity: 0.5 }} />
+            <Phone className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.5 }} />
             <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No screenings yet</h3>
-            <p  className="text-on-surface-variant">Screening requests will appear here.</p>
+            <p className="text-on-surface-variant">Screening requests will appear here.</p>
+            <Button variant="default" className="mt-4">Schedule a Screening</Button>
           </div>
         ) : (
           <table className="w-full">
@@ -69,7 +71,9 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
                   <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-border">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="$1 $2"><User className="w-4 h-4" /></div>
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent/10 text-accent" style={{ flexShrink: 0 }}>
+                          <User className="w-4 h-4" />
+                        </div>
                         <span className="font-medium text-sm text-primary">{s.landlord}</span>
                       </div>
                     </td>

@@ -123,7 +123,7 @@ function StatCard({
 function EmptyState({ filter }: { filter: string }) {
   return (
     <div className="card p-12 text-center">
-      <Bell className="$1 $2" style={{ opacity: 0.4 }} />
+      <Bell className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
         {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
       </h3>
@@ -354,9 +354,7 @@ function PageHeader() {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1
-          className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}
-        >
+        <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           Notifications
         </h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>

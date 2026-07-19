@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
 export default async function TenantMessagesPage() {
@@ -19,7 +20,9 @@ export default async function TenantMessagesPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
+      <ErrorBoundary>
+        <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

@@ -29,7 +29,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>Receipts</h1>
+        <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>Receipts</h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>Download rental and transaction receipts</p>
       </div>
 
@@ -48,7 +48,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
         </div>
         {filtered.length === 0 ? (
           <div className="card-body text-center py-16">
-            <Receipt className="$1 $2" style={{ opacity: 0.5 }} />
+            <Receipt className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.5 }} />
             <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No receipts yet</h3>
             <p  className="text-on-surface-variant">Purchase history will appear here.</p>
           </div>

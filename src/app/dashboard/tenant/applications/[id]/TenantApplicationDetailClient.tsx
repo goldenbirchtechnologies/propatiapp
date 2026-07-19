@@ -157,7 +157,7 @@ export default function TenantApplicationDetailClient({
           </Button>
           <div>
             <h1
-              className="$1 $2" style={{ fontSize: 'var(--text-page-title)', }}
+              className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}
             >
               Application Details
             </h1>
@@ -404,7 +404,7 @@ export default function TenantApplicationDetailClient({
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                   <ImageIcon
-                    className="$1 $2" style={{ opacity: 0.4 }}
+                    className="text-on-surface-variant" style={{ opacity: 0.4 }}
                   />
                   <h3
                     className="font-headline-sm text-headline-sm mb-2 text-primary"
@@ -603,7 +603,7 @@ export default function TenantApplicationDetailClient({
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                     <MessageSquare
-                      className="$1 $2" style={{ opacity: 0.4 }}
+                      className="text-on-surface-variant" style={{ opacity: 0.4 }}
                     />
                     <h3
                       className="font-headline-sm text-headline-sm mb-2 text-primary"

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantMaintenanceClient from './TenantMaintenanceClient';
 
 export default async function TenantMaintenancePage() {
@@ -25,7 +26,9 @@ export default async function TenantMaintenancePage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantMaintenanceClient initialTickets={[]} />
+      <ErrorBoundary>
+        <TenantMaintenanceClient initialTickets={[]} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

@@ -30,7 +30,7 @@ export default async function RevenueSignaturePage() {
     net: number;
   }
 
-  let months: MonthSummary[] = [];
+  const months: MonthSummary[] = [];
   let totalRevenue = 0;
   let totalServiceCharges = 0;
   let totalRent = 0;

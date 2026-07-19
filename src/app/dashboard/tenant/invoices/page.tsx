@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantInvoicesClient from './TenantInvoicesClient';
 
 export default async function TenantInvoicesPage() {
@@ -18,7 +19,9 @@ export default async function TenantInvoicesPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantInvoicesClient />
+      <ErrorBoundary>
+        <TenantInvoicesClient />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

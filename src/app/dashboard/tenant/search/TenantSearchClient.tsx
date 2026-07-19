@@ -61,7 +61,7 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
     status: 'active',
   });
 
-  const listings = data?.pages.flatMap(page => page.data || []) || [];
+  const listings = (data?.pages || []).flatMap(page => page.data || []) || [];
 
   const purposeConfig = purposes.find(p => p.value === activePurpose) || purposes[0];
 

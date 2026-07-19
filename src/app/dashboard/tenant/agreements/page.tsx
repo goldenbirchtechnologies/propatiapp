@@ -4,6 +4,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantAgreementsClient from './TenantAgreementsClient';
 
 export default async function TenantAgreementsPage() {
@@ -52,13 +53,15 @@ export default async function TenantAgreementsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantAgreementsClient
-        initialAgreements={agreements}
-        onRetry={() => {
-          // Retry forces a soft re-render (client re-fetches via polling / manual trigger)
-          window.location.reload();
-        }}
-      />
+      <ErrorBoundary>
+        <TenantAgreementsClient
+          initialAgreements={agreements}
+          onRetry={() => {
+            // Retry forces a soft re-render (client re-fetches via polling / manual trigger)
+            window.location.reload();
+          }}
+        />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

@@ -4,6 +4,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantApplicationsClient from './TenantApplicationsClient';
 
 export default async function TenantApplicationsPage() {
@@ -61,7 +62,9 @@ export default async function TenantApplicationsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantApplicationsClient applications={serialized} />
+      <ErrorBoundary>
+        <TenantApplicationsClient applications={serialized} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

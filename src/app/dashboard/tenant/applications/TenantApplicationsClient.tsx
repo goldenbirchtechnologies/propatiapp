@@ -85,7 +85,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="$1 $2" style={{ fontSize: 'var(--text-page-title)' }}>
+        <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           My Applications
         </h1>
         <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
@@ -103,12 +103,12 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       {applications.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <Building2 className="$1 $2" style={{ opacity: 0.4 }} />
+            <Building2 className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.4 }} />
             <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
               No applications yet
             </h3>
             <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
-              You haven&#39;t applied to unknown properties yet. Browse listings to get started.
+              You haven't applied to any properties yet. Browse listings to get started.
             </p>
             <Link href="/dashboard/tenant/search" className="btn btn-primary">
               Browse Listings
@@ -165,11 +165,11 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                       </div>
 
                       {app.landlordNotes && (
-                        <div
-                          className="$1 $2"
-                        >
-                          <span className="font-medium">Landlord note: </span>
-                          {app.landlordNotes}
+                        <div className="mt-2 space-y-1">
+                          <span className="bg-accent/10 text-accent border-accent/20 rounded-md px-2 py-1 text-sm">
+                            Landlord note:
+                          </span>
+                          <p className="text-sm text-on-surface-variant">{app.landlordNotes}</p>
                         </div>
                       )}
 
@@ -218,7 +218,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-sm font-medium mb-1 text-on-surface-variant">{label}</p>
             <p className="text-2xl text-headline-sm text-primary">{value}</p>
           </div>
-          <div className="$1 $2">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent" style={{ flexShrink: 0 }}>
             {icon}
           </div>
         </div>

@@ -4,6 +4,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantScreeningClient from './TenantScreeningClient';
 
 export default async function TenantScreeningPage() {
@@ -45,7 +46,9 @@ export default async function TenantScreeningPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantScreeningClient initialScreenings={initialScreenings} />
+      <ErrorBoundary>
+        <TenantScreeningClient initialScreenings={initialScreenings} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

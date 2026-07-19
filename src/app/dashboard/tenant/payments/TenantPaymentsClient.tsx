@@ -24,7 +24,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
   const { data: wallet } = useWallet();
   const initiatePaymentMutation = useInitiatePayment();
 
-  const transactions = transactionsData?.pages.flatMap((page: unknown) => page.data || []) || [];
+  const transactions = transactionsData?.pages?.flatMap((page: { data?: unknown[] }) => page.data || []) || [];
 
   const handlePayRent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
       <Card>
         <CardContent className="flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
-            <div className="$1 $2">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent">
               <Wallet className="w-6 h-6" />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </div>
           ) : transactions.length === 0 ? (
             <div className="p-12 text-center">
-              <CreditCard className="$1 $2" style={{ opacity: 0.5 }} />
+              <CreditCard className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.5 }} />
               <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No transactions yet</h3>
               <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>Your payment history will appear here.</p>
               <Button variant="default"><CreditCard className="w-4 h-4 mr-2" /> Make a Payment</Button>

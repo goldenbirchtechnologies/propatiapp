@@ -587,7 +587,7 @@ export function DashboardShell({
           .sb-user-name { color: var(--text); font-weight: 600; font-size: 14px; line-height: 20px; }
           .sb-user-role { color: var(--muted); font-size: 11px; line-height: 16px; text-transform: capitalize; }
           .sb-nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
-          .sb-nav-item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: var(--text); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
+          .sb-nav-item { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: var(--text); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
           .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: var(--accent); border-left-color: var(--accent2); }
           .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
           .sb-footer-bar { justify-content: center; }
@@ -602,6 +602,26 @@ export function DashboardShell({
                 <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Dashboard</span>
               )}
             </Link>
+            <button
+              className="hidden md:flex p-2 rounded-lg"
+              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+              onClick={toggleSidebar}
+              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                {sidebarCollapsed ? (
+                  <>
+                    <line x1="9" y1="18" x2="15" y2="12" />
+                    <line x1="9" y1="6" x2="15" y2="12" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="15" y1="18" x2="9" y2="12" />
+                    <line x1="15" y1="6" x2="9" y2="12" />
+                  </>
+                )}
+              </svg>
+            </button>
           </div>
 
           <div className="sb-user-card">
@@ -653,6 +673,7 @@ export function DashboardShell({
                             ? <AppIcon name={item.label} className="lucide" size={18} />
                             : <AppIcon name="help" className="lucide" size={18} />}
                         </span>
+                        {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{item.label}</span>}
                       </Link>
                     )}
                   </li>
@@ -690,27 +711,6 @@ export function DashboardShell({
                 <line x1="3" y1="18" x2="21" y2="18" />
               </svg>
             </button>
-            <button
-              className="hidden md:flex p-2 rounded-lg"
-              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
-              onClick={toggleSidebar}
-              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                {sidebarCollapsed ? (
-                  <>
-                    <line x1="9" y1="18" x2="15" y2="12" />
-                    <line x1="9" y1="6" x2="15" y2="12" />
-                  </>
-                ) : (
-                  <>
-                    <line x1="15" y1="18" x2="9" y2="12" />
-                    <line x1="15" y1="6" x2="9" y2="12" />
-                  </>
-                )}
-              </svg>
-            </button>
-
             {/* Search pill */}
             <div className="hidden md:flex flex-1 max-w-md items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'var(--border)', background: 'var(--surface-elevated)' }}>
               <Search size={16} style={{ color: 'var(--muted-foreground)' }} />
@@ -720,7 +720,7 @@ export function DashboardShell({
 
           <div className="flex-1" />
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex-shrink-0 flex items-center gap-2 sm:gap-3">
             <button
               className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
               aria-label="Help"
@@ -772,8 +772,8 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
   return (
     <div>
       <button
-        className={`sb-nav-item ${isActive || expanded ? 'active' : ''}`}
-        aria-current={isActive || expanded ? 'true' : undefined}
+        className={`sb-nav-item ${isActive ? 'active' : ''}`}
+        aria-current={isActive ? 'true' : undefined}
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >

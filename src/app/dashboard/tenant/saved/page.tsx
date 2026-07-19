@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantSavedPropertiesClient, {
   SavedProperty,
 } from './TenantSavedPropertiesClient';
@@ -104,7 +105,9 @@ export default async function TenantSavedPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantSavedPropertiesClient initialSavedProperties={initialSavedProperties} />
+      <ErrorBoundary>
+        <TenantSavedPropertiesClient initialSavedProperties={initialSavedProperties} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

@@ -4,6 +4,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantReceiptsClient from './TenantReceiptsClient';
 
 export default async function TenantReceiptsPage() {
@@ -46,7 +47,9 @@ export default async function TenantReceiptsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <TenantReceiptsClient initialReceipts={receipts} />
+      <ErrorBoundary>
+        <TenantReceiptsClient initialReceipts={receipts} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

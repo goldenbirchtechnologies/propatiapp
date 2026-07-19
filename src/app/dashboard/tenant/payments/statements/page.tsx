@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import AutomatedMonthlyStatementClient from './AutomatedMonthlyStatementClient';
 
 export default async function Page() {
@@ -19,7 +20,9 @@ export default async function Page() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AutomatedMonthlyStatementClient />
+      <ErrorBoundary>
+        <AutomatedMonthlyStatementClient />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

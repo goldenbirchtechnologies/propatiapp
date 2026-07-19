@@ -54,8 +54,8 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card p-6">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="card p-6">
           {message && (
             <div className="mb-4 p-3 rounded-lg bg-success/10 text-success text-sm font-medium">
               {message}
@@ -145,31 +145,6 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
           </div>
         </div>
 
-        <div className="card p-6 flex flex-col items-center text-center">
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
-              {initialUser.avatarUrl ? (
-                <img
-                  src={initialUser.avatarUrl}
-                  alt={initialUser.fullName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <User className="w-10 h-10 text-on-surface-variant" />
-              )}
-            </div>
-            <button className="absolute bottom-0 right-0 p-2 rounded-full border border-border bg-surface-container-lowest border-border">
-              <Camera className="w-4 h-4 text-primary" />
-            </button>
-          </div>
-          <p className="mt-4 font-medium text-primary">{form.fullName}</p>
-          <p className="text-xs text-on-surface-variant">Tenant since {new Date().getFullYear()}</p>
-          <div className="mt-4 w-full">
-            <button className="btn btn-primary w-full inline-flex items-center justify-center gap-2">
-              <Save className="w-4 h-4" /> Save Changes
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

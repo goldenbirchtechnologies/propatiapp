@@ -41,11 +41,11 @@
   --theme-landlord-accent2: #c8520a;
 
   /* Tenant */
-  --theme-tenant-bg: #f7f5f0;
-  --theme-tenant-surface: #ffffff;
-  --theme-tenant-border: #e8e5df;
-  --theme-tenant-text: #111110;
-  --theme-tenant-muted: #7a7870;
+  --theme-tenant-bg: #FAFAFA;
+  --theme-tenant-surface: #FFFFFF;
+  --theme-tenant-border: #E5E7EB;
+  --theme-tenant-text: #111111;
+  --theme-tenant-muted: #666666;
   --theme-tenant-accent: #0e7c6a;
   --theme-tenant-accent2: #14a88e;
 
@@ -303,6 +303,12 @@
   --sidebar-accent-foreground: var(--text);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--accent);
+}
+
+.app-layout.theme-tenant .card {
+  border: 1px solid var(--border);
+  box-shadow: none;
+  background: var(--surface);
 }
 
 .app-layout.theme-agent {
@@ -761,6 +767,10 @@ a:hover {
   align-items: stretch;
 }
 
+.topbar {
+  border-bottom: 1px solid var(--border);
+}
+
 .sidebar {
   width: var(--sidebar-width);
   flex-shrink: 0;
@@ -772,6 +782,7 @@ a:hover {
   background: var(--surface);
   color: var(--text);
   text-rendering: optimizeLegibility;
+  border-right: 1px solid var(--border);
 }
 .sidebar .nav-item,
 .sidebar .sb-user-card,

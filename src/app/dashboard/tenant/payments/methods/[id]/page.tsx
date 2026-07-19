@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import AddPaymentMethodClient from '@/app/dashboard/tenant/payments/methods/[id]/AddPaymentMethodClient';
 
 interface Props {
@@ -25,7 +26,9 @@ export default async function AddPaymentMethodPage({ params }: Props) {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <AddPaymentMethodClient methodType={id} />
+      <ErrorBoundary>
+        <AddPaymentMethodClient methodType={id} />
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

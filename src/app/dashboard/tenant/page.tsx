@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -48,8 +49,9 @@ export default async function TenantDashboardPage() {
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="dashboard-content-area fade-up">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <ErrorBoundary>
+        <div className="dashboard-content-area fade-up">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight">
@@ -143,7 +145,8 @@ export default async function TenantDashboardPage() {
             </Card>
           </div>
         </div>
-      </div>
+        </div>
+      </ErrorBoundary>
     </DashboardShell>
   );
 }

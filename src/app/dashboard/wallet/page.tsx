@@ -135,12 +135,12 @@ export default function WalletPage() {
   };
 
   const userName = user?.fullName || user?.firstName || 'User';
-  const navItems = TABS.map(t => ({ label: t.label, href: `/dashboard/wallet${t.key === 'overview' ? '' : '/' + t.key}` }));
+  const navItems = TABS.map(t => ({ label: t.label, icon: t.icon, href: `/dashboard/wallet${t.key === 'overview' ? '' : '/' + t.key}` }));
   const linkedAccount = paystackAccount ? { customerCode: paystackAccount.customerCode as string, accountName: paystackAccount.accountName as string, accountNumber: paystackAccount.accountNumber as string, bankName: paystackAccount.bankName as string } : null;
 
   return (
     <DashboardShell navigation={navItems} userRole="wallet" userName={userName} userAvatar={user?.imageUrl || undefined}>
-      <div className="wallet-shell space-y-4">
+      <div className="wallet-shell max-w-5xl space-y-4">
         <div className="flex items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Wallet</h1>
@@ -156,11 +156,11 @@ export default function WalletPage() {
           </div>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto border-b border-border/60 pb-2">
+        <div className="flex gap-1 border-b border-border/60">
           {TABS.map((item) => (
-            <Button key={item.key} variant={tab === item.key ? 'secondary' : 'ghost'} onClick={() => setTab(item.key)} className="gap-2 pressable">
+            <Button key={item.key} variant={tab === item.key ? 'secondary' : 'ghost'} size="sm" onClick={() => setTab(item.key)} className="gap-1.5">
               {item.icon}
-              <span className="inline">{item.label}</span>
+              <span className="text-sm">{item.label}</span>
             </Button>
           ))}
         </div>

@@ -48,7 +48,7 @@ export default async function LandlordVerificationPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="$1 $2">
+            <h1 className="font-heading font-bold">
               Property Verification
             </h1>
             <p className="text-on-surface-variant">
@@ -88,7 +88,7 @@ export default async function LandlordVerificationPage() {
             ))}
             {listings.length === 0 && (
               <div className="col-span-full bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
-                <BuildingIcon className="$1 $2" />
+                <BuildingIcon className="w-5 h-5" />
                 <h3 className="text-primary">No properties to verify</h3>
                 <p className="text-on-surface-variant">Add a property to start the verification process.</p>
                 <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">

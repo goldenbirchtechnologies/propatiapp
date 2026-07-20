@@ -47,7 +47,7 @@ export default async function LandlordAgreementsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="$1 $2">
+            <h1 className="font-heading font-bold">
               Agreements
             </h1>
             <p className="text-on-surface-variant">
@@ -114,7 +114,7 @@ export default async function LandlordAgreementsPage() {
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
             {agreements.length === 0 ? (
               <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
-                <FileIcon className="$1 $2" />
+                <FileIcon className="w-5 h-5" />
                 <h3 className="text-primary">No agreements yet</h3>
                 <p className="text-on-surface-variant">Create your first agreement from a verified property listing.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="btn btn-primary">
@@ -163,7 +163,8 @@ export default async function LandlordAgreementsPage() {
                         <td className="p-4">
                           {agreement.tenant ? (
                             <div className="flex items-center gap-2">
-                              <div className="$1 $2"
+                              <div
+                                className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm"
                               >
                                 {agreement.tenant.fullName.charAt(0)}
                               </div>

@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Providers } from '@/components/providers';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from '@/components/ui/toaster';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -114,13 +116,17 @@ export default function RootLayout({
       <body className="bg-background text-foreground min-h-screen flex flex-col antialiased tracking-body-md">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:bg-foreground focus:text-background focus:rounded-md">Skip to main content</a>
         <TooltipProvider>
+        <ThemeProvider>
         <Providers>
           <main id="main-content" className="flex-1">
-            {children}
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
           </main>
           <Toaster />
           <script src="/push.js" defer strategy="afterInteractive" />
         </Providers>
+        </ThemeProvider>
         </TooltipProvider>
       </body>
     </html>

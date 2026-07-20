@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Upload, FileText, CheckCircle, AlertCircle, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,7 +11,9 @@ export default function EstateManagerBulkImportPage() {
   const [status, setStatus] = useState<'idle' | 'uploaded' | 'processing' | 'done'>('idle');
 
   return (
-    <div className="space-y-6">
+    <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Manager">
+      <ErrorBoundary>
+      <div className="space-y-6">
       <div>
         <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Bulk Import</h1>
         <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Upload thousands of properties via CSV or Excel</p>
@@ -64,6 +67,8 @@ export default function EstateManagerBulkImportPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      </ErrorBoundary>
+    </DashboardShell>
   );
 }

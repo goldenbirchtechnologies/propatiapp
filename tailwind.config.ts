@@ -112,6 +112,13 @@ const config: Config = {
           'on-fixed': '#00201a',
           'on-fixed-variant': '#005144',
         },
+        // Dark-mode extended palette
+        blackCanvas: '#0a0a0a',
+        cardDark: '#121214',
+        cardDarker: '#0a0a0b',
+        grayMuted: '#6b7280',
+        accentGreen: '#22c55e',
+        accentBlue: '#3b82f6',
         'inverse-primary': '#7bd7c2',
 
         // Commercial gold
@@ -186,6 +193,7 @@ const config: Config = {
         'label-sm': ['var(--font-body)', 'system-ui', 'sans-serif'],
         'label-md': ['var(--font-body)', 'system-ui', 'sans-serif'],
         display: ['var(--font-heading)', 'var(--font-body-fallback)', 'system-ui', 'sans-serif'],
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '800' }],

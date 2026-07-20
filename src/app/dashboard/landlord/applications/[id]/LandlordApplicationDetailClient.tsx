@@ -145,7 +145,7 @@ export default function LandlordApplicationDetailClient({
           Applications
         </Link>
         <AppIcon name="/" className="lucide" />
-        <span className="$1 $2">
+        <span className="font-medium">
           {application.listing.title}
         </span>
       </nav>
@@ -249,7 +249,7 @@ export default function LandlordApplicationDetailClient({
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3">
               <div
-                className="$1 $2"
+                className="flex items-center justify-center"
               >
                 {application.tenant.fullName.charAt(0)}
               </div>

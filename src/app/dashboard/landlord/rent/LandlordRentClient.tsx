@@ -190,7 +190,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1
-            className="$1 $2"
+            className="font-heading font-bold"
           >
             Rent Collection
           </h1>
@@ -271,7 +271,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
         <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
           {transactions.length === 0 ? (
             <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
-              <CurrencyIcon className="$1 $2" />
+              <CurrencyIcon className="w-5 h-5" />
               <h3 className="text-primary">
                 No transactions yet
               </h3>

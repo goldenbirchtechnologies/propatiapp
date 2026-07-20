@@ -231,7 +231,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div
-                            className="$1 $2"
+                            className="flex items-center justify-center"
                           >
                             {app.tenant.fullName.charAt(0)}
                           </div>
@@ -310,7 +310,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                 <div className="flex items-start gap-3">
                   <div
-                    className="$1 $2"
+                    className="flex items-center justify-center"
                   >
                     {selectedApp.tenant.fullName.charAt(0)}
                   </div>
@@ -345,7 +345,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     <p className="font-medium mb-2 text-primary">Employment</p>
                     {selectedApp.tenant.employmentStatus && (
                       <p className="text-on-surface-variant">
-                        Status: <span className="$1 $2">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
+                        Status: <span className="font-medium">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
                       </p>
                     )}
                     {selectedApp.tenant.employerName && (
@@ -455,7 +455,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
             <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value}</p>
           </div>
-          <div className="$1 $2">
+          <div className="flex items-center justify-center">
             {icon}
           </div>
         </div>

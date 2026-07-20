@@ -228,7 +228,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           Properties
         </Link>
         <AppIcon name="/" className="lucide" />
-        <span className="$1 $2">
+        <span className="font-medium text-primary truncate">
           {listing.title}
         </span>
       </nav>

@@ -178,8 +178,7 @@ export function NavItemComponent({
     item.children?.some((c) => c.href === window.location.pathname) || false
   );
   const pathname = usePathname();
-  const childActive = item.children?.some((c) => pathname?.startsWith(c.href)) || false;
-  const active = isActive || childActive;
+  const active = isActive;
 
   const icon = item.icon || <LayoutDashboard className="h-5 w-5" />;
 
@@ -396,6 +395,12 @@ export function Sidebar({
     return pathname?.startsWith(href) || false;
   };
 
+  // Collapse toggle: only render when parent supplies onCollapseChange
+  const showToggle = typeof onCollapseChange === 'function';
+  const handleToggle = () => {
+    if (showToggle) onCollapseChange(!collapsed);
+  };
+
   // Lock body scroll when mobile drawer is open; restore on close / unmount
   React.useEffect(() => {
     if (!mobileOpen) return;
@@ -486,6 +491,45 @@ export function Sidebar({
           ))}
         </ul>
       </nav>
+
+      {/* Collapse toggle anchored to sidebar bounds */}
+      {showToggle && (
+        <div className="px-2 pb-2" style={{ marginTop: 'auto' }}>
+          <button
+            onClick={handleToggle}
+            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg p-2 transition-colors"
+            style={{
+              background: 'var(--surface-elevated)',
+              color: 'var(--text)',
+              border: '1px solid var(--border)',
+            }}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              {collapsed ? (
+                <>
+                  <line x1="9" y1="18" x2="15" y2="12" />
+                  <line x1="9" y1="6" x2="15" y2="12" />
+                </>
+              ) : (
+                <>
+                  <line x1="15" y1="18" x2="9" y2="12" />
+                  <line x1="15" y1="6" x2="9" y2="12" />
+                </>
+              )}
+            </svg>
+            {!collapsed && <span className="text-xs" style={{ color: 'var(--muted)' }}>Collapse</span>}
+          </button>
+        </div>
+      )}
 
       <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
         <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>

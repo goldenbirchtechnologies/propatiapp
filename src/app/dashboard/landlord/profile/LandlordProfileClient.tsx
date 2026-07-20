@@ -155,7 +155,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               )}
             </Avatar>
             <label
-              className="$1 $2"
+              className="flex items-center justify-center"
             >
               <Camera className="w-4 h-4" />
               <input

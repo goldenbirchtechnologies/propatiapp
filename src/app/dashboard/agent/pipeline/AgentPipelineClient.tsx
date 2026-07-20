@@ -38,7 +38,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
-  const allDeals = initialData.stages.flatMap((s) => s.deals);
+  const allDeals = (initialData.stages || []).flatMap((s) => s.deals || []);
   const filteredDeals = searchQuery
     ? allDeals.filter((d) =>
         d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

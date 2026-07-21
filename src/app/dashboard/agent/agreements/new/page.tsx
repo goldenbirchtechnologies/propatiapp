@@ -1,27 +1,25 @@
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AgentAgreementNewClient from './AgentAgreementNewClient';
 
 export default async function AgentAgreementNewPage({ searchParams }: { searchParams: { dealId?: string } }) {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
+  if (user.role !== 'agent') redirect('/dashboard');
 
   return (
-    <DashboardShell navigation={AGENT_NAVIGATION} userRole={user.role} userName={user.fullName || 'Agent'} userAvatar={user.avatarUrl || undefined}>
-      <Card>
-        <CardHeader>
-          <CardTitle>New Agreement</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">
-            {searchParams?.dealId
-              ? `Create a new agreement for deal ${searchParams.dealId}.`
-              : 'Select a deal to start a new agreement from the deal detail page.'}
-          </p>
-        </CardContent>
-      </Card>
+    <DashboardShell
+      navigation={AGENT_NAVIGATION}
+      userRole={user.role}
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
+      <AgentAgreementNewClient dealId={searchParams.dealId} />
     </DashboardShell>
   );
 }

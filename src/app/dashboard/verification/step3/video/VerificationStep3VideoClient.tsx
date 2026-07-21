@@ -155,7 +155,7 @@ function Step3VideoClient(props: Props) {
               <p className="text-sm text-muted-foreground">
                 Show this QR code at the start of your video. It verifies the timestamp and authenticity.
               </p>
-              <div className="flex justify-center p-4 bg-white rounded-lg">
+              <div className="flex justify-center p-4 bg-surface rounded-lg">
                 {qrCode ? (
                   <img src={qrCode} alt="Verification QR Code" className="h-48 w-48" />
                 ) : (

@@ -20,6 +20,13 @@ export function ClerkProviderWrapper({ children }: ClerkProviderWrapperProps) {
       signUpFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/onboarding'}
       signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in'}
       signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up'}
+      appearance={{
+        layout: {
+          ...(process.env.NODE_ENV === 'production'
+            ? { unsafe_disableDevelopmentModeWarnings: true }
+            : {}),
+        },
+      }}
     >
       {children}
     </ClerkProvider>

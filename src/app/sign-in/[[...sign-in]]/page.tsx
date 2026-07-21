@@ -85,11 +85,17 @@ export default function SignInPage() {
         <div className="card p-6">
           <SignIn
             appearance={{
+              baseTheme: 'dark',
               elements: {
-                formButtonPrimary: 'btn btn-primary w-full py-3',
-                card: 'shadow-none border-0 p-0',
-                headerTitle: 'font-heading font-bold text-xl',
-                headerSubtitle: 'text-[var(--muted)]',
+                formButtonPrimary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+                card: 'shadow-lg border border-border rounded-xl',
+                headerTitle: 'font-bold text-xl text-foreground',
+                headerSubtitle: 'text-muted-foreground',
+              },
+              variables: {
+                colorBackground: 'var(--surface)',
+                colorInputBackground: 'var(--surface)',
+                colorInputText: 'var(--text)',
               },
             }}
             routing="path"

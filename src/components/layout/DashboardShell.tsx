@@ -591,16 +591,13 @@ export function DashboardShell({
           .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: var(--accent); border-left-color: var(--accent2); }
           .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
           .sb-footer-bar { justify-content: center; }
-          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--text); background: var(--surface-elevated); border: none; cursor: pointer; transition: background-color 0.15s ease; }
+          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: flex-start; gap: 10px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--text); background: var(--surface-elevated); border: none; cursor: pointer; transition: background-color 0.15s ease; }
           .sb-signout-btn:hover { background: var(--surface-elevated); }
         `}</style>
         <div className="sb-inner">
           <div className="sb-header-bar">
             <Link href="/dashboard" className="flex items-center gap-2">
               <img src="/brand/propati-logo.png" alt="PROPATI" width="32" height="32" className="rounded-full" style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
-              {!sidebarCollapsed && (
-                <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Dashboard</span>
-              )}
             </Link>
             <button
               className="hidden md:flex p-2 rounded-lg"
@@ -728,16 +725,6 @@ export function DashboardShell({
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
             <NotificationsBell position="right" userRole={userRole} />
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: 'w-8 h-8',
-                  userButtonPopover: 'rounded-lg shadow-lg',
-                  userButtonPopoverActions: 'flex-col gap-2',
-                },
-              }}
-            />
           </div>
         </header>
 

@@ -181,7 +181,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/signup"
-              className="px-5 py-2.5 text-sm font-semibold bg-primary text-white rounded-full hover:brightness-110 transition-all shadow-md shadow-primary/20"
+              className="px-5 py-2.5 text-sm font-semibold bg-primary text-primary-foreground rounded-full hover:brightness-110 transition-all shadow-md shadow-primary/20"
             >
               Get Started
             </Link>
@@ -238,7 +238,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/signup"
-                  className="flex-1 text-center px-5 py-2.5 rounded-full text-sm font-semibold bg-primary text-white shadow-md"
+                  className="flex-1 text-center px-5 py-2.5 rounded-full text-sm font-semibold bg-primary text-primary-foreground shadow-md"
                   onClick={() => setMobileOpen(false)}
                 >
                   Get Started
@@ -267,10 +267,10 @@ export default function HomePage() {
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
             <div className="max-w-3xl">
               <SectionLabel>Nigeria's First Verified Property OS</SectionLabel>
-              <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-7xl text-white leading-[1.05] mb-6 tracking-tight">
+              <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-7xl text-foreground leading-[1.05] mb-6 tracking-tight">
                 Rent, buy, or list with people you can trust.
               </h1>
-              <p className="text-lg sm:text-xl text-white/85 max-w-2xl mb-10 leading-relaxed">
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
                 Verified listings, licensed agents, escrow payments, and digital agreements — built for how Nigerians actually transact property.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -282,13 +282,13 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur text-white font-semibold rounded-full border border-white/20 hover:bg-white/20 transition-all"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-muted/40 text-foreground font-semibold rounded-full border border-border hover:bg-muted/70 transition-all"
                 >
                   Browse Listings
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-6 mt-8 text-white/70 text-sm font-medium">
+              <div className="flex flex-wrap gap-6 mt-8 text-muted-foreground text-sm font-medium">
                 <span className="flex items-center gap-2">
                   <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-green-500/20 text-green-400 text-xs">✓</span>
                   5-Layer Verification
@@ -302,11 +302,12 @@ export default function HomePage() {
                   Legally Compliant
                 </span>
               </div>
+
             </div>
 
-            <div className="hidden sm:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/60">
+            <div className="hidden sm:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground/80">
               <span className="text-xs tracking-widest uppercase">Scroll</span>
-              <span className="w-px h-8 bg-white/30 animate-pulse"></span>
+              <span className="w-px h-8 bg-border animate-pulse"></span>
             </div>
           </div>
         </section>
@@ -392,7 +393,7 @@ export default function HomePage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="absolute top-4 left-4 flex gap-2">
-                          <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full shadow-lg">
+                          <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full shadow-lg">
                             {listing.type}
                           </span>
                         </div>
@@ -422,7 +423,7 @@ export default function HomePage() {
                               {s.val}
                             </div>
                           ))}
-                          <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                          <button className="ml-auto w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all">
                             <AppIcon name="arrow_forward" className="lucide text-[18px]" />
                           </button>
                         </div>
@@ -444,7 +445,7 @@ export default function HomePage() {
             <div className="text-center mt-12">
               <Link
                 href="/listings"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-full hover:brightness-110 transition-all shadow-lg shadow-primary/20"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground font-bold rounded-full hover:brightness-110 transition-all shadow-lg shadow-primary/20"
               >
                 View all listings
                 <AppIcon name="arrow_forward" className="lucide text-[18px]" />
@@ -558,7 +559,7 @@ export default function HomePage() {
               <h2 className="font-heading font-extrabold text-3xl sm:text-5xl leading-tight mb-6">
                 Ready to find your next home — or tenant?
               </h2>
-              <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
                 Join thousands of Nigerians who trust PROPATI for verified listings, secure payments, and legally sound agreements.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -570,7 +571,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur text-white font-semibold rounded-full border border-white/20 hover:bg-white/20 transition-all"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-muted/40 text-foreground font-semibold rounded-full border border-border hover:bg-muted/70 transition-all"
                 >
                   Start by browsing
                 </Link>

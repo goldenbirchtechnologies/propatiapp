@@ -6,7 +6,6 @@ import { useCurrentUser } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Loader2, CreditCard, Wallet, Receipt, AlertCircle, CheckCircle, Clock, Download, Filter, ChevronDown } from 'lucide-react';
@@ -83,51 +82,31 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
           <CardTitle className="text-lg">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="pay_rent">Pay Rent</TabsTrigger>
-              <TabsTrigger value="caution_deposit">Caution Deposit</TabsTrigger>
-              <TabsTrigger value="service_charge">Service Charge</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="pay_rent" className="mt-4">
-              <form onSubmit={handlePayRent} className="space-y-4 max-w-md">
-                <div className="space-y-1">
-                  <label className="inp-label">Amount (₦)</label>
-                  <Input
-                    type="number"
-                    placeholder="Enter rent amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    required
-                  />
-                </div>
-                <p className="text-sm text-on-surface-variant">
-                  You will be redirected to Paystack to complete the payment securely.
-                </p>
-                <Button type="submit" className="w-full" disabled={initiatePaymentMutation.isPending || !amount}>
-                  {initiatePaymentMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Processing...
-                    </>
-                  ) : (
-                    'Pay Rent Now'
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-
-            <TabsContent value="caution_deposit" className="mt-4">
-              <p className="text-sm text-on-surface-variant">Pay caution deposit for a new agreement.</p>
-              <Button variant="outline" className="mt-2">Pay Caution Deposit</Button>
-            </TabsContent>
-
-            <TabsContent value="service_charge" className="mt-4">
-              <p className="text-sm text-on-surface-variant">Pay monthly service charges.</p>
-              <Button variant="outline" className="mt-2">Pay Service Charge</Button>
-            </TabsContent>
-          </Tabs>
+          <form onSubmit={handlePayRent} className="space-y-4 max-w-md">
+            <div className="space-y-1">
+              <label className="inp-label">Amount (₦)</label>
+              <Input
+                type="number"
+                placeholder="Enter rent amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+            </div>
+            <p className="text-sm text-on-surface-variant">
+              You will be redirected to Paystack to complete the payment securely.
+            </p>
+            <Button type="submit" className="w-full" disabled={initiatePaymentMutation.isPending || !amount}>
+              {initiatePaymentMutation.isPending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  Processing...
+                </>
+              ) : (
+                'Pay Rent Now'
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
 

@@ -103,6 +103,7 @@ export default async function LandlordOverduePaymentsPage() {
               <table className="w-full text-left">
                 <thead className="bg-surface-container-high border-b border-outline-variant">
                   <tr>
+                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Reference</th>
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Type</th>
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Tenant</th>
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Unit</th>
@@ -114,6 +115,7 @@ export default async function LandlordOverduePaymentsPage() {
                 <tbody className="divide-y divide-outline-variant">
                   {rows.map((row) => (
                     <tr key={row.id} className="hover:bg-surface-container-low transition-colors">
+                      <td className="px-5 py-4 text-sm font-mono text-muted-foreground">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>
                       <td className="px-5 py-4 text-sm text-muted-foreground">{row.unit}</td>

@@ -538,7 +538,7 @@ export function Sidebar({
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-center gap-2"
+            className="w-full justify-start gap-2"
             onClick={onSignOut}
             style={{ padding: 'var(--space-sm) var(--space-md)' }}
           >

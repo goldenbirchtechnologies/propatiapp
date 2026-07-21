@@ -15,10 +15,9 @@ export interface NavItem {
 }
 
 export const LANDLORD_NAVIGATION: NavItem[] = [
-  { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
   { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
+  { label: 'Rent & Payments', href: '/dashboard/landlord/financials', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
-  { label: 'Financials', href: '/dashboard/landlord/financials', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Agent Invites', href: '/dashboard/landlord/agents', icon: <Users className="h-5 w-5" /> },
   { label: 'Forecasting', href: '/dashboard/landlord/financials/forecasting', icon: <TrendingUp className="h-5 w-5" /> },
@@ -45,7 +44,6 @@ export const LANDLORD_NAVIGATION: NavItem[] = [
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [
-  { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
   { label: 'Dashboard', href: '/dashboard/tenant', icon: <Home className="h-5 w-5" /> },
   { label: 'Notifications', href: '/dashboard/tenant/notifications', icon: <Bell className="h-5 w-5" /> },
   { label: 'Find Property', href: '/dashboard/tenant/search', icon: <Search className="h-5 w-5" /> },
@@ -62,8 +60,8 @@ export const TENANT_NAVIGATION: NavItem[] = [
 ];
 
 export const AGENT_NAVIGATION: NavItem[] = [
-  { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
   { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
+  { label: 'Rent & Payments', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Buy Pipeline', href: '/dashboard/agent/buy', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Sell Pipeline', href: '/dashboard/agent/sell', icon: <BarChart2 className="h-5 w-5" /> },
   { label: 'Deal Pipeline', href: '/dashboard/agent/pipeline', icon: <BarChart2 className="h-5 w-5" /> },
@@ -86,7 +84,7 @@ export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Flagged Listings', href: '/dashboard/admin/flags', icon: <Flag className="h-5 w-5" /> },
   { label: 'Users', href: '/dashboard/admin/users', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/admin/agreements', icon: <FileText className="h-5 w-5" /> },
-  { label: 'Payments', href: '/dashboard/admin/payments', icon: <Receipt className="h-5 w-5" /> },
+  { label: 'Rent & Payments', href: '/dashboard/admin/payments', icon: <Receipt className="h-5 w-5" /> },
   { label: 'Disputes', href: '/dashboard/admin/disputes', icon: <Gavel className="h-5 w-5" /> },
   { label: 'Properties', href: '/dashboard/admin/properties', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Reports', href: '/dashboard/admin/reports', icon: <FileText className="h-5 w-5" /> },
@@ -109,8 +107,8 @@ export const ACCOUNTANT_NAVIGATION: NavItem[] = [
 ];
 
 export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
-  { label: 'Wallet', href: '/dashboard/wallet', icon: <Wallet2 className="h-5 w-5" /> },
   { label: 'Home', href: '/dashboard/estate-manager', icon: <Home className="h-5 w-5" /> },
+  { label: 'Rent & Payments', href: '/dashboard/estate-manager/financials', icon: <DollarSign className="h-5 w-5" /> },
   { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Units', href: '/dashboard/estate-manager/units', icon: <Building2 className="h-5 w-5" /> },
   { label: 'Service Charges', href: '/dashboard/estate-manager/service-charges', icon: <Receipt className="h-5 w-5" /> },

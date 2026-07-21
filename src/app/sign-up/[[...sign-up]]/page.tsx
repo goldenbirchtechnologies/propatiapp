@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
-import { Building2, Search, Building, CheckCircle2 } from 'lucide-react';
+import { Building2, Search, Building, CheckCircle2, Handshake } from 'lucide-react';
 
 type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 

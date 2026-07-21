@@ -5,6 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import TenantAgreementsClient from './TenantAgreementsClient';
 
 export default async function TenantAgreementsPage() {
@@ -20,8 +21,9 @@ export default async function TenantAgreementsPage() {
     redirect('/dashboard');
   }
 
-  // ─── Pre-fetch agreements on the server ─────────────────────────────────────
+  let agreementsError: string | null = null;
   let agreements;
+
   try {
     agreements = await prisma.agreement.findMany({
       where: { tenantId: user.id },
@@ -43,7 +45,36 @@ export default async function TenantAgreementsPage() {
       take: 100,
     });
   } catch {
-    agreements = [];
+    agreementsError = 'Failed to load agreements';
+  }
+
+  if (agreementsError) {
+    return (
+      <DashboardShell
+        navigation={TENANT_NAVIGATION}
+        userRole={user.role}
+        userName={user.fullName}
+        userAvatar={user.avatarUrl || undefined}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle>Agreements</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">{agreementsError}</p>
+            <button
+              type="button"
+              className="mt-4 underline"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Retry
+            </button>
+          </CardContent>
+        </Card>
+      </DashboardShell>
+    );
   }
 
   return (

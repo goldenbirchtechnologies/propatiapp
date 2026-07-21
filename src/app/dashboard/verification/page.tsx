@@ -41,11 +41,38 @@ export default async function VerificationHubPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
 
-  const verifications = await prisma.verification.findMany({
-    where: { ownerId: user.id },
-    select: { id: true, type: true, overallStatus: true, createdAt: true },
-    orderBy: { createdAt: 'desc' },
-  });
+  let verificationsError: string | null = null;
+  let verifications: { id: string; type: string; overallStatus: string; createdAt: Date }[] = [];
+
+  try {
+    verifications = await prisma.verification.findMany({
+      where: { ownerId: user.id },
+      select: { id: true, type: true, overallStatus: true, createdAt: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch {
+    verificationsError = 'Failed to load verifications';
+  }
+
+  if (verificationsError) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Verification Center</h1>
+          <p className="text-muted-foreground mt-1">{verificationsError}</p>
+        </div>
+        <button
+          type="button"
+          className="underline"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   const latestByType = new Map<string, (typeof verifications)[number]>();
   for (const v of verifications) {

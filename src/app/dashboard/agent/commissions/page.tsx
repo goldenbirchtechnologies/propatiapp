@@ -5,6 +5,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AgentCommissionsClient from './AgentCommissionsClient';
 
 export default async function AgentCommissionsPage() {
@@ -21,6 +22,8 @@ export default async function AgentCommissionsPage() {
   }
 
   const agentId = user.id;
+
+  let commissionsError: string | null = null;
 
   let commissions: {
     id: string;
@@ -74,8 +77,37 @@ export default async function AgentCommissionsPage() {
     totalPending = commissions
       .filter((c) => c.status === 'pending')
       .reduce((s, c) => s + c.amount, 0);
-  } catch {
-    // leave as empty on error
+  } catch (e) {
+    commissionsError = 'Failed to load commissions';
+  }
+
+  if (commissionsError) {
+    return (
+      <DashboardShell
+        navigation={AGENT_NAVIGATION}
+        userRole={user.role}
+        userName={user.fullName}
+        userAvatar={user.avatarUrl || undefined}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle>Commissions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">{commissionsError}</p>
+            <button
+              type="button"
+              className="mt-4 underline"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Retry
+            </button>
+          </CardContent>
+        </Card>
+      </DashboardShell>
+    );
   }
 
   return (

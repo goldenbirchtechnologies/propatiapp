@@ -23,7 +23,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
             <p className="text-destructive font-medium">Error</p>
             <p className="text-destructive text-sm mt-1">{error}</p>
-            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive">Retry</button>
+            <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-on-destructive rounded-lg hover:bg-destructive">Retry</button>
           </div>
         </section>
       </DashboardShell>

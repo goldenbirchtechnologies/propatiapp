@@ -217,7 +217,7 @@ export default function PaymentSuccessPage() {
         <p className="text-center text-body-sm text-on-surface-variant max-w-md">
           PROPATI uses industry-leading security protocols to ensure your financial data is always
           protected. Need help?{' '}
-          <a className="text-primary font-bold underline decoration-[#feae2c] underline-offset-4" href="#">
+          <a className="text-primary font-bold underline decoration-accent underline-offset-4" href="#">
             Contact Support
           </a>
         </p>

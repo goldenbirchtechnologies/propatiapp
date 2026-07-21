@@ -45,7 +45,7 @@ export default function VerificationQueueDetailObsidianClient() {
             ].map((step) => {
               const icon = step.state === 'done' ? 'check' : step.state === 'active' ? 'pending' : 'radio_button_unchecked';
               const cls = step.state === 'done'
-                ? 'bg-on-tertiary-container text-white'
+                ? 'bg-on-tertiary-container text-on-tertiary-container'
                 : step.state === 'active'
                   ? 'bg-secondary-container text-on-secondary-fixed ring-4 ring-background'
                   : 'bg-surface-container-high text-on-surface-variant';
@@ -96,13 +96,13 @@ export default function VerificationQueueDetailObsidianClient() {
               <div className="overflow-hidden rounded-lg border border-outline-variant hover:border-primary transition-colors">
                 <img alt="Certificate of Occupancy" className="h-32 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2i7-TPT6FqJ_RiV4eMfNuF9ortAX6OZ2jDO1CZj-3mgTagvRVFJa5dnl6DgdqVwfV6g85o5Ja0QjZlCGqTiGBs0wnK3RoT6HXqI9MO2cvPCNIFaNPidAz8NVbE-wRJlv51MLq8rgl4VswCKYCr3VzcNWMssvduxSd4ItCOMdKLgNZhh6A1kXW6O4oMB15KN2EIbZk_0bG1Rfa63HKwqXaqOlVJmmP2DzjoteKfWSL62-KIXsg00EdLMBCOWZ0VNghsDnZC4U77tU" />
                 <div className="bg-black/60 p-2">
-                  <p className="truncate text-[10px] font-label-sm text-white">C_of_O_Lagos_Registry.pdf</p>
+                  <p className="truncate text-[10px] font-label-sm text-on-surface">C_of_O_Lagos_Registry.pdf</p>
                 </div>
               </div>
               <div className="overflow-hidden rounded-lg border border-outline-variant hover:border-primary transition-colors">
                 <img alt="Survey Plan" className="h-32 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6xom281FrtHq7CQel9qaXaL3rxRmhejvNH51omrtIEpOSeJp2Qu6GbNFu3V573-auJ7OLCa4PZzasgoIqy7arAGtLTd7snGOKcn-CbJWd8iXX7oVHNKdAuhtfcE0sxV7swHw0Tn9ZSZIUbTCCvFgm_1SMKou77ylnIhFrmUp_1zEAefUkh7XGW7VmFyXYtx30tThwSfCfgcLJhazTU40kUbhZakgK0csCXcr4W--2zdB9dvaQ35s36V--emGQUzXqnAtryOE8W6s" />
                 <div className="bg-black/60 p-2">
-                  <p className="truncate text-[10px] font-label-sm text-white">Survey_Plan_2023.pdf</p>
+                  <p className="truncate text-[10px] font-label-sm text-on-surface">Survey_Plan_2023.pdf</p>
                 </div>
               </div>
               <div className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-outline-variant h-32 hover:bg-surface-container-low transition-colors">

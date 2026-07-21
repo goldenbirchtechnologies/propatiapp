@@ -19,27 +19,27 @@ export default function AdminProfileSecurityClient() {
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzJdCgsEd4j5tDEETrQKsocY3MM4zLUViPHSRUcTC1IUaeWjw8Mm_YbIJDsxI1ZFAEaoQMqHGVr-cWWge0xIvK31upjouaqv5FnH41z7wJdmBmJiwL5FqDeLU3Y211YD7w4XUccHMf9cPmuD6oygHKup0SpKDCsMPJe19wrH0dHrQz0GTv0YwK_Ohg3lJ_aDzAuBCcjDldSud1hC1kLuBCQycV8bSdEIXQcoSBwzXx-6g6SvLwLDhAvCkaj_-WJjhiBLz7BdzDi90"
               />
             </div>
-            <button className="absolute -bottom-2 -right-2 bg-primary text-white w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg hover:bg-primary-container transition-colors">
+            <button className="absolute -bottom-2 -right-2 bg-primary text-on-primary w-10 h-10 rounded-full border-4 border-white flex items-center justify-center shadow-lg hover:bg-primary-container transition-colors">
               <AppIcon name="photo_camera" className="lucide" />
             </button>
           </div>
           <div className="flex-1 space-y-4 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <h3 className="font-headline-lg text-headline-lg text-primary">Ade Ben-G.</h3>
-              <span className="px-3 py-1 rounded-full bg-emerald-600 text-white font-label-md text-[10px] flex items-center gap-1">
+              <span className="px-3 py-1 rounded-full bg-emerald-600 text-on-success font-label-md text-[10px] flex items-center gap-1">
                 <span className="lucide text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                 Verified
               </span>
-              <span className="px-3 py-1 rounded-full bg-primary-container text-white font-label-md text-[10px]">Super Admin</span>
+              <span className="px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-label-md text-[10px]">Super Admin</span>
             </div>
             <p className="text-on-surface-variant text-body-md max-w-lg">
               Overseeing regional operations and high-value asset verification across West Africa. Active member since January 2023.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
-              <button className="px-6 py-2.5 bg-primary text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-md">
+              <button className="px-6 py-2.5 bg-primary text-on-primary rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-md">
                 Edit Profile
               </button>
-              <button className="px-6 py-2.5 border border-primary text-primary rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-white transition-all">
+              <button className="px-6 py-2.5 border border-primary text-primary rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-on-primary-container transition-all">
                 Download Bio
               </button>
             </div>
@@ -47,7 +47,7 @@ export default function AdminProfileSecurityClient() {
         </div>
 
         {/* Account Security Card */}
-        <div className="lg:col-span-4 bg-primary-container text-white rounded-xl p-lg shadow-lg flex flex-col justify-between overflow-hidden relative">
+        <div className="lg:col-span-4 bg-primary-container text-on-primary-container rounded-xl p-lg shadow-lg flex flex-col justify-between overflow-hidden relative">
           <div className="z-10">
             <div className="flex items-center justify-between mb-6">
               <h4 className="font-headline-sm text-headline-sm text-secondary-fixed">Account Security</h4>
@@ -125,7 +125,7 @@ export default function AdminProfileSecurityClient() {
               </div>
             </div>
             <div className="pt-4 flex justify-end">
-              <button className="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-all shadow-md active:scale-95" type="submit">
+              <button className="bg-primary text-on-primary px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-all shadow-md active:scale-95" type="submit">
                 Save Changes
               </button>
             </div>
@@ -150,7 +150,7 @@ export default function AdminProfileSecurityClient() {
                   <p className="text-xs text-on-surface-variant">Last changed 2 days ago</p>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
+              <button className="px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
                 Change
               </button>
             </div>
@@ -223,7 +223,7 @@ export default function AdminProfileSecurityClient() {
 
       {/* Sticky footer for mobile actions */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-surface-container-lowest border-t border-outline-variant flex gap-3 z-50">
-        <button className="flex-1 py-3 bg-primary text-white rounded-xl font-bold shadow-lg">Save All Changes</button>
+        <button className="flex-1 py-3 bg-primary text-on-primary rounded-xl font-bold shadow-lg">Save All Changes</button>
         <button className="w-14 h-14 bg-surface-container-high text-primary rounded-xl flex items-center justify-center">
           <AppIcon name="help" className="lucide" />
         </button>

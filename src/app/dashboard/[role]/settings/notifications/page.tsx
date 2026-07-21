@@ -258,7 +258,7 @@ export default function NotificationSettingsPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-6 py-3 bg-primary hover:bg-primary text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-6 py-3 bg-primary hover:bg-primary text-on-primary font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {saving ? (
               <>

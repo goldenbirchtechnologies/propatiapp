@@ -42,7 +42,7 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Hero Banner */}
-        <div className="rounded-xl bg-primary text-white p-8 md:p-10">
+        <div className="rounded-xl bg-primary text-on-primary p-8 md:p-10">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-bg-secondary/20 text-bg-secondary px-3 py-1 rounded-full border border-bg-secondary/30 mb-4 text-sm font-medium">
               <ClipboardList className="w-4 h-4" />

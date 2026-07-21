@@ -46,7 +46,7 @@ export default async function AdminDisputesPage() {
                     <td className="p-3">{tx.payee?.fullName ?? '—'}</td>
                     <td className="p-3">{new Date(tx.createdAt).toLocaleString('en-NG')}</td>
                     <td className="p-3 text-right">
-                      <Link href={`/dashboard/admin/disputes/${tx.id}`} className="px-3 py-1.5 text-sm bg-primary text-white rounded-lg">Review</Link>
+                      <Link href={`/dashboard/admin/disputes/${tx.id}`} className="px-3 py-1.5 text-sm bg-primary text-on-primary rounded-lg">Review</Link>
                     </td>
                   </tr>
                 ))}

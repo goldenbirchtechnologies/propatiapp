@@ -38,7 +38,7 @@ export default async function AdminVerificationsPage() {
             <h1 className="text-3xl font-bold text-foreground">Verifications</h1>
             <p className="text-muted-foreground mt-1">Manage platform-wide user verifications.</p>
           </div>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+          <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
             New Batch
           </button>
         </div>

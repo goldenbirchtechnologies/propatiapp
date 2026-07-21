@@ -29,7 +29,7 @@ export default function EstateManagerLeaseNegotiationPage() {
             <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
               <p className="text-destructive font-medium mb-1">Error</p>
               <p className="text-sm text-muted-foreground mb-3">{error}</p>
-              <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
+              <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-on-destructive rounded-lg hover:bg-destructive">Retry</button>
             </div>
           </div>
         </ErrorBoundary>

@@ -102,7 +102,7 @@ const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass
         </div>
       </div>
       {count !== undefined && count > 0 && (
-        <div className="absolute top-3 right-3 bg-destructive text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+        <div className="absolute top-3 right-3 bg-destructive text-on-destructive text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
           {count > 99 ? '99+' : count}
         </div>
       )}
@@ -136,7 +136,7 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-outline-variant/30 gap-2 sm:gap-4 hover:bg-surface-container/30 transition-colors duration-150">
       <div className="flex items-center gap-3 flex-1">
-        <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br from-primary to-accent">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center text-on-primary font-bold bg-gradient-to-br from-primary to-accent">
           {userItem.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">

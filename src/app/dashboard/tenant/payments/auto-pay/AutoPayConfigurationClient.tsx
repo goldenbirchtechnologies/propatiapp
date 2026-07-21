@@ -84,8 +84,8 @@ export default function AutoPayConfigurationClient() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="font-label-md text-label-md bg-[#009e6f]/10 text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-xs">
-              <span className="w-2 h-2 rounded-full bg-[#009e6f]"></span>
+            <span className="font-label-md text-label-md bg-accent/10 text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-xs">
+              <span className="w-2 h-2 rounded-full bg-accent"></span>
               ACTIVE
             </span>
             <Switch checked={globalEnabled} onCheckedChange={setGlobalEnabled} />
@@ -184,7 +184,7 @@ export default function AutoPayConfigurationClient() {
 
           {/* Summary & Security */}
           <Card className=" text-foreground border-none shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#feae2c]/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
             <CardContent className="p-5 space-y-4 relative z-10">
               <div className="flex items-center gap-2">
                 <span className="lucide text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>

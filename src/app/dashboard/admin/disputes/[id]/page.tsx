@@ -54,8 +54,8 @@ export default async function AdminDisputeDetailPage({ params }: { params: { id:
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href={`/api/admin/deal/${tx.id}/release-commission`} className="px-4 py-2 bg-success text-white rounded-lg">Force release commission</Link>
-            <Link href={`/api/admin/deal/${tx.id}`} className="px-4 py-2 bg-destructive text-white rounded-lg">Cancel deal / refund</Link>
+            <Link href={`/api/admin/deal/${tx.id}/release-commission`} className="px-4 py-2 bg-success text-on-success rounded-lg">Force release commission</Link>
+            <Link href={`/api/admin/deal/${tx.id}`} className="px-4 py-2 bg-destructive text-on-destructive rounded-lg">Cancel deal / refund</Link>
           </div>
         </div>
       </ErrorBoundary>

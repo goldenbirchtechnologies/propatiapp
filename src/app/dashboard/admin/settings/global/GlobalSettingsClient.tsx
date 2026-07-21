@@ -195,7 +195,7 @@ export default function GlobalSettingsClient() {
                 {/* Rule Card - Premium */}
                 <div className="p-4 bg-primary text-on-primary rounded-lg shadow-lg">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="px-2 py-1 bg-surface-container-lowest/20 text-white text-[10px] font-bold rounded uppercase tracking-wider">
+                    <span className="px-2 py-1 bg-surface-container-lowest/20 text-on-primary text-[10px] font-bold rounded uppercase tracking-wider">
                       Premium
                     </span>
                     <span className="lucide text-secondary-container" data-icon="star" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>

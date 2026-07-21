@@ -57,8 +57,8 @@ interface Application {
 }
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
-  under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
+  pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
+  under_review: { label: 'Under Review', className: 'bg-info/10 text-info border-info/20' },
   accepted: { label: 'Accepted', className: 'bg-success-bright/10 text-success border-success-bright/20' },
   rejected: { label: 'Rejected', className: 'bg-destructive/10 text-destructive border-destructive/20' },
   withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
@@ -147,7 +147,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
+        <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
           Applications
         </h1>
         <p className="text-on-surface-variant">
@@ -197,7 +197,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
         <Card>
           <CardContent className="py-16 text-center">
             <Users className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" />
-            <h3 className="font-headline-sm text-headline-sm text-primary mb-2 text-primary">
+            <h3 className="font-headline-sm text-headline-sm text-primary mb-2">
               No applications found
             </h3>
             <p className="text-on-surface-variant">
@@ -213,12 +213,12 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <table className="w-full">
               <thead>
                 <tr className="border-b border-outline-variant">
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Tenant</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Listing</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Message</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Status</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Date</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Actions</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Tenant</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Listing</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Message</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Status</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Date</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -308,36 +308,36 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   </p>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div
-                    className="flex items-center justify-center"
-                  >
-                    {selectedApp.tenant.fullName.charAt(0)}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <p className="font-semibold text-primary">
-                        {selectedApp.tenant.fullName}
-                      </p>
-                      {selectedApp.tenant.idVerified && (
-                        <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
-                          <BadgeCheck className="w-3 h-3" /> ID Verified
-                        </span>
-                      )}
-                      {selectedApp.tenant.ninVerified && (
-                        <span className="inline-flex items-center gap-1 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded-full px-2 py-0.5">
-                          <ShieldCheck className="w-3 h-3" /> NIN Verified
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
-                    {selectedApp.tenant.phone && (
-                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
+              <div className="flex items-start gap-3">
+                <div
+                  className="flex items-center justify-center"
+                >
+                  {selectedApp.tenant.fullName.charAt(0)}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-semibold text-primary">
+                      {selectedApp.tenant.fullName}
+                    </p>
+                    {selectedApp.tenant.idVerified && (
+                      <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
+                        <BadgeCheck className="w-3 h-3" /> ID Verified
+                      </span>
+                    )}
+                    {selectedApp.tenant.ninVerified && (
+                      <span className="inline-flex items-center gap-1 text-xs text-info bg-info/10 border border-info/20 rounded-full px-2 py-0.5">
+                        <ShieldCheck className="w-3 h-3" /> NIN Verified
+                      </span>
                     )}
                   </div>
+                  <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
+                  {selectedApp.tenant.phone && (
+                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
+                  )}
                 </div>
+              </div>
 
-                {(selectedApp.tenant.employmentStatus ||
+              {(selectedApp.tenant.employmentStatus ||
                   selectedApp.tenant.employerName ||
                   selectedApp.tenant.yearlyIncome) && (
                   <div
@@ -427,7 +427,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     size="sm"
                     onClick={() => handleAction('accept')}
                     disabled={isLoading}
-                    className="bg-success hover:bg-success/90 text-white"
+                    className="bg-success hover:bg-success/90 text-primary-foreground"
                   >
                     {actionType === 'accept' && isLoading ? (
                       <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -452,8 +452,8 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">{label}</p>
-            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-primary">{value}</p>
+            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">{label}</p>
+            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary">{value}</p>
           </div>
           <div className="flex items-center justify-center">
             {icon}

@@ -28,7 +28,7 @@ const paymentHistory = [
 
 const ledgerRows = [
   { desc: 'Previous Balance', sub: 'Balance carried from October', category: 'Arrears', amount: '0.00', badge: '' },
-  { desc: 'Monthly Rent', sub: 'The Obsidian Penthouse - Nov 2024', category: 'Residential', amount: '1,200,000.00', badge: 'bg-[#E1F2EF] text-residential-teal' },
+  { desc: 'Monthly Rent', sub: 'The Obsidian Penthouse - Nov 2024', category: 'Residential', amount: '1,200,000.00', badge: 'bg-accent/10 text-accent' },
   { desc: 'Service Charge', sub: 'Security, waste management, and common area cleaning', category: 'Maintenance', amount: '150,000.00', badge: '' },
   { desc: 'Utility / Power Levy', sub: 'Prepaid meter allocation (500 units)', category: 'Utilities', amount: '100,000.00', badge: '' },
 ];
@@ -154,7 +154,7 @@ export default function AutomatedMonthlyStatementClient() {
               </thead>
               <tbody className="font-body-sm">
                 {ledgerRows.map((row, i) => (
-                  <tr key={i} className="border-b border-border even:bg-[#f9f9ff]">
+                  <tr key={i} className="border-b border-border even:bg-surface-container-low">
                     <td className="p-3">
                       <p className="font-bold">{row.desc}</p>
                       <p className="text-xs text-on-surface-variant">{row.sub}</p>

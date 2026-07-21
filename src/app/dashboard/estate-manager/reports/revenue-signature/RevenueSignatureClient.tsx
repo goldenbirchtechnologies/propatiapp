@@ -125,30 +125,30 @@ export default function RevenueSignatureClient({
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Total Revenue</p>
           <p className="text-2xl font-bold text-success font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
         </Card>
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Service Charges</p>
           <p className="text-2xl font-bold text-blue-400 font-mono">₦{(totalServiceCharges / 1e6).toFixed(2)}M</p>
         </Card>
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Rent Transactions</p>
-          <p className="text-2xl font-bold text-white font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
+          <p className="text-2xl font-bold text-on-surface font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
         </Card>
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Net Signature</p>
           <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-success' : 'text-destructive'}`}>
             {totalNet >= 0 ? '+' : ''}₦{(totalNet / 1e6).toFixed(2)}M
           </p>
         </Card>
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Avg Transaction</p>
-          <p className="text-2xl font-bold text-white font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
+          <p className="text-2xl font-bold text-on-surface font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
           <p className="text-xs text-zinc-400 mt-1">{transactionCount} transactions</p>
         </Card>
-        <Card className="p-4 border-white/5 bg-[#0e1726]">
+        <Card className="p-4 border-outline bg-surface-container-low">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Pending Settlement</p>
           <p className="text-2xl font-bold text-destructive font-mono">₦{(pendingSettlement / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-zinc-400 mt-1">Awaiting clearance</p>
@@ -156,9 +156,9 @@ export default function RevenueSignatureClient({
       </div>
 
       {/* Table */}
-      <Card className="border-white/5 bg-[#0e1726]">
-        <div className="p-4 border-b border-white/5">
-          <h3 className="font-headline-sm font-bold text-white flex items-center gap-2">
+      <Card className="border-outline bg-surface-container-low">
+        <div className="p-4 border-b border-outline">
+          <h3 className="font-headline-sm font-bold text-on-surface flex items-center gap-2">
             <FileText className="w-4 h-4 text-blue-400" />
             Monthly Revenue Signature
           </h3>
@@ -166,7 +166,7 @@ export default function RevenueSignatureClient({
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="border-white/5 hover:bg-transparent">
+              <TableRow className="border-outline hover:bg-transparent">
                 <TableHead className="text-zinc-400">Month</TableHead>
                 <TableHead className="text-right text-zinc-400">Total Revenue</TableHead>
                 <TableHead className="text-right text-zinc-400">Service Charges</TableHead>
@@ -183,11 +183,11 @@ export default function RevenueSignatureClient({
                 </TableRow>
               ) : (
                 filtered.map((m) => (
-                  <TableRow key={m.month} className="border-white/5 transition-colors hover:bg-white/[0.02]">
-                    <TableCell className="text-white text-sm">{m.month}</TableCell>
+                  <TableRow key={m.month} className="border-outline transition-colors hover:bg-surface-container-lowest">
+                    <TableCell className="text-on-surface text-sm">{m.month}</TableCell>
                     <TableCell className="text-right text-success font-mono text-sm">₦{m.totalRevenue.toLocaleString()}</TableCell>
                     <TableCell className="text-right text-blue-400 font-mono text-sm">₦{m.serviceCharges.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-white font-mono text-sm">₦{m.rentTransactions.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-on-surface font-mono text-sm">₦{m.rentTransactions.toLocaleString()}</TableCell>
                     <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-success' : 'text-destructive'}`}>
                       {m.net >= 0 ? '+' : ''}₦{m.net.toLocaleString()}
                     </TableCell>

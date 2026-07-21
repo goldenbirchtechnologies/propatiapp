@@ -41,11 +41,11 @@
   --theme-landlord-accent2: #c8520a;
 
   /* Tenant */
-  --theme-tenant-bg: #FAFAFA;
-  --theme-tenant-surface: #FFFFFF;
-  --theme-tenant-border: #E5E7EB;
-  --theme-tenant-text: #111111;
-  --theme-tenant-muted: #666666;
+  --theme-tenant-bg: #111111;
+  --theme-tenant-surface: #141414;
+  --theme-tenant-border: rgba(255, 255, 255, 0.08);
+  --theme-tenant-text: #f8f6f0;
+  --theme-tenant-muted: #888680;
   --theme-tenant-accent: #0e7c6a;
   --theme-tenant-accent2: #14a88e;
 

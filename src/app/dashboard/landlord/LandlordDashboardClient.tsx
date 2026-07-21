@@ -96,8 +96,8 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
         <Card className="relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <div className="absolute inset-0 animate-shimmer opacity-30 pointer-events-none" />
           <CardContent className="p-6 relative z-10">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/70 mb-1">This Month&apos;s Rent</p>
-            <p className="text-3xl font-headline-sm text-headline-sm font-bold text-primary text-white">₦4,250,000</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-on-primary/70 mb-1">This Month&apos;s Rent</p>
+            <p className="text-3xl font-headline-sm text-headline-sm font-bold text-primary text-on-primary mb-4">₦4,250,000</p>
             <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success-bright">
               <AppIcon name="verified" className="lucide" />
               85% Collected
@@ -177,7 +177,7 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
             {rentSchedule.map((item, idx) => (
               <div key={idx} className="relative flex items-center gap-4">
                 <div className={cn('absolute left-0 w-10 h-10 rounded-full flex items-center justify-center ring-8 ring-background', item.bg)}>
-                  <span className="lucide text-white text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                  <span className="lucide text-on-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
                 <div className="ml-12">
                   <p className="text-sm font-semibold">{item.title}</p>
@@ -189,13 +189,13 @@ export default function LandlordDashboardClient({ userName }: LandlordDashboardC
             ))}
             <div className="mt-6 p-4 bg-primary-container rounded-lg">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-medium text-white/80">Ecosystem Health</p>
-                <span className="text-sm font-bold text-white">98%</span>
+                <p className="text-xs font-medium text-on-primary/80">Ecosystem Health</p>
+                <span className="text-sm font-bold text-on-primary">98%</span>
               </div>
               <div className="w-full bg-primary h-2 rounded-full overflow-hidden">
                 <div className="bg-secondary-container h-full w-[98%] rounded-full" />
               </div>
-              <p className="mt-2 text-[11px] text-white/70">Your portfolio trust rating is exceptional this month.</p>
+              <p className="mt-2 text-[11px] text-on-primary/70">Your portfolio trust rating is exceptional this month.</p>
             </div>
           </div>
         </Card>

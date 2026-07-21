@@ -239,7 +239,7 @@ function AuditLogsClient({
                     </td>
                     <td className="px-lg py-md whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[14px] text-white font-bold shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
                           {initials(log.admin?.fullName || 'System')}
                         </div>
                         <span className="font-label-md text-label-md text-primary font-semibold">

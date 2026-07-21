@@ -327,7 +327,7 @@ export default async function EstateManagerDashboardPage() {
         <div className="absolute bottom-1/3 left-0 w-[350px] h-[350px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
         {/* Welcome Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/5">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-outline">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-3 py-1 font-mono tracking-wider uppercase text-[10px]">
@@ -339,7 +339,7 @@ export default async function EstateManagerDashboardPage() {
                 </Badge>
               )}
             </div>
-            <h1 className="font-heading text-4xl font-extrabold tracking-tight text-white mt-1">
+            <h1 className="font-heading text-4xl font-extrabold tracking-tight text-on-surface mt-1">
               Welcome back, <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">{displayName}</span>
             </h1>
             <p className="text-zinc-400 text-sm max-w-2xl">
@@ -350,15 +350,15 @@ export default async function EstateManagerDashboardPage() {
           {/* Quick Actions Double-Bezel Button */}
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/dashboard/estate-manager/units">
-              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-5 py-2.5 transition-all flex items-center gap-2 group shadow-lg shadow-blue-500/10">
+              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-on-surface font-medium text-xs px-5 py-2.5 transition-all flex items-center gap-2 group shadow-lg shadow-blue-500/10">
                 <AppIcon name="View Portfolio" className="lucide" />
-                <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
+                <span className="w-5 h-5 rounded-full bg-outline/10 flex items-center justify-center text-on-surface transition-transform group-hover:translate-x-0.5">
                   <ArrowRight className="w-3 h-3" />
                 </span>
               </Button>
             </Link>
             <Link href="/dashboard/estate-manager/bulk-import">
-              <Button variant="outline" className="rounded-full border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-zinc-300 font-medium text-xs px-5 py-2.5 flex items-center gap-2">
+              <Button variant="outline" className="rounded-full border-outline bg-surface-container-lowest hover:bg-surface-container-low text-zinc-300 font-medium text-xs px-5 py-2.5 flex items-center gap-2">
                 <Plus className="w-4 h-4" />
                 <AppIcon name="Bulk Import" className="lucide" />
               </Button>
@@ -368,11 +368,11 @@ export default async function EstateManagerDashboardPage() {
 
         {/* Getting Started / Onboarding Section */}
         {!hasData && (
-          <section className="relative group p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/5 to-purple-500/15 rounded-[2rem] border border-white/5 shadow-2xl">
-            <div className="bg-[#0b1324] rounded-[calc(2rem-0.25rem)] p-8 space-y-6">
+          <section className="relative group p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/5 to-purple-500/15 rounded-[2rem] border border-outline shadow-2xl">
+            <div className="bg-surface-container-lowest rounded-[calc(2rem-0.25rem)] p-8 space-y-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <h3 className="font-heading text-2xl font-bold text-white flex items-center gap-2">
+                  <h3 className="font-heading text-2xl font-bold text-on-surface flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-blue-400" /> Getting Started Guide
                   </h3>
                   <p className="text-zinc-400 text-sm">
@@ -388,26 +388,26 @@ export default async function EstateManagerDashboardPage() {
               {/* Steps Checklist */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
                 {/* Step 1: Done */}
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between space-y-4">
+                <div className="bg-surface-container-lowest border border-outline rounded-2xl p-4 flex flex-col justify-between space-y-4">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-green-500/10 text-green-400 border-green-500/20 px-2 py-0.5 text-[9px] font-mono">Step 1</Badge>
                       <CheckCircle2 className="w-4 h-4 text-green-400" />
                     </div>
-                    <h4 className="font-semibold text-sm text-white">Create Organisation</h4>
+                    <h4 className="font-semibold text-sm text-on-surface">Create Organisation</h4>
                     <p className="text-xs text-zinc-400">{activeOrg?.name || 'Lagos Prime Estates'}</p>
                   </div>
                   <span className="text-xs text-green-400 flex items-center gap-1 font-medium">Completed</span>
                 </div>
 
                 {/* Step 2: Pending */}
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
+                <div className="bg-surface-container-lowest border border-outline rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-2 py-0.5 text-[9px] font-mono">Step 2</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
-                    <h4 className="font-semibold text-sm text-white">Add Properties & Units</h4>
+                    <h4 className="font-semibold text-sm text-on-surface">Add Properties & Units</h4>
                     <p className="text-xs text-zinc-400">Add physical units, rent details, and caution deposits.</p>
                   </div>
                   <Link href="/dashboard/estate-manager/units" className="text-xs text-blue-400 flex items-center gap-1 font-medium group-hover:underline">
@@ -416,13 +416,13 @@ export default async function EstateManagerDashboardPage() {
                 </div>
 
                 {/* Step 3: Pending */}
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
+                <div className="bg-surface-container-lowest border border-outline rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-2 py-0.5 text-[9px] font-mono">Step 3</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
-                    <h4 className="font-semibold text-sm text-white">Setup Service Charges</h4>
+                    <h4 className="font-semibold text-sm text-on-surface">Setup Service Charges</h4>
                     <p className="text-xs text-zinc-400">Generate cycle periods and allocate water/electricity meters.</p>
                   </div>
                   <Link href="/dashboard/estate-manager/service-charges" className="text-xs text-blue-400 flex items-center gap-1 font-medium group-hover:underline">
@@ -431,13 +431,13 @@ export default async function EstateManagerDashboardPage() {
                 </div>
 
                 {/* Step 4: Pending */}
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
+                <div className="bg-surface-container-lowest border border-outline rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-blue-500/30 transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-2 py-0.5 text-[9px] font-mono">Step 4</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
-                    <h4 className="font-semibold text-sm text-white">Invite Team Members</h4>
+                    <h4 className="font-semibold text-sm text-on-surface">Invite Team Members</h4>
                     <p className="text-xs text-zinc-400">Add co-managers, agents, and sub-staff to your profile.</p>
                   </div>
                   <Link href="/dashboard/estate-manager/team" className="text-xs text-blue-400 flex items-center gap-1 font-medium group-hover:underline">
@@ -452,7 +452,7 @@ export default async function EstateManagerDashboardPage() {
         {/* 4-Column KPI Grid */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: Occupancy Rate */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+          <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Occupancy Rate</span>
@@ -461,15 +461,15 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-white font-mono">{displayOccupancyRate}%</h3>
+                <h3 className="text-3xl font-extrabold text-on-surface font-mono">{displayOccupancyRate}%</h3>
                 <p className="text-xs text-zinc-400">{displayOccupied} of {displayUnits} units occupied</p>
               </div>
-              <Progress value={displayOccupancyRate} className="h-1.5 bg-white/5" />
+              <Progress value={displayOccupancyRate} className="h-1.5 bg-outline/5" />
             </div>
           </div>
 
           {/* Card 2: Service Charge Collection */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+          <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Service Charge Collection</span>
@@ -478,15 +478,15 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-white font-mono">{displayCollectionRate}%</h3>
+                <h3 className="text-3xl font-extrabold text-on-surface font-mono">{displayCollectionRate}%</h3>
                 <p className="text-xs text-zinc-400">₦{(displayPaidCharges / 1e6).toFixed(2)}M of ₦{(displayBilledCharges / 1e6).toFixed(2)}M</p>
               </div>
-              <Progress value={displayCollectionRate} className="h-1.5 bg-white/5" />
+              <Progress value={displayCollectionRate} className="h-1.5 bg-outline/5" />
             </div>
           </div>
 
           {/* Card 3: Active Maintenance */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+          <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Maintenance Queue</span>
@@ -495,7 +495,7 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-white font-mono">
+                <h3 className="text-3xl font-extrabold text-on-surface font-mono">
                   {displayTickets.filter(t => t.status !== 'resolved' && t.status !== 'closed').length} Active
                 </h3>
                 <p className="text-xs text-zinc-400">
@@ -516,7 +516,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 5: Pending Managed Collections */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+          <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Pending Managed Collections</span>
@@ -525,7 +525,7 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-white font-mono">{displayPendingManaged ?? 0}</h3>
+                <h3 className="text-3xl font-extrabold text-on-surface font-mono">{displayPendingManaged ?? 0}</h3>
                 <p className="text-xs text-zinc-400">Awaiting disbursement to landlord</p>
               </div>
               <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium">
@@ -535,7 +535,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 4: Utility Allocation */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+          <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Billed Utilities</span>
@@ -544,7 +544,7 @@ export default async function EstateManagerDashboardPage() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="text-3xl font-extrabold text-white font-mono">₦420,000</h3>
+                <h3 className="text-3xl font-extrabold text-on-surface font-mono">₦420,000</h3>
                 <p className="text-xs text-zinc-400">Power, water & security</p>
               </div>
               <div className="flex items-center gap-1 text-[10px] text-green-400 font-medium">
@@ -558,12 +558,12 @@ export default async function EstateManagerDashboardPage() {
           <div className="lg:col-span-12 space-y-6">
             <div className="flex items-end justify-between">
               <div className="space-y-0.5">
-                <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="font-heading text-lg font-bold text-on-surface flex items-center gap-2">
                   <BarChart2 className="w-4 h-4 text-zinc-400" /> Managed Collections Analytics
                 </h3>
                 <p className="text-xs text-zinc-400">Trends, smart collection breakdown, and near-void alerts.</p>
               </div>
-              <Badge variant="outline" className="text-[10px] border-white/10 text-zinc-300 bg-white/[0.02]">
+              <Badge variant="outline" className="text-[10px] border-outline text-zinc-300 bg-surface-container-lowest">
                 Rolling 6 months
               </Badge>
             </div>
@@ -574,8 +574,8 @@ export default async function EstateManagerDashboardPage() {
               <KpiCard label="Near-Void Alerts" value={`${managedAnalytics.nearVoidCount}`} hint={`₦${(managedAnalytics.nearVoidAmount / 100).toLocaleString()} at risk`} />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-4 border border-white/5 bg-[#0a1120] rounded-2xl p-5 space-y-4">
-                <h4 className="font-heading text-sm font-bold text-white">Monthly Trend</h4>
+              <div className="lg:col-span-4 border border-outline bg-surface-container rounded-2xl p-5 space-y-4">
+                <h4 className="font-heading text-sm font-bold text-on-surface">Monthly Trend</h4>
                 {managedAnalytics.monthlyTrend.length === 0 ? (
                   <p className="text-xs text-zinc-400">No managed collections yet.</p>
                 ) : (
@@ -586,7 +586,7 @@ export default async function EstateManagerDashboardPage() {
                           <span className="text-zinc-300">{row.label}</span>
                           <span className="text-zinc-400">{row.count} deal{row.count === 1 ? '' : 's'}</span>
                         </div>
-                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                        <div className="h-1.5 rounded-full bg-outline/5 overflow-hidden">
                           <div className="h-full rounded-full bg-blue-500/80" style={{ width: `${Math.min(100, (row.amountNaira / (managedAnalytics.totalAmount || 1)) * 100)}%` }} />
                         </div>
                       </div>
@@ -594,9 +594,9 @@ export default async function EstateManagerDashboardPage() {
                   </div>
                 )}
               </div>
-              <div className="lg:col-span-8 border border-white/5 bg-[#0a1120] rounded-2xl overflow-hidden">
-                <div className="p-5 flex items-center justify-between border-b border-white/5">
-                  <h4 className="font-heading text-sm font-bold text-white">Smart Collections</h4>
+              <div className="lg:col-span-8 border border-outline bg-surface-container rounded-2xl overflow-hidden">
+                <div className="p-5 flex items-center justify-between border-b border-outline">
+                  <h4 className="font-heading text-sm font-bold text-on-surface">Smart Collections</h4>
                   <span className="text-[10px] text-zinc-400">{managedAnalytics.smartCount} unverified past 14d</span>
                 </div>
                 <div className="p-5">
@@ -604,7 +604,7 @@ export default async function EstateManagerDashboardPage() {
                     <p className="text-xs text-zinc-400">No smart collections to review.</p>
                   ) : (
                     <Table>
-                      <TableHeader className="border-b border-white/5">
+                      <TableHeader className="border-b border-outline">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Transaction</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Amount</TableHead>
@@ -614,9 +614,9 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {managedAnalytics.recentSmart.map((item) => (
-                          <TableRow key={item.id} className="border-b border-white/5 hover:bg-white/[0.01]">
-                            <TableCell className="text-white text-xs font-medium font-mono">{item.id.slice(0, 8)}...</TableCell>
-                            <TableCell className="text-white text-xs font-semibold">₦{item.amountNaira.toLocaleString()}</TableCell>
+                          <TableRow key={item.id} className="border-b border-outline hover:bg-surface-container-lowest">
+                            <TableCell className="text-on-surface text-xs font-medium font-mono">{item.id.slice(0, 8)}...</TableCell>
+                            <TableCell className="text-on-surface text-xs font-semibold">₦{item.amountNaira.toLocaleString()}</TableCell>
                             <TableCell className="text-zinc-400 text-xs">{daysSince(item.createdAt)} days</TableCell>
                             <TableCell>
                               <Badge className="text-[10px] border px-2 py-0.5 bg-amber-500/10 text-amber-300 border-amber-500/20">Unverified</Badge>
@@ -637,16 +637,16 @@ export default async function EstateManagerDashboardPage() {
           {/* Main Column: Tickets & Charges */}
           <div className="lg:col-span-8 space-y-8">
             {/* Maintenance Tickets */}
-            <div className="border border-white/5 bg-[#0a1120] rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 flex items-center justify-between border-b border-white/5">
+            <div className="border border-outline bg-surface-container rounded-2xl overflow-hidden shadow-xl">
+              <div className="p-6 flex items-center justify-between border-b border-outline">
                 <div className="space-y-0.5">
-                  <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+                  <h3 className="font-heading text-lg font-bold text-on-surface flex items-center gap-2">
                     <Wrench className="w-4 h-4 text-zinc-400" /> Active Maintenance Requests
                   </h3>
                   <p className="text-xs text-zinc-400">Track and dispatch service personnel for tenant issues.</p>
                 </div>
                 <Link href="/dashboard/estate-manager/maintenance">
-                  <Button variant="ghost" size="sm" className="text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                  <Button variant="ghost" size="sm" className="text-xs text-zinc-400 hover:text-on-surface flex items-center gap-1">
                     Manage All <ChevronRight className="w-4 h-4" />
                   </Button>
                 </Link>
@@ -661,7 +661,7 @@ export default async function EstateManagerDashboardPage() {
                 ) : (
                   <div className="overflow-x-auto">
                     <Table>
-                      <TableHeader className="border-b border-white/5">
+                      <TableHeader className="border-b border-outline">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Unit</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Issue Details</TableHead>
@@ -672,12 +672,12 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {displayTickets.map((t: unknown, idx: number) => (
-                          <TableRow key={t.id || idx} className="border-b border-white/5 hover:bg-white/[0.01]">
-                            <TableCell className="text-white text-xs font-semibold">
+                          <TableRow key={t.id || idx} className="border-b border-outline hover:bg-surface-container-lowest">
+                            <TableCell className="text-on-surface text-xs font-semibold">
                               {t.unitRef || (t.listing ? `${t.listing.title}` : 'Unit Registry')}
                             </TableCell>
                             <TableCell className="text-zinc-300 text-xs max-w-[200px] truncate">
-                              <span className="block text-white font-medium truncate">{t.title}</span>
+                              <span className="block text-on-surface font-medium truncate">{t.title}</span>
                               <span className="block text-[10px] text-zinc-500 capitalize">{t.category}</span>
                             </TableCell>
                             <TableCell>
@@ -703,16 +703,16 @@ export default async function EstateManagerDashboardPage() {
             </div>
 
             {/* Service Charge Billing */}
-            <div className="border border-white/5 bg-[#0a1120] rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 flex items-center justify-between border-b border-white/5">
+            <div className="border border-outline bg-surface-container rounded-2xl overflow-hidden shadow-xl">
+              <div className="p-6 flex items-center justify-between border-b border-outline">
                 <div className="space-y-0.5">
-                  <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+                  <h3 className="font-heading text-lg font-bold text-on-surface flex items-center gap-2">
                     <Receipt className="w-4 h-4 text-zinc-400" /> Recent Service Charge Cycles
                   </h3>
                   <p className="text-xs text-zinc-400">Quarterly and monthly fee cycles allocated to tenants.</p>
                 </div>
                 <Link href="/dashboard/estate-manager/service-charges">
-                  <Button variant="ghost" size="sm" className="text-xs text-zinc-400 hover:text-white flex items-center gap-1">
+                  <Button variant="ghost" size="sm" className="text-xs text-zinc-400 hover:text-on-surface flex items-center gap-1">
                     Billing Dashboard <ChevronRight className="w-4 h-4" />
                   </Button>
                 </Link>
@@ -727,7 +727,7 @@ export default async function EstateManagerDashboardPage() {
                 ) : (
                   <div className="overflow-x-auto">
                     <Table>
-                      <TableHeader className="border-b border-white/5">
+                      <TableHeader className="border-b border-outline">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Cycle Period</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Unit/Property</TableHead>
@@ -738,14 +738,14 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {displayCharges.map((sc: unknown, idx: number) => (
-                          <TableRow key={sc.id || idx} className="border-b border-white/5 hover:bg-white/[0.01]">
-                            <TableCell className="text-white text-xs font-mono font-semibold">
+                          <TableRow key={sc.id || idx} className="border-b border-outline hover:bg-surface-container-lowest">
+                            <TableCell className="text-on-surface text-xs font-mono font-semibold">
                               {sc.period}
                             </TableCell>
                             <TableCell className="text-zinc-300 text-xs">
                               {sc.unitRef || sc.listing?.title || 'Prime Apartment'}
                             </TableCell>
-                            <TableCell className="text-white font-mono text-xs font-semibold">
+                            <TableCell className="text-on-surface font-mono text-xs font-semibold">
                               ₦{Number(sc.amount).toLocaleString()}
                             </TableCell>
                             <TableCell>
@@ -769,13 +769,13 @@ export default async function EstateManagerDashboardPage() {
           {/* Right Column: Actions & Activity */}
           <div className="lg:col-span-4 space-y-8">
             {/* Quick Command Center */}
-            <div className="border border-white/5 bg-[#0a1120] rounded-2xl p-6 shadow-xl space-y-4">
-              <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+            <div className="border border-outline bg-surface-container rounded-2xl p-6 shadow-xl space-y-4">
+              <h3 className="font-heading text-lg font-bold text-on-surface flex items-center gap-2">
                 <Layers className="w-4 h-4 text-zinc-400" /> Command Center
               </h3>
               <div className="grid grid-cols-1 gap-2.5">
                 <Link href="/dashboard/estate-manager/units">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/5 bg-white/[0.01] hover:bg-white/[0.04] text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-outline bg-surface-container-lowest hover:bg-surface-container-low text-zinc-300 hover:text-on-surface p-3.5 text-xs flex items-center gap-3">
                     <Building2 className="w-4 h-4 text-blue-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Register New Unit</span>
@@ -785,7 +785,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/utilities">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/5 bg-white/[0.01] hover:bg-white/[0.04] text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-outline bg-surface-container-lowest hover:bg-surface-container-low text-zinc-300 hover:text-on-surface p-3.5 text-xs flex items-center gap-3">
                     <Zap className="w-4 h-4 text-purple-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Allocate Utilities</span>
@@ -795,7 +795,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/bulk-import">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/5 bg-white/[0.01] hover:bg-white/[0.04] text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-outline bg-surface-container-lowest hover:bg-surface-container-low text-zinc-300 hover:text-on-surface p-3.5 text-xs flex items-center gap-3">
                     <ClipboardList className="w-4 h-4 text-green-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Import CSV Data</span>
@@ -805,7 +805,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/maintenance">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/5 bg-white/[0.01] hover:bg-white/[0.04] text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-outline bg-surface-container-lowest hover:bg-surface-container-low text-zinc-300 hover:text-on-surface p-3.5 text-xs flex items-center gap-3">
                     <Wrench className="w-4 h-4 text-amber-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Log Maintenance Ticket</span>
@@ -817,16 +817,16 @@ export default async function EstateManagerDashboardPage() {
             </div>
 
             {/* Recent Activity Timeline */}
-            <div className="border border-white/5 bg-[#0a1120] rounded-2xl p-6 shadow-xl space-y-6">
-              <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
+            <div className="border border-outline bg-surface-container rounded-2xl p-6 shadow-xl space-y-6">
+              <h3 className="font-heading text-lg font-bold text-on-surface flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-zinc-400" /> Recent Operations
               </h3>
 
-              <div className="relative pl-4 border-l border-white/5 space-y-6">
+              <div className="relative pl-4 border-l border-outline space-y-6">
                 {(hasData ? recentActivityStub(recentTickets, recentServiceCharges) : mockStats.recentActivity).map((act: unknown) => (
                   <div key={act.id} className="relative space-y-1">
                     {/* Bullet Indicator */}
-                    <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-[#0a1120] ${
+                    <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-surface-container ${
                       act.type === 'payment' ? 'bg-green-500' :
                       act.type === 'maintenance' ? 'bg-amber-500' :
                       act.type === 'utility' ? 'bg-purple-500' : 'bg-blue-500'
@@ -849,10 +849,10 @@ export default async function EstateManagerDashboardPage() {
 
 function KpiCard({ label, value, hint }: { label: string; value: string; hint: string }) {
   return (
-    <div className="p-[1px] bg-gradient-to-br from-white/5 to-white/0 rounded-2xl border border-white/5 shadow-lg bg-[#0e1726]">
+    <div className="p-[1px] bg-gradient-to-br from-outline/5 to-outline/0 rounded-2xl border border-outline shadow-lg bg-surface-container-low">
       <div className="p-5 space-y-2">
         <span className="text-[11px] text-zinc-400 font-medium">{label}</span>
-        <h3 className="text-2xl font-extrabold text-white font-mono tracking-tight">{value}</h3>
+        <h3 className="text-2xl font-extrabold text-on-surface font-mono tracking-tight">{value}</h3>
         <p className="text-[10px] text-zinc-400">{hint}</p>
       </div>
     </div>

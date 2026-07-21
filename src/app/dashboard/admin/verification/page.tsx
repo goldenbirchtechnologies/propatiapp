@@ -39,7 +39,7 @@ export default async function AdminVerificationPage() {
             <h1 className="text-3xl font-bold text-foreground">Verification</h1>
             <p className="text-muted-foreground mt-1">Review and manage property verification requests.</p>
           </div>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+          <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
             New Request
           </button>
         </div>

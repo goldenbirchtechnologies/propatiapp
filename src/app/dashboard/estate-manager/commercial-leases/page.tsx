@@ -35,7 +35,7 @@ export default function EstateManagerCommercialLeasesPage() {
             <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
               <p className="text-destructive font-medium mb-1">Error</p>
               <p className="text-sm text-muted-foreground mb-3">{error}</p>
-              <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive/90">Retry</button>
+              <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-on-error rounded-lg hover:bg-destructive/90">Retry</button>
             </div>
           </div>
         </ErrorBoundary>
@@ -60,7 +60,7 @@ export default function EstateManagerCommercialLeasesPage() {
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background hover:bg-surface transition-colors text-sm font-medium">
               <Download className="w-4 h-4" /> Export Report
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
               <Receipt className="w-4 h-4" /> Bulk Invoice
             </button>
           </div>
@@ -97,7 +97,7 @@ export default function EstateManagerCommercialLeasesPage() {
               <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>88% Recovery achieved</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow bg-primary text-white relative overflow-hidden">
+          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow bg-primary text-on-primary relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
@@ -170,7 +170,7 @@ export default function EstateManagerCommercialLeasesPage() {
             <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
               <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">←</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary">1</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">2</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">→</button>
             </div>

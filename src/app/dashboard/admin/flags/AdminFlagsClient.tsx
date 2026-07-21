@@ -32,7 +32,7 @@ export default function AdminFlagsClient({
           <p className="text-red-600 text-sm mt-1">{error}</p>
           <button
             onClick={() => setError(null)}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+            className="mt-4 px-4 py-2 bg-red-600 text-on-destructive rounded-lg hover:bg-red-700"
           >
             Retry
           </button>
@@ -51,7 +51,7 @@ export default function AdminFlagsClient({
           <p className="text-red-600 text-sm mt-1">{error}</p>
           <button
             onClick={() => setError(null)}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+            className="mt-4 px-4 py-2 bg-red-600 text-on-destructive rounded-lg hover:bg-red-700"
           >
             Retry
           </button>
@@ -67,7 +67,7 @@ export default function AdminFlagsClient({
           <h1 className="text-3xl font-bold text-foreground">Flags</h1>
           <p className="text-muted-foreground mt-1">Review flagged listings and user reports.</p>
         </div>
-        <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+        <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
           Review Flagged
         </button>
       </div>

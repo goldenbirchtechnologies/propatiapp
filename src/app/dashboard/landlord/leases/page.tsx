@@ -62,7 +62,7 @@ export default async function LandlordLeasesPage() {
           </div>
           <Link
             href="/dashboard/landlord/agreements/new"
-            className="px-4 py-2 bg-success text-white rounded-lg hover:bg-success/90 text-sm font-medium"
+            className="px-4 py-2 bg-success text-on-success rounded-lg hover:bg-success/90 text-sm font-medium"
           >
             + New Lease
           </Link>

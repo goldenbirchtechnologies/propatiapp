@@ -123,7 +123,7 @@ function VerificationOfficerClient({
         {[
           { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-on-tertiary-container' },
           { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
-          { label: 'Certified', value: counts.certifiedCount, color: 'bg-primary-container text-white' },
+          { label: 'Certified', value: counts.certifiedCount, color: 'bg-primary-container text-on-primary-container' },
         ].map((stat) => (
           <div
             key={stat.label}

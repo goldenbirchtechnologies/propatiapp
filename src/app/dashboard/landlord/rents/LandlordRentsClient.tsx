@@ -143,10 +143,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         {/* Revenue Card - Large dark card */}
         <Card className="md:col-span-2 relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <CardContent className="p-6 relative z-10">
-            <p className="text-xs font-medium uppercase tracking-widest text-white/60 mb-2">
+            <p className="text-xs font-medium uppercase tracking-widest text-on-primary/60 mb-2">
               Total Expected Revenue
             </p>
-            <p className="text-4xl font-headline-sm text-headline-sm font-bold text-primary text-white mb-4">₦14,250,000</p>
+            <p className="text-4xl font-headline-sm text-headline-sm font-bold text-primary text-on-primary mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-success-bright">
                 <AppIcon name="trending_up" className="lucide" />
@@ -218,7 +218,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                     <tr key={tx.id} className="hover:bg-muted/50 transition-colors group">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center text-white text-xs font-bold">
+                          <div className="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container text-xs font-bold">
                             {(tx.payer?.fullName || tx.agreements?.tenant?.fullName || '?').split(' ').map(n => n[0]).join('').slice(0, 2)}
                           </div>
                           <div>
@@ -275,16 +275,16 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         <Card className="relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <CardContent className="p-6 relative z-10 flex flex-col justify-between h-full">
             <div>
-              <h4 className="font-headline-sm text-headline-sm font-semibold text-primary text-white mb-2">Quick Verified Action</h4>
-              <p className="text-sm text-white/80 mb-6">
+              <h4 className="font-headline-sm text-headline-sm font-semibold text-primary text-on-primary mb-2">Quick Verified Action</h4>
+              <p className="text-sm text-on-primary/80 mb-6">
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-surface-container-lowest/10 p-3 rounded-lg border border-white/10">
-                  <BadgeCheck className="h-5 w-5 text-white" />
+                <div className="flex items-center gap-3 bg-surface-container-lowest/10 p-3 rounded-lg border border-outline-variant">
+                  <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
-                    <p className="text-sm font-medium text-white">Verified Bank Account</p>
-                    <p className="text-xs text-white/60">Guaranty Trust Bank •••• 4291</p>
+                    <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
+                    <p className="text-xs text-on-primary/60">Guaranty Trust Bank •••• 4291</p>
                   </div>
                 </div>
               </div>

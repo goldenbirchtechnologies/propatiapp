@@ -40,10 +40,10 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
           const margin = scenario.monthlyIncome > 0 ? ((net / scenario.monthlyIncome) * 100).toFixed(1) : '0.0';
           const isPositive = net >= 0;
           return (
-            <Card key={scenario.name} className="p-4 border-white/5 bg-[#0e1726]">
+            <Card key={scenario.name} className="p-4 border-outline bg-surface-container-low">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-headline-sm font-bold text-white text-sm">{scenario.name}</h3>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-white/5 text-zinc-400 border border-white/5">
+                <h3 className="font-headline-sm font-bold text-on-surface text-sm">{scenario.name}</h3>
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-outline/5 text-zinc-400 border border-outline">
                   {scenario.occupancyRate.toFixed(0)}% Occ.
                 </span>
               </div>
@@ -62,7 +62,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
                   </div>
                   <p className="text-xl font-bold text-destructive font-mono">₦{(scenario.monthlyExpenses / 1e6).toFixed(2)}M</p>
                 </div>
-                <div className="pt-2 border-t border-white/5">
+                <div className="pt-2 border-t border-outline">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-wider text-zinc-400">Net Monthly</p>
                     <span className={`text-sm font-bold font-mono ${isPositive ? 'text-success' : 'text-destructive'}`}>
@@ -80,12 +80,12 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
         })}
       </div>
 
-      <div className="card p-6 border-white/5 bg-[#0e1726]">
-        <h3 className="font-headline-sm font-bold text-white mb-4">Scenario Comparison</h3>
+      <div className="card p-6 border-outline bg-surface-container-low">
+        <h3 className="font-headline-sm font-bold text-on-surface mb-4">Scenario Comparison</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-outline">
                 <th className="text-left p-2 text-[10px] uppercase tracking-wider text-zinc-400">Scenario</th>
                 <th className="text-right p-2 text-[10px] uppercase tracking-wider text-zinc-400">Occupancy</th>
                 <th className="text-right p-2 text-[10px] uppercase tracking-wider text-zinc-400">Income</th>
@@ -98,8 +98,8 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
               {scenarios.map((scenario) => {
                 const net = scenario.monthlyIncome - scenario.monthlyExpenses;
                 return (
-                  <tr key={scenario.name} className="border-b border-white/5 transition-colors hover:bg-white/[0.02]">
-                    <td className="p-2 text-white font-medium">{scenario.name}</td>
+                  <tr key={scenario.name} className="border-b border-outline transition-colors hover:bg-surface-container-lowest">
+                    <td className="p-2 text-on-surface font-medium">{scenario.name}</td>
                     <td className="p-2 text-right text-zinc-300 font-mono">{scenario.occupancyRate.toFixed(1)}%</td>
                     <td className="p-2 text-right text-success font-mono">₦{scenario.monthlyIncome.toLocaleString()}</td>
                     <td className="p-2 text-right text-destructive font-mono">₦{scenario.monthlyExpenses.toLocaleString()}</td>

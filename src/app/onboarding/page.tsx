@@ -17,11 +17,11 @@ export default async function OnboardingPage() {
   // This handles the case where the webhook hasn't fired yet
   if (!user) {
     const clerkUser = await currentUser();
-    if (!clerkUser) redirect('/login');
+    if (!clerkUser) redirect('/sign-in');
 
     // Sync user from Clerk to database
     user = (await syncClerkUser(clerkUser)) as unknown;
-    if (!user) redirect('/login');
+    if (!user) redirect('/sign-in');
   }
 
   if (user.profileCompleted) {

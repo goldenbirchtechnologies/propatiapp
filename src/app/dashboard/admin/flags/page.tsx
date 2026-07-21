@@ -8,7 +8,7 @@ import AdminFlagsClient from './AdminFlagsClient';
 
 export default async function AdminFlagsPage() {
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(getRoleRedirectPath(user.role));
 
   const displayName = user.fullName || 'Admin';

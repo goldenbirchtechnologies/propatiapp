@@ -10,7 +10,7 @@ export default async function AdminBusinessVerificationsPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const user = await getCurrentUserWithProfile();

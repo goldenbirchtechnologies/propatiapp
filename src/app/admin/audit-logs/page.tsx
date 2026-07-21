@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminAuditLogsPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   const logs = await prisma.adminAuditLog.findMany({

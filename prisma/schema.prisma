@@ -80,6 +80,13 @@ enum VerificationOverallStatus {
   frozen
 }
 
+enum VerificationType {
+  property
+  identity
+  company
+  professional
+}
+
 enum TransactionType {
   rent
   caution
@@ -657,9 +664,10 @@ model ListingFlag {
 }
 
 model Verification {
-  id                String                   @id @default(cuid()) @map("id") // 'ver_' + 12 chars
-  listingId         String                   @unique @map("listing_id")
-  ownerId           String                   @map("owner_id")
+  id                String              @id @default(cuid()) @map("id") // 'ver_' + 12 chars
+  type              VerificationType   @default(property) @map("type")
+  listingId         String?             @unique @map("listing_id")
+  ownerId           String              @map("owner_id")
 
   // Layer 1: Documents
   l1Status          VerificationLayerStatus  @default(pending) @map("l1_status")
@@ -695,7 +703,7 @@ model Verification {
   frozenBy          String?                  @map("frozen_by")
   updatedAt         DateTime                 @updatedAt @map("updated_at")
 
-  listing           Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing           Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
   owner             User                     @relation("VerificationOwner", fields: [ownerId], references: [id])
   reviewer          User?                    @relation("VerificationReviewer", fields: [reviewedBy], references: [id])
   l4Agent           User?                    @relation("InspectionAgent", fields: [l4AgentId], references: [id])
@@ -707,8 +715,8 @@ model Verification {
 model VerificationDocument {
   id               String      @id @default(cuid()) @map("id") // 'vdoc_' + 12 chars
   verificationId   String      @map("verification_id")
-  listingId        String      @map("listing_id")
-  documentType     String      @map("document_type") // 'ownership', 'id', 'photos', 'utility'
+  listingId        String?     @map("listing_id")
+  documentType     String      @map("document_type") // 'ownership', 'id', 'photos', 'utility', 'cac', 'tin', 'license', 'professional'
   url              String
   publicId         String      @map("public_id") // Cloudinary public_id
   fileName         String?     @map("file_name")

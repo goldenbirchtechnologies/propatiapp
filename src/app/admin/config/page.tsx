@@ -7,7 +7,7 @@ import ConfigClient from './ConfigClient';
 
 export default async function AdminConfigPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
 
@@ -18,7 +18,7 @@ export default async function AdminConfigPage() {
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   return (

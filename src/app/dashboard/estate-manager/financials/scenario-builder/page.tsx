@@ -9,7 +9,7 @@ import ScenarioBuilderClient from './ScenarioBuilderClient';
 export default async function ScenarioBuilderPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   if (user.role !== 'estate_manager') {

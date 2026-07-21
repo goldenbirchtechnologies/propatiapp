@@ -8,7 +8,7 @@ import AgentDashboardClient from './AgentDashboardClient';
 export default async function AgentDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'agent') {
     redirect(getRoleRedirectPath(user.role));

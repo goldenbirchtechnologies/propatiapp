@@ -21,7 +21,7 @@ export default async function VerificationSubmittedPage({
 }) {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const sp = await searchParams;

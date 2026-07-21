@@ -17,7 +17,7 @@ const fallbackScenarios = [
 
 export default async function LandlordScenarioBuilderPage() {
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'landlord') redirect('/dashboard');
 
   const displayName = user.fullName || 'Landlord';

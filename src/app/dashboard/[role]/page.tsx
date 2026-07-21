@@ -8,7 +8,7 @@ export default async function RoleDashboardPage({
 }) {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const { role } = await params;

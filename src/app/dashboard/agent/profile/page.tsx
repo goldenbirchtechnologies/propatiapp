@@ -9,7 +9,7 @@ import AgentProfileClient from './AgentProfileClient';
 
 export default async function Page() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'agent') redirect('/dashboard');
@@ -34,7 +34,7 @@ export default async function Page() {
     },
   });
 
-  if (!profile) redirect('/login');
+  if (!profile) redirect('/sign-in');
 
   return (
     <DashboardShell

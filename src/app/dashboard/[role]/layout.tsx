@@ -24,7 +24,7 @@ export default async function RoleLayout({
   const user = await getCurrentUserWithProfile();
 
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const { role: roleSlug } = await params;

@@ -8,7 +8,7 @@ import InvitesClient from './InvitesClient';
 
 export default async function AdminInvitesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
 
@@ -19,7 +19,7 @@ export default async function AdminInvitesPage() {
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Fetch all org members (invites — pending and active)

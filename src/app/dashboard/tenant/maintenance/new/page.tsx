@@ -8,7 +8,7 @@ import TenantMaintenanceRequestClient from './TenantMaintenanceRequestClient';
 
 export default async function Page() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'tenant') redirect('/dashboard');

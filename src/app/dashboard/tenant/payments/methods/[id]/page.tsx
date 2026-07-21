@@ -13,7 +13,7 @@ interface Props {
 export default async function AddPaymentMethodPage({ params }: Props) {
   const { id } = await params;
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'tenant') redirect('/dashboard');

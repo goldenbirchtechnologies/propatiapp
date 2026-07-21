@@ -16,12 +16,12 @@ export default async function AgreementDetailLayout({
   const { userId } = await auth();
   
   if (!userId) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const { role } = await params;

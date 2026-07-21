@@ -8,7 +8,7 @@ import TenantInvoicesClient from '@/app/dashboard/tenant/invoices/TenantInvoices
 
 export default async function AccountantInvoicesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
   return (

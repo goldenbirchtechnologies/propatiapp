@@ -8,7 +8,7 @@ import ServiceChargesPage from '@/app/dashboard/estate-manager/service-charges/p
 
 export default async function EstateManagerInvoicesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'estate_manager') redirect('/dashboard');
   return (

@@ -21,7 +21,7 @@ export default async function AdminDashboardPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const user = await getCurrentUserWithProfile();
@@ -33,7 +33,7 @@ export default async function AdminDashboardPage() {
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   // Get current month start date

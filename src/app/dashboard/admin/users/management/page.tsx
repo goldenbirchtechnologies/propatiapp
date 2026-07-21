@@ -17,10 +17,10 @@ export default async function AdminUsersManagementPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   // Read search params (Next.js 15 — awaited)

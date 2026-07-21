@@ -9,7 +9,7 @@ import PortfolioAnalyticsClient from './PortfolioAnalyticsClient';
 export default async function PortfolioAnalyticsPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   if (user.role !== 'estate_manager') {

@@ -8,7 +8,7 @@ import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient'
 
 export default async function AccountantMessagesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
   return (

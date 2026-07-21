@@ -13,7 +13,7 @@ export default async function TenantSavedPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const user = await getCurrentUser();

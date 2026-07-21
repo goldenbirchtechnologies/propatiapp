@@ -5,7 +5,7 @@ import TransactionsListClient from './TransactionsListClient';
 
 export default async function PaymentsPage({ params }: PageProps) {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/dashboard');

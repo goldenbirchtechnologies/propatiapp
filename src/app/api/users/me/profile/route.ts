@@ -26,9 +26,17 @@ export async function PATCH(request: NextRequest) {
       jobTitle,
       yearlyIncome,
       profileCompleted,
+      role,
     } = body;
 
     const data: Record<string, unknown> = {};
+
+    if (role !== undefined) {
+      const validRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
+      if (validRoles.includes(role as string)) {
+        data.role = role as UserRole;
+      }
+    }
 
     if (fullName !== undefined) data.fullName = String(fullName).trim();
     if (phone !== undefined) data.phone = phone ? String(phone).trim() : null;

@@ -33,7 +33,7 @@ const fallbackRecentTransactions = [
 
 export default async function EstateManagerAnalyticsPage() {
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
 
   const activeOrg = user.ownedOrganisations[0] || user.orgMemberships[0]?.org;
 

@@ -8,7 +8,7 @@ import VerificationDetailClient from './VerificationDetailClient';
 
 export default async function AdminVerificationDetailPage({ params }: { params: { id: string } }) {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
 
@@ -19,7 +19,7 @@ export default async function AdminVerificationDetailPage({ params }: { params: 
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   try {

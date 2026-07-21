@@ -12,7 +12,7 @@ import Link from 'next/link';
 export default async function LandlordDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'landlord') {
     redirect('/dashboard/tenant');

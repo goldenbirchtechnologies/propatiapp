@@ -8,7 +8,7 @@ import AgentInvitationCard from '@/components/agent-invites/AgentInvitationCard'
 
 export default async function AgentInvitesPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'agent') {

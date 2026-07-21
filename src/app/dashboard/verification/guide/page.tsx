@@ -21,11 +21,12 @@ export default async function VerificationGuidePage({
 }) {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const sp = await searchParams;
   const listingId = sp.listingId as string | undefined;
+  const type = sp.type as string | undefined;
 
   const navigation =
     user.role.toLowerCase() === 'landlord'
@@ -47,22 +48,20 @@ export default async function VerificationGuidePage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            Verification Guide
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            How the 5-layer verification works.
-          </p>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">
+              Verification Guide
+            </h1>
+            <p className="text-muted-foreground mt-1">
+              How verification works and what to expect for your selected type.
+            </p>
+          </div>
+          <VerificationGuideClient listingId={listingId || null} type={type || 'property'} />
         </div>
-        <VerificationGuideClient listingId={listingId || null} />
-      </div>
     
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

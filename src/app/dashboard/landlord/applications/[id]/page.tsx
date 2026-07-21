@@ -15,7 +15,7 @@ export default async function LandlordApplicationDetailPage({
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const user = await getCurrentUserWithProfile();

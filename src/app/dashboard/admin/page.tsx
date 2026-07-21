@@ -8,7 +8,7 @@ import AdminDashboardClient from './AdminDashboardClient';
 export default async function AdminDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'admin') {
     redirect(getRoleRedirectPath(user.role));

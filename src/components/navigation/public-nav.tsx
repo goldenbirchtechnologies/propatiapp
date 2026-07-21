@@ -95,7 +95,7 @@ export default function PublicNav() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => clerk.signOut({ redirectUrl: '/' })}
+                    onClick={() => clerk.signOut({ redirectUrl: '/sign-in' })}
                   >
                     Sign Out
                   </Button>

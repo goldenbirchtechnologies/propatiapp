@@ -22,7 +22,7 @@ export default async function VerificationChecklistPage({
 }) {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const sp = await searchParams;

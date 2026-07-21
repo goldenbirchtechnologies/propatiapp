@@ -8,7 +8,7 @@ import AgentInviteManagementClient from './AgentInviteManagementClient';
 
 export default async function LandlordAgentsPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
   if (!user || (user.role !== 'landlord' && user.role !== 'admin')) {

@@ -37,7 +37,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 export default async function EstateManagerDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const rolePaths: Record<string, string> = {
@@ -70,7 +70,20 @@ export default async function EstateManagerDashboardPage() {
   const smartManagedThreshold = 14;
   const nearVoidThreshold = 3;
 
-  let managedAnalytics = {
+  let managedAnalytics: {
+    totalCollected: number;
+    totalPending: number;
+    totalAmount: number;
+    avgAmount: number;
+    completionRate: number;
+    smartCount: number;
+    smartAmount: number;
+    nearVoidCount: number;
+    nearVoidAmount: number;
+    landlordBreakdown: Record<string, { count: number; amountNaira: number }>;
+    monthlyTrend: Array<{ label: string; count: number; amountNaira: number }>;
+    recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }>;
+  } = {
     totalCollected: 0,
     totalPending: 0,
     totalAmount: 0,
@@ -80,10 +93,13 @@ export default async function EstateManagerDashboardPage() {
     smartAmount: 0,
     nearVoidCount: 0,
     nearVoidAmount: 0,
-    landlordBreakdown: Record<string, { count: number; amountNaira: number }>,
-    monthlyTrend: Array<{ label: string; count: number; amountNaira: number }>,
-    recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }>,
+    landlordBreakdown: {},
+    monthlyTrend: [],
+    recentSmart: [],
   };
+
+  let pendingManaged: any[] = [];
+  let pendingManagedNaira = 0;
 
   if (activeOrg) {
     // 1. Fetch unit statistics
@@ -98,13 +114,13 @@ export default async function EstateManagerDashboardPage() {
         confirmationStatus: { not: 'disputed' },
       },
     });
-    const pendingManaged = managedCollections.filter(tx => {
+    pendingManaged = managedCollections.filter(tx => {
       try {
         const md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata;
         return md?.collectionType === 'managed';
       } catch { return false; }
     });
-    const pendingManagedNaira = pendingManaged.reduce((sum, tx) => sum + Number(tx.payeeAmount || tx.amount || 0), 0);
+    pendingManagedNaira = pendingManaged.reduce((sum, tx) => sum + Number(tx.payeeAmount || tx.amount || 0), 0);
 
     unitCount = units.length;
     occupiedCount = units.filter(u => u.occupancy === 'OCCUPIED').length;
@@ -152,6 +168,7 @@ export default async function EstateManagerDashboardPage() {
     const recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }> = [];
 
     for (const tx of managedTransactions) {
+      let md: unknown = {};
       try { md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata; } catch { md = {}; }
       if (md?.collectionType !== 'managed') continue;
       const amountNaira = Number(tx.payeeAmount || tx.amount || 0) / 100;
@@ -276,7 +293,7 @@ export default async function EstateManagerDashboardPage() {
   const displayVacant = hasData ? vacantCount : mockStats.vacantCount;
   const displayMaintenance = hasData ? maintenanceCount : mockStats.maintenanceCount;
   const displayPendingManaged = hasData ? pendingManaged.length : activeOrg ? 0 : 3;
-  pendingManagedAmountLabel = '₦' + (displayPendingManaged ? (pendingManagedNaira / 100).toLocaleString() : '0');
+  const pendingManagedAmountLabel = '₦' + (displayPendingManaged ? (pendingManagedNaira / 100).toLocaleString() : '0');
   const displayOccupancyRate = displayUnits > 0 ? Math.round((displayOccupied / displayUnits) * 100) : 0;
 
   const displayBilledCharges = hasData ? totalBilledServiceCharges : mockStats.totalBilledServiceCharges;
@@ -285,7 +302,6 @@ export default async function EstateManagerDashboardPage() {
 
   const displayTickets = hasData ? recentTickets : mockStats.recentTickets;
   const displayCharges = hasData ? recentServiceCharges : mockStats.recentServiceCharges;
-  let pendingManagedAmountLabel = '₦0';
 
   // Custom styling mappings
   const priorityColors: Record<string, string> = {

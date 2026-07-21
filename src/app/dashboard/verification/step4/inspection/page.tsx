@@ -22,7 +22,7 @@ export default async function VerificationStep4InspectionPage({
 }) {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   const sp = await searchParams;

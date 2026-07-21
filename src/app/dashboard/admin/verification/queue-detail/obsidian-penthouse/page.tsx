@@ -8,7 +8,7 @@ import VerificationQueueDetailObsidianClient from './VerificationQueueDetailObsi
 export default async function VerificationQueueDetailObsidianPenthousePage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'admin') {
     redirect('/dashboard');

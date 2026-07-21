@@ -8,7 +8,7 @@ import AdminPaymentsClient from './AdminPaymentsClient';
 
 export default async function AdminPaymentsPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
 
@@ -19,7 +19,7 @@ export default async function AdminPaymentsPage() {
     admin: '/admin',
     estate_manager: '/dashboard/estate-manager',
   };
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
 
   const transactions = await prisma.transaction.findMany({

@@ -26,7 +26,13 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/sign-in', req.url));
   }
 
-  return clerkMiddlewareHandler(req);
+  const response = await clerkMiddlewareHandler(req, {});
+
+  if ((req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/admin')) && response.status === 200) {
+    response.headers.set('Cache-Control', 'no-store');
+  }
+
+  return response;
 }
 
 export const config = {

@@ -8,7 +8,7 @@ import GlobalSettingsClient from './GlobalSettingsClient';
 export default async function AdminGlobalSettingsPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'admin') {
     redirect('/dashboard');

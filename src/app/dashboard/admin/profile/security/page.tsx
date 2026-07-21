@@ -8,7 +8,7 @@ import AdminProfileSecurityClient from './AdminProfileSecurityClient';
 export default async function AdminProfileSecurityPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
   if (user.role !== 'admin') {
     redirect('/dashboard');

@@ -8,7 +8,7 @@ import AutomatedMonthlyStatementClient from '@/app/dashboard/tenant/payments/sta
 
 export default async function AdminStatementsPage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'admin') redirect('/dashboard');
   return (

@@ -9,7 +9,7 @@ import RevenueSignatureClient from './RevenueSignatureClient';
 export default async function RevenueSignaturePage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
-    redirect('/login');
+    redirect('/sign-in');
   }
 
   if (user.role !== 'estate_manager') {

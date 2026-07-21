@@ -11,10 +11,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function VerificationOfficerRolePage() {
   const { userId } = await auth();
-  if (!userId) redirect('/login');
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-  if (!user) redirect('/login');
+  if (!user) redirect('/sign-in');
   if (user.role !== 'admin') redirect('/dashboard/tenant');
 
   // Fetch users that function as verification officers:

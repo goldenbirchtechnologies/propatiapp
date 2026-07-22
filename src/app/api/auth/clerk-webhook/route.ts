@@ -87,12 +87,13 @@ async function handleUserCreated(data: Record<string, unknown>) {
   const lastName = data.last_name as string;
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
-  const publicMetadata = data.public_metadata as Record<string, unknown>;
+  const publicMetadata = data.public_metadata as Record<string, unknown> | undefined;
+  const unsafeMetadata = data.unsafe_metadata as Record<string, unknown> | undefined;
   
   // Validate role against allowed enum values
   const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
   type AllowedRole = typeof allowedRoles[number];
-  const rawRole = publicMetadata?.role;
+  const rawRole = (publicMetadata?.role || unsafeMetadata?.role) as string | undefined;
   const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
   if (!email) {
@@ -131,12 +132,13 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   const lastName = data.last_name as string;
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
-  const publicMetadata = data.public_metadata as Record<string, unknown>;
+  const publicMetadata = data.public_metadata as Record<string, unknown> | undefined;
+  const unsafeMetadata = data.unsafe_metadata as Record<string, unknown> | undefined;
   
   // Validate role against allowed enum values
   const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
   type AllowedRole = typeof allowedRoles[number];
-  const rawRole = publicMetadata?.role;
+  const rawRole = (publicMetadata?.role || unsafeMetadata?.role) as string | undefined;
   const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
   await prisma.user.update({

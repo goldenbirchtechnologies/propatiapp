@@ -27,15 +27,26 @@ export async function POST(request: NextRequest) {
     const primaryEmail = clerkUser.email_addresses?.find((email) => email.id === clerkUser.primary_email_address_id)?.email_address || clerkUser.email_addresses?.[0]?.email_address;
     const fullName = [clerkUser.first_name, clerkUser.last_name].filter(Boolean).join(' ');
 
+    const unsafeRole = (clerkUser.unsafe_metadata?.role as string | undefined) || undefined;
+    const publicRole = (clerkUser.public_metadata?.role as string | undefined) || undefined;
+    const rawRole = unsafeRole || publicRole || 'tenant';
+    const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
+    const role = allowedRoles.includes(rawRole as (typeof allowedRoles)[number]) ? rawRole : 'tenant';
+
     const created = await prisma.user.upsert({
       where: { clerkId },
-      update: {},
+      update: {
+        email: primaryEmail || undefined,
+        fullName: fullName || undefined,
+        phone: clerkUser.phone_numbers?.[0]?.phone_number || null,
+        role,
+      },
       create: {
         clerkId,
         email: primaryEmail || `${clerkId}@clerk.local`,
         phone: clerkUser.phone_numbers?.[0]?.phone_number || '',
         fullName: fullName || clerkId,
-        role: 'tenant',
+        role,
       },
       select: { id: true, email: true },
     });

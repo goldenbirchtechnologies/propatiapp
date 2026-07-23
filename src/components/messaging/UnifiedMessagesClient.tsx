@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft } from 'lucide-react';
+import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft, Phone, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,6 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type Conversation = {
   id: string;
@@ -26,7 +27,7 @@ type Conversation = {
     images?: Array<{ url: string }>;
   };
   participant?: {
-    id: string;
+    id?: string;
     fullName?: string | null;
     avatarUrl?: string | null;
     role?: string | null;
@@ -48,10 +49,28 @@ type Message = {
   isRead: boolean;
   senderId: string;
   sender?: {
-    id: string;
+    id?: string;
     fullName?: string | null;
     avatarUrl?: string | null;
     role?: string | null;
+  };
+};
+
+type ScreeningCall = {
+  id: string;
+  listingId: string;
+  landlordId: string;
+  tenantId: string;
+  scheduledAt: string;
+  status: string;
+  notes?: string | null;
+  createdAt: string;
+  listing?: {
+    id?: string;
+    title?: string | null;
+    area?: string | null;
+    state?: string | null;
+    images?: Array<{ url: string }>;
   };
 };
 
@@ -72,6 +91,9 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   const [error, setError] = useState<string | null>(null);
   const [newOpen, setNewOpen] = useState(false);
   const [replyToId, setReplyToId] = useState<string | null>(null);
+  const [screeningCalls, setScreeningCalls] = useState<ScreeningCall[]>([]);
+  const [screeningLoading, setScreeningLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'all' | 'chats' | 'screening'>('all');
 
   const filtered = useMemo(() => {
     if (!search.trim()) return conversations;
@@ -99,6 +121,19 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     }
   }
 
+  async function loadScreening() {
+    setScreeningLoading(true);
+    try {
+      const res = await fetch('/api/screening-calls');
+      const json = await res.json();
+      if (res.ok) setScreeningCalls(json.data || []);
+    } catch {
+      // non-blocking
+    } finally {
+      setScreeningLoading(false);
+    }
+  }
+
   async function loadMessages(conversationId: string) {
     setMessagesLoading(true);
     setMessages([]);
@@ -119,6 +154,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
 
   useEffect(() => {
     loadConversations();
+    loadScreening();
     const params = new URLSearchParams(window.location.search);
     const convoId = params.get('conversationId');
     if (convoId) setSelectedId(convoId);
@@ -164,7 +200,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       setNewOpen(false);
       setSelectedId(json.data.id);
       loadConversations();
-    } catch (err) {
+    } catch {
       // silent for now
     }
   }
@@ -179,6 +215,9 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     return d.toLocaleDateString('en-NG', { month: 'short', day: 'numeric' });
   }
 
+  const showList = activeTab !== 'screening' && !selectedId;
+  const showDetail = activeTab !== 'screening' && !!selectedId;
+
   return (
     <div className="space-y-6" style={ELEVATION_TOKENS.elevation_2 as unknown}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -186,32 +225,45 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages</h1>
           <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Unified inbox across your properties</p>
         </div>
-        <Dialog open={newOpen} onOpenChange={setNewOpen}>
-          <DialogTrigger asChild>
-            <Button className="inline-flex items-center gap-2">
-              <Plus className="w-4 h-4" /> New Conversation
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>New Conversation</DialogTitle>
-            </DialogHeader>
-            <NewConversationForm userId={userId} userRole={userRole} onSubmit={handleNewConversation} />
-          </DialogContent>
-        </Dialog>
+        {activeTab === 'chats' || activeTab === 'all' ? (
+          <Dialog open={newOpen} onOpenChange={setNewOpen}>
+            <DialogTrigger asChild>
+              <Button className="inline-flex items-center gap-2">
+                <Plus className="w-4 h-4" /> New Conversation
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>New Conversation</DialogTitle>
+              </DialogHeader>
+              <NewConversationForm userId={userId} userRole={userRole} onSubmit={handleNewConversation} />
+            </DialogContent>
+          </Dialog>
+        ) : null}
       </div>
 
       <Card className="overflow-hidden" style={ELEVATION_TOKENS.elevation_1 as unknown}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
-          <div className="relative max-w-xl">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
-            <Input
-              type="text"
-              placeholder="Search conversations..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10"
-            />
+          <div className="flex flex-col gap-4">
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="chats">Chats</TabsTrigger>
+                <TabsTrigger value="screening">Screening Calls</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            {(activeTab === 'all' || activeTab === 'chats') && (
+              <div className="relative max-w-xl">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+                <Input
+                  type="text"
+                  placeholder="Search conversations..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -223,9 +275,11 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           </div>
         )}
 
-        {!selectedId ? (
+        {activeTab === 'screening' ? (
+          <ScreeningCallsList calls={screeningCalls} loading={screeningLoading} />
+        ) : showList ? (
           <ConversationList conversations={filtered} loading={loading} onSelect={setSelectedId} />
-        ) : (
+        ) : showDetail ? (
           <ConversationDetail
             conversationId={selectedId}
             messages={messages}
@@ -235,9 +289,74 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
             onContentChange={setContent}
             onSend={handleSend}
           />
-        )}
+        ) : null}
       </Card>
     </div>
+  );
+}
+
+function ScreeningStatusBadge({ status }: { status: string }) {
+  const map: Record<string, { label: string; className: string }> = {
+    scheduled: { label: 'Scheduled', className: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
+    completed: { label: 'Completed', className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
+    cancelled: { label: 'Cancelled', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
+    missed: { label: 'Missed', className: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
+  };
+  const item = map[status] || { label: status, className: 'bg-muted' };
+  return <Badge className={item.className}>{item.label}</Badge>;
+}
+
+function ScreeningCallsList({ calls, loading }: { calls: ScreeningCall[]; loading: boolean }) {
+  if (loading) {
+    return (
+      <div className="p-4 space-y-3">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="p-4 border" style={{ borderColor: 'var(--border)' }}>
+            <div className="h-4 w-32 rounded mb-2" style={{ background: 'var(--muted)', opacity: 0.2 }} />
+            <div className="h-3 w-48 rounded" style={{ background: 'var(--muted)', opacity: 0.1 }} />
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (calls.length === 0) {
+    return (
+      <div className="card-body text-center py-16">
+        <Phone className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
+        <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No screening calls</h3>
+        <p style={{ color: 'var(--muted)' }}>Upcoming screening calls will appear here.</p>
+      </div>
+    );
+  }
+
+  return (
+    <ScrollArea>
+      <div>
+        {calls.map((call) => (
+          <div
+            key={call.id}
+            className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left"
+            style={{ borderColor: 'var(--border)' }}
+          >
+            <div className="rounded-full p-2" style={{ background: 'var(--surface-elevated)' }}>
+              <Phone className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between">
+                <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
+                  {call.listing?.title || 'Screening Call'}
+                </p>
+                <ScreeningStatusBadge status={call.status} />
+              </div>
+              <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+                {new Date(call.scheduledAt).toLocaleString('en-NG', { dateStyle: 'medium', timeStyle: 'short' })}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </ScrollArea>
   );
 }
 

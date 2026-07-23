@@ -3,12 +3,14 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import GlobalSearch from './GlobalSearch';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
-import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp, Home } from 'lucide-react';
+import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp, Home, Check } from 'lucide-react';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 
 interface TopbarProps {
@@ -230,6 +232,7 @@ export function Topbar({
       <div className="flex-1" />
 
       <div className="flex items-center gap-2">
+        <GlobalSearch userRole={userRole} />
         <PurposeSwitcher userRole={userRole} />
         <NotificationsBell userRole={userRole} />
         <ThemeToggle />

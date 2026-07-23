@@ -1,10 +1,14 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Bell } from 'lucide-react';
-import { NotificationsDropdown } from './notifications-dropdown';
+import { Drawer } from '@/components/ui/modal';
 import { cn } from '@/lib/utils';
 import { createNotificationSound } from '@/lib/notification-utils';
+import { NotificationsPanel } from './notifications-dropdown';
+import type { Notification } from './notification-card';
 
 interface NotificationsBellProps {
   position?: 'left' | 'right';
@@ -20,11 +24,14 @@ export function NotificationsBell({
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [markingAll, setMarkingAll] = useState(false);
   const previousUnreadCount = useRef(0);
   const pollInterval = useRef<NodeJS.Timeout | null>(null);
   const notificationSound = useRef(createNotificationSound());
+  const router = useRouter();
 
-  // Fetch unread count
   const fetchUnreadCount = useCallback(async () => {
     try {
       const response = await fetch('/api/notifications/unread-count');
@@ -33,13 +40,10 @@ export function NotificationsBell({
       const data = await response.json();
       const newCount = data.count || 0;
 
-      // Check if there are new notifications
       if (newCount > previousUnreadCount.current && previousUnreadCount.current > 0) {
-        // Trigger animation
         setIsAnimating(true);
         setTimeout(() => setIsAnimating(false), 1000);
 
-        // Play sound if enabled
         if (enableSound && notificationSound.current) {
           notificationSound.current.play().catch(() => {
             // Ignore errors (e.g., user hasn't interacted with page yet)
@@ -54,20 +58,29 @@ export function NotificationsBell({
     }
   }, [enableSound]);
 
-  // Initial fetch
+  const fetchNotifications = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/notifications?limit=10&unreadOnly=false');
+      if (!response.ok) throw new Error('Failed to fetch notifications');
+      const data = await response.json();
+      setNotifications(data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch notifications:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchUnreadCount();
   }, [fetchUnreadCount]);
 
-  // Setup polling with Page Visibility API
   useEffect(() => {
     const startPolling = () => {
-      // Clear unknown existing interval
       if (pollInterval.current) {
         clearInterval(pollInterval.current);
       }
-
-      // Poll every 30 seconds
       pollInterval.current = setInterval(() => {
         fetchUnreadCount();
       }, 30000);
@@ -80,54 +93,77 @@ export function NotificationsBell({
       }
     };
 
-    // Handle visibility change
     const handleVisibilityChange = () => {
       if (document.hidden) {
         stopPolling();
       } else {
-        fetchUnreadCount(); // Fetch immediately when tab becomes visible
+        fetchUnreadCount();
         startPolling();
       }
     };
 
-    // Start polling if page is visible
     if (!document.hidden) {
       startPolling();
     }
 
-    // Listen to visibility changes
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    // Listen to dropdown custom events
-    const handleDropdownToggle = (event: Event) => {
-      const detail = (event as CustomEvent<{ isOpen: boolean }>).detail;
-      if (detail?.isOpen === false) {
-        void fetchUnreadCount();
-      }
-    };
-    window.addEventListener('notifications:dropdown:toggled', handleDropdownToggle);
 
     return () => {
       stopPolling();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('notifications:dropdown:toggled', handleDropdownToggle);
     };
   }, [fetchUnreadCount]);
 
-  // Refresh count when dropdown closes
   const handleClose = () => {
     setIsOpen(false);
     fetchUnreadCount();
   };
 
+  const handleNotificationClick = async (notification: Notification) => {
+    try {
+      await fetch(`/api/notifications/${notification.id}/read`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ read: true }),
+      });
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === notification.id ? { ...n, read: true } : n))
+      );
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+
+    const actionUrl = (notification.data?.actionUrl || notification.actionUrl) as string | undefined;
+    if (actionUrl) {
+      router.push(actionUrl);
+    }
+
+    handleClose();
+  };
+
+  const handleMarkAllRead = async () => {
+    try {
+      setMarkingAll(true);
+      const response = await fetch('/api/notifications/mark-all-read', {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to mark all as read');
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    } catch (error) {
+      console.error('Failed to mark all as read:', error);
+    } finally {
+      setMarkingAll(false);
+    }
+  };
+
   return (
-    <div className="relative">
+    <>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'relative p-2 rounded-lg transition-all',
           'bg-surface-elevated hover:bg-muted text-foreground',
-          'border border-gray-200 hover:border-gray-300',
+          'border border-border',
           isAnimating && 'animate-bounce'
         )}
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
@@ -139,7 +175,7 @@ export function NotificationsBell({
         {unreadCount > 0 && (
           <span
             className={cn(
-              'absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-red-500 text-white text-xs font-bold rounded-full',
+              'absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 bg-accent text-accent-foreground text-xs font-bold rounded-full',
               'flex items-center justify-center',
               'animate-in fade-in zoom-in duration-200'
             )}
@@ -150,16 +186,76 @@ export function NotificationsBell({
 
         {/* Pulse animation for new notifications */}
         {isAnimating && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full animate-ping" />
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent rounded-full animate-ping" />
         )}
       </button>
 
-      <NotificationsDropdown
-        isOpen={isOpen}
-        onClose={handleClose}
-        position={position}
-        userRole={userRole}
-      />
-    </div>
+      <Drawer
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) handleClose();
+          else setIsOpen(true);
+        }}
+        title="Notifications"
+        size="md"
+        footer={
+          notifications.length > 0 && (
+            <div className="flex items-center justify-between w-full">
+              {unreadCount > 0 ? (
+                <button
+                  onClick={handleMarkAllRead}
+                  disabled={markingAll}
+                  className="text-sm font-medium text-accent hover:text-accent/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {markingAll ? 'Marking...' : 'Mark all read'}
+                </button>
+              ) : (
+                <div />
+              )}
+              <Link
+                href={`/dashboard/${userRole}/notifications`}
+                onClick={handleClose}
+                className="text-sm font-medium text-accent hover:text-accent/80"
+              >
+                View all →
+              </Link>
+            </div>
+          )
+        }
+        footerClassName="justify-between"
+      >
+        <div className="flex items-center justify-between p-3">
+          {unreadCount > 0 && (
+            <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
+              {unreadCount} new
+            </span>
+          )}
+          <button
+            onClick={fetchNotifications}
+            disabled={loading || markingAll}
+            className="p-1 hover:bg-muted rounded transition-colors ml-auto"
+            aria-label="Refresh notifications"
+          >
+            <svg className={`w-4 h-4 text-muted-foreground ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
+            </svg>
+          </button>
+        </div>
+
+        <NotificationsPanel
+          notifications={notifications}
+          loading={loading}
+          markingAll={markingAll}
+          unreadCount={unreadCount}
+          onRefresh={fetchNotifications}
+          onMarkAllRead={handleMarkAllRead}
+          onNotificationClick={handleNotificationClick}
+          onViewAll={() => {
+            router.push(`/dashboard/${userRole}/notifications`);
+            handleClose();
+          }}
+        />
+      </Drawer>
+    </>
   );
 }

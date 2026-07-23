@@ -72,7 +72,6 @@ const roleNavigation: Record<string, NavItem[]> = {
   ],
   tenant: [
     { label: 'Dashboard', href: '/dashboard/tenant', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: 'Find Property', href: '/dashboard/tenant/search', icon: <MapPin className="h-5 w-5" /> },
     { label: 'Payments', href: '/dashboard/tenant/payments', icon: <CreditCard className="h-5 w-5" /> },
     { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
     { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Settings className="h-5 w-5" /> },

@@ -9,6 +9,115 @@ import { getNotificationIcon, getNotificationColor } from '@/lib/notification-ic
 import { cn } from '@/lib/utils';
 import type { Notification } from './notification-card';
 
+interface NotificationsPanelProps {
+  notifications: Notification[];
+  loading: boolean;
+  markingAll: boolean;
+  unreadCount: number;
+  onRefresh: () => void;
+  onMarkAllRead: () => void;
+  onNotificationClick: (notification: Notification) => void;
+  onViewAll: () => void;
+}
+
+export function NotificationsPanel({
+  notifications,
+  loading,
+  markingAll,
+  unreadCount,
+  onRefresh,
+  onMarkAllRead,
+  onNotificationClick,
+  onViewAll,
+}: NotificationsPanelProps) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
+      </div>
+    );
+  }
+
+  if (notifications.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-3">
+          <svg
+            className="w-8 h-8 text-muted-foreground"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+        </div>
+        <p className="font-medium mb-1" style={{ color: 'var(--text)' }}>No notifications</p>
+        <p className="text-sm" style={{ color: 'var(--muted)' }}>You're all caught up!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="divide-y divide-border">
+      {notifications.map((notification) => {
+        const Icon = getNotificationIcon(notification.type);
+        const iconColor = getNotificationColor(notification.type);
+
+        return (
+          <button
+            key={notification.id}
+            onClick={() => onNotificationClick(notification)}
+            className={cn(
+              'w-full text-left p-4 transition-colors hover:bg-muted/50',
+              !notification.read && 'bg-accent/5'
+            )}
+          >
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 mt-1">
+                <div
+                  className={cn(
+                    'w-8 h-8 rounded-full flex items-center justify-center',
+                    notification.read ? 'bg-muted' : 'bg-surface-elevated'
+                  )}
+                >
+                  <Icon className={cn('w-4 h-4', iconColor)} />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <p
+                    className={cn(
+                      'text-sm',
+                      notification.read ? 'font-medium' : 'font-semibold'
+                    )}
+                    style={{ color: 'var(--text)' }}
+                  >
+                    {notification.title}
+                  </p>
+                  {!notification.read && (
+                    <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0 mt-1" />
+                  )}
+                </div>
+                <p className="text-sm mb-1" style={{ color: 'var(--muted-foreground)' }}>
+                  {truncateNotification(notification.body, 80)}
+                </p>
+                <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                  {formatNotificationTime(notification.createdAt)}
+                </p>
+              </div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 interface NotificationsDropdownProps {
   isOpen: boolean;
   onClose: () => void;
@@ -28,13 +137,11 @@ export function NotificationsDropdown({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Fetch notifications
   const fetchNotifications = async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/notifications?limit=10&unreadOnly=false');
       if (!response.ok) throw new Error('Failed to fetch notifications');
-
       const data = await response.json();
       setNotifications(data.data || []);
     } catch (error) {
@@ -44,25 +151,18 @@ export function NotificationsDropdown({
     }
   };
 
-  const handleRefresh = async () => {
-    await fetchNotifications();
-  };
-
-  // Fetch on open
   useEffect(() => {
     if (isOpen) {
       fetchNotifications();
     }
   }, [isOpen]);
 
-  // Notify bell when dropdown opens/closes
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('notifications:dropdown:toggled', { detail: { isOpen } }));
     }
   }, [isOpen]);
 
-  // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -76,7 +176,6 @@ export function NotificationsDropdown({
     }
   }, [isOpen, onClose]);
 
-  // Escape key to close
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -91,16 +190,11 @@ export function NotificationsDropdown({
   }, [isOpen, onClose]);
 
   const handleNotificationClick = async (notification: Notification) => {
-    // Mark as read
     await markAsRead(notification.id);
-
-    // Navigate to action URL if exists
-    const actionUrl = notification.data?.actionUrl || notification.actionUrl;
+    const actionUrl = (notification.data?.actionUrl || notification.actionUrl) as string | undefined;
     if (actionUrl) {
       router.push(actionUrl);
     }
-
-    // Close dropdown
     onClose();
   };
 
@@ -111,8 +205,6 @@ export function NotificationsDropdown({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ read: true }),
       });
-
-      // Update local state
       setNotifications((prev) =>
         prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n))
       );
@@ -127,10 +219,7 @@ export function NotificationsDropdown({
       const response = await fetch('/api/notifications/mark-all-read', {
         method: 'POST',
       });
-
       if (!response.ok) throw new Error('Failed to mark all as read');
-
-      // Update local state
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     } catch (error) {
       console.error('Failed to mark all as read:', error);
@@ -153,131 +242,57 @@ export function NotificationsDropdown({
       role="dialog"
       aria-label="Notifications"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-gray-900">Notifications</h3>
+          <h3 className="font-semibold" style={{ color: 'var(--text)' }}>Notifications</h3>
           {unreadCount > 0 && (
-            <span className="px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">
+            <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
               {unreadCount} new
             </span>
           )}
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={handleRefresh}
+            onClick={fetchNotifications}
             disabled={loading || markingAll}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            className="p-1 hover:bg-muted rounded transition-colors"
             aria-label="Refresh notifications"
           >
-            <svg className={`w-4 h-4 text-gray-500 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-4 h-4 text-muted-foreground ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
             </svg>
           </button>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            className="p-1 hover:bg-muted rounded transition-colors"
             aria-label="Close notifications"
           >
-            <X className="w-4 h-4 text-gray-500" />
+            <X className="w-4 h-4 text-muted-foreground" />
           </button>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-h-[400px] overflow-y-auto">
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
-          </div>
-        ) : notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-              <svg
-                className="w-8 h-8 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-            </div>
-            <p className="text-gray-600 font-medium mb-1">No notifications</p>
-            <p className="text-sm text-gray-500">You're all caught up!</p>
-          </div>
-        ) : (
-          <div className="divide-y divide-gray-100">
-            {notifications.map((notification) => {
-              const Icon = getNotificationIcon(notification.type);
-              const iconColor = getNotificationColor(notification.type);
+      <NotificationsPanel
+        notifications={notifications}
+        loading={loading}
+        markingAll={markingAll}
+        unreadCount={unreadCount}
+        onRefresh={fetchNotifications}
+        onMarkAllRead={handleMarkAllRead}
+        onNotificationClick={handleNotificationClick}
+        onViewAll={() => {
+          router.push(`/dashboard/${userRole}/notifications`);
+          onClose();
+        }}
+      />
 
-              return (
-                <button
-                  key={notification.id}
-                  onClick={() => handleNotificationClick(notification)}
-                  className={cn(
-                    'w-full text-left p-4 hover:bg-gray-50 transition-colors',
-                    !notification.read && 'bg-blue-50/50'
-                  )}
-                >
-                  <div className="flex gap-3">
-                    {/* Icon */}
-                    <div className="flex-shrink-0 mt-1">
-                      <div
-                        className={cn(
-                          'w-8 h-8 rounded-full flex items-center justify-center',
-                          notification.read ? 'bg-muted' : 'bg-surface-elevated'
-                        )}
-                      >
-                        <Icon className={cn('w-4 h-4', iconColor)} />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <p
-                          className={cn(
-                            'text-sm',
-                            notification.read
-                              ? 'font-medium text-gray-900'
-                              : 'font-semibold text-gray-900'
-                          )}
-                        >
-                          {notification.title}
-                        </p>
-                        {!notification.read && (
-                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-1" />
-                        )}
-                      </div>
-                      <p className="text-sm text-gray-600 mb-1">
-                        {truncateNotification(notification.body, 80)}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {formatNotificationTime(notification.createdAt)}
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Footer */}
       {notifications.length > 0 && (
-        <div className="flex items-center justify-between p-3 border-t border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-between p-3 border-t border-border bg-muted/30">
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}
               disabled={markingAll}
-              className="text-sm font-medium text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm font-medium text-accent hover:text-accent/80 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {markingAll ? 'Marking...' : 'Mark all read'}
             </button>
@@ -286,7 +301,7 @@ export function NotificationsDropdown({
           <Link
             href={`/dashboard/${userRole}/notifications`}
             onClick={onClose}
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="text-sm font-medium text-accent hover:text-accent/80"
           >
             View all →
           </Link>

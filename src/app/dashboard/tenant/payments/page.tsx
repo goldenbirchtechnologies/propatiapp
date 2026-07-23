@@ -3,22 +3,24 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
-import { prisma } from '@/lib/prisma';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
+import RentAndPaymentsHub, { type TabItem } from '@/components/financials/RentAndPaymentsHub';
+import { TabsContent } from '@/components/ui/tabs';
 import TenantPaymentsClient from './TenantPaymentsClient';
+
+const tabs: TabItem[] = [
+  { value: 'overview', label: 'Overview' },
+  { value: 'invoices', label: 'Invoices' },
+  { value: 'receipts', label: 'Receipts' },
+];
 
 export default async function TenantPaymentsPage() {
   const { userId } = await auth();
 
-  if (!userId) {
-    redirect('/sign-in');
-  }
+  if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUserWithProfile();
-
-  if (!user || user.role !== 'tenant') {
-    redirect('/dashboard');
-  }
+  if (!user || user.role !== 'tenant') redirect('/dashboard');
 
   return (
     <DashboardShell
@@ -28,8 +30,27 @@ export default async function TenantPaymentsPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <TenantPaymentsClient userId={user.id} />
+        <RentAndPaymentsHub tabs={tabs}>
+          <TabsContent value="overview">
+            <TenantPaymentsClient userId={user.id} />
+          </TabsContent>
+          <TabsContent value="invoices">
+            <PlaceholderTab title="Invoices" description="Your invoice statements will appear here." />
+          </TabsContent>
+          <TabsContent value="receipts">
+            <PlaceholderTab title="Receipts" description="Payment receipts will appear here." />
+          </TabsContent>
+        </RentAndPaymentsHub>
       </ErrorBoundary>
     </DashboardShell>
+  );
+}
+
+function PlaceholderTab({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="rounded-lg border border-border p-6 text-center">
+      <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{title}</p>
+      <p className="text-sm text-muted-foreground mt-1">{description}</p>
+    </div>
   );
 }

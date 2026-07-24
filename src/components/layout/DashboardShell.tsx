@@ -622,7 +622,12 @@ export function DashboardShell({
             </button>
           </div>
 
-          <div className="sb-user-card">
+          <Link
+            href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`}
+            className="sb-user-card block transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            aria-label="View Profile"
+            title="View Profile"
+          >
             <div className="sb-user-row">
               <div
                 className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold"
@@ -641,7 +646,7 @@ export function DashboardShell({
                 </div>
               )}
             </div>
-          </div>
+          </Link>
 
           <nav className="sb-nav" aria-label="Dashboard navigation">
             <ul className="sb-nav-list" role="list">
@@ -696,26 +701,21 @@ export function DashboardShell({
 
       <main className="main-area">
         <header className="topbar">
-          <div className="flex items-center gap-4">
-            <button
-              className="md:hidden p-2 rounded-lg"
-              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open menu"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
-            {/* Search pill */}
-            <GlobalSearch userRole={userRole} />
-          </div>
+          <button
+            className="md:hidden p-2 rounded-lg"
+            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <GlobalSearch userRole={userRole} />
 
-          <div className="flex-1" />
-
-          <div className="flex-shrink-0 flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 ml-auto">
             <button
               className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
               aria-label="Help"
@@ -724,6 +724,20 @@ export function DashboardShell({
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
             <NotificationsBell position="right" userRole={userRole} />
+            {userAvatar ? (
+              <img
+                src={userAvatar}
+                alt={userName || 'Profile'}
+                className="h-9 w-9 rounded-full object-cover ring-2 ring-border"
+              />
+            ) : (
+              <div
+                className="h-9 w-9 rounded-full flex items-center justify-center text-sm font-semibold ring-2 ring-border"
+                style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+              >
+                {(userName || (user?.fullName || 'U')).charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
         </header>
 

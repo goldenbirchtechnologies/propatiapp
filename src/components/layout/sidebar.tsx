@@ -425,7 +425,13 @@ export function Sidebar({
         </Link>
       </div>
 
-      <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}>
+      <Link
+        href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`}
+        className="block transition-colors hover:bg-muted/40"
+        style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}
+        aria-label="View Profile"
+        title="View Profile"
+      >
         <div className="flex items-center gap-3 min-w-0">
           <div
             className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center font-heading font-bold text-white"
@@ -446,7 +452,7 @@ export function Sidebar({
             </div>
           )}
         </div>
-      </div>
+      </Link>
 
       <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-label="Dashboard navigation">
         <ul className="space-y-1" role="list">

@@ -84,10 +84,10 @@
   --theme-admin-accent2: #1d4ed8;
   --font-serif: 'DM Serif Display', serif;
   --font-mono: 'DM Mono', monospace;
-  --font-heading: 'Bricolage Grotesque', sans-serif;
-  --font-body: 'Outfit', system-ui, sans-serif;
-  --font-body-fallback: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-heading: var(--font-inter), sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-body-fallback: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 
   /* Verification tokens */
   --verification-basic: #737373;
@@ -788,6 +788,10 @@ a:hover {
 
 .topbar {
   border-bottom: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .sidebar {

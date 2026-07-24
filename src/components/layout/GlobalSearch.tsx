@@ -24,15 +24,15 @@ export default function GlobalSearch({ userRole }: GlobalSearchProps) {
   };
 
   return (
-    <form action={handleSubmit} className="hidden sm:flex items-center">
-      <div className="relative">
+    <form action={handleSubmit} className="hidden sm:flex items-center max-w-md">
+      <div className="relative w-full">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: 'var(--muted)' }} />
         <Input
           name="q"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Search..."
-          className="pl-9 h-9 w-48 lg:w-64 text-sm"
+          placeholder="Search properties, invoices..."
+          className="pl-9 h-9 w-full max-w-md text-sm"
           style={{ background: 'var(--surface-elevated)', borderColor: 'var(--border)', color: 'var(--text)' }}
         />
       </div>

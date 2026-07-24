@@ -52,6 +52,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
   const pending = applications.filter((a) => a.status === 'pending').length;
   const underReview = applications.filter((a) => a.status === 'under_review').length;
   const accepted = applications.filter((a) => a.status === 'accepted').length;
+  const rejected = applications.filter((a) => a.status === 'rejected').length;
 
   function handleWithdraw(id: string) {
     setWithdrawingId(id);
@@ -93,11 +94,12 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <StatCard label="Total" value={applications.length} icon={<Building2 className="w-5 h-5" />} />
         <StatCard label="Pending" value={pending} icon={<Clock className="w-5 h-5" />} />
         <StatCard label="Under Review" value={underReview} icon={<Eye className="w-5 h-5" />} />
         <StatCard label="Accepted" value={accepted} icon={<CheckCircle className="w-5 h-5" />} />
+        <StatCard label="Declined" value={rejected} icon={<XCircle className="w-5 h-5" />} />
       </div>
 
       {applications.length === 0 ? (
@@ -110,7 +112,10 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
             <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
               You haven't applied to any properties yet. Browse listings to get started.
             </p>
-            <Link href="/dashboard/tenant/search" className="btn btn-primary">
+            <Link
+              href="/dashboard/tenant/search"
+              className="inline-flex items-center justify-center px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors shadow-sm mt-4"
+            >
               Browse Listings
             </Link>
           </CardContent>
@@ -218,7 +223,7 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
             <p className="text-sm font-medium mb-1 text-on-surface-variant">{label}</p>
             <p className="text-2xl text-headline-sm text-primary">{value}</p>
           </div>
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent" style={{ flexShrink: 0 }}>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400" style={{ flexShrink: 0 }}>
             {icon}
           </div>
         </div>

@@ -75,6 +75,16 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
     }
   };
 
+  const scrollToQuickPayment = () => {
+    const el = document.getElementById('quick-payment');
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      const firstInput = el.querySelector('input, select, button') as HTMLInputElement | null;
+      firstInput?.focus();
+    }, 300);
+  };
+
   // Mock rent status — replace with real hook when available
   const rentStatus = {
     status: 'up_to_date' as const,
@@ -118,18 +128,18 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             {/* Section B: Financial Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Card 1 — Active Rent / Bill Status */}
-              <Card>
+              <Card className="border border-slate-800">
                 <CardHeader>
                   <CardTitle className="text-base font-medium text-muted-foreground">Active Rent / Bill Status</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">{rentStatus.property}</p>
-                      <p className="font-headline-xl text-3xl text-primary font-bold tracking-tight">
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm text-muted-foreground leading-tight">{rentStatus.property}</p>
+                      <p className="font-headline-sm text-3xl text-emerald-500 font-bold tracking-tight">
                         ₦{rentStatus.amount.toLocaleString()}
                       </p>
-                      <p className="text-sm text-muted-foreground mt-1">Due: {rentStatus.dueDate}</p>
+                      <p className="text-sm text-muted-foreground leading-tight">Due: {rentStatus.dueDate}</p>
                     </div>
                     {rentStatus.status === 'up_to_date' ? (
                       <span className="inline-flex shrink-0 items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-500">
@@ -145,7 +155,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     <Button variant="outline" size="sm" asChild>
                       <a href="/dashboard/tenant/agreements">View Rent Details</a>
                     </Button>
-                    <Button size="sm" onClick={() => setActiveTab('overview')}>
+                    <Button size="sm" onClick={scrollToQuickPayment}>
                       Pay Rent
                     </Button>
                   </div>
@@ -153,7 +163,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               </Card>
 
               {/* Card 2 — Wallet Summary */}
-              <Card>
+              <Card className="border border-slate-800">
                 <CardHeader>
                   <CardTitle className="text-base font-medium text-muted-foreground">Wallet Summary</CardTitle>
                 </CardHeader>
@@ -162,9 +172,9 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
                       <Wallet className="h-6 w-6" />
                     </div>
-                    <div>
+                    <div className="flex flex-col gap-1">
                       <p className="text-sm text-muted-foreground">Wallet Balance</p>
-                      <p className="font-headline-xl text-3xl text-primary font-bold tracking-tight">
+                      <p className="font-headline-sm text-3xl text-primary font-bold tracking-tight">
                         ₦{((wallet?.balance || 0) / 100).toLocaleString()}
                       </p>
                     </div>
@@ -182,7 +192,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </div>
 
             {/* Section C: Quick Payment */}
-            <Card>
+            <Card id="quick-payment" className="border border-slate-800 scroll-mt-6">
               <CardHeader>
                 <CardTitle>Quick Payment</CardTitle>
               </CardHeader>
@@ -310,7 +320,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               </Card>
             )}
 
-            <Card>
+            <Card className="border border-slate-800">
               <div className="overflow-x-auto">
                 {transactionsLoading && transactions.length === 0 ? (
                   <div className="p-8 space-y-3">
@@ -379,16 +389,16 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         <p className="text-muted-foreground mt-1">Manage your rent, payments, and wallet</p>
       </div>
 
-      <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto">
+      <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto bg-slate-900/60 rounded-lg p-1">
         {tabs.map((tab) => (
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
             className={cn(
-              'inline-flex items-center justify-center whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors',
+              'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
               activeTab === tab.value
-                ? 'border-emerald-500 text-emerald-400'
-                : 'border-transparent text-muted-foreground hover:text-foreground'
+                ? 'bg-slate-800 text-emerald-400 shadow-sm'
+                : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/50'
             )}
           >
             {tab.label}

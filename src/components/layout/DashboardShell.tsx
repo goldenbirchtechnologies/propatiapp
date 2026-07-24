@@ -343,7 +343,7 @@ function LoadingShell() {
           className="topbar"
           style={{
             height: 'var(--topbar-height)',
-            padding: '0 var(--space-xxl)',
+            padding: '0 var(--space-lg)',
             background: 'var(--surface)',
             borderBottom: '1px solid var(--border)',
             display: 'flex',
@@ -386,7 +386,7 @@ function LoadingShell() {
           style={{
             flex: 1,
             overflowY: 'auto',
-            padding: 'var(--content-padding-desktop)',
+            padding: '1.5rem var(--space-lg)',
           }}
         >
           {/* Stat cards grid */}

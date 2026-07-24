@@ -14,6 +14,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
     ],
   },
+  fontTimeout: 60000,
 };
 
 module.exports = nextConfig;

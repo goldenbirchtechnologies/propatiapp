@@ -6,12 +6,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from '@/components/ui/toaster';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
-import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
 import { cn } from "@/lib/utils";
-
-const sourceSans3Heading = Source_Sans_3({subsets:['latin'],variable:'--font-heading'});
-
-const ibmPlexSans = IBM_Plex_Sans({subsets:['latin'],variable:'--font-sans'});
 
 const inter = localFont({
   src: [
@@ -94,13 +89,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("antialiased", inter.variable, "font-sans", ibmPlexSans.variable, sourceSans3Heading.variable)}
+      className={cn("antialiased", inter.variable)}
       suppressHydrationWarning
     >
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
         <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />

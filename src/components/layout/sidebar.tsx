@@ -9,22 +9,20 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import {
-
   ChevronRight,
   ChevronDown,
   LogOut,
   LayoutDashboard,
   Home,
-  Building,
+  Building2,
   Users,
   FileText,
   DollarSign,
   Settings,
   Bell,
   Shield,
-  BarChart,
-  Truck,
-  Package,
+  BarChart2,
+  Wrench,
   CreditCard,
   HelpCircle,
   Mail,
@@ -32,7 +30,20 @@ import {
   MapPin,
   Key,
   Award,
+  User,
+  ClipboardList,
+  Flag,
+  Gavel,
 } from 'lucide-react';
+
+import {
+  LANDLORD_NAVIGATION,
+  TENANT_NAVIGATION,
+  AGENT_NAVIGATION,
+  ADMIN_NAVIGATION,
+  ESTATE_MANAGER_NAVIGATION,
+  ACCOUNTANT_NAVIGATION,
+} from '@/lib/navigation';
 
 export interface NavItem {
   label: string;
@@ -61,53 +72,13 @@ interface SidebarProps {
 }
 
 const roleNavigation: Record<string, NavItem[]> = {
-  landlord: [
-    { label: 'Dashboard', href: '/dashboard/landlord', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: 'Properties', href: '/dashboard/landlord/properties', icon: <Building className="h-5 w-5" /> },
-    { label: 'Rent Collection', href: '/dashboard/landlord/rent', icon: <DollarSign className="h-5 w-5" /> },
-    { label: 'Verifications', href: '/dashboard/landlord/verification', icon: <Shield className="h-5 w-5" /> },
-    { label: 'Agreements', href: '/dashboard/landlord/agreements', icon: <FileText className="h-5 w-5" /> },
-    { label: 'Messages', href: '/dashboard/landlord/messages', icon: <Mail className="h-5 w-5" /> },
-    { label: 'Profile', href: '/dashboard/landlord/profile', icon: <Settings className="h-5 w-5" /> },
-  ],
-  tenant: [
-    { label: 'Dashboard', href: '/dashboard/tenant', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: 'Payments', href: '/dashboard/tenant/payments', icon: <CreditCard className="h-5 w-5" /> },
-    { label: 'My Agreements', href: '/dashboard/tenant/agreements', icon: <FileText className="h-5 w-5" /> },
-    { label: 'Maintenance', href: '/dashboard/tenant/maintenance', icon: <Settings className="h-5 w-5" /> },
-    { label: 'Messages', href: '/dashboard/tenant/messages', icon: <Mail className="h-5 w-5" /> },
-    { label: 'Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
-  ],
-  agent: [
-    { label: 'Pipeline', href: '/dashboard/agent/pipeline', icon: <BarChart className="h-5 w-5" /> },
-    { label: 'Listings', href: '/dashboard/agent/listings', icon: <Building className="h-5 w-5" /> },
-    { label: 'Inspections', href: '/dashboard/agent/inspections', icon: <ClipboardList className="h-5 w-5" /> },
-    { label: 'Commissions', href: '/dashboard/agent/commissions', icon: <DollarSign className="h-5 w-5" /> },
-    { label: 'Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
-    { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Award className="h-5 w-5" /> },
-    { label: 'Profile', href: '/dashboard/agent/profile', icon: <Settings className="h-5 w-5" /> },
-  ],
-  admin: [
-    { label: 'Overview', href: '/dashboard/admin', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: 'Verifications', href: '/dashboard/admin/verification', icon: <Shield className="h-5 w-5" /> },
-    { label: 'Flags', href: '/dashboard/admin/flags', icon: <Flag className="h-5 w-5" /> },
-    { label: 'Disputes', href: '/dashboard/admin/disputes', icon: <Gavel className="h-5 w-5" /> },
-    { label: 'Users', href: '/dashboard/admin/users', icon: <Users className="h-5 w-5" /> },
-    { label: 'Revenue', href: '/dashboard/admin/revenue', icon: <DollarSign className="h-5 w-5" /> },
-  ],
-  estate_manager: [
-    { label: 'Dashboard', href: '/dashboard/estate-manager', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: 'Portfolio', href: '/dashboard/estate-manager/portfolio', icon: <Building className="h-5 w-5" /> },
-    { label: 'Ledger', href: '/dashboard/estate-manager/ledger', icon: <DollarSign className="h-5 w-5" /> },
-    { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Settings className="h-5 w-5" /> },
-    { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
-    { label: 'Reports', href: '/dashboard/estate-manager/reports', icon: <BarChart className="h-5 w-5" /> },
-    { label: 'Subscription', href: '/dashboard/estate-manager/subscription', icon: <CreditCard className="h-5 w-5" /> },
-  ],
-
+  landlord: LANDLORD_NAVIGATION,
+  tenant: TENANT_NAVIGATION,
+  agent: AGENT_NAVIGATION,
+  admin: ADMIN_NAVIGATION,
+  estate_manager: ESTATE_MANAGER_NAVIGATION,
+  accountant: ACCOUNTANT_NAVIGATION,
 };
-
-import { User, ClipboardList, Flag, Gavel } from 'lucide-react';
 
 // ─── Skeleton nav item (shown when isLoading=true) ───────────────────────────
 export function SkeletonNavItem({ level = 0 }: { level?: number }) {

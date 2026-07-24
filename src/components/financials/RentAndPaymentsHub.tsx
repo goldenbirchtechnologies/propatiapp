@@ -24,7 +24,7 @@ export default function RentAndPaymentsHub({
   return (
     <div className="space-y-6">
       <Tabs defaultValue={safeDefault}>
-        <TabsList>
+        <TabsList className="w-full overflow-x-auto">
           {tabs.map((tab) => (
             <TabsTrigger key={tab.value} value={tab.value}>
               {tab.label}

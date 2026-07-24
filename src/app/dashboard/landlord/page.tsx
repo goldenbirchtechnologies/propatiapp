@@ -52,47 +52,47 @@ export default async function LandlordDashboardPage() {
       <ErrorBoundary>
 
       <div className="dashboard-content-area fade-up">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+              <h1 className="text-4xl font-extrabold text-foreground tracking-tight">
                 Welcome back, <span className="text-primary">{displayName}</span>
               </h1>
-              <p className="text-zinc-400 text-sm mt-1">Here is what is happening with your portfolio today.</p>
+              <p className="text-zinc-400 mt-3 text-base">Here is what is happening with your portfolio today.</p>
             </div>
           </header>
 
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <Card className="bg-surface-container border border-outline-variant">
-              <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Total Listings</p>
-                <p className="text-2xl font-extrabold font-mono">{listingCount}</p>
+              <CardContent className="p-6">
+                <p className="text-xs text-zinc-400 font-medium mb-2">Total Listings</p>
+                <p className="text-3xl font-extrabold font-mono">{listingCount}</p>
               </CardContent>
             </Card>
             <Card className="bg-surface-container border border-outline-variant">
-              <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Active Listings</p>
-                <p className="text-2xl font-extrabold font-mono">{activeListingCount}</p>
+              <CardContent className="p-6">
+                <p className="text-xs text-zinc-400 font-medium mb-2">Active Listings</p>
+                <p className="text-3xl font-extrabold font-mono">{activeListingCount}</p>
               </CardContent>
             </Card>
             <Card className="bg-surface-container border border-outline-variant">
-              <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Pending Applications</p>
-                <p className="text-2xl font-extrabold font-mono">{pendingApplicationCount}</p>
+              <CardContent className="p-6">
+                <p className="text-xs text-zinc-400 font-medium mb-2">Pending Applications</p>
+                <p className="text-3xl font-extrabold font-mono">{pendingApplicationCount}</p>
               </CardContent>
             </Card>
             <Card className="bg-surface-container border border-outline-variant">
-              <CardContent className="p-5">
-                <p className="text-xs text-zinc-400 font-medium mb-1">Role</p>
-                <p className="text-lg font-bold text-primary capitalize">Landlord</p>
+              <CardContent className="p-6">
+                <p className="text-xs text-zinc-400 font-medium mb-2">Role</p>
+                <p className="text-xl font-bold text-primary capitalize">Landlord</p>
               </CardContent>
             </Card>
           </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card className="bg-surface-container border border-outline-variant">
-              <CardHeader>
-                <CardTitle className="text-base">Recent Listings</CardTitle>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Recent Listings</CardTitle>
               </CardHeader>
               <CardContent>
                 {recentListings.length === 0 ? (

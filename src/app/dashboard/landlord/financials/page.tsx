@@ -65,47 +65,47 @@ export default async function LandlordFinancialsPage() {
       <ErrorBoundary>
         <RentAndPaymentsHub tabs={tabs}>
           <TabsContent value="overview">
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-3xl font-bold text-foreground tracking-tight">Financials</h1>
-                  <p className="text-muted-foreground mt-1">Overview of income, expenses, and payout history.</p>
+                  <h1 className="text-4xl font-bold text-foreground tracking-tight">Financials</h1>
+                  <p className="text-muted-foreground mt-3 text-base">Overview of income, expenses, and payout history.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 <Card>
-                  <CardHeader className="pb-2">
+                  <CardHeader className="pb-3">
                     <CardTitle className="text-sm font-medium text-muted-foreground">Total Income</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">₦{totalIncome.toLocaleString()}</div>
-                    <p className="text-xs text-muted-foreground">From received transactions</p>
+                    <div className="text-3xl font-bold">₦{totalIncome.toLocaleString()}</div>
+                    <p className="text-xs text-muted-foreground mt-2">From received transactions</p>
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardHeader className="pb-2">
+                  <CardHeader className="pb-3">
                     <CardTitle className="text-sm font-medium text-muted-foreground">Pending / In Escrow</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{pendingCount}</div>
-                    <p className="text-xs text-muted-foreground">Awaiting confirmation</p>
+                    <div className="text-3xl font-bold">{pendingCount}</div>
+                    <p className="text-xs text-muted-foreground mt-2">Awaiting confirmation</p>
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardHeader className="pb-2">
+                  <CardHeader className="pb-3">
                     <CardTitle className="text-sm font-medium text-muted-foreground">Transactions</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{transactions.length}</div>
-                    <p className="text-xs text-muted-foreground">Recent total</p>
+                    <div className="text-3xl font-bold">{transactions.length}</div>
+                    <p className="text-xs text-muted-foreground mt-2">Recent total</p>
                   </CardContent>
                 </Card>
               </div>
 
               <Card>
-                <CardHeader>
-                  <CardTitle>Recent Transactions</CardTitle>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">Recent Transactions</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {transactions.length === 0 ? (

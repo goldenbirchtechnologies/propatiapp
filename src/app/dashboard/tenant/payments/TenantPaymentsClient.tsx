@@ -50,22 +50,22 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Wallet Balance */}
       <Card>
-        <CardContent className="flex items-center justify-between p-6">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent">
+        <CardContent className="flex items-center justify-between p-8">
+          <div className="flex items-center gap-5">
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 text-accent">
               <Wallet className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-on-surface-variant">Wallet Balance</p>
-              <p className="text-headline-sm text-2xl text-primary">
+              <p className="text-sm text-on-surface-variant font-medium">Wallet Balance</p>
+              <p className="font-headline-xl text-3xl text-primary font-bold tracking-tight">
                 ₦{((wallet?.balance || 0) / 100).toLocaleString()}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button variant="outline" size="sm">
               <Download className="w-4 h-4 mr-2" /> Withdraw
             </Button>
@@ -78,8 +78,8 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
 
       {/* Quick Actions */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Quick Actions</CardTitle>
+        <CardHeader className="pb-5">
+          <CardTitle className="text-xl">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handlePayRent} className="space-y-4 max-w-md">

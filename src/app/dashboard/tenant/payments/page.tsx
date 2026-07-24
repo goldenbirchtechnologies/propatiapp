@@ -48,9 +48,9 @@ export default async function TenantPaymentsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-lg border border-border p-6 text-center">
-      <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{title}</p>
-      <p className="text-sm text-muted-foreground mt-1">{description}</p>
+    <div className="rounded-xl border border-border p-10 text-center">
+      <p className="text-base font-semibold" style={{ color: 'var(--text)' }}>{title}</p>
+      <p className="text-base text-muted-foreground mt-2">{description}</p>
     </div>
   );
 }

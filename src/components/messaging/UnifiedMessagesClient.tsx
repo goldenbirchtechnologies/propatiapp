@@ -1,18 +1,16 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft, Phone, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Avatar } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type Conversation = {
   id: string;
@@ -80,6 +78,8 @@ const ELEVATION_TOKENS: Record<string, string> = {
   elevation_3: 'var(--elevation-3)',
 };
 
+type Tab = 'all' | 'chats' | 'screening';
+
 export default function UnifiedMessagesClient({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -93,7 +93,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   const [replyToId, setReplyToId] = useState<string | null>(null);
   const [screeningCalls, setScreeningCalls] = useState<ScreeningCall[]>([]);
   const [screeningLoading, setScreeningLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'all' | 'chats' | 'screening'>('all');
+  const [activeTab, setActiveTab] = useState<Tab>('all');
 
   const filtered = useMemo(() => {
     if (!search.trim()) return conversations;
@@ -113,9 +113,10 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       const res = await fetch('/api/conversations');
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to load conversations');
-      setConversations(json.data || []);
+      const data = Array.isArray(json.data) ? json.data : [];
+      setConversations(data);
     } catch (err: unknown) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Failed to load conversations');
     } finally {
       setLoading(false);
     }
@@ -126,11 +127,19 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     try {
       const res = await fetch('/api/screening-calls');
       const json = await res.json();
-      if (res.ok) setScreeningCalls(json.data || []);
+      if (res.ok) setScreeningCalls(Array.isArray(json.data) ? json.data : []);
     } catch {
       // non-blocking
     } finally {
       setScreeningLoading(false);
+    }
+  }
+
+  async function markConversationRead(conversationId: string) {
+    try {
+      await fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' });
+    } catch {
+      // non-blocking read receipt
     }
   }
 
@@ -142,15 +151,24 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
         fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' }),
         fetch(`/api/conversations/${conversationId}/messages`),
       ]);
+
       const msgJson = await msgRes.json();
       if (!msgRes.ok) throw new Error(msgJson.error || 'Failed to load messages');
-      setMessages(msgJson.data || []);
-    } catch (err) {
+      setMessages(Array.isArray(msgJson.data) ? msgJson.data : []);
+      markConversationRead(conversationId).catch(() => {});
+    } catch {
       setMessages([]);
     } finally {
       setMessagesLoading(false);
     }
   }
+
+  // WebSocket/real-time fallback: if socket initialization fails, keep using
+  // REST polling (loadConversations / loadMessages) so the UI still updates.
+  const useRealtimeFallback = useCallback(() => {
+    // Future socket init should be wrapped in try/catch and fall back here.
+    return false;
+  }, []);
 
   useEffect(() => {
     loadConversations();
@@ -177,9 +195,12 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to send');
-      setMessages((m) => [...m, json.data]);
+      const payload = Array.isArray(json.data) ? json.data[0] : json.data;
+      if (payload && payload.id) {
+        setMessages((m) => [...m, payload]);
+      }
       loadConversations();
-    } catch (err) {
+    } catch {
       setContent(prev);
     }
   }
@@ -198,7 +219,8 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to create conversation');
       setNewOpen(false);
-      setSelectedId(json.data.id);
+      const id = json?.data?.id;
+      if (id) setSelectedId(id);
       loadConversations();
     } catch {
       // silent for now
@@ -218,18 +240,27 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   const showList = activeTab !== 'screening' && !selectedId;
   const showDetail = activeTab !== 'screening' && !!selectedId;
 
+  const tabs: { value: Tab; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'chats', label: 'Chats' },
+    { value: 'screening', label: 'Screening Calls' },
+  ];
+
   return (
     <div className="space-y-6" style={ELEVATION_TOKENS.elevation_2 as unknown}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages</h1>
-          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Unified inbox across your properties</p>
+          <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
+            {useRealtimeFallback() ? 'Real-time updates unavailable' : 'Unified inbox across your properties'}
+          </p>
         </div>
         {activeTab === 'chats' || activeTab === 'all' ? (
           <Dialog open={newOpen} onOpenChange={setNewOpen}>
             <DialogTrigger asChild>
               <Button className="inline-flex items-center gap-2">
-                <Plus className="w-4 h-4" /> New Conversation
+                <Plus className="w-4 h-4" />
+                New Conversation
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -245,13 +276,25 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       <Card className="overflow-hidden" style={ELEVATION_TOKENS.elevation_1 as unknown}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex flex-col gap-4">
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="chats">Chats</TabsTrigger>
-                <TabsTrigger value="screening">Screening Calls</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.value}
+                  onClick={() => {
+                    setActiveTab(tab.value);
+                    if (tab.value === 'screening') setSelectedId(null);
+                  }}
+                  className={cn(
+                    'inline-flex items-center justify-center whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors',
+                    activeTab === tab.value
+                      ? 'border-emerald-500 text-emerald-400'
+                      : 'border-transparent text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
             {(activeTab === 'all' || activeTab === 'chats') && (
               <div className="relative max-w-xl">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
@@ -271,6 +314,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           <div className="p-4">
             <Card className="p-4 border" style={{ borderColor: 'var(--border)' }}>
               <p style={{ color: 'var(--text)' }}>{error}</p>
+              <Button onClick={loadConversations} className="mt-3">Retry</Button>
             </Card>
           </div>
         )}
@@ -279,7 +323,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           <ScreeningCallsList calls={screeningCalls} loading={screeningLoading} />
         ) : showList ? (
           <ConversationList conversations={filtered} loading={loading} onSelect={setSelectedId} />
-        ) : showDetail ? (
+        ) : showDetail && selectedId ? (
           <ConversationDetail
             conversationId={selectedId}
             messages={messages}
@@ -360,6 +404,13 @@ function ScreeningCallsList({ calls, loading }: { calls: ScreeningCall[]; loadin
   );
 }
 
+function initials(name: string | null | undefined) {
+  if (!name) return 'U';
+  const parts = name.trim().split(' ').filter(Boolean);
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return parts[0]?.[0]?.toUpperCase() || 'U';
+}
+
 function ConversationList({ conversations, loading, onSelect }: { conversations: Conversation[]; loading: boolean; onSelect: (id: string) => void }) {
   if (loading) {
     return (
@@ -378,8 +429,8 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
     return (
       <div className="card-body text-center py-16">
         <MessageSquare className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
-        <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No conversations</h3>
-        <p style={{ color: 'var(--muted)' }}>Start a new conversation to begin messaging.</p>
+        <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No messages yet</h3>
+        <p style={{ color: 'var(--muted)' }}>Your completed conversations will appear here.</p>
       </div>
     );
   }
@@ -394,7 +445,10 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
             className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left hover:bg-muted/30"
             style={{ borderColor: 'var(--border)' }}
           >
-            <Avatar src={conv.participant?.avatarUrl || ''} alt={conv.participant?.fullName || 'User'} />
+            <Avatar>
+              <AvatarImage src={conv.participant?.avatarUrl} alt={conv.participant?.fullName || 'User'} />
+              <AvatarFallback>{initials(conv.participant?.fullName)}</AvatarFallback>
+            </Avatar>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
                 <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
@@ -407,7 +461,9 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
                   </Badge>
                 )}
               </div>
-              <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>{conv.lastMessage?.content || conv.subject || 'No messages yet'}</p>
+              <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+                {conv.lastMessage?.content || conv.subject || 'No messages yet'}
+              </p>
             </div>
             <div className="text-right">
               <p className="text-xs" style={{ color: 'var(--muted)' }}>{formatTime(conv.lastMessageAt)}</p>
@@ -430,6 +486,12 @@ function ConversationDetail({ conversationId, messages, loading, onBack, content
           <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>Conversation</p>
           <p className="text-xs" style={{ color: 'var(--muted)' }}>{conversationId}</p>
         </div>
+        <Button variant="ghost" size="icon" aria-label="Call">
+          <Phone className="w-4 h-4" />
+        </Button>
+        <Button variant="ghost" size="icon" aria-label="Schedule">
+          <Calendar className="w-4 h-4" />
+        </Button>
       </div>
 
       <ScrollArea className="flex-1 p-4">
@@ -472,7 +534,8 @@ function ConversationDetail({ conversationId, messages, loading, onBack, content
         />
         <div className="flex justify-end">
           <Button onClick={onSend} disabled={!content.trim()} className="inline-flex items-center gap-2">
-            <Send className="w-4 h-4" /> Send
+            <Send className="w-4 h-4" />
+            Send
           </Button>
         </div>
       </div>
@@ -481,13 +544,16 @@ function ConversationDetail({ conversationId, messages, loading, onBack, content
 }
 
 function MessageBubble({ message }: { message: Message }) {
-  const isMe = message.senderId === message.sender?.id && message.sender?.id; // simplistic
+  const senderName = message.sender?.fullName || message.sender?.role || 'User';
   return (
-    <div className={`flex gap-3 ${isMe ? 'justify-end' : 'justify-start'}`}>
-      <Avatar src={message.sender?.avatarUrl || ''} alt={message.sender?.fullName || 'User'} className="w-8 h-8" />
-      <div className={`max-w-[70%] rounded-lg px-3 py-2 ${isMe ? 'rounded-tr-none' : 'rounded-tl-none'}`} style={{ background: 'var(--elevation-2)', color: 'var(--text)' }}>
-        <p className="text-xs mb-1 font-medium" style={{ color: 'var(--muted)' }}>{message.sender?.fullName || 'User'}</p>
-        <p className="text-sm">{message.content}</p>
+    <div className="flex gap-3">
+      <Avatar>
+        <AvatarImage src={message.sender?.avatarUrl} alt={senderName} />
+        <AvatarFallback>{initials(senderName)}</AvatarFallback>
+      </Avatar>
+      <div className="max-w-[70%] rounded-lg px-3 py-2" style={{ background: 'var(--elevation-2)', color: 'var(--text)' }}>
+        <p className="text-xs mb-1 font-medium" style={{ color: 'var(--muted)' }}>{senderName}</p>
+        <p className="text-sm">{message.content || ''}</p>
         <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{formatTime(message.createdAt)}</p>
       </div>
     </div>

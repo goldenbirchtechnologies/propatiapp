@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Bell } from 'lucide-react';
-import { Drawer } from '@/components/ui/modal';
 import { cn } from '@/lib/utils';
 import { createNotificationSound } from '@/lib/notification-utils';
 import { NotificationsPanel } from './notifications-dropdown';
@@ -31,6 +30,8 @@ export function NotificationsBell({
   const pollInterval = useRef<NodeJS.Timeout | null>(null);
   const notificationSound = useRef(createNotificationSound());
   const router = useRouter();
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const fetchUnreadCount = useCallback(async () => {
     try {
@@ -114,6 +115,28 @@ export function NotificationsBell({
     };
   }, [fetchUnreadCount]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        handleClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   const handleClose = () => {
     setIsOpen(false);
     fetchUnreadCount();
@@ -190,17 +213,60 @@ export function NotificationsBell({
         )}
       </button>
 
-      <Drawer
-        open={isOpen}
-        onOpenChange={(open) => {
-          if (!open) handleClose();
-          else setIsOpen(true);
-        }}
-        title="Notifications"
-        size="md"
-        footer={
-          notifications.length > 0 && (
-            <div className="flex items-center justify-between w-full">
+      {isOpen && (
+        <div
+          ref={dropdownRef}
+          className={cn(
+            'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-surface-elevated rounded-lg shadow-xl border border-outline z-50',
+            position === 'right' ? 'right-0' : 'left-0'
+          )}
+          role="dialog"
+          aria-label="Notifications"
+        >
+          <div className="flex items-center justify-between p-3 border-b border-border">
+            {unreadCount > 0 ? (
+              <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
+                {unreadCount} new
+              </span>
+            ) : null}
+            <button
+              onClick={fetchNotifications}
+              disabled={loading || markingAll}
+              className="p-1 hover:bg-muted rounded transition-colors ml-auto"
+              aria-label="Refresh notifications"
+            >
+              <svg
+                className={cn('w-4 h-4 text-muted-foreground', loading && 'animate-spin')}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <NotificationsPanel
+            notifications={notifications}
+            loading={loading}
+            markingAll={markingAll}
+            unreadCount={unreadCount}
+            onRefresh={fetchNotifications}
+            onMarkAllRead={handleMarkAllRead}
+            onNotificationClick={handleNotificationClick}
+            onViewAll={() => {
+              router.push(`/dashboard/${userRole}/notifications`);
+              handleClose();
+            }}
+          />
+
+          {notifications.length > 0 && (
+            <div className="flex items-center justify-between p-3 border-t border-border bg-muted/30">
               {unreadCount > 0 ? (
                 <button
                   onClick={handleMarkAllRead}
@@ -209,9 +275,7 @@ export function NotificationsBell({
                 >
                   {markingAll ? 'Marking...' : 'Mark all read'}
                 </button>
-              ) : (
-                <div />
-              )}
+              ) : null}
               <Link
                 href={`/dashboard/${userRole}/notifications`}
                 onClick={handleClose}
@@ -220,42 +284,9 @@ export function NotificationsBell({
                 View all →
               </Link>
             </div>
-          )
-        }
-        footerClassName="justify-between"
-      >
-        <div className="flex items-center justify-between p-3">
-          {unreadCount > 0 && (
-            <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
-              {unreadCount} new
-            </span>
           )}
-          <button
-            onClick={fetchNotifications}
-            disabled={loading || markingAll}
-            className="p-1 hover:bg-muted rounded transition-colors ml-auto"
-            aria-label="Refresh notifications"
-          >
-            <svg className={`w-4 h-4 text-muted-foreground ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
-            </svg>
-          </button>
         </div>
-
-        <NotificationsPanel
-          notifications={notifications}
-          loading={loading}
-          markingAll={markingAll}
-          unreadCount={unreadCount}
-          onRefresh={fetchNotifications}
-          onMarkAllRead={handleMarkAllRead}
-          onNotificationClick={handleNotificationClick}
-          onViewAll={() => {
-            router.push(`/dashboard/${userRole}/notifications`);
-            handleClose();
-          }}
-        />
-      </Drawer>
+      )}
     </>
   );
 }

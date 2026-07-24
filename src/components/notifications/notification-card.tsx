@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { formatNotificationTime } from '@/lib/notification-utils';
 import { getNotificationIcon, getNotificationColor, getNotificationBgColor } from '@/lib/notification-icons';
 import { cn } from '@/lib/utils';
@@ -50,6 +51,20 @@ export function NotificationCard({
   };
 
   const actionUrl = notification.data?.actionUrl || notification.actionUrl;
+  const canConfirm = !!onConfirm;
+  const canDispute = !!onDispute;
+
+  const doConfirm = useCallback(async () => {
+    if (onConfirm) {
+      await onConfirm(notification.id);
+    }
+  }, [onConfirm, notification.id]);
+
+  const doDispute = useCallback(async () => {
+    if (onDispute) {
+      await onDispute(notification.id);
+    }
+  }, [onDispute, notification.id]);
 
   return (
     <div

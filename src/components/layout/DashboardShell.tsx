@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
+import GlobalSearch from './GlobalSearch';
 import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
@@ -709,10 +710,7 @@ export function DashboardShell({
               </svg>
             </button>
             {/* Search pill */}
-            <div className="hidden md:flex flex-1 max-w-md items-center gap-2 rounded-full border px-4 py-2" style={{ borderColor: 'var(--border)', background: 'var(--surface-elevated)' }}>
-              <Search size={16} style={{ color: 'var(--muted-foreground)' }} />
-              <span className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Search...</span>
-            </div>
+            <GlobalSearch userRole={userRole} />
           </div>
 
           <div className="flex-1" />
@@ -721,6 +719,7 @@ export function DashboardShell({
             <button
               className="hidden md:flex p-2 rounded-full transition hover:bg-muted"
               aria-label="Help"
+              title="Help"
             >
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>

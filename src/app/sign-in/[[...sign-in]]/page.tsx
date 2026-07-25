@@ -44,6 +44,13 @@ export default function SignInPage() {
                 footerActionLink:
                   'text-emerald-400 hover:text-emerald-300 underline-offset-2 font-semibold',
                 formFieldAction: 'text-emerald-400',
+                otpCodeFieldInput:
+                  'bg-slate-900 border border-slate-700 text-white text-lg font-bold tracking-widest',
+                formResendCodeLink:
+                  'text-slate-300 hover:text-emerald-400 font-medium',
+                identityPreviewText: 'text-slate-200 font-semibold',
+                identityPreviewEditButtonIcon:
+                  'text-emerald-400 hover:text-emerald-300',
               },
               variables: {
                 colorBackground: 'transparent',

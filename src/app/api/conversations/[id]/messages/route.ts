@@ -107,28 +107,31 @@ export async function POST(
       lastMessage: content.substring(0, 200),
       lastMessageAt: new Date(),
     };
-    const counts: Record<string, { increment: number }> = {};
-    const otherParticipants = Array.isArray(conversation.participants ?? null)
-      ? conversation.participants!.filter((p: Participant) => p.userId !== user.id && !!p.userId)
-      : [];
+    const unreadCounts = (conversation as { unreadCounts?: JsonValue }).unreadCounts || {};
+    const participantsForUnread = Array.isArray(conversation.participants)
+      ? conversation.participants
+      : typeof conversation.participants === 'string'
+        ? JSON.parse(conversation.participants || '[]')
+        : [];
+    const otherParticipants = participantsForUnread.filter((p: any) => p?.userId && p.userId !== user.id);
     const legacyOthers: string[] = [];
     if (conversation.landlordId && conversation.landlordId !== user.id) legacyOthers.push(conversation.landlordId);
     if (conversation.tenantId && conversation.tenantId !== user.id) legacyOthers.push(conversation.tenantId);
 
-    const recipients = Array.from(new Set([...otherParticipants.map((p) => p.userId), ...legacyOthers]));
+    const recipients = Array.from(new Set([...otherParticipants.map((p: any) => p.userId).filter(Boolean), ...legacyOthers]));
 
-    recipients.forEach((recipientId) => {
-      counts[recipientId] = { increment: 1 };
+    const messageRecord = await prisma.message.create({
+      data: { conversationId: id, senderId: user.id, content, attachmentUrl: attachmentUrl || null, attachmentType: (attachmentType as 'image' | 'document' | 'video' | null) || null },
+      include: { sender: { select: { id: true, fullName: true, avatarUrl: true, role: true } } },
     });
-    update.unreadCounts = ({ ...counts, ...(conversation as { unreadCounts?: JsonValue }).unreadCounts } as JsonValue);
 
-    const [message] = await prisma.$transaction([
-      prisma.message.create({
-        data: { conversationId: id, senderId: user.id, content, attachmentUrl: attachmentUrl || null, attachmentType: (attachmentType as 'image' | 'document' | 'video' | null) || null },
-        include: { sender: { select: { id: true, fullName: true, avatarUrl: true, role: true } } },
-      }),
-      prisma.conversation.update({ where: { id }, data: update }),
-      ...recipients.map((recipientId) =>
+    await prisma.conversation.update({
+      where: { id },
+      data: { lastMessage: content.substring(0, 200), lastMessageAt: new Date(), unreadCounts },
+    });
+
+    await Promise.all(
+      recipients.map((recipientId) =>
         prisma.notification.create({
           data: {
             userId: recipientId,
@@ -138,10 +141,10 @@ export async function POST(
             data: { conversationId: id, messageId: '', listingId: (conversation.listing as any)?.id, listingTitle: (conversation.listing as any)?.title },
           },
         })
-      ),
-    ]);
+      )
+    );
 
-    return NextResponse.json({ success: true, data: message, message: 'Message sent' }, { status: 201 });
+    return NextResponse.json({ success: true, data: messageRecord, message: 'Message sent' }, { status: 201 });
   } catch (error) {
     console.error('POST messages error:', error);
     if (error instanceof z.ZodError) return NextResponse.json({ error: 'Invalid body', details: error.errors }, { status: 400 });

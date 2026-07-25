@@ -196,15 +196,14 @@ export async function POST(request: NextRequest) {
 
     const others = validated.participants.filter((p) => p.userId !== user.id);
     if (others.length) {
-      await prisma.notification.createMany({
-        data: others.map((p) => ({
-          userId: p.userId,
-          type: 'message',
-          title: 'New Conversation',
-          body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as { title?: string | null } | null)?.title ?? ''}` : ''}`,
-          data: { conversationId: conversation.id, listingId: validated.listingId },
-        })),
-      });
+      const notifications = others.map((p) => ({
+        userId: p.userId,
+        type: 'message',
+        title: 'New Conversation',
+        body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as { title?: string | null }).title ?? ''}` : ''}`,
+        data: { conversationId: conversation.id, listingId: validated.listingId },
+      }));
+      await Promise.all(notifications.map((item) => prisma.notification.create({ data: item })));
     }
 
     return NextResponse.json({ success: true, data: conversation, message: 'Conversation created successfully' }, { status: 201 });

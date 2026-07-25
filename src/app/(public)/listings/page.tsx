@@ -56,7 +56,7 @@ const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => ({
   location: i % 3 === 0 ? 'Lekki Phase 1, Lagos' : i % 3 === 1 ? 'Victoria Island, Lagos' : 'Ikeja GRA, Lagos',
   price: (i + 1) * 5000000,
   pricePeriod: 'year' as const,
-  category: (i % 2 === 0 ? 'residential' : 'commercial') as 'residential' | 'commercial',
+  category: (i % 3 === 0 ? 'residential' : i % 3 === 1 ? 'commercial' : 'short_let') as 'residential' | 'commercial' | 'short_let',
   verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
   listingType: (['rent', 'sale', 'short_let'][i % 3]) as ListingType,
   image: `https://picsum.photos/seed/${i + 1}/800/600`,
@@ -130,7 +130,7 @@ function ListingsPageInner() {
   // Sync with URL params (optional)
   React.useEffect(() => {
     const categoryParam = searchParams.get('category');
-    if (categoryParam === 'residential' || categoryParam === 'commercial') {
+    if (categoryParam === 'residential' || categoryParam === 'commercial' || categoryParam === 'short_let') {
       setFilters((prev) => ({ ...prev, category: categoryParam }));
     }
   }, [searchParams]);
@@ -143,8 +143,9 @@ function ListingsPageInner() {
     setFilters((prev) => ({
       ...prev,
       category,
-      propertyTypes: [], // Reset property types when category changes
-      bedrooms: category === 'commercial' ? null : prev.bedrooms, // Reset bedrooms for commercial
+      listingType: category === 'short_let' ? 'short_let' : 'all',
+      propertyTypes: [],
+      bedrooms: category === 'commercial' || category === 'short_let' ? null : prev.bedrooms,
     }));
   };
 
@@ -296,7 +297,7 @@ function ListingsPageInner() {
             placeholder="Lekki, VI, Ikeja..."
             value={filters.location}
             onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
-            className="pl-10"
+            className="pl-10 placeholder:text-slate-400"
           />
         </div>
       </div>
@@ -452,7 +453,7 @@ function ListingsPageInner() {
                 placeholder="Lekki, VI, Ikeja..."
                 value={filters.location}
                 onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
-                className="pl-9 h-10"
+                className="pl-9 h-10 placeholder:text-slate-400"
               />
             </div>
 
@@ -527,7 +528,7 @@ function ListingsPageInner() {
             <div className="flex items-baseline justify-between mb-6">
               <div>
                 <h1 className="text-headline-lg font-bold text-on-surface">
-                  {filters.category === 'residential' ? 'Residential' : 'Commercial'} Properties
+                  {filters.category === 'short_let' ? 'Short Let' : filters.category === 'commercial' ? 'Commercial' : 'Residential'} Properties
                 </h1>
                 <p className="text-body-sm text-on-surface-variant mt-1">
                   {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found

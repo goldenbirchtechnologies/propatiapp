@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Home, Menu, X, User, LogIn, Search, ChevronDown } from 'lucide-react';
+import { Home, Menu, X, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
+
+const LISTINGS_PATH = '/listings';
 
 const publicNavLinks = [
   { href: '/listings', label: 'Find Property' },
@@ -38,10 +40,13 @@ export default function PublicNav() {
   }
 
   const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
+  const isListingsPage = pathname === LISTINGS_PATH;
+  const navLinks = isListingsPage
+    ? publicNavLinks.filter((link) => link.href !== LISTINGS_PATH)
+    : publicNavLinks;
 
   return (
     <>
-      {/* Mobile menu backdrop */}
       {mobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
@@ -58,7 +63,7 @@ export default function PublicNav() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">
-              {publicNavLinks.map((link) => {
+              {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
@@ -78,7 +83,7 @@ export default function PublicNav() {
             </nav>
 
             <div className="flex items-center gap-3">
-              {!isAuthPage && (
+              {!isAuthPage && !isListingsPage && (
                 <Link href="/listings" className="hidden md:inline-flex">
                   <Button variant="ghost" size="sm">
                     <Search className="h-4 w-4 mr-1" />
@@ -123,7 +128,6 @@ export default function PublicNav() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-y-0 right-0 z-50 w-72 bg-background border-l shadow-xl p-4">
           <div className="flex items-center justify-between mb-6">
@@ -140,7 +144,7 @@ export default function PublicNav() {
             </button>
           </div>
           <nav className="space-y-1">
-            {publicNavLinks.map((link) => {
+            {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link

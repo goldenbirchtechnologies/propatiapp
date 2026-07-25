@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export interface PropertyCardProps {
   id: string;
@@ -15,7 +15,7 @@ export interface PropertyCardProps {
   location: string;
   price: number;
   pricePeriod?: 'month' | 'year' | 'once';
-  category: 'residential' | 'commercial';
+  category: 'residential' | 'commercial' | 'short_let';
   verificationTier: 'basic' | 'verified' | 'inspected' | 'certified';
   listingType: 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
   image: string;
@@ -31,24 +31,25 @@ export interface PropertyCardProps {
   className?: string;
 }
 
-const categoryColors = {
-  residential: 'bg-residential-teal text-white',
-  commercial: 'bg-commercial-gold text-white',
+const categoryChips = {
+  residential: 'bg-residential-teal/90 text-white',
+  commercial: 'bg-commercial-gold/90 text-white',
+  short_let: 'bg-emerald-600/90 text-white',
 } as const;
 
-const verificationColors = {
-  basic: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
-  verified: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-  inspected: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-  certified: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+const verificationChips = {
+  basic: 'bg-slate-800/90 text-slate-200 border border-white/10',
+  verified: 'bg-emerald-600/90 text-white border border-white/10',
+  inspected: 'bg-amber-500/90 text-white border border-white/10',
+  certified: 'bg-purple-600/90 text-white border border-white/10',
 } as const;
 
-const listingTypeColors = {
-  rent: 'bg-blue-50 text-type-rent border-type-rent/20',
-  sale: 'bg-green-50 text-type-sale border-type-sale/20',
-  short_let: 'bg-purple-50 text-type-short-let border-type-short-let/20',
-  share: 'bg-orange-50 text-type-share border-type-share/20',
-  commercial: 'bg-yellow-50 text-type-commercial border-type-commercial/20',
+const listingTypeChips = {
+  rent: 'bg-sky-600/90 text-white border border-white/10',
+  sale: 'bg-emerald-600/90 text-white border border-white/10',
+  short_let: 'bg-teal-600/90 text-white border border-white/10',
+  share: 'bg-orange-600/90 text-white border border-white/10',
+  commercial: 'bg-amber-700/90 text-white border border-white/10',
 } as const;
 
 const listingTypeLabels = {
@@ -99,6 +100,7 @@ export function PropertyCard({
 
   const getPricePeriodText = () => {
     if (listingType === 'sale') return '';
+    if (listingType === 'short_let') return '/night';
     if (pricePeriod === 'month') return '/month';
     if (pricePeriod === 'year') return '/year';
     return '';
@@ -125,54 +127,46 @@ export function PropertyCard({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
-        {/* Category Badge - Top Left */}
-        <div className="absolute top-3 left-3">
-          <Badge className={cn('capitalize font-semibold', categoryColors[category])}>
-            {category}
-          </Badge>
+        {/* Floating Badges - Top Left */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          <span className={cn('ui-chip capitalize font-semibold px-2.5 py-1 rounded-full text-xs backdrop-blur-md', categoryChips[category])}>
+            {category.replace('_', ' ')}
+          </span>
+          <span className={cn('ui-chip capitalize font-semibold px-2.5 py-1 rounded-full text-xs backdrop-blur-md border border-white/10', listingTypeChips[listingType])}>
+            {listingTypeLabels[listingType]}
+          </span>
         </div>
 
-        {/* Verification Badge - Top Right (next to save button) */}
-        <div className="absolute top-3 right-14">
-          <Badge className={cn('capitalize font-semibold', verificationColors[verificationTier])}>
+        {/* Top Right Actions */}
+        <div className="absolute top-3 right-3 flex items-center gap-2">
+          <span className={cn('ui-chip capitalize font-semibold px-2.5 py-1 rounded-full text-xs backdrop-blur-md border border-white/10', verificationChips[verificationTier])}>
             {verificationLabels[verificationTier]}
-          </Badge>
+          </span>
+          <button
+            onClick={handleSave}
+            className={cn(
+              'inline-flex items-center justify-center p-2 rounded-full',
+              'bg-slate-900/80 backdrop-blur-md border border-white/10',
+              'transition-colors duration-200 hover:bg-slate-900',
+              'shadow-sm hover:shadow-md',
+              isSaved && 'text-red-500'
+            )}
+            aria-label={isSaved ? 'Remove from saved' : 'Save property'}
+          >
+            <Heart className={cn('h-4 w-4', isSaved && 'fill-current')} />
+          </button>
         </div>
-
-        {/* Save Button - Top Right */}
-        <button
-          onClick={handleSave}
-          className={cn(
-            'absolute top-3 right-3 p-2 rounded-full bg-surface-elevated/90 backdrop-blur-sm',
-            'transition-colors duration-200 hover:bg-surface',
-            'shadow-sm hover:shadow-md',
-            isSaved && 'text-red-500'
-          )}
-          aria-label={isSaved ? 'Remove from saved' : 'Save property'}
-        >
-          <Heart className={cn('h-5 w-5', isSaved && 'fill-current')} />
-        </button>
       </div>
 
       {/* Content */}
       <div className="p-4">
-        {/* Listing Type Badge */}
-        <div className="mb-3">
-          <Badge
-            variant="outline"
-            className={cn('border font-semibold', listingTypeColors[listingType])}
-          >
-            {listingTypeLabels[listingType]}
-          </Badge>
-        </div>
-
         {/* Price */}
-        <div className="mb-2">
-          <span className="text-2xl font-bold text-on-surface font-display">
+        <div className="mb-2 flex flex-wrap items-baseline gap-x-2">
+          <span className="text-2xl font-extrabold text-emerald-400 font-display">
             {formatPrice(price)}
           </span>
           {getPricePeriodText() && (
-            <span className="text-sm text-on-surface-variant ml-1">{getPricePeriodText()}</span>
+            <span className="text-sm text-slate-400">{getPricePeriodText()}</span>
           )}
         </div>
 
@@ -189,8 +183,8 @@ export function PropertyCard({
 
         {/* Specs */}
         {specs && (
-          <div className="flex items-center gap-4 text-sm text-on-surface-variant">
-            {category === 'residential' ? (
+          <div className="flex items-center gap-4 text-sm text-on-surface-variant mb-5">
+            {category === 'residential' || category === 'short_let' ? (
               <>
                 {specs.beds !== undefined && (
                   <div className="flex items-center gap-1.5">
@@ -223,6 +217,11 @@ export function PropertyCard({
             )}
           </div>
         )}
+
+        {/* Action */}
+        <Button size="sm" className="w-full" variant="default" onClick={(event) => event.stopPropagation()}>
+          View Details
+        </Button>
       </div>
     </article>
   );

@@ -12,6 +12,28 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
+async function withRetry<T>(label: string, fn: () => Promise<T>, tries = 2): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '';
+      const retryable =
+        message.includes('Failed to fetch') ||
+        message.includes('NetworkError when attempting to fetch resource.') ||
+        message.includes('Network request failed') ||
+        message.includes('The network connection was lost') ||
+        message.includes('server closed the connection unexpectedly') ||
+        message.includes('P1001') ||
+        message.includes('P1017') ||
+        message.includes('P11000');
+      if (!retryable || ++attempt >= tries) throw err;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 150));
+    }
+  }
+}
+
 type Conversation = {
   id: string;
   listingId?: string;
@@ -110,7 +132,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/conversations');
+      const res = await withRetry(() => fetch('/api/conversations'));
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to load conversations');
       const data = Array.isArray(json.data) ? json.data : [];
@@ -125,7 +147,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   async function loadScreening() {
     setScreeningLoading(true);
     try {
-      const res = await fetch('/api/screening-calls');
+      const res = await withRetry(() => fetch('/api/screening-calls'));
       const json = await res.json();
       if (res.ok) setScreeningCalls(Array.isArray(json.data) ? json.data : []);
     } catch {
@@ -137,7 +159,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
 
   async function markConversationRead(conversationId: string) {
     try {
-      await fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' });
+      await withRetry(() => fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' }));
     } catch {
       // non-blocking read receipt
     }
@@ -148,8 +170,8 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     setMessages([]);
     try {
       const [convRes, msgRes] = await Promise.all([
-        fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' }),
-        fetch(`/api/conversations/${conversationId}/messages`),
+        withRetry(() => fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' })),
+        withRetry(() => fetch(`/api/conversations/${conversationId}/messages`)),
       ]);
 
       const msgJson = await msgRes.json();
@@ -181,24 +203,22 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   useEffect(() => {
     if (selectedId) loadMessages(selectedId);
   }, [selectedId]);
-
-  async function handleSend() {
-    if (!selectedId || !content.trim()) return;
+  async function handleSendMessage() {
+    const trimmed = content.trim();
+    if (!trimmed || !selectedId) return;
     const prev = content;
     setContent('');
     setReplyToId(null);
     try {
-      const res = await fetch(`/api/conversations/${selectedId}/messages`, {
+      const res = await withRetry(() => fetch(`/api/conversations/${selectedId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: prev.trim() }),
-      });
+        body: JSON.stringify({ content: trimmed }),
+      }));
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to send');
       const payload = Array.isArray(json.data) ? json.data[0] : json.data;
-      if (payload && payload.id) {
-        setMessages((m) => [...m, payload]);
-      }
+      if (payload && payload.id) setMessages((m) => [...m, payload]);
       loadConversations();
     } catch {
       setContent(prev);
@@ -207,15 +227,15 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
 
   async function handleNewConversation(formData: { participantId: string; subject: string; listingId?: string }) {
     try {
-      const res = await fetch('/api/conversations', {
+      const res = await withRetry(() => fetch('/api/conversations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          participants: [{ userId: formData.participantId, role: '' }, { userId: userId, role: userRole }],
+          participants: [{ userId: formData.participantId, role: '' }, { userId, role: userRole }],
           subject: formData.subject || 'New Conversation',
           listingId: formData.listingId || null,
         }),
-      });
+      }));
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to create conversation');
       setNewOpen(false);

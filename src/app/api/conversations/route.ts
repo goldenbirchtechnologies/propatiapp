@@ -59,32 +59,57 @@ export async function GET(request: NextRequest) {
     const { page, limit } = listQuerySchema.parse(Object.fromEntries(searchParams.entries()));
     const skip = (page - 1) * limit;
 
+    const withRetry = async <T>(label: string, fn: () => Promise<T>, tries = 2): Promise<T> => {
+      let attempt = 0;
+      while (true) {
+        try {
+          return await fn();
+        } catch (err) {
+          const message = err instanceof Error ? err.message : '';
+          const retryable =
+            message.includes('Timed out fetching a new connection from the connection pool') ||
+            message.includes('server closed the connection unexpectedly') ||
+            message.includes('No pg_hba.conf entry for host') ||
+            message.includes('EOF') ||
+            message.includes('P1001') ||
+            message.includes('P1017') ||
+            message.includes('P11000');
+          if (!retryable || ++attempt >= tries) throw err;
+          await new Promise((resolve) => setTimeout(resolve, attempt * 200));
+        }
+      }
+    };
+
     const [legacyConvs, participantRows] = await Promise.all([
-      prisma.conversation.findMany({
-        where: {
-          OR: [{ landlordId: user.id }, { tenantId: user.id }],
-          status: { not: 'blocked' },
-        },
-        orderBy: { lastMessageAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
-          tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
-          listing: {
-            select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } },
+      withRetry('legacyConvs', async () =>
+        prisma.conversation.findMany({
+          where: {
+            OR: [{ landlordId: user.id }, { tenantId: user.id }],
+            status: { not: 'blocked' },
           },
-          messages: { take: 1, orderBy: { createdAt: 'desc' }, select: { id: true, content: true, createdAt: true, senderId: true } },
-        },
-      }),
-      prisma.$queryRaw<Array<{ id: string }>>`
-        SELECT id FROM conversations
-        WHERE participants @> ${JSON.stringify([{ userId: user.id }])}::jsonb
-          AND status != 'blocked'
-        ORDER BY last_message_at DESC
-        LIMIT ${skip + limit}
-        OFFSET ${skip}
-      `,
+          orderBy: { lastMessageAt: 'desc' },
+          skip,
+          take: limit,
+          include: {
+            landlord: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+            tenant: { select: { id: true, fullName: true, avatarUrl: true, role: true } },
+            listing: {
+              select: { id: true, title: true, area: true, state: true, price: true, listingType: true, images: { where: { isCover: true }, take: 1, select: { url: true } } },
+            },
+            messages: { take: 1, orderBy: { createdAt: 'desc' }, select: { id: true, content: true, createdAt: true, senderId: true } },
+          },
+        })
+      ),
+      withRetry('participantRows', async () =>
+        prisma.$queryRaw<Array<{ id: string }>>`
+          SELECT id FROM conversations
+          WHERE participants @> ${JSON.stringify([{ userId: user.id }])}::jsonb
+            AND status != 'blocked'
+          ORDER BY last_message_at DESC
+          LIMIT ${skip + limit}
+          OFFSET ${skip}
+        `
+      ),
     ]);
 
     const legacyIds = new Set(legacyConvs.map((c: any) => c.id));

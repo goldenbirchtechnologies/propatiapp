@@ -106,7 +106,18 @@ function ListingsPageInner() {
 
   const [sortBy, setSortBy] = React.useState<SortOption>('verification');
   const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('grid');
-  const [mobileFiltersOpen, setMobileFiltersOpen] = React.useState(false);
+  const [filtersDrawerOpen, setFiltersDrawerOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (filtersDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [filtersDrawerOpen]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [activeFilterCount, setActiveFilterCount] = React.useState(0);
 
@@ -287,21 +298,6 @@ function ListingsPageInner() {
 
   const renderFilters = () => (
     <div className="space-y-6">
-      {/* Location Search */}
-      <div>
-        <label className="block text-sm font-semibold text-on-surface mb-2">Location</label>
-        <div className="relative">
-          <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-on-surface-variant" />
-          <Input
-            type="text"
-            placeholder="Lekki, VI, Ikeja..."
-            value={filters.location}
-            onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
-            className="pl-10 placeholder:text-slate-400"
-          />
-        </div>
-      </div>
-
       {/* Price Range */}
       <div>
         <label className="block text-sm font-semibold text-on-surface mb-2">
@@ -317,9 +313,9 @@ function ListingsPageInner() {
             className="mb-4"
           />
           <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-            <AppIcon name="₦{(filters.priceMin / 1000000).toFixed(0)}M" className="lucide" />
+            <AppIcon name={`₦${(filters.priceMin / 1000000).toFixed(0)}M`} className="lucide" />
             <AppIcon name="-" className="lucide" />
-            <AppIcon name="₦{(filters.priceMax / 1000000).toFixed(0)}M" className="lucide" />
+            <AppIcon name={`₦${filters.priceMax.toFixed(0)}`} className="lucide" />
           </div>
         </div>
       </div>
@@ -352,7 +348,7 @@ function ListingsPageInner() {
       <div>
         <label className="block text-sm font-semibold text-on-surface mb-2">Property Type</label>
         <div className="space-y-2">
-          {(filters.category === 'residential' ? RESIDENTIAL_TYPES : COMMERCIAL_TYPES).map((type) => (
+          {(filters.category === 'residential' || filters.category === 'short_let' ? RESIDENTIAL_TYPES : COMMERCIAL_TYPES).map((type) => (
             <label
               key={type}
               className="flex items-center gap-2 cursor-pointer group"
@@ -457,34 +453,11 @@ function ListingsPageInner() {
               />
             </div>
 
-            {/* Price Inputs - Desktop */}
-            <div className="hidden lg:flex items-center gap-2">
-              <Input
-                type="number"
-                placeholder="Min Price"
-                value={filters.priceMin || ''}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))
-                }
-                className="w-32 h-10"
-              />
-              <span className="text-on-surface-variant">-</span>
-              <Input
-                type="number"
-                placeholder="Max Price"
-                value={filters.priceMax || ''}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))
-                }
-                className="w-32 h-10"
-              />
-            </div>
-
-            {/* All Filters Button - Mobile */}
+            {/* All Filters Button */}
             <Button
               variant="outline"
-              onClick={() => setMobileFiltersOpen(true)}
-              className="lg:hidden relative"
+              onClick={() => setFiltersDrawerOpen(true)}
+              className="relative"
             >
               <FilterIcon className="h-4 w-4 mr-2" />
               Filters
@@ -513,162 +486,139 @@ function ListingsPageInner() {
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
-        <div className="flex gap-8">
-          {/* Sidebar Filters - Desktop */}
-          <aside className="hidden lg:block w-80 shrink-0">
-            <div className="sticky top-[180px] bg-surface-elevated rounded-xl border border-outline-variant p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-on-surface mb-6">Filters</h2>
-              {renderFilters()}
-            </div>
-          </aside>
-
-          {/* Results Grid */}
-          <div className="flex-1">
-            {/* Header */}
-            <div className="flex items-baseline justify-between mb-6">
-              <div>
-                <h1 className="text-headline-lg font-bold text-on-surface">
-                  {filters.category === 'short_let' ? 'Short Let' : filters.category === 'commercial' ? 'Commercial' : 'Residential'} Properties
-                </h1>
-                <p className="text-body-sm text-on-surface-variant mt-1">
-                  {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
-                </p>
-              </div>
-
-              {/* View Toggle */}
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={cn(
-                    'p-2 rounded-md transition-colors',
-                    viewMode === 'grid'
-                      ? 'bg-residential-teal text-white'
-                      : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
-                  )}
-                  aria-label="Grid view"
-                >
-                  <AppIcon name="grid_view" className="lucide" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={cn(
-                    'p-2 rounded-md transition-colors',
-                    viewMode === 'list'
-                      ? 'bg-residential-teal text-white'
-                      : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
-                  )}
-                  aria-label="List view"
-                >
-                  <AppIcon name="format_list_bulleted" className="lucide" />
-                </button>
-              </div>
+        {/* Results Grid */}
+        <div className="flex-1">
+          {/* Header */}
+          <div className="flex items-baseline justify-between mb-6">
+            <div>
+              <h1 className="text-headline-lg font-bold text-on-surface">
+                {filters.category === 'short_let' ? 'Short Let' : filters.category === 'commercial' ? 'Commercial' : 'Residential'} Properties
+              </h1>
+              <p className="text-body-sm text-on-surface-variant mt-1">
+                {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
+              </p>
             </div>
 
-            {/* Loading State */}
-            {isLoading && (
+            {/* View Toggle */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={cn(
+                  'p-2 rounded-md transition-colors',
+                  viewMode === 'grid'
+                    ? 'bg-residential-teal text-white'
+                    : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+                )}
+                aria-label="Grid view"
+              >
+                <AppIcon name="grid_view" className="lucide" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={cn(
+                  'p-2 rounded-md transition-colors',
+                  viewMode === 'list'
+                    ? 'bg-residential-teal text-white'
+                    : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+                )}
+                aria-label="List view"
+              >
+                <AppIcon name="format_list_bulleted" className="lucide" />
+              </button>
+            </div>
+          </div>
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className={cn(
+              'grid gap-6',
+              viewMode === 'grid'
+                ? 'grid-cols-1 md:grid-cols-2'
+                : 'grid-cols-1'
+            )}>
+              <PropertyCardSkeleton count={6} />
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && filteredProperties.length === 0 && (
+            <div className="text-center py-16 fade-in">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-surface-container-low mb-4">
+                <SearchIcon className="h-12 w-12 text-on-surface-variant" />
+              </div>
+              <h3 className="text-xl font-semibold text-on-surface mb-2">No properties found</h3>
+              <p className="text-body-md text-on-surface-variant mb-6 max-w-md mx-auto">
+                Try adjusting your filters or search criteria to find what you're looking for.
+              </p>
+              <Button onClick={handleResetFilters} variant="outline">
+                <XIcon className="h-4 w-4 mr-2" />
+                Reset All Filters
+              </Button>
+            </div>
+          )}
+
+          {/* Property Grid */}
+          {!isLoading && filteredProperties.length > 0 && (
+            <div className="fade-in-stagger">
               <div className={cn(
-                'grid gap-6',
+                'grid gap-6 pb-xl',
                 viewMode === 'grid'
                   ? 'grid-cols-1 md:grid-cols-2'
                   : 'grid-cols-1'
               )}>
-                <PropertyCardSkeleton count={6} />
+                {filteredProperties.map((property) => (
+                  <PropertyCard
+                    key={property.id}
+                    {...property}
+                    onSave={handleSaveProperty}
+                    onClick={() => router.push(`/listings/${property.id}`)}
+                  />
+                ))}
               </div>
-            )}
 
-            {/* Empty State */}
-            {!isLoading && filteredProperties.length === 0 && (
-              <div className="text-center py-16 fade-in">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-surface-container-low mb-4">
-                  <SearchIcon className="h-12 w-12 text-on-surface-variant" />
+              {/* Load More Button */}
+              {filteredProperties.length >= 12 && (
+                <div className="mt-8 flex justify-center">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => {
+                      // Load more logic
+                      console.log('Load more');
+                    }}
+                  >
+                    Load More Properties
+                  </Button>
                 </div>
-                <h3 className="text-xl font-semibold text-on-surface mb-2">No properties found</h3>
-                <p className="text-body-md text-on-surface-variant mb-6 max-w-md mx-auto">
-                  Try adjusting your filters or search criteria to find what you're looking for.
-                </p>
-                <Button onClick={handleResetFilters} variant="outline">
-                  <XIcon className="h-4 w-4 mr-2" />
-                  Reset All Filters
-                </Button>
-              </div>
-            )}
-
-            {/* Property Grid */}
-            {!isLoading && filteredProperties.length > 0 && (
-              <div className="fade-in-stagger">
-                <div className={cn(
-                  'grid gap-6 pb-xl',
-                  viewMode === 'grid'
-                    ? 'grid-cols-1 md:grid-cols-2'
-                    : 'grid-cols-1'
-                )}>
-                  {filteredProperties.map((property) => (
-                    <PropertyCard
-                      key={property.id}
-                      {...property}
-                      onSave={handleSaveProperty}
-                      onClick={() => router.push(`/listings/${property.id}`)}
-                    />
-                  ))}
-                </div>
-
-                {/* Load More Button */}
-                {filteredProperties.length >= 12 && (
-                  <div className="mt-8 flex justify-center">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      onClick={() => {
-                        // Load more logic
-                        console.log('Load more');
-                      }}
-                    >
-                      Load More Properties
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Mobile Filters Bottom Sheet */}
-      {mobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+      {/* Filters Drawer */}
+      {filtersDrawerOpen && (
+        <div className="fixed inset-0 z-50">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-fade"
-            onClick={() => setMobileFiltersOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setFiltersDrawerOpen(false)}
           />
 
-          {/* Sheet */}
-          <div className="absolute bottom-0 left-0 right-0 bg-surface rounded-t-xl max-h-[80vh] overflow-y-auto modal-slide-bottom shadow-xl">
-            {/* Header */}
-            <div className="sticky top-0 bg-surface border-b border-outline-variant px-6 py-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-on-surface">Filters</h2>
+          {/* Drawer */}
+          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl z-50 modal-slide-right">
+            <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+              <h3 className="text-xl font-bold text-white">Filters</h3>
               <button
-                onClick={() => setMobileFiltersOpen(false)}
-                className="p-2 hover:bg-surface-container rounded-lg transition-colors"
+                onClick={() => setFiltersDrawerOpen(false)}
+                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <XIcon className="h-5 w-5" />
               </button>
             </div>
 
-            {/* Filters */}
-            <div className="px-6 py-6">
+            <div className="px-6 py-6 overflow-y-auto h-full pb-24">
               {renderFilters()}
-            </div>
-
-            {/* Footer */}
-            <div className="sticky bottom-0 bg-surface border-t border-outline-variant px-6 py-4">
-              <Button
-                onClick={() => setMobileFiltersOpen(false)}
-                className="w-full"
-                size="lg"
-              >
-                Show {filteredProperties.length} {filteredProperties.length === 1 ? 'Property' : 'Properties'}
-              </Button>
             </div>
           </div>
         </div>

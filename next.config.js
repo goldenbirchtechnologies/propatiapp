@@ -13,6 +13,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
     ],
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

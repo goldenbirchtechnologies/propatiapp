@@ -5,6 +5,8 @@ import { getNavigationForRole } from '@/lib/navigation';
 import { ReactNode } from 'react';
 import { UserRole } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 // Map URL slug → canonical Prisma role
 const SLUG_TO_ROLE: Record<string, UserRole> = {
   landlord: 'landlord',

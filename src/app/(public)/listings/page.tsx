@@ -313,9 +313,9 @@ function ListingsPageInner() {
             className="mb-4"
           />
           <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-            <AppIcon name={`₦${(filters.priceMin / 1000000).toFixed(0)}M`} className="lucide" />
-            <AppIcon name="-" className="lucide" />
-            <AppIcon name={`₦${filters.priceMax.toFixed(0)}`} className="lucide" />
+            <span>₦{(filters.priceMin / 1000000).toFixed(0)}M</span>
+            <span>-</span>
+            <span>₦{filters.priceMax.toLocaleString('en-NG')}</span>
           </div>
         </div>
       </div>

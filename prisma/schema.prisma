@@ -402,6 +402,14 @@ enum UnitOccupancy {
   NOTICE_GIVEN
 }
 
+enum KycStatus {
+  not_started
+  in_progress
+  approved
+  rejected
+  requires_review
+}
+
 // ===========================================================================
 // CORE AUTHENTICATION (4 tables)
 // ===========================================================================
@@ -490,7 +498,7 @@ model User {
   signatureRecords      AgreementSignature[]
   disputes              Dispute[]    @relation("DisputeRaisedBy")
   adminDisputes         Dispute[]    @relation("DisputeAdmin")
-  emailLogs             EmailLog[] @relation("UserEmailLogs")
+  emailLogs             EmailLog[]   @relation("UserEmailLogs")
   savedListings         SavedListing[] @relation("UserSavedListings")
   flaggedListings       ListingFlag[]  @relation("FlaggedByUser")
   maintenanceTickets    MaintenanceTicket[] @relation("MaintenanceTenant")
@@ -510,10 +518,31 @@ model User {
   receivedInvoices      Invoice[]      @relation("InvoiceTenant")
   wallet                Wallet?
   paystackAccount       UserPaystackAccount?
+  userKyc               UserKyc?
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
   @@map("users")
+}
+
+model UserKyc {
+  id               String    @id @default(cuid()) @map("id") // 'kyc_' + 16 chars
+  userId           String    @unique @map("user_id")
+  role             String    @db.VarChar(50)
+  status           KycStatus @default(not_started)
+  level            Int       @default(1)
+  dojahRef         String?   @unique @map("dojah_ref")
+  verifiedAt       DateTime? @map("verified_at")
+  rejectedAt       DateTime? @map("rejected_at")
+  rejectionReason  String?   @map("rejection_reason")
+  metadata         Json?     @map("metadata")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_user_kyc_user")
+  @@map("user_kyc")
 }
 
 model RefreshToken {

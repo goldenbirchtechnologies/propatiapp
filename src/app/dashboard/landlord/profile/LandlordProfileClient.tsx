@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP, useVerifyNIN, useVerifyBVN } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
+import { useKycStatus } from '@/lib/dojah-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -13,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle, AlertCircle, Shield, Phone, Mail, IdCard, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
+import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 interface LandlordProfileClientProps {
   user: unknown;
@@ -20,6 +23,7 @@ interface LandlordProfileClientProps {
 
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
   const [activeTab, setActiveTab] = useState('personal');
+  const { data: kyc, reload } = useKycStatus();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [profileData, setProfileData] = useState({
     fullName: initialUser?.fullName || '',
@@ -276,6 +280,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="verification" className="mt-6">
           <div className="space-y-6">
+            <KycVerificationCard
+              status={kyc?.status || 'not_started'}
+              onVerified={(result) => {
+                if (result.success) reload();
+              }}
+            />
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Identity Verification</CardTitle>

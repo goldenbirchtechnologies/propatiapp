@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User, Camera, Save, FileText, Shield, Users, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { useKycStatus } from '@/lib/dojah-client';
+import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 interface UserProfile {
   id: string;
@@ -57,6 +59,7 @@ interface FormState {
 
 export default function TenantProfileClient({ initialUser }: TenantProfileClientProps) {
   const [activeTab, setActiveTab] = useState<Tab>('personal');
+  const { data: kyc, loading, reload } = useKycStatus();
 
   const [form, setForm] = useState<FormState>({
     fullName: initialUser.fullName,
@@ -218,27 +221,13 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
           )}
 
           {activeTab === 'kyc' && (
-            <Card style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <CardHeader>
-                <CardTitle style={{ color: 'var(--text)' }}>Know Your Customer (KYC)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm mb-4" style={{ color: 'var(--muted)' }}>
-                  Verify your identity to unlock payments, agreements, and full platform access.
-                </p>
-                <div className="rounded-lg border flex items-center gap-4 p-4" style={{ borderColor: 'var(--border)', background: 'var(--surface-elevated)' }}>
-                  <div className="rounded-full p-2" style={{ background: 'var(--surface)' }}>
-                    <Shield className="h-5 w-5" style={{ color: 'var(--accent)' }} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{kycStatus}</p>
-                    <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                      Complete NIN, ID, and phone verification for full access.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <KycVerificationCard
+              status={kyc?.status || 'not_started'}
+              description="Verify your identity to unlock payments, agreements, and full platform access."
+              onVerified={(result) => {
+                if (result.success) reload();
+              }}
+            />
           )}
         </div>
       </div>

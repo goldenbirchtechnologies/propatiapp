@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { User, Camera, Save } from 'lucide-react';
+import { useKycStatus } from '@/lib/dojah-client';
+import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 export default function AdminProfileClient({ user }: { user: unknown }) {
   const [form, setForm] = useState({
@@ -12,6 +14,7 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
     phone: user.phone || '+234 812 345 6789',
     role: user.role,
   });
+  const { data: kyc, reload } = useKycStatus();
 
   return (
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={form.fullName}>
@@ -103,6 +106,13 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
             </button>
           </div>
         </div>
+
+        <KycVerificationCard
+          status={kyc?.status || 'not_started'}
+          onVerified={(result) => {
+            if (result.success) reload();
+          }}
+        />
       </div>
     </DashboardShell>
   );

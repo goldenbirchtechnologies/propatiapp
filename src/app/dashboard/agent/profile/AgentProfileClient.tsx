@@ -14,6 +14,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useKycStatus } from '@/lib/dojah-client';
+import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 type ProfileData = {
   id: string;
@@ -54,6 +56,8 @@ export default function AgentProfileClient({
       : user.agentTier === 'standard'
         ? 'bg-primary/10 text-primary border border-primary/20'
         : 'bg-muted text-on-surface-variant border border-outline-variant';
+
+  const { data: kyc, reload } = useKycStatus();
 
   return (
     <div className="space-y-6">
@@ -144,6 +148,13 @@ export default function AgentProfileClient({
           </div>
         </CardContent>
       </Card>
+
+      <KycVerificationCard
+        status={kyc?.status || 'not_started'}
+        onVerified={(result) => {
+          if (result.success) reload();
+        }}
+      />
     </div>
   );
 }

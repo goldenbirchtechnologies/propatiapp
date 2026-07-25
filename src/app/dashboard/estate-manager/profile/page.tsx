@@ -8,9 +8,12 @@ import ProfileSecurity from '@/components/profiles/ProfileSecurity';
 import ProfileNotifications from '@/components/profiles/ProfileNotifications';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Shield } from 'lucide-react';
+import { useKycStatus } from '@/lib/dojah-client';
+import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 export default function EstateManagerProfilePage() {
   const [form, setForm] = useState({ fullName: 'Estate Manager', email: 'estate@propati.ng', phone: '0803 456 7890', company: 'EstatePro Mgmt' });
+  const { data: kyc, reload } = useKycStatus();
   const [notifications, setNotifications] = useState({
     maintenanceTicket: { enabled: true, label: 'Maintenance tickets', description: 'Get notified when new maintenance tickets are created' },
     serviceChargeReminder: { enabled: true, label: 'Service charge reminders', description: 'Get reminded before service charge due dates' },
@@ -66,6 +69,13 @@ export default function EstateManagerProfilePage() {
                 { id: 'utilityReports', ...notifications.utilityReports, onToggle: toggleNotification },
                 { id: 'onboardingAlert', ...notifications.onboardingAlert, onToggle: toggleNotification },
               ]}
+            />
+
+            <KycVerificationCard
+              status={kyc?.status || 'not_started'}
+              onVerified={(result) => {
+                if (result.success) reload();
+              }}
             />
           </div>
           <div>

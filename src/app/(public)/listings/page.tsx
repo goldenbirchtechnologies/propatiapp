@@ -48,23 +48,52 @@ interface Filters {
 // MOCK DATA (Replace with real API calls)
 // ============================================================================
 
-const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => ({
-  id: `prop-${i + 1}`,
-  title: i % 2 === 0
-    ? '3 Bedroom Luxury Apartment with Pool'
-    : 'Modern Office Space in Prime Location',
-  location: i % 3 === 0 ? 'Lekki Phase 1, Lagos' : i % 3 === 1 ? 'Victoria Island, Lagos' : 'Ikeja GRA, Lagos',
-  price: (i + 1) * 5000000,
-  pricePeriod: 'year' as const,
-  category: (i % 3 === 0 ? 'residential' : i % 3 === 1 ? 'commercial' : 'short_let') as 'residential' | 'commercial' | 'short_let',
-  verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
-  listingType: (['rent', 'sale', 'short_let'][i % 3]) as ListingType,
-  image: `https://picsum.photos/seed/${i + 1}/800/600`,
-  specs: i % 2 === 0
-    ? { beds: 3, baths: 2, sqm: 120 }
-    : { sqm: 200, parking: 10 },
-  isSaved: false,
-}));
+const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => {
+  const category = (i % 3 === 0 ? 'residential' : i % 3 === 1 ? 'commercial' : 'short_let') as
+    | 'residential'
+    | 'commercial'
+    | 'short_let';
+
+  const titles: Record<string, string[]> = {
+    residential: [
+      '3 Bedroom Luxury Apartment with Pool',
+      '2 Bedroom Duplex in Lekki',
+      'Luxury 4 Bedroom Detached House',
+      'Studio Apartment in VI',
+    ],
+    commercial: [
+      'Open Plan Office Space in VI',
+      'Retail Shop Front on Main Road',
+      'Serviced Office in Lekki',
+      'Co-working Space in Ikeja GRA',
+    ],
+    short_let: [
+      'Short Let Studio Apartment',
+      'Serviced 1 Bedroom Short Let',
+      'Furnished 2 Bedroom Short Stay',
+      'Luxury Short Let Flat in VI',
+    ],
+  };
+
+  return {
+    id: `prop-${i + 1}`,
+    title: titles[category][i % titles[category].length],
+    location: i % 3 === 0 ? 'Lekki Phase 1, Lagos' : i % 3 === 1 ? 'Victoria Island, Lagos' : 'Ikeja GRA, Lagos',
+    price: (i + 1) * 5000000,
+    pricePeriod: category === 'short_let' ? 'night' : 'year',
+    category,
+    verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
+    listingType: (['rent', 'sale', 'short_let'][i % 3]) as ListingType,
+    image: `https://picsum.photos/seed/${i + 1}/800/600`,
+    specs:
+      category === 'commercial'
+        ? { sqm: 200, parking: 10 }
+        : category === 'short_let'
+          ? { beds: 1, baths: 1, sqm: 45 }
+          : { beds: 3, baths: 2, sqm: 120 },
+    isSaved: false,
+  };
+});
 
 const AMENITIES = [
   'Swimming Pool',
@@ -303,19 +332,29 @@ function ListingsPageInner() {
         <label className="block text-sm font-semibold text-on-surface mb-2">
           Price Range
         </label>
-        <div className="px-2">
-          <Slider
-            min={0}
-            max={100000000}
-            step={1000000}
-            value={[filters.priceMin, filters.priceMax]}
-            onValueChange={handlePriceRangeChange}
-            className="mb-4"
-          />
-          <div className="flex items-center gap-2 text-sm text-on-surface-variant">
-            <span>₦{(filters.priceMin / 1000000).toFixed(0)}M</span>
-            <span>-</span>
-            <span>₦{filters.priceMax.toLocaleString('en-NG')}</span>
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <span className="absolute left-3 top-2.5 text-xs text-slate-400">₦</span>
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.priceMin || ''}
+              onChange={(e) => setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
+            />
+          </div>
+          <span className="text-slate-500">-</span>
+          <div className="relative flex-1">
+            <span className="absolute left-3 top-2.5 text-xs text-slate-400">₦</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.priceMax === 100000000 ? '' : filters.priceMax}
+              onChange={(e) =>
+                setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))
+              }
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
+            />
           </div>
         </div>
       </div>
@@ -617,8 +656,29 @@ function ListingsPageInner() {
               </button>
             </div>
 
-            <div className="px-6 py-6 overflow-y-auto h-full pb-24">
+            <div className="px-6 py-6 overflow-y-auto h-full pb-32">
               {renderFilters()}
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 border-t border-slate-800 bg-slate-900/95 backdrop-blur-sm px-6 py-4">
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  size="lg"
+                  onClick={handleResetFilters}
+                >
+                  <XIcon className="h-4 w-4 mr-2" />
+                  Clear All
+                </Button>
+                <Button
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white"
+                  size="lg"
+                  onClick={() => setFiltersDrawerOpen(false)}
+                >
+                  Apply Filters
+                </Button>
+              </div>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ export interface PropertyCardProps {
   title: string;
   location: string;
   price: number;
-  pricePeriod?: 'month' | 'year' | 'once';
+  pricePeriod?: 'month' | 'year' | 'once' | 'night';
   category: 'residential' | 'commercial' | 'short_let';
   verificationTier: 'basic' | 'verified' | 'inspected' | 'certified';
   listingType: 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';

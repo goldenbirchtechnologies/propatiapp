@@ -26,7 +26,12 @@ self.addEventListener('fetch', (event) => {
         if (cacheControl.includes('no-store')) return resp;
 
         const clone = resp.clone();
-        caches.open(CACHE).then((cache) => cache.put(req, clone));
+        caches.open(CACHE).then((cache) => {
+          const scheme = req.url ? new URL(req.url).protocol : req.scheme;
+          if (scheme !== 'chrome-extension:') {
+            cache.put(req, clone).catch(() => {});
+          }
+        }).catch(() => {});
         return resp;
       }).catch(() => cached || new Response('Offline', { status: 503 }));
 

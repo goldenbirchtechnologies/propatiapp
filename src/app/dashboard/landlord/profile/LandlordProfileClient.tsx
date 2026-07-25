@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle, Shield, Phone, Mail, IdCard, Camera, Save, Edit, LogOut, Monitor, Lock } from 'lucide-react';
+import { Loader2, CheckCircle, AlertCircle, Shield, Phone, Mail, IdCard, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
 
 interface LandlordProfileClientProps {
   user: unknown;
@@ -143,10 +143,9 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      {/* Profile Header */}
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
-        <div className="flex items-center gap-6">
-          <div className="relative">
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="relative flex-shrink-0">
             <Avatar className="w-24 h-24">
               {user?.avatarUrl ? (
                 <AvatarImage src={user.avatarUrl} alt={user.fullName} />
@@ -154,10 +153,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <AvatarFallback className="text-2xl">{user?.fullName?.charAt(0) || 'U'}</AvatarFallback>
               )}
             </Avatar>
-            <label
-              className="flex items-center justify-center"
-            >
-              <Camera className="w-4 h-4" />
+            <label className="absolute -bottom-1 -right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
+              <Camera className="h-3 w-3" />
               <input
                 type="file"
                 accept="image/*"
@@ -167,31 +164,29 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               />
             </label>
           </div>
-          <div className="flex-1">
-            <h2 className="text-primary">{user?.fullName || 'Loading...'}</h2>
-            <div className="flex items-center gap-4 mt-2 flex-wrap">
+          <div className="flex-1 min-w-0">
+            <h2 className="truncate text-lg font-bold text-white">{user?.fullName || 'Loading...'}</h2>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <Badge variant="secondary" className="capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</Badge>
-              {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="w-3 h-3" /> NIN Verified</Badge>}
-              {user?.bvnVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="w-3 h-3" /> BVN Verified</Badge>}
-              {user?.idVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="w-3 h-3" /> ID Verified</Badge>}
-              {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="w-3 h-3" /> Phone Verified</Badge>}
+              {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> NIN Verified</Badge>}
+              {user?.bvnVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> BVN Verified</Badge>}
+              {user?.idVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> ID Verified</Badge>}
+              {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="h-3 w-3" /> Phone Verified</Badge>}
               {!user?.profileCompleted && <Badge variant="destructive">Profile Incomplete</Badge>}
             </div>
-            <p className="text-on-surface-variant">{user?.email}</p>
+            <p className="mt-1 truncate text-sm text-slate-300">{user?.email}</p>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="personal">Personal Info</TabsTrigger>
-          <TabsTrigger value="verification">Verification</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-slate-800/80">
+          <TabsTrigger value="personal" className="rounded-lg">Personal Info</TabsTrigger>
+          <TabsTrigger value="verification" className="rounded-lg">Verification</TabsTrigger>
+          <TabsTrigger value="security" className="rounded-lg">Security</TabsTrigger>
+          <TabsTrigger value="notifications" className="rounded-lg">Notifications</TabsTrigger>
         </TabsList>
 
-        {/* Personal Info Tab */}
         <TabsContent value="personal" className="mt-6">
           <form onSubmit={handleProfileUpdate} className="space-y-6">
             <Card>
@@ -212,12 +207,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <div className="space-y-1">
                     <Label htmlFor="email">Email Address</Label>
                     <Input id="email" value={profileData.email} disabled type="email" />
-                    <p className="text-on-surface-variant">Email cannot be changed here. Contact support if needed.</p>
+                    <p className="text-xs text-slate-400">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <Input
                       id="phone"
                       value={profileData.phone}
@@ -226,16 +221,16 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     />
                     {user?.phoneVerified ? (
                       <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
-                        <CheckCircle className="w-4 h-4 text-success" /> Verified
+                        <CheckCircle className="h-4 w-4 text-green-400" /> Verified
                       </Button>
                     ) : (
                       <Button type="button" variant="outline" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || requestPhoneOTPMutation.isPending}>
-                        {requestPhoneOTPMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Send OTP'}
+                        {requestPhoneOTPMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Send OTP'}
                       </Button>
                     )}
                   </div>
                   {!user?.phoneVerified && profileData.phone && (
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2">
                       <Input
                         placeholder="Enter OTP"
                         value={phoneOTP}
@@ -244,7 +239,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                         maxLength={6}
                       />
                       <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
-                        {verifyPhoneMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify'}
+                        {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
                       </Button>
                     </div>
                   )}
@@ -255,7 +250,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     id="profileBio"
                     value={profileData.profileBio}
                     onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })}
-                    className="inp-field min-h-[100px] resize-y"
+                    className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-500 min-h-[100px] resize-y"
                     placeholder="Tell others about yourself..."
                     rows={4}
                   />
@@ -267,11 +262,11 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <Button type="submit" disabled={updateProfileMutation.isPending}>
                 {updateProfileMutation.isPending ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" /> Saving...
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" /> Saving...
                   </>
                 ) : (
                   <>
-                    <Save className="w-4 h-4 mr-2" /> Save Changes
+                    <Save className="h-4 w-4 mr-2" /> Save Changes
                   </>
                 )}
               </Button>
@@ -279,102 +274,61 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           </form>
         </TabsContent>
 
-        {/* Verification Tab */}
         <TabsContent value="verification" className="mt-6">
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Identity Verification</CardTitle>
-                <p className="text-on-surface-variant">Verify your identity to unlock premium features and build trust.</p>
+                <p className="text-sm text-slate-400">Verify your identity to unlock premium features and build trust.</p>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* NIN Verification */}
-                <div className="border-border">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 rounded-lg" style={{ background: user?.ninVerified ? 'var(--green-bg)' : 'var(--blue-bg)', color: user?.ninVerified ? 'var(--green)' : 'var(--blue)' }}>
-                        <IdCard className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-primary">National Identification Number (NIN)</h4>
-                        <p className="text-on-surface-variant">Verify using your NIN via Prembly/IdentityPass</p>
-                      </div>
-                    </div>
-                    {user?.ninVerified ? (
-                      <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified</Badge>
-                    ) : (
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Enter 11-digit NIN"
-                          value={ninInput}
-                          onChange={(e) => setNinInput(e.target.value)}
-                          maxLength={11}
-                          className="w-48"
-                        />
-                        <Button onClick={handleVerifyNIN} disabled={verifyNINMutation.isPending || ninInput.length !== 11}>
-                          {verifyNINMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify NIN'}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* BVN Verification */}
-                <div className="border-border">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 rounded-lg" style={{ background: user?.bvnVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.bvnVerified ? 'var(--green)' : 'var(--amber)' }}>
-                        <Shield className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-primary">Bank Verification Number (BVN)</h4>
-                        <p className="text-on-surface-variant">Verify using your BVN for financial trust</p>
-                      </div>
-                    </div>
-                    {user?.bvnVerified ? (
-                      <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified</Badge>
-                    ) : (
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Enter 11-digit BVN"
-                          value={bvnInput}
-                          onChange={(e) => setBvnInput(e.target.value)}
-                          maxLength={11}
-                          className="w-48"
-                        />
-                        <Button onClick={handleVerifyBVN} disabled={verifyBVNMutation.isPending || bvnInput.length !== 11}>
-                          {verifyBVNMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify BVN'}
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Document Verification */}
-                <div className="border-border">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 rounded-lg" style={{ background: user?.idVerified ? 'var(--green-bg)' : 'var(--amber-bg)', color: user?.idVerified ? 'var(--green)' : 'var(--amber)' }}>
-                        <IdCard className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-primary">Government ID Document</h4>
-                        <p className="text-on-surface-variant">Upload a valid ID (Passport, Driver's License, Voter's Card)</p>
-                      </div>
-                    </div>
-                    {user?.idVerified ? (
-                      <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified</Badge>
-                    ) : (
-                      <Button variant="outline" onClick={() => alert('Document upload coming soon')}>
-                        <Camera className="w-4 h-4 mr-2" /> Upload ID
+                <VerificationItem
+                  icon={<IdCard className="h-5 w-5" />}
+                  title="National Identification Number (NIN)"
+                  description="Verify using your NIN via Prembly/IdentityPass"
+                  completed={!!user?.ninVerified}
+                >
+                  {!user?.ninVerified && (
+                    <div className="flex flex-wrap gap-2">
+                      <Input placeholder="Enter 11-digit NIN" value={ninInput} onChange={(e) => setNinInput(e.target.value)} maxLength={11} className="w-48" />
+                      <Button onClick={handleVerifyNIN} disabled={verifyNINMutation.isPending || ninInput.length !== 11}>
+                        {verifyNINMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify NIN'}
                       </Button>
-                    )}
-                  </div>
-                </div>
+                    </div>
+                  )}
+                </VerificationItem>
+
+                <VerificationItem
+                  icon={<Shield className="h-5 w-5" />}
+                  title="Bank Verification Number (BVN)"
+                  description="Verify using your BVN for financial trust"
+                  completed={!!user?.bvnVerified}
+                >
+                  {!user?.bvnVerified && (
+                    <div className="flex flex-wrap gap-2">
+                      <Input placeholder="Enter 11-digit BVN" value={bvnInput} onChange={(e) => setBvnInput(e.target.value)} maxLength={11} className="w-48" />
+                      <Button onClick={handleVerifyBVN} disabled={verifyBVNMutation.isPending || bvnInput.length !== 11}>
+                        {verifyBVNMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify BVN'}
+                      </Button>
+                    </div>
+                  )}
+                </VerificationItem>
+
+                <VerificationItem
+                  icon={<IdCard className="h-5 w-5" />}
+                  title="Government ID Document"
+                  description="Upload a valid ID (Passport, Driver's License, Voter's Card)"
+                  completed={!!user?.idVerified}
+                >
+                  {!user?.idVerified && (
+                    <Button variant="outline" onClick={() => alert('Document upload coming soon')}>
+                      <Camera className="h-4 w-4 mr-2" /> Upload ID
+                    </Button>
+                  )}
+                </VerificationItem>
               </CardContent>
             </Card>
 
-            {/* Verification Progress */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Verification Progress</CardTitle>
@@ -382,16 +336,16 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    { key: 'ninVerified', label: 'NIN Verification', icon: <IdCard className="w-4 h-4" /> },
-                    { key: 'bvnVerified', label: 'BVN Verification', icon: <Shield className="w-4 h-4" /> },
-                    { key: 'idVerified', label: 'ID Document', icon: <Shield className="w-4 h-4" /> },
-                    { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="w-4 h-4" /> },
+                    { key: 'ninVerified', label: 'NIN Verification', icon: <IdCard className="h-4 w-4" /> },
+                    { key: 'bvnVerified', label: 'BVN Verification', icon: <Shield className="h-4 w-4" /> },
+                    { key: 'idVerified', label: 'ID Document', icon: <Shield className="h-4 w-4" /> },
+                    { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="h-4 w-4" /> },
                   ].map((item) => (
                     <VerificationStep
                       key={item.key}
                       label={item.label}
                       icon={item.icon}
-                      completed={user?.[item.key] || false}
+                      completed={!!user?.[item.key]}
                     />
                   ))}
                 </div>
@@ -400,7 +354,6 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           </div>
         </TabsContent>
 
-        {/* Security Tab */}
         <TabsContent value="security" className="mt-6">
           <Card>
             <CardHeader>
@@ -421,7 +374,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <Input id="confirmPassword" type="password" value={passwordData.confirmPassword} onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })} />
                 </div>
                 <Button type="submit" className="w-full" disabled={passwordData.newPassword !== passwordData.confirmPassword || !passwordData.currentPassword}>
-                  <Lock className="w-4 h-4 mr-2" /> Update Password
+                  <Lock className="h-4 w-4 mr-2" /> Update Password
                 </Button>
               </form>
             </CardContent>
@@ -433,18 +386,17 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <SessionItem current device="Current Device" browser="Chrome on Windows" location="Lagos, Nigeria" />
+                <SessionItem current browser="Chrome on Windows" location="Lagos, Nigeria" />
                 <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
                 <SessionItem device="Desktop" browser="Firefox on Mac" location="London, UK" />
               </div>
-              <Button variant="ghost" className="text-destructive">
-                <AlertCircle className="w-4 h-4 mr-2" /> Log out of all other sessions
+              <Button variant="ghost" className="text-red-500">
+                <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Notifications Tab */}
         <TabsContent value="notifications" className="mt-6">
           <Card>
             <CardHeader>
@@ -471,41 +423,59 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   );
 }
 
-function VerificationStep({ label, icon, completed }: { label: string; icon: React.ReactNode; completed: boolean }) {
+function VerificationItem({ icon, title, description, completed, children }: { icon: React.ReactNode; title: string; description: string; completed: boolean; children?: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg" className={completed ? 'bg-success-bright/10 border-success-bright/20' : 'bg-surface-container border-outline-variant'}>
-      <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${completed ? 'bg-green-500 text-white' : 'bg-muted text-on-surface-variant'}`}>
-        {icon}
+    <div className={cn('flex flex-wrap items-center justify-between gap-4 rounded-lg border p-4', completed ? 'border-green-500/20 bg-green-500/10' : 'border-outline-variant bg-surface-container')}>
+      <div className="flex items-center gap-3">
+        <div className={cn('flex-shrink-0 rounded-lg p-2.5', completed ? 'bg-green-500/10 text-green-400' : 'bg-blue-500/10 text-blue-400')}>{icon}</div>
+        <div className="min-w-0">
+          <h4 className="truncate font-semibold text-white">{title}</h4>
+          <p className="text-xs text-slate-400">{description}</p>
+        </div>
       </div>
-      <div className="flex-1">
-        <p className="text-primary">{label}</p>
-        <p className="text-sm" className={completed ? 'text-success' : 'text-on-surface-variant'}>
-          {completed ? 'Verified ✓' : 'Not verified'}
-        </p>
+      <div className="flex flex-shrink-0 items-center gap-2">
+        {completed && <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Verified</Badge>}
+        {children}
       </div>
-      {completed && <CheckCircle className="w-5 h-5 text-success" />}
     </div>
   );
 }
 
-function SessionItem({ current = false, device, browser, location }: { current?: boolean; device: string; browser: string; location: string }) {
+function VerificationStep({ label, icon, completed }: { label: string; icon: React.ReactNode; completed: boolean }) {
   return (
-    <div className="flex items-center justify-between p-3 rounded-lg" className={current ? 'bg-primary/10 border border-primary' : 'bg-surface-container border border-outline-variant'}>
+    <div className={cn('flex items-center gap-4 rounded-lg p-4', completed ? 'bg-green-500/10 border border-green-500/20' : 'bg-surface-container border border-outline-variant')}>
+      <div className={cn('flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center', completed ? 'bg-green-500 text-white' : 'bg-muted text-slate-400')}>
+        {icon}
+      </div>
+      <div className="flex-1">
+        <p className="font-semibold text-white">{label}</p>
+        <p className={cn('text-sm', completed ? 'text-green-400' : 'text-slate-400')}>
+          {completed ? 'Verified ✓' : 'Not verified'}
+        </p>
+      </div>
+      {completed && <CheckCircle className="h-5 w-5 text-green-400" />}
+    </div>
+  );
+}
+
+function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
+  return (
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-primary bg-primary/10' : 'border-outline-variant bg-surface-container')}>
       <div className="flex items-center gap-3">
         <div className="bg-primary/10 text-primary">
-          <Monitor className="w-5 h-5" />
+          <Monitor className="h-5 w-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-primary">{device}</span>
+            <span className="font-medium text-white">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-on-surface-variant">{browser} • {location}</p>
+          <p className="text-xs text-slate-400">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
-        <Button variant="ghost" size="sm" className="text-destructive">
-          <LogOut className="w-4 h-4" />
+        <Button variant="ghost" size="sm" className="text-red-500">
+          <LogOut className="h-4 w-4" />
         </Button>
       )}
     </div>
@@ -515,16 +485,15 @@ function SessionItem({ current = false, device, browser, location }: { current?:
 function NotificationToggle({ id, label, desc }: { id: string; label: string; desc: string }) {
   const [enabled, setEnabled] = useState(true);
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between gap-4">
       <div className="flex-1">
-        <p className="text-primary">{label}</p>
-        <p className="text-on-surface-variant">{desc}</p>
+        <p className="font-medium text-white">{label}</p>
+        <p className="text-sm text-slate-400">{desc}</p>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} className="sr-only peer" />
-        <div className="w-11 h-6 bg-muted/30 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:border-muted/30 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+        <div className="h-6 w-11 bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-200 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600" />
       </label>
     </div>
   );
 }
-

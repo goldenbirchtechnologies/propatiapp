@@ -43,21 +43,12 @@ import {
   ADMIN_NAVIGATION,
   ESTATE_MANAGER_NAVIGATION,
   ACCOUNTANT_NAVIGATION,
+  NavItem,
+  NavSection,
 } from '@/lib/navigation';
 
-export interface NavItem {
-  label: string;
-  href: string;
-  icon?: React.ReactNode;
-  badge?: string | number;
-  badgeVariant?: 'default' | 'success' | 'warning' | 'destructive';
-  children?: NavItem[];
-  roles?: string[];
-  disabled?: boolean;
-}
-
-interface SidebarProps {
-  navigation: NavItem[];
+export interface SidebarProps {
+  navigation: Array<NavItem | NavSection>;
   userRole: string;
   userName: string;
   userAvatar?: string;
@@ -71,7 +62,7 @@ interface SidebarProps {
   isLoading?: boolean;
 }
 
-const roleNavigation: Record<string, NavItem[]> = {
+const roleNavigation: Record<string, Array<NavItem | NavSection>> = {
   landlord: LANDLORD_NAVIGATION,
   tenant: TENANT_NAVIGATION,
   agent: AGENT_NAVIGATION,
@@ -156,18 +147,11 @@ export function NavItemComponent({
   if (sidebarCollapsed && level === 0) {
     return (
       <Link
-        href={item.children?.[0]?.href || item.href}
+        href={(item.children?.[0]?.href || item.href || '#') as any}
         className={cn(
           'nav-item flex items-center justify-center relative',
           active && 'active'
         )}
-        style={{
-          padding: 'var(--space-base)',
-          borderRadius: 'var(--radius-btn)',
-          color: active ? 'var(--accent)' : 'var(--text)',
-          backgroundColor: active ? 'var(--accent-bg)' : 'transparent',
-          minHeight: '44px',
-        }}
         title={item.label}
         aria-label={item.label}
       >
@@ -225,14 +209,14 @@ export function NavItemComponent({
                 href={child.href}
                 className={cn(
                   'nav-item flex items-center gap-2 text-sm',
-                  pathname?.startsWith(child.href) && 'active'
+                  child.href && pathname?.startsWith(child.href) && 'active'
                 )}
                 style={{
                   padding: 'var(--space-sm) var(--space-md)',
                   borderRadius: 'var(--radius-btn-sm)',
-                  color: pathname?.startsWith(child.href) ? 'var(--accent)' : 'var(--muted)',
-                  backgroundColor: pathname?.startsWith(child.href) ? 'var(--accent-bg)' : 'transparent',
-                }}
+                  color: child.href && pathname?.startsWith(String(child.href)) ? 'var(--accent)' : 'var(--muted)',
+                  backgroundColor: child.href && pathname?.startsWith(String(child.href)) ? 'var(--accent-bg)' : 'transparent',
+                } as any}
               >
                 {child.icon && <span className="flex-shrink-0">{child.icon}</span>}
                 <span className="truncate">{child.label}</span>
@@ -281,7 +265,7 @@ function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
   // Placeholder nav items matching the role-navigation count (average ~7)
   const placeholderItems: NavItem[] = [
     { label: '', href: '#', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { label: '', href: '#', icon: <Building className="h-5 w-5" /> },
+    { label: '', href: '#', icon: <Building2 className="h-5 w-5" /> },
     { label: '', href: '#', icon: <DollarSign className="h-5 w-5" /> },
     { label: '', href: '#', icon: <Shield className="h-5 w-5" /> },
     { label: '', href: '#', icon: <FileText className="h-5 w-5" /> },
@@ -361,18 +345,18 @@ export function Sidebar({
   const pathname = usePathname();
   const navItems = navigation.length > 0 ? navigation : roleNavigation[userRole.toLowerCase()] || roleNavigation.landlord;
 
-  const isActive = (href: string) => {
-    if (href === '/dashboard') return pathname === '/dashboard';
+  const isActive = (href?: string) => {
+    if (!href || href === '/dashboard') return pathname === href;
     return pathname?.startsWith(href) || false;
   };
 
-  // Collapse toggle: only render when parent supplies onCollapseChange
+  const isSection = (item: NavItem | NavSection): item is NavSection => 'items' in item;
+
   const showToggle = typeof onCollapseChange === 'function';
   const handleToggle = () => {
     if (showToggle) onCollapseChange(!collapsed);
   };
 
-  // Lock body scroll when mobile drawer is open; restore on close / unmount
   React.useEffect(() => {
     if (!mobileOpen) return;
     const prev = document.body.style.overflow;
@@ -405,8 +389,6 @@ export function Sidebar({
         width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
         background: 'var(--surface)',
         borderRight: '1px solid var(--border)',
-        // Mobile drawer: fixed positioning for slide-from-left behavior;
-        // desktop keeps flex-shrink via globals.css
         position: 'fixed',
         zIndex: 100,
         transition: 'transform var(--transition-base) var(--easing-standard), width var(--transition-base) var(--easing-standard)',
@@ -457,15 +439,43 @@ export function Sidebar({
 
       <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-label="Dashboard navigation">
         <ul className="space-y-1" role="list">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <NavItemComponent
-                item={item}
-                isActive={isActive(item.href)}
-                sidebarCollapsed={collapsed}
-              />
-            </li>
-          ))}
+          {navItems.map((item, idx) => {
+            if (isSection(item)) {
+              return (
+                <li key={`section-${item.title}-${idx}`}>
+                  <div
+                    className="text-xs font-semibold uppercase tracking-wider px-3 py-2"
+                    style={{ color: 'var(--muted)' }}
+                  >
+                    {item.title}
+                  </div>
+                  <ul className="space-y-1 ml-2" role="list">
+                    {item.items.map((child) => (
+                      <li key={child.href}>
+                        <NavItemComponent
+                          item={child}
+                          isActive={isActive(child.href)}
+                          sidebarCollapsed={collapsed}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+
+            const navItem = item as NavItem;
+            const key = navItem.href || `nav-${idx}`;
+            return (
+              <li key={key}>
+                <NavItemComponent
+                  item={navItem}
+                  isActive={isActive(navItem.href)}
+                  sidebarCollapsed={collapsed}
+                />
+              </li>
+            );
+          })}
         </ul>
       </nav>
 

@@ -16,7 +16,6 @@ import {
   Plus,
   FileText,
   ShieldCheck,
-  ArrowRight,
 } from 'lucide-react';
 
 export default async function LandlordDashboardPage() {

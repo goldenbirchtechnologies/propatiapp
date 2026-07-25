@@ -59,7 +59,6 @@
     "cloudinary": "^2.10.0",
     "clsx": "^2.1.0",
     "date-fns": "^4.4.0",
-    "dojah-kyc-sdk-react": "^0.0.6",
     "lucide-react": "^1.21.0",
     "next": "^15.5.19",
     "nodemailer": "^9.0.1",

@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
         ...metadata,
         user_id: user.id,
         role: user.role,
+        return_url: new URL('/verification/submitted', request.nextUrl.origin).toString(),
       },
     });
 
@@ -64,20 +65,24 @@ export async function POST(request: NextRequest) {
     await prisma.userKyc.update({
       where: { userId: user.id },
       data: {
-        dojahRef: referenceId,
+        dojahRef: result.referenceId || referenceId,
         status: KycStatus.in_progress,
         metadata: result.data,
       },
     });
 
+    const redirectUrl =
+      (result.data && typeof result.data === 'object' && 'redirect_url' in result.data && typeof (result.data as Record<string, unknown>).redirect_url === 'string'
+        ? ((result.data as Record<string, unknown>).redirect_url as string)
+        : undefined);
+
     return NextResponse.json({
       success: true,
       data: {
-        referenceId,
+        referenceId: result.referenceId || referenceId,
         widgetId: appWidgetId,
         type,
-        appId: process.env.NEXT_PUBLIC_DOJAH_APP_ID,
-        publicKey: process.env.NEXT_PUBLIC_DOJAH_PUBLIC_KEY,
+        redirectUrl: redirectUrl || null,
       },
     });
   } catch (error) {

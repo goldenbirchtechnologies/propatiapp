@@ -16,26 +16,35 @@ export default function SignInPage() {
               PROPATI
             </span>
           </Link>
-          <h1 className="font-heading font-bold text-2xl mb-2" style={{ color: 'var(--text)' }}>
-            Welcome Back
+          <h1 className="font-heading font-bold text-2xl mb-1" style={{ color: 'var(--text)' }}>
+            Sign in to PROPATI
           </h1>
-          <p style={{ color: 'var(--muted)' }}>Sign in to your account to continue</p>
+          <p className="text-sm" style={{ color: 'var(--text)', opacity: 0.75 }}>
+            Welcome back! Please enter your details.
+          </p>
         </div>
 
-        <div className="card p-6">
+        <div className="card border border-border/80 bg-[var(--surface)]/95 backdrop-blur p-1">
           <SignIn
             appearance={{
               baseTheme: 'dark',
               elements: {
                 formButtonPrimary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-                card: 'shadow-lg border border-border rounded-xl',
-                headerTitle: 'font-bold text-xl text-foreground',
-                headerSubtitle: 'text-muted-foreground',
+                card: 'shadow-none border-0 rounded-xl bg-transparent',
+                headerTitle: 'font-bold text-xl text-[var(--text)]',
+                headerSubtitle: 'text-slate-400',
+                footerActionText: 'text-slate-300',
+                footerActionLink: 'text-emerald-400 hover:text-emerald-300 underline-offset-2',
+                formFieldAction: 'text-emerald-400',
               },
               variables: {
-                colorBackground: 'var(--surface)',
-                colorInputBackground: 'var(--surface)',
+                colorBackground: 'transparent',
+                colorInputBackground: 'var(--surface-elevated)',
                 colorInputText: 'var(--text)',
+                colorText: 'var(--text)',
+                colorTextSecondary: 'var(--muted)',
+                colorNeutral: 'var(--muted)',
+                colorDanger: '#ef4444',
               },
             }}
             routing="path"
@@ -43,13 +52,6 @@ export default function SignInPage() {
             fallbackRedirectUrl="/dashboard"
           />
         </div>
-
-        <p className="text-center text-sm mt-6" style={{ color: 'var(--muted)' }}>
-          Don't have an account?{' '}
-          <Link href="/signup" className="font-medium" style={{ color: 'var(--accent)' }}>
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );

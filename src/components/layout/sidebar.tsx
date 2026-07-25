@@ -144,9 +144,10 @@ export function NavItemComponent({
   sidebarCollapsed: boolean;
   level?: number;
 }) {
-  const [expanded, setExpanded] = React.useState(
-    item.children?.some((c) => c.href === window.location.pathname) || false
-  );
+  const [expanded, setExpanded] = React.useState(() => {
+    if (typeof window === 'undefined') return false;
+    return item.children?.some((c) => c.href === window.location.pathname) || false;
+  });
   const pathname = usePathname();
   const active = isActive;
 

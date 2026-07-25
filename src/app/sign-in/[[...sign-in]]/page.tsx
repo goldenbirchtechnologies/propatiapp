@@ -29,12 +29,20 @@ export default function SignInPage() {
             appearance={{
               baseTheme: 'dark',
               elements: {
-                formButtonPrimary: 'bg-primary text-primary-foreground hover:bg-primary/90',
                 card: 'shadow-none border-0 rounded-xl bg-transparent',
-                headerTitle: 'font-bold text-xl text-[var(--text)]',
+                headerTitle: 'font-bold text-xl text-white',
                 headerSubtitle: 'text-slate-400',
+                socialButtonsBlockButton:
+                  'bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white',
+                socialButtonsBlockButtonText: 'text-white font-medium',
+                formFieldLabel: 'text-slate-200 font-medium',
+                formFieldInput:
+                  'bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-500',
+                formButtonPrimary:
+                  'bg-emerald-600 hover:bg-emerald-500 text-white font-semibold',
                 footerActionText: 'text-slate-300',
-                footerActionLink: 'text-emerald-400 hover:text-emerald-300 underline-offset-2',
+                footerActionLink:
+                  'text-emerald-400 hover:text-emerald-300 underline-offset-2 font-semibold',
                 formFieldAction: 'text-emerald-400',
               },
               variables: {

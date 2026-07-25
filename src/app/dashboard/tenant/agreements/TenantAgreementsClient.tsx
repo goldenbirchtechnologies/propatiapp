@@ -206,6 +206,8 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
     maximumFractionDigits: 0,
   });
 
+  const rentValue = agreement.rentAmount ? Number(agreement.rentAmount) : 0;
+
   const labelClass = cn(
     'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border',
     cfg.class
@@ -255,7 +257,7 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
               <div>
                 <p  className="text-on-surface-variant">Rent</p>
                 <p className="font-medium text-primary">
-                  {formatter.format(agreement.rentAmount || 0)}
+                  {formatter.format(rentValue)}
                   {agreement.rentPeriod ? `/${agreement.rentPeriod}` : ''}
                 </p>
               </div>

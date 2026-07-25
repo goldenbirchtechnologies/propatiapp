@@ -6,7 +6,7 @@ import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import TenantAgreementsClient from './TenantAgreementsClient';
+import TenantAgreementsClient, { type Agreement as ApplicationAgreement } from './TenantAgreementsClient';
 
 export default async function TenantAgreementsPage() {
   const { userId } = await auth();
@@ -22,10 +22,10 @@ export default async function TenantAgreementsPage() {
   }
 
   let agreementsError: string | null = null;
-  let agreements;
+  let agreements: ApplicationAgreement[] = [];
 
   try {
-    agreements = await prisma.agreement.findMany({
+    agreements = (await prisma.agreement.findMany({
       where: { tenantId: user.id },
       include: {
         listing: {
@@ -43,7 +43,7 @@ export default async function TenantAgreementsPage() {
       },
       orderBy: { createdAt: 'desc' },
       take: 100,
-    });
+    })) as ApplicationAgreement[];
   } catch {
     agreementsError = 'Failed to load agreements';
   }

@@ -68,7 +68,7 @@ export default function GlobalError({
                 marginBottom: '1.75rem',
               }}
             >
-              {error?.message || 'Something went wrong.'}
+              Something went wrong. Please try reloading or go back home.
             </p>
 
             <Button

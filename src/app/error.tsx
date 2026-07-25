@@ -78,7 +78,7 @@ export default function Error({
             marginBottom: '1.75rem',
           }}
         >
-          {(error?.message || 'An unexpected error occurred.').slice(0, 220)}
+          We encountered an unexpected issue loading this page. Our team has been notified.
         </p>
 
         <div

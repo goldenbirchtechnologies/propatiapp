@@ -5,7 +5,7 @@ import AppIcon from '@/components/icons/app-icon';
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
+import { SignOutButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
@@ -15,22 +15,25 @@ import { cn } from '@/lib/utils';
 
 export interface NavItem {
   label: string;
-  href: string;
+  href?: string;
   icon?: React.ReactNode;
   children?: NavItem[];
+  badge?: string | number;
+}
+
+export interface NavSection {
+  title: string;
+  items: NavItem[];
 }
 
 interface DashboardShellProps {
   children: React.ReactNode;
-  navigation: NavItem[];
+  navigation: Array<NavItem | NavSection>;
   userRole?: string;
   userName?: string;
   userAvatar?: string;
-  /** Set true during the initial shell hydration/sidebar data fetch.
-   *  When true, renders the skeleton shell so layout never flashes empty. */
   shellLoading?: boolean;
 }
-
 function StatCardSkeleton() {
   return (
     <div
@@ -650,33 +653,70 @@ export function DashboardShell({
 
           <nav className="sb-nav" aria-label="Dashboard navigation">
             <ul className="sb-nav-list" role="list">
-              {navigation.map((item) => {
-                const itemActive = item.children
-                  ? item.children.some((c) => isActive(c.href))
-                  : isActive(item.href);
+              {navigation.map((item, idx) => {
+                if ('items' in item) {
+                  const section = item as NavSection;
+                  const active = section.items.some((c) => isActive(c.href || ''));
+                  return (
+                    <li key={`section-${section.title}-${idx}`}>
+                      <div className="px-2 pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {section.title}
+                      </div>
+                      <ul className="space-y-1 ml-1" role="list">
+                        {section.items.map((child) => {
+                          const childActive = isActive(child.href || '');
+                          return (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href as any}
+                                className={`sb-nav-item ${childActive ? 'active' : ''}`}
+                                aria-current={childActive ? 'true' : undefined}
+                                onClick={() => setSidebarOpen(false)}
+                              >
+                                <span className="icon-slot">
+                                  {child.icon
+                                    ? child.icon
+                                    : !sidebarCollapsed
+                                    ? <AppIcon name={child.label} className="lucide" size={18} />
+                                    : <AppIcon name="help" className="lucide" size={18} />}
+                                </span>
+                                {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{child.label}</span>}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </li>
+                  );
+                }
+
+                const navItem = item as NavItem;
+                const itemActive = navItem.children
+                  ? navItem.children.some((c) => isActive(c.href || ''))
+                  : isActive(navItem.href || '');
                 return (
-                  <li key={item.href}>
-                    {item.children ? (
+                  <li key={navItem.href}>
+                    {navItem.children ? (
                       <CollapsibleNavItem
-                        item={item}
+                        item={navItem}
                         isActive={itemActive}
                         sidebarCollapsed={sidebarCollapsed}
                       />
                     ) : (
                       <Link
-                        href={item.href}
+                        href={navItem.href || '#'}
                         className={`sb-nav-item ${itemActive ? 'active' : ''}`}
                         aria-current={itemActive ? 'true' : undefined}
                         onClick={() => setSidebarOpen(false)}
                       >
                         <span className="icon-slot">
-                          {item.icon
-                            ? item.icon
+                          {navItem.icon
+                            ? navItem.icon
                             : !sidebarCollapsed
-                            ? <AppIcon name={item.label} className="lucide" size={18} />
+                            ? <AppIcon name={navItem.label} className="lucide" size={18} />
                             : <AppIcon name="help" className="lucide" size={18} />}
                         </span>
-                        {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{item.label}</span>}
+                        {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{navItem.label}</span>}
                       </Link>
                     )}
                   </li>
@@ -818,11 +858,13 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
   );
 }
 
-function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; userRole?: string }) {
+function MobileBottomNav({ navigation, userRole }: { navigation: Array<NavItem | NavSection>; userRole?: string }) {
   const pathname = usePathname();
   const isActive = (href: string) => pathname.startsWith(href);
 
-  const top = navigation.slice(0, 4);
+  const top = navigation
+    .filter((item): item is NavItem => !('items' in item))
+    .slice(0, 4);
 
   return (
     <>
@@ -835,11 +877,11 @@ function MobileBottomNav({ navigation, userRole }: { navigation: NavItem[]; user
         aria-label="Mobile navigation"
       >
         {top.map((item) => {
-          const active = isActive(item.href);
+          const active = isActive(item.href || '');
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={item.href || '#'}
               className="flex flex-col items-center gap-1 px-2 py-1"
               style={{
                 color: active ? 'var(--amber)' : 'var(--muted-foreground)',

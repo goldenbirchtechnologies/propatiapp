@@ -121,10 +121,10 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" className={trendPositive ? 'text-success' : 'text-on-surface-variant'}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-on-surface-variant'}`}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className="text-xs" className={trendPositive ? 'text-success' : 'text-on-surface-variant'}>
+          <span className={`text-xs ${trendPositive ? 'text-success' : 'text-on-surface-variant'}`}>
             {trend}
           </span>
         </div>
@@ -157,6 +157,18 @@ function VerificationCard({ listing }: { listing: unknown }) {
 
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;
 
+  const approvedCount =
+    (verification
+      ? Object.values({
+          l1: verification.l1Status,
+          l2: verification.l2Status,
+          l3: verification.l3Status,
+          l4: verification.l4Status,
+          l5: verification.l5Status || 'pending',
+        }).filter((s) => s === 'approved').length
+      : 0) / 5;
+  const progress = Math.round(approvedCount * 100);
+
   return (
     <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
       <div className="flex items-start justify-between mb-4">
@@ -179,13 +191,13 @@ function VerificationCard({ listing }: { listing: unknown }) {
       <div className="mb-4">
         <div className="text-on-surface-variant">
           <AppIcon name="Progress" className="lucide" />
-          <span>{((verification ? Object.values({ l1: verification.l1Status, l2: verification.l2Status, l3: verification.l3Status, l4: verification.l4Status, l5: verification.l5Status || 'pending' }).filter(s => s === 'approved').length : 0) / 5) * 100}%</span>
+          <span>{progress}%</span>
         </div>
         <div className="bg-muted/30">
           <div
             className="h-full rounded-full transition-all duration-300"
             style={{
-              width: `${((verification ? Object.values({ l1: verification.l1Status, l2: verification.l2Status, l3: verification.l3Status, l4: verification.l4Status, l5: verification.l5Status || 'pending' }).filter(s => s === 'approved').length : 0) / 5) * 100}%`,
+              width: `${progress}%`,
               background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
             }}
           />

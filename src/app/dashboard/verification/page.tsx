@@ -49,6 +49,7 @@ export default async function VerificationHubPage() {
       where: { ownerId: user.id },
       select: { id: true, type: true, overallStatus: true, createdAt: true },
       orderBy: { createdAt: 'desc' },
+      take: 200,
     });
   } catch {
     verificationsError = 'Failed to load verifications';

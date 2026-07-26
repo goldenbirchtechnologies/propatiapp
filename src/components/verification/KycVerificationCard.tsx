@@ -7,6 +7,8 @@ import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 type KycStatus = 'not_started' | 'in_progress' | 'approved' | 'rejected' | 'requires_review';
 
+export type { KycStatus };
+
 export interface KycVerificationCardProps {
   status?: KycStatus | null;
   description?: string;

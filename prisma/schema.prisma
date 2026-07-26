@@ -738,6 +738,7 @@ model Verification {
   l4Agent           User?                    @relation("InspectionAgent", fields: [l4AgentId], references: [id])
   documents         VerificationDocument[]
 
+  @@index([ownerId], map: "idx_verification_owner")
   @@map("verifications")
 }
 

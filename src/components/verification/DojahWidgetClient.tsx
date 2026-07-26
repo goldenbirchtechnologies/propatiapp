@@ -23,7 +23,7 @@ export default function DojahWidgetClient({
   useEffect(() => {
     if (statusState === 'pending') {
       const interval = setInterval(() => {
-        setStatusState((current) => (current === 'pending' ? 'pending' : 'completed'));
+        setStatusState('completed');
       }, 2000);
       return () => clearInterval(interval);
     }

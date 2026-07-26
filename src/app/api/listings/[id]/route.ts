@@ -169,6 +169,28 @@ export async function PATCH(
       delete (validated as Record<string, unknown>).isFeatured;
     }
 
+    if (validated.status === 'active' && listing.status !== 'active') {
+      const activeListingCount = await prisma.listing.count({
+        where: { ownerId: user.id, status: 'active', id: { not: id } },
+      });
+
+      const subscription = await prisma.userSubscription.findFirst({
+        where: { userId: user.id, status: 'active' },
+        include: { plan: { select: { id: true, name: true, maxListings: true } } },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (subscription && subscription.plan && subscription.plan.maxListings > 0 && activeListingCount >= subscription.plan.maxListings) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Active listing limit reached. Your ${subscription.plan.name} plan allows up to ${subscription.plan.maxListings} active listings.`,
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     // Update listing
     const updated = await prisma.listing.update({
       where: { id },

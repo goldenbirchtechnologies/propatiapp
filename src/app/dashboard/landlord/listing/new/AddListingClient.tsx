@@ -24,7 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Loader2, ShieldCheck, Store } from 'lucide-react';
+import { Store, ShieldCheck, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const listingSchema = z.object({
@@ -56,8 +56,8 @@ type ListingInput = z.infer<typeof listingSchema>;
 export default function AddListingClient() {
   const router = useRouter();
   const { toast } = useToast();
-  const [verified, setVerified] = useState<boolean | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema),
@@ -93,9 +93,9 @@ export default function AddListingClient() {
         const res = await fetch('/api/verification/my');
         const data = await res.json();
         const overallStatus = data?.verification?.overallStatus;
-        setVerified(overallStatus === 'certified');
+        if (!cancelled) setVerificationStatus(overallStatus || null);
       } catch {
-        if (!cancelled) setVerified(false);
+        if (!cancelled) setVerificationStatus(null);
       }
     })();
     return () => {
@@ -104,16 +104,6 @@ export default function AddListingClient() {
   }, []);
 
   const onSubmit = async (data: ListingInput) => {
-    if (verified !== true) {
-      toast({
-        title: 'Verification required',
-        description: 'You must complete property verification before listing to the marketplace.',
-        variant: 'destructive',
-      });
-      router.push('/dashboard/verification?type=property');
-      return;
-    }
-
     setSubmitting(true);
     try {
       const res = await fetch('/api/listings', {
@@ -128,7 +118,10 @@ export default function AddListingClient() {
       }
 
       const listing = await res.json();
-      toast({ title: 'Listed', description: 'Your property is now live on the marketplace.' });
+      toast({
+        title: 'Listed',
+        description: 'Your property is now live on the marketplace.',
+      });
       router.push(`/dashboard/landlord/properties/${listing.id}`);
     } catch (error) {
       toast({
@@ -146,205 +139,205 @@ export default function AddListingClient() {
       <div>
         <h1 className="text-3xl font-bold text-foreground">List to Marketplace</h1>
         <p className="text-muted-foreground mt-2">
-          Create a live marketplace listing. Property verification is required before publishing.
+          Create a live marketplace listing. Unverified properties are still publishable and will show an unverified badge until verification is completed.
         </p>
       </div>
 
-      {verified === null ? (
-        <div className="text-sm text-muted-foreground">Checking verification status...</div>
-      ) : verified ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Marketplace Listing Details</CardTitle>
-            <CardDescription>Verified properties get priority placement and the Certified badge.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control as unknown}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Title</FormLabel>
+      <Card>
+        <CardHeader>
+          <CardTitle>Marketplace Listing Details</CardTitle>
+          <CardDescription>
+            {verificationStatus === 'certified'
+              ? 'Your property verification is complete. Verified listings get priority placement and the Certified badge.'
+              : 'This listing will be published as unverified. You can start or complete verification anytime.'}
+          </CardDescription>
+          {verificationStatus && verificationStatus !== 'certified' ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={() => router.push('/dashboard/verification?type=property')}
+            >
+              <ShieldCheck className="mr-2 h-4 w-4" />
+              Property Verification
+            </Button>
+          ) : null}
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control as unknown}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="listingType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Listing Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select listing type" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="listingType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Listing Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select listing type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="rent">For Rent</SelectItem>
-                            <SelectItem value="sale">For Sale</SelectItem>
-                            <SelectItem value="short_let">Short Let</SelectItem>
-                            <SelectItem value="share">Shared Apartment</SelectItem>
-                            <SelectItem value="commercial">Commercial</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="propertyType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Property Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select property type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="apartment">Apartment</SelectItem>
-                            <SelectItem value="house">House</SelectItem>
-                            <SelectItem value="duplex">Duplex</SelectItem>
-                            <SelectItem value="land">Land</SelectItem>
-                            <SelectItem value="office">Office</SelectItem>
-                            <SelectItem value="shop">Shop</SelectItem>
-                            <SelectItem value="warehouse">Warehouse</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="address"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Address</FormLabel>
+                        <SelectContent>
+                          <SelectItem value="rent">For Rent</SelectItem>
+                          <SelectItem value="sale">For Sale</SelectItem>
+                          <SelectItem value="short_let">Short Let</SelectItem>
+                          <SelectItem value="share">Shared Apartment</SelectItem>
+                          <SelectItem value="commercial">Commercial</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="propertyType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Property Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input placeholder="Full street address" {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select property type" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="area"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Area</FormLabel>
+                        <SelectContent>
+                          <SelectItem value="apartment">Apartment</SelectItem>
+                          <SelectItem value="house">House</SelectItem>
+                          <SelectItem value="duplex">Duplex</SelectItem>
+                          <SelectItem value="land">Land</SelectItem>
+                          <SelectItem value="office">Office</SelectItem>
+                          <SelectItem value="shop">Shop</SelectItem>
+                          <SelectItem value="warehouse">Warehouse</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Full street address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="area"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Area</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Lekki Phase 1" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Lagos" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price (NGN)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="pricePeriod"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price Period</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <Input placeholder="e.g., Lekki Phase 1" {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select period" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="state"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>State</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Lagos" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Price (NGN)</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            {...field}
-                            onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="pricePeriod"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Price Period</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select period" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="night">Per Night</SelectItem>
-                            <SelectItem value="month">Per Month</SelectItem>
-                            <SelectItem value="year">Per Year</SelectItem>
-                            <SelectItem value="total">Total (One-time)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control as unknown}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Textarea rows={5} placeholder="Describe the property..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                        <SelectContent>
+                          <SelectItem value="night">Per Night</SelectItem>
+                          <SelectItem value="month">Per Month</SelectItem>
+                          <SelectItem value="year">Per Year</SelectItem>
+                          <SelectItem value="total">Total (One-time)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control as unknown}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea rows={5} placeholder="Describe the property..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-                <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => router.back()}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={submitting}>
-                    {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    <Store className="mr-2 h-4 w-4" />
-                    Publish to Marketplace
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="rounded-xl border border-border p-6">
-          <h3 className="font-bold text-foreground">Verification required</h3>
-          <p className="text-muted-foreground mt-2">
-            Only verified properties can be published to the marketplace. Start or complete property verification first.
-          </p>
-          <Button className="mt-4" onClick={() => router.push('/dashboard/verification?type=property')}>
-            <ShieldCheck className="mr-2 h-4 w-4" />
-            Start Verification
-          </Button>
-        </div>
-      )}
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => router.back()}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={submitting}>
+                  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <Store className="mr-2 h-4 w-4" />
+                  Publish to Marketplace
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

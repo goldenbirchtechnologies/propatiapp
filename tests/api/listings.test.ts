@@ -6,6 +6,7 @@ var mockListingFindMany: ReturnType<typeof vi.fn>;
 var mockListingCount: ReturnType<typeof vi.fn>;
 var mockListingCreate: ReturnType<typeof vi.fn>;
 var mockVerificationCreate: ReturnType<typeof vi.fn>;
+var mockUserSubscriptionFindFirst: ReturnType<typeof vi.fn>;
 var mockWithAuth: ReturnType<typeof vi.fn>;
 var mockWithRateLimit: ReturnType<typeof vi.fn>;
 var mockGetRateLimitHeaders: ReturnType<typeof vi.fn>;
@@ -17,6 +18,7 @@ vi.mock('@/lib/prisma', () => {
   mockListingCount = vi.fn();
   mockListingCreate = vi.fn();
   mockVerificationCreate = vi.fn();
+  mockUserSubscriptionFindFirst = vi.fn();
 
   return {
     prisma: {
@@ -27,6 +29,9 @@ vi.mock('@/lib/prisma', () => {
       },
       verification: {
         create: mockVerificationCreate,
+      },
+      userSubscription: {
+        findFirst: mockUserSubscriptionFindFirst,
       },
     },
   };
@@ -92,6 +97,7 @@ describe('Listings API', () => {
     mockListingCount.mockReset();
     mockListingCreate.mockReset();
     mockVerificationCreate.mockReset();
+    mockUserSubscriptionFindFirst.mockReset();
   });
 
   // ---------------- GET happy paths ----------------
@@ -181,15 +187,13 @@ describe('Listings API', () => {
 
   it('POST /api/listings returns 201 for authorized landlord with valid body', async () => {
     mockWithAuth.mockResolvedValue({ user: { id: 'landlord-1' } });
+    mockListingCount.mockResolvedValue(0);
+    mockUserSubscriptionFindFirst.mockResolvedValue(null);
     mockListingCreate.mockResolvedValue({
       id: 'listing-new',
       title: 'New Rental',
       price: 50000000,
       ownerId: 'landlord-1',
-    });
-    mockVerificationCreate.mockResolvedValue({
-      id: 'verification-1',
-      listingId: 'listing-new',
     });
 
     const validBody = {
@@ -210,6 +214,5 @@ describe('Listings API', () => {
     expect(mockListingCreate).toHaveBeenCalledTimes(1);
     expect(body.id).toBe('listing-new');
     expect(body.title).toBe('New Rental');
-    expect(mockVerificationCreate).toHaveBeenCalledTimes(1);
   });
 });

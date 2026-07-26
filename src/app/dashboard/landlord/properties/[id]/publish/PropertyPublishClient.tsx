@@ -19,29 +19,7 @@ export default function PropertyPublishClient({ listingId }: Props) {
     e.preventDefault();
     setSubmitting(true);
 
-    if (status !== 'active') {
-      toast({ title: 'Saved', description: 'Property updated.' });
-      router.refresh();
-      setSubmitting(false);
-      return;
-    }
-
     try {
-      const verificationRes = await fetch(`/api/verification/my?listingId=${listingId}`);
-      const verificationData = await verificationRes.json();
-
-      const verificationStatus = verificationData?.verification?.overallStatus;
-      if (verificationStatus !== 'certified') {
-        toast({
-          title: 'Verification required',
-          description: 'This property must complete verification before it can be published to the marketplace.',
-          variant: 'destructive',
-        });
-        router.push(`/dashboard/verification?type=property&listingId=${listingId}`);
-        setSubmitting(false);
-        return;
-      }
-
       const res = await fetch(`/api/listings/${listingId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -50,10 +28,12 @@ export default function PropertyPublishClient({ listingId }: Props) {
           status,
         }),
       });
+
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || 'Failed to publish');
       }
+
       toast({ title: 'Published', description: 'Listing updated successfully' });
       router.refresh();
     } catch (error) {

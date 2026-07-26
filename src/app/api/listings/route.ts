@@ -146,8 +146,23 @@ export async function POST(request: NextRequest) {
 
     const userId = auth.user.id;
 
-    const rawBody = body as Record<string, unknown>;
-    const status = rawBody.status as string | undefined;
+    const [listingCount, subscription] = await Promise.all([
+      prisma.listing.count({ where: { ownerId: userId } }),
+      prisma.userSubscription.findFirst({
+        where: { userId, status: 'active' },
+        include: { plan: { select: { id: true, name: true, maxListings: true } } },
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    if (subscription && subscription.plan && subscription.plan.maxListings > 0 && listingCount >= subscription.plan.maxListings) {
+      return NextResponse.json(
+        {
+          error: `Listing limit reached. Your ${subscription.plan.name} plan allows up to ${subscription.plan.maxListings} listings.`,
+        },
+        { status: 403 }
+      );
+    }
 
     const listing = await prisma.listing.create({
       data: {
@@ -158,15 +173,6 @@ export async function POST(request: NextRequest) {
         serviceCharge: validated.serviceCharge ?? null,
       },
     });
-
-    if (status === 'active') {
-      await prisma.verification.create({
-        data: {
-          listingId: listing.id,
-          ownerId: userId,
-        },
-      });
-    }
 
     return NextResponse.json(listing, { status: 201 });
   } catch (error) {

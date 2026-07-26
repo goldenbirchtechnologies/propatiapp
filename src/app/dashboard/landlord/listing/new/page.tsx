@@ -7,8 +7,8 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import AddListingClient from './AddListingClient';
 
 export const metadata = {
-  title: 'Add Listing – Landlord',
-  description: 'Create a verified property listing.',
+  title: 'List to Marketplace – Landlord',
+  description: 'Create a marketplace listing. Verification is optional; unverified listings will show an unverified badge.',
 };
 
 export default async function LandlordAddListingPage() {

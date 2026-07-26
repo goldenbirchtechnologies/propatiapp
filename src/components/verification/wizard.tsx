@@ -221,12 +221,12 @@ function RequirementItem({
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-medium text-sm" style={{ color: 'var(--text)' }}>{requirement.label}</span>
+            <span className="font-medium text-sm text-foreground">{requirement.label}</span>
             <Badge variant={config.variant} className="text-xs">
               {config.label}
             </Badge>
           </div>
-          <p className="text-xs" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs text-muted-foreground">
             {requirement.type === 'document' && 'Upload a PDF, JPG, or PNG file (max 10MB)'}
             {requirement.type === 'video' && 'Record a 30-60 second video showing the property'}
             {requirement.type === 'confirmation' && 'Confirm your identity details match the records'}
@@ -373,8 +373,8 @@ function StepContent({
       <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
         {step.icon}
         <div>
-          <h3 className="font-heading font-semibold" style={{ color: 'var(--text)' }}>{step.title}</h3>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>{step.description}</p>
+          <h3 className="font-heading font-semibold text-foreground">{step.title}</h3>
+          <p className="text-sm text-muted-foreground">{step.description}</p>
         </div>
       </div>
 
@@ -480,10 +480,10 @@ export function VerificationWizard({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-heading text-xl font-semibold" style={{ color: 'var(--text)' }}>
+            <h2 className="font-heading text-xl font-semibold text-foreground">
               Property Verification
             </h2>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm text-muted-foreground">
               Complete all 5 layers to get your property certified
             </p>
           </div>
@@ -668,7 +668,7 @@ export function VerificationProgressRing({
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="font-heading font-bold" style={{ fontSize: size * 0.25, color: 'var(--text)' }}>
+        <span className="font-heading font-bold text-foreground" style={{ fontSize: size * 0.25 }}>
           {progress}%
         </span>
       </div>

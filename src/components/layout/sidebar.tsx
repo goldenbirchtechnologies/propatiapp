@@ -283,7 +283,7 @@ function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
         width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
       }}
     >
-      <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
+      <div className="sb-header p-4">
         <div className="flex items-center gap-2">
           <div
             className="rounded-md flex-shrink-0"
@@ -298,11 +298,11 @@ function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
         </div>
       </div>
 
-      <div className="sb-user-card" style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}>
+      <div className="sb-user-card p-4 border-b border-border">
         <SkeletonUserCard collapsed={collapsed} />
       </div>
 
-      <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-hidden="true">
+      <nav className="sb-nav p-3" aria-hidden="true">
         <ul className="space-y-1" role="list">
           {placeholderItems.map((item, i) => (
             <li key={i}>
@@ -312,7 +312,7 @@ function LoadingSidebarSkeleton({ collapsed }: { collapsed: boolean }) {
         </ul>
       </nav>
 
-      <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
+      <div className="sb-footer p-4 border-t border-border mt-auto">
         <div
           className="rounded-md"
           style={{ height: 36, width: '100%', background: 'linear-gradient(90deg, hsl(var(--border)) 25%, hsl(var(--muted-foreground)/0.08) 50%, hsl(var(--border)) 75%)', backgroundSize: '200% 100%', animation: 'skel-shimmer 1.6s linear infinite' }}
@@ -395,13 +395,13 @@ export function Sidebar({
         transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
       }}
     >
-      <div className="sb-header" style={{ padding: 'var(--space-lg)' }}>
+      <div className="sb-header p-4">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>
+          <span className="text-xl font-heading font-bold text-accent">
             PROPATI
           </span>
           {!collapsed && (
-            <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Dashboard
             </span>
           )}
@@ -410,8 +410,7 @@ export function Sidebar({
 
       <Link
         href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`}
-        className="block transition-colors hover:bg-muted/40"
-        style={{ padding: 'var(--space-lg)', borderBottom: '1px solid var(--border)' }}
+        className="block transition-colors hover:bg-muted/40 p-4 border-b border-border"
         aria-label="View Profile"
         title="View Profile"
       >
@@ -428,8 +427,8 @@ export function Sidebar({
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="font-medium truncate" style={{ color: 'var(--text)' }}>{userName}</p>
-              <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+              <p className="font-medium truncate text-foreground">{userName}</p>
+              <p className="text-xs truncate text-muted-foreground">
                 {userRole.charAt(0) + userRole.slice(1).toLowerCase().replace('_', ' ')}
               </p>
             </div>
@@ -437,15 +436,14 @@ export function Sidebar({
         </div>
       </Link>
 
-      <nav className="sb-nav" style={{ padding: 'var(--space-md)' }} aria-label="Dashboard navigation">
+      <nav className="sb-nav p-3" aria-label="Dashboard navigation">
         <ul className="space-y-1" role="list">
           {navItems.map((item, idx) => {
             if (isSection(item)) {
               return (
                 <li key={`section-${item.title}-${idx}`}>
                   <div
-                    className="text-xs font-semibold uppercase tracking-wider px-3 py-2"
-                    style={{ color: 'var(--muted)' }}
+                    className="text-xs font-semibold uppercase tracking-wider px-3 py-2 text-muted-foreground"
                   >
                     {item.title}
                   </div>
@@ -484,12 +482,7 @@ export function Sidebar({
         <div className="px-2 pb-2" style={{ marginTop: 'auto' }}>
           <button
             onClick={handleToggle}
-            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg p-2 transition-colors"
-            style={{
-              background: 'var(--surface-elevated)',
-              color: 'var(--text)',
-              border: '1px solid var(--border)',
-            }}
+            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg p-2 transition-colors bg-surface-elevated text-foreground border border-border"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
@@ -513,13 +506,13 @@ export function Sidebar({
                 </>
               )}
             </svg>
-            {!collapsed && <span className="text-xs" style={{ color: 'var(--muted)' }}>Collapse</span>}
+            {!collapsed && <span className="text-xs text-muted-foreground">Collapse</span>}
           </button>
         </div>
       )}
 
-      <div className="sb-footer" style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
-        <div className="flex items-center gap-3" style={{ color: 'var(--muted)', fontSize: 'var(--text-tag)' }}>
+      <div className="sb-footer p-4 border-t border-border mt-auto">
+        <div className="flex items-center gap-3 text-muted-foreground" style={{ fontSize: 'var(--text-tag)' }}>
           <AppIcon name="tag" className="lucide" size={12} />
           <span style={{ flex: 1 }} />
           <Button
@@ -527,7 +520,6 @@ export function Sidebar({
             size="sm"
             className="w-full justify-start gap-2"
             onClick={onSignOut}
-            style={{ padding: 'var(--space-sm) var(--space-md)' }}
           >
             {!collapsed && <LogOut className="h-4 w-4" />}
             {!collapsed && 'Sign Out'}

@@ -158,13 +158,13 @@ export function DroppableArea({
 
       {children || (
         <>
-          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-4" style={{ color: 'var(--muted)' }}>
+          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-4 text-muted-foreground">
             <Upload className="h-6 w-6" />
           </div>
-          <p className="font-medium text-base mb-1" style={{ color: 'var(--text)' }}>
+          <p className="font-medium text-base mb-1 text-foreground">
             {isDragActive ? 'Drop files here...' : 'Drag & drop files here, or click to browse'}
           </p>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>
+          <p className="text-sm text-muted-foreground">
             {accept ? `Accepted: ${accept}` : 'All file types accepted'}
             {maxFiles > 1 && ` · Up to ${maxFiles} files`}
             {maxSize && ` · Max ${formatFileSize(maxSize)} each`}
@@ -174,7 +174,7 @@ export function DroppableArea({
 
       {showFileList && files.length > 0 && (
         <div className="w-full mt-6 space-y-3">
-          <h4 className="text-sm font-medium" style={{ color: 'var(--muted)' }}>Selected Files</h4>
+          <h4 className="text-sm font-medium text-muted-foreground">Selected Files</h4>
           {files.map((fileData, index) => (
             <div
               key={index}
@@ -192,10 +192,10 @@ export function DroppableArea({
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>
+                <p className="font-medium text-sm truncate text-foreground">
                   {fileData.file.name}
                 </p>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                <p className="text-xs text-muted-foreground">
                   {formatFileSize(fileData.file.size)}
                 </p>
                 {fileData.status === 'uploading' && (

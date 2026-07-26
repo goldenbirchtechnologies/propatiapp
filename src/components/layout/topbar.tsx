@@ -46,8 +46,7 @@ function PurposeSwitcher({ userRole }: { userRole?: string }) {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="gap-2 hidden sm:flex items-center px-3 py-2"
-          style={{ background: 'var(--surface-elevated)', borderColor: 'var(--border)' }}
+          className="gap-2 hidden sm:flex items-center px-3 py-2 border-border bg-surface-elevated"
         >
           {current.icon}
           <span className="font-medium text-sm">{current.label}</span>
@@ -111,8 +110,7 @@ function ThemeToggle() {
         <Button
           variant="ghost"
           size="icon"
-          className="p-2 rounded-lg"
-          style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+          className="p-2 rounded-lg bg-surface-elevated text-foreground"
           aria-label="Theme"
         >
           {theme === 'dark' ? (
@@ -186,9 +184,8 @@ export function Topbar({
     <header className={cn('topbar', className)}>
       <div className="flex items-center gap-2">
         {showMobileMenu && onMenuClick && (
-          <button
-            className="md:hidden p-2 rounded-lg"
-            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+          <Button
+            className="md:hidden p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={onMenuClick}
             aria-label="Open menu"
           >
@@ -197,12 +194,11 @@ export function Topbar({
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
-          </button>
+          </Button>
         )}
         {showSidebarToggle && onSidebarCollapse && (
           <button
-            className="hidden md:flex p-2 rounded-lg"
-            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+            className="hidden md:flex p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={onSidebarCollapse}
             aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
@@ -221,9 +217,9 @@ export function Topbar({
             </svg>
           </button>
         )}
-        <div className="hidden md:block w-px h-6" style={{ background: 'var(--border)' }} />
+        <div className="hidden md:block w-px h-6 bg-border" />
         <Link href="/dashboard" className="flex items-center gap-2 px-2">
-          <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>
+          <span className="text-xl font-heading font-bold text-accent">
             PROPATI
           </span>
         </Link>
@@ -260,8 +256,7 @@ export function TopbarMobile({
       <div className="flex items-center gap-2">
         {showBack && onBack ? (
           <button
-            className="p-2 rounded-lg"
-            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+            className="p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={onBack}
             aria-label="Go back"
           >
@@ -269,8 +264,7 @@ export function TopbarMobile({
           </button>
         ) : onMenuClick ? (
           <button
-            className="p-2 rounded-lg"
-            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+            className="p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={onMenuClick}
             aria-label="Open menu"
           >
@@ -282,7 +276,7 @@ export function TopbarMobile({
           </button>
         ) : null}
         {title && (
-          <h1 className="font-heading font-semibold text-lg flex-1" style={{ color: 'var(--text)' }}>
+          <h1 className="font-heading font-semibold text-lg flex-1 text-foreground">
             {title}
           </h1>
         )}
@@ -307,21 +301,20 @@ export function Breadcrumbs({
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-2">
             {index > 0 && (
-              <ChevronRight className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--muted)' }} />
+              <ChevronRight className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
             )}
             {item.href ? (
               <Link
                 href={item.href}
                 className={cn(
                   'transition-colors',
-                  index === items.length - 1 ? 'font-medium' : 'text-muted-foreground hover:text-foreground'
+                  index === items.length - 1 ? 'font-medium text-foreground' : 'text-muted-foreground hover:text-foreground'
                 )}
-                style={{ color: index === items.length - 1 ? 'var(--text)' : 'var(--muted)' }}
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="font-medium" style={{ color: 'var(--text)' }}>
+              <span className="font-medium text-foreground">
                 {item.label}
               </span>
             )}
@@ -350,11 +343,11 @@ export function PageHeader({
       {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading text-2xl font-bold" style={{ color: 'var(--text)' }}>
+          <h1 className="font-heading text-2xl font-bold text-foreground">
             {title}
           </h1>
           {description && (
-            <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
+            <p className="text-sm mt-1 text-muted-foreground">
               {description}
             </p>
           )}

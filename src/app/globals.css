@@ -34,27 +34,27 @@
   --theme-landlord-bg: #0f0f0f;
   --theme-landlord-surface: #141414;
   --theme-landlord-surface-elevated: #1a1a1a;
-  --theme-landlord-border: rgba(255, 255, 255, 0.08);
+  --theme-landlord-border: rgba(255, 255, 255, 0.05);
   --theme-landlord-text: #f8f6f0;
-  --theme-landlord-muted: #888680;
+  --theme-landlord-muted: #9a9690;
   --theme-landlord-accent: #d4622a;
   --theme-landlord-accent2: #c8520a;
 
   /* Tenant */
   --theme-tenant-bg: #111111;
   --theme-tenant-surface: #141414;
-  --theme-tenant-border: rgba(255, 255, 255, 0.08);
+  --theme-tenant-border: rgba(255, 255, 255, 0.05);
   --theme-tenant-text: #f8f6f0;
-  --theme-tenant-muted: #888680;
+  --theme-tenant-muted: #9a9690;
   --theme-tenant-accent: #0e7c6a;
   --theme-tenant-accent2: #14a88e;
 
   /* Agent */
   --theme-agent-bg: #060d18;
   --theme-agent-surface: #0d1b2e;
-  --theme-agent-border: rgba(255, 255, 255, 0.07);
+  --theme-agent-border: rgba(255, 255, 255, 0.05);
   --theme-agent-text: #e8eef8;
-  --theme-agent-muted: #4a6480;
+  --theme-agent-muted: #6e809a;
   --theme-agent-accent: #c9952a;
   --theme-agent-accent2: #e0b04a;
 
@@ -67,8 +67,9 @@
   --theme-em-sidebar: #080e18;
   --theme-em-surface: #1a2a3a;
   --theme-em-surface-elevated: #203044;
+  --theme-em-border: rgba(255, 255, 255, 0.05);
   --theme-em-text: #c8d8e8;
-  --theme-em-muted: #5a7a9a;
+  --theme-em-muted: #6e809a;
   --theme-em-accent: #2563eb;
   --theme-em-accent2: #1d4ed8;
 
@@ -77,9 +78,9 @@
   --theme-admin-bg: #0c0e12;
   --theme-admin-surface: #11141a;
   --theme-admin-surface-elevated: #171c24;
-  --theme-admin-border: rgba(255, 255, 255, 0.07);
+  --theme-admin-border: rgba(255, 255, 255, 0.05);
   --theme-admin-text: #e6ebf1;
-  --theme-admin-muted: #7e8aa0;
+  --theme-admin-muted: #8e9eb0;
   --theme-admin-accent: #2563eb;
   --theme-admin-accent2: #1d4ed8;
   --font-serif: 'DM Serif Display', serif;
@@ -1023,4 +1024,62 @@ a:hover {
 .inp-field::placeholder {
   color: var(--muted);
   opacity: 0.6;
+}
+
+/* Global UI refinements */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Use subtle structural borders across cards and containers */
+.card,
+[data-slot="card"],
+.panel,
+.section-panel {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: var(--radius-card);
+  padding: var(--space-xl);
+  background: var(--surface);
+}
+
+/* Consistent inner spacing */
+.panel > *:first-child,
+.section-panel > *:first-child,
+[data-slot="card"] > *:first-child {
+  margin-top: 0;
+}
+.panel > *:last-child,
+.section-panel > *:last-child,
+[data-slot="card"] > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Unified active/selected states */
+[data-state="active"],
+.is-active {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* Lower emphasis for muted structured borders */
+.border-muted {
+  border-color: rgba(148, 163, 184, 0.12);
+}
+
+/* Standardize focus rings */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--accent);
+}
+
+/* Radio/checkbox accent alignment */
+:where(.dark) input[type='radio']:checked,
+.dark input[type='checkbox']:checked {
+  accent-color: var(--accent);
+}
+
+/* Placeholder contrast via shared selector */
+::placeholder, input::placeholder, textarea::placeholder {
+  opacity: 0.6;
+  color: var(--muted-foreground);
 }

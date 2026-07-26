@@ -604,8 +604,7 @@ export function DashboardShell({
               <img src="/brand/propati-logo.png" alt="PROPATI" width="32" height="32" className="rounded-full" style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
             </Link>
             <button
-              className="hidden md:flex p-2 rounded-lg"
-              style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+              className="hidden md:flex p-2 rounded-lg bg-surface-elevated text-foreground"
               onClick={toggleSidebar}
               aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
@@ -633,8 +632,7 @@ export function DashboardShell({
           >
             <div className="sb-user-row">
               <div
-                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold"
-                style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold bg-surface-elevated text-foreground"
               >
                 {userAvatar ? (
                   <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
@@ -680,7 +678,7 @@ export function DashboardShell({
                                     ? <AppIcon name={child.label} className="lucide" size={18} />
                                     : <AppIcon name="help" className="lucide" size={18} />}
                                 </span>
-                                {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{child.label}</span>}
+                                {!sidebarCollapsed && <span className="text-foreground" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{child.label}</span>}
                               </Link>
                             </li>
                           );
@@ -716,7 +714,7 @@ export function DashboardShell({
                             ? <AppIcon name={navItem.label} className="lucide" size={18} />
                             : <AppIcon name="help" className="lucide" size={18} />}
                         </span>
-                        {!sidebarCollapsed && <span style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, color: 'var(--text)', whiteSpace: 'nowrap' }}>{navItem.label}</span>}
+                        {!sidebarCollapsed && <span className="text-foreground" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{navItem.label}</span>}
                       </Link>
                     )}
                   </li>
@@ -742,8 +740,7 @@ export function DashboardShell({
       <main className="main-area">
         <header className="topbar">
           <button
-            className="md:hidden p-2 rounded-lg"
-            style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+            className="md:hidden p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open menu"
           >
@@ -772,8 +769,7 @@ export function DashboardShell({
               />
             ) : (
               <div
-                className="h-9 w-9 rounded-full flex items-center justify-center text-sm font-semibold ring-2 ring-border"
-                style={{ background: 'var(--surface-elevated)', color: 'var(--text)' }}
+                className="h-9 w-9 rounded-full flex items-center justify-center text-sm font-semibold ring-2 ring-border bg-surface-elevated text-foreground"
               >
                 {(userName || (user?.fullName || 'U')).charAt(0).toUpperCase()}
               </div>

@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   title: 'Verification Details — PROPATI',
 };
 
+export const dynamic = 'force-dynamic';
+
 // ─── Status badge helper ──────────────────────────────────────────────────────
 function statusBadge(status: VerificationOverallStatus) {
   const map: Record<string, { label: string; variant: string }> = {

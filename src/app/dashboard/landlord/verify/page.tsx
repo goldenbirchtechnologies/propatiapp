@@ -7,6 +7,8 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import LandlordVerifyClient from './LandlordVerifyClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LandlordVerifyPage() {
   const { userId } = await auth();
 

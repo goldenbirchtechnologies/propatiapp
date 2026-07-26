@@ -33,7 +33,7 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     return new NextResponse(null, { status: 500 });
   }
 
-  if ((req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/admin')) && response.status === 200) {
+  if ((req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/admin') || req.nextUrl.pathname.startsWith('/verification')) && response.status === 200) {
     response.headers.set('Cache-Control', 'no-store');
   }
 

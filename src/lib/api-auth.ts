@@ -17,24 +17,37 @@ export async function withAuth(
   request: NextRequest,
   allowedRoles?: Role[]
 ): Promise<{ user: AuthenticatedRequest['user'] } | NextResponse> {
-  const { userId } = await auth();
+  let userId: string | undefined;
+  try {
+    const authResult = await auth();
+    userId = authResult.userId;
+  } catch (error) {
+    console.error('Clerk auth() failed:', error);
+    return NextResponse.json({ error: 'AUTH_UNAVAILABLE' }, { status: 503 });
+  }
 
   if (!userId) {
     return NextResponse.json({ error: 'UNAUTHENTICATED' }, { status: 401 });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    select: {
-      id: true,
-      clerkId: true,
-      email: true,
-      role: true,
-      fullName: true,
-      isActive: true,
-      isBanned: true,
-    },
-  });
+  let user: { id: string; clerkId: string; email: string; role: Role; fullName: string; isActive: boolean; isBanned: boolean } | null;
+  try {
+    user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: {
+        id: true,
+        clerkId: true,
+        email: true,
+        role: true,
+        fullName: true,
+        isActive: true,
+        isBanned: true,
+      },
+    });
+  } catch (error) {
+    console.error('Database user lookup failed:', error);
+    return NextResponse.json({ error: 'DATABASE_UNAVAILABLE' }, { status: 503 });
+  }
 
   if (!user) {
     return NextResponse.json({ error: 'USER_NOT_FOUND' }, { status: 404 });

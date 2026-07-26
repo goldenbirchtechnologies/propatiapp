@@ -19,25 +19,39 @@ const isClerkConfigured =
   process.env.CLERK_SECRET_KEY;
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
+  const reqUrl = req.nextUrl;
+
+  // Redirect legacy /login to the actual sign-in route.
+  if (reqUrl.pathname === '/login' || reqUrl.pathname.startsWith('/login/')) {
+    const signIn = new URL('/sign-in', req.url);
+    signIn.search = reqUrl.search;
+    return NextResponse.redirect(signIn);
+  }
+
   if (!isClerkConfigured) {
     if (isPublic(req)) return NextResponse.next();
     return NextResponse.redirect(new URL('/sign-in', req.url));
   }
 
-  let response: Response;
   try {
     const maybeResponse = await (clerkMiddleware as any)(req, event);
-    response = (maybeResponse ?? new NextResponse()) as Response;
+    const response = (maybeResponse ?? new Response(null, { status: 200 })) as Response;
+
+    if (
+      (reqUrl.pathname.startsWith('/dashboard') || reqUrl.pathname.startsWith('/admin') || reqUrl.pathname.startsWith('/verification')) &&
+      response.status === 200
+    ) {
+      response.headers.set('Cache-Control', 'no-store');
+    }
+
+    return response;
   } catch (error) {
     console.error('Clerk middleware failed:', error);
-    return new NextResponse(null, { status: 500 });
+    if (isPublic(req)) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL('/sign-in', req.url));
   }
-
-  if ((req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/admin') || req.nextUrl.pathname.startsWith('/verification')) && response.status === 200) {
-    response.headers.set('Cache-Control', 'no-store');
-  }
-
-  return response;
 }
 
 export const config = {

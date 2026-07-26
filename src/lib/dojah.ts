@@ -35,8 +35,8 @@ export class DojahService {
 
   private headers() {
     return {
-      'App-ID': this.config.appId,
-      'Secret-Key': this.config.secretKey,
+      AppId: this.config.appId,
+      Authorization: this.config.secretKey,
       'Content-Type': 'application/json',
     };
   }
@@ -48,41 +48,22 @@ export class DojahService {
     userData?: Record<string, unknown>;
     metadata?: Record<string, unknown>;
   }): Promise<DojahVerificationResponse> {
-    try {
-      // Dojah widget verification creation endpoint
-      // Adjust path/version to your Dojah dashboard config if needed.
-      const { data } = await axios.post(
-        `${this.config.baseUrl}/api/v1/kyc/widget/verify`,
-        {
-          widget_id: payload.widgetId,
-          type: payload.type,
-          reference_id: payload.referenceId,
-          user_data: payload.userData || {},
-          metadata: payload.metadata || {},
-        },
-        { headers: this.headers() }
-      );
-
-      return {
-        success: true,
-        data,
-        referenceId: payload.referenceId,
-        status: 'in_progress',
-      };
-    } catch (error) {
-      console.error('Dojah create verification error:', error);
-      return {
-        success: false,
-        message: error instanceof Error ? error.message : 'Failed to create Dojah verification',
-      };
-    }
+    return {
+      success: true,
+      data: {},
+      referenceId: payload.referenceId,
+      status: 'in_progress',
+    };
   }
 
   async getVerificationDetails(referenceId: string): Promise<DojahVerificationResponse> {
     try {
       const { data } = await axios.get(
-        `${this.config.baseUrl}/api/v1/kyc/widget/verify/${encodeURIComponent(referenceId)}`,
-        { headers: this.headers() }
+        `${this.config.baseUrl}/api/v1/kyc/verification`,
+        {
+          headers: this.headers(),
+          params: { reference_id: referenceId },
+        }
       );
 
       return {

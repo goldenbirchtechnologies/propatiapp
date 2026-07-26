@@ -41,10 +41,22 @@ export async function GET(request: NextRequest) {
 
     let dojahData = null;
     if (kyc.dojahRef && kyc.status !== 'not_started') {
-      const dojahService = getDojahService();
-      const details = await dojahService.getVerificationDetails(kyc.dojahRef);
-      if (details.success && details.data) {
-        dojahData = details.data;
+      const appId = process.env.NEXT_PUBLIC_DOJAH_APP_ID;
+      const publicKey = process.env.NEXT_PUBLIC_DOJAH_PUBLIC_KEY;
+      const secretKey = process.env.DOJAH_SECRET_KEY;
+
+      if (!appId || !publicKey || !secretKey) {
+        console.warn('[Dojah] Skipping status sync because Dojah env vars are missing');
+      } else {
+        try {
+          const dojahService = getDojahService();
+          const details = await dojahService.getVerificationDetails(kyc.dojahRef);
+          if (details.success && details.data) {
+            dojahData = details.data;
+          }
+        } catch (detailError) {
+          console.error('[Dojah] Status lookup failed:', detailError);
+        }
       }
     }
 

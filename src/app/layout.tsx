@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
+import { cookies } from 'next/headers';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -81,11 +82,13 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await cookies();
+
   return (
     <html
       lang="en"

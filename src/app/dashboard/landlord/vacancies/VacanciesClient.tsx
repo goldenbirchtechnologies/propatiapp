@@ -230,7 +230,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         </div>
         <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
           <Plus className="w-4 h-4 mr-2" />
-          List Property
+          List to Marketplace
         </Link>
       </div>
 
@@ -322,7 +322,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             {!searchQuery && filterStatus === 'all' && (
               <Link href="/dashboard/landlord/listing/new" className="btn btn-primary mt-4">
                 <Plus className="w-4 h-4 mr-2" />
-                List Your First Property
+                List to Marketplace
               </Link>
             )}
           </div>

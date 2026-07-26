@@ -179,9 +179,9 @@ export default function NewListingPage() {
     <div className="container max-w-3xl py-8 px-4">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Create New Listing</h1>
+        <h1 className="text-3xl font-bold">Add Property</h1>
         <p className="text-muted-foreground mt-2">
-          Fill in the details to list your property on PROPATI
+          Add this property to your management portfolio. Listing to the marketplace is a separate step and requires property verification.
         </p>
       </div>
 
@@ -746,14 +746,8 @@ export default function NewListingPage() {
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t">
+              <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t">
                 <div className="flex gap-2">
-                  {step > 1 && (
-                    <Button type="button" variant="outline" onClick={onBack}>
-                      <ArrowLeft className="mr-2 h-4 w-4" />
-                      Back
-                    </Button>
-                  )}
                   <Button
                     type="button"
                     variant="outline"
@@ -763,29 +757,8 @@ export default function NewListingPage() {
                     {createMutation.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : null}
-                    Save Draft
+                    Save Property
                   </Button>
-                </div>
-
-                <div className="flex gap-2">
-                  {step < 4 ? (
-                    <Button type="button" onClick={onNext}>
-                      Next
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="button"
-                      variant="success"
-                      onClick={handlePublish}
-                      disabled={createMutation.isPending}
-                    >
-                      {createMutation.isPending ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : null}
-                      Publish Listing
-                    </Button>
-                  )}
                 </div>
               </div>
             </form>

@@ -146,6 +146,9 @@ export async function POST(request: NextRequest) {
 
     const userId = auth.user.id;
 
+    const rawBody = body as Record<string, unknown>;
+    const status = rawBody.status as string | undefined;
+
     const listing = await prisma.listing.create({
       data: {
         ...validated,
@@ -156,13 +159,14 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Create verification record
-    await prisma.verification.create({
-      data: {
-        listingId: listing.id,
-        ownerId: userId,
-      },
-    });
+    if (status === 'active') {
+      await prisma.verification.create({
+        data: {
+          listingId: listing.id,
+          ownerId: userId,
+        },
+      });
+    }
 
     return NextResponse.json(listing, { status: 201 });
   } catch (error) {

@@ -92,7 +92,7 @@ export default async function LandlordVerificationPage() {
                 <BuildingIcon className="w-5 h-5" />
                 <h3 className="text-primary">No properties to verify</h3>
                 <p className="text-on-surface-variant">Add a property to start the verification process.</p>
-                <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
+                <Link href="/dashboard/landlord/properties/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
               </div>

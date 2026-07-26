@@ -59,7 +59,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
             <p className="text-on-surface-variant">
               Start a verification for your listings to earn the Certified badge.
             </p>
-            <Link href="/dashboard/landlord/listing/new" className="btn btn-primary mt-4">
+            <Link href="/dashboard/landlord/properties/new" className="btn btn-primary mt-4">
               Add Property
             </Link>
           </div>

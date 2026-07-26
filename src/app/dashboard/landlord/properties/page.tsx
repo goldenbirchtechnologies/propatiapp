@@ -53,7 +53,7 @@ export default async function LandlordPropertiesPage() {
               Manage your property listings and short-let access
             </p>
           </div>
-          <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
+          <Link href="/dashboard/landlord/properties/new" className="btn btn-primary">
             <PlusIcon className="w-4 h-4 mr-2" /> Add Property
           </Link>
         </div>
@@ -97,7 +97,7 @@ export default async function LandlordPropertiesPage() {
                 <BuildingIcon className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" />
                 <h3 className="font-headline-sm text-headline-sm text-primary mb-2 text-primary">No properties yet</h3>
                 <p className="text-on-surface-variant">Get started by adding your first property listing.</p>
-                <Link href="/dashboard/landlord/listing/new" className="btn btn-primary">
+                <Link href="/dashboard/landlord/properties/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
               </div>

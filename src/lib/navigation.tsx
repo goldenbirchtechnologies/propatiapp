@@ -4,7 +4,7 @@ import {
   ShieldCheck, User, Search, Wrench, Receipt, BarChart2, ChartNoAxesCombined,
   Eye, Users, Star, Flag, Gavel, Cog, Shield, Scale, Briefcase,
   ClipboardList, CalendarDays, Zap, TrendingUp, Bell, Mail, Sliders,
-  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Clock, UserPlus
+  Landmark, CircleDollarSign, ChevronRight, BadgePercent, Wallet2, Clock, UserPlus, Store
 } from 'lucide-react';
 
 export interface NavItem {
@@ -38,7 +38,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
         href: '/dashboard/landlord/properties',
         icon: <Building2 className="h-5 w-5" />,
         children: [
-          { label: 'Add Listing', href: '/dashboard/landlord/listing/new', icon: <Plus className="h-5 w-5" /> },
+          { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
+          { label: 'List to Marketplace', href: '/dashboard/landlord/listing/new', icon: <Store className="h-5 w-5" /> },
           { label: 'Verify Property', href: '/dashboard/verification?type=property', icon: <Shield className="h-5 w-5" /> },
         ],
       },

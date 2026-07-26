@@ -100,9 +100,9 @@ export default async function LandlordDashboardPage() {
 
               <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href="/dashboard/landlord/listing/new"
+                  href="/dashboard/landlord/properties/new"
                   className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:shadow-lg transition-all"
-                >
+                  >
                   <Plus className="h-4 w-4" />
                   Add Listing
                 </Link>
@@ -195,7 +195,7 @@ export default async function LandlordDashboardPage() {
                         You haven&apos;t listed any properties yet. Add a property to start receiving tenant applications.
                       </p>
                       <Link
-                        href="/dashboard/landlord/listing/new"
+                        href="/dashboard/landlord/properties/new"
                         className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:shadow-lg transition-all"
                       >
                         <Plus className="h-4 w-4" />

@@ -200,6 +200,7 @@ describe('Listings API', () => {
       area: 'Victoria Island',
       state: 'Lagos',
       price: 50000000,
+      status: 'active',
     };
 
     const response = await POST(makePost('/api/listings', validBody));

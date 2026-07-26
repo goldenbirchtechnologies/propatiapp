@@ -26,7 +26,7 @@ export default async function VerificationGuidePage({
 
   const sp = await searchParams;
   const listingId = sp.listingId as string | undefined;
-  const type = sp.type as string | undefined;
+  const type = (sp.type as string | undefined) || (user.role.toLowerCase() === 'tenant' || user.role.toLowerCase() === 'accountant' ? 'identity' : 'property');
 
   const navigation =
     user.role.toLowerCase() === 'landlord'

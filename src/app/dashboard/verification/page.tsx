@@ -36,6 +36,15 @@ const VERIFICATION_TYPES = [
   },
 ];
 
+const ROLE_VERIFICATION_TYPES: Record<string, typeof VERIFICATION_TYPES> = {
+  tenant: VERIFICATION_TYPES.filter(item => item.key === 'identity'),
+  landlord: VERIFICATION_TYPES.filter(item => item.key === 'property' || item.key === 'identity'),
+  agent: VERIFICATION_TYPES.filter(item => item.key === 'professional' || item.key === 'identity'),
+  estate_manager: VERIFICATION_TYPES.filter(item => item.key === 'company' || item.key === 'property' || item.key === 'identity'),
+  accountant: VERIFICATION_TYPES.filter(item => item.key === 'identity'),
+  admin: VERIFICATION_TYPES,
+};
+
 export default async function VerificationHubPage() {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
@@ -43,12 +52,14 @@ export default async function VerificationHubPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
 
+  const visibleTypes = ROLE_VERIFICATION_TYPES[user.role.toLowerCase()] || VERIFICATION_TYPES;
+
   let verificationsError: string | null = null;
   let verifications: { id: string; type: string; overallStatus: string; createdAt: Date }[] = [];
 
   try {
     verifications = await prisma.verification.findMany({
-      where: { ownerId: user.id },
+      where: { ownerId: user.id, type: { in: visibleTypes.map(item => item.key) } },
       select: { id: true, type: true, overallStatus: true, createdAt: true },
       orderBy: { createdAt: 'desc' },
       take: 200,
@@ -92,7 +103,7 @@ export default async function VerificationHubPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {VERIFICATION_TYPES.map((item) => {
+        {visibleTypes.map((item) => {
           const existing = latestByType.get(item.key);
           return (
             <a

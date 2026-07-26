@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import KycVerificationCard, { KycStatus } from '@/components/verification/KycVerificationCard';
 
 export interface DojahWidgetClientProps {
   type?: 'custom' | 'verification' | 'identification' | 'liveness';
@@ -85,8 +84,6 @@ export default function DojahWidgetClient({
       {statusState === 'pending' && (
         <p className="text-xs text-slate-400">Verification opened in a new window. Awaiting confirmation.</p>
       )}
-
-      <KycVerificationCard status={statusState === 'pending' ? 'in_progress' : statusState === 'idle' ? 'not_started' : statusState} />
     </div>
   );
 }

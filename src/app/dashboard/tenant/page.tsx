@@ -21,33 +21,49 @@ export default async function TenantDashboardPage() {
 
   const displayName = user.fullName || 'Tenant';
 
-  const [savedCount, activeAgreementCount, openMaintenanceCount, recentAgreements, recentTransactions] = await Promise.all([
-    prisma.savedListing.count({ where: { userId: user.id } }),
-    prisma.agreement.count({
-      where: {
-        tenantId: user.id,
-        status: { in: ['tenant_signed', 'fully_signed'] },
-      },
-    }),
-    prisma.maintenanceTicket.count({
-      where: {
-        tenantId: user.id,
-        status: { in: ['open', 'in_progress'] },
-      },
-    }),
-    prisma.agreement.findMany({
-      where: { tenantId: user.id },
-      take: 3,
-      orderBy: { createdAt: 'desc' },
-      include: { listing: { select: { title: true, address: true } } },
-    }),
-    prisma.transaction.findMany({
-      where: { payerId: user.id },
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: { id: true, type: true, status: true, amount: true, createdAt: true },
-    }),
-  ]);
+  let savedCount = 0;
+  let activeAgreementCount = 0;
+  let openMaintenanceCount = 0;
+  let recentAgreements: any[] = [];
+  let recentTransactions: any[] = [];
+
+  try {
+    const [sCount, aAgreementCount, oMaintenanceCount, rAgreements, rTransactions] = await Promise.all([
+      prisma.savedListing.count({ where: { userId: user.id } }),
+      prisma.agreement.count({
+        where: {
+          tenantId: user.id,
+          status: { in: ['tenant_signed', 'fully_signed'] },
+        },
+      }),
+      prisma.maintenanceTicket.count({
+        where: {
+          tenantId: user.id,
+          status: { in: ['open', 'in_progress'] },
+        },
+      }),
+      prisma.agreement.findMany({
+        where: { tenantId: user.id },
+        take: 3,
+        orderBy: { createdAt: 'desc' },
+        include: { listing: { select: { title: true, address: true } } },
+      }),
+      prisma.transaction.findMany({
+        where: { payerId: user.id },
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, type: true, status: true, amount: true, createdAt: true },
+      }),
+    ]);
+
+    savedCount = sCount;
+    activeAgreementCount = aAgreementCount;
+    openMaintenanceCount = oMaintenanceCount;
+    recentAgreements = rAgreements;
+    recentTransactions = rTransactions;
+  } catch (error) {
+    console.error('Error loading Tenant dashboard data:', error);
+  }
 
   return (
     <DashboardShell

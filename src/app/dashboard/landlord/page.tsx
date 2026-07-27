@@ -33,47 +33,65 @@ export default async function LandlordDashboardPage() {
   startOfMonth.setDate(1);
   startOfMonth.setHours(0, 0, 0, 0);
 
-  const [
-    listingCount,
-    activeListingCount,
-    pendingApplicationCount,
-    openMaintenanceCount,
-    revenueAgg,
-    recentListings,
-    recentApplications,
-  ] = await Promise.all([
-    prisma.listing.count({ where: { ownerId: user.id } }),
-    prisma.listing.count({ where: { ownerId: user.id, status: 'active' } }),
-    prisma.application.count({ where: { landlordId: user.id, status: 'pending' } }),
-    prisma.maintenanceTicket.count({
-      where: {
-        listing: { ownerId: user.id },
-        status: { in: ['open', 'assigned', 'in_progress'] },
-      },
-    }),
-    prisma.transaction.aggregate({
-      where: {
-        payeeId: user.id,
-        status: 'released',
-        createdAt: { gte: startOfMonth },
-      },
-      _sum: { amount: true },
-    }),
-    prisma.listing.findMany({
-      where: { ownerId: user.id },
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: { id: true, title: true, listingType: true, status: true, price: true, createdAt: true },
-    }),
-    prisma.application.findMany({
-      where: { landlordId: user.id },
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      include: { tenant: { select: { fullName: true } }, listing: { select: { title: true } } },
-    }),
-  ]);
+  let listingCount = 0;
+  let activeListingCount = 0;
+  let pendingApplicationCount = 0;
+  let openMaintenanceCount = 0;
+  let totalRevenue = 0;
+  let recentListings: any[] = [];
+  let recentApplications: any[] = [];
 
-  const totalRevenue = Number(revenueAgg._sum.amount ?? 0);
+  try {
+    const [
+      lCount,
+      aLCount,
+      pAppCount,
+      oMCount,
+      revenueAgg,
+      rListings,
+      rApplications,
+    ] = await Promise.all([
+      prisma.listing.count({ where: { ownerId: user.id } }),
+      prisma.listing.count({ where: { ownerId: user.id, status: 'active' } }),
+      prisma.application.count({ where: { landlordId: user.id, status: 'pending' } }),
+      prisma.maintenanceTicket.count({
+        where: {
+          listing: { ownerId: user.id },
+          status: { in: ['open', 'assigned', 'in_progress'] },
+        },
+      }),
+      prisma.transaction.aggregate({
+        where: {
+          payeeId: user.id,
+          status: 'released',
+          createdAt: { gte: startOfMonth },
+        },
+        _sum: { amount: true },
+      }),
+      prisma.listing.findMany({
+        where: { ownerId: user.id },
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, title: true, listingType: true, status: true, price: true, createdAt: true },
+      }),
+      prisma.application.findMany({
+        where: { landlordId: user.id },
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        include: { tenant: { select: { fullName: true } }, listing: { select: { title: true } } },
+      }),
+    ]);
+
+    listingCount = lCount;
+    activeListingCount = aLCount;
+    pendingApplicationCount = pAppCount;
+    openMaintenanceCount = oMCount;
+    totalRevenue = Number(revenueAgg._sum.amount ?? 0);
+    recentListings = rListings;
+    recentApplications = rApplications;
+  } catch (error) {
+    console.error('Error loading Landlord dashboard data:', error);
+  }
 
   const statusBadgeVariant: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
     active: 'default',

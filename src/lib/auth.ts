@@ -43,16 +43,39 @@ async function ensurePrismaUserFromClerk() {
 }
 
 export async function getCurrentUser() {
-  const { userId } = await auth();
-  if (!userId) return null;
+  try {
+    const { userId } = await auth();
+    if (!userId) return null;
 
-  let user = await prisma.user.findUnique({ where: { clerkId: userId } });
+    let user = await prisma.user.findUnique({ where: { clerkId: userId } });
 
-  if (!user) {
-    user = await ensurePrismaUserFromClerk();
+    if (!user) {
+      user = await ensurePrismaUserFromClerk();
+    }
+
+    return user;
+  } catch (error) {
+    console.error('Error in getCurrentUser:', error);
+    try {
+      const clerkUser = await currentUser();
+      if (!clerkUser) return null;
+      const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
+                   (clerkUser.publicMetadata?.role as UserRole) ??
+                   'tenant';
+      return {
+        id: clerkUser.id,
+        clerkId: clerkUser.id,
+        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
+        fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || 'User',
+        avatarUrl: clerkUser.imageUrl,
+        role,
+        isActive: true,
+        isBanned: false,
+      } as any;
+    } catch {
+      return null;
+    }
   }
-
-  return user;
 }
 
 export async function requireAuth() {
@@ -141,23 +164,11 @@ export function getRoleRedirectPath(role: UserRole): string {
 }
 
 export async function getCurrentUserWithProfile() {
-  const { userId } = await auth();
-  if (!userId) return null;
+  try {
+    const { userId } = await auth();
+    if (!userId) return null;
 
-  let user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    include: {
-      ownedOrganisations: true,
-      orgMemberships: {
-        where: { status: 'active' },
-        include: { org: true },
-      },
-    },
-  });
-
-  if (!user) {
-    await ensurePrismaUserFromClerk();
-    user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { clerkId: userId },
       include: {
         ownedOrganisations: true,
@@ -167,7 +178,44 @@ export async function getCurrentUserWithProfile() {
         },
       },
     });
-  }
 
-  return user;
+    if (!user) {
+      await ensurePrismaUserFromClerk();
+      user = await prisma.user.findUnique({
+        where: { clerkId: userId },
+        include: {
+          ownedOrganisations: true,
+          orgMemberships: {
+            where: { status: 'active' },
+            include: { org: true },
+          },
+        },
+      });
+    }
+
+    return user;
+  } catch (error) {
+    console.error('Error in getCurrentUserWithProfile:', error);
+    try {
+      const clerkUser = await currentUser();
+      if (!clerkUser) return null;
+      const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
+                   (clerkUser.publicMetadata?.role as UserRole) ??
+                   'tenant';
+      return {
+        id: clerkUser.id,
+        clerkId: clerkUser.id,
+        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
+        fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || 'User',
+        avatarUrl: clerkUser.imageUrl,
+        role,
+        isActive: true,
+        isBanned: false,
+        ownedOrganisations: [],
+        orgMemberships: [],
+      } as any;
+    } catch {
+      return null;
+    }
+  }
 }

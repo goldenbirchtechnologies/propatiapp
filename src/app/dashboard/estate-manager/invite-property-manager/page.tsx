@@ -98,7 +98,7 @@ export default function InvitePropertyManagerPage() {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="gap-2">
             <UserPlus className="size-4" />
-            Refer &amp; earn
+            Refer & earn
           </Button>
         </div>
       </div>
@@ -139,19 +139,12 @@ export default function InvitePropertyManagerPage() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <div
+                  <button
                     key={permission.id}
-                    role="button"
-                    tabIndex={0}
+                    type="button"
                     onClick={() => togglePermission(permission.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === ' ' || e.key === 'Enter') {
-                        e.preventDefault();
-                        togglePermission(permission.id);
-                      }
-                    }}
                     className={cn(
-                      'text-left rounded-xl border p-4 transition-all cursor-pointer',
+                      'text-left rounded-xl border p-4 transition-all',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
@@ -162,6 +155,7 @@ export default function InvitePropertyManagerPage() {
                         checked={isSelected}
                         onCheckedChange={() => togglePermission(permission.id)}
                         className="mt-0.5"
+                        tabIndex={-1}
                       />
                       <div className="space-y-1">
                         <p className="font-medium text-sm text-primary">{permission.label}</p>
@@ -170,7 +164,7 @@ export default function InvitePropertyManagerPage() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

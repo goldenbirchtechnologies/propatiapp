@@ -157,19 +157,12 @@ export default function AgentInviteManagementClient() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <div
+                  <button
                     key={permission.id}
-                    role="button"
-                    tabIndex={0}
+                    type="button"
                     onClick={() => togglePermission(permission.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === ' ' || e.key === 'Enter') {
-                        e.preventDefault();
-                        togglePermission(permission.id);
-                      }
-                    }}
                     className={cn(
-                      'text-left rounded-xl border p-4 transition-all cursor-pointer',
+                      'text-left rounded-xl border p-4 transition-all',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
@@ -180,6 +173,7 @@ export default function AgentInviteManagementClient() {
                         checked={isSelected}
                         onCheckedChange={() => togglePermission(permission.id)}
                         className="mt-0.5"
+                        tabIndex={-1}
                       />
                       <div className="space-y-1">
                         <p className="font-medium text-sm text-primary">{permission.label}</p>
@@ -188,7 +182,7 @@ export default function AgentInviteManagementClient() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

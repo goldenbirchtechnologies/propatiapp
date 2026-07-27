@@ -58,7 +58,7 @@ const listingSchema = z.object({
   listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']),
   propertyType: z.enum(['apartment', 'house', 'duplex', 'land', 'office', 'shop', 'warehouse']).optional(),
   address: z.string().min(5, 'Street address must be at least 5 characters'),
-  area: z.string().min(2, 'Area is required'),
+  area: z.string().min(2, 'Area is required').optional(),
   state: z.string().min(2).default('Lagos'),
   city: z.string().optional().or(z.literal('')),
   postalCode: z.string().optional().or(z.literal('')),
@@ -518,6 +518,19 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                     <FormLabel>Street</FormLabel>
                     <FormControl>
                       <Input placeholder="e.g., 12 Admiralty Way" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control as unknown}
+                name="area"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Area</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Lekki" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

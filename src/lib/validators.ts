@@ -61,6 +61,7 @@ export const createListingSchema = z.object({
   amenities: z.array(z.string()).optional(),
   availableFrom: z.string().datetime().optional(),
   minimumStay: z.number().int().positive().optional(),
+  allowShortlet: z.boolean().default(false).optional(),
 });
 
 export const updateListingSchema = createListingSchema.partial().extend({

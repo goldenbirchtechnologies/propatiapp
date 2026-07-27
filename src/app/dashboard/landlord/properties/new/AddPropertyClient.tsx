@@ -77,6 +77,7 @@ const listingSchema = z.object({
   amenities: z.array(z.string()).optional(),
   availableFrom: z.string().optional().or(z.literal('')),
   minimumStay: z.number().int().positive().optional(),
+  allowShortlet: z.boolean().default(false).optional(),
 });
 
 type ListingInput = z.infer<typeof listingSchema>;
@@ -200,6 +201,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       amenities: [],
       availableFrom: '',
       minimumStay: undefined,
+      allowShortlet: false,
     },
   });
 
@@ -495,6 +497,28 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                         {...field}
                         onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                       />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control as unknown}
+                name="allowShortlet"
+                render={({ field }) => (
+                  <FormItem className="md:col-span-2">
+                    <FormLabel className="text-sm font-medium text-foreground">Allow shortlet</FormLabel>
+                    <FormDescription className="text-xs text-muted-foreground">
+                      Allow tenants to use this unit for short stays/subletting.
+                    </FormDescription>
+                    <FormControl>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          checked={!!field.value}
+                          onCheckedChange={(checked) => field.onChange(checked === true)}
+                        />
+                        <span className="text-sm text-foreground">Enable shortlet for this property</span>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

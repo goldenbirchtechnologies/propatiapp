@@ -306,6 +306,17 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
       if (orgId) {
         try {
+          await fetch(`/api/orgs/${encodeURIComponent(orgId)}/listings`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ listingId: listing.id }),
+          }).then(async (res) => {
+            if (!res.ok) {
+              const data = await res.json().catch(() => ({}));
+              throw new Error(data.error || 'Failed to link property to organization');
+            }
+          });
+
           await Promise.all(
             units.map((u) =>
               createUnit.mutateAsync({

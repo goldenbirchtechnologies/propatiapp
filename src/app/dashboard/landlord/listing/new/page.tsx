@@ -12,20 +12,23 @@ export const metadata = {
 };
 
 export default async function LandlordAddListingPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
+  try {
+    const session = await auth();
+    const userId = session?.userId;
+    if (!userId) redirect('/sign-in');
 
-  const user = await getCurrentUserWithProfile();
-  if (!user || user.role !== 'landlord') redirect('/dashboard');
+    const user = await getCurrentUserWithProfile();
+    if (!user || user.role !== 'landlord') redirect('/dashboard');
 
-  return (
-    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-
-      <ErrorBoundary>
-
-      <AddListingClient />
-    
-      </ErrorBoundary>
-</DashboardShell>
-  );
+    return (
+      <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+        <ErrorBoundary>
+          <AddListingClient />
+        </ErrorBoundary>
+      </DashboardShell>
+    );
+  } catch (error) {
+    console.error('LandlordAddListingPage server render failed', error);
+    redirect('/dashboard');
+  }
 }

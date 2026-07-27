@@ -268,6 +268,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       const basePayload = {
         ...data,
         price: data.price || units[0]?.rent || 0,
+        area: (data as { area?: string }).area || data.address,
         amenities,
       } as unknown as Parameters<typeof createListing.mutateAsync>[0];
 

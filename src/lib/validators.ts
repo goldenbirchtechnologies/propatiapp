@@ -42,7 +42,7 @@ export const createListingSchema = z.object({
   listingType: listingTypeSchema,
   propertyType: propertyTypeSchema.optional(),
   address: z.string().min(5, 'Address must be at least 5 characters'),
-  area: z.string().min(2, 'Area is required'),
+  area: z.string().min(2, 'Area is required').optional(),
   state: z.string().min(2).default('Lagos'),
   city: z.string().optional(),
   postalCode: z.string().optional(),

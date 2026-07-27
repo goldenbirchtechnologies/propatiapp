@@ -167,6 +167,7 @@ export async function POST(request: NextRequest) {
     const listing = await prisma.listing.create({
       data: {
         ...validated,
+        area: validated.area || validated.address,
         ownerId: userId,
         price: validated.price,
         cautionDeposit: validated.cautionDeposit ?? null,

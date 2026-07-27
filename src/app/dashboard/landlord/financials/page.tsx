@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -24,9 +23,6 @@ export const metadata = {
 };
 
 export default async function LandlordFinancialsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 

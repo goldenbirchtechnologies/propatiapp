@@ -12,6 +12,7 @@ import { ArrowLeft, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiEndpoints } from '@/lib/api';
 import type { AgentInvite } from '@/lib/api';
+import { cn } from '@/lib/utils';
 
 const PERMISSIONS = [
   { id: 'add_listings', label: 'Add listings', description: 'Create and publish property listings on your behalf.' },
@@ -110,20 +111,19 @@ export default function AgentInviteManagementClient() {
             Back
           </Link>
           <h1 className="font-heading text-headline-lg text-primary">Invite agent</h1>
-          <p className="text-on-surface-variant">They&apos;ll get an email to accept the invite</p>
+          <p className="text-on-surface-variant">They'll get an email to accept the invite</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="gap-2">
             <UserPlus className="size-4" />
             Refer &amp; earn
           </Button>
-          <Badge variant="destructive" className="px-2.5 py-1 text-xs">UNVERIFIED</Badge>
         </div>
       </div>
 
       <form onSubmit={sendInvite} className="space-y-6">
         {/* Email Input */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
               Email
@@ -134,17 +134,17 @@ export default function AgentInviteManagementClient() {
               placeholder="agent@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="max-w-xl"
+              className="max-w-xl dark:bg-slate-800/60 dark:placeholder:text-gray-400"
               required
             />
             <p className="text-sm text-on-surface-variant">
-              If they don&apos;t have an account, they&apos;ll be prompted to create one when they accept.
+              If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
         </Card>
 
         {/* Permissions Grid */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className="font-label-sm uppercase tracking-wide text-primary">Permissions</h2>
@@ -157,15 +157,23 @@ export default function AgentInviteManagementClient() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <button
+                  <div
                     key={permission.id}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => togglePermission(permission.id)}
-                    className={`text-left rounded-xl border p-4 transition-all ${
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        togglePermission(permission.id);
+                      }
+                    }}
+                    className={cn(
+                      'text-left rounded-xl border p-4 transition-all cursor-pointer',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
-                    }`}
+                    )}
                   >
                     <div className="flex items-start gap-3">
                       <Checkbox
@@ -180,7 +188,7 @@ export default function AgentInviteManagementClient() {
                         </p>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
@@ -188,11 +196,11 @@ export default function AgentInviteManagementClient() {
         </Card>
 
         {/* Scope */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <h2 className="font-label-sm uppercase tracking-wide text-primary">Scope</h2>
             <p className="text-sm text-on-surface-variant">
-              Leave empty to apply to all current and future listings. Add a listing first to scope the agent&apos;s access.
+              Leave empty to apply to all current and future listings. Add a listing first to scope the agent's access.
             </p>
           </div>
         </Card>

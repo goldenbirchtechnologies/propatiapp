@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { api } from '@/lib/api';
+import { cn } from '@/lib/utils';
 
 const PERMISSIONS = [
   { id: 'add_tenants', label: 'Add tenants', description: 'Assign tenants to vacant units and create leases.' },
@@ -93,20 +93,19 @@ export default function InvitePropertyManagerPage() {
             Back
           </Link>
           <h1 className="font-heading text-headline-lg text-primary">Invite property manager</h1>
-          <p className="text-on-surface-variant">They&apos;ll get an email to accept the invite</p>
+          <p className="text-on-surface-variant">They'll get an email to accept the invite</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="gap-2">
             <UserPlus className="size-4" />
             Refer &amp; earn
           </Button>
-          <Badge variant="destructive" className="px-2.5 py-1 text-xs">UNVERIFIED</Badge>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email Input */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
               Email
@@ -117,17 +116,17 @@ export default function InvitePropertyManagerPage() {
               placeholder="agent@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="max-w-xl"
+              className="max-w-xl dark:bg-slate-800/60 dark:placeholder:text-gray-400"
               required
             />
             <p className="text-sm text-on-surface-variant">
-              If they don&apos;t have an account, they&apos;ll be prompted to create one when they accept.
+              If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
         </Card>
 
         {/* Permissions Grid */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className="font-label-sm uppercase tracking-wide text-primary">Permissions</h2>
@@ -140,15 +139,23 @@ export default function InvitePropertyManagerPage() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <button
+                  <div
                     key={permission.id}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => togglePermission(permission.id)}
-                    className={`text-left rounded-xl border p-4 transition-all ${
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        togglePermission(permission.id);
+                      }
+                    }}
+                    className={cn(
+                      'text-left rounded-xl border p-4 transition-all cursor-pointer',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
-                    }`}
+                    )}
                   >
                     <div className="flex items-start gap-3">
                       <Checkbox
@@ -163,7 +170,7 @@ export default function InvitePropertyManagerPage() {
                         </p>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
@@ -171,7 +178,7 @@ export default function InvitePropertyManagerPage() {
         </Card>
 
         {/* Scope */}
-        <Card className="p-6">
+        <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <h2 className="font-label-sm uppercase tracking-wide text-primary">Scope</h2>
             <p className="text-sm text-on-surface-variant">

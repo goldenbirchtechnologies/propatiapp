@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft, Phone, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -101,6 +101,18 @@ const ELEVATION_TOKENS: Record<string, string> = {
   elevation_3: 'var(--elevation-3)',
 };
 
+const elevationStyle = (token?: string): CSSProperties => {
+  if (!token) return {};
+  if (token.startsWith('var(--')) {
+    const varName = token.replace('var(', '').replace(')', '');
+    const prop = varName.replace(/--/g, '').replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+    if (prop === 'elevation1' || prop === 'elevation2' || prop === 'elevation3') {
+      return { background: token };
+    }
+  }
+  return {};
+};
+
 type Tab = 'all' | 'chats' | 'screening';
 
 export default function UnifiedMessagesClient({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
@@ -188,10 +200,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
 
   // WebSocket/real-time fallback: if socket initialization fails, keep using
   // REST polling (loadConversations / loadMessages) so the UI still updates.
-  const useRealtimeFallback = useCallback(() => {
-    // Future socket init should be wrapped in try/catch and fall back here.
-    return false;
-  }, []);
+  const isRealtimeFallback = false;
 
   useEffect(() => {
     loadConversations();
@@ -268,12 +277,12 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   ];
 
   return (
-    <div className="space-y-6" style={ELEVATION_TOKENS.elevation_2 as unknown}>
+    <div className="space-y-6" style={elevationStyle(ELEVATION_TOKENS.elevation_2)}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages</h1>
           <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
-            {useRealtimeFallback() ? 'Real-time updates unavailable' : 'Unified inbox across your properties'}
+            {isRealtimeFallback ? 'Real-time updates unavailable' : 'Unified inbox across your properties'}
           </p>
         </div>
         {activeTab === 'chats' || activeTab === 'all' ? (
@@ -294,7 +303,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
         ) : null}
       </div>
 
-      <Card className="overflow-hidden" style={ELEVATION_TOKENS.elevation_1 as unknown}>
+      <Card className="overflow-hidden" style={elevationStyle(ELEVATION_TOKENS.elevation_1)}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto">

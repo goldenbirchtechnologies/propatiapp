@@ -143,7 +143,7 @@ const UnitDraft = {
   serviceCharge: undefined,
 };
 
-const emptyUnit = (num: number) => ({
+const newUnit = (num: number) => ({
   id: `unit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${num}`,
   unitNumber: String(num),
   bedrooms: 1,

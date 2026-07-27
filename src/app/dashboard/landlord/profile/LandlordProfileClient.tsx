@@ -145,16 +145,24 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     }
   };
 
+  const initials = (user?.fullName || initialUser?.fullName || 'User')
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0] || '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 outline-none">
         <div className="flex flex-wrap items-center gap-6">
           <div className="relative flex-shrink-0">
             <Avatar className="w-24 h-24">
               {user?.avatarUrl ? (
                 <AvatarImage src={user.avatarUrl} alt={user.fullName} />
               ) : (
-                <AvatarFallback className="text-2xl">{user?.fullName?.charAt(0) || 'U'}</AvatarFallback>
+                <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
               )}
             </Avatar>
             <label className="absolute -bottom-1 -right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
@@ -169,14 +177,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </label>
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="truncate text-lg font-bold text-white">{user?.fullName || 'Loading...'}</h2>
+            <h2 className="truncate text-lg font-bold text-white">{user?.fullName || initialUser?.fullName || 'User'}</h2>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <Badge variant="secondary" className="capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</Badge>
               {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> NIN Verified</Badge>}
               {user?.bvnVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> BVN Verified</Badge>}
               {user?.idVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> ID Verified</Badge>}
               {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="h-3 w-3" /> Phone Verified</Badge>}
-              {!user?.profileCompleted && <Badge variant="destructive">Profile Incomplete</Badge>}
+              {!user?.profileCompleted && <Badge variant="warning">Profile Incomplete</Badge>}
             </div>
             <p className="mt-1 truncate text-sm text-slate-300">{user?.email}</p>
           </div>
@@ -184,7 +192,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 bg-slate-800/80">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-slate-800/80">
           <TabsTrigger value="personal" className="rounded-lg">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="rounded-lg">Verification</TabsTrigger>
           <TabsTrigger value="security" className="rounded-lg">Security</TabsTrigger>
@@ -193,7 +201,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="personal" className="mt-6">
           <form onSubmit={handleProfileUpdate} className="space-y-6">
-            <Card>
+            <Card className="outline-none">
               <CardHeader>
                 <CardTitle className="text-lg">Personal Information</CardTitle>
               </CardHeader>
@@ -210,7 +218,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" value={profileData.email} disabled type="email" />
+                    <Input id="email" value={profileData.email} disabled type="email" className="disabled:bg-slate-800" />
                     <p className="text-xs text-slate-400">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
@@ -228,23 +236,26 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                         <CheckCircle className="h-4 w-4 text-green-400" /> Verified
                       </Button>
                     ) : (
-                      <Button type="button" variant="outline" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || requestPhoneOTPMutation.isPending}>
+                      <Button type="button" variant="secondary" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || requestPhoneOTPMutation.isPending}>
                         {requestPhoneOTPMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Send OTP'}
                       </Button>
                     )}
                   </div>
                   {!user?.phoneVerified && profileData.phone && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      <Input
-                        placeholder="Enter OTP"
-                        value={phoneOTP}
-                        onChange={(e) => setPhoneOTP(e.target.value)}
-                        className="flex-1"
-                        maxLength={6}
-                      />
-                      <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
-                        {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
-                      </Button>
+                    <div className="mt-3 rounded-lg border border-outline-variant bg-surface-container-lowest p-3">
+                      <p className="mb-2 text-xs text-muted-foreground">Enter the 6-digit code sent to your phone.</p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Input
+                          placeholder="Enter OTP"
+                          value={phoneOTP}
+                          onChange={(e) => setPhoneOTP(e.target.value)}
+                          className="flex-1"
+                          maxLength={6}
+                        />
+                        <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
+                          {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>

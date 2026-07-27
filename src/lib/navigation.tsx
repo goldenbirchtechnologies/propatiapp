@@ -48,8 +48,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
   {
     title: 'Leasing & Tenants',
     items: [
-      {
-        label: 'Leases & Agreements',
+      { label: 'Tenants', href: '/dashboard/landlord/tenants', icon: <Users className="h-5 w-5" /> },
+      { label: 'Leases & Agreements',
         href: '/dashboard/landlord/leases',
         icon: <FileText className="h-5 w-5" />,
         children: [
@@ -80,7 +80,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Finances & Intelligence',
     items: [
       {
-        label: 'Rent & Payments',
+        label: 'Financials',
         href: '/dashboard/landlord/financials',
         icon: <DollarSign className="h-5 w-5" />,
         children: [

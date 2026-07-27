@@ -15,11 +15,15 @@ export function parseNairaToKobo(naira: number): number {
 
 export function formatCurrency(kobo: number): string {
   const naira = parseKoboToNaira(kobo)
-  const formatted = naira.toLocaleString("en-US", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })
-  return `₦${formatted}`
+  return formatNaira(naira)
+}
+
+export function formatNaira(naira: number): string {
+  return `₦${naira.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+}
+
+export function formatNairaFull(naira: number): string {
+  return `₦${naira.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 }
 
 export function slugify(text: string): string {

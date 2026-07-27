@@ -30,8 +30,8 @@ export default function PropertyPublishClient({ listingId }: Props) {
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || 'Failed to publish');
+        const data = await res.json().catch(() => ({ error: 'Failed to publish' }));
+        throw new Error(data.error || 'Failed to publish');
       }
 
       toast({ title: 'Published', description: 'Listing updated successfully' });

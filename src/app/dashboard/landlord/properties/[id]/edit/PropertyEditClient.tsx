@@ -70,8 +70,8 @@ export default function PropertyEditClient({ listing }: Props) {
         }),
       });
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || 'Failed to update');
+        const data = await res.json().catch(() => ({ error: 'Failed to update' }));
+        throw new Error(data.error || 'Failed to update');
       }
       toast({ title: 'Saved', description: 'Property updated successfully' });
       router.refresh();

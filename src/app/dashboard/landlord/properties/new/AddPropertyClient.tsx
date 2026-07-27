@@ -53,11 +53,11 @@ import {
 } from 'lucide-react';
 
 const listingSchema = z.object({
-  title: z.string().min(2, 'Property name is required').max(100),
+  title: z.string().min(5, 'Property name must be at least 5 characters').max(100),
   description: z.string().max(5000).optional().or(z.literal('')),
   listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']),
   propertyType: z.enum(['apartment', 'house', 'duplex', 'land', 'office', 'shop', 'warehouse']).optional(),
-  address: z.string().min(2, 'Street address is required'),
+  address: z.string().min(5, 'Street address must be at least 5 characters'),
   area: z.string().min(2, 'Area is required'),
   state: z.string().min(2).default('Lagos'),
   city: z.string().optional().or(z.literal('')),
@@ -264,17 +264,39 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
   const onSubmit = async (data: ListingInput) => {
     setSubmitting(true);
+    const getErrorMessage = (err: unknown) => {
+      if (err && typeof err === 'object' && 'message' in err) {
+        const message = (err as { message?: unknown }).message;
+        if (typeof message === 'string' && message.trim()) return message;
+      }
+      if (err instanceof Error) return err.message;
+      return 'Unexpected error';
+    };
+
     try {
-      const basePayload = {
+      const safeData = {
         ...data,
-        price: data.price || units[0]?.rent || 0,
-        area: (data as { area?: string }).area || data.address,
+        city: data.city || undefined,
+        postalCode: data.postalCode || undefined,
+        availableFrom: data.availableFrom || undefined,
+      } as ListingInput;
+
+      const hasPositiveRent = units.some((u) => Number(u.rent || 0) > 0);
+      const price = safeData.price || (hasPositiveRent ? Math.max(...units.map((u) => Number(u.rent || 0))) : 0);
+
+      if (!hasPositiveRent || price <= 0) {
+        throw new Error('Set a positive rent for at least one unit before saving.');
+      }
+
+      const basePayload = {
+        ...safeData,
+        price,
+        area: safeData.area || safeData.address,
         amenities,
       } as unknown as Parameters<typeof createListing.mutateAsync>[0];
 
       const listing = await createListing.mutateAsync({
         ...basePayload,
-        status: 'draft',
       });
 
       toast({
@@ -322,7 +344,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
     } catch (error) {
       toast({
         title: 'Failed to create property',
-        description: error instanceof Error ? error.message : 'Unexpected error',
+        description: getErrorMessage(error),
         variant: 'destructive',
       });
     } finally {

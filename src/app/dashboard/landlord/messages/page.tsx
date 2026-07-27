@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -7,11 +6,9 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
 export default async function LandlordMessagesPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
-  if (!user || user.role !== 'landlord') redirect('/dashboard');
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'landlord') redirect('/dashboard');
 
   return (
     <DashboardShell

@@ -11,8 +11,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
-async function withRetry<T>(label: string, fn: () => Promise<T>, tries = 2): Promise<T> {
+async function withRetry<T>(fn: () => Promise<T>, tries = 2, label?: string): Promise<T> {
   let attempt = 0;
   while (true) {
     try {
@@ -351,7 +352,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
             onBack={() => setSelectedId(null)}
             content={content}
             onContentChange={setContent}
-            onSend={handleSend}
+            onSend={handleSendMessage}
           />
         ) : null}
       </Card>

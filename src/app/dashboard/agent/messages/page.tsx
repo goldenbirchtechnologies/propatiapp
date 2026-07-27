@@ -1,18 +1,14 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentMessagesClient from './AgentMessagesClient';
 
 export default async function Page() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
-  if (!user || user.role !== 'agent') redirect('/dashboard');
+  if (!user) redirect('/sign-in');
+  if (user.role !== 'agent') redirect('/dashboard');
 
   const conversations = await prisma.conversation.findMany({
     where: {

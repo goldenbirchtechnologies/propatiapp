@@ -10,27 +10,14 @@ import {
 } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
-import VerificationGuideClient from './VerificationGuideClient';
+import VerificationDojahPadClient from './VerificationDojahPadClient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function VerificationGuidePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
+export default async function VerificationDojahKycPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {
     redirect('/sign-in');
-  }
-
-  const sp = await searchParams;
-  const listingId = sp.listingId as string | undefined;
-  const rawType = (sp.type as string | undefined) || (user.role.toLowerCase() === 'tenant' || user.role.toLowerCase() === 'accountant' ? 'identity' : 'property');
-  const type = (rawType || 'property') as 'property' | 'identity' | 'company' | 'professional';
-
-  if (type === 'identity') {
-    redirect('/dashboard/verification/dojah-kyc');
   }
 
   const navigation =
@@ -53,20 +40,17 @@ export default async function VerificationGuidePage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-      <ErrorBoundary>
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">
-              Verification Guide
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              How verification works and what to expect for your selected type.
-            </p>
-          </div>
-          <VerificationGuideClient listingId={listingId || null} type={type || 'property'} />
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Identity Verification</h1>
+          <p className="text-muted-foreground mt-1">
+            Complete one quick identity check to unlock payments, agreements, and full marketplace access.
+          </p>
         </div>
-    
-      </ErrorBoundary>
+        <ErrorBoundary>
+          <VerificationDojahPadClient _userId={user.id} />
+        </ErrorBoundary>
+      </div>
     </DashboardShell>
   );
 }

@@ -44,7 +44,7 @@ export default async function LandlordFinancialsPage() {
       },
     }),
     prisma.transaction.aggregate({
-      where: { payeeId: user.id, status: 'success' },
+      where: { payeeId: user.id, status: 'released' },
       _sum: { amount: true },
     }),
   ]);

@@ -16,8 +16,8 @@ const VERIFICATION_TYPES = [
   {
     key: 'identity',
     title: 'Identity Verification',
-    description: 'Verify your identity via NIN/BVN and government-issued ID.',
-    href: '/dashboard/verification/guide?type=identity',
+    description: 'Verify your identity via the Dojah widget. Complete NIN, ID, and liveness checks.',
+    href: '/dashboard/verification/dojah-kyc',
     icon: '🪪',
   },
   {

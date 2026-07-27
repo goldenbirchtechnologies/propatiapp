@@ -1,12 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { apiEndpoints } from '@/lib/api';
-import { Card } from '@/components/ui/card';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
+import { ArrowLeft, UserPlus } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { apiEndpoints } from '@/lib/api';
 import type { AgentInvite } from '@/lib/api';
+
+const PERMISSIONS = [
+  { id: 'add_listings', label: 'Add listings', description: 'Create and publish property listings on your behalf.' },
+  { id: 'edit_listings', label: 'Edit listings', description: 'Update listing details, pricing, and media.' },
+  { id: 'view_inquiries', label: 'View inquiries', description: 'Access incoming buyer and tenant inquiries.' },
+  { id: 'record_payments', label: 'Record payments', description: 'Mark rent or invoices as paid.' },
+  { id: 'schedule_viewings', label: 'Schedule viewings', description: 'Arrange property viewings with prospects.' },
+  { id: 'upload_documents', label: 'Upload documents', description: 'Attach agreements and documents to listings.' },
+  { id: 'view_reports', label: 'View reports', description: 'Read-only access to listing performance reports.' },
+  { id: 'manage_team', label: 'Manage team', description: 'Invite or remove other agents under your account.' },
+];
 
 export default function AgentInviteManagementClient() {
   const [invites, setInvites] = useState<AgentInvite[]>([]);
@@ -14,12 +30,15 @@ export default function AgentInviteManagementClient() {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [actionId, setActionId] = useState<string | null>(null);
+  const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const load = async () => {
     setLoading(true);
     try {
       const res = await apiEndpoints.agentInvites.list({ page: 1, limit: 50 });
-      setInvites(res.data?.data || []);
+      const invitePayload = res as { data?: AgentInvite[] } | AgentInvite[];
+      setInvites(Array.isArray(invitePayload) ? invitePayload : invitePayload.data ?? []);
     } catch (error) {
       console.error('Failed to load invites:', error);
     } finally {
@@ -31,16 +50,36 @@ export default function AgentInviteManagementClient() {
     void load();
   }, []);
 
+  const togglePermission = (id: string) => {
+    setSelectedPermissions(prev =>
+      prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
+    );
+  };
+
   const sendInvite = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email.trim()) {
+      toast({ title: 'Email is required', variant: 'destructive' });
+      return;
+    }
+
     setSending(true);
     try {
-      await apiEndpoints.agentInvites.create({ email });
+      await apiEndpoints.agentInvites.create({ email: email.trim() });
       setEmail('');
+      setSelectedPermissions([]);
+      toast({
+        title: 'Invitation sent',
+        description: `Agent invite sent to ${email.trim()}.`,
+      });
       await load();
-    } catch (error) {
-      console.error('Failed to send invite:', error);
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { error?: string } } };
+      toast({
+        title: 'Failed to send invite',
+        description: err?.response?.data?.error || 'Something went wrong.',
+        variant: 'destructive',
+      });
     } finally {
       setSending(false);
     }
@@ -59,27 +98,117 @@ export default function AgentInviteManagementClient() {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <h4 className="font-heading text-primary mb-4">Invite New Agent</h4>
-        <form onSubmit={sendInvite} className="flex flex-col sm:flex-row gap-3">
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="agent@example.com"
-            required
-            className="flex-1"
-          />
-          <Button type="submit" disabled={sending} className="px-6">
-            {sending ? 'Sending...' : 'Send Invite'}
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <Link
+            href="/dashboard/landlord/agents"
+            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="size-4" />
+            Back
+          </Link>
+          <h1 className="font-heading text-headline-lg text-primary">Invite agent</h1>
+          <p className="text-on-surface-variant">They&apos;ll get an email to accept the invite</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" className="gap-2">
+            <UserPlus className="size-4" />
+            Refer &amp; earn
           </Button>
-        </form>
-        <p className="text-sm text-on-surface-variant mt-3">
-          Agents can still register directly without an invite. Invites help track who you brought onto the platform.
-        </p>
-      </Card>
+          <Badge variant="destructive" className="px-2.5 py-1 text-xs">UNVERIFIED</Badge>
+        </div>
+      </div>
 
+      <form onSubmit={sendInvite} className="space-y-6">
+        {/* Email Input */}
+        <Card className="p-6">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="agent@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="max-w-xl"
+              required
+            />
+            <p className="text-sm text-on-surface-variant">
+              If they don&apos;t have an account, they&apos;ll be prompted to create one when they accept.
+            </p>
+          </div>
+        </Card>
+
+        {/* Permissions Grid */}
+        <Card className="p-6">
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <h2 className="font-label-sm uppercase tracking-wide text-primary">Permissions</h2>
+              <p className="text-sm text-on-surface-variant">
+                Pick what this agent can do. You can change this later.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {PERMISSIONS.map((permission) => {
+                const isSelected = selectedPermissions.includes(permission.id);
+                return (
+                  <button
+                    key={permission.id}
+                    type="button"
+                    onClick={() => togglePermission(permission.id)}
+                    className={`text-left rounded-xl border p-4 transition-all ${
+                      isSelected
+                        ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                        : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={() => togglePermission(permission.id)}
+                        className="mt-0.5"
+                      />
+                      <div className="space-y-1">
+                        <p className="font-medium text-sm text-primary">{permission.label}</p>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          {permission.description}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </Card>
+
+        {/* Scope */}
+        <Card className="p-6">
+          <div className="space-y-2">
+            <h2 className="font-label-sm uppercase tracking-wide text-primary">Scope</h2>
+            <p className="text-sm text-on-surface-variant">
+              Leave empty to apply to all current and future listings. Add a listing first to scope the agent&apos;s access.
+            </p>
+          </div>
+        </Card>
+
+        {/* Footer Actions */}
+        <div className="flex items-center justify-end gap-3 pt-2">
+          <Button type="button" variant="secondary" onClick={() => window.history.back()}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={sending}>
+            {sending ? 'Sending invite...' : 'Send invite'}
+          </Button>
+        </div>
+      </form>
+
+      {/* Sent Invites */}
       <Card className="p-6">
         <h4 className="font-heading text-primary mb-4">Sent Invites</h4>
         {loading ? (

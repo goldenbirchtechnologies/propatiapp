@@ -596,6 +596,9 @@ model Listing {
   address              String
   area                 String
   state                String            @default("Lagos")
+  city                 String?
+  postalCode           String?           @map("postal_code")
+  floors               Int?
   price                Decimal           @db.Decimal(15, 2) // Naira for display
   pricePeriod          String?           @map("price_period") // night, month, year, total
   cautionDeposit       Decimal?          @db.Decimal(15, 2) @map("caution_deposit")

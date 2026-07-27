@@ -20,7 +20,8 @@ export default function AgentInvitationCard({ email }: Props) {
     setLoading(true);
     try {
       const res = await apiEndpoints.agentInvites.list({ page: 1, limit: 20 });
-      setInvites(res.data?.data || []);
+      const invitePayload = res as { data?: AgentInvite[] } | AgentInvite[];
+      setInvites(Array.isArray(invitePayload) ? invitePayload : invitePayload.data ?? []);
     } catch (error) {
       console.error('Failed to load invites:', error);
     } finally {

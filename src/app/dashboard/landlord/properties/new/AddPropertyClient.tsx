@@ -63,7 +63,7 @@ const listingSchema = z.object({
   city: z.string().optional().or(z.literal('')),
   postalCode: z.string().optional().or(z.literal('')),
   floors: z.number().int().nonnegative().optional(),
-  price: z.number().positive('Rent must be positive'),
+  price: z.number().positive('Rent must be positive').optional(),
   pricePeriod: z.enum(['night', 'month', 'year', 'total']).default('month'),
   cautionDeposit: z.number().nonnegative().optional(),
   serviceCharge: z.number().nonnegative().optional(),
@@ -186,7 +186,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       city: '',
       postalCode: '',
       floors: undefined,
-      price: 0,
+      price: undefined,
       pricePeriod: 'month',
       cautionDeposit: 0,
       serviceCharge: 0,
@@ -267,6 +267,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
     try {
       const basePayload = {
         ...data,
+        price: data.price || units[0]?.rent || 0,
         amenities,
       } as unknown as Parameters<typeof createListing.mutateAsync>[0];
 

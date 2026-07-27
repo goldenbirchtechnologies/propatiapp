@@ -29,20 +29,17 @@ const STEPS_BY_TYPE: Record<string, { layer: number; label: string; desc: string
     { layer: 5, label: 'Certification', desc: 'Final admin review. Approved listings receive the Certified badge.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
   ],
   identity: [
-    { layer: 1, label: 'Government ID', desc: 'Upload a valid government-issued ID (NIN, BVN, international passport, or drivers licence).', icon: FileText, href: '/dashboard/verification/step1/documents' },
-    { layer: 2, label: 'Biometric / OTP', desc: 'Verify your identity with OTP or biometric confirmation via our identity provider.', icon: Fingerprint, href: '/dashboard/verification/step2/identity' },
-    { layer: 3, label: 'Liveness Check', desc: 'Complete a short liveness check to confirm you are physically present.', icon: Video, href: '/dashboard/verification/step3/video' },
-    { layer: 4, label: 'Admin Review', desc: 'Our team reviews your submission and confirms identity status.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
+    { layer: 1, label: 'Identity Check', desc: 'Complete identity verification via Dojah. This covers NIN/BVN and liveness checks.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
   ],
   company: [
     { layer: 1, label: 'Business Docs', desc: 'Upload CAC certificate, TIN, and memorandum & articles of association.', icon: Building2, href: '/dashboard/verification/step1/documents' },
-    { layer: 2, label: 'Director Verification', desc: 'Verify identity of the company director or authorized signatory.', icon: Fingerprint, href: '/dashboard/verification/step2/identity' },
+    { layer: 2, label: 'Director Verification', desc: 'Verify identity of the company director or authorized signatory via Dojah.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
     { layer: 3, label: 'Video Declaration', desc: 'Record a short business declaration video with the authorized signatory.', icon: Video, href: '/dashboard/verification/step3/video' },
     { layer: 4, label: 'Admin Review', desc: 'Final review and certification of business credentials.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
   ],
   professional: [
     { layer: 1, label: 'Credentials', desc: 'Upload professional licenses, certifications, and employment records.', icon: Briefcase, href: '/dashboard/verification/step1/documents' },
-    { layer: 2, label: 'Identity', desc: 'Verify your professional identity against your credentials.', icon: Fingerprint, href: '/dashboard/verification/step2/identity' },
+    { layer: 2, label: 'Identity', desc: 'Verify your professional identity via Dojah.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },
     { layer: 3, label: 'Video Introduction', desc: 'Record a short professional introduction or portfolio walkthrough.', icon: Video, href: '/dashboard/verification/step3/video' },
     { layer: 4, label: 'Admin Review', desc: 'Final review and certification of professional status.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
   ],

@@ -2,7 +2,7 @@
 
 import { ShieldCheck, Clock, ShieldQuestion, XCircle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 type KycStatus = 'not_started' | 'in_progress' | 'approved' | 'rejected' | 'requires_review';
@@ -15,36 +15,41 @@ export interface KycVerificationCardProps {
   onVerified?: (result: { success: boolean; referenceId?: string; data?: Record<string, unknown> }) => void;
 }
 
-const statusConfig: Record<KycStatus, { title: string; description: string; icon: React.ReactNode; accent: string }> = {
+const statusConfig: Record<KycStatus, { title: string; description: string; icon: React.ReactNode; accent: string; iconColor: string }> = {
   not_started: {
     title: 'Identity verification not started',
     description: 'Complete verification to unlock payments, agreements, and full platform access.',
     icon: <ShieldQuestion className="h-5 w-5" />,
     accent: 'bg-slate-900 border-slate-800',
+    iconColor: 'text-slate-300',
   },
   in_progress: {
     title: 'Verification in progress',
     description: 'Your verification is being reviewed. Most checks complete within a few minutes.',
     icon: <Clock className="h-5 w-5" />,
     accent: 'bg-slate-900 border-slate-800',
+    iconColor: 'text-amber-300',
   },
   approved: {
     title: 'Identity verified',
     description: 'You have completed identity verification.',
     icon: <ShieldCheck className="h-5 w-5" />,
     accent: 'bg-slate-900 border-slate-800',
+    iconColor: 'text-emerald-400',
   },
   rejected: {
     title: 'Verification not approved',
     description: 'Your verification could not be approved. Please retry with clearer details.',
     icon: <XCircle className="h-5 w-5" />,
     accent: 'bg-slate-900 border-slate-800',
+    iconColor: 'text-rose-400',
   },
   requires_review: {
     title: 'Verification needs review',
     description: 'Our team is reviewing your verification. We’ll update you shortly.',
     icon: <Clock className="h-5 w-5" />,
     accent: 'bg-slate-900 border-slate-800',
+    iconColor: 'text-amber-300',
   },
 };
 
@@ -69,7 +74,7 @@ export default function KycVerificationCard({
 
         <div className="rounded-lg border border-slate-800 bg-slate-900/80 flex items-center gap-4 p-4">
           <div className="rounded-full p-2 bg-slate-900 border border-slate-800">
-            <ShieldCheck className="h-5 w-5 text-emerald-400" />
+            <div className={cn('h-5 w-5', config.iconColor)}>{config.icon}</div>
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-100">{config.title}</p>

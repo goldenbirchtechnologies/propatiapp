@@ -48,6 +48,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
   {
     title: 'Leasing & Tenants',
     items: [
+      { label: 'Applications', href: '/dashboard/landlord/applications', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Tenants', href: '/dashboard/landlord/tenants', icon: <Users className="h-5 w-5" /> },
       { label: 'Leases & Agreements',
         href: '/dashboard/landlord/leases',

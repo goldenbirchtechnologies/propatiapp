@@ -1206,12 +1206,18 @@ model Application {
   listingId      String            @map("listing_id")
   tenantId       String            @map("tenant_id")
   landlordId     String            @map("landlord_id")
-  status         ApplicationStatus @default(pending)
-  message        String?
-  landlordNotes  String?           @map("landlord_notes")
-  reviewedAt     DateTime?         @map("reviewed_at")
-  createdAt      DateTime          @default(now()) @map("created_at")
-  updatedAt      DateTime          @updatedAt @map("updated_at")
+  status             ApplicationStatus @default(pending)
+  message            String?
+  landlordNotes      String?           @map("landlord_notes")
+  reviewedAt         DateTime?         @map("reviewed_at")
+  rejectionReason    String?           @map("rejection_reason")
+  requestedInfoAt    DateTime?         @map("requested_info_at")
+  stage              String?           @default("submitted") // submitted | screening | guarantor_pending | approved | rejected
+  screeningStatus    Json?             @default("{}") @map("screening_status") // {nin, bvn, credit, references}
+  guarantorData      Json?             @default("{}") @map("guarantor_data") // {name, relationship, occupation, phone, email, address, verified}
+  applicantDocuments Json?            @default("[]") @map("applicant_documents") // [{name, url, type, uploadedAt}]
+  createdAt          DateTime          @default(now()) @map("created_at")
+  updatedAt          DateTime          @updatedAt @map("updated_at")
 
   listing        Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
   tenant         User              @relation("TenantApplications", fields: [tenantId], references: [id])

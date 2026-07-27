@@ -64,6 +64,9 @@ export default async function LandlordApplicationsPage() {
       ...app.tenant,
       yearlyIncome: app.tenant.yearlyIncome ? app.tenant.yearlyIncome.toString() : null,
     },
+    screeningStatus: (app as any).screeningStatus || {},
+    guarantorData: (app as any).guarantorData || {},
+    applicantDocuments: (app as any).applicantDocuments || [],
   }));
 
   return (

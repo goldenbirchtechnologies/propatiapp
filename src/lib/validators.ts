@@ -384,6 +384,11 @@ export const createApplicationSchema = z.object({
 export const updateApplicationSchema = z.object({
   status: z.enum(['under_review', 'accepted', 'rejected', 'withdrawn']),
   landlordNotes: z.string().max(2000).optional(),
+  rejectionReason: z.string().max(1000).optional(),
+  stage: z.enum(['submitted', 'screening', 'guarantor_pending', 'approved', 'rejected']).optional(),
+  screeningStatus: z.record(z.string(), z.string()).optional(),
+  guarantorData: z.record(z.string(), z.unknown()).optional(),
+  requestedInfoAt: z.string().datetime().optional(),
 });
 
 export const applicationFiltersSchema = z.object({
@@ -391,6 +396,21 @@ export const applicationFiltersSchema = z.object({
   limit: z.coerce.number().int().positive().max(100).default(20),
   status: applicationStatusSchema.optional(),
   listingId: z.string().cuid().optional(),
+  stage: z.enum(['submitted', 'screening', 'guarantor_pending', 'approved', 'rejected']).optional(),
+});
+
+export const addApplicationDocumentSchema = z.object({
+  name: z.string().min(1, 'Document name is required'),
+  url: z.string().url('Invalid document URL'),
+  type: z.string().min(1, 'Document type is required'),
+});
+
+export const requestInfoSchema = z.object({
+  note: z.string().min(5, 'Please provide a brief note').max(1000),
+});
+
+export const approveApplicationSchema = z.object({
+  createAgreement: z.boolean().default(true),
 });
 
 export type CreateApplicationInput = z.infer<typeof createApplicationSchema>;

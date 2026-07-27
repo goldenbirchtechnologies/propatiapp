@@ -73,6 +73,9 @@ export async function GET(request: NextRequest) {
         ...app.listing,
         price: app.listing.price.toString(),
       },
+      screeningStatus: (app as any).screeningStatus || {},
+      guarantorData: (app as any).guarantorData || {},
+      applicantDocuments: (app as any).applicantDocuments || [],
     }));
 
     return NextResponse.json({

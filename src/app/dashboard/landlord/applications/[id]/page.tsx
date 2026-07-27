@@ -1,9 +1,7 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { getCurrentUserWithProfile } from '@/lib/auth';
-import { DashboardShell } from '@/components/layout/DashboardShell';
-import { ErrorBoundary } from '@/components/error/ErrorBoundary';
+import DashboardShell from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import LandlordApplicationDetailClient from './LandlordApplicationDetailClient';
 
@@ -12,12 +10,6 @@ export default async function LandlordApplicationDetailPage({
 }: {
   params: { id: string };
 }) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {
@@ -31,6 +23,7 @@ export default async function LandlordApplicationDetailPage({
         select: {
           id: true,
           title: true,
+          description: true,
           address: true,
           area: true,
           state: true,
@@ -38,7 +31,7 @@ export default async function LandlordApplicationDetailPage({
           pricePeriod: true,
           propertyType: true,
           listingType: true,
-          images: { where: { isCover: true }, take: 1, select: { url: true } },
+          images: { where: { isCover: true }, take: 5, select: { url: true } },
           amenities: true,
         },
       },
@@ -59,6 +52,7 @@ export default async function LandlordApplicationDetailPage({
           createdAt: true,
         },
       },
+      landlord: { select: { id: true, fullName: true, email: true } },
     },
   });
 
@@ -84,6 +78,9 @@ export default async function LandlordApplicationDetailPage({
         : null,
       createdAt: application.tenant.createdAt.toISOString(),
     },
+    screeningStatus: (application as any).screeningStatus || {},
+    guarantorData: (application as any).guarantorData || {},
+    applicantDocuments: (application as any).applicantDocuments || [],
     agreement: null,
   };
 
@@ -94,12 +91,7 @@ export default async function LandlordApplicationDetailPage({
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
-      <ErrorBoundary>
-
-      <LandlordApplicationDetailClient application={serialized as unknown} />
-    
-      </ErrorBoundary>
-</DashboardShell>
+      <LandlordApplicationDetailClient application={serialized as any} />
+    </DashboardShell>
   );
 }

@@ -9,10 +9,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
-import { Building2, Users, Clock, CheckCircle, XCircle, Loader2, ShieldCheck, BadgeCheck } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import {
+  Building2,
+  Users,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Loader2,
+  ShieldCheck,
+  BadgeCheck,
+  UserCheck,
+  UserX,
+  ClipboardList,
+  FileText,
+  ExternalLink,
+} from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
+type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
+type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
+
 export function EmptyState() {
   return (
     <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center text-on-surface-variant">
@@ -20,15 +42,25 @@ export function EmptyState() {
     </div>
   );
 }
-import { useRouter } from 'next/navigation';
 
-type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
+interface GuarantorData {
+  name?: string;
+  relationship?: string;
+  occupation?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  verified?: boolean;
+}
 
 interface Application {
   id: string;
   status: ApplicationStatus;
+  stage?: ApplicationStage;
   message: string | null;
   landlordNotes: string | null;
+  rejectionReason: string | null;
+  requestedInfoAt: string | null;
   createdAt: string | Date;
   reviewedAt: string | Date | null;
   listing: {
@@ -53,7 +85,11 @@ interface Application {
     profileBio: string | null;
     idVerified: boolean;
     ninVerified: boolean;
+    employmentStatus?: string | null;
   };
+  screeningStatus: Record<string, string>;
+  guarantorData: GuarantorData;
+  applicantDocuments: Array<Record<string, unknown>>;
 }
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
@@ -64,14 +100,34 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
   withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
 };
 
+const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
+  submitted: { label: 'Submitted', className: 'bg-blue-50 text-blue-700 border-blue-200' },
+  screening: { label: 'Screening', className: 'bg-orange-50 text-orange-700 border-orange-200' },
+  guarantor_pending: { label: 'Guarantor Pending', className: 'bg-warning/10 text-warning border-warning/20' },
+  approved: { label: 'Approved', className: 'bg-success-bright/10 text-success border-success-bright/20' },
+  rejected: { label: 'Rejected', className: 'bg-destructive/10 text-destructive border-destructive/20' },
+};
+
+function screeningPill(value: string) {
+  const normalized = String(value || '').toLowerCase();
+  if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
+    return <span className="text-xs text-destructive border border-destructive/20 rounded-full px-2 py-0.5">Not Verified</span>;
+  if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
+    return <span className="text-xs text-success border border-success/20 rounded-full px-2 py-0.5">Verified</span>;
+  return <span className="text-xs text-warning border border-warning/20 rounded-full px-2 py-0.5">Pending</span>;
+}
+
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
-  const [applications, setApplications] = useState(initial);
+  const [applications, setApplications] = useState<Application[]>(initial);
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [notes, setNotes] = useState('');
+  const [rejectionReason, setRejectionReason] = useState('');
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'all'>('all');
+  const [stageFilter, setStageFilter] = useState<ApplicationStage | 'all'>('all');
   const [listingFilter, setListingFilter] = useState('all');
   const [isPending, startTransition] = useTransition();
-  const [actionType, setActionType] = useState<'accept' | 'reject' | 'review' | null>(null);
+  const [actionType, setActionType] = useState<'accept' | 'reject' | 'review' | 'request_info' | null>(null);
+  const [detailTab, setDetailTab] = useState<'applicant' | 'guarantor' | 'decision'>('applicant');
   const router = useRouter();
 
   const uniqueListings = Array.from(
@@ -80,6 +136,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
   const filtered = applications.filter((a) => {
     if (statusFilter !== 'all' && a.status !== statusFilter) return false;
+    if (stageFilter !== 'all' && (a.stage || 'submitted') !== stageFilter) return false;
     if (listingFilter !== 'all' && a.listing.id !== listingFilter) return false;
     return true;
   });
@@ -87,26 +144,51 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
   const pending = applications.filter((a) => a.status === 'pending').length;
   const underReview = applications.filter((a) => a.status === 'under_review').length;
   const accepted = applications.filter((a) => a.status === 'accepted').length;
+  const stageStats = {
+    screening: applications.filter((a) => (a.stage || 'submitted') === 'screening').length,
+    guarantor_pending: applications.filter((a) => (a.stage || 'submitted') === 'guarantor_pending').length,
+  };
 
   function openReview(app: Application) {
     setSelectedApp(app);
     setNotes(app.landlordNotes ?? '');
+    setRejectionReason(app.rejectionReason ?? '');
     setActionType(null);
+    setDetailTab('applicant');
   }
 
-  function handleAction(type: 'accept' | 'reject' | 'review') {
+  async function refreshApp(id: string) {
+    try {
+      const res = await fetch(`/api/applications/${id}`);
+      if (!res.ok) return;
+      const json = await res.json();
+      const data = json.data as Application;
+      setApplications((prev) => prev.map((a) => (a.id === id ? data : a)));
+      if (selectedApp?.id === id) setSelectedApp(data);
+    } catch {}
+  }
+
+  function handleAction(type: 'accept' | 'reject' | 'review' | 'request_info') {
     if (!selectedApp) return;
     setActionType(type);
 
-    const statusMap = { accept: 'accepted', reject: 'rejected', review: 'under_review' } as const;
-    const nextStatus = statusMap[type];
-
     startTransition(async () => {
+      let body: Record<string, unknown> = {};
+      if (type === 'accept') {
+        body = { action: 'approve', landlordNotes: notes || undefined };
+      } else if (type === 'reject') {
+        body = { status: 'rejected', landlordNotes: notes || undefined, rejectionReason: rejectionReason || undefined, action: 'reject' };
+      } else if (type === 'review') {
+        body = { status: 'under_review', landlordNotes: notes || undefined };
+      } else if (type === 'request_info') {
+        body = { landlordNotes: notes || undefined, requestedInfoAt: new Date().toISOString() };
+      }
+
       try {
         const res = await fetch(`/api/applications/${selectedApp.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: nextStatus, landlordNotes: notes || undefined }),
+          body: JSON.stringify(body),
         });
 
         if (!res.ok) {
@@ -116,23 +198,16 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           return;
         }
 
-        setApplications((prev) =>
-          prev.map((a) =>
-            a.id === selectedApp.id
-              ? { ...a, status: nextStatus, landlordNotes: notes || a.landlordNotes }
-              : a
-          )
-        );
+        const json = await res.json();
+        const updated = json.data as Application;
+        setApplications((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
+        setSelectedApp(updated);
 
-        if (type === 'accept') {
-          toast.success('Application accepted. Conversation and agreement draft created.');
-        } else if (type === 'reject') {
-          toast.success('Application rejected.');
-        } else {
-          toast.success('Application marked as under review.');
-        }
+        if (type === 'accept') toast.success('Application accepted. Conversation and agreement draft created.');
+        else if (type === 'reject') toast.success('Application rejected.');
+        else if (type === 'request_info') toast.success('Additional information requested.');
+        else toast.success('Application marked as under review.');
 
-        setSelectedApp(null);
         setActionType(null);
         router.refresh();
       } catch {
@@ -148,18 +223,20 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
     <div className="space-y-8">
       <div>
         <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
-          Applications
+          Applications & Screening
         </h1>
         <p className="text-on-surface-variant">
-          Review and manage rental applications for your properties
+          Review applications, guarantors, and screening status for each applicant
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
         <StatCard label="Total" value={applications.length} icon={<Users className="w-5 h-5" />} />
         <StatCard label="Pending" value={pending} icon={<Clock className="w-5 h-5" />} />
         <StatCard label="Under Review" value={underReview} icon={<Clock className="w-5 h-5" />} />
         <StatCard label="Accepted" value={accepted} icon={<CheckCircle className="w-5 h-5" />} />
+        <StatCard label="Screening" value={stageStats.screening} icon={<ShieldCheck className="w-5 h-5" />} />
+        <StatCard label="Guarantor Pending" value={stageStats.guarantor_pending} icon={<UserCheck className="w-5 h-5" />} />
       </div>
 
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -176,6 +253,19 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <option value="accepted">Accepted</option>
             <option value="rejected">Rejected</option>
             <option value="withdrawn">Withdrawn</option>
+          </select>
+          <select
+            className="inp-field"
+            style={{ maxWidth: 200 }}
+            value={stageFilter}
+            onChange={(e) => setStageFilter(e.target.value as ApplicationStage | 'all')}
+          >
+            <option value="all">All Stages</option>
+            <option value="submitted">Submitted</option>
+            <option value="screening">Under Screening</option>
+            <option value="guarantor_pending">Guarantor Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
           </select>
           <select
             className="inp-field"
@@ -202,7 +292,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             </h3>
             <p className="text-on-surface-variant">
               {applications.length === 0
-                ? 'You have not received unknown applications yet.'
+                ? 'You have not received any applications yet.'
                 : 'No applications match the selected filters.'}
             </p>
           </CardContent>
@@ -215,7 +305,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 <tr className="border-b border-outline-variant">
                   <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Tenant</th>
                   <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Listing</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Message</th>
+                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Stage</th>
                   <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Status</th>
                   <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Date</th>
                   <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">Actions</th>
@@ -224,6 +314,8 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               <tbody>
                 {filtered.map((app) => {
                   const cfg = statusConfig[app.status];
+                  const stage = app.stage || 'submitted';
+                  const stageCfg = stageConfig[stage];
                   const isActionable = ['pending', 'under_review'].includes(app.status);
 
                   return (
@@ -245,17 +337,15 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                       </td>
                       <td className="p-4">
                         <p className="text-sm font-medium text-primary">{app.listing.title}</p>
-                        <p className="text-xs text-on-surface-variant">{app.listing.area}</p>
+                        <p className="text-xs text-on-surface-variant">{app.listing.area}, {app.listing.state}</p>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm max-w-48 truncate text-on-surface-variant">
-                          {app.message || '—'}
-                        </p>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${stageCfg.className}`}>
+                          {stageCfg.label}
+                        </span>
                       </td>
                       <td className="p-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.className}`}
-                        >
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.className}`}>
                           {cfg.label}
                         </span>
                       </td>
@@ -269,15 +359,13 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </p>
                       </td>
                       <td className="p-4">
-                        <Link href={`/dashboard/landlord/applications/${app.id}`}>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            disabled={!isActionable}
-                          >
-                            {isActionable ? 'Review' : 'View'}
-                          </Button>
-                        </Link>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => openReview(app)}
+                        >
+                          {isActionable ? 'Review' : 'View'}
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -289,154 +377,250 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       )}
 
       <Dialog open={!!selectedApp} onOpenChange={(open) => !open && setSelectedApp(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-4xl">
           {selectedApp && (
             <>
               <DialogHeader>
-                <DialogTitle>Review Application</DialogTitle>
+                <DialogTitle>Application Review</DialogTitle>
+                <DialogDescription>
+                  {selectedApp.listing.title} · {selectedApp.listing.area}, {selectedApp.listing.state}
+                </DialogDescription>
               </DialogHeader>
 
-              <div className="space-y-4 py-2">
-                <div
-                  className="p-4 rounded-xl bg-primary/10 text-primary"
-                >
-                  <p className="text-sm font-semibold text-primary">
-                    {selectedApp.listing.title}
-                  </p>
-                  <p className="text-xs text-on-surface-variant">
-                    {selectedApp.listing.area}, {selectedApp.listing.state}
-                  </p>
-                </div>
-
-              <div className="flex items-start gap-3">
-                <div
-                  className="flex items-center justify-center"
-                >
-                  {selectedApp.tenant.fullName.charAt(0)}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-semibold text-primary">
-                      {selectedApp.tenant.fullName}
-                    </p>
-                    {selectedApp.tenant.idVerified && (
-                      <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
-                        <BadgeCheck className="w-3 h-3" /> ID Verified
-                      </span>
-                    )}
-                    {selectedApp.tenant.ninVerified && (
-                      <span className="inline-flex items-center gap-1 text-xs text-info bg-info/10 border border-info/20 rounded-full px-2 py-0.5">
-                        <ShieldCheck className="w-3 h-3" /> NIN Verified
-                      </span>
-                    )}
+              {detailTab === 'applicant' && (
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center">
+                      {selectedApp.tenant.fullName.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-semibold text-primary">
+                          {selectedApp.tenant.fullName}
+                        </p>
+                        {selectedApp.tenant.idVerified && (
+                          <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
+                            <BadgeCheck className="w-3 h-3" /> ID Verified
+                          </span>
+                        )}
+                        {selectedApp.tenant.ninVerified && (
+                          <span className="inline-flex items-center gap-1 text-xs text-info bg-info/10 border border-info/20 rounded-full px-2 py-0.5">
+                            <ShieldCheck className="w-3 h-3" /> NIN Verified
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
+                      {selectedApp.tenant.phone && (
+                        <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
-                  {selectedApp.tenant.phone && (
-                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
+
+                  {(selectedApp.tenant.employmentStatus || selectedApp.tenant.employerName || selectedApp.tenant.yearlyIncome) && (
+                    <div className="p-3 rounded-lg space-y-1 text-sm border border-outline-variant">
+                      <p className="font-medium mb-2 text-primary">Employment</p>
+                      {selectedApp.tenant.employmentStatus && (
+                        <p className="text-on-surface-variant">
+                          Status: <span className="font-medium">{String(selectedApp.tenant.employmentStatus).replace('_', ' ')}</span>
+                        </p>
+                      )}
+                      {selectedApp.tenant.employerName && (
+                        <p className="text-on-surface-variant">
+                          Employer: <span className="text-primary">{selectedApp.tenant.employerName}</span>
+                        </p>
+                      )}
+                      {selectedApp.tenant.jobTitle && (
+                        <p className="text-on-surface-variant">
+                          Role: <span className="text-primary">{selectedApp.tenant.jobTitle}</span>
+                        </p>
+                      )}
+                      {selectedApp.tenant.yearlyIncome && (
+                        <p className="text-on-surface-variant">
+                          Income: <span className="text-primary">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {selectedApp.tenant.profileBio && (
+                    <div>
+                      <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">About</p>
+                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant.profileBio}</p>
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-medium text-primary">Screening</p>
+                    <div className="flex flex-wrap gap-2">
+                      {Object.keys(selectedApp.screeningStatus || {}).length === 0 && (
+                        <span className="text-xs text-on-surface-variant">No screening checks yet.</span>
+                      )}
+                      {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
+                        <div key={key} className="flex items-center gap-2 border border-outline-variant rounded-full px-2 py-1 text-xs">
+                          <span className="capitalize text-primary">{key.replace('_', ' ')}</span>
+                          {screeningPill(value)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-medium text-primary">Documents</p>
+                    {selectedApp.applicantDocuments.length === 0 && (
+                      <p className="text-xs text-on-surface-variant">No documents uploaded.</p>
+                    )}
+                    {selectedApp.applicantDocuments.map((doc, idx) => (
+                      <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-primary">
+                        <FileText className="w-4 h-4" /> {String(doc.name || doc.type || 'Document')}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {detailTab === 'guarantor' && (
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <p className="text-xs font-medium text-primary">Guarantor Information</p>
+                    {(!selectedApp.guarantorData || Object.keys(selectedApp.guarantorData).length === 0) && (
+                      <p className="text-sm text-on-surface-variant">No guarantor information provided yet.</p>
+                    )}
+                    {Object.entries(selectedApp.guarantorData || {}).map(([key, value]) => (
+                      <div key={key} className="flex items-start justify-between gap-4 text-sm">
+                        <span className="text-on-surface-variant capitalize">{key.replace('_', ' ')}</span>
+                        <span className="text-primary font-medium text-right">{String(value)}</span>
+                      </div>
+                    ))}
+
+                    <div className="pt-2">
+                      <p className="text-xs font-medium text-primary mb-2">Guarantor Verification</p>
+                      {(selectedApp.guarantorData as any)?.verified ? (
+                        <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
+                          <BadgeCheck className="w-3 h-3" /> Verified
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-full px-2 py-0.5">
+                          <UserX className="w-3 h-3" /> Unverified
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {detailTab === 'decision' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium block mb-1.5 text-primary">
+                      Notes (visible to the tenant)
+                    </label>
+                    <Textarea
+                      className="inp-field w-full resize-none"
+                      rows={3}
+                      placeholder="Add a note visible to the tenant..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                    />
+                  </div>
+
+                  {selectedApp.status === 'rejected' && selectedApp.rejectionReason && (
+                    <div className="p-3 rounded-lg border border-destructive/20 bg-destructive/10 text-sm text-destructive">
+                      Rejection reason: {selectedApp.rejectionReason}
+                    </div>
+                  )}
+
+                  {selectedApp.requestedInfoAt && (
+                    <div className="p-3 rounded-lg border border-warning/20 bg-warning/10 text-sm text-warning">
+                      Additional info requested on {new Date(selectedApp.requestedInfoAt).toLocaleString('en-NG')}.
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleAction('request_info')}
+                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
+                    >
+                      {actionType === 'request_info' && isLoading ? (
+                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                      ) : (
+                        <ClipboardList className="w-3 h-3 mr-1" />
+                      )}
+                      Request Additional Info
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleAction('reject')}
+                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
+                    >
+                      {actionType === 'reject' && isLoading ? (
+                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                      ) : (
+                        <UserX className="w-3 h-3 mr-1" />
+                      )}
+                      Reject Application
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => handleAction('accept')}
+                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
+                      className="bg-success hover:bg-success/90 text-white"
+                    >
+                      {actionType === 'accept' && isLoading ? (
+                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                      ) : (
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                      )}
+                      Approve & Generate Lease
+                    </Button>
+                  </div>
+
+                  {(actionType === 'reject' || selectedApp.rejectionReason) && (
+                    <div>
+                      <label className="text-sm font-medium block mb-1.5 text-primary">
+                        Rejection reason
+                      </label>
+                      <Textarea
+                        className="inp-field w-full resize-none"
+                        rows={2}
+                        placeholder="Reason for rejection..."
+                        value={rejectionReason}
+                        onChange={(e) => setRejectionReason(e.target.value)}
+                      />
+                    </div>
                   )}
                 </div>
-              </div>
-
-              {(selectedApp.tenant.employmentStatus ||
-                  selectedApp.tenant.employerName ||
-                  selectedApp.tenant.yearlyIncome) && (
-                  <div
-                    className="p-3 rounded-lg space-y-1 text-sm border-outline-variant">
-                    <p className="font-medium mb-2 text-primary">Employment</p>
-                    {selectedApp.tenant.employmentStatus && (
-                      <p className="text-on-surface-variant">
-                        Status: <span className="font-medium">{selectedApp.tenant.employmentStatus.replace('_', ' ')}</span>
-                      </p>
-                    )}
-                    {selectedApp.tenant.employerName && (
-                      <p className="text-on-surface-variant">
-                        Employer: <span className="text-primary">{selectedApp.tenant.employerName}</span>
-                      </p>
-                    )}
-                    {selectedApp.tenant.jobTitle && (
-                      <p className="text-on-surface-variant">
-                        Role: <span className="text-primary">{selectedApp.tenant.jobTitle}</span>
-                      </p>
-                    )}
-                    {selectedApp.tenant.yearlyIncome && (
-                      <p className="text-on-surface-variant">
-                        Income: <span className="text-primary">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {selectedApp.tenant.profileBio && (
-                  <div>
-                    <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">About</p>
-                    <p className="text-sm text-on-surface-variant">{selectedApp.tenant.profileBio}</p>
-                  </div>
-                )}
-
-                {selectedApp.message && (
-                  <div>
-                    <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">Applicant message</p>
-                    <p
-                      className="text-sm p-3 rounded-lg text-primary">
-                      {selectedApp.message}
-                    </p>
-                  </div>
-                )}
-
-                <div>
-                  <label className="text-sm font-medium block mb-1.5 text-primary">
-                    Notes (optional)
-                  </label>
-                  <textarea
-                    className="inp-field w-full resize-none"
-                    rows={3}
-                    placeholder="Add a note visible to the tenant..."
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  />
-                </div>
-              </div>
+              )}
 
               <DialogFooter className="flex flex-wrap gap-2 sm:justify-between">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleAction('review')}
-                  disabled={isLoading || selectedApp.status === 'under_review'}
-                >
-                  {actionType === 'review' && isLoading ? (
-                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                  ) : null}
-                  Mark Under Review
-                </Button>
-                <div className="flex gap-2">
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleAction('reject')}
-                    disabled={isLoading}
+                <div className="flex rounded-lg border border-outline-variant overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setDetailTab('applicant')}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}
                   >
-                    {actionType === 'reject' && isLoading ? (
-                      <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                    ) : (
-                      <XCircle className="w-3 h-3 mr-1" />
-                    )}
-                    Reject
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => handleAction('accept')}
-                    disabled={isLoading}
-                    className="bg-success hover:bg-success/90 text-primary-foreground"
+                    Applicant
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDetailTab('guarantor')}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}
                   >
-                    {actionType === 'accept' && isLoading ? (
-                      <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                    ) : (
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                    )}
-                    Accept
-                  </Button>
+                    Guarantor
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDetailTab('decision')}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}
+                  >
+                    Decision
+                  </button>
                 </div>
+                <Button variant="outline" size="sm" onClick={() => setSelectedApp(null)}>
+                  Close
+                </Button>
               </DialogFooter>
             </>
           )}

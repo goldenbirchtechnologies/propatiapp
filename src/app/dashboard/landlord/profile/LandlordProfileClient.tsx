@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP, useVerifyNIN, useVerifyBVN } from '@/hooks/useUsers';
+import { useState, useEffect } from 'react';
+import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
-import { useKycStatus } from '@/lib/dojah-client';
+import { useKycStatus, KycStatus } from '@/lib/dojah-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -11,9 +11,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle, Shield, Phone, IdCard, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
-import KycVerificationCard from '@/components/verification/KycVerificationCard';
+import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, IdCard, Shield, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
+import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 interface LandlordProfileClientProps {
   user: unknown;
@@ -34,20 +36,70 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     confirmPassword: '',
   });
   const [phoneOTP, setPhoneOTP] = useState('');
-  const [ninInput, setNinInput] = useState('');
-  const [bvnInput, setBvnInput] = useState('');
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [otpRevealed, setOtpRevealed] = useState(false);
+  const [otpCountdown, setOtpCountdown] = useState(0);
+  const [otpCooldown, setOtpCooldown] = useState(false);
+  const [userNotifications, setUserNotifications] = useState({
+    rent_due: true,
+    payment: true,
+    message: true,
+    verification: true,
+    agreement: true,
+    maintenance: true,
+    screening: true,
+    system: true,
+  });
 
   const { data: currentUser, refetch: refetchUser } = useCurrentUser();
   const updateProfileMutation = useUpdateProfile();
   const uploadAvatarMutation = useUploadAvatar();
   const requestPhoneOTPMutation = useRequestPhoneOTP();
   const verifyPhoneMutation = useVerifyPhone();
-  const verifyNINMutation = useVerifyNIN();
-  const verifyBVNMutation = useVerifyBVN();
   const { toast } = useToast();
 
   const user = currentUser || initialUser;
+
+  useEffect(() => {
+    if (!otpCooldown || otpCountdown <= 0) return;
+    const timer = setInterval(() => {
+      setOtpCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setOtpCooldown(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [otpCooldown, otpCountdown]);
+
+  const initials = (user?.fullName || initialUser?.fullName || 'User')
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0] || '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+  const verificationSteps = [
+    { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="h-4 w-4" /> },
+    { key: 'ninVerified', label: 'NIN Verification', icon: <IdCard className="h-4 w-4" /> },
+    { key: 'bvnVerified', label: 'BVN Verification', icon: <Shield className="h-4 w-4" /> },
+    { key: 'idVerified', label: 'ID Document', icon: <IdCard className="h-4 w-4" /> },
+  ] as const;
+
+  const verifiedCount = verificationSteps.filter((step) => !!user?.[step.key]).length;
+  const verificationComplete = verifiedCount === verificationSteps.length;
+  const profileProgress = Math.round(((verifiedCount + (profileData.fullName ? 1 : 0) + (profileData.email ? 1 : 0)) / (verificationSteps.length + 2)) * 100);
+
+  const missingActions = [
+    !user?.phoneVerified && profileData.phone ? 'Verify your phone number' : null,
+    !user?.ninVerified ? 'Verify your NIN' : null,
+    !user?.bvnVerified ? 'Verify your BVN' : null,
+    !user?.idVerified ? 'Upload a government ID' : null,
+  ].filter(Boolean);
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,6 +143,9 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     try {
       await requestPhoneOTPMutation.mutateAsync(profileData.phone);
       toast({ title: 'OTP sent', description: 'A verification code has been sent to your phone.' });
+      setOtpRevealed(true);
+      setOtpCooldown(true);
+      setOtpCountdown(60);
     } catch {
       toast({ title: 'Error', description: 'Failed to send OTP. Please try again.', variant: 'destructive' });
     }
@@ -106,73 +161,30 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       toast({ title: 'Phone verified', description: 'Your phone number has been verified.' });
       refetchUser();
       setPhoneOTP('');
+      setOtpRevealed(false);
     } catch {
       toast({ title: 'Error', description: 'Invalid OTP. Please try again.', variant: 'destructive' });
     }
   };
 
-  const handleVerifyNIN = async () => {
-    if (!ninInput) {
-      toast({ title: 'NIN required', description: 'Please enter your NIN.', variant: 'destructive' });
-      return;
-    }
-    try {
-      await verifyNINMutation.mutateAsync({ nin: ninInput });
-      toast({ title: 'NIN verified', description: 'Your NIN has been verified successfully.' });
-      refetchUser();
-      setNinInput('');
-    } catch {
-      toast({ title: 'Error', description: 'Failed to verify NIN. Please try again.', variant: 'destructive' });
-    }
-  };
-
-  const handleVerifyBVN = async () => {
-    if (!bvnInput) {
-      toast({ title: 'BVN required', description: 'Please enter your BVN.', variant: 'destructive' });
-      return;
-    }
-    try {
-      await verifyBVNMutation.mutateAsync({ bvn: bvnInput });
-      toast({ title: 'BVN verified', description: 'Your BVN has been verified successfully.' });
-      refetchUser();
-      setBvnInput('');
-    } catch {
-      toast({ title: 'Error', description: 'Failed to verify BVN. Please try again.', variant: 'destructive' });
-    }
-  };
-
-  const initials = (user?.fullName || initialUser?.fullName || 'User')
-    .split(' ')
-    .filter(Boolean)
-    .map((part) => part[0] || '')
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-
-  const verificationComplete = !!user?.phoneVerified && !!user?.ninVerified && !!user?.bvnVerified && !!user?.idVerified;
-
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-6">
       <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm md:p-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
-              <Avatar className="h-16 w-16 ring-2 ring-border md:h-20 md:w-20">
-                {user?.avatarUrl ? (
-                  <AvatarImage src={user.avatarUrl} alt={user?.fullName || 'User'} />
-                ) : (
-                  <AvatarFallback className="text-lg md:text-xl">{initials}</AvatarFallback>
-                )}
-              </Avatar>
-              <label className="absolute -bottom-1 -right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
-                <Camera className="h-3 w-3" />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAvatarUpload}
-                  className="absolute inset-0 cursor-pointer opacity-0"
-                  disabled={isUploadingAvatar}
-                />
+              <div className="h-24 w-24 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 ring-2 ring-border">
+                <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-primary md:text-3xl">
+                  {user?.avatarUrl ? (
+                    <img src={user.avatarUrl} alt={user?.fullName || 'User'} className="h-full w-full object-cover" />
+                  ) : (
+                    initials
+                  )}
+                </div>
+              </div>
+              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+                <Camera className="h-3.5 w-3.5" />
+                <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
               </label>
             </div>
             <div className="space-y-2">
@@ -182,39 +194,39 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </Badge>
                 {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
               </div>
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                  {user?.fullName || initialUser?.fullName || 'My profile'}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {user?.email || initialUser?.email}
-                </p>
+              <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{user?.fullName || 'My profile'}</h1>
+              <p className="text-sm text-muted-foreground">{user?.email}</p>
+              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.</p>
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                {missingActions.map((action) => (
+                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-orange-500/30 text-orange-600 hover:bg-orange-500/10">
+                    <AlertCircle className="h-3.5 w-3.5" />
+                    {action}
+                  </Button>
+                ))}
               </div>
-              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.
-              </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-sm md:min-w-[320px]">
-            <div className="rounded-2xl border border-outline-variant bg-background/50 p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Verification</p>
-              <p className="mt-2 text-lg font-semibold text-foreground">{verificationComplete ? 'Ready' : 'Needs attention'}</p>
+          <div className="md:min-w-[340px]">
+            <div className="flex items-center justify-between text-sm">
+              <Badge variant="secondary" className="text-xs font-semibold">{profileProgress}% complete</Badge>
+              <span className="text-xs text-muted-foreground">{verifiedCount}/{verificationSteps.length + 2} steps</span>
             </div>
-            <div className="rounded-2xl border border-outline-variant bg-background/50 p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Phone</p>
-              <p className="mt-2 text-lg font-semibold text-foreground">{user?.phoneVerified ? 'Verified' : 'Pending'}</p>
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${profileProgress}%` }} />
             </div>
+            <p className="mt-2 text-xs text-muted-foreground">{verificationComplete ? 'Setup complete.' : 'Verify phone & ID to finish setup.'}</p>
           </div>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-surface-container-lowest/80 border border-outline-variant">
-          <TabsTrigger value="personal" className="rounded-lg">Personal Info</TabsTrigger>
-          <TabsTrigger value="verification" className="rounded-lg">Verification</TabsTrigger>
-          <TabsTrigger value="security" className="rounded-lg">Security</TabsTrigger>
-          <TabsTrigger value="notifications" className="rounded-lg">Notifications</TabsTrigger>
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-outline-variant">
+          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Personal Info</TabsTrigger>
+          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Verification</TabsTrigger>
+          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Security</TabsTrigger>
+          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Notifications</TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal" className="mt-6">
@@ -223,34 +235,28 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <CardHeader>
                 <CardTitle className="text-lg">Personal Information</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="relative flex-shrink-0">
-                    <Avatar className="w-16 h-16">
+                    <Avatar className="h-16 w-16">
                       {user?.avatarUrl ? (
                         <AvatarImage src={user.avatarUrl} alt={user?.fullName || 'User'} />
                       ) : (
                         <AvatarFallback className="text-lg">{initials}</AvatarFallback>
                       )}
                     </Avatar>
-                    <label className="absolute -bottom-1 -right-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
-                      <Camera className="h-2.5 w-2.5" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleAvatarUpload}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                        disabled={isUploadingAvatar}
-                      />
+                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow">
+                      <Camera className="h-3 w-3" />
+                      <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
                     </label>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-primary">Profile photo</p>
+                    <p className="text-sm font-medium text-foreground">Profile photo</p>
                     <p className="text-xs text-muted-foreground">JPG or PNG, under 5MB</p>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
                     <Label htmlFor="fullName">Full Name</Label>
                     <Input
                       id="fullName"
@@ -259,59 +265,61 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                       disabled={updateProfileMutation.isPending}
                     />
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" value={profileData.email} disabled type="email" className="disabled:bg-slate-800" />
-                    <p className="text-xs text-slate-400">Email cannot be changed here. Contact support if needed.</p>
+                    <Input id="email" value={profileData.email} disabled type="email" />
+                    <p className="text-xs text-muted-foreground">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <div className="flex flex-wrap gap-2">
-                    <Input
-                      id="phone"
-                      value={profileData.phone}
-                      onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                      placeholder="+234 800 000 0000"
-                    />
-                    {user?.phoneVerified ? (
-                      <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
-                        <CheckCircle className="h-4 w-4 text-green-400" /> Verified
-                      </Button>
-                    ) : (
-                      <Button type="button" variant="secondary" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || requestPhoneOTPMutation.isPending}>
-                        {requestPhoneOTPMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Send OTP'}
-                      </Button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <div className="flex flex-wrap gap-2">
+                      <Input
+                        id="phone"
+                        value={profileData.phone}
+                        onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                        placeholder="+234 800 000 0000"
+                        className="flex-1"
+                      />
+                      {user?.phoneVerified ? (
+                        <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
+                          <CheckCircle className="h-4 w-4 text-green-500" /> Verified
+                        </Button>
+                      ) : (
+                        <Button type="button" variant="secondary" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending}>
+                          {requestPhoneOTPMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : otpCountdown > 0 ? `Resend in ${otpCountdown.toString().padStart(2, '0')}:00` : 'Send OTP'}
+                        </Button>
+                      )}
+                    </div>
+                    {otpRevealed && (
+                      <div className="mt-3 animate-in fade-in slide-in-from-top-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Input
+                            placeholder="Enter 6-digit OTP"
+                            value={phoneOTP}
+                            onChange={(e) => setPhoneOTP(e.target.value)}
+                            className="flex-1"
+                            maxLength={6}
+                          />
+                          <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
+                            {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
+                          </Button>
+                        </div>
+                        <p className="mt-2 text-xs text-muted-foreground">Enter the 6-digit code sent to your phone.</p>
+                      </div>
                     )}
                   </div>
-                  {!user?.phoneVerified && profileData.phone && (
-                    <div className="mt-3 rounded-lg border border-outline-variant bg-surface-container-lowest p-3">
-                      <p className="mb-2 text-xs text-muted-foreground">Enter the 6-digit code sent to your phone.</p>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Input
-                          placeholder="Enter OTP"
-                          value={phoneOTP}
-                          onChange={(e) => setPhoneOTP(e.target.value)}
-                          className="flex-1"
-                          maxLength={6}
-                        />
-                        <Button type="button" variant="secondary" onClick={handleVerifyPhone} disabled={verifyPhoneMutation.isPending || phoneOTP.length !== 6}>
-                          {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="profileBio">Bio / Description</Label>
-                  <textarea
-                    id="profileBio"
-                    value={profileData.profileBio}
-                    onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-500 min-h-[100px] resize-y"
-                    placeholder="Tell others about yourself..."
-                    rows={4}
-                  />
+                  <div className="space-y-1.5">
+                    <Label htmlFor="profileBio">Bio / Description</Label>
+                    <Textarea
+                      id="profileBio"
+                      value={profileData.profileBio}
+                      onChange={(e) => setProfileData({ ...profileData, profileBio: e.target.value })}
+                      placeholder="Tell others about yourself..."
+                      rows={5}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -333,89 +341,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
         </TabsContent>
 
         <TabsContent value="verification" className="mt-6">
-          <div className="space-y-6">
-            <KycVerificationCard
-              status={kyc?.status || 'not_started'}
-              onVerified={(result) => {
-                if (result.success) reload();
-              }}
-            />
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Identity Verification</CardTitle>
-                <p className="text-sm text-slate-400">Verify your identity to unlock premium features and build trust.</p>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <VerificationItem
-                  icon={<IdCard className="h-5 w-5" />}
-                  title="National Identification Number (NIN)"
-                  description="Verify using your NIN via Prembly/IdentityPass"
-                  completed={!!user?.ninVerified}
-                >
-                  {!user?.ninVerified && (
-                    <div className="flex flex-wrap gap-2">
-                      <Input placeholder="Enter 11-digit NIN" value={ninInput} onChange={(e) => setNinInput(e.target.value)} maxLength={11} className="w-48" />
-                      <Button onClick={handleVerifyNIN} disabled={verifyNINMutation.isPending || ninInput.length !== 11}>
-                        {verifyNINMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify NIN'}
-                      </Button>
-                    </div>
-                  )}
-                </VerificationItem>
-
-                <VerificationItem
-                  icon={<Shield className="h-5 w-5" />}
-                  title="Bank Verification Number (BVN)"
-                  description="Verify using your BVN for financial trust"
-                  completed={!!user?.bvnVerified}
-                >
-                  {!user?.bvnVerified && (
-                    <div className="flex flex-wrap gap-2">
-                      <Input placeholder="Enter 11-digit BVN" value={bvnInput} onChange={(e) => setBvnInput(e.target.value)} maxLength={11} className="w-48" />
-                      <Button onClick={handleVerifyBVN} disabled={verifyBVNMutation.isPending || bvnInput.length !== 11}>
-                        {verifyBVNMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify BVN'}
-                      </Button>
-                    </div>
-                  )}
-                </VerificationItem>
-
-                <VerificationItem
-                  icon={<IdCard className="h-5 w-5" />}
-                  title="Government ID Document"
-                  description="Upload a valid ID (Passport, Driver's License, Voter's Card)"
-                  completed={!!user?.idVerified}
-                >
-                  {!user?.idVerified && (
-                    <Button variant="outline" onClick={() => alert('Document upload coming soon')}>
-                      <Camera className="h-4 w-4 mr-2" /> Upload ID
-                    </Button>
-                  )}
-                </VerificationItem>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Verification Progress</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[
-                    { key: 'ninVerified', label: 'NIN Verification', icon: <IdCard className="h-4 w-4" /> },
-                    { key: 'bvnVerified', label: 'BVN Verification', icon: <Shield className="h-4 w-4" /> },
-                    { key: 'idVerified', label: 'ID Document', icon: <Shield className="h-4 w-4" /> },
-                    { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="h-4 w-4" /> },
-                  ].map((item) => (
-                    <VerificationStep
-                      key={item.key}
-                      label={item.label}
-                      icon={item.icon}
-                      completed={!!user?.[item.key]}
-                    />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <VerificationSimpleCard status={kyc?.status || undefined} reload={reload} />
         </TabsContent>
 
         <TabsContent value="security" className="mt-6">
@@ -425,15 +351,15 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </CardHeader>
             <CardContent className="space-y-4">
               <form className="space-y-4 max-w-md">
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <Label htmlFor="currentPassword">Current Password</Label>
                   <Input id="currentPassword" type="password" value={passwordData.currentPassword} onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })} />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <Label htmlFor="newPassword">New Password</Label>
                   <Input id="newPassword" type="password" value={passwordData.newPassword} onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })} />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <Label htmlFor="confirmPassword">Confirm New Password</Label>
                   <Input id="confirmPassword" type="password" value={passwordData.confirmPassword} onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })} />
                 </div>
@@ -454,7 +380,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
                 <SessionItem device="Desktop" browser="Firefox on Mac" location="London, UK" />
               </div>
-              <Button variant="ghost" className="text-red-500">
+              <Button variant="ghost" className="mt-3 text-red-500">
                 <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
@@ -467,7 +393,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <CardTitle className="text-lg">Notification Preferences</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {[
+              {([
                 { id: 'rent_due', label: 'Rent Due Reminders', desc: 'Get notified 7, 3, and 1 days before rent is due' },
                 { id: 'payment', label: 'Payment Notifications', desc: 'Receive alerts for rent payments received and refunds' },
                 { id: 'message', label: 'New Messages', desc: 'Get notified when you receive a new message' },
@@ -476,48 +402,22 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 { id: 'maintenance', label: 'Maintenance Requests', desc: 'New maintenance tickets and status updates' },
                 { id: 'screening', label: 'Screening Calls', desc: 'Scheduled and completed tenant screening calls' },
                 { id: 'system', label: 'System Announcements', desc: 'Platform updates, new features, and maintenance windows' },
-              ].map((item) => (
-                <NotificationToggle key={item.id} {...item} />
+              ] as const).map((item) => (
+                <div key={item.id} className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="font-medium text-foreground">{item.label}</p>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </div>
+                  <Switch
+                    checked={userNotifications[item.id]}
+                    onCheckedChange={(checked) => setUserNotifications((prev) => ({ ...prev, [item.id]: checked }))}
+                  />
+                </div>
               ))}
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
-}
-
-function VerificationItem({ icon, title, description, completed, children }: { icon: React.ReactNode; title: string; description: string; completed: boolean; children?: React.ReactNode }) {
-  return (
-    <div className={cn('flex flex-wrap items-center justify-between gap-4 rounded-lg border p-4', completed ? 'border-green-500/20 bg-green-500/10' : 'border-outline-variant bg-surface-container')}>
-      <div className="flex items-center gap-3">
-        <div className={cn('flex-shrink-0 rounded-lg p-2.5', completed ? 'bg-green-500/10 text-green-400' : 'bg-blue-500/10 text-blue-400')}>{icon}</div>
-        <div className="min-w-0">
-          <h4 className="truncate font-semibold text-white">{title}</h4>
-          <p className="text-xs text-slate-400">{description}</p>
-        </div>
-      </div>
-      <div className="flex flex-shrink-0 items-center gap-2">
-        {completed && <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Verified</Badge>}
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function VerificationStep({ label, icon, completed }: { label: string; icon: React.ReactNode; completed: boolean }) {
-  return (
-    <div className={cn('flex items-center gap-4 rounded-lg p-4', completed ? 'bg-green-500/10 border border-green-500/20' : 'bg-surface-container border border-outline-variant')}>
-      <div className={cn('flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center', completed ? 'bg-green-500 text-white' : 'bg-muted text-slate-400')}>
-        {icon}
-      </div>
-      <div className="flex-1">
-        <p className="font-semibold text-white">{label}</p>
-        <p className={cn('text-sm', completed ? 'text-green-400' : 'text-slate-400')}>
-          {completed ? 'Verified ✓' : 'Not verified'}
-        </p>
-      </div>
-      {completed && <CheckCircle className="h-5 w-5 text-green-400" />}
     </div>
   );
 }
@@ -531,10 +431,10 @@ function SessionItem({ current = false, device = 'Current Device', browser, loca
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-white">{device}</span>
+            <span className="font-medium text-foreground">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-xs text-slate-400">{browser} • {location}</p>
+          <p className="text-xs text-muted-foreground">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
@@ -546,18 +446,60 @@ function SessionItem({ current = false, device = 'Current Device', browser, loca
   );
 }
 
-function NotificationToggle({ label, desc }: { id: string; label: string; desc: string }) {
-  const [enabled, setEnabled] = useState(true);
+function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null; reload: () => void }) {
+  const resolved = status || 'not_started';
+  const isUnverified = resolved === 'not_started' || resolved === 'rejected';
+  const isReview = resolved === 'in_progress' || resolved === 'requires_review';
+  const isVerified = resolved === 'approved';
+
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex-1">
-        <p className="font-medium text-white">{label}</p>
-        <p className="text-sm text-slate-400">{desc}</p>
-      </div>
-      <label className="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} className="sr-only peer" />
-        <div className="h-6 w-11 bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-200 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600" />
-      </label>
-    </div>
+    <Card className="rounded-3xl border border-outline-variant bg-surface-container-lowest">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-lg">Identity Verification</CardTitle>
+          {isVerified && (
+            <Badge className="border-emerald-500/30 bg-emerald-500/10 text-emerald-600">
+              <CheckCircle className="mr-1 h-4 w-4" /> Account Verified
+            </Badge>
+          )}
+          {!isVerified && !isReview && (
+            <Badge variant="destructive" className="border-orange-500/30 text-orange-600">Action Required</Badge>
+          )}
+          {isReview && (
+            <Badge variant="secondary" className="gap-1.5">
+              <Loader2 className="h-4 w-4 animate-spin" /> Verification In Review
+            </Badge>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Complete a 1-minute automated verification check to verify your account securely.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <ShieldCheck className="h-8 w-8" />
+          </div>
+          <div className="space-y-1">
+            <h4 className="text-lg font-semibold text-foreground">Instant Identity Check</h4>
+            <p className="text-sm text-muted-foreground">Verify your identity in seconds using our secure automated check.</p>
+          </div>
+          {isUnverified && (
+            <DojahWidgetClient
+              type="custom"
+              triggerLabel="Start Instant Verification"
+              onComplete={(result) => {
+                if (result.success) reload();
+              }}
+            />
+          )}
+          {isReview && (
+            <p className="text-sm text-muted-foreground">
+              We&apos;re reviewing your check, usually takes 2–5 minutes.
+            </p>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

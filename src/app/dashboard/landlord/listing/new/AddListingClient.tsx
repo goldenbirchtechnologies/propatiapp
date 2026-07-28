@@ -2,15 +2,26 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Store, ShieldCheck, Loader2 } from 'lucide-react';
+import {
+  Store,
+  ShieldCheck,
+  Loader2,
+  Building2,
+  Plus,
+  ArrowLeft,
+  CheckCircle2,
+  Pencil,
+} from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type ListingUnit = {
@@ -78,9 +89,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string>('');
+  const [autoFilledSource, setAutoFilledSource] = useState<string | null>(null);
+  const [clientErrors, setClientErrors] = useState<string[]>([]);
 
   const form = useForm<ListingInput>({
-    resolver: zodResolver(listingSchema),
+    resolver: zodResolver(listingSchema) as any,
     defaultValues: {
       title: '',
       description: '',
@@ -125,7 +138,12 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
 
   useEffect(() => {
     const unit = vacantUnits.find((u) => u.id === selectedUnitId);
-    if (!unit) return;
+    if (!unit) {
+      setAutoFilledSource(null);
+      return;
+    }
+
+    setAutoFilledSource(`${unit.listingTitle} - Unit ${unit.unitNumber}`);
 
     form.setValue('title', `${unit.listingTitle} - Unit ${unit.unitNumber}`);
     form.setValue('listingType', (unit.listingType as ListingInput['listingType']) || 'rent');
@@ -141,6 +159,34 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     form.setValue('sizeSqm', unit.sizeSqm ? Number(unit.sizeSqm) : undefined);
     form.setValue('propertyType', (unit.propertyType as ListingInput['propertyType']) || undefined);
   }, [selectedUnitId, vacantUnits, form]);
+
+  const validateClientSide = (): boolean => {
+    const values = form.getValues();
+    const errors: string[] = [];
+
+    if (!values.title?.trim()) errors.push('Title is required');
+    if (!values.address?.trim()) errors.push('Address is required');
+    if (!values.area?.trim()) errors.push('Area is required');
+    if (!values.price || values.price <= 0) errors.push('Price must be greater than 0');
+
+    setClientErrors(errors);
+    return errors.length === 0;
+  };
+
+  const handleSubmitClick = () => {
+    if (!selectedUnitId) {
+      toast({
+        title: 'Select a unit',
+        description: 'Please select a vacant unit before publishing.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!validateClientSide()) {
+      return;
+    }
+    form.handleSubmit(onSubmit)();
+  };
 
   const onSubmit = async (data: ListingInput) => {
     setSubmitting(true);
@@ -173,6 +219,43 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     }
   };
 
+  if (vacantUnits.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">List to Marketplace</h1>
+          <p className="text-muted-foreground mt-2">
+            Create a live marketplace listing from a vacant unit in your properties.
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-12 text-center">
+          <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
+            <Building2 className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <h3 className="text-lg font-bold text-foreground mb-2">No Vacant Units Available</h3>
+          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+            To publish a listing to the marketplace, you need at least one vacant unit in your property portfolio.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button asChild>
+              <Link href="/dashboard/landlord/properties/new">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Property / Unit
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/dashboard/landlord/properties">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                View My Properties
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -182,33 +265,50 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Marketplace Listing Details</CardTitle>
-          <CardDescription>
-            {vacantUnits.length === 0
-              ? 'You have no vacant units. Add units to a property before creating a marketplace listing.'
-              : 'Select a vacant unit to prefill the listing from your existing property data.'}
-          </CardDescription>
+      {clientErrors.length > 0 && (
+        <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-4">
+          <p className="text-sm font-medium text-destructive mb-2">Fix the following before publishing:</p>
+          <ul className="list-disc pl-5 text-sm text-destructive space-y-1">
+            {clientErrors.map((error) => (
+              <li key={error}>{error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="rounded-xl border border-outline-variant bg-surface-container-lowest">
+        <div className="p-6 border-b border-outline-variant">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-xl font-bold text-foreground">Marketplace Listing Details</h2>
+            <p className="text-sm text-muted-foreground">
+              {selectedUnitId
+                ? 'Review and adjust the auto-filled details from your property data.'
+                : 'Select a vacant unit to prefill the listing from your existing property data.'}
+            </p>
+          </div>
           {verificationStatus && verificationStatus !== 'certified' ? (
             <Button
               type="button"
               variant="outline"
-              className="mt-3"
+              className="mt-4"
               onClick={() => router.push('/dashboard/verification?type=property')}
             >
               <ShieldCheck className="mr-2 h-4 w-4" />
               Property Verification
             </Button>
           ) : null}
-        </CardHeader>
-        <CardContent>
+        </div>
+
+        <div className="p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-primary mb-1">Vacant Unit</label>
-                  <Select value={selectedUnitId} onValueChange={setSelectedUnitId}>
+                  <label className="block text-sm font-medium text-foreground mb-1">Vacant Unit</label>
+                  <Select value={selectedUnitId} onValueChange={(value) => {
+                    setSelectedUnitId(value);
+                    setClientErrors([]);
+                  }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a vacant unit from your properties" />
                     </SelectTrigger>
@@ -218,9 +318,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                         if (!units.length) return null;
                         return (
                           <div key={listing.id}>
-                            <p className="px-2 py-1 text-xs text-muted-foreground uppercase tracking-wide">
-                              {listing.title}
-                            </p>
+                            <p className="px-2 py-1 text-xs text-muted-foreground uppercase tracking-wide">{listing.title}</p>
                             {units.map((unit) => (
                               <SelectItem key={unit.id} value={unit.id}>
                                 Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''}
@@ -236,26 +334,47 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                   </p>
                 </div>
 
+                {autoFilledSource && (
+                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-outline-variant bg-background p-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <span className="text-xs text-muted-foreground">Auto-filled from</span>
+                    <Badge variant="secondary" className="text-xs">{autoFilledSource}</Badge>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="ml-auto h-7 gap-1"
+                      onClick={() => {
+                        setAutoFilledSource(null);
+                        setSelectedUnitId('');
+                      }}
+                    >
+                      <Pencil className="h-3 w-3" />
+                      Edit manually
+                    </Button>
+                  </div>
+                )}
+
                 <FormField
-                  control={form.control as unknown}
+                  control={form.control as any}
                   name="title"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} />
+                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} className="placeholder:text-foreground/40" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <FormField
-                  control={form.control as unknown}
+                  control={form.control as any}
                   name="listingType"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Listing Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select listing type" />
@@ -274,12 +393,12 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                   )}
                 />
                 <FormField
-                  control={form.control as unknown}
+                  control={form.control as any}
                   name="propertyType"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Property Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select property type" />
@@ -299,93 +418,59 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     </FormItem>
                   )}
                 />
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-foreground mb-1">Address</label>
+                  <Input placeholder="Full street address" {...form.register('address')} className="placeholder:text-foreground/40" />
+                  {form.formState.errors.address && <p className="text-xs text-destructive mt-1">{form.formState.errors.address.message}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1">Area</label>
+                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="placeholder:text-foreground/40" />
+                  {form.formState.errors.area && <p className="text-xs text-destructive mt-1">{form.formState.errors.area.message}</p>}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1">State</label>
+                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="placeholder:text-foreground/40" />
+                  {form.formState.errors.state && <p className="text-xs text-destructive mt-1">{form.formState.errors.state.message}</p>}
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-foreground mb-1">Price</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div className="relative sm:col-span-2">
+                      <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground text-sm">₦</span>
+                      <Input
+                        type="number"
+                        placeholder="500,000"
+                        className="pl-8 placeholder:text-foreground/40"
+                        {...form.register('price', { valueAsNumber: true })}
+                      />
+                      {form.formState.errors.price && <p className="text-xs text-destructive mt-1">{form.formState.errors.price.message}</p>}
+                    </div>
+                    <Select value={form.watch('pricePeriod')} onValueChange={(value) => form.setValue('pricePeriod', value as ListingInput['pricePeriod'])}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Per Month" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="night">Per Night</SelectItem>
+                        <SelectItem value="month">Per Month</SelectItem>
+                        <SelectItem value="year">Per Year</SelectItem>
+                        <SelectItem value="total">Total (One-time)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
                 <FormField
-                  control={form.control as unknown}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Full street address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control as unknown}
-                  name="area"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Area</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Lekki Phase 1" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control as unknown}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>State</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Lagos" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control as unknown}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Price (NGN)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control as unknown}
-                  name="pricePeriod"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Price Period</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select period" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="night">Per Night</SelectItem>
-                          <SelectItem value="month">Per Month</SelectItem>
-                          <SelectItem value="year">Per Year</SelectItem>
-                          <SelectItem value="total">Total (One-time)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control as unknown}
+                  control={form.control as any}
                   name="description"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe the property..." {...field} />
+                        <Textarea rows={5} placeholder="Describe the property..." {...field} className="placeholder:text-foreground/40" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -393,36 +478,30 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 />
               </div>
 
-              <div className="flex justify-end gap-2">
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2">
                 <Button type="button" variant="outline" onClick={() => router.back()}>
+                  <ArrowLeft className="mr-2 h-4 w-4" />
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting || !selectedUnitId || vacantUnits.length === 0}>
+                <Button
+                  type="button"
+                  onClick={handleSubmitClick}
+                  disabled={submitting || !selectedUnitId || vacantUnits.length === 0}
+                >
                   {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <Store className="mr-2 h-4 w-4" />
                   Publish to Marketplace
                 </Button>
               </div>
+              {(!selectedUnitId || vacantUnits.length === 0) && (
+                <p className="text-xs text-muted-foreground text-right">
+                  {vacantUnits.length === 0 ? 'Add a vacant unit to enable publishing.' : 'Select a vacant unit to continue.'}
+                </p>
+              )}
             </form>
           </Form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
-}
-
-function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-xl border border-outline-variant bg-surface-container-lowest p-6 ${className || ''}`}>{children}</div>;
-}
-function CardHeader({ children }: { children: React.ReactNode }) {
-  return <div className="mb-4">{children}</div>;
-}
-function CardTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-xl font-bold text-foreground">{children}</h2>;
-}
-function CardDescription({ children }: { children: React.ReactNode }) {
-  return <p className="text-sm text-muted-foreground mt-1">{children}</p>;
-}
-function CardContent({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
 }

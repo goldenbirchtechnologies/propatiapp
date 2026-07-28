@@ -346,8 +346,8 @@ export function Sidebar({
   const navItems = navigation.length > 0 ? navigation : roleNavigation[userRole.toLowerCase()] || roleNavigation.landlord;
 
   const isActive = (href?: string) => {
-    if (!href || href === '/dashboard') return pathname === href;
-    return pathname?.startsWith(href) || false;
+    if (!href) return false;
+    return pathname === href;
   };
 
   const isSection = (item: NavItem | NavSection): item is NavSection => 'items' in item;

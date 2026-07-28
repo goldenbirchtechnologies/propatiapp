@@ -20,3 +20,4 @@ export * from './droppable-area';
 export * from './tabs';
 export * from './toast';
 export * from './toaster';
+export * from './switch';

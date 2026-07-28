@@ -9,6 +9,7 @@ export interface DojahWidgetClientProps {
   referenceId?: string;
   userData?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
+  triggerLabel?: string;
   onComplete?: (verification: {
     success: boolean;
     referenceId?: string;
@@ -23,6 +24,7 @@ export default function DojahWidgetClient({
   referenceId: controlledReferenceId,
   userData,
   metadata,
+  triggerLabel,
   onComplete,
 }: DojahWidgetClientProps) {
   const [statusState, setStatusState] = useState<'idle' | 'launching' | 'open' | 'completed' | 'failed'>('idle');
@@ -81,7 +83,7 @@ export default function DojahWidgetClient({
       embed: false,
       onSuccess: (response: Record<string, unknown>) => {
         setStatusState('completed');
-        onComplete?.({ success: true, referenceId: referenceIdRef.current, data: response as Record<string, unknown> });
+        onComplete?.({ success: true, referenceId: referenceIdRef.current ?? undefined, data: response as Record<string, unknown> });
       },
       onError: (err: Record<string, unknown>) => {
         setStatusState('failed');
@@ -90,7 +92,7 @@ export default function DojahWidgetClient({
             ? ((err as Record<string, unknown>).message as string)
             : 'Widget error';
         setError(message);
-        onComplete?.({ success: false, error: message, referenceId: referenceIdRef.current });
+        onComplete?.({ success: false, error: message, referenceId: referenceIdRef.current ?? undefined });
       },
       onClose: () => {
         setStatusState('idle');
@@ -171,7 +173,7 @@ export default function DojahWidgetClient({
           disabled={!scriptReady || statusState === 'launching'}
           type="button"
         >
-          {statusState === 'launching' ? 'Launching...' : 'Start Dojah Verification'}
+          {statusState === 'launching' ? 'Launching...' : triggerLabel || 'Start Instant Verification'}
         </Button>
       )}
 

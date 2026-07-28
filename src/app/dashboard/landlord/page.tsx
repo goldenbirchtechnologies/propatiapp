@@ -18,6 +18,11 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
+export const metadata = {
+  title: 'Dashboard',
+  description: 'Overview of your properties, applications, and revenue.',
+};
+
 export default async function LandlordDashboardPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) {

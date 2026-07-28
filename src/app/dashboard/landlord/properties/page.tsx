@@ -7,7 +7,8 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
-import { Building2 as BuildingIcon, CheckCircle as CheckCircleIcon, FileText as FileIcon, ShieldCheck as ShieldCheckIcon, Eye as EyeIcon, Plus as PlusIcon, Edit as EditIcon, Shield as ShieldIcon, ToggleLeft as ToggleLeftIcon } from 'lucide-react';
+import { Building2 as BuildingIcon, CheckCircle as CheckCircleIcon, FileText as FileIcon, ShieldCheck as ShieldCheckIcon, Eye as EyeIcon, Plus as PlusIcon, ToggleLeft as ToggleLeftIcon } from 'lucide-react';
+import ListingActionButtons from './_components/ActionButtons';
 
 export default async function LandlordPropertiesPage() {
   const { userId } = await auth();
@@ -46,7 +47,7 @@ export default async function LandlordPropertiesPage() {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
+            <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
               My Properties
             </h1>
             <p className="text-on-surface-variant">
@@ -161,31 +162,7 @@ export default async function LandlordPropertiesPage() {
                         </label>
                       </td>
                       <td className="p-4">
-                        <div className="flex items-center gap-2">
-                          <Link
-                            href={`/dashboard/landlord/properties/${listing.id}/edit`}
-                            className="btn btn-ghost btn-sm"
-                            title="Edit"
-                          >
-                            <EditIcon className="w-4 h-4" />
-                          </Link>
-                          <Link
-                            href={`/dashboard/landlord/verify?listingId=${listing.id}`}
-                            className="btn btn-ghost btn-sm"
-                            title="Verification"
-                          >
-                            <ShieldIcon className="w-4 h-4" />
-                          </Link>
-                          {listing.status === 'draft' && (
-                            <Link
-                              href={`/dashboard/landlord/properties/${listing.id}/publish`}
-                              className="btn btn-primary btn-sm"
-                              title="Publish"
-                            >
-                              <EyeIcon className="w-4 h-4" />
-                            </Link>
-                          )}
-                        </div>
+                        <ListingActionButtons id={listing.id} status={listing.status} />
                       </td>
                     </tr>
                   ))}

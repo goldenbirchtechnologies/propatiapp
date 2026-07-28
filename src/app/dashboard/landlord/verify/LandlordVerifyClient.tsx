@@ -156,7 +156,13 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   </div>
 
                   {/* Actions */}
-                  <div className="border-border">
+                  <div className="border-border flex items-center gap-2">
+                    <Link
+                      href={`/dashboard/landlord/properties/${v.listingId}/edit`}
+                      className="btn btn-secondary w-full justify-center"
+                    >
+                      Edit Property
+                    </Link>
                     {overallStatus === 'certified' ? (
                       <Link
                         href={`/dashboard/landlord/properties/${v.listingId}`}

@@ -12,13 +12,10 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import {
-  Building2,
   Users,
   Clock,
   CheckCircle,
-  XCircle,
   Loader2,
   ShieldCheck,
   BadgeCheck,
@@ -26,7 +23,6 @@ import {
   UserX,
   ClipboardList,
   FileText,
-  ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -37,9 +33,27 @@ type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'appro
 
 export function EmptyState() {
   return (
-    <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center text-on-surface-variant">
-      No applications yet.
-    </div>
+    <Card className="border-dashed border-outline-variant bg-surface-container-lowest/70 p-8 text-center shadow-sm">
+      <CardContent className="flex flex-col items-center gap-4 py-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <ClipboardList className="h-6 w-6" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight text-foreground">No applications yet</h3>
+          <p className="mx-auto max-w-md text-sm leading-6 text-on-surface-variant">
+            Tenant applications will appear here once people start applying to your listings.
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button asChild>
+            <Link href="/dashboard/landlord/properties/new">Add property</Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/dashboard/landlord/properties">View properties</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -157,17 +171,6 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
     setDetailTab('applicant');
   }
 
-  async function refreshApp(id: string) {
-    try {
-      const res = await fetch(`/api/applications/${id}`);
-      if (!res.ok) return;
-      const json = await res.json();
-      const data = json.data as Application;
-      setApplications((prev) => prev.map((a) => (a.id === id ? data : a)));
-      if (selectedApp?.id === id) setSelectedApp(data);
-    } catch {}
-  }
-
   function handleAction(type: 'accept' | 'reject' | 'review' | 'request_info') {
     if (!selectedApp) return;
     setActionType(type);
@@ -221,12 +224,13 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
-          Applications & Screening
+      <div className="space-y-2">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-on-surface-variant">Leasing workflow</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          Tenant Applications
         </h1>
-        <p className="text-on-surface-variant">
-          Review applications, guarantors, and screening status for each applicant
+        <p className="max-w-2xl text-sm leading-6 text-on-surface-variant">
+          Review, screen, and manage tenancy applications end to end.
         </p>
       </div>
 
@@ -359,13 +363,13 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </p>
                       </td>
                       <td className="p-4">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => openReview(app)}
-                        >
-                          {isActionable ? 'Review' : 'View'}
-                        </Button>
+        <Button
+          variant={isActionable ? 'default' : 'secondary'}
+          size="sm"
+          onClick={() => openReview(app)}
+        >
+          {isActionable ? 'Review' : 'View'}
+        </Button>
                       </td>
                     </tr>
                   );

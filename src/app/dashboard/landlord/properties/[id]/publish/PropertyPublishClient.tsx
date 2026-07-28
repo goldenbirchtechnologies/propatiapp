@@ -35,7 +35,7 @@ export default function PropertyPublishClient({ listingId }: Props) {
       }
 
       toast({ title: 'Published', description: 'Listing updated successfully' });
-      router.refresh();
+      router.push('/dashboard/landlord/listing/new');
     } catch (error) {
       toast({
         title: 'Publish failed',

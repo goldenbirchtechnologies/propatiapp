@@ -1,12 +1,13 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Plus, RefreshCw, User, Phone, Mail, CheckCircle2, XCircle, ShieldOff, Trash2 } from 'lucide-react';
+import { RefreshCw, User, Phone, Mail, CheckCircle2, XCircle, ShieldOff, Trash2, ClipboardList } from 'lucide-react';
+import Link from 'next/link';
 
 type RequestRow = {
   id: string;
@@ -62,6 +63,10 @@ export default function ShortLetClient({ initialRequests, listings }: ShortLetCl
     ? requests
     : requests.filter((r) => r.listingId === selectedListingId);
 
+  const pendingCount = requests.filter((r) => r.status === 'pending').length;
+  const approvedCount = requests.filter((r) => r.status === 'approved').length;
+  const revokedCount = requests.filter((r) => r.status === 'revoked').length;
+
   const mutate = async (id: string, body: { status: string; notes?: string }) => {
     setLoading(true);
     setActionIds((prev) => [...prev, id]);
@@ -108,10 +113,13 @@ export default function ShortLetClient({ initialRequests, listings }: ShortLetCl
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-semibold text-primary">Short-let requests</h2>
-          <p className="text-sm text-on-surface-variant">Authorise tenants to list your approved properties for short-let.</p>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-2">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-on-surface-variant">Operations</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Short-let requests</h2>
+          <p className="max-w-2xl text-sm leading-6 text-on-surface-variant">
+            Authorise tenants to list your approved properties for short-let.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -128,6 +136,24 @@ export default function ShortLetClient({ initialRequests, listings }: ShortLetCl
             <RefreshCw className="mr-2 h-4 w-4" /> Refresh
           </Button>
         </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Total Requests</p>
+          <p className="mt-2 text-3xl font-bold text-foreground">{requests.length}</p>
+          <p className="mt-1 text-xs text-on-surface-variant">Requests across all properties</p>
+        </Card>
+        <Card className="border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Pending</p>
+          <p className="mt-2 text-3xl font-bold text-foreground">{pendingCount}</p>
+          <p className="mt-1 text-xs text-on-surface-variant">Need your review</p>
+        </Card>
+        <Card className="border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-on-surface-variant">Approved</p>
+          <p className="mt-2 text-3xl font-bold text-foreground">{approvedCount}</p>
+          <p className="mt-1 text-xs text-on-surface-variant">{revokedCount} revoked</p>
+        </Card>
       </div>
 
       <Card className="space-y-5 p-4">
@@ -159,13 +185,31 @@ export default function ShortLetClient({ initialRequests, listings }: ShortLetCl
         <div className="space-y-4">
           {loading && !actionIds.length && <p className="text-sm text-on-surface-variant">Loading requests…</p>}
           {!loading && filteredRequests.length === 0 && (
-            <p className="text-sm text-on-surface-variant">No requests yet.</p>
+            <div className="rounded-2xl border border-dashed border-outline-variant bg-surface-container-lowest/70 p-8 text-center shadow-sm">
+              <ClipboardList className="w-9 h-9 mx-auto mb-3 text-primary" />
+              <p className="font-semibold text-foreground mb-1">No requests yet</p>
+              <p className="text-sm text-on-surface-variant mb-4">Tenant shortlet requests will appear here once guests request access.</p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <Button size="sm" variant="outline" className="gap-2" onClick={async () => {
+                  setLoading(true);
+                  const res = await fetch('/api/tenant-shortlets');
+                  const json = await res.json();
+                  if (res.ok && json?.success) setRequests(json.data);
+                  setLoading(false);
+                }}>
+                  <RefreshCw className="h-4 w-4" /> Refresh
+                </Button>
+                <Button asChild size="sm" className="gap-2">
+                  <Link href="/dashboard/landlord/properties">
+                    <User className="h-4 w-4" /> View properties
+                  </Link>
+                </Button>
+              </div>
+            </div>
           )}
 
           {filteredRequests.map((req) => {
             const actions = STATUS_ACTIONS[req.status] || [];
-            const isActing = actionIds.includes(req.id);
-
             return (
               <div key={req.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-surface-container-lowest p-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">

@@ -22,7 +22,10 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'PROPATI - Nigeria\'s Most Trusted Property Marketplace',
+  title: {
+    default: 'PROPATI - Nigeria\'s Most Trusted Property Marketplace',
+    template: '%s - PROPATI',
+  },
   description: 'Find verified properties for rent and sale in Nigeria. Secure transactions, escrow payments, and 5-layer verification.',
   keywords: ['property', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified listings'],
   authors: [{ name: 'PROPATI' }],

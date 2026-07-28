@@ -4,14 +4,14 @@ import AppIcon from '@/components/icons/app-icon';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { SignOutButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
-import { Sidebar, SkeletonNavItem, SidebarMobileTrigger, SidebarOverlay } from '@/components/layout/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
+import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
+import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 
 export interface NavItem {
   label: string;
@@ -552,6 +552,13 @@ export function DashboardShell({
   }, []);
 
   const toggleSidebar = () => setSidebarCollapsed((prev) => !prev);
+  const pageTitle = useMemo(() => getDashboardPageTitle(pathname, userRole), [pathname, userRole]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = pageTitle;
+    }
+  }, [pageTitle]);
 
   // Early return after hooks to avoid Rules-of-Hooks violations
   if (shellLoading) {
@@ -560,6 +567,7 @@ export function DashboardShell({
 
   const roleThemeClass = `theme-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
   const roleClass = `shell-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
+  const profileHref = userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`;
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';
@@ -625,7 +633,7 @@ export function DashboardShell({
           </div>
 
           <Link
-            href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`}
+            href={profileHref}
             className="sb-user-card block transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             aria-label="View Profile"
             title="View Profile"
@@ -643,7 +651,7 @@ export function DashboardShell({
               {!sidebarCollapsed && (
                 <div className="sb-user-text">
                   <p className="sb-user-name truncate">{userName || (user?.fullName || 'User')}</p>
-                  <p className="sb-user-role truncate">{(userRole || 'User').charAt(0) + (userRole || 'User').slice(1).toLowerCase().replace('_', ' ')}</p>
+                  <p className="sb-user-role truncate">Open profile</p>
                 </div>
               )}
             </div>

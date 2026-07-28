@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, UserPlus } from 'lucide-react';
+import { ArrowLeft, UserPlus, CheckCircle2, ChevronDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useOrganizations, useOrganizationListings } from '@/hooks/useOrganizations';
 import { api } from '@/lib/api';
+import { useCurrentUser } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const PERMISSIONS = [
   { id: 'add_tenants', label: 'Add tenants', description: 'Assign tenants to vacant units and create leases.' },
@@ -30,6 +37,18 @@ export default function InvitePropertyManagerPage() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const [selectedListingId, setSelectedListingId] = useState<string>('');
+
+  const { data: orgsData } = useOrganizations();
+  const org = orgsData?.data?.[0];
+  const orgId = org?.id;
+
+  const { data: listingsData, isLoading: listingsLoading } = useOrganizationListings(orgId || '', !!orgId);
+  const { data: currentUser } = useCurrentUser();
+
+  const isVerified = Boolean(
+    currentUser?.ninVerified || currentUser?.phoneVerified || currentUser?.idVerified || currentUser?.profileCompleted
+  );
 
   const togglePermission = (id: string) => {
     setSelectedPermissions(prev =>
@@ -50,7 +69,7 @@ export default function InvitePropertyManagerPage() {
         {
           email: email.trim(),
           permissions: selectedPermissions,
-          scope: [],
+          scope: selectedListingId ? [selectedListingId] : [],
         }
       );
 
@@ -96,9 +115,25 @@ export default function InvitePropertyManagerPage() {
           <p className="text-on-surface-variant">They'll get an email to accept the invite</p>
         </div>
         <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                {isVerified ? 'Verified' : 'Unverified'}
+                <ChevronDown className="size-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-(--radix-dropdown-menu-trigger-width)">
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/estate-manager/profile">View profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/estate-manager/verification">Start verification</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button variant="outline" size="sm" className="gap-2">
             <UserPlus className="size-4" />
-            Refer & earn
+            Refer &amp; earn
           </Button>
         </div>
       </div>
@@ -151,12 +186,13 @@ export default function InvitePropertyManagerPage() {
                     )}
                   >
                     <div className="flex items-start gap-3">
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={() => togglePermission(permission.id)}
-                        className="mt-0.5"
-                        tabIndex={-1}
-                      />
+                      <div className="mt-0.5">
+                        {isSelected ? (
+                          <CheckCircle2 className="h-4 w-4 text-primary" />
+                        ) : (
+                          <div className="h-4 w-4 rounded-md border border-outline" />
+                        )}
+                      </div>
                       <div className="space-y-1">
                         <p className="font-medium text-sm text-primary">{permission.label}</p>
                         <p className="text-xs text-muted-foreground leading-relaxed">
@@ -178,6 +214,25 @@ export default function InvitePropertyManagerPage() {
             <p className="text-sm text-on-surface-variant">
               Leave empty to apply to all current and future properties. Add a property first to scope the property manager.
             </p>
+            <div className="max-w-xl">
+              <label className="block text-sm font-medium text-primary mb-1">Property</label>
+              <select
+                value={selectedListingId}
+                onChange={(e) => setSelectedListingId(e.target.value)}
+                className="inp-field"
+              >
+                <option value="">All properties</option>
+                {(listingsData?.data || []).map((listing: { id: string; title: string }) => (
+                  <option key={listing.id} value={listing.id}>
+                    {listing.title}
+                  </option>
+                ))}
+              </select>
+              {listingsLoading && <p className="text-xs text-muted-foreground mt-1">Loading properties...</p>}
+              {!listingsLoading && !(listingsData?.data || []).length && (
+                <p className="text-xs text-muted-foreground mt-1">No properties found.</p>
+              )}
+            </div>
           </div>
         </Card>
 

@@ -1,142 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Home } from 'lucide-react';
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  const [isMobile, setIsMobile] = useState(false);
-
+export default function GlobalError({ error, reset }: { error?: Error & { digest?: string }; reset?: () => void }) {
   useEffect(() => {
-    const updateSize = () => setIsMobile(window.innerWidth < 640);
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-
-  const maxWidth = isMobile ? '100%' : '640px';
+    console.error('Global error boundary caught an issue:', error);
+  }, [error]);
 
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#06203d',
-        padding: '1.5rem',
-      }}
-    >
-      <div style={{ maxWidth, width: '100%', textAlign: 'center' }}>
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '72px',
-            height: '72px',
-            borderRadius: '9999px',
-            background: 'rgba(255,255,255,0.08)',
-            marginBottom: '1.5rem',
-            animation: 'propLogoPop 2.4s ease-in-out infinite',
-          }}
-        >
-          <span
-            aria-hidden
-            style={{
-              fontSize: '32px',
-              lineHeight: 1,
-              color: '#2563eb',
-            }}
+    <div className="flex min-h-[70vh] items-center justify-center px-6 py-16">
+      <div className="w-full max-w-lg rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 text-center shadow-sm">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <svg
+            className="h-8 w-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
           >
-            ⚠️
-          </span>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+            />
+          </svg>
         </div>
-
-        <h1
-          style={{
-            fontSize: 'clamp(1.6rem, 4vw, 2.4rem)',
-            fontWeight: 800,
-            color: '#e6ebf1',
-            marginBottom: '0.8rem',
-          }}
-        >
-          Something went wrong
-        </h1>
-
-        <p
-          style={{
-            color: '#9fb3c8',
-            fontSize: '0.95rem',
-            lineHeight: 1.5,
-            marginBottom: '1.75rem',
-          }}
-        >
-          We encountered an unexpected issue loading this page. Our team has been notified.
-        </p>
-
-        <div
-          style={{
-            display: 'flex',
-            gap: '0.75rem',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Button
-            onClick={reset}
-            style={{
-              background: '#2563eb',
-              color: '#fff',
-              borderRadius: '9999px',
-              padding: '0.75rem 1.5rem',
-            }}
-          >
-            <RefreshCw style={{ width: '18px', height: '18px', marginRight: '8px' }} />
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Something went wrong</h1>
+          <p className="mx-auto max-w-md text-sm leading-6 text-muted-foreground">
+            This page hit an unexpected error. Try again or return to the dashboard to continue safely.
+          </p>
+        </div>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Button onClick={reset} className="gap-2">
             Try again
           </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => {
-              window.location.href = '/';
-            }}
-            style={{
-              borderRadius: '9999px',
-              padding: '0.75rem 1.5rem',
-              color: '#e6ebf1',
-              borderColor: 'rgba(255,255,255,0.18)',
-            }}
-          >
-            <Home style={{ width: '18px', height: '18px', marginRight: '8px' }} />
-            Back home
+          <Button asChild variant="secondary">
+            <Link href="/dashboard">Back to Dashboard</Link>
           </Button>
         </div>
-
-        {error?.digest ? (
-          <p style={{ color: '#7e8aa0', fontSize: '0.75rem', marginTop: '1.5rem' }}>
-            Ref: {error.digest}
-          </p>
-        ) : null}
       </div>
-
-      <style>{`
-        @keyframes propLogoPop {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.08); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          div[style][aria-hidden='true'] {
-            animation: none !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

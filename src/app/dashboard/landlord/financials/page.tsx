@@ -262,7 +262,7 @@ export default function LandlordFinancialsPage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
                 <div>
                   <h1 className="font-headline-sm font-bold text-primary" style={{ fontSize: 'var(--font-size-headline-sm)', color: 'var(--color-primary)', marginBottom: 'var(--space-vs)' }}>
-                    Financials
+                    Financials Overview
                   </h1>
                   <p className="text-base text-muted-foreground" style={{ marginTop: 'var(--space-vs)' }}>
                     Wallet, payouts, and transaction history

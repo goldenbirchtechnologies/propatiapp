@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useCurrentUser, useUpdateProfile, useUploadAvatar, useVerifyPhone, useRequestPhoneOTP, useVerifyNIN, useVerifyBVN } from '@/hooks/useUsers';
 import { cn } from '@/lib/utils';
 import { useKycStatus } from '@/lib/dojah-client';
@@ -10,11 +9,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle, Shield, Phone, Mail, IdCard, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
+import { Loader2, CheckCircle, AlertCircle, Shield, Phone, IdCard, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
 import KycVerificationCard from '@/components/verification/KycVerificationCard';
 
 interface LandlordProfileClientProps {
@@ -24,7 +22,6 @@ interface LandlordProfileClientProps {
 export default function LandlordProfileClient({ user: initialUser }: LandlordProfileClientProps) {
   const [activeTab, setActiveTab] = useState('personal');
   const { data: kyc, reload } = useKycStatus();
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [profileData, setProfileData] = useState({
     fullName: initialUser?.fullName || '',
     email: initialUser?.email || '',
@@ -62,7 +59,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       });
       toast({ title: 'Profile updated', description: 'Your profile has been saved.' });
       refetchUser();
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to update profile. Please try again.', variant: 'destructive' });
     }
   };
@@ -76,14 +73,13 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     }
     setIsUploadingAvatar(true);
     try {
-      const data = await uploadAvatarMutation.mutateAsync(file);
+      await uploadAvatarMutation.mutateAsync(file);
       toast({ title: 'Avatar updated', description: 'Your profile picture has been changed.' });
       refetchUser();
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to upload avatar. Please try again.', variant: 'destructive' });
     } finally {
       setIsUploadingAvatar(false);
-      setAvatarFile(null);
     }
   };
 
@@ -95,7 +91,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     try {
       await requestPhoneOTPMutation.mutateAsync(profileData.phone);
       toast({ title: 'OTP sent', description: 'A verification code has been sent to your phone.' });
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to send OTP. Please try again.', variant: 'destructive' });
     }
   };
@@ -110,7 +106,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       toast({ title: 'Phone verified', description: 'Your phone number has been verified.' });
       refetchUser();
       setPhoneOTP('');
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Invalid OTP. Please try again.', variant: 'destructive' });
     }
   };
@@ -125,7 +121,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       toast({ title: 'NIN verified', description: 'Your NIN has been verified successfully.' });
       refetchUser();
       setNinInput('');
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to verify NIN. Please try again.', variant: 'destructive' });
     }
   };
@@ -140,7 +136,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       toast({ title: 'BVN verified', description: 'Your BVN has been verified successfully.' });
       refetchUser();
       setBvnInput('');
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to verify BVN. Please try again.', variant: 'destructive' });
     }
   };
@@ -153,46 +149,68 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
     .slice(0, 2)
     .toUpperCase();
 
+  const verificationComplete = !!user?.phoneVerified && !!user?.ninVerified && !!user?.bvnVerified && !!user?.idVerified;
+
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 outline-none">
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="relative flex-shrink-0">
-            <Avatar className="w-24 h-24">
-              {user?.avatarUrl ? (
-                <AvatarImage src={user.avatarUrl} alt={user.fullName} />
-              ) : (
-                <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
-              )}
-            </Avatar>
-            <label className="absolute -bottom-1 -right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
-              <Camera className="h-3 w-3" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarUpload}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-                disabled={isUploadingAvatar}
-              />
-            </label>
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="truncate text-lg font-bold text-white">{user?.fullName || initialUser?.fullName || 'User'}</h2>
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <Badge variant="secondary" className="capitalize">{user?.role?.toLowerCase().replace('_', ' ')}</Badge>
-              {user?.ninVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> NIN Verified</Badge>}
-              {user?.bvnVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> BVN Verified</Badge>}
-              {user?.idVerified && <Badge variant="success" className="flex items-center gap-1"><Shield className="h-3 w-3" /> ID Verified</Badge>}
-              {user?.phoneVerified && <Badge variant="success" className="flex items-center gap-1"><Phone className="h-3 w-3" /> Phone Verified</Badge>}
-              {!user?.profileCompleted && <Badge variant="warning">Profile Incomplete</Badge>}
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm md:p-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="relative flex-shrink-0">
+              <Avatar className="h-16 w-16 ring-2 ring-border md:h-20 md:w-20">
+                {user?.avatarUrl ? (
+                  <AvatarImage src={user.avatarUrl} alt={user?.fullName || 'User'} />
+                ) : (
+                  <AvatarFallback className="text-lg md:text-xl">{initials}</AvatarFallback>
+                )}
+              </Avatar>
+              <label className="absolute -bottom-1 -right-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
+                <Camera className="h-3 w-3" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  className="absolute inset-0 cursor-pointer opacity-0"
+                  disabled={isUploadingAvatar}
+                />
+              </label>
             </div>
-            <p className="mt-1 truncate text-sm text-slate-300">{user?.email}</p>
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant={verificationComplete ? 'default' : 'secondary'} className="capitalize">
+                  {verificationComplete ? 'Profile complete' : 'Profile incomplete'}
+                </Badge>
+                {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                  {user?.fullName || initialUser?.fullName || 'My profile'}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {user?.email || initialUser?.email}
+                </p>
+              </div>
+              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+                Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 text-sm md:min-w-[320px]">
+            <div className="rounded-2xl border border-outline-variant bg-background/50 p-4">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Verification</p>
+              <p className="mt-2 text-lg font-semibold text-foreground">{verificationComplete ? 'Ready' : 'Needs attention'}</p>
+            </div>
+            <div className="rounded-2xl border border-outline-variant bg-background/50 p-4">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Phone</p>
+              <p className="mt-2 text-lg font-semibold text-foreground">{user?.phoneVerified ? 'Verified' : 'Pending'}</p>
+            </div>
           </div>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-slate-800/80">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-surface-container-lowest/80 border border-outline-variant">
           <TabsTrigger value="personal" className="rounded-lg">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="rounded-lg">Verification</TabsTrigger>
           <TabsTrigger value="security" className="rounded-lg">Security</TabsTrigger>
@@ -206,6 +224,31 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <CardTitle className="text-lg">Personal Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="relative flex-shrink-0">
+                    <Avatar className="w-16 h-16">
+                      {user?.avatarUrl ? (
+                        <AvatarImage src={user.avatarUrl} alt={user?.fullName || 'User'} />
+                      ) : (
+                        <AvatarFallback className="text-lg">{initials}</AvatarFallback>
+                      )}
+                    </Avatar>
+                    <label className="absolute -bottom-1 -right-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
+                      <Camera className="h-2.5 w-2.5" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarUpload}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        disabled={isUploadingAvatar}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-primary">Profile photo</p>
+                    <p className="text-xs text-muted-foreground">JPG or PNG, under 5MB</p>
+                  </div>
+                </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <Label htmlFor="fullName">Full Name</Label>
@@ -503,7 +546,7 @@ function SessionItem({ current = false, device = 'Current Device', browser, loca
   );
 }
 
-function NotificationToggle({ id, label, desc }: { id: string; label: string; desc: string }) {
+function NotificationToggle({ label, desc }: { id: string; label: string; desc: string }) {
   const [enabled, setEnabled] = useState(true);
   return (
     <div className="flex items-center justify-between gap-4">

@@ -7,9 +7,12 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Wrench } from 'lucide-react';
 
 export const metadata = {
-  title: 'Maintenance – Landlord',
+  title: 'Maintenance Requests',
   description: 'Track and manage maintenance requests across your properties.',
 };
 
@@ -68,7 +71,7 @@ export default async function LandlordMaintenancePage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Maintenance</h1>
+            <h1 className="text-3xl font-bold text-foreground">Maintenance Requests</h1>
             <p className="text-muted-foreground mt-1">Track and manage maintenance requests across your properties.</p>
           </div>
         </div>
@@ -85,7 +88,16 @@ export default async function LandlordMaintenancePage() {
           </CardHeader>
           <CardContent>
             {tickets.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">No maintenance requests yet.</p>
+              <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center">
+                <Wrench className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
+                <p className="font-medium text-primary mb-1">No maintenance requests yet</p>
+                <p className="text-sm text-muted-foreground mb-4">Requests from tenants and on-site managers will appear here.</p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button asChild variant="outline" size="sm" className="gap-2">
+                    <Link href="/dashboard/landlord/properties">View properties</Link>
+                  </Button>
+                </div>
+              </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">

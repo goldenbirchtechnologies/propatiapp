@@ -8,7 +8,7 @@ import { prisma } from '@/lib/prisma';
 import ShortLetClient from './ShortLetClient';
 
 export const metadata = {
-  title: 'Short-let Calendar – Landlord',
+  title: 'Short-let Requests',
   description: 'Manage short-let requests and tenant access.',
 };
 

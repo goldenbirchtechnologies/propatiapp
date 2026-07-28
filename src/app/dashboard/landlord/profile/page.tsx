@@ -6,6 +6,11 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import LandlordProfileClient from './LandlordProfileClient';
 
+export const metadata = {
+  title: 'Profile',
+  description: 'Update your profile, verification, and security settings.',
+};
+
 export default async function LandlordProfilePage() {
   const { userId } = await auth();
 

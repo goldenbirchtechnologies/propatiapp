@@ -7,6 +7,11 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import LandlordApplicationsClient from './LandlordApplicationsClient';
 
+export const metadata = {
+  title: 'Applications',
+  description: 'Review, screen, and manage tenancy applications.',
+};
+
 export default async function LandlordApplicationsPage() {
   const { userId } = await auth();
 

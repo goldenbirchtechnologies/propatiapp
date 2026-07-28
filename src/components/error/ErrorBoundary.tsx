@@ -1,6 +1,8 @@
 'use client';
 
 import { Component, ReactNode } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   children: ReactNode;
@@ -37,10 +39,10 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="flex flex-col items-center justify-center p-8 space-y-4 text-center min-h-[200px]">
-          <div className="rounded-full bg-destructive/10 p-4">
+        <div className="flex min-h-[240px] flex-col items-center justify-center rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 text-center shadow-sm space-y-4">
+          <div className="rounded-full bg-primary/10 p-4 text-primary">
             <svg
-              className="h-8 w-8 text-destructive"
+              className="h-8 w-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -54,24 +56,21 @@ export class ErrorBoundary extends Component<Props, State> {
             </svg>
           </div>
           <div className="space-y-1">
-            <h2 className="text-xl font-semibold text-primary">Something went wrong</h2>
-            <p className="text-sm text-muted-foreground max-w-md">
-              We encountered an unexpected error. This could be a temporary issue.
+            <h2 className="text-2xl font-semibold tracking-tight text-foreground">Something went wrong</h2>
+            <p className="max-w-md text-sm leading-6 text-muted-foreground">
+              We encountered an unexpected error. Try again or return to the dashboard to keep moving.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={this.handleRetry}
-              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Try again
             </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="inline-flex items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
-            >
-              Reload page
-            </button>
+            <Button asChild variant="secondary">
+              <Link href="/dashboard">Back to Dashboard</Link>
+            </Button>
           </div>
         </div>
       );

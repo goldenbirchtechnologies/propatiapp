@@ -280,7 +280,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     <div className="space-y-6" style={elevationStyle(ELEVATION_TOKENS.elevation_2)}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages</h1>
+          <h1 className="font-heading font-bold" style={{ fontSize: 'var(--text-page-title)', color: 'var(--text)' }}>Messages & Screening</h1>
           <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>
             {isRealtimeFallback ? 'Real-time updates unavailable' : 'Unified inbox across your properties'}
           </p>

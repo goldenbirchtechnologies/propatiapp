@@ -5,6 +5,11 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
+export const metadata = {
+  title: 'Messages',
+  description: 'Manage landlord conversations and screening calls.',
+};
+
 export default async function LandlordMessagesPage() {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');

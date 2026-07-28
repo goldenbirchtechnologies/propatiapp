@@ -243,3 +243,65 @@ export async function PATCH(
     );
   }
 }
+
+// DELETE /api/listings/[id] - Delete listing (owner only)
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Listing ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthenticated' },
+        { status: 401 }
+      );
+    }
+
+    const listing = await prisma.listing.findUnique({
+      where: { id },
+      select: { ownerId: true, title: true },
+    });
+
+    if (!listing) {
+      return NextResponse.json(
+        { success: false, error: 'Listing not found' },
+        { status: 404 }
+      );
+    }
+
+    const isOwner = listing.ownerId === user.id;
+    const isAdmin = user.role === 'admin';
+
+    if (!isOwner && !isAdmin) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden: You can only delete your own listings' },
+        { status: 403 }
+      );
+    }
+
+    await prisma.listing.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `Listing "${listing.title}" deleted successfully`,
+    });
+  } catch (error) {
+    console.error('DELETE /api/listings/[id] error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

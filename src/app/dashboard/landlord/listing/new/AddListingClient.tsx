@@ -8,24 +8,30 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Store, ShieldCheck, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
+type ListingUnit = {
+  id: string;
+  listingId: string;
+  unitNumber: string;
+  buildingName: string | null;
+  type: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  sizeSqm: string | null;
+  rent: string;
+  cautionDeposit: string | null;
+  serviceCharge: string | null;
+  listingTitle: string;
+  listingType: string;
+  propertyType: string | null;
+  address: string;
+  area: string;
+  state: string;
+};
 
 const listingSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters').max(100),
@@ -53,11 +59,25 @@ const listingSchema = z.object({
 
 type ListingInput = z.infer<typeof listingSchema>;
 
-export default function AddListingClient() {
+type Props = {
+  listings: Array<{
+    id: string;
+    title: string;
+    address: string;
+    area: string;
+    state: string;
+    listingType: string;
+    propertyType: string | null;
+  }>;
+  vacantUnits: ListingUnit[];
+};
+
+export default function AddListingClient({ listings, vacantUnits }: Props) {
   const router = useRouter();
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
+  const [selectedUnitId, setSelectedUnitId] = useState<string>('');
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema),
@@ -103,6 +123,25 @@ export default function AddListingClient() {
     };
   }, []);
 
+  useEffect(() => {
+    const unit = vacantUnits.find((u) => u.id === selectedUnitId);
+    if (!unit) return;
+
+    form.setValue('title', `${unit.listingTitle} - Unit ${unit.unitNumber}`);
+    form.setValue('listingType', (unit.listingType as ListingInput['listingType']) || 'rent');
+    form.setValue('propertyType', (unit.propertyType as ListingInput['propertyType']) || undefined);
+    form.setValue('address', unit.address);
+    form.setValue('area', unit.area);
+    form.setValue('state', unit.state || 'Lagos');
+    form.setValue('price', Number(unit.rent || 0));
+    form.setValue('cautionDeposit', unit.cautionDeposit ? Number(unit.cautionDeposit) : undefined);
+    form.setValue('serviceCharge', unit.serviceCharge ? Number(unit.serviceCharge) : undefined);
+    form.setValue('bedrooms', unit.bedrooms ?? 0);
+    form.setValue('bathrooms', unit.bathrooms ?? 0);
+    form.setValue('sizeSqm', unit.sizeSqm ? Number(unit.sizeSqm) : undefined);
+    form.setValue('propertyType', (unit.propertyType as ListingInput['propertyType']) || undefined);
+  }, [selectedUnitId, vacantUnits, form]);
+
   const onSubmit = async (data: ListingInput) => {
     setSubmitting(true);
     try {
@@ -139,7 +178,7 @@ export default function AddListingClient() {
       <div>
         <h1 className="text-3xl font-bold text-foreground">List to Marketplace</h1>
         <p className="text-muted-foreground mt-2">
-          Create a live marketplace listing. Unverified properties are still publishable and will show an unverified badge until verification is completed.
+          Create a live marketplace listing from a vacant unit in your properties.
         </p>
       </div>
 
@@ -147,9 +186,9 @@ export default function AddListingClient() {
         <CardHeader>
           <CardTitle>Marketplace Listing Details</CardTitle>
           <CardDescription>
-            {verificationStatus === 'certified'
-              ? 'Your property verification is complete. Verified listings get priority placement and the Certified badge.'
-              : 'This listing will be published as unverified. You can start or complete verification anytime.'}
+            {vacantUnits.length === 0
+              ? 'You have no vacant units. Add units to a property before creating a marketplace listing.'
+              : 'Select a vacant unit to prefill the listing from your existing property data.'}
           </CardDescription>
           {verificationStatus && verificationStatus !== 'certified' ? (
             <Button
@@ -167,6 +206,36 @@ export default function AddListingClient() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-primary mb-1">Vacant Unit</label>
+                  <Select value={selectedUnitId} onValueChange={setSelectedUnitId}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a vacant unit from your properties" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {listings.map((listing) => {
+                        const units = vacantUnits.filter((u) => u.listingId === listing.id);
+                        if (!units.length) return null;
+                        return (
+                          <div key={listing.id}>
+                            <p className="px-2 py-1 text-xs text-muted-foreground uppercase tracking-wide">
+                              {listing.title}
+                            </p>
+                            {units.map((unit) => (
+                              <SelectItem key={unit.id} value={unit.id}>
+                                Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''}
+                              </SelectItem>
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Choose a unit to populate listing details from your property data.
+                  </p>
+                </div>
+
                 <FormField
                   control={form.control as unknown}
                   name="title"
@@ -328,7 +397,7 @@ export default function AddListingClient() {
                 <Button type="button" variant="outline" onClick={() => router.back()}>
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting}>
+                <Button type="submit" disabled={submitting || !selectedUnitId || vacantUnits.length === 0}>
                   {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <Store className="mr-2 h-4 w-4" />
                   Publish to Marketplace

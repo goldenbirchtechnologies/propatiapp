@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, IdCard, Shield, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
+import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
 import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 interface LandlordProfileClientProps {
@@ -85,20 +85,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
   const verificationSteps = [
     { key: 'phoneVerified', label: 'Phone Number', icon: <Phone className="h-4 w-4" /> },
-    { key: 'ninVerified', label: 'NIN Verification', icon: <IdCard className="h-4 w-4" /> },
-    { key: 'bvnVerified', label: 'BVN Verification', icon: <Shield className="h-4 w-4" /> },
-    { key: 'idVerified', label: 'ID Document', icon: <IdCard className="h-4 w-4" /> },
   ] as const;
 
   const verifiedCount = verificationSteps.filter((step) => !!user?.[step.key]).length;
-  const verificationComplete = verifiedCount === verificationSteps.length;
+  const verificationComplete = !!kyc?.status && kyc.status !== 'not_started' && kyc.status !== 'rejected';
   const profileProgress = Math.round(((verifiedCount + (profileData.fullName ? 1 : 0) + (profileData.email ? 1 : 0)) / (verificationSteps.length + 2)) * 100);
 
   const missingActions = [
     !user?.phoneVerified && profileData.phone ? 'Verify your phone number' : null,
-    !user?.ninVerified ? 'Verify your NIN' : null,
-    !user?.bvnVerified ? 'Verify your BVN' : null,
-    !user?.idVerified ? 'Upload a government ID' : null,
   ].filter(Boolean);
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
@@ -216,7 +210,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
               <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${profileProgress}%` }} />
             </div>
-            <p className="mt-2 text-xs text-muted-foreground">{verificationComplete ? 'Setup complete.' : 'Verify phone & ID to finish setup.'}</p>
+            <p className="mt-2 text-xs text-muted-foreground">{verificationComplete ? 'Setup complete.' : 'Verify your phone and identity to finish setup.'}</p>
           </div>
         </div>
       </div>

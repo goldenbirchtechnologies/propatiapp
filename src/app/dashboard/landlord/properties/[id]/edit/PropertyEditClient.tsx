@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
-import { ShieldCheck, XCircle, CheckCircle } from 'lucide-react';
+import { ShieldCheck, XCircle, CheckCircle, MapPin } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
 type Listing = {
@@ -58,6 +59,8 @@ export default function PropertyEditClient({ listing }: Props) {
     allowShortlet: listing.allowShortlet,
     amenities: listing.amenities,
     description: listing.description || '',
+    latitude: '',
+    longitude: '',
   });
 
   const unitCount = listing.unitCount ?? 0;
@@ -141,6 +144,26 @@ export default function PropertyEditClient({ listing }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     await handleImageUpload(file, images.length === 0);
+  };
+
+  const handleLocate = () => {
+    if (!navigator.geolocation) {
+      toast({ title: 'Geolocation is not supported by this browser.', variant: 'destructive' });
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setForm((prev) => ({
+          ...prev,
+          latitude: String(position.coords.latitude),
+          longitude: String(position.coords.longitude),
+        }));
+        toast({ title: 'Location captured.' });
+      },
+      () => {
+        toast({ title: 'Unable to retrieve your location.', variant: 'destructive' });
+      }
+    );
   };
 
   const update = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -252,189 +275,208 @@ export default function PropertyEditClient({ listing }: Props) {
         </div>
       </div>
 
-      <section className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="font-headline-sm font-semibold">Units & Vacancy</h2>
-            <p className="text-sm text-muted-foreground">
-              {unitCount > 0
-                ? `${unitCount} unit${unitCount === 1 ? '' : 's'} · ${vacantUnitCount} vacant`
-                : 'No units added yet.'}
-            </p>
-          </div>
-          {hasOrg ? (
-            <Button asChild size="sm">
-              <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
-            </Button>
-          ) : (
-            <Button size="sm" variant="outline" disabled title="Link this property to an organization first">
-              Add Unit
-            </Button>
-          )}
-        </div>
+      <Tabs defaultValue="general" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="general">General Info</TabsTrigger>
+          <TabsTrigger value="details">Details</TabsTrigger>
+          <TabsTrigger value="units">Units & Vacancy</TabsTrigger>
+          <TabsTrigger value="media">Photos & Media</TabsTrigger>
+        </TabsList>
 
-        {listing.units && listing.units.length > 0 && (
-          <div className="mt-4 overflow-hidden rounded-lg border border-outline-variant">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-surface-container-low">
-                <tr>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Beds</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Baths</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Rent</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
-                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant">
-                {listing.units.map((unit) => (
-                  <tr key={unit.id} className="bg-background">
-                    <td className="px-3 py-2 font-medium">{unit.unitNumber}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{unit.type}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{unit.bedrooms}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{unit.bathrooms}</td>
-                    <td className="px-3 py-2 text-muted-foreground">{formatCurrency(unit.rent)}</td>
-                    <td className="px-3 py-2">
-                      <span className="inline-flex rounded-full border border-outline-variant px-2 py-1 text-xs">
-                        {unit.status}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2">
-                      <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
-                        {unit.occupancy}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        <div className="mt-6">
-          <h2 className="font-headline-sm font-semibold">Photos & Media</h2>
-          <p className="text-sm text-muted-foreground">
-            Add property photos. The first photo will be used as the cover.
-          </p>
-
-          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {images.map((image) => (
-              <div key={image.id} className="relative rounded-lg border border-outline-variant bg-background">
-                <img src={image.url} alt="" className="h-32 w-full rounded-md object-cover" />
-                <div className="mt-2 flex items-center justify-between px-2 pb-2">
-                  <button
-                    type="button"
-                    onClick={() => handleSetCover(image.id)}
-                    className={`text-xs ${image.isCover ? 'text-success font-medium' : 'text-muted-foreground'}`}
-                  >
-                    {image.isCover ? 'Cover' : 'Set cover'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteImage(image.id)}
-                    className="text-xs text-destructive"
-                  >
-                    Remove
-                  </button>
+        <TabsContent value="general" className="space-y-4">
+          <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-6">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Title</Label>
+                <Input id="title" value={form.title} onChange={update('title')} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="address">Address</Label>
+                <Input id="address" value={form.address} onChange={update('address')} />
+                <div className="mt-2 flex items-center gap-2">
+                  <Button type="button" size="sm" variant="outline" onClick={handleLocate}>
+                    <MapPin className="size-4 mr-1" /> Locate me
+                  </Button>
+                  <Button type="button" size="sm" variant="ghost" asChild>
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(form.address)}`} target="_blank" rel="noreferrer">
+                      View on map
+                    </a>
+                  </Button>
                 </div>
               </div>
-            ))}
-
-            <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-low hover:bg-muted/60">
-              <span className="text-xs text-muted-foreground">Add photo</span>
-              <input type="file" accept="image/*" className="sr-only" onChange={handleImageFileChange} />
-            </label>
-          </div>
-        </div>
-      </section>
-
-      <form onSubmit={handleSubmit} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-6">
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" value={form.title} onChange={update('title')} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="address">Address</Label>
-            <Input id="address" value={form.address} onChange={update('address')} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="area">Area</Label>
-            <Input id="area" value={form.area} onChange={update('area')} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="state">State</Label>
-            <Input id="state" value={form.state} onChange={update('state')} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="listingType">Listing Type</Label>
-            <Input id="listingType" value={form.listingType} onChange={update('listingType')} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="propertyType">Property Type</Label>
-            <Input id="propertyType" value={form.propertyType} onChange={update('propertyType')} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="price">Price (NGN)</Label>
-            <Input id="price" type="number" value={form.price} onChange={update('price')} />
-            {errors.price && <p className="text-xs text-destructive">{errors.price}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="pricePeriod">Price Period</Label>
-            <Input id="pricePeriod" value={form.pricePeriod} onChange={update('pricePeriod')} />
-          </div>
-          <div className="space-y-2 md:col-span-2">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={form.allowShortlet} onChange={update('allowShortlet')} />
-              <span className="text-sm">Allow Shortlet</span>
-            </label>
-          </div>
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="amenities">Amenities</Label>
-            <div className="flex flex-wrap gap-2 rounded-md border border-input bg-background p-2">
-              {form.amenities.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-1 rounded-full border border-outline-variant bg-surface-container-low px-2 py-1 text-xs"
-                >
-                  <span>{item}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeAmenity(item)}
-                    className="text-muted-foreground hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-              <input
-                id="amenities"
-                className="min-w-[160px] flex-1 bg-transparent text-sm outline-none"
-                value={amenityInput}
-                onChange={(e) => setAmenityInput(e.target.value)}
-                onBlur={addAmenity}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addAmenity();
-                  }
-                }}
-                placeholder={form.amenities.length ? 'Add another' : 'e.g. generator, parking, ac'}
-              />
+              <div className="space-y-2">
+                <Label htmlFor="area">Area</Label>
+                <Input id="area" value={form.area} onChange={update('area')} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="state">State</Label>
+                <Input id="state" value={form.state} onChange={update('state')} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="listingType">Listing Type</Label>
+                <Input id="listingType" value={form.listingType} onChange={update('listingType')} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="propertyType">Property Type</Label>
+                <Input id="propertyType" value={form.propertyType} onChange={update('propertyType')} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="price">Price (NGN)</Label>
+                <Input id="price" type="number" value={form.price} onChange={update('price')} />
+                {errors.price && <p className="text-xs text-destructive">{errors.price}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="pricePeriod">Price Period</Label>
+                <Input id="pricePeriod" value={form.pricePeriod} onChange={update('pricePeriod')} />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={form.allowShortlet} onChange={update('allowShortlet')} />
+                  <span className="text-sm">Allow Shortlet</span>
+                </label>
+              </div>
             </div>
           </div>
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="description">Description</Label>
-            <textarea
-              id="description"
-              className="w-full rounded-md border border-border bg-background p-2 text-sm"
-              value={form.description}
-              onChange={update('description')}
-            />
-            {errors.description && <p className="text-xs text-destructive">{errors.description}</p>}
+        </TabsContent>
+
+        <TabsContent value="details" className="space-y-4">
+          <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-6">
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="amenities">Amenities</Label>
+              <div className="flex flex-wrap gap-2 rounded-md border border-input bg-background p-2">
+                {form.amenities.map((item) => (
+                  <span
+                    key={item}
+                    className="inline-flex items-center gap-1 rounded-full border border-outline-variant bg-surface-container-low px-2 py-1 text-xs"
+                  >
+                    <span>{item}</span>
+                    <button type="button" onClick={() => removeAmenity(item)} className="text-muted-foreground hover:text-destructive">
+                      ×
+                    </button>
+                  </span>
+                ))}
+                <input
+                  id="amenities"
+                  className="min-w-[160px] flex-1 bg-transparent text-sm outline-none"
+                  value={amenityInput}
+                  onChange={(e) => setAmenityInput(e.target.value)}
+                  onBlur={addAmenity}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addAmenity();
+                    }
+                  }}
+                  placeholder={form.amenities.length ? 'Add another' : 'e.g. generator, parking, ac'}
+                />
+              </div>
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="description">Description</Label>
+              <textarea
+                id="description"
+                className="w-full rounded-md border border-border bg-background p-2 text-sm"
+                value={form.description}
+                onChange={update('description')}
+              />
+              {errors.description && <p className="text-xs text-destructive">{errors.description}</p>}
+            </div>
           </div>
-        </div>
+        </TabsContent>
+
+        <TabsContent value="units" className="space-y-4">
+          <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-headline-sm font-semibold">Units & Vacancy</h2>
+                <p className="text-sm text-muted-foreground">
+                  {unitCount > 0
+                    ? `${unitCount} unit${unitCount === 1 ? '' : 's'} · ${vacantUnitCount} vacant`
+                    : 'No units added yet.'}
+                </p>
+              </div>
+              {hasOrg ? (
+                <Button asChild size="sm">
+                  <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                </Button>
+              ) : (
+                <Button size="sm" variant="outline" disabled title="Link this property to an organization first">
+                  Add Unit
+                </Button>
+              )}
+            </div>
+
+            {listing.units && listing.units.length > 0 && (
+              <div className="overflow-hidden rounded-lg border border-outline-variant">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-surface-container-low">
+                    <tr>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Beds</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Baths</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Rent</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
+                      <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-outline-variant">
+                    {listing.units.map((unit) => (
+                      <tr key={unit.id} className="bg-background">
+                        <td className="px-3 py-2 font-medium">{unit.unitNumber}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{unit.type}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{unit.bedrooms}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{unit.bathrooms}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{formatCurrency(unit.rent)}</td>
+                        <td className="px-3 py-2">
+                          <span className="inline-flex rounded-full border border-outline-variant px-2 py-1 text-xs">
+                            {unit.status}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2">
+                          <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
+                            {unit.occupancy}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="media" className="space-y-4">
+          <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-4">
+            <div>
+              <h2 className="font-headline-sm font-semibold">Photos & Media</h2>
+              <p className="text-sm text-muted-foreground">Add property photos. The first photo will be used as the cover.</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+              {images.map((image) => (
+                <div key={image.id} className="relative rounded-lg border border-outline-variant bg-background">
+                  <img src={image.url} alt="" className="h-32 w-full rounded-md object-cover" />
+                  <div className="mt-2 flex items-center justify-between px-2 pb-2">
+                    <button type="button" onClick={() => handleSetCover(image.id)} className={`text-xs ${image.isCover ? 'text-success font-medium' : 'text-muted-foreground'}`}>
+                      {image.isCover ? 'Cover' : 'Set cover'}
+                    </button>
+                    <button type="button" onClick={() => handleDeleteImage(image.id)} className="text-xs text-destructive">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-low hover:bg-muted/60">
+                <span className="text-xs text-muted-foreground">Add photo</span>
+                <input type="file" accept="image/*" className="sr-only" onChange={handleImageFileChange} />
+              </label>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      <form id="property-edit-form" onSubmit={handleSubmit} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm">
         <div className="flex items-center gap-3">
           <Button type="submit" disabled={saving}>
             {saving ? 'Saving...' : 'Save Changes'}

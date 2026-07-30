@@ -63,8 +63,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
       });
 
       toast({ title: 'Unit added', description: 'New unit has been added to this property.' });
-      router.back();
-      router.refresh();
+      router.push('/dashboard/landlord/properties');
     } catch (error) {
       toast({
         title: 'Failed to add unit',

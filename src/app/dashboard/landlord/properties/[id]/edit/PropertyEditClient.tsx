@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import { ShieldCheck, XCircle, CheckCircle } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils';
 
 type Listing = {
   id: string;
@@ -27,6 +28,16 @@ type Listing = {
   unitCount?: number;
   vacantUnitCount?: number;
   orgId?: string | null;
+  units?: Array<{
+    id: string;
+    unitNumber: string;
+    type: string;
+    bedrooms: number;
+    bathrooms: number;
+    status: string;
+    occupancy: string;
+    rent: number;
+  }>;
 };
 
 type Props = { listing: Listing };
@@ -45,13 +56,29 @@ export default function PropertyEditClient({ listing }: Props) {
     price: String(listing.price ?? ''),
     pricePeriod: listing.pricePeriod,
     allowShortlet: listing.allowShortlet,
-    amenities: listing.amenities.join(', '),
+    amenities: listing.amenities,
     description: listing.description || '',
   });
 
   const unitCount = listing.unitCount ?? 0;
   const vacantUnitCount = listing.vacantUnitCount ?? 0;
   const hasOrg = !!listing.orgId;
+  const [amenityInput, setAmenityInput] = useState('');
+
+  const addAmenity = () => {
+    const value = amenityInput.trim();
+    if (!value) return;
+    if (form.amenities.includes(value)) {
+      setAmenityInput('');
+      return;
+    }
+    setForm((prev) => ({ ...prev, amenities: [...prev.amenities, value] }));
+    setAmenityInput('');
+  };
+
+  const removeAmenity = (item: string) => {
+    setForm((prev) => ({ ...prev, amenities: prev.amenities.filter((a) => a !== item) }));
+  };
 
   const validate = () => {
     const next: { description?: string; price?: string } = {};
@@ -109,10 +136,7 @@ export default function PropertyEditClient({ listing }: Props) {
 
     setSaving(true);
     try {
-      const amenities = form.amenities
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean);
+      const amenities = form.amenities.map((item) => item.trim()).filter(Boolean);
 
       const res = await fetch(`/api/listings/${listing.id}`, {
         method: 'PATCH',
@@ -198,6 +222,45 @@ export default function PropertyEditClient({ listing }: Props) {
             </Button>
           )}
         </div>
+
+        {listing.units && listing.units.length > 0 && (
+          <div className="mt-4 overflow-hidden rounded-lg border border-outline-variant">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-surface-container-low">
+                <tr>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Beds</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Baths</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Rent</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
+                  <th className="px-3 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {listing.units.map((unit) => (
+                  <tr key={unit.id} className="bg-background">
+                    <td className="px-3 py-2 font-medium">{unit.unitNumber}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{unit.type}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{unit.bedrooms}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{unit.bathrooms}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{formatCurrency(unit.rent)}</td>
+                    <td className="px-3 py-2">
+                      <span className="inline-flex rounded-full border border-outline-variant px-2 py-1 text-xs">
+                        {unit.status}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2">
+                      <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
+                        {unit.occupancy}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       <form onSubmit={handleSubmit} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-6">
@@ -242,8 +305,38 @@ export default function PropertyEditClient({ listing }: Props) {
             </label>
           </div>
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="amenities">Amenities (comma separated)</Label>
-            <Input id="amenities" value={form.amenities} onChange={update('amenities')} />
+            <Label htmlFor="amenities">Amenities</Label>
+            <div className="flex flex-wrap gap-2 rounded-md border border-input bg-background p-2">
+              {form.amenities.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-1 rounded-full border border-outline-variant bg-surface-container-low px-2 py-1 text-xs"
+                >
+                  <span>{item}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeAmenity(item)}
+                    className="text-muted-foreground hover:text-destructive"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+              <input
+                id="amenities"
+                className="min-w-[160px] flex-1 bg-transparent text-sm outline-none"
+                value={amenityInput}
+                onChange={(e) => setAmenityInput(e.target.value)}
+                onBlur={addAmenity}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addAmenity();
+                  }
+                }}
+                placeholder={form.amenities.length ? 'Add another' : 'e.g. generator, parking, ac'}
+              />
+            </div>
           </div>
           <div className="space-y-2 md:col-span-2">
             <Label htmlFor="description">Description</Label>

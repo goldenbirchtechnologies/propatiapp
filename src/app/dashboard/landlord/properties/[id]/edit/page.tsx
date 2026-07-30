@@ -14,7 +14,7 @@ export default async function LandlordPropertyEditPage({ params }: { params: { i
     where: { id: params.id, ownerId: user.id },
     include: {
       images: true,
-      units: { select: { occupancy: true } },
+      units: { select: { unitNumber: true, type: true, bedrooms: true, bathrooms: true, status: true, occupancy: true, rent: true } },
       orgListings: { select: { orgId: true }, take: 1 },
     },
   });
@@ -34,7 +34,7 @@ export default async function LandlordPropertyEditPage({ params }: { params: { i
     listingType: listing.listingType,
     propertyType: listing.propertyType || '',
     price: Number(listing.price),
-    pricePeriod: listing.pricePeriod,
+    pricePeriod: listing.pricePeriod || '',
     allowShortlet: listing.allowShortlet,
     amenities: (listing.amenities as string[]) || [],
     description: listing.description || '',
@@ -45,6 +45,16 @@ export default async function LandlordPropertyEditPage({ params }: { params: { i
     })),
     unitCount: listing.units.length,
     vacantUnitCount: vacantUnits,
+    units: listing.units.map((u) => ({
+      id: u.id,
+      unitNumber: u.unitNumber,
+      type: u.type,
+      bedrooms: u.bedrooms,
+      bathrooms: u.bathrooms,
+      status: u.status,
+      occupancy: u.occupancy,
+      rent: Number(u.rent),
+    })),
     orgId,
   };
 

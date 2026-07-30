@@ -144,7 +144,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         </div>
 
         <div className="flex items-center gap-3">
-          <Button type="submit" disabled={submitting || !orgId}>
+          <Button type="submit" disabled={submitting}>
             {submitting ? 'Saving...' : 'Add Unit'}
           </Button>
           <Button type="button" variant="outline" onClick={() => router.back()}>

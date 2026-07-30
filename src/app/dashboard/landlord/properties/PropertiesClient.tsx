@@ -44,6 +44,8 @@ type Listing = {
   allowShortlet: boolean;
   images: { url: string }[];
   verification: { overallStatus: string; currentLayer: number } | null;
+  unitCount: number;
+  vacantUnitCount: number;
 };
 
 type Props = {
@@ -159,6 +161,31 @@ export default function PropertiesClient({ listings }: Props) {
     }
   };
 
+  const handleStatusChange = async (id: string, status: 'draft' | 'active' | 'suspended') => {
+    try {
+      const res = await fetch(`/api/listings/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+
+      const data = await res.json().catch(() => ({ success: false }));
+
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.error || `Failed to ${status === 'active' ? 'publish' : status === 'draft' ? 'unpublish' : 'resume'} property`);
+      }
+
+      toast({ title: 'Updated', description: data?.message || `Listing status updated to ${status}` });
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: 'Update failed',
+        description: error instanceof Error ? error.message : 'Unexpected error',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -227,6 +254,7 @@ export default function PropertiesClient({ listings }: Props) {
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Price</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Views</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Short-let</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Units</th>
                     <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
@@ -290,6 +318,18 @@ export default function PropertiesClient({ listings }: Props) {
                             {shortletLoading === listing.id && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
                           </div>
                         </td>
+                        <td className="p-4 text-sm text-muted-foreground">
+                          {listing.unitCount > 0 ? (
+                            <span>
+                              {listing.unitCount} unit{listing.unitCount === 1 ? '' : 's'} &middot;{' '}
+                              <span className={listing.vacantUnitCount > 0 ? 'text-success' : 'text-destructive'}>
+                                {listing.vacantUnitCount} vacant
+                              </span>
+                            </span>
+                          ) : (
+                            <span>No units</span>
+                          )}
+                        </td>
                         <td className="p-4 text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -307,11 +347,19 @@ export default function PropertiesClient({ listings }: Props) {
                               <DropdownMenuItem asChild>
                                 <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`}>Verify</Link>
                               </DropdownMenuItem>
-                              {listing.status === 'draft' && (
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}/publish`}>Publish</Link>
+                              {(listing.status === 'draft' || listing.status === 'active') && (
+                                <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, listing.status === 'draft' ? 'active' : 'draft')}>
+                                  {listing.status === 'draft' ? 'Publish' : 'Unpublish'}
                                 </DropdownMenuItem>
                               )}
+                              {listing.status === 'suspended' && (
+                                <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, 'active')}>
+                                  Resume
+                                </DropdownMenuItem>
+                              )}
+                              <DropdownMenuItem asChild>
+                                <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                              </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
                                 className="text-destructive focus:text-destructive"

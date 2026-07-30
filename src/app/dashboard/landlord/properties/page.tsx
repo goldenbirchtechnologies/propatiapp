@@ -31,14 +31,21 @@ export default async function LandlordPropertiesPage() {
     include: {
       images: { where: { isCover: true }, take: 1 },
       verification: true,
+      units: { select: { occupancy: true } },
     },
     orderBy: { createdAt: 'desc' },
   });
 
-  const normalized = listings.map((listing) => ({
-    ...listing,
-    price: Number(listing.price),
-  }));
+  const normalized = listings.map((listing) => {
+    const totalUnits = listing.units.length;
+    const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
+    return {
+      ...listing,
+      price: Number(listing.price),
+      unitCount: totalUnits,
+      vacantUnitCount: vacantUnits,
+    };
+  });
 
   return (
     <DashboardShell

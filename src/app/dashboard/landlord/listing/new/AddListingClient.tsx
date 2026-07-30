@@ -241,7 +241,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             <Button asChild>
               <Link href="/dashboard/landlord/properties/new">
                 <Plus className="mr-2 h-4 w-4" />
-                Add Property / Unit
+                Add Property
               </Link>
             </Button>
             <Button asChild variant="outline">
@@ -251,6 +251,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               </Link>
             </Button>
           </div>
+          <p className="text-xs text-muted-foreground mt-3">
+            You can also add a unit to an existing property from your properties list.
+          </p>
         </div>
       </div>
     );

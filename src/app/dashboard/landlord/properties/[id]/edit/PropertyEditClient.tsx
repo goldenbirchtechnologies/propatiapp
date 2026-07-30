@@ -24,7 +24,7 @@ type Listing = {
   allowShortlet: boolean;
   amenities: string[];
   description: string;
-  images: { id: string; url: string; isCover: boolean }[];
+  images: { id: string; url: string; isCover: boolean; sortOrder: number }[];
   unitCount?: number;
   vacantUnitCount?: number;
   orgId?: string | null;
@@ -64,6 +64,7 @@ export default function PropertyEditClient({ listing }: Props) {
   const vacantUnitCount = listing.vacantUnitCount ?? 0;
   const hasOrg = !!listing.orgId;
   const [amenityInput, setAmenityInput] = useState('');
+  const [images, setImages] = useState<Array<{ id: string; url: string; isCover: boolean; sortOrder: number }>>((listing.images || []).map((img) => ({ ...img, sortOrder: img.sortOrder ?? 0 })));
 
   const addAmenity = () => {
     const value = amenityInput.trim();
@@ -91,6 +92,55 @@ export default function PropertyEditClient({ listing }: Props) {
     }
     setErrors(next);
     return Object.keys(next).length === 0;
+  };
+
+  const handleImageUpload = async (file: File, setCover = false) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('setCover', String(setCover));
+
+    const res = await fetch(`/api/listings/${listing.id}/images`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data?.error || 'Failed to upload image');
+    const image = data.image;
+    setImages((prev) => {
+      const next = [...prev, image].sort((a, b) => {
+        if (a.isCover !== b.isCover) return a.isCover ? -1 : 1;
+        return a.sortOrder - b.sortOrder;
+      });
+      return next;
+    });
+  };
+
+  const handleSetCover = async (imageId: string) => {
+    const res = await fetch(`/api/listings/${listing.id}/images`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageId, setCover: true }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data?.error || 'Failed to update cover');
+    setImages((prev) => prev.map((img) => ({ ...img, isCover: img.id === imageId })));
+  };
+
+  const handleDeleteImage = async (imageId: string) => {
+    const res = await fetch(`/api/listings/${listing.id}/images`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageId }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data?.error || 'Failed to delete image');
+    setImages((prev) => prev.filter((img) => img.id !== imageId));
+  };
+
+  const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await handleImageUpload(file, images.length === 0);
   };
 
   const update = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -261,6 +311,42 @@ export default function PropertyEditClient({ listing }: Props) {
             </table>
           </div>
         )}
+
+        <div className="mt-6">
+          <h2 className="font-headline-sm font-semibold">Photos & Media</h2>
+          <p className="text-sm text-muted-foreground">
+            Add property photos. The first photo will be used as the cover.
+          </p>
+
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {images.map((image) => (
+              <div key={image.id} className="relative rounded-lg border border-outline-variant bg-background">
+                <img src={image.url} alt="" className="h-32 w-full rounded-md object-cover" />
+                <div className="mt-2 flex items-center justify-between px-2 pb-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSetCover(image.id)}
+                    className={`text-xs ${image.isCover ? 'text-success font-medium' : 'text-muted-foreground'}`}
+                  >
+                    {image.isCover ? 'Cover' : 'Set cover'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteImage(image.id)}
+                    className="text-xs text-destructive"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <label className="flex h-32 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-low hover:bg-muted/60">
+              <span className="text-xs text-muted-foreground">Add photo</span>
+              <input type="file" accept="image/*" className="sr-only" onChange={handleImageFileChange} />
+            </label>
+          </div>
+        </div>
       </section>
 
       <form onSubmit={handleSubmit} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm space-y-6">

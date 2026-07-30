@@ -14,7 +14,7 @@ export default async function LandlordPropertyEditPage({ params }: { params: { i
     where: { id: params.id, ownerId: user.id },
     include: {
       images: true,
-      units: { select: { unitNumber: true, type: true, bedrooms: true, bathrooms: true, status: true, occupancy: true, rent: true } },
+      units: { select: { id: true, unitNumber: true, type: true, bedrooms: true, bathrooms: true, status: true, occupancy: true, rent: true } },
       orgListings: { select: { orgId: true }, take: 1 },
     },
   });
@@ -38,10 +38,11 @@ export default async function LandlordPropertyEditPage({ params }: { params: { i
     allowShortlet: listing.allowShortlet,
     amenities: (listing.amenities as string[]) || [],
     description: listing.description || '',
-    images: listing.images.map((img: { id: string; url: string; isCover: boolean }) => ({
+    images: listing.images.map((img: { id: string; url: string; isCover: boolean; sortOrder: number }) => ({
       id: img.id,
       url: img.url,
       isCover: img.isCover,
+      sortOrder: img.sortOrder ?? 0,
     })),
     unitCount: listing.units.length,
     vacantUnitCount: vacantUnits,

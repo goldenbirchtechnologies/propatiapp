@@ -346,10 +346,50 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           });
         }
       } else {
-        toast({
-          title: 'Units saved locally',
-          description: 'Create an organisation to permanently link units to this property.',
-        });
+        try {
+          const orgRes = await fetch('/api/orgs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: `${data.title || 'Property'} Organisation`, planTier: 'starter' }),
+          });
+          if (!orgRes.ok) {
+            const orgData = await orgRes.json().catch(() => ({}));
+            throw new Error(orgData.error || 'Failed to create organisation');
+          }
+          const orgJson = await orgRes.json();
+          const newOrgId = orgJson?.data?.id;
+          if (!newOrgId) throw new Error('Missing organisation id');
+          await fetch(`/api/orgs/${encodeURIComponent(newOrgId)}/listings`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ listingId: listing.id }),
+          });
+          await Promise.all(
+            units.map((u) =>
+              createUnit.mutateAsync({
+                orgId: newOrgId,
+                buildingName: data.title,
+                unitNumber: u.unitNumber,
+                type: data.propertyType || 'apartment',
+                bedrooms: u.bedrooms,
+                bathrooms: u.bathrooms,
+                sizeSqm: u.sizeSqm,
+                rent: u.rent,
+                cautionDeposit: u.cautionDeposit,
+                serviceCharge: u.serviceCharge,
+                status: 'AVAILABLE',
+                occupancy: 'VACANT',
+                listingId: listing.id,
+              })
+            )
+          );
+        } catch (orgError) {
+          console.error('Auto-org/units error:', orgError);
+          toast({
+            title: 'Units pending',
+            description: 'Property saved, but we could not auto-create an organisation to store units. You can add them later from the property page.',
+          });
+        }
       }
 
       router.push('/dashboard/landlord/properties');

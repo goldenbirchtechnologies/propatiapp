@@ -42,12 +42,33 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
     }
     setSubmitting(true);
     try {
-      if (!orgId) {
-        toast({ title: 'Organization required', description: 'This property is not linked to an organization yet.', variant: 'destructive' });
-        return;
+      let effectiveOrgId = orgId;
+      if (!effectiveOrgId) {
+        const orgRes = await fetch('/api/orgs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: `${listingTitle || 'Property'} Organisation`, planTier: 'starter' }),
+        });
+        if (!orgRes.ok) {
+          const data = await orgRes.json().catch(() => ({}));
+          throw new Error(data.error || 'Failed to create organisation for this property');
+        }
+        const orgJson = await orgRes.json();
+        effectiveOrgId = orgJson?.data?.id;
+        if (!effectiveOrgId) throw new Error('Missing organisation id');
+        const linkRes = await fetch(`/api/orgs/${encodeURIComponent(effectiveOrgId)}/listings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ listingId }),
+        });
+        if (!linkRes.ok) {
+          const data = await linkRes.json().catch(() => ({}));
+          throw new Error(data.error || 'Failed to link property to new organisation');
+        }
       }
+
       await createUnit.mutateAsync({
-        orgId,
+        orgId: effectiveOrgId,
         listingId,
         buildingName: buildingName || undefined,
         unitNumber: unitNumber.trim(),

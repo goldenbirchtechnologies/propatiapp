@@ -308,18 +308,19 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
 
       if (orgId) {
         try {
-          await fetch(`/api/orgs/${encodeURIComponent(orgId)}/listings`, {
+          const linkRes = await fetch(`/api/orgs/${encodeURIComponent(orgId)}/listings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ listingId: listing.id }),
-          }).then(async (res) => {
-            if (!res.ok) {
-              const data = await res.json().catch(() => ({}));
-              throw new Error(data.error || 'Failed to link property to organization');
-            }
           });
+          if (!linkRes.ok) {
+            const linkData = await linkRes.json().catch(() => ({}));
+            if (linkRes.status !== 409) {
+              throw new Error(linkData.error || 'Failed to link property to organization');
+            }
+          }
 
-          await Promise.all(
+          const results = await Promise.allSettled(
             units.map((u) =>
               createUnit.mutateAsync({
                 orgId,
@@ -338,11 +339,25 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               })
             )
           );
+
+          const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
+          const failed = results.filter((r) => r.status === 'rejected');
+
+          if (created > 0) {
+            toast({
+              title: `${created} unit${created > 1 ? 's' : ''} linked`,
+              description: failed.length > 0 ? `${failed.length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined,
+            });
+          }
+          if (failed.length > 0 && created === 0) {
+            const reason = (failed[0] as any).reason?.message || 'Unexpected error';
+            throw new Error(reason);
+          }
         } catch (unitError) {
           console.error('Unit creation error:', unitError);
           toast({
             title: 'Units pending',
-            description: 'Property saved, but some units could not be linked. You can add them later.',
+            description: unitError instanceof Error ? unitError.message : 'Property saved, but some units could not be linked. You can add them later.',
           });
         }
       } else {
@@ -359,12 +374,20 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
           const orgJson = await orgRes.json();
           const newOrgId = orgJson?.data?.id;
           if (!newOrgId) throw new Error('Missing organisation id');
-          await fetch(`/api/orgs/${encodeURIComponent(newOrgId)}/listings`, {
+
+          const linkRes = await fetch(`/api/orgs/${encodeURIComponent(newOrgId)}/listings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ listingId: listing.id }),
           });
-          await Promise.all(
+          if (!linkRes.ok) {
+            const linkData = await linkRes.json().catch(() => ({}));
+            if (linkRes.status !== 409) {
+              throw new Error(linkData.error || 'Failed to link property to organization');
+            }
+          }
+
+          const results = await Promise.allSettled(
             units.map((u) =>
               createUnit.mutateAsync({
                 orgId: newOrgId,
@@ -383,11 +406,25 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
               })
             )
           );
+
+          const created = results.filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled').length;
+          const failed = results.filter((r) => r.status === 'rejected');
+
+          if (created > 0) {
+            toast({
+              title: `${created} unit${created > 1 ? 's' : ''} linked`,
+              description: failed.length > 0 ? `${(failed as any[]).length} unit${(failed as any[]).length > 1 ? 's' : ''} could not be created.` : undefined,
+            });
+          }
+          if (failed.length > 0 && created === 0) {
+            const reason = (failed[0] as any).reason?.message || 'Unexpected error';
+            throw new Error(reason);
+          }
         } catch (orgError) {
           console.error('Auto-org/units error:', orgError);
           toast({
             title: 'Units pending',
-            description: 'Property saved, but we could not auto-create an organisation to store units. You can add them later from the property page.',
+            description: orgError instanceof Error ? orgError.message : 'Property saved, but we could not auto-create an organisation to store units. You can add them later from the property page.',
           });
         }
       }

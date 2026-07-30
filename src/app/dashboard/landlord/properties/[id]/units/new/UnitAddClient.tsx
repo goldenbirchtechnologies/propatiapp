@@ -43,6 +43,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
     setSubmitting(true);
     try {
       let effectiveOrgId = orgId;
+
       if (!effectiveOrgId) {
         const orgRes = await fetch('/api/orgs', {
           method: 'POST',
@@ -56,14 +57,19 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         const orgJson = await orgRes.json();
         effectiveOrgId = orgJson?.data?.id;
         if (!effectiveOrgId) throw new Error('Missing organisation id');
+      }
+
+      if (effectiveOrgId && listingId) {
         const linkRes = await fetch(`/api/orgs/${encodeURIComponent(effectiveOrgId)}/listings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ listingId }),
         });
         if (!linkRes.ok) {
-          const data = await linkRes.json().catch(() => ({}));
-          throw new Error(data.error || 'Failed to link property to new organisation');
+          const linkData = await linkRes.json().catch(() => ({}));
+          if (linkRes.status !== 409) {
+            throw new Error(linkData.error || 'Failed to link property to organisation');
+          }
         }
       }
 

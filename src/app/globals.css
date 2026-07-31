@@ -251,6 +251,15 @@
   --sidebar-ring: var(--accent);
 }
 
+.app-layout.theme-landlord [data-slot="tabs-trigger"] {
+  color: var(--muted-foreground);
+}
+
+.app-layout.theme-landlord [data-slot="tabs-trigger"][data-state="active"] {
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
 .app-layout.theme-tenant {
   --bg: var(--theme-tenant-bg);
   --surface: var(--theme-tenant-surface);

@@ -114,7 +114,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       furnished: false,
       parkingSpaces: 0,
       amenities: [],
-      availableFrom: '',
+      availableFrom: undefined,
       minimumStay: undefined,
     },
   });
@@ -185,16 +185,30 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     if (!validateClientSide()) {
       return;
     }
-    form.handleSubmit(onSubmit)();
+    form.handleSubmit(onSubmit, (errors) => {
+      const first = Object.values(errors)[0];
+      toast({
+        title: 'Check the form',
+        description: (first as any)?.message || 'Please fix the highlighted fields.',
+        variant: 'destructive',
+      });
+    })();
   };
 
   const onSubmit = async (data: ListingInput) => {
     setSubmitting(true);
     try {
+      const { availableFrom, minimumStay, ...rest } = data as any;
+      const payload = {
+        ...rest,
+        ...(availableFrom ? { availableFrom } : {}),
+        ...(minimumStay ? { minimumStay } : {}),
+      };
+
       const res = await fetch('/api/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, status: 'active' }),
+        body: JSON.stringify({ ...payload, status: 'active' }),
       });
 
       if (!res.ok) {
@@ -304,7 +318,14 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
 
         <div className="p-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              const first = Object.values(errors)[0];
+              toast({
+                title: 'Check the form',
+                description: (first as any)?.message || 'Please fix the highlighted fields.',
+                variant: 'destructive',
+              });
+            })} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-foreground mb-1">Vacant Unit</label>

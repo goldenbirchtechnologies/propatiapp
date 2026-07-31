@@ -155,29 +155,34 @@ export async function POST(
     }
 
     const body = await request.json();
-    const validated = createUnitSchema.parse(body);
+    console.log('Units POST body:', JSON.stringify(body));
+    const validated = createUnitSchema.safeParse(body);
+    if (!validated.success) {
+      console.error('Units POST validation error:', validated.error);
+      return NextResponse.json({ error: 'Invalid request body', details: validated.error }, { status: 400 });
+    }
 
     // Check for duplicate unit number within building
     const existingUnit = await prisma.unit.findFirst({
       where: {
         organizationId: id,
-        buildingName: validated.buildingName || null,
-        unitNumber: validated.unitNumber,
+        buildingName: validated.data.buildingName || null,
+        unitNumber: validated.data.unitNumber,
       },
     });
 
     if (existingUnit) {
       return NextResponse.json({
-        error: `Unit ${validated.unitNumber} already exists in ${validated.buildingName || 'this building'}`,
+        error: `Unit ${validated.data.unitNumber} already exists in ${validated.data.buildingName || 'this building'}`,
       }, { status: 400 });
     }
 
     // Validate listing belongs to org if provided
-    if (validated.listingId) {
+    if (validated.data.listingId) {
       const orgListing = await prisma.orgListing.findFirst({
         where: {
           orgId: id,
-          listingId: validated.listingId,
+          listingId: validated.data.listingId,
         },
       });
 
@@ -191,18 +196,18 @@ export async function POST(
     const unit = await prisma.unit.create({
       data: {
         organizationId: id,
-        unitNumber: validated.unitNumber,
-        buildingName: validated.buildingName,
-        type: validated.type as PropertyType,
-        bedrooms: validated.bedrooms,
-        bathrooms: validated.bathrooms,
-        sizeSqm: validated.sizeSqm,
-        rent: validated.rent,
-        cautionDeposit: validated.cautionDeposit,
-        serviceCharge: validated.serviceCharge,
-        status: (validated.status as UnitStatus) || 'AVAILABLE',
-        occupancy: (validated.occupancy as UnitOccupancy) || 'VACANT',
-        listingId: validated.listingId,
+        unitNumber: validated.data.unitNumber,
+        buildingName: validated.data.buildingName,
+        type: validated.data.type as PropertyType,
+        bedrooms: validated.data.bedrooms,
+        bathrooms: validated.data.bathrooms,
+        sizeSqm: validated.data.sizeSqm,
+        rent: validated.data.rent,
+        cautionDeposit: validated.data.cautionDeposit,
+        serviceCharge: validated.data.serviceCharge,
+        status: (validated.data.status as UnitStatus) || 'AVAILABLE',
+        occupancy: (validated.data.occupancy as UnitOccupancy) || 'VACANT',
+        listingId: validated.data.listingId,
       },
       include: {
         currentTenant: {
@@ -230,8 +235,10 @@ export async function POST(
   } catch (error) {
     console.error('Units POST error:', error);
     if (error instanceof Error && error.name === 'ZodError') {
-      return NextResponse.json({ error: 'Invalid request body', details: error }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid request body', details: error, step: 'units_body_parse' }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    const status = /listing does not belong|already exists|limit reached/i.test(message) ? 400 : 500;
+    return NextResponse.json({ error: message, step: 'units_create' }, { status });
   }
 }

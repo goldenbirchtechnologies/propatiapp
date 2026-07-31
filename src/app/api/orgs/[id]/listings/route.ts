@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
 const addListingSchema = z.object({
-  listingId: z.string().uuid(),
+  listingId: z.string().min(1, 'listingId is required'),
 });
 
 export async function GET(
@@ -105,9 +105,8 @@ export async function POST(
       return NextResponse.json({ error: 'Organization not found' }, { status: 404 });
     }
 
-    // Only owner, manager, or maintenance can add listings
     const isOwner = org.ownerId === user.id;
-    const allowedRoles = ['manager', 'maintenance'];
+    const allowedRoles = ['owner', 'manager', 'maintenance'];
     if (!isOwner && !allowedRoles.includes(membership.role)) {
       return NextResponse.json({ error: 'FORBIDDEN: Insufficient role' }, { status: 403 });
     }
@@ -119,11 +118,16 @@ export async function POST(
     }
 
     const body = await request.json();
-    const validated = addListingSchema.parse(body);
+    console.log('Org Listings POST body:', JSON.stringify(body));
+    const validated = addListingSchema.safeParse(body);
+    if (!validated.success) {
+      console.error('Org Listings POST validation error:', validated.error);
+      return NextResponse.json({ error: 'Invalid request body', details: validated.error }, { status: 400 });
+    }
 
     // Check if listing exists and is not already in this org
     const listing = await prisma.listing.findUnique({
-      where: { id: validated.listingId },
+      where: { id: validated.data.listingId },
       select: { id: true, ownerId: true, status: true },
     });
 
@@ -133,11 +137,14 @@ export async function POST(
 
     // Check if listing is already in this org
     const existing = await prisma.orgListing.findUnique({
-      where: { orgId_listingId: { orgId: id, listingId: validated.listingId } },
+      where: { orgId_listingId: { orgId: id, listingId: validated.data.listingId } },
     });
 
     if (existing) {
-      return NextResponse.json({ error: 'Listing already added to organization' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Listing already added to organization' },
+        { status: 400 }
+      );
     }
 
     // Verify user has access to this listing (owner, agent, or org member with rights)
@@ -150,7 +157,7 @@ export async function POST(
     const orgListing = await prisma.orgListing.create({
       data: {
         orgId: id,
-        listingId: validated.listingId,
+        listingId: validated.data.listingId,
       },
       include: {
         listing: {

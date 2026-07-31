@@ -31,7 +31,19 @@ export default async function LandlordPropertiesPage() {
     include: {
       images: { where: { isCover: true }, take: 1 },
       verification: true,
-      units: { select: { occupancy: true } },
+      units: {
+        select: {
+          id: true,
+          unitNumber: true,
+          buildingName: true,
+          type: true,
+          bedrooms: true,
+          bathrooms: true,
+          rent: true,
+          status: true,
+          occupancy: true,
+        },
+      },
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -44,6 +56,17 @@ export default async function LandlordPropertiesPage() {
       price: Number(listing.price),
       unitCount: totalUnits,
       vacantUnitCount: vacantUnits,
+      units: listing.units.map((unit) => ({
+        id: unit.id,
+        unitNumber: unit.unitNumber,
+        buildingName: unit.buildingName,
+        type: unit.type,
+        bedrooms: unit.bedrooms,
+        bathrooms: unit.bathrooms,
+        rent: Number(unit.rent),
+        status: unit.status,
+        occupancy: unit.occupancy,
+      })),
     };
   });
 

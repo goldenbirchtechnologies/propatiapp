@@ -8,6 +8,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -17,6 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Building2 as BuildingIcon,
   CheckCircle as CheckCircleIcon,
@@ -26,9 +35,23 @@ import {
   Search,
   Plus,
   Loader2,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
 
 import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
+
+type ListingUnit = {
+  id: string;
+  unitNumber: string;
+  buildingName: string | null;
+  type: string;
+  bedrooms: number;
+  bathrooms: number;
+  rent: number;
+  status: string;
+  occupancy: string;
+};
 
 type Listing = {
   id: string;
@@ -46,6 +69,7 @@ type Listing = {
   verification: { overallStatus: string; currentLayer: number } | null;
   unitCount: number;
   vacantUnitCount: number;
+  units: ListingUnit[];
 };
 
 type Props = {
@@ -81,6 +105,10 @@ export default function PropertiesClient({ listings }: Props) {
     () => Object.fromEntries(listings.map((l) => [l.id, !!l.allowShortlet]))
   );
   const [shortletLoading, setShortletLoading] = useState<string | null>(null);
+  const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
+  const [publishTarget, setPublishTarget] = useState<string | null>(null);
+  const [publishSelectedUnits, setPublishSelectedUnits] = useState<Record<string, boolean>>({});
+  const [publishLoading, setPublishLoading] = useState(false);
 
   const counts = useMemo(() => {
     const draft = listings.filter((l) => l.status === 'draft').length;
@@ -108,6 +136,68 @@ export default function PropertiesClient({ listings }: Props) {
       return haystack.includes(q);
     });
   }, [listings, query, statusFilter]);
+
+  const toggleRow = (id: string) => {
+    setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const openPublishModal = (listing: Listing) => {
+    const initial: Record<string, boolean> = {};
+    listing.units
+      .filter((u) => u.occupancy === 'VACANT')
+      .forEach((u) => {
+        initial[u.id] = true;
+      });
+    setPublishSelectedUnits(initial);
+    setPublishTarget(listing.id);
+  };
+
+  const selectedVacantUnitIds = useMemo(() => {
+    if (!publishTarget) return [];
+    const listing = listings.find((l) => l.id === publishTarget);
+    if (!listing) return [];
+    return listing.units
+      .filter((u) => u.occupancy === 'VACANT' && publishSelectedUnits[u.id])
+      .map((u) => u.id);
+  }, [publishTarget, publishSelectedUnits, listings]);
+
+  const handlePublish = async () => {
+    if (!publishTarget) return;
+    const listing = listings.find((l) => l.id === publishTarget);
+    if (!listing) return;
+
+    setPublishLoading(true);
+    try {
+      const selectedUnits = listing.units.filter((u) => publishSelectedUnits[u.id]);
+      const res = await fetch(`/api/listings/${publishTarget}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'active' }),
+      });
+
+      const data = await res.json().catch(() => ({ success: false }));
+
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.error || 'Failed to publish property');
+      }
+
+      const unitLabels = selectedUnits.map((u) => `Unit ${u.unitNumber}`).join(', ');
+      toast({
+        title: 'Published',
+        description: `Successfully published ${selectedUnits.length || listing.vacantUnitCount} unit(s) (${unitLabels || listing.title}) to the Marketplace.`,
+      });
+      setPublishTarget(null);
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: 'Publish failed',
+        description: error instanceof Error ? error.message : 'Unexpected error',
+        variant: 'destructive',
+      });
+    } finally {
+      setPublishLoading(false);
+    }
+  };
 
   const handleShortletToggle = async (listingId: string, enabled: boolean) => {
     setShortletLoading(listingId);
@@ -186,6 +276,8 @@ export default function PropertiesClient({ listings }: Props) {
     }
   };
 
+  const publishListing = listings.find((l) => l.id === publishTarget);
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -247,6 +339,7 @@ export default function PropertiesClient({ listings }: Props) {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-outline-variant">
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground" />
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Property</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
@@ -260,117 +353,188 @@ export default function PropertiesClient({ listings }: Props) {
                 </thead>
                 <tbody>
                   {filtered.map((listing) => {
+                    const isExpanded = !!expandedRows[listing.id];
                     const listingTypeKey = LISTING_TYPE_MAP[listing.listingType.toLowerCase()] || 'rent';
+                    const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT');
                     return (
-                      <tr key={listing.id} className="border-b border-outline-variant last:border-b-0">
-                        <td className="p-4">
-                          <div className="flex items-center gap-3">
-                            {listing.images[0] ? (
-                              <img
-                                src={listing.images[0].url}
-                                alt={listing.title}
-                                className="w-14 h-14 rounded-lg object-cover"
-                              />
-                            ) : (
-                              <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center">
-                                <BuildingIcon className="w-5 h-5 text-muted-foreground" />
+                      <>
+                        <tr key={listing.id} className="border-b border-outline-variant last:border-b-0">
+                          <td className="p-4">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                              onClick={() => toggleRow(listing.id)}
+                            >
+                              {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
+                            </Button>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center gap-3">
+                              {listing.images[0] ? (
+                                <img
+                                  src={listing.images[0].url}
+                                  alt={listing.title}
+                                  className="w-14 h-14 rounded-lg object-cover"
+                                />
+                              ) : (
+                                <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center">
+                                  <BuildingIcon className="w-5 h-5 text-muted-foreground" />
+                                </div>
+                              )}
+                              <div>
+                                <p className="font-medium text-foreground">{titleCase(listing.title)}</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {titleCase(listing.area)}, {titleCase(listing.state)}
+                                </p>
                               </div>
-                            )}
-                            <div>
-                              <p className="font-medium text-foreground">{titleCase(listing.title)}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {titleCase(listing.area)}, {titleCase(listing.state)}
-                              </p>
                             </div>
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <span className="inline-flex items-center gap-1">
-                            <ListingTypeBadge type={listingTypeKey} />
-                            {listing.propertyType && (
-                              <Badge variant="secondary" className="ml-1">
-                                {listing.propertyType}
-                              </Badge>
-                            )}
-                          </span>
-                        </td>
-                        <td className="p-4">
-                          <StatusBadge status={listing.status} />
-                        </td>
-                        <td className="p-4">
-                          <VerificationBadge verification={listing.verification} />
-                        </td>
-                        <td className="p-4 font-medium text-foreground">
-                          {formatCurrency(listing.price)}
-                          <span className="text-xs text-muted-foreground">/{listing.pricePeriod || 'month'}</span>
-                        </td>
-                        <td className="p-4 text-muted-foreground">{listing.viewsCount.toLocaleString()}</td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-2">
-                            <Switch
-                              checked={!!shortletStates[listing.id]}
-                              disabled={shortletLoading === listing.id}
-                              onCheckedChange={(checked) => handleShortletToggle(listing.id, checked)}
-                            />
-                            <span className="text-xs text-muted-foreground">
-                              {shortletStates[listing.id] ? 'Enabled' : 'Off'}
+                          </td>
+                          <td className="p-4">
+                            <span className="inline-flex items-center gap-1">
+                              <ListingTypeBadge type={listingTypeKey} />
+                              {listing.propertyType && (
+                                <Badge variant="secondary" className="ml-1">
+                                  {listing.propertyType}
+                                </Badge>
+                              )}
                             </span>
-                            {shortletLoading === listing.id && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
-                          </div>
-                        </td>
-                        <td className="p-4 text-sm text-muted-foreground">
-                          {listing.unitCount > 0 ? (
-                            <span>
-                              {listing.unitCount} unit{listing.unitCount === 1 ? '' : 's'} &middot;{' '}
-                              <span className={listing.vacantUnitCount > 0 ? 'text-success' : 'text-destructive'}>
-                                {listing.vacantUnitCount} vacant
+                          </td>
+                          <td className="p-4">
+                            <StatusBadge status={listing.status} />
+                          </td>
+                          <td className="p-4">
+                            <VerificationBadge verification={listing.verification} />
+                          </td>
+                          <td className="p-4 font-medium text-foreground">
+                            {formatCurrency(listing.price)}
+                            <span className="text-xs text-muted-foreground">/{listing.pricePeriod || 'month'}</span>
+                          </td>
+                          <td className="p-4 text-muted-foreground">{listing.viewsCount.toLocaleString()}</td>
+                          <td className="p-4">
+                            <div className="flex items-center gap-2">
+                              <Switch
+                                checked={!!shortletStates[listing.id]}
+                                disabled={shortletLoading === listing.id}
+                                onCheckedChange={(checked) => handleShortletToggle(listing.id, checked)}
+                              />
+                              <span className="text-xs text-muted-foreground">
+                                {shortletStates[listing.id] ? 'Enabled' : 'Off'}
                               </span>
-                            </span>
-                          ) : (
-                            <span>No units</span>
-                          )}
-                        </td>
-                        <td className="p-4 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                <MoreVertical className="size-4" />
-                                <span className="sr-only">Actions</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>Edit</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`}>Verify</Link>
-                              </DropdownMenuItem>
-                              {(listing.status === 'draft' || listing.status === 'active') && (
-                                <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, listing.status === 'draft' ? 'active' : 'draft')}>
-                                  {listing.status === 'draft' ? 'Publish' : 'Unpublish'}
-                                </DropdownMenuItem>
-                              )}
-                              {listing.status === 'suspended' && (
-                                <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, 'active')}>
-                                  Resume
-                                </DropdownMenuItem>
-                              )}
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                className="text-destructive focus:text-destructive"
-                                onSelect={() => handleDelete(listing.id)}
+                              {shortletLoading === listing.id && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
+                            </div>
+                          </td>
+                          <td className="p-4 text-sm text-muted-foreground">
+                            {listing.unitCount > 0 ? (
+                              <button
+                                type="button"
+                                onClick={() => toggleRow(listing.id)}
+                                className="text-left"
                               >
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </td>
-                      </tr>
+                                <span>
+                                  {listing.unitCount} unit{listing.unitCount === 1 ? '' : 's'} &middot;{' '}
+                                  <span className={listing.vacantUnitCount > 0 ? 'text-success' : 'text-destructive'}>
+                                    {listing.vacantUnitCount} vacant
+                                  </span>
+                                </span>
+                              </button>
+                            ) : (
+                              <span>No units</span>
+                            )}
+                          </td>
+                          <td className="p-4 text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                  <MoreVertical className="size-4" />
+                                  <span className="sr-only">Actions</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>Edit</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`}>Verify</Link>
+                                </DropdownMenuItem>
+                                {(listing.status === 'draft' || listing.status === 'active') && (
+                                  <DropdownMenuItem onSelect={() => openPublishModal(listing)}>
+                                    {listing.status === 'draft' ? 'Publish' : 'Republish'}
+                                  </DropdownMenuItem>
+                                )}
+                                {listing.status === 'suspended' && (
+                                  <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, 'active')}>
+                                    Resume
+                                  </DropdownMenuItem>
+                                )}
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-destructive focus:text-destructive"
+                                  onSelect={() => handleDelete(listing.id)}
+                                >
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </td>
+                        </tr>
+                        {isExpanded && (
+                          <tr className="border-b border-outline-variant last:border-b-0">
+                            <td colSpan={10} className="p-0">
+                              <div className="px-4 py-4 bg-background/50">
+                                {listing.units.length === 0 ? (
+                                  <p className="text-sm text-muted-foreground">No units linked to this property.</p>
+                                ) : (
+                                  <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                      <thead>
+                                        <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground">
+                                          <th className="pb-2 pr-4">Unit</th>
+                                          <th className="pb-2 pr-4">Type</th>
+                                          <th className="pb-2 pr-4">Beds</th>
+                                          <th className="pb-2 pr-4">Baths</th>
+                                          <th className="pb-2 pr-4">Rent</th>
+                                          <th className="pb-2 pr-4">Status</th>
+                                          <th className="pb-2">Occupancy</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody className="text-foreground">
+                                        {listing.units.map((unit) => (
+                                          <tr key={unit.id} className="border-t border-outline-variant/60">
+                                            <td className="py-2 pr-4">
+                                              <div>
+                                                <p className="font-medium">
+                                                  Unit {unit.unitNumber}
+                                                  {unit.buildingName ? ` • ${unit.buildingName}` : ''}
+                                                </p>
+                                              </div>
+                                            </td>
+                                            <td className="py-2 pr-4 capitalize">{unit.type}</td>
+                                            <td className="py-2 pr-4">{unit.bedrooms}</td>
+                                            <td className="py-2 pr-4">{unit.bathrooms}</td>
+                                            <td className="py-2 pr-4">{formatCurrency(unit.rent)}</td>
+                                            <td className="py-2 pr-4 capitalize">{unit.status.toLowerCase()}</td>
+                                            <td className="py-2">
+                                              <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
+                                                {unit.occupancy.toLowerCase()}
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </>
                     );
                   })}
                 </tbody>
@@ -379,6 +543,61 @@ export default function PropertiesClient({ listings }: Props) {
           )}
         </div>
       </section>
+
+      <Dialog open={!!publishTarget} onOpenChange={(open) => !open && !publishLoading && setPublishTarget(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Select units to publish</DialogTitle>
+            <DialogDescription>
+              {publishListing
+                ? `Choose which vacant units from ${titleCase(publishListing.title)} should go live on the marketplace.`
+                : 'Choose which vacant units should go live on the marketplace.'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 max-h-[50vh] overflow-y-auto">
+            {publishListing && publishListing.units.filter((u) => u.occupancy === 'VACANT').length === 0 && (
+              <p className="text-sm text-muted-foreground">No vacant units available for this property.</p>
+            )}
+            {publishListing?.units
+              .filter((u) => u.occupancy === 'VACANT')
+              .map((unit) => (
+                <label key={unit.id} className="flex items-start gap-3 rounded-lg border border-outline-variant p-3">
+                  <Checkbox
+                    checked={!!publishSelectedUnits[unit.id]}
+                    onCheckedChange={(checked) =>
+                      setPublishSelectedUnits((prev) => ({
+                        ...prev,
+                        [unit.id]: checked === true,
+                      }))
+                    }
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      Unit {unit.unitNumber}
+                      {unit.buildingName ? ` • ${unit.buildingName}` : ''}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {unit.type} • {unit.bedrooms} bed • {unit.bathrooms} bath • {formatCurrency(unit.rent)}
+                    </p>
+                  </div>
+                </label>
+              ))}
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setPublishTarget(null)}
+              disabled={publishLoading}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handlePublish} disabled={publishLoading || selectedVacantUnitIds.length === 0}>
+              {publishLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Publish selected units
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -91,18 +91,18 @@ const AMENITY_ICON_MAP: Record<string, React.ReactNode> = {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Active' },
-    draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
+    draft: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Draft' },
     suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
-    deleted: { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: 'Deleted' },
+    deleted: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-surface-container text-on-surface-variant border-outline-variant', label: status };
+  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
         Not Started
       </span>
     );
@@ -111,7 +111,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-bold text-warning border border-warning/20 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
           Not Started
         </span>
       );
@@ -143,7 +143,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-on-surface-variant border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
           {verification.overallStatus}
         </span>
       );
@@ -199,11 +199,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started' },
+    not_started: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Not Started' },
     in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress' },
     certified: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Verified ✓' },
     rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected' },
-    pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
+    pending: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Pending' },
     approved: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Approved' },
   };
 

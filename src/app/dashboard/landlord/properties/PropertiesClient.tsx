@@ -619,7 +619,7 @@ function StatCard({ label, value, icon: Icon }: { label: string; value: number; 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-success/10 text-success border-success/20', label: 'Active' },
-    draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
+    draft: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Draft' },
     suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
     deleted: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Deleted' },
   };
@@ -637,16 +637,14 @@ function ListingTypeBadge({ type }: { type: 'rent' | 'sale' | 'short_let' | 'sha
   };
   const cfg = config[type] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: type };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
-}
-
 function VerificationBadge({ verification }: { verification: { overallStatus: string; currentLayer: number } | null }) {
   if (!verification) {
-    return <span className="tag bg-warning/10 text-warning border-warning/20">Not Started</span>;
+    return <span className="tag bg-muted text-muted-foreground border-outline-variant">Not Started</span>;
   }
 
   switch (verification.overallStatus) {
     case 'not_started':
-      return <span className="tag bg-warning/10 text-warning border-warning/20">Not Started</span>;
+      return <span className="tag bg-muted text-muted-foreground border-outline-variant">Not Started</span>;
     case 'in_progress':
       return (
         <span className="tag bg-primary/10 text-primary border-primary/20 inline-flex items-center gap-1">

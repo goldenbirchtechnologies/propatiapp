@@ -1089,6 +1089,21 @@ a:hover {
   accent-color: var(--accent);
 }
 
+/* Badge pill base */
+.tag {
+  font-size: 0.67rem;
+  font-weight: 700;
+  padding: 0.16rem 0.5rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
 /* Placeholder contrast via shared selector */
 ::placeholder, input::placeholder, textarea::placeholder {
   opacity: 0.6;

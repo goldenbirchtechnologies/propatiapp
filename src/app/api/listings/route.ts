@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { listingFilterSchema } from '@/lib/validators';
@@ -144,9 +145,14 @@ export async function POST(request: NextRequest) {
     const { createListingSchema, createShortletListingSchema } = await import('@/lib/validators');
 
     let validated;
-    let listingType = body.listingType;
+    const listingType = body.listingType;
+    const isShortletWizardPayload =
+      listingType === 'short_let' &&
+      !!body.location &&
+      !!body.floor_plan &&
+      !!body.pricing;
 
-    if (listingType === 'short_let') {
+    if (isShortletWizardPayload) {
       validated = createShortletListingSchema.parse(body);
     } else {
       validated = createListingSchema.parse(body);

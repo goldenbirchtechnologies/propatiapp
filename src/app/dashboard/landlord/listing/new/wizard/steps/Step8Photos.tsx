@@ -1,0 +1,152 @@
+'use client';
+
+import { useState, useCallback } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
+import type { PhotoItem } from '../types';
+
+export interface Step8Props {
+  photos: PhotoItem[];
+  onChange: (photos: PhotoItem[]) => void;
+}
+
+export default function Step8Photos({ photos, onChange }: Step8Props) {
+  const [dragOver, setDragOver] = useState(false);
+
+  const processFiles = useCallback(
+    (files: FileList | null) => {
+      if (!files) return;
+      const newPhotos: PhotoItem[] = Array.from(files).map((file, idx) => ({
+        photo_id: `photo_${Date.now()}_${idx}`,
+        url: URL.createObjectURL(file),
+        is_cover: photos.length === 0 && idx === 0,
+        order: photos.length + idx,
+      }));
+      const next = [...photos, ...newPhotos];
+      onChange(next);
+    },
+    [photos, onChange]
+  );
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    processFiles(e.dataTransfer.files);
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    processFiles(e.target.files);
+  };
+
+  const setCover = (photoId: string) => {
+    onChange(
+      photos.map((p) => ({
+        ...p,
+        is_cover: p.photo_id === photoId,
+      }))
+    );
+  };
+
+  const removePhoto = (photoId: string) => {
+    const next = photos.filter((p) => p.photo_id !== photoId);
+    if (next.length > 0 && !next.some((p) => p.is_cover)) {
+      next[0].is_cover = true;
+    }
+    onChange(next);
+  };
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold">Add some photos of your place</h2>
+      <p className="text-sm text-muted-foreground">You need at least 5 photos. The first photo will be your cover photo.</p>
+
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+        className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
+          dragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
+        }`}
+      >
+        <ImageIcon className="size-10 text-muted-foreground" />
+        <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          className="hidden"
+          id="photo-upload"
+          onChange={handleFileInput}
+        />
+        <Label htmlFor="photo-upload" className="cursor-pointer">
+          <Button type="button" variant="outline">
+            <Upload className="size-4 mr-2" /> Select photos
+          </Button>
+        </Label>
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        {photos.map((photo) => (
+          <div key={photo.photo_id} className="relative group">
+            <img
+              src={photo.url}
+              alt=""
+              className="w-24 h-24 object-cover rounded-md border-2 border-transparent"
+              style={{ borderColor: photo.is_cover ? 'rgb(var(--color-primary))' : undefined }}
+            />
+            {photo.is_cover && (
+              <div className="absolute top-1 left-1">
+                <Star className="size-4 text-yellow-500 fill-yellow-500" />
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => removePhoto(photo.photo_id)}
+              className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+            >
+              <X className="size-3" />
+            </button>
+            {!photo.is_cover && (
+              <button
+                type="button"
+                onClick={() => setCover(photo.photo_id)}
+                className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                title="Set as cover"
+              >
+                <Star className="size-3 text-muted-foreground" />
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-muted-foreground">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</span>
+        {photos.length < 5 && (
+          <Badge variant="outline" className="text-xs">{5 - photos.length} more needed</Badge>
+        )}
+        {photos.length >= 5 && (
+          <Badge variant="default" className="text-xs">Minimum met</Badge>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function validate(data: unknown): string[] {
+  const errors: string[] = [];
+  const d = data as { photos?: PhotoItem[] } | undefined;
+  const photos = d?.photos ?? [];
+  if (photos.length < 5) {
+    errors.push(`At least 5 photos are required (${photos.length} uploaded)`);
+  }
+  return errors;
+}
+
+export function getData(): { photos: PhotoItem[] } {
+  return { photos: [] };
+}

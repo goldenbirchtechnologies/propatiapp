@@ -33,8 +33,140 @@ export const updateUserSchema = z.object({
 // Listing schemas
 export const listingTypeSchema = z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']);
 export const propertyTypeSchema = z.enum(['apartment', 'house', 'duplex', 'land', 'office', 'shop', 'warehouse']);
+export const privacyTypeSchema = z.enum(['entire_place', 'private_room', 'shared_room']);
+export const propertyStructureSchema = z.enum([
+  'house',
+  'apartment',
+  'barn',
+  'bed_and_breakfast',
+  'boat',
+  'cabin',
+  'camper_rv',
+  'casa_particular',
+  'castle',
+  'cave',
+  'container',
+  'cycladic_home',
+  'dammuso',
+  'dome',
+  'earth_home',
+  'farm',
+  'guesthouse',
+  'hotel',
+  'houseboat',
+  'minsu',
+  'riad',
+  'ryokan',
+  'shepherds_hut',
+  'tent',
+  'tiny_home',
+  'tower',
+  'treehouse',
+  'trullo',
+  'windmill',
+  'yurt',
+]);
+export const bookingModelSchema = z.enum(['review_first_3_then_instant', 'instant_book']);
 export const listingStatusSchema = z.enum(['draft', 'active', 'suspended', 'deleted']);
 export const verificationTierSchema = z.enum(['basic', 'verified', 'inspected', 'certified']);
+
+export const shortletListingSchema = z.object({
+  propertyStructure: propertyStructureSchema,
+  privacyType: privacyTypeSchema,
+  guestsCount: z.number().int().positive().default(4),
+  bedsCount: z.number().int().positive().default(1),
+  bedroomsCount: z.number().int().nonnegative().default(1),
+  bathroomsCount: z.number().positive().default(1),
+  highlights: z.array(z.string().max(50)).max(2).optional(),
+  bookingModel: bookingModelSchema,
+  weekendPricing: z.number().nonnegative().optional(),
+  discounts: z
+    .object({
+      new_listing_promotion: z.boolean().optional(),
+      last_minute_percentage: z.number().int().min(0).max(100).optional(),
+      weekly_percentage: z.number().int().min(0).max(100).optional(),
+      monthly_percentage: z.number().int().min(0).max(100).optional(),
+    })
+    .optional(),
+  houseRules: z.array(z.string().max(200)).optional(),
+  safetyDisclosures: z
+    .object({
+      exterior_security_camera_present: z.boolean().default(false),
+      noise_decibel_monitor_present: z.boolean().default(false),
+      weapons_on_property: z.boolean().default(false),
+    })
+    .optional(),
+  kycCompliance: z
+    .object({
+      address: z.object({
+        country_code: z.string().optional(),
+        street_address: z.string().optional(),
+        apt_unit: z.string().optional(),
+        city: z.string().optional(),
+        state_province: z.string().optional(),
+        postal_code: z.string().optional(),
+      }),
+      is_business_entity: z.boolean().default(false),
+      attestation_accepted: z.boolean().default(false),
+    })
+    .optional(),
+});
+
+// Shortlet master payload creation (spec-exact field names)
+export const createShortletListingSchema = z.object({
+  title: z.string().min(1, 'Title is required').max(50, 'Title must be at most 50 characters'),
+  description: z.string().max(5000).optional(),
+  listingType: z.literal('short_let'),
+  property_structure: propertyStructureSchema,
+  privacy_type: privacyTypeSchema,
+  location: z.object({
+    formatted_address: z.string().min(1, 'Address is required'),
+    coordinates: z.object({
+      lat: z.number(),
+      lng: z.number(),
+    }),
+    show_precise_location: z.boolean().optional(),
+  }),
+  floor_plan: z.object({
+    guests_count: z.number().int().min(1, 'At least 1 guest is required'),
+    bedrooms_count: z.number().int().min(0, 'Bedrooms cannot be negative'),
+    beds_count: z.number().int().min(1, 'At least 1 bed is required'),
+    bathrooms_count: z.number().min(0.5, 'At least 0.5 bathroom is required').multipleOf(0.5),
+  }),
+  amenities: z.array(z.string()).optional(),
+  photos: z.array(z.object({
+    photo_id: z.string(),
+    url: z.string().url('Invalid photo URL'),
+    is_cover: z.boolean().optional(),
+    order: z.number().int().optional(),
+  })).min(5, 'At least 5 photos are required'),
+  highlights: z.array(z.string()).max(2, 'Maximum 2 highlights allowed').optional(),
+  house_rules: z.array(z.string()).optional(),
+  booking_model: bookingModelSchema,
+  pricing: z.object({
+    currency: z.string().min(1, 'Currency is required'),
+    base_price: z.number().positive('Base price must be positive'),
+    weekend_pricing: z.number().nonnegative().optional(),
+  }),
+  discounts: z.record(z.any()).optional(),
+  safety_disclosures: z.object({
+    exterior_security_camera_present: z.boolean().default(false),
+    noise_decibel_monitor_present: z.boolean().default(false),
+    weapons_on_property: z.boolean().default(false),
+  }).optional(),
+  kyc_compliance: z.object({
+    address: z.object({
+      country_code: z.string().min(1),
+      street_address: z.string().min(1),
+      apt_unit: z.string().optional(),
+      city: z.string().min(1),
+      state_province: z.string().min(1),
+      postal_code: z.string().optional(),
+    }),
+    is_business_entity: z.boolean().default(false),
+    attestation_accepted: z.boolean().refine(v => v === true, 'Attestation must be accepted'),
+  }),
+});
 
 export const createListingSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters').max(100),
@@ -69,6 +201,41 @@ export const updateListingSchema = createListingSchema.partial().extend({
   verificationTier: verificationTierSchema.optional(),
   isFeatured: z.boolean().optional(),
   allowShortlet: z.boolean().optional(),
+  // Shortlet-specific partial fields
+  guests_count: z.number().int().min(1).optional(),
+  beds_count: z.number().int().min(1).optional(),
+  bedrooms_count: z.number().int().min(0).optional(),
+  bathrooms_count: z.number().min(0.5).multipleOf(0.5).optional(),
+  privacy_type: privacyTypeSchema.optional(),
+  property_structure: propertyStructureSchema.optional(),
+  booking_model: bookingModelSchema.optional(),
+  weekend_pricing: z.number().nonnegative().optional(),
+  discounts: z.record(z.any()).optional(),
+  highlights: z.array(z.string()).max(2).optional(),
+  house_rules: z.array(z.string()).optional(),
+  safety_disclosures: z.object({
+    exterior_security_camera_present: z.boolean().optional(),
+    noise_decibel_monitor_present: z.boolean().optional(),
+    weapons_on_property: z.boolean().optional(),
+  }).optional(),
+  kyc_compliance: z.object({
+    address: z.object({
+      country_code: z.string().optional(),
+      street_address: z.string().optional(),
+      apt_unit: z.string().optional(),
+      city: z.string().optional(),
+      state_province: z.string().optional(),
+      postal_code: z.string().optional(),
+    }),
+    is_business_entity: z.boolean().optional(),
+    attestation_accepted: z.boolean().optional(),
+  }).optional(),
+  photos: z.array(z.object({
+    photo_id: z.string(),
+    url: z.string().url(),
+    is_cover: z.boolean().optional(),
+    order: z.number().int().optional(),
+  })).optional(),
 });
 
 export const listingFilterSchema = paginationSchema.extend({
@@ -462,6 +629,8 @@ export type CreateUserInput = z.infer<typeof createUserSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export type CreateListingInput = z.infer<typeof createListingSchema>;
 export type UpdateListingInput = z.infer<typeof updateListingSchema>;
+export type CreateShortletListingInput = z.infer<typeof createShortletListingSchema>;
+export type ShortletListingInput = z.infer<typeof shortletListingSchema>;
 export type ListingFilters = z.infer<typeof listingFilterSchema>;
 export type InitiatePaymentInput = z.infer<typeof initiatePaymentSchema>;
 export type ReleaseEscrowInput = z.infer<typeof releaseEscrowSchema>;

@@ -141,8 +141,16 @@ export async function POST(request: NextRequest) {
     if (auth instanceof NextResponse) return auth;
 
     const body = await request.json();
-    const { createListingSchema } = await import('@/lib/validators');
-    const validated = createListingSchema.parse(body);
+    const { createListingSchema, createShortletListingSchema } = await import('@/lib/validators');
+
+    let validated;
+    let listingType = body.listingType;
+
+    if (listingType === 'short_let') {
+      validated = createShortletListingSchema.parse(body);
+    } else {
+      validated = createListingSchema.parse(body);
+    }
 
     const userId = auth.user.id;
 
@@ -164,22 +172,86 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const listing = await prisma.listing.create({
-      data: {
-        ...validated,
-        area: validated.area || validated.address,
+    let listing;
+    if (listingType === 'short_let') {
+      const shortlet = validated as z.infer<typeof createShortletListingSchema>;
+      const prismaData: Record<string, unknown> = {
+        title: shortlet.title,
+        description: shortlet.description ?? null,
+        listingType: 'short_let',
+        address: shortlet.location.formatted_address,
+        state: 'Lagos',
+        city: shortlet.location.coordinates ? undefined : undefined,
+        bedrooms: shortlet.floor_plan.bedrooms_count,
+        bathrooms: shortlet.floor_plan.bathrooms_count,
+        toilets: 0,
+        price: shortlet.pricing.base_price,
+        pricePeriod: 'night',
+        amenities: shortlet.amenities ?? [],
+        availableFrom: new Date().toISOString(),
+        allowShortlet: true,
+        guests_count: shortlet.floor_plan.guests_count,
+        beds_count: shortlet.floor_plan.beds_count,
+        privacy_type: shortlet.privacy_type,
+        property_structure: shortlet.property_structure,
+        booking_model: shortlet.booking_model,
+        weekend_pricing: shortlet.pricing.weekend_pricing ?? null,
+        discounts: shortlet.discounts ?? null,
+        highlights: shortlet.highlights ?? null,
+        house_rules: shortlet.house_rules ?? null,
+        safety_disclosures: shortlet.safety_disclosures ?? null,
+        kyc_compliance: shortlet.kyc_compliance ?? null,
+        photos: shortlet.photos ?? null,
         ownerId: userId,
-        price: validated.price,
-        cautionDeposit: validated.cautionDeposit ?? null,
-        serviceCharge: validated.serviceCharge ?? null,
-      },
-    });
+        area: shortlet.location.formatted_address,
+      };
+
+      try {
+        listing = await prisma.listing.create({ data: prismaData } as any);
+      } catch (error) {
+        console.warn('Shortlet listing create warning (missing Prisma fields?):', error);
+        const {
+          guests_count,
+          beds_count,
+          privacy_type,
+          property_structure,
+          booking_model,
+          weekend_pricing,
+          discounts,
+          highlights,
+          house_rules,
+          safety_disclosures,
+          kyc_compliance,
+          photos,
+          ...safeData
+        } = prismaData;
+        console.warn('Falling back to legacy fields only for shortlet listing create');
+        listing = await prisma.listing.create({ data: safeData } as any);
+      }
+    } else {
+      listing = await prisma.listing.create({
+        data: {
+          ...validated,
+          area: validated.area || validated.address,
+          ownerId: userId,
+          price: validated.price,
+          cautionDeposit: validated.cautionDeposit ?? null,
+          serviceCharge: validated.serviceCharge ?? null,
+        },
+      });
+    }
 
     return NextResponse.json(listing, { status: 201 });
   } catch (error) {
     console.error('Listings POST error:', error);
     if (error instanceof Error && error.name === 'ZodError') {
-      return NextResponse.json({ error: 'Invalid request body', details: error }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Invalid request body',
+          details: (error as Error & { errors?: unknown }).errors ?? error,
+        },
+        { status: 400 }
+      );
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

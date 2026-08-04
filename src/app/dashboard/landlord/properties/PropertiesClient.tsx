@@ -637,6 +637,8 @@ function ListingTypeBadge({ type }: { type: 'rent' | 'sale' | 'short_let' | 'sha
   };
   const cfg = config[type] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: type };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
+}
+
 function VerificationBadge({ verification }: { verification: { overallStatus: string; currentLayer: number } | null }) {
   if (!verification) {
     return <span className="tag bg-muted text-muted-foreground border-outline-variant">Not Started</span>;

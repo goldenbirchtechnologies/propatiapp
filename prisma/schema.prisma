@@ -44,6 +44,50 @@ enum PropertyType {
   warehouse
 }
 
+enum PrivacyType {
+  entire_place
+  private_room
+  shared_room
+}
+
+enum PropertyStructure {
+  house
+  apartment
+  barn
+  bed_and_breakfast
+  boat
+  cabin
+  camper_rv
+  casa_particular
+  castle
+  cave
+  container
+  cycladic_home
+  dammuso
+  dome
+  earth_home
+  farm
+  guesthouse
+  hotel
+  houseboat
+  minsu
+  riad
+  ryokan
+  shepherds_hut
+  tent
+  tiny_home
+  tower
+  treehouse
+  trullo
+  windmill
+  yurt
+}
+
+enum BookingModel {
+  review_first_3_then_instant
+  instant_book
+}
+
 enum ListingStatus {
   draft
   active
@@ -614,9 +658,22 @@ model Listing {
   availableFrom        DateTime?         @map("available_from")
   minimumStay          Int?              @map("minimum_stay")
   status               ListingStatus     @default(draft)
+  allowShortlet        Boolean           @default(false) @map("allow_shortlet")
+
+  // Shortlet-specific fields
+  guestsCount          Int?              @default(1) @map("guests_count")
+  bedsCount            Int?              @default(1) @map("beds_count")
+  privacyType          PrivacyType?      @map("privacy_type")
+  propertyStructure    PropertyStructure? @map("property_structure")
+  bookingModel         BookingModel?      @map("booking_model")
+  weekendPricing       Decimal?          @db.Decimal(5, 2) @map("weekend_pricing")
+  discounts            Json?
+  highlights           Json?
+  houseRules           Json?             @map("house_rules")
+  safetyDisclosures    Json?             @map("safety_disclosures")
+  kycCompliance        Json?             @map("kyc_compliance")
   verificationTier     VerificationTier  @default(basic) @map("verification_tier")
   isFeatured           Boolean           @default(false) @map("is_featured")
-  allowShortlet        Boolean           @default(false) @map("allow_shortlet")
   viewsCount           Int               @default(0) @map("views_count")
   createdAt            DateTime          @default(now()) @map("created_at")
   updatedAt            DateTime          @updatedAt @map("updated_at")

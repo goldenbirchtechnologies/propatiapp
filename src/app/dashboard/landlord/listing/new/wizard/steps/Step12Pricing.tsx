@@ -1,0 +1,104 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DollarSign } from 'lucide-react';
+import type { Pricing } from '../types';
+
+export interface Step12Props {
+  value?: Partial<Pricing>;
+  onChange: (value: Partial<Pricing>) => void;
+}
+
+const CURRENCIES = ['USD', 'EUR', 'GBP', 'NGN', 'KES', 'GHS', 'ZAR'];
+
+export default function Step12Pricing({ value, onChange }: Step12Props) {
+  const [currency, setCurrency] = useState(value?.currency ?? 'USD');
+  const [basePrice, setBasePrice] = useState(value?.base_price?.toString() ?? '');
+  const [weekend, setWeekend] = useState(value?.weekend_pricing?.toString() ?? '');
+
+  useEffect(() => {
+    onChange({
+      currency,
+      base_price: parseFloat(basePrice) || 0,
+      weekend_pricing: weekend ? parseFloat(weekend) : undefined,
+    });
+  }, [currency, basePrice, weekend, onChange]);
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold">Set your base price</h2>
+      <p className="text-sm text-muted-foreground">This is your nightly base rate. You can adjust it for weekends later.</p>
+      <Card className="p-4 space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="currency">Currency</Label>
+            <Select value={currency} onValueChange={setCurrency}>
+              <SelectTrigger id="currency">
+                <SelectValue placeholder="Select currency" />
+              </SelectTrigger>
+              <SelectContent>
+                {CURRENCIES.map((c) => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="base_price">Base price per night</Label>
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="base_price"
+                type="number"
+                min={10}
+                step="0.01"
+                placeholder="0.00"
+                value={basePrice}
+                onChange={(e) => setBasePrice(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="weekend_pricing">Weekend adjustment percentage (optional)</Label>
+          <Input
+            id="weekend_pricing"
+            type="number"
+            min={0}
+            max={100}
+            placeholder="e.g. 15 for 15% increase"
+            value={weekend}
+            onChange={(e) => setWeekend(e.target.value)}
+          />
+          <p className="text-xs text-muted-foreground">Leave blank for no weekend adjustment.</p>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+export function validate(data: unknown): string[] {
+  const errors: string[] = [];
+  const d = data as Partial<Pricing> | undefined;
+  if (!d) {
+    errors.push('Pricing is required');
+    return errors;
+  }
+  if (!d.base_price || d.base_price < 10) {
+    errors.push('Base price must be at least 10');
+  }
+  if (!d.currency) {
+    errors.push('Currency is required');
+  }
+  return errors;
+}
+
+export function getData(): Partial<Pricing> {
+  return {};
+}

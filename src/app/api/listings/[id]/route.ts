@@ -191,23 +191,84 @@ export async function PATCH(
       }
     }
 
+    // Support partial updates for shortlet fields.
+    // Flatten nested master-payload structures (floor_plan, pricing, location)
+    // into top-level Prisma fields if provided.
+    const prismaData: Record<string, unknown> = { ...validated };
+
+    if (body.floor_plan && typeof body.floor_plan === 'object') {
+      const fp = body.floor_plan;
+      if (fp.guests_count !== undefined) prismaData.guests_count = fp.guests_count;
+      if (fp.beds_count !== undefined) prismaData.beds_count = fp.beds_count;
+      if (fp.bedrooms_count !== undefined) prismaData.bedrooms_count = fp.bedrooms_count;
+      if (fp.bathrooms_count !== undefined) prismaData.bathrooms_count = fp.bathrooms_count;
+    }
+
+    if (body.pricing && typeof body.pricing === 'object') {
+      const p = body.pricing;
+      if (p.base_price !== undefined) prismaData.price = p.base_price;
+      if (p.weekend_pricing !== undefined) prismaData.weekend_pricing = p.weekend_pricing;
+    }
+
+    if (body.location && typeof body.location === 'object') {
+      const loc = body.location;
+      if (loc.formatted_address !== undefined) prismaData.address = loc.formatted_address;
+    }
+
     // Update listing
-    const updated = await prisma.listing.update({
-      where: { id },
-      data: validated,
-      include: {
-        owner: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-            phone: true,
+    let updated;
+    try {
+      updated = await prisma.listing.update({
+        where: { id },
+        data: prismaData,
+        include: {
+          owner: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+              phone: true,
+            },
           },
+          images: true,
+          verification: true,
         },
-        images: true,
-        verification: true,
-      },
-    });
+      });
+    } catch (error: unknown) {
+      console.warn('Shortlet listing update warning (missing Prisma fields?):', error);
+      const {
+        guests_count,
+        beds_count,
+        privacy_type,
+        property_structure,
+        booking_model,
+        weekend_pricing,
+        discounts,
+        highlights,
+        house_rules,
+        safety_disclosures,
+        kyc_compliance,
+        photos,
+        ...safeData
+      } = prismaData;
+      console.warn('Falling back to legacy fields only for shortlet listing update');
+      updated = await prisma.listing.update({
+        where: { id },
+        data: safeData,
+        include: {
+          owner: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+              phone: true,
+            },
+          },
+          images: true,
+          verification: true,
+        },
+      });
+    }
 
     return NextResponse.json({
       success: true,

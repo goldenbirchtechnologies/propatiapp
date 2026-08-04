@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { Info } from 'lucide-react';
+import { Info, ExternalLink } from 'lucide-react';
 
 export interface Step6Props {
   house_rules?: string[];
@@ -14,21 +14,21 @@ export interface Step6Props {
 }
 
 const HOUSE_RULES = [
-  { value: 'none', label: 'None' },
-  { value: 'no_smoking', label: 'No smoking' },
-  { value: 'no_pets', label: 'No pets' },
-  { value: 'no_inflammables', label: 'No inflammables' },
-  { value: 'no_overnight_guests', label: 'No overnight guests' },
-  { value: 'no_parties_events', label: 'No parties or events' },
-  { value: 'no_loud_music_after_10pm', label: 'No loud music after 10pm' },
-  { value: 'not_suitable_children_under_12', label: 'Not suitable for children under 12 years' },
-  { value: 'not_suitable_children_under_2', label: 'Not suitable for children under 2 years' },
-  { value: 'replacement_charge_access_key', label: 'Replacement charge if you lose access key' },
-  { value: 'no_structural_changes', label: 'No structural changes without host permission' },
-  { value: 'cctv_surveillance', label: 'CCTV surveillance' },
-  { value: 'private_residential_only', label: 'Private/residential use only' },
-  { value: 'smoking_balconies_only', label: 'Smoking is allowed on balconies only' },
-  { value: 'no_illegal_activities', label: 'No illegal activities' },
+  { value: 'none', label: 'None', link: '#' },
+  { value: 'no_smoking', label: 'No smoking', link: '#' },
+  { value: 'no_pets', label: 'No pets', link: '#' },
+  { value: 'no_inflammables', label: 'No inflammables', link: '#' },
+  { value: 'no_overnight_guests', label: 'No overnight guests', link: '#' },
+  { value: 'no_parties_events', label: 'No parties or events', link: '#' },
+  { value: 'no_loud_music_after_10pm', label: 'No loud music after 10pm', link: '#' },
+  { value: 'not_suitable_children_under_12', label: 'Not suitable for children under 12 years', link: '#' },
+  { value: 'not_suitable_children_under_2', label: 'Not suitable for children under 2 years', link: '#' },
+  { value: 'replacement_charge_access_key', label: 'Replacement charge if you lose access key', link: '#' },
+  { value: 'no_structural_changes', label: 'No structural changes without host permission', link: '#' },
+  { value: 'cctv_surveillance', label: 'CCTV surveillance', link: '#' },
+  { value: 'private_residential_only', label: 'Private/residential use only', link: '#' },
+  { value: 'smoking_balconies_only', label: 'Smoking is allowed on balconies only', link: '#' },
+  { value: 'no_illegal_activities', label: 'No illegal activities', link: '#' },
 ];
 
 export default function Step6RulesMaintenance({ house_rules: houseRules, unit_description: unitDescription, onChange }: Step6Props) {
@@ -54,25 +54,41 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h2 className="text-lg font-semibold">House rules</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold">House rules</h2>
+          <Info className="size-4 text-muted-foreground" />
+        </div>
         <p className="text-sm text-muted-foreground">Select the rules you want to set for your guests.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {HOUSE_RULES.map((rule) => (
-            <label
-              key={rule.value}
-              className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
-                selected.includes(rule.value)
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/40'
-              }`}
-            >
-              <Checkbox
-                checked={selected.includes(rule.value)}
-                onCheckedChange={() => toggleRule(rule.value)}
-              />
-              <span className="text-sm">{rule.label}</span>
-            </label>
-          ))}
+          {HOUSE_RULES.map((rule) => {
+            const checked = selected.includes(rule.value);
+            return (
+              <label
+                key={rule.value}
+                className={`flex items-center justify-between gap-2 rounded-md border p-3 cursor-pointer transition ${
+                  checked
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/40'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={checked}
+                    onCheckedChange={() => toggleRule(rule.value)}
+                  />
+                  <span className="text-sm">{rule.label}</span>
+                </div>
+                <a
+                  href={rule.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs text-primary flex items-center gap-1"
+                >
+                  Details <ExternalLink className="size-3" />
+                </a>
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -109,6 +125,6 @@ export function validate(data: unknown): string[] {
   return errors;
 }
 
-export function getData(): Step6Props {
+export function getData(): { house_rules?: string[]; unit_description?: string } {
   return {};
 }

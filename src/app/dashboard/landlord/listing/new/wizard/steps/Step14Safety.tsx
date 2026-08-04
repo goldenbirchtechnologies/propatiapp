@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Shield, AlertTriangle, Link as LinkIcon } from 'lucide-react';
+import { Shield, AlertTriangle, FileText } from 'lucide-react';
 import type { SafetyDisclosures } from '../types';
 
 export interface Step14Props {
@@ -12,21 +12,24 @@ export interface Step14Props {
   onChange: (value: Partial<SafetyDisclosures>) => void;
 }
 
-const ITEMS: { key: keyof SafetyDisclosures; label: string; description: string; link?: string }[] = [
+const ITEMS: { key: keyof SafetyDisclosures; label: string; description: string; policyLink?: string }[] = [
   {
     key: 'exterior_security_camera_present',
     label: 'Exterior security cameras present',
     description: 'Security cameras are installed outside the property for safety.',
+    policyLink: '#',
   },
   {
     key: 'noise_decibel_monitor_present',
     label: 'Noise decibel monitor present',
     description: 'A noise level monitor is installed to enforce quiet hours.',
+    policyLink: '#',
   },
   {
     key: 'weapons_on_property',
     label: 'Weapons on property',
     description: 'There are weapons on the property that guests may encounter.',
+    policyLink: '#',
   },
 ];
 
@@ -69,17 +72,30 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                 className="mt-1"
               />
               <div className="flex-1">
-                <Label htmlFor={item.key} className="text-sm font-medium flex items-center gap-1">
-                  {item.label}
-                  {item.key === 'weapons_on_property' && (
-                    <AlertTriangle className="size-4 text-yellow-500" />
+                <div className="flex items-center gap-2">
+                  <Label htmlFor={item.key} className="text-sm font-medium flex items-center gap-1">
+                    {item.label}
+                    {item.key === 'weapons_on_property' && (
+                      <AlertTriangle className="size-4 text-yellow-500" />
+                    )}
+                  </Label>
+                  {item.policyLink && (
+                    <a href={item.policyLink} className="text-xs text-primary flex items-center gap-1">
+                      <FileText className="size-3" /> Policy
+                    </a>
                   )}
-                </Label>
+                </div>
                 <p className="text-xs text-muted-foreground">{item.description}</p>
               </div>
             </div>
           );
         })}
+      </Card>
+
+      <Card className="p-4 bg-muted/50 border-dashed">
+        <p className="text-xs text-muted-foreground">
+          You are required to keep this information accurate. Review your local safety regulations before submitting.
+        </p>
       </Card>
     </div>
   );

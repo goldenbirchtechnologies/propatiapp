@@ -5,7 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DollarSign } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { DollarSign, MapPin } from 'lucide-react';
 import type { Pricing } from '../types';
 
 export interface Step12Props {
@@ -79,6 +80,11 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
           <p className="text-xs text-muted-foreground">Leave blank for no weekend adjustment.</p>
         </div>
       </Card>
+
+      <Button variant="outline" className="w-full gap-2">
+        <MapPin className="size-4" />
+        View similar listings
+      </Button>
     </div>
   );
 }

@@ -16,39 +16,40 @@ export interface Step8Props {
 
 export default function Step8Photos({ photos, onChange }: Step8Props) {
   const [dragOver, setDragOver] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
 
-  const processFiles = useCallback(
-    (files: FileList | null) => {
-      if (!files) return;
-      const newPhotos: PhotoItem[] = Array.from(files).map((file, idx) => ({
-        photo_id: `photo_${Date.now()}_${idx}`,
-        url: URL.createObjectURL(file),
-        is_cover: photos.length === 0 && idx === 0,
-        order: photos.length + idx,
-      }));
-      const next = [...photos, ...newPhotos];
-      onChange(next);
-    },
-    [photos, onChange]
-  );
+  const processFiles = useCallback((files: FileList | null) => {
+    if (!files) return;
+    setShowUpload(false);
+    setUploading(true);
+    setProgress(0);
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    processFiles(e.dataTransfer.files);
-  };
+    const newPhotos: PhotoItem[] = Array.from(files).map((file, idx) => ({
+      photo_id: `photo_${Date.now()}_${idx}`,
+      url: URL.createObjectURL(file),
+      is_cover: photos.length === 0 && idx === 0,
+      order: photos.length + idx,
+    }));
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    processFiles(e.target.files);
-  };
+    let p = 0;
+    const tick = () => {
+      p = Math.min(p + Math.floor(Math.random() * 18 + 8), 100);
+      setProgress(p);
+      if (p < 100) {
+        setTimeout(tick, 200);
+      } else {
+        setUploading(false);
+      }
+    };
+    tick();
+
+    onChange([...photos, ...newPhotos]);
+  }, [photos, onChange]);
 
   const setCover = (photoId: string) => {
-    onChange(
-      photos.map((p) => ({
-        ...p,
-        is_cover: p.photo_id === photoId,
-      }))
-    );
+    onChange(photos.map((p) => ({ ...p, is_cover: p.photo_id === photoId })));
   };
 
   const removePhoto = (photoId: string) => {
@@ -64,75 +65,113 @@ export default function Step8Photos({ photos, onChange }: Step8Props) {
       <h2 className="text-lg font-semibold">Add some photos of your place</h2>
       <p className="text-sm text-muted-foreground">You need at least 5 photos. The first photo will be your cover photo.</p>
 
-      <div
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={handleDrop}
-        className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
-          dragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
-        }`}
-      >
-        <ImageIcon className="size-10 text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          className="hidden"
-          id="photo-upload"
-          onChange={handleFileInput}
-        />
-        <Label htmlFor="photo-upload" className="cursor-pointer">
-          <Button type="button" variant="outline">
-            <Upload className="size-4 mr-2" /> Select photos
-          </Button>
-        </Label>
-      </div>
-
-      <div className="flex flex-wrap gap-3">
-        {photos.map((photo) => (
-          <div key={photo.photo_id} className="relative group">
-            <img
-              src={photo.url}
-              alt=""
-              className="w-24 h-24 object-cover rounded-md border-2 border-transparent"
-              style={{ borderColor: photo.is_cover ? 'rgb(var(--color-primary))' : undefined }}
-            />
-            {photo.is_cover && (
-              <div className="absolute top-1 left-1">
-                <Star className="size-4 text-yellow-500 fill-yellow-500" />
-              </div>
-            )}
-            <button
-              type="button"
-              onClick={() => removePhoto(photo.photo_id)}
-              className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-            >
-              <X className="size-3" />
-            </button>
-            {!photo.is_cover && (
-              <button
-                type="button"
-                onClick={() => setCover(photo.photo_id)}
-                className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-                title="Set as cover"
-              >
-                <Star className="size-3 text-muted-foreground" />
-              </button>
-            )}
+      {!showUpload ? (
+        <div className="flex items-center justify-between rounded-lg border p-4">
+          <div className="flex items-center gap-3">
+            <ImageIcon className="size-5 text-muted-foreground" />
+            <div>
+              <p className="text-sm font-medium">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</p>
+              <p className="text-xs text-muted-foreground">{photos.length < 5 ? `${5 - photos.length} more needed` : 'Minimum met'}</p>
+            </div>
           </div>
-        ))}
-      </div>
+          <Button variant="outline" onClick={() => setShowUpload(true)}>
+            <Upload className="size-4 mr-2" /> Add photos
+          </Button>
+        </div>
+      ) : (
+        <Card className="p-4 space-y-4">
+          <div
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
+            className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
+              dragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
+            }`}
+          >
+            <ImageIcon className="size-10 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              className="hidden"
+              id="photo-upload"
+              onChange={(e) => processFiles(e.target.files)}
+            />
+            <Label htmlFor="photo-upload" className="cursor-pointer">
+              <Button type="button" variant="outline">
+                <Upload className="size-4 mr-2" /> Select photos
+              </Button>
+            </Label>
+          </div>
 
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</span>
-        {photos.length < 5 && (
-          <Badge variant="outline" className="text-xs">{5 - photos.length} more needed</Badge>
-        )}
-        {photos.length >= 5 && (
-          <Badge variant="default" className="text-xs">Minimum met</Badge>
-        )}
-      </div>
+          {uploading && (
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Uploading...</span>
+                <span>{progress}%</span>
+              </div>
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
+                <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+              </div>
+            </div>
+          )}
+
+          {photos.length > 0 && (
+            <div className="flex flex-wrap gap-3">
+              {photos.map((photo) => (
+                <div key={photo.photo_id} className="relative group">
+                  <img
+                    src={photo.url}
+                    alt=""
+                    className="w-24 h-24 object-cover rounded-md border-2"
+                    style={{ borderColor: photo.is_cover ? 'rgb(var(--color-primary))' : undefined }}
+                  />
+                  {photo.is_cover && (
+                    <div className="absolute top-1 left-1">
+                      <Star className="size-4 text-yellow-500 fill-yellow-500" />
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(photo.photo_id)}
+                    className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                  >
+                    <X className="size-3" />
+                  </button>
+                  {!photo.is_cover && (
+                    <button
+                      type="button"
+                      onClick={() => setCover(photo.photo_id)}
+                      className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                      title="Set as cover"
+                    >
+                      <Star className="size-3 text-muted-foreground" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</span>
+            <div className="flex items-center gap-2">
+              {photos.length < 5 && <Badge variant="outline" className="text-xs">{5 - photos.length} more needed</Badge>}
+              {photos.length >= 5 && <Badge variant="default" className="text-xs">Minimum met</Badge>}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <Button variant="ghost" size="sm" onClick={() => setShowUpload(false)} disabled={uploading}>
+              Done
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => setShowUpload(false)} disabled={uploading}>
+              Close
+            </Button>
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

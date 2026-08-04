@@ -5,7 +5,6 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Switch } from '@/components/ui/switch';
 import { Percent } from 'lucide-react';
 import type { Discounts } from '../types';
 
@@ -15,92 +14,74 @@ export interface Step13Props {
 }
 
 const DISCOUNT_OPTIONS = [
-  { key: 'new_listing_promotion', label: 'New listing promotion', type: 'switch', default: true },
-  { key: 'last_minute_percentage', label: 'Last minute discount', type: 'number', default: 9 },
-  { key: 'weekly_percentage', label: 'Weekly stay discount', type: 'number', default: 5 },
-  { key: 'monthly_percentage', label: 'Monthly stay discount', type: 'number', default: 10 },
+  { key: 'new_listing_promotion', label: 'New listing promotion', description: 'Promote your new listing to guests.' },
+  { key: 'last_minute_percentage', label: 'Last minute discount', description: 'Discounts for bookings at the last minute.' },
+  { key: 'weekly_percentage', label: 'Weekly stay discount', description: 'Discount for weekly stays.' },
+  { key: 'monthly_percentage', label: 'Monthly stay discount', description: 'Discount for monthly stays.' },
 ];
 
 export default function Step13Discounts({ value, onChange }: Step13Props) {
-  const [newListing, setNewListing] = useState(value?.new_listing_promotion ?? true);
-  const [lastMinute, setLastMinute] = useState(value?.last_minute_percentage?.toString() ?? '');
-  const [weekly, setWeekly] = useState(value?.weekly_percentage?.toString() ?? '');
-  const [monthly, setMonthly] = useState(value?.monthly_percentage?.toString() ?? '');
+  const [flags, setFlags] = useState<Record<string, boolean>>({
+    new_listing_promotion: value?.new_listing_promotion ?? true,
+    last_minute_percentage: Boolean(value?.last_minute_percentage),
+    weekly_percentage: Boolean(value?.weekly_percentage),
+    monthly_percentage: Boolean(value?.monthly_percentage),
+  });
+  const [percents, setPercents] = useState({
+    last_minute_percentage: value?.last_minute_percentage?.toString() ?? '9',
+    weekly_percentage: value?.weekly_percentage?.toString() ?? '5',
+    monthly_percentage: value?.monthly_percentage?.toString() ?? '10',
+  });
 
   useEffect(() => {
     onChange({
-      new_listing_promotion: newListing,
-      last_minute_percentage: lastMinute ? parseFloat(lastMinute) : undefined,
-      weekly_percentage: weekly ? parseFloat(weekly) : undefined,
-      monthly_percentage: monthly ? parseFloat(monthly) : undefined,
+      new_listing_promotion: flags.new_listing_promotion,
+      last_minute_percentage: flags.last_minute_percentage ? parseFloat(percents.last_minute_percentage) || 0 : undefined,
+      weekly_percentage: flags.weekly_percentage ? parseFloat(percents.weekly_percentage) || 0 : undefined,
+      monthly_percentage: flags.monthly_percentage ? parseFloat(percents.monthly_percentage) || 0 : undefined,
     });
-  }, [newListing, lastMinute, weekly, monthly, onChange]);
+  }, [flags, percents, onChange]);
 
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Promotions and discounts</h2>
       <p className="text-sm text-muted-foreground">Offer discounts to attract more bookings.</p>
-      <Card className="p-4 space-y-4">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="new_listing_promotion" className="text-sm font-medium">New listing promotion</Label>
-          <Switch
-            id="new_listing_promotion"
-            checked={newListing}
-            onCheckedChange={setNewListing}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="last_minute">Last minute %</Label>
-            <div className="relative">
-              <Percent className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-              <Input
-                id="last_minute"
-                type="number"
-                min={0}
-                max={100}
-                placeholder="9"
-                value={lastMinute}
-                onChange={(e) => setLastMinute(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="weekly">Weekly %</Label>
-            <div className="relative">
-              <Percent className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-              <Input
-                id="weekly"
-                type="number"
-                min={0}
-                max={100}
-                placeholder="5"
-                value={weekly}
-                onChange={(e) => setWeekly(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="monthly">Monthly %</Label>
-            <div className="relative">
-              <Percent className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-              <Input
-                id="monthly"
-                type="number"
-                min={0}
-                max={100}
-                placeholder="10"
-                value={monthly}
-                onChange={(e) => setMonthly(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-          </div>
-        </div>
-      </Card>
+      <div className="space-y-3">
+        {DISCOUNT_OPTIONS.map((option) => {
+          const checked = flags[option.key];
+          return (
+            <Card key={option.key} className={`p-4 flex items-center justify-between gap-4 border transition ${
+              checked ? 'border-primary bg-primary/5' : 'border-border'
+            }`}>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id={option.key}
+                    checked={checked}
+                    onCheckedChange={(c) => setFlags((prev) => ({ ...prev, [option.key]: Boolean(c) }))}
+                  />
+                  <Label htmlFor={option.key} className="text-sm font-medium">
+                    {option.label}
+                  </Label>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">{option.description}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Percent className="size-4 text-muted-foreground" />
+                <Input
+                  type="number"
+                  min={0}
+                  max={100}
+                  value={percents[option.key as keyof typeof percents]}
+                  onChange={(e) => setPercents((prev) => ({ ...prev, [option.key]: e.target.value }))}
+                  disabled={!checked}
+                  className="w-20"
+                />
+              </div>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Building2, User, FileCheck2 } from 'lucide-react';
+import { FileCheck2, Building2, User } from 'lucide-react';
 import type { KycAddress, KycCompliance } from '../types';
 
 export interface Step15Props {
@@ -109,12 +109,12 @@ export default function Step15Kyc({ value, onChange }: Step15Props) {
         <h3 className="text-sm font-medium flex items-center gap-2">
           <User className="size-4" /> Business entity
         </h3>
-        <div className="flex gap-2">
+        <div className="grid grid-cols-2 gap-2">
           <Button
             type="button"
             variant={isBusinessEntity ? 'default' : 'outline'}
             onClick={() => setIsBusinessEntity(true)}
-            className="flex-1"
+            className="w-full"
           >
             Yes, listing for a business
           </Button>
@@ -122,14 +122,14 @@ export default function Step15Kyc({ value, onChange }: Step15Props) {
             type="button"
             variant={!isBusinessEntity ? 'default' : 'outline'}
             onClick={() => setIsBusinessEntity(false)}
-            className="flex-1"
+            className="w-full"
           >
             No, individual
           </Button>
         </div>
       </Card>
 
-      <Card className="p-4">
+      <Card className="p-4 space-y-3">
         <div className="flex items-start gap-3">
           <input
             type="checkbox"
@@ -138,8 +138,10 @@ export default function Step15Kyc({ value, onChange }: Step15Props) {
             onChange={(e) => setAttestation(e.target.checked)}
             className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
           />
-          <Label htmlFor="attestation" className="text-sm cursor-pointer">
-            <span className="font-medium">I attest that the information provided is accurate and I agree to the terms and conditions.</span>
+          <Label htmlFor="attestation" className="text-sm cursor-pointer leading-snug">
+            <span className="font-medium">I attest that the information provided is accurate and I agree to the </span>
+            <Button variant="link" className="h-auto p-0 text-sm">terms and conditions</Button>
+            <span className="font-medium">.</span>
           </Label>
         </div>
       </Card>

@@ -61,7 +61,7 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
       {Object.entries(CATEGORIES).map(([category, items]) => (
         <div key={category} className="space-y-2">
           <h3 className="text-sm font-medium text-muted-foreground">{category}</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {items.map((item) => (
               <label
                 key={item.value}

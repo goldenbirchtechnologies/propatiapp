@@ -370,7 +370,7 @@ export default function PropertiesClient({ listings }: Props) {
                             </Button>
                           </td>
                           <td className="p-4">
-                            <div className="flex items-center gap-3">
+                            <Link href={`/dashboard/landlord/properties/${listing.id}`} className="group">
                               {listing.images[0] ? (
                                 <img
                                   src={listing.images[0].url}
@@ -383,12 +383,12 @@ export default function PropertiesClient({ listings }: Props) {
                                 </div>
                               )}
                               <div>
-                                <p className="font-medium text-foreground">{titleCase(listing.title)}</p>
+                                <p className="font-medium text-foreground group-hover:underline">{titleCase(listing.title)}</p>
                                 <p className="text-xs text-muted-foreground">
                                   {titleCase(listing.area)}, {titleCase(listing.state)}
                                 </p>
                               </div>
-                            </div>
+                            </Link>
                           </td>
                           <td className="p-4">
                             <span className="inline-flex items-center gap-1">

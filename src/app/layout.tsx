@@ -23,14 +23,14 @@ const inter = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'PROPATI - Nigeria\'s Most Trusted Property Marketplace',
-    template: '%s - PROPATI',
+    default: 'PROPATIBOX - All Your Properties. One Box.',
+    template: '%s - PROPATIBOX',
   },
-  description: 'Find verified properties for rent and sale in Nigeria. Secure transactions, escrow payments, and 5-layer verification.',
-  keywords: ['property', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified listings'],
-  authors: [{ name: 'PROPATI' }],
-  creator: 'PROPATI',
-  publisher: 'PROPATI',
+  description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
+  keywords: ['property management', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified properties', 'PROPATIBOX'],
+  authors: [{ name: 'PROPATIBOX' }],
+  creator: 'PROPATIBOX',
+  publisher: 'PROPATIBOX',
   formatDetection: {
     email: false,
     address: false,
@@ -44,23 +44,23 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_NG',
     url: '/',
-    siteName: 'PROPATI',
-    title: 'PROPATI - Nigeria\'s Most Trusted Property Marketplace',
-    description: 'Find verified properties for rent and sale in Nigeria. Secure transactions, escrow payments, and 5-layer verification.',
+    siteName: 'PROPATIBOX',
+    title: 'PROPATIBOX - All Your Properties. One Box.',
+    description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/brand/propatibox-logo-dark.jpg',
         width: 1200,
         height: 630,
-        alt: 'PROPATI - Trusted Property Marketplace',
+        alt: 'PROPATIBOX - All Your Properties. One Box.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PROPATI - Nigeria\'s Most Trusted Property Marketplace',
-    description: 'Find verified properties for rent and sale in Nigeria.',
-    images: ['/og-image.png'],
+    title: 'PROPATIBOX - All Your Properties. One Box.',
+    description: 'Manage, view, and organize all your properties in one verified box.',
+    images: ['/brand/propatibox-logo-dark.jpg'],
   },
   robots: {
     index: true,

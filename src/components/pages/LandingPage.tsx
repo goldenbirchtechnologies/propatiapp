@@ -19,10 +19,20 @@ export function LandingPage() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ height: '64px' }}>
           <div className="flex items-center justify-between h-full">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
-              <NextImage src="/brand/propati-logo.png" alt="PROPATI" width={38} height={38} priority style={{ animation: 'propLogoPop 2.4s ease-in-out infinite', transformOrigin: 'center center' }} />
-              <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--accent)' }}>
-                PROPATI
+            <Link href="/" className="flex items-center gap-2.5">
+              <video
+                src="/brand/Transform_static_logo_into_motion_202608041922.mp4"
+                poster="/brand/propatibox-logo-dark.jpg"
+                autoPlay
+                loop
+                muted
+                playsInline
+                width="40"
+                height="40"
+                className="w-10 h-10 rounded-lg object-cover bg-[#0A0F18]"
+              />
+              <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--text)' }}>
+                PROPATI<span style={{ color: '#C8A45C' }}>BOX</span>
               </span>
             </Link>
 
@@ -210,12 +220,22 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <Link href="/" className="flex items-center gap-2 mb-4">
-                <NextImage src="/brand/propati-logo.png" alt="PROPATI" width={28} height={28} />
-                <span className="text-xl font-heading font-bold" style={{ color: 'var(--accent)' }}>PROPATI</span>
+              <Link href="/" className="flex items-center gap-2.5 mb-4">
+                <video
+                  src="/brand/Transform_static_logo_into_motion_202608041922.mp4"
+                  poster="/brand/propatibox-logo-dark.jpg"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  width="32"
+                  height="32"
+                  className="w-8 h-8 rounded-lg object-cover bg-[#0A0F18]"
+                />
+                <span className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>PROPATI<span style={{ color: '#C8A45C' }}>BOX</span></span>
               </Link>
               <p className="text-sm" style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
-                The leading property management platform for landlords, tenants, and agents in Nigeria.
+                All your properties in one box for easier visibility and management. Verified properties, stamp duty verification, and secure payments across Nigeria.
               </p>
             </div>
             <div>

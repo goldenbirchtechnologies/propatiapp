@@ -160,6 +160,16 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     form.setValue('propertyType', (unit.propertyType as ListingInput['propertyType']) || undefined);
   }, [selectedUnitId, vacantUnits, form]);
 
+  useEffect(() => {
+    const currentType = form.getValues('listingType');
+    if (currentType === 'short_let') {
+      const currentPeriod = form.getValues('pricePeriod');
+      if (currentPeriod !== 'night' && currentPeriod !== 'total') {
+        form.setValue('pricePeriod', 'night');
+      }
+    }
+  }, [form.watch('listingType'), form]);
+
   const validateClientSide = (): boolean => {
     const values = form.getValues();
     const errors: string[] = [];
@@ -461,13 +471,15 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-foreground mb-1">Price</label>
+                  <label className="block text-sm font-medium text-foreground mb-1">
+                    Price {form.watch('listingType') === 'short_let' ? '(per night)' : form.watch('listingType') === 'sale' ? '(total price)' : '(per month)'}
+                  </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div className="relative sm:col-span-2">
                       <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground text-sm">₦</span>
                       <Input
                         type="number"
-                        placeholder="500,000"
+                        placeholder={form.watch('listingType') === 'short_let' ? 'e.g., 25,000' : '500,000'}
                         className="pl-8 placeholder:text-foreground/40"
                         {...form.register('price', { valueAsNumber: true })}
                       />
@@ -475,16 +487,27 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     </div>
                     <Select value={form.watch('pricePeriod')} onValueChange={(value) => form.setValue('pricePeriod', value as ListingInput['pricePeriod'])}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Per Month" />
+                        <SelectValue placeholder={form.watch('listingType') === 'short_let' ? 'Per Night' : 'Per Month'} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="night">Per Night</SelectItem>
-                        <SelectItem value="month">Per Month</SelectItem>
-                        <SelectItem value="year">Per Year</SelectItem>
-                        <SelectItem value="total">Total (One-time)</SelectItem>
+                        {form.watch('listingType') === 'short_let' ? (
+                          <>
+                            <SelectItem value="night">Per Night</SelectItem>
+                            <SelectItem value="total">Total (One-time)</SelectItem>
+                          </>
+                        ) : (
+                          <>
+                            <SelectItem value="month">Per Month</SelectItem>
+                            <SelectItem value="year">Per Year</SelectItem>
+                            <SelectItem value="total">Total (One-time)</SelectItem>
+                          </>
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
+                  {form.watch('listingType') === 'short_let' && (
+                    <p className="text-xs text-muted-foreground mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
+                  )}
                 </div>
 
                 <FormField

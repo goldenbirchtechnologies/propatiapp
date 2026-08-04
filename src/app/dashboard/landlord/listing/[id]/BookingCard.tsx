@@ -1,0 +1,125 @@
+'use client';
+
+import { useState } from 'react';
+import { Info } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+
+type ListingData = {
+  price: number;
+  serviceCharge: number | null;
+  cautionDeposit: number | null;
+  pricePeriod: string | null;
+  availableFrom: string | null;
+  id: string;
+};
+
+type Props = {
+  listing: ListingData;
+};
+
+export default function BookingCard({ listing }: Props) {
+  const [duration, setDuration] = useState('1');
+
+  const months = parseInt(duration, 10);
+  const totalRent = listing.price * months;
+  const serviceCharge = listing.serviceCharge || 0;
+  const cautionDeposit = listing.cautionDeposit || 0;
+  const grandTotal = totalRent + serviceCharge + cautionDeposit;
+
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+  const pricePeriodLabel =
+    listing.pricePeriod === 'night'
+      ? '/ Night'
+      : listing.pricePeriod === 'year'
+        ? '/ Year'
+        : listing.pricePeriod === 'total'
+          ? ''
+          : '/ Month';
+
+  return (
+    <div className="border border-outline-variant rounded-2xl p-6 shadow-lg bg-card space-y-6">
+      {listing.availableFrom && (
+        <div className="bg-primary/10 text-primary text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
+          <Info className="w-4 h-4" />
+          Available from:{' '}
+          <span className="font-semibold">
+            {new Date(listing.availableFrom).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </span>
+        </div>
+      )}
+
+      <div>
+        <p className="text-xs uppercase font-semibold text-muted-foreground">Rent Price</p>
+        <div className="flex items-baseline gap-1 mt-1">
+          <span className="text-3xl font-extrabold text-foreground">
+            {formatCurrency(listing.price)}
+          </span>
+          <span className="text-muted-foreground text-sm">{pricePeriodLabel}</span>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-semibold text-foreground uppercase mb-2">
+          Select Duration
+        </label>
+        <select
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          className="w-full border border-outline-variant rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-surface-container-low text-foreground"
+        >
+          <option value="1">1 Month</option>
+          <option value="3">3 Months</option>
+          <option value="6">6 Months</option>
+          <option value="12">12 Months</option>
+        </select>
+      </div>
+
+      <div className="space-y-3 text-sm border-t border-outline-variant pt-4 text-muted-foreground">
+        <div className="flex justify-between">
+          <span>Rent ({duration} mo)</span>
+          <span className="font-medium text-foreground">{formatCurrency(totalRent)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Service Charge</span>
+          <span className="font-medium text-foreground">{formatCurrency(serviceCharge)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Refundable Caution Deposit</span>
+          <span className="font-medium text-foreground">{formatCurrency(cautionDeposit)}</span>
+        </div>
+
+        <div className="border-t border-outline-variant pt-3 flex justify-between items-center">
+          <span className="font-bold text-base text-foreground">Total</span>
+          <span className="font-extrabold text-xl text-primary">
+            {formatCurrency(grandTotal)}
+          </span>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Link href={`/dashboard/landlord/properties/${listing.id}/publish`} className="block">
+          <Button className="w-full" size="lg">
+            Publish / Update
+          </Button>
+        </Link>
+        <Link href={`/dashboard/landlord/properties`} className="block">
+          <Button variant="outline" className="w-full" size="lg">
+            View Properties
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}

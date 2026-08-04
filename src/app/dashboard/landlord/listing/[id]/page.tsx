@@ -2,6 +2,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
+import PropertyDetailClient from './PropertyDetailClient';
 
 export default async function LandlordListingDetailPage({ params }: { params: { id: string } }) {
   const user = await getCurrentUserWithProfile();
@@ -18,6 +19,32 @@ export default async function LandlordListingDetailPage({ params }: { params: { 
   const isOwner = user.id === listing.ownerId;
   if (!isOwner) redirect('/dashboard/landlord/properties');
 
+  const listingData = {
+    id: listing.id,
+    title: listing.title,
+    description: listing.description || '',
+    listingType: listing.listingType,
+    propertyType: listing.propertyType,
+    address: listing.address,
+    area: listing.area,
+    state: listing.state,
+    price: Number(listing.price),
+    pricePeriod: listing.pricePeriod,
+    cautionDeposit: listing.cautionDeposit ? Number(listing.cautionDeposit) : null,
+    serviceCharge: listing.serviceCharge ? Number(listing.serviceCharge) : null,
+    bedrooms: listing.bedrooms,
+    bathrooms: listing.bathrooms,
+    floors: listing.floors,
+    parkingSpaces: listing.parkingSpaces,
+    amenities: Array.isArray(listing.amenities) ? listing.amenities : [],
+    availableFrom: listing.availableFrom,
+    status: listing.status,
+    allowShortlet: listing.allowShortlet,
+    viewsCount: listing.viewsCount,
+    images: listing.images || [],
+    verification: listing.verification,
+  };
+
   return (
     <DashboardShell
       navigation={LANDLORD_NAVIGATION}
@@ -25,38 +52,7 @@ export default async function LandlordListingDetailPage({ params }: { params: { 
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="space-y-4">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">{listing.title}</h1>
-          <p className="text-muted-foreground">{listing.address || `${listing.area}, ${listing.state}`}</p>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="card p-5">
-            <h2 className="text-sm text-muted-foreground mb-1">Status</h2>
-            <p className="text-lg font-medium text-foreground capitalize">{listing.status}</p>
-          </div>
-          <div className="card p-5">
-            <h2 className="text-sm text-muted-foreground mb-1">Price</h2>
-            <p className="text-lg font-medium text-foreground">₦{Number(listing.price).toLocaleString()}</p>
-          </div>
-          <div className="card p-5">
-            <h2 className="text-sm text-muted-foreground mb-1">Listing Type</h2>
-            <p className="text-lg font-medium text-foreground capitalize">{listing.listingType}</p>
-          </div>
-          <div className="card p-5">
-            <h2 className="text-sm text-muted-foreground mb-1">Property Type</h2>
-            <p className="text-lg font-medium text-foreground capitalize">{listing.propertyType}</p>
-          </div>
-        </div>
-        {listing.images?.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {listing.images.map((img: { url: string; isCover: boolean }) => (
-              <img key={img.url} src={img.url} alt={listing.title} className="w-full h-32 object-cover rounded-lg border border-border" />
-            ))}
-          </div>
-        )}
-        {listing.description && <p className="text-sm text-foreground whitespace-pre-wrap">{listing.description}</p>}
-      </div>
+      <PropertyDetailClient listing={listingData} />
     </DashboardShell>
   );
 }

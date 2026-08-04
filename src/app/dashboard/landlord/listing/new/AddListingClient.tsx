@@ -167,8 +167,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       if (currentPeriod !== 'night' && currentPeriod !== 'total') {
         form.setValue('pricePeriod', 'night');
       }
+      router.push('/dashboard/landlord/listing/new/wizard');
     }
-  }, [form.watch('listingType'), form]);
+  }, [form.watch('listingType'), form, router]);
 
   const validateClientSide = (): boolean => {
     const values = form.getValues();

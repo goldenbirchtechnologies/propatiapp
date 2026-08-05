@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -8,12 +7,6 @@ import { prisma } from '@/lib/prisma';
 import AgentInspectionsClient from './AgentInspectionsClient';
 
 export default async function AgentInspectionsPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'agent') {

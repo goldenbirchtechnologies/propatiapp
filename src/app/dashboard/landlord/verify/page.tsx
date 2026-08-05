@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -10,12 +9,6 @@ import LandlordVerifyClient from './LandlordVerifyClient';
 export const dynamic = 'force-dynamic';
 
 export default async function LandlordVerifyPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {

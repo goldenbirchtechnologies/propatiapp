@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -8,12 +7,6 @@ import { prisma } from '@/lib/prisma';
 import EstateManagerAgreementsClient from './EstateManagerAgreementsClient';
 
 export default async function EstateManagerAgreementsPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   const rolePaths: Record<string, string> = {

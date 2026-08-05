@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -8,12 +7,6 @@ import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentPipelineClient from './AgentPipelineClient';
 
 export default async function AgentPipelinePage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'agent') {

@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -7,12 +6,6 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import LandlordRentsClient from './LandlordRentsClient';
 
 export default async function LandlordRentsPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {

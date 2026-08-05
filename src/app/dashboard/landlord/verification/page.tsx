@@ -1,7 +1,6 @@
 
 
 import AppIcon from '@/components/icons/app-icon';
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -14,12 +13,6 @@ import { Building2 as BuildingIcon, ShieldCheck as ShieldCheckIcon, Clock as Clo
 export const dynamic = 'force-dynamic';
 
 export default async function LandlordVerificationPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {

@@ -65,20 +65,19 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
         </div>
       </Card>
 
-        <div className="space-y-2">
-          <Label htmlFor="weekend_pricing">Weekend adjustment percentage (optional)</Label>
-          <Input
-            id="weekend_pricing"
-            type="number"
-            min={0}
-            max={100}
-            placeholder="e.g. 15 for 15% increase"
-            value={weekend}
-            onChange={(e) => setWeekend(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">Leave blank for no weekend adjustment.</p>
-        </div>
-      </Card>
+      <div className="space-y-2">
+        <Label htmlFor="weekend_pricing">Weekend adjustment percentage (optional)</Label>
+        <Input
+          id="weekend_pricing"
+          type="number"
+          min={0}
+          max={100}
+          placeholder="e.g. 15 for 15% increase"
+          value={weekend}
+          onChange={(e) => setWeekend(e.target.value)}
+        />
+        <p className="text-xs text-muted-foreground">Leave blank for no weekend adjustment.</p>
+      </div>
 
       <Button variant="outline" className="w-full gap-2">
         <MapPin className="size-4" />

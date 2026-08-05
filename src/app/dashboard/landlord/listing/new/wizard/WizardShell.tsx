@@ -36,7 +36,10 @@ type StepConfig = {
 
 const STEPS: StepConfig[] = [
   { title: 'Property Structure', component: Step1PropertyStructure, validate: validateStep1 },
-  { title: 'Privacy Type', component: Step2PrivacyType, validate: (d) => validateStep(d, 'privacy_type') },
+  { title: 'Privacy Type', component: Step2PrivacyType, validate: (d) => {
+    if (!d || (typeof d === 'string' && !d.trim())) return ['privacy_type is required'];
+    return [];
+  }},
   { title: 'Location', component: Step3Location, validate: (d) => validateStep(d, 'location') },
   { title: 'Capacity', component: Step4Capacity, validate: validateStep4 },
   { title: 'Room Details', component: Step5RoomDetails, validate: validateStep5 },
@@ -223,7 +226,6 @@ export default function WizardShell({ onComplete }: Props) {
     setIsSubmitting(true);
     try {
       const masterPayload: ShortletListingPayload = {
-        listingType: 'short_let',
         property_structure: draft.property_structure,
         privacy_type: draft.privacy_type!,
         location: draft.location!,

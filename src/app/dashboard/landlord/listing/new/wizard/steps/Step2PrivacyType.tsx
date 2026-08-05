@@ -79,7 +79,12 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
   );
 }
 
-export function validate(_data: unknown): string[] {
+export function validate(data: unknown): string[] {
+  const d = data as Record<string, unknown> | undefined;
+  const val = d?.privacy_type ?? d;
+  if (!val || (typeof val === 'string' && !val.trim())) {
+    return ['privacy_type is required'];
+  }
   return [];
 }
 

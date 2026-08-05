@@ -48,8 +48,8 @@ const STEPS: StepConfig[] = [
   { title: 'Title', component: Step9Title, validate: validateStep9 },
   { title: 'Highlights', component: Step10Highlights, validate: validateStep10 },
   { title: 'Pricing', component: Step12Pricing, validate: validateStep12 },
-  { title: 'Discounts', component: Step12Discounts, validate: validateStep13 },
-  { title: 'Safety', component: Step13Safety, validate: validateStep14 },
+  { title: 'Discounts', component: Step13Discounts, validate: validateStep13 },
+  { title: 'Safety', component: Step14Safety, validate: validateStep14 },
 ];
 
 function validateStep(data: unknown, key: string): string[] {

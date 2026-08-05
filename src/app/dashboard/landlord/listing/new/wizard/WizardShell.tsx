@@ -35,7 +35,7 @@ type StepConfig = {
 };
 
 const STEPS: StepConfig[] = [
-  { title: 'Property Structure', component: Step1PropertyStructure, validate: (d) => validateStep(d, 'property_structure') },
+  { title: 'Property Structure', component: Step1PropertyStructure, validate: Step1PropertyStructure.validate },
   { title: 'Privacy Type', component: Step2PrivacyType, validate: (d) => validateStep(d, 'privacy_type') },
   { title: 'Location', component: Step3Location, validate: (d) => validateStep(d, 'location') },
   { title: 'Capacity', component: Step4Capacity, validate: Step4Capacity.validate },
@@ -198,7 +198,7 @@ export default function WizardShell() {
     setIsSubmitting(true);
     try {
       const masterPayload: ShortletListingPayload = {
-        property_structure: draft.property_structure!,
+        property_structure: draft.property_structure,
         privacy_type: draft.privacy_type!,
         location: draft.location!,
         floor_plan: draft.floor_plan!,

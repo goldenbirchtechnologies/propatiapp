@@ -117,7 +117,7 @@ export const createShortletListingSchema = z.object({
   title: z.string().min(1, 'Title is required').max(50, 'Title must be at most 50 characters'),
   description: z.string().max(5000).optional(),
   listingType: z.literal('short_let'),
-  property_structure: propertyStructureSchema,
+  property_structure: propertyStructureSchema.optional(),
   privacy_type: privacyTypeSchema,
   location: z.object({
     formatted_address: z.string().min(1, 'Address is required'),

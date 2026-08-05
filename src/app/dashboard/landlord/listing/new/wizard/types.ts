@@ -101,7 +101,7 @@ export interface PhotoItem {
 }
 
 export interface ShortletListingPayload {
-  property_structure: PropertyStructure;
+  property_structure?: PropertyStructure;
   privacy_type: PrivacyType;
   location: Location;
   floor_plan: FloorPlan;

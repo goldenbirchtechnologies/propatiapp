@@ -63,6 +63,10 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
     onChange(next);
   };
 
+  const openFilePicker = () => {
+    inputRef.current?.click();
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Add some photos of your place</h2>
@@ -77,9 +81,14 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
               <p className="text-xs text-muted-foreground">{value.length < 5 ? `${5 - value.length} more needed` : 'Minimum met'}</p>
             </div>
           </div>
-          <Button variant="outline" onClick={() => setShowUpload(true)}>
-            <Upload className="size-4 mr-2" /> Add photos
-          </Button>
+          <button
+            type="button"
+            onClick={openFilePicker}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm font-medium shadow-xs hover:bg-muted"
+          >
+            <Upload className="size-4" />
+            Add photos
+          </button>
         </div>
       ) : (
         <Card className="p-4 space-y-4">
@@ -90,22 +99,18 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
             className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
               dragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
             }`}
+            onClick={openFilePicker}
           >
             <ImageIcon className="size-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
-            <label className="cursor-pointer">
-              <Button type="button" variant="outline">
-                <Upload className="size-4 mr-2" /> Select photos
-              </Button>
-              <input
-                ref={inputRef}
-                type="file"
-                multiple
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => processFiles(e.target.files)}
-              />
-            </label>
+            <input
+              ref={inputRef}
+              type="file"
+              multiple
+              accept="image/*"
+              className="sr-only"
+              onChange={(e) => processFiles(e.target.files)}
+            />
           </div>
 
           {uploading && (
@@ -137,7 +142,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
                   )}
                   <button
                     type="button"
-                    onClick={() => removePhoto(photo.photo_id)}
+                    onClick={(e) => { e.stopPropagation(); removePhoto(photo.photo_id); }}
                     className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                   >
                     <X className="size-3" />
@@ -145,7 +150,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
                   {!photo.is_cover && (
                     <button
                       type="button"
-                      onClick={() => setCover(photo.photo_id)}
+                      onClick={(e) => { e.stopPropagation(); setCover(photo.photo_id); }}
                       className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                       title="Set as cover"
                     >
@@ -166,10 +171,10 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
           </div>
 
           <div className="flex items-center justify-between">
-            <Button variant="ghost" size="sm" onClick={() => setShowUpload(false)} disabled={uploading}>
+            <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setShowUpload(false); }} disabled={uploading}>
               Done
             </Button>
-            <Button variant="outline" size="sm" onClick={() => setShowUpload(false)} disabled={uploading}>
+            <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); setShowUpload(false); }} disabled={uploading}>
               Close
             </Button>
           </div>

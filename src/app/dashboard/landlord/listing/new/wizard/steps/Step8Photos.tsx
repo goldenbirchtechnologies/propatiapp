@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,15 +10,16 @@ import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
 import type { PhotoItem } from '../types';
 
 export interface Step8Props {
-  photos?: PhotoItem[];
+  value?: PhotoItem[];
   onChange: (photos: PhotoItem[]) => void;
 }
 
-export default function Step8Photos({ photos = [], onChange }: Step8Props) {
+export default function Step8Photos({ value = [], onChange }: Step8Props) {
   const [dragOver, setDragOver] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const processFiles = useCallback((files: FileList | null) => {
     if (!files) return;
@@ -29,8 +30,8 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
     const newPhotos: PhotoItem[] = Array.from(files).map((file, idx) => ({
       photo_id: `photo_${Date.now()}_${idx}`,
       url: URL.createObjectURL(file),
-      is_cover: photos.length === 0 && idx === 0,
-      order: photos.length + idx,
+      is_cover: value.length === 0 && idx === 0,
+      order: value.length + idx,
     }));
 
     let p = 0;
@@ -45,15 +46,20 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
     };
     tick();
 
-    onChange([...photos, ...newPhotos]);
-  }, [photos, onChange]);
+    onChange([...value, ...newPhotos]);
+
+    // Reset file input so selecting the same files again still triggers onChange
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+  }, [value, onChange]);
 
   const setCover = (photoId: string) => {
-    onChange(photos.map((p) => ({ ...p, is_cover: p.photo_id === photoId })));
+    onChange(value.map((p) => ({ ...p, is_cover: p.photo_id === photoId })));
   };
 
   const removePhoto = (photoId: string) => {
-    const next = photos.filter((p) => p.photo_id !== photoId);
+    const next = value.filter((p) => p.photo_id !== photoId);
     if (next.length > 0 && !next.some((p) => p.is_cover)) {
       next[0].is_cover = true;
     }
@@ -70,8 +76,8 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
           <div className="flex items-center gap-3">
             <ImageIcon className="size-5 text-muted-foreground" />
             <div>
-              <p className="text-sm font-medium">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</p>
-              <p className="text-xs text-muted-foreground">{photos.length < 5 ? `${5 - photos.length} more needed` : 'Minimum met'}</p>
+              <p className="text-sm font-medium">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</p>
+              <p className="text-xs text-muted-foreground">{value.length < 5 ? `${5 - value.length} more needed` : 'Minimum met'}</p>
             </div>
           </div>
           <Button variant="outline" onClick={() => setShowUpload(true)}>
@@ -91,6 +97,7 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
             <ImageIcon className="size-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
             <input
+              ref={inputRef}
               type="file"
               multiple
               accept="image/*"
@@ -117,9 +124,9 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
             </div>
           )}
 
-          {photos.length > 0 && (
+          {value.length > 0 && (
             <div className="flex flex-wrap gap-3">
-              {photos.map((photo) => (
+              {value.map((photo) => (
                 <div key={photo.photo_id} className="relative group">
                   <img
                     src={photo.url}
@@ -155,10 +162,10 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
           )}
 
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">{photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded</span>
+            <span className="text-sm text-muted-foreground">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</span>
             <div className="flex items-center gap-2">
-              {photos.length < 5 && <Badge variant="outline" className="text-xs">{5 - photos.length} more needed</Badge>}
-              {photos.length >= 5 && <Badge variant="default" className="text-xs">Minimum met</Badge>}
+              {value.length < 5 && <Badge variant="outline" className="text-xs">{5 - value.length} more needed</Badge>}
+              {value.length >= 5 && <Badge variant="default" className="text-xs">Minimum met</Badge>}
             </div>
           </div>
 
@@ -178,14 +185,13 @@ export default function Step8Photos({ photos = [], onChange }: Step8Props) {
 
 export function validate(data: unknown): string[] {
   const errors: string[] = [];
-  const d = data as { photos?: PhotoItem[] } | undefined;
-  const photos = d?.photos ?? [];
+  const photos = Array.isArray(data) ? data : [];
   if (photos.length < 5) {
     errors.push(`At least 5 photos are required (${photos.length} uploaded)`);
   }
   return errors;
 }
 
-export function getData(): { photos: PhotoItem[] } {
-  return { photos: [] };
+export function getData(): { value: PhotoItem[] } {
+  return { value: [] };
 }

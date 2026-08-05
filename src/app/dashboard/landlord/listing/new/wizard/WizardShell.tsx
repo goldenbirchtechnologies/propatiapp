@@ -278,17 +278,12 @@ export default function WizardShell({ onComplete }: Props) {
   const StepComponent = STEPS[currentStep].component;
 
   return (
-    <div className="min-h-screen flex flex-col bg-muted/30">
+    <div className="flex flex-col">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-sm font-bold">N</div>
-              <span className="hidden sm:inline">NewPropati</span>
-            </Link>
-            <Separator orientation="vertical" className="h-6 hidden sm:block" />
-            <Badge variant="outline" className="hidden sm:inline-flex">Shortlet Listing</Badge>
+          <div className="flex items-center gap-3">
+            <Badge variant="outline">Shortlet Listing</Badge>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground">
@@ -304,48 +299,8 @@ export default function WizardShell({ onComplete }: Props) {
         </div>
       </header>
 
-      {/* Sidebar + Main Content */}
-      <div className="flex-1 flex max-w-5xl mx-auto w-full">
-        {/* Sidebar Progress Tracker */}
-        <aside className="hidden lg:block w-56 shrink-0 border-r bg-background/50 p-4">
-          <nav className="space-y-1 sticky top-20">
-            {STEPS.map((step, idx) => {
-              const isActive = idx === currentStep;
-              const isCompleted = completedSteps.has(idx);
-              return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    if (idx <= currentStep || isCompleted) {
-                      setCurrentStep(idx);
-                      setErrors([]);
-                    }
-                  }}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition ${
-                    isActive
-                      ? 'bg-primary/10 text-primary font-semibold'
-                      : isCompleted
-                      ? 'text-muted-foreground hover:bg-muted'
-                      : 'text-muted-foreground/50 cursor-not-allowed'
-                  }`}
-                  disabled={idx > currentStep && !isCompleted}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className={`size-5 rounded-full flex items-center justify-center text-xs border ${
-                      isCompleted ? 'bg-primary border-primary text-primary-foreground' : isActive ? 'border-primary text-primary' : 'border-muted-foreground/30'
-                    }`}>
-                      {isCompleted ? <CheckCircle2 className="size-3" /> : idx + 1}
-                    </span>
-                    <span>{step.title}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </nav>
-        </aside>
-
-        {/* Main Form Area */}
-        <main className="flex-1 p-4 sm:p-6 pb-32">
+      {/* Main Form Area */}
+        <main className="flex-1 overflow-y-auto px-6 pt-4 pb-28">
           <Card className="p-6 sm:p-8 max-w-3xl mx-auto">
             <div className="mb-6">
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
@@ -372,7 +327,6 @@ export default function WizardShell({ onComplete }: Props) {
             />
           </Card>
         </main>
-      </div>
 
       {/* Sticky Footer */}
       <footer className="sticky bottom-0 z-50 bg-background/95 backdrop-blur border-t">

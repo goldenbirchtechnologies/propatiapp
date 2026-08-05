@@ -50,8 +50,8 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
         {DISCOUNT_OPTIONS.map((option) => {
           const checked = flags[option.key];
           return (
-            <Card key={option.key} className={`p-4 flex items-center justify-between gap-4 border transition ${
-              checked ? 'border-primary bg-primary/5' : 'border-border'
+            <Card key={option.key} className={`relative p-4 flex items-center justify-between gap-4 border-2 transition ${
+              checked ? 'border-primary bg-primary/10' : 'border-border'
             }`}>
               <div className="flex-1">
                 <div className="flex items-center gap-2">

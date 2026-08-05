@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Zap } from 'lucide-react';
+import { CheckCircle, Zap, Check } from 'lucide-react';
 import type { BookingModel } from '../types';
 
 export interface Step11Props {
@@ -46,12 +45,17 @@ export default function Step11BookingSettings({ value, onChange }: Step11Props) 
               key={opt.value}
               size="sm"
               onClick={() => handleSelect(opt.value)}
-              className={`cursor-pointer transition border ${
+              className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-primary ring-2 ring-primary/20 bg-primary/5'
+                  ? 'border-primary bg-primary/10'
                   : 'border-border hover:border-primary/40'
               }`}
             >
+              {isActive && (
+                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                  <Check className="w-3 h-3" />
+                </div>
+              )}
               <div className="p-4 flex items-center gap-4">
                 <div className={isActive ? 'text-primary' : 'text-muted-foreground'}>
                   {opt.icon}
@@ -60,7 +64,6 @@ export default function Step11BookingSettings({ value, onChange }: Step11Props) 
                   <div className="font-medium">{opt.label}</div>
                   <div className="text-sm text-muted-foreground">{opt.description}</div>
                 </div>
-                {isActive && <Badge variant="default" className="text-xs">Selected</Badge>}
               </div>
             </Card>
           );

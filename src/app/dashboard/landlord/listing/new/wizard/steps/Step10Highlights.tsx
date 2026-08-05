@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Check } from 'lucide-react';
 
 export interface Step10Props {
   highlights?: string[];
@@ -52,16 +51,20 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
               key={opt.value}
               size="sm"
               onClick={() => toggle(opt.value)}
-              className={`cursor-pointer transition border min-w-[140px] ${
+              className={`relative cursor-pointer transition border-2 min-w-[140px] ${
                 isActive
-                  ? 'border-primary ring-2 ring-primary/20 bg-primary/5'
+                  ? 'border-primary bg-primary/10'
                   : 'border-border hover:border-primary/40'
               }`}
             >
+              {isActive && (
+                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                  <Check className="w-3 h-3" />
+                </div>
+              )}
               <div className="p-3 text-center space-y-1">
                 <div className="font-medium text-sm">{opt.label}</div>
                 <div className="text-xs text-muted-foreground">{opt.description}</div>
-                {isActive && <Badge variant="default" className="text-xs">Selected</Badge>}
               </div>
             </Card>
           );

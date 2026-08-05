@@ -1,9 +1,8 @@
 'use client';
 
+import { Home, Hotel, Ship, Tent, Warehouse, Castle, TreePine, Check } from 'lucide-react';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Home, Hotel, Ship, Tent, Warehouse, Castle, TreePine } from 'lucide-react';
 import type { PropertyStructure } from '../types';
 
 export interface Step1Props {
@@ -64,20 +63,22 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
               key={opt.value}
               size="sm"
               onClick={() => handleSelect(opt.value)}
-              className={`cursor-pointer transition border ${
+              className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-primary ring-2 ring-primary/20 bg-primary/5'
+                  ? 'border-primary bg-primary/10'
                   : 'border-border hover:border-primary/40'
               }`}
             >
+              {isActive && (
+                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                  <Check className="w-3 h-3" />
+                </div>
+              )}
               <div className="p-4 flex flex-col items-center gap-2 text-center">
                 <div className={isActive ? 'text-primary' : 'text-muted-foreground'}>
                   {opt.icon}
                 </div>
                 <span className="text-sm font-medium">{opt.label}</span>
-                {isActive && (
-                  <Badge variant="default" className="text-xs">Selected</Badge>
-                )}
               </div>
             </Card>
           );

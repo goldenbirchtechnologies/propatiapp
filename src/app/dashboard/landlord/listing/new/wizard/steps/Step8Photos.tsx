@@ -3,8 +3,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
 import type { PhotoItem } from '../types';
@@ -48,7 +46,6 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
 
     onChange([...value, ...newPhotos]);
 
-    // Reset file input so selecting the same files again still triggers onChange
     if (inputRef.current) {
       inputRef.current.value = '';
     }
@@ -96,20 +93,19 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
           >
             <ImageIcon className="size-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
-            <input
-              ref={inputRef}
-              type="file"
-              multiple
-              accept="image/*"
-              className="hidden"
-              id="photo-upload"
-              onChange={(e) => processFiles(e.target.files)}
-            />
-            <Label htmlFor="photo-upload" className="cursor-pointer">
+            <label className="cursor-pointer">
               <Button type="button" variant="outline">
                 <Upload className="size-4 mr-2" /> Select photos
               </Button>
-            </Label>
+              <input
+                ref={inputRef}
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => processFiles(e.target.files)}
+              />
+            </label>
           </div>
 
           {uploading && (

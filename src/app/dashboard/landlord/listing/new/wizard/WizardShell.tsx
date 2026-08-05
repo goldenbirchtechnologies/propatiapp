@@ -10,21 +10,21 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ArrowRight, Save, HelpCircle, X, CheckCircle2, PlusCircle } from 'lucide-react';
 import type { ShortletListingPayload } from './types';
-import Step1PropertyStructure from './steps/Step1PropertyStructure';
+import Step1PropertyStructure, { validate as validateStep1 } from './steps/Step1PropertyStructure';
 import Step2PrivacyType from './steps/Step2PrivacyType';
 import Step3Location from './steps/Step3Location';
-import Step4Capacity from './steps/Step4Capacity';
-import Step5RoomDetails from './steps/Step5RoomDetails';
-import Step6RulesMaintenance from './steps/Step6RulesMaintenance';
-import Step7Amenities from './steps/Step7Amenities';
-import Step8Photos from './steps/Step8Photos';
-import Step9Title from './steps/Step9Title';
-import Step10Highlights from './steps/Step10Highlights';
+import Step4Capacity, { validate as validateStep4 } from './steps/Step4Capacity';
+import Step5RoomDetails, { validate as validateStep5 } from './steps/Step5RoomDetails';
+import Step6RulesMaintenance, { validate as validateStep6 } from './steps/Step6RulesMaintenance';
+import Step7Amenities, { validate as validateStep7 } from './steps/Step7Amenities';
+import Step8Photos, { validate as validateStep8 } from './steps/Step8Photos';
+import Step9Title, { validate as validateStep9 } from './steps/Step9Title';
+import Step10Highlights, { validate as validateStep10 } from './steps/Step10Highlights';
 import Step11BookingSettings from './steps/Step11BookingSettings';
-import Step12Pricing from './steps/Step12Pricing';
-import Step13Discounts from './steps/Step13Discounts';
-import Step14Safety from './steps/Step14Safety';
-import Step15Kyc from './steps/Step15Kyc';
+import Step12Pricing, { validate as validateStep12 } from './steps/Step12Pricing';
+import Step13Discounts, { validate as validateStep13 } from './steps/Step13Discounts';
+import Step14Safety, { validate as validateStep14 } from './steps/Step14Safety';
+import Step15Kyc, { validate as validateStep15 } from './steps/Step15Kyc';
 
 const STORAGE_KEY = 'shortlet-draft';
 
@@ -35,21 +35,21 @@ type StepConfig = {
 };
 
 const STEPS: StepConfig[] = [
-  { title: 'Property Structure', component: Step1PropertyStructure, validate: Step1PropertyStructure.validate },
+  { title: 'Property Structure', component: Step1PropertyStructure, validate: validateStep1 },
   { title: 'Privacy Type', component: Step2PrivacyType, validate: (d) => validateStep(d, 'privacy_type') },
   { title: 'Location', component: Step3Location, validate: (d) => validateStep(d, 'location') },
-  { title: 'Capacity', component: Step4Capacity, validate: Step4Capacity.validate },
-  { title: 'Room Details', component: Step5RoomDetails, validate: Step5RoomDetails.validate },
-  { title: 'Rules', component: Step6RulesMaintenance, validate: Step6RulesMaintenance.validate },
-  { title: 'Amenities', component: Step7Amenities, validate: Step7Amenities.validate },
-  { title: 'Photos', component: Step8Photos, validate: Step8Photos.validate },
-  { title: 'Title', component: Step9Title, validate: Step9Title.validate },
-  { title: 'Highlights', component: Step10Highlights, validate: Step10Highlights.validate },
+  { title: 'Capacity', component: Step4Capacity, validate: validateStep4 },
+  { title: 'Room Details', component: Step5RoomDetails, validate: validateStep5 },
+  { title: 'Rules', component: Step6RulesMaintenance, validate: validateStep6 },
+  { title: 'Amenities', component: Step7Amenities, validate: validateStep7 },
+  { title: 'Photos', component: Step8Photos, validate: validateStep8 },
+  { title: 'Title', component: Step9Title, validate: validateStep9 },
+  { title: 'Highlights', component: Step10Highlights, validate: validateStep10 },
   { title: 'Booking', component: Step11BookingSettings, validate: (d) => validateStep(d, 'booking_model') },
-  { title: 'Pricing', component: Step12Pricing, validate: Step12Pricing.validate },
-  { title: 'Discounts', component: Step13Discounts, validate: Step13Discounts.validate },
-  { title: 'Safety', component: Step14Safety, validate: Step14Safety.validate },
-  { title: 'Compliance', component: Step15Kyc, validate: Step15Kyc.validate },
+  { title: 'Pricing', component: Step12Pricing, validate: validateStep12 },
+  { title: 'Discounts', component: Step13Discounts, validate: validateStep13 },
+  { title: 'Safety', component: Step14Safety, validate: validateStep14 },
+  { title: 'Compliance', component: Step15Kyc, validate: validateStep15 },
 ];
 
 function validateStep(data: unknown, key: string): string[] {

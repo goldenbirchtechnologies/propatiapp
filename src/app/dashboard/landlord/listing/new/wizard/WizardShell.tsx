@@ -47,7 +47,7 @@ const STEPS: StepConfig[] = [
   { title: 'Photos', component: Step8Photos, validate: validateStep8 },
   { title: 'Title', component: Step9Title, validate: validateStep9 },
   { title: 'Highlights', component: Step10Highlights, validate: validateStep10 },
-  { title: 'Pricing', component: Step11Pricing, validate: validateStep12 },
+  { title: 'Pricing', component: Step12Pricing, validate: validateStep12 },
   { title: 'Discounts', component: Step12Discounts, validate: validateStep13 },
   { title: 'Safety', component: Step13Safety, validate: validateStep14 },
 ];

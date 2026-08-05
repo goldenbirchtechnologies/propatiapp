@@ -216,6 +216,7 @@ export default function WizardShell({ onComplete }: Props) {
     setIsSubmitting(true);
     try {
       const masterPayload: ShortletListingPayload = {
+        listingType: 'short_let',
         property_structure: draft.property_structure,
         privacy_type: draft.privacy_type!,
         location: draft.location!,
@@ -228,9 +229,11 @@ export default function WizardShell({ onComplete }: Props) {
         unit_description: draft.unit_description,
         title: draft.title!,
         highlights: draft.highlights,
+        booking_model: draft.booking_model!,
         pricing: draft.pricing!,
         discounts: draft.discounts,
         safety_disclosures: draft.safety_disclosures,
+        kyc_compliance: draft.kyc_compliance,
       };
 
       const res = await fetch('/api/listings', {

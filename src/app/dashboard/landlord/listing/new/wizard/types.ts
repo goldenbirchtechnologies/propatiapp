@@ -77,6 +77,7 @@ export interface PhotoItem {
 }
 
 export interface ShortletListingPayload {
+  listingType?: 'short_let';
   property_structure?: PropertyStructure;
   privacy_type: PrivacyType;
   location: Location;
@@ -93,4 +94,16 @@ export interface ShortletListingPayload {
   pricing: Pricing;
   discounts?: Discounts;
   safety_disclosures?: SafetyDisclosures;
+  kyc_compliance?: {
+    address: {
+      country_code: string;
+      street_address: string;
+      apt_unit?: string;
+      city: string;
+      state_province: string;
+      postal_code?: string;
+    };
+    is_business_entity: boolean;
+    attestation_accepted: boolean;
+  };
 }

@@ -66,8 +66,8 @@ export default function Step9Title({ title, onChange }: Step9Props) {
 export function validate(data: unknown): string[] {
   const errors: string[] = [];
   const title = typeof data === 'string' ? data : (data as { title?: string } | undefined)?.title ?? '';
-  if (!title.trim() || title.trim().length < 50) {
-    errors.push('Title must be at least 50 characters');
+  if (!title.trim()) {
+    errors.push('Title is required');
   }
   if (title.length > 50) {
     errors.push('Title must be at most 50 characters');

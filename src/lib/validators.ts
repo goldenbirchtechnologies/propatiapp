@@ -142,7 +142,7 @@ export const createShortletListingSchema = z.object({
   })).min(5, 'At least 5 photos are required'),
   highlights: z.array(z.string()).max(2, 'Maximum 2 highlights allowed').optional(),
   house_rules: z.array(z.string()).optional(),
-  booking_model: bookingModelSchema,
+  booking_model: bookingModelSchema.optional(),
   pricing: z.object({
     currency: z.string().min(1, 'Currency is required'),
     base_price: z.number().positive('Base price must be positive'),
@@ -165,7 +165,7 @@ export const createShortletListingSchema = z.object({
     }),
     is_business_entity: z.boolean().default(false),
     attestation_accepted: z.boolean().refine(v => v === true, 'Attestation must be accepted'),
-  }),
+  }).optional(),
 });
 
 export const createListingSchema = z.object({

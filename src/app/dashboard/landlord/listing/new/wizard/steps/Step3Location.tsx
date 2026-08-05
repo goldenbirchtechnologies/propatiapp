@@ -1,13 +1,62 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { MapPin, Plus, Minus } from 'lucide-react';
+import { Search, Navigation } from 'lucide-react';
 import type { Location } from '../types';
+
+import 'leaflet/dist/leaflet.css';
+
+const DEFAULT_CENTER: L.LatLngExpression = [6.5244, 3.3792];
+const DEFAULT_ZOOM = 13;
+
+function FixDefaultIcon() {
+  useEffect(() => {
+    const iconDefault = L.Marker.prototype.options.icon;
+    if (iconDefault && (iconDefault as any)._retrieve) return;
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    });
+  }, []);
+  return null;
+}
+
+function MapClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(e) {
+      onPick(e.latlng.lat, e.latlng.lng);
+    },
+  });
+  return null;
+}
+
+function FlyTo({ center, zoom }: { center: L.LatLngExpression; zoom?: number }) {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo(center, zoom ?? map.getZoom(), { duration: 1.2 });
+  }, [center, map, zoom]);
+  return null;
+}
+
+async function geocode(query: string): Promise<{ lat: number; lng: number; display_name: string } | null> {
+  if (!query.trim()) return null;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+  const res = await fetch(url, {
+    headers: { Accept: 'application/json' },
+  });
+  if (!res.ok) return null;
+  const data = (await res.json()) as Array<{ lat: string; lon: string; display_name: string }>;
+  if (!data[0]) return null;
+  return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon), display_name: data[0].display_name };
+}
 
 export interface Step3Props {
   value?: Partial<Location>;
@@ -19,61 +68,98 @@ export default function Step3Location({ value, onChange }: Step3Props) {
   const [lat, setLat] = useState(value?.coordinates?.lat?.toString() ?? '');
   const [lng, setLng] = useState(value?.coordinates?.lng?.toString() ?? '');
   const [precise, setPrecise] = useState(value?.show_precise_location ?? true);
+  const [search, setSearch] = useState('');
+  const [searching, setSearching] = useState(false);
+  const markerRef = useRef<L.Marker | null>(null);
+
+  const latNum = useMemo(() => (lat ? parseFloat(lat) : NaN), [lat]);
+  const lngNum = useMemo(() => (lng ? parseFloat(lng) : NaN), [lng]);
 
   const sync = (patch: Partial<Location>) => {
     onChange({ ...value, ...patch });
   };
 
+  useEffect(() => {
+    const latVal = Number.isFinite(latNum) ? latNum : DEFAULT_CENTER[0];
+    const lngVal = Number.isFinite(lngNum) ? lngVal : DEFAULT_CENTER[1];
+    markerRef.current?.setLatLng([latVal, lngVal]);
+  }, [latNum, lngNum]);
+
+  const handlePick = (pickedLat: number, pickedLng: number) => {
+    setLat(String(pickedLat));
+    setLng(String(pickedLng));
+    sync({ coordinates: { lat: pickedLat, lng: pickedLng } as Location['coordinates'] });
+  };
+
+  const handleSearch = async () => {
+    setSearching(true);
+    try {
+      const result = await geocode(search);
+      if (!result) return;
+      setLat(String(result.lat));
+      setLng(String(result.lng));
+      setAddress(result.display_name);
+      sync({
+        formatted_address: result.display_name,
+        coordinates: { lat: result.lat, lng: result.lng } as Location['coordinates'],
+      });
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const center = Number.isFinite(latNum) && Number.isFinite(lngNum)
+    ? ([latNum, lngNum] as L.LatLngExpression)
+    : DEFAULT_CENTER;
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Where is your place located?</h2>
       <Card className="p-0 overflow-hidden">
-        <div className="relative h-64 bg-muted">
-          <iframe
-            title="Property location map"
-            className="absolute inset-0 w-full h-full border-0"
-            src={`https://www.openstreetmap.org/export/embed.html?bbox=${Number(lng || 0) - 0.01}%2C${Number(lat || 0) - 0.01}%2C${Number(lng || 0) + 0.01}%2C${Number(lat || 0) + 0.01}&layer=mapnik&marker=${Number(lat || 0)}%2C${Number(lng || 0)}`}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-          <div className="absolute inset-x-0 bottom-3 flex items-center justify-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="size-9"
-              onClick={() =>
-                sync({
-                  coordinates: {
-                    lat: Number(lat || 0) + 0.0001,
-                    lng: Number(lng || 0),
-                  },
-                })
-              }
-            >
-              <Plus className="size-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="size-9"
-              onClick={() =>
-                sync({
-                  coordinates: {
-                    lat: Number(lat || 0) - 0.0001,
-                    lng: Number(lng || 0),
-                  },
-                })
-              }
-            >
-              <Minus className="size-4" />
-            </Button>
-          </div>
+        <div className="relative h-80">
+          <MapContainer
+            center={center}
+            zoom={DEFAULT_ZOOM}
+            className="h-full w-full"
+            scrollWheelZoom
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <FixDefaultIcon />
+            <MapClickHandler onPick={handlePick} />
+            <FlyTo center={center} zoom={DEFAULT_ZOOM} />
+            <Marker
+              position={center}
+              draggable
+              eventHandlers={{
+                dragend: (e) => {
+                  const pos = e.target.getLatLng();
+                  handlePick(pos.lat, pos.lng);
+                },
+              }}
+            />
+          </MapContainer>
         </div>
 
         <div className="p-4 space-y-4 border-t">
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                placeholder="Search a place or address"
+                className="pl-9"
+              />
+            </div>
+            <Button type="button" variant="secondary" onClick={handleSearch} disabled={searching}>
+              {searching ? 'Searching...' : 'Search'}
+            </Button>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="address">Street address</Label>
             <Input
@@ -128,14 +214,18 @@ export default function Step3Location({ value, onChange }: Step3Props) {
 
           <div className="flex items-center justify-between">
             <Label htmlFor="precise">Show precise location on map</Label>
-            <Switch
-              id="precise"
-              checked={precise}
-              onCheckedChange={(checked) => {
-                setPrecise(checked);
-                sync({ show_precise_location: checked });
+            <Button
+              type="button"
+              variant={precise ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => {
+                setPrecise(!precise);
+                sync({ show_precise_location: !precise });
               }}
-            />
+            >
+              <Navigation className="size-4 mr-2" />
+              {precise ? 'Precise: ON' : 'Precise: OFF'}
+            </Button>
           </div>
         </div>
       </Card>

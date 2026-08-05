@@ -12,7 +12,7 @@ import { ArrowLeft, ArrowRight, Save, HelpCircle, X, CheckCircle2, PlusCircle } 
 import type { ShortletListingPayload } from './types';
 import Step1PropertyStructure, { validate as validateStep1 } from './steps/Step1PropertyStructure';
 import Step2PrivacyType from './steps/Step2PrivacyType';
-import Step3Location from './steps/Step3Location';
+import Step3Location, { validate as validateStep3 } from './steps/Step3Location';
 import Step4Capacity, { validate as validateStep4 } from './steps/Step4Capacity';
 import Step5RoomDetails, { validate as validateStep5 } from './steps/Step5RoomDetails';
 import Step6RulesMaintenance, { validate as validateStep6 } from './steps/Step6RulesMaintenance';
@@ -40,7 +40,7 @@ const STEPS: StepConfig[] = [
     if (!d || (typeof d === 'string' && !d.trim())) return ['privacy_type is required'];
     return [];
   }},
-  { title: 'Location', component: Step3Location, validate: (d) => validateStep(d, 'location') },
+  { title: 'Location', component: Step3Location, validate: validateStep3 },
   { title: 'Capacity', component: Step4Capacity, validate: validateStep4 },
   { title: 'Room Details', component: Step5RoomDetails, validate: validateStep5 },
   { title: 'Rules', component: Step6RulesMaintenance, validate: validateStep6 },

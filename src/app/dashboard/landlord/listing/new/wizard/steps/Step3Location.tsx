@@ -142,7 +142,15 @@ export default function Step3Location({ value, onChange }: Step3Props) {
   );
 }
 
-export function validate(_data: unknown): string[] {
+export function validate(data: unknown): string[] {
+  const d = data as Partial<Location> | undefined;
+  const address = d?.formatted_address?.trim();
+  const lat = d?.coordinates?.lat;
+  const lng = d?.coordinates?.lng;
+  if (!address) return ['Address is required'];
+  if (lat === undefined || lng === undefined || Number.isNaN(lat) || Number.isNaN(lng)) {
+    return ['Coordinates are required'];
+  }
   return [];
 }
 

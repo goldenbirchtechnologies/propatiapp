@@ -20,11 +20,10 @@ import Step7Amenities, { validate as validateStep7 } from './steps/Step7Amenitie
 import Step8Photos, { validate as validateStep8 } from './steps/Step8Photos';
 import Step9Title, { validate as validateStep9 } from './steps/Step9Title';
 import Step10Highlights, { validate as validateStep10 } from './steps/Step10Highlights';
-import Step11BookingSettings, { validate as validateStep11 } from './steps/Step11BookingSettings';
+import Step11BookingSettings from './steps/Step11BookingSettings';
 import Step12Pricing, { validate as validateStep12 } from './steps/Step12Pricing';
 import Step13Discounts, { validate as validateStep13 } from './steps/Step13Discounts';
 import Step14Safety, { validate as validateStep14 } from './steps/Step14Safety';
-import Step15Kyc, { validate as validateStep15 } from './steps/Step15Kyc';
 
 const STORAGE_KEY = 'shortlet-draft';
 
@@ -48,11 +47,9 @@ const STEPS: StepConfig[] = [
   { title: 'Photos', component: Step8Photos, validate: validateStep8 },
   { title: 'Title', component: Step9Title, validate: validateStep9 },
   { title: 'Highlights', component: Step10Highlights, validate: validateStep10 },
-  { title: 'Booking', component: Step11BookingSettings, validate: validateStep11 },
-  { title: 'Pricing', component: Step12Pricing, validate: validateStep12 },
-  { title: 'Discounts', component: Step13Discounts, validate: validateStep13 },
-  { title: 'Safety', component: Step14Safety, validate: validateStep14 },
-  { title: 'Compliance', component: Step15Kyc, validate: validateStep15 },
+  { title: 'Pricing', component: Step11Pricing, validate: validateStep12 },
+  { title: 'Discounts', component: Step12Discounts, validate: validateStep13 },
+  { title: 'Safety', component: Step13Safety, validate: validateStep14 },
 ];
 
 function validateStep(data: unknown, key: string): string[] {
@@ -72,7 +69,6 @@ function getEmptyDraft(): Partial<ShortletListingPayload> {
     floor_plan: { guests_count: 1, bedrooms_count: 0, beds_count: 1, bathrooms_count: 0.5 },
     photos: [],
     pricing: { currency: 'USD', base_price: 10 },
-    kyc_compliance: { address: { country_code: '', street_address: '', city: '', state_province: '', postal_code: '' }, is_business_entity: false, attestation_accepted: false },
   };
 }
 
@@ -128,11 +124,9 @@ export default function WizardShell({ onComplete }: Props) {
       case 7: return draft.photos;
       case 8: return draft.title;
       case 9: return draft.highlights;
-      case 10: return draft.booking_model;
-      case 11: return draft.pricing;
-      case 12: return draft.discounts;
-      case 13: return draft.safety_disclosures;
-      case 14: return draft.kyc_compliance;
+      case 10: return draft.pricing;
+      case 11: return draft.discounts;
+      case 12: return draft.safety_disclosures;
       default: return {};
     }
   }, [currentStep, draft]);
@@ -149,11 +143,9 @@ export default function WizardShell({ onComplete }: Props) {
       case 7: return draft.photos;
       case 8: return draft.title;
       case 9: return draft.highlights;
-      case 10: return draft.booking_model;
-      case 11: return draft.pricing;
-      case 12: return draft.discounts;
-      case 13: return draft.safety_disclosures;
-      case 14: return draft.kyc_compliance;
+      case 10: return draft.pricing;
+      case 11: return draft.discounts;
+      case 12: return draft.safety_disclosures;
       default: return {};
     }
   };
@@ -172,11 +164,9 @@ export default function WizardShell({ onComplete }: Props) {
         case 7: next.photos = stepData as any; break;
         case 8: next.title = stepData as any; break;
         case 9: next.highlights = stepData as any; break;
-        case 10: next.booking_model = stepData as any; break;
-        case 11: next.pricing = stepData as any; break;
-        case 12: next.discounts = stepData as any; break;
-        case 13: next.safety_disclosures = stepData as any; break;
-        case 14: next.kyc_compliance = stepData as any; break;
+        case 10: next.pricing = stepData as any; break;
+        case 11: next.discounts = stepData as any; break;
+        case 12: next.safety_disclosures = stepData as any; break;
       }
       saveDraft(next);
       return next;
@@ -238,11 +228,9 @@ export default function WizardShell({ onComplete }: Props) {
         unit_description: draft.unit_description,
         title: draft.title!,
         highlights: draft.highlights,
-        booking_model: draft.booking_model!,
         pricing: draft.pricing!,
         discounts: draft.discounts,
         safety_disclosures: draft.safety_disclosures,
-        kyc_compliance: draft.kyc_compliance!,
       };
 
       const res = await fetch('/api/listings', {

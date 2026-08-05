@@ -10,32 +10,8 @@ export type PropertyStructure =
   | 'apartment'
   | 'barn'
   | 'bed_and_breakfast'
-  | 'boat'
-  | 'cabin'
-  | 'camper_rv'
-  | 'casa_particular'
-  | 'castle'
-  | 'cave'
-  | 'container'
-  | 'cycladic_home'
-  | 'dammuso'
-  | 'dome'
-  | 'earth_home'
-  | 'farm'
-  | 'guesthouse'
   | 'hotel'
-  | 'houseboat'
-  | 'minsu'
-  | 'riad'
-  | 'ryokan'
-  | 'shepherds_hut'
-  | 'tent'
-  | 'tiny_home'
-  | 'tower'
-  | 'treehouse'
-  | 'trullo'
-  | 'windmill'
-  | 'yurt';
+  | 'tent';
 
 export type PrivacyType = 'entire_place' | 'private_room' | 'shared_room';
 
@@ -113,9 +89,8 @@ export interface ShortletListingPayload {
   unit_description?: string;
   title: string;
   highlights?: string[];
-  booking_model: BookingModel;
+  booking_model?: BookingModel;
   pricing: Pricing;
   discounts?: Discounts;
   safety_disclosures?: SafetyDisclosures;
-  kyc_compliance: KycCompliance;
 }

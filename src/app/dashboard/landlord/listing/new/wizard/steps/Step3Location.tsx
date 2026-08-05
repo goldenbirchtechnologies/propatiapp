@@ -29,13 +29,14 @@ export default function Step3Location({ value, onChange }: Step3Props) {
       <h2 className="text-lg font-semibold">Where is your place located?</h2>
       <Card className="p-0 overflow-hidden">
         <div className="relative h-64 bg-muted">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-2">
-              <MapPin className="size-8 text-primary mx-auto" />
-              <p className="text-sm font-medium">Drag the map to fine-tune your pin</p>
-              <p className="text-xs text-muted-foreground">Use zoom controls to adjust precision</p>
-            </div>
-          </div>
+          <iframe
+            title="Property location map"
+            className="absolute inset-0 w-full h-full border-0"
+            src={`https://www.openstreetmap.org/export/embed.html?bbox=${Number(lng || 0) - 0.01}%2C${Number(lat || 0) - 0.01}%2C${Number(lng || 0) + 0.01}%2C${Number(lat || 0) + 0.01}&layer=mapnik&marker=${Number(lat || 0)}%2C${Number(lng || 0)}`}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
           <div className="absolute inset-x-0 bottom-3 flex items-center justify-center gap-2">
             <Button
               type="button"

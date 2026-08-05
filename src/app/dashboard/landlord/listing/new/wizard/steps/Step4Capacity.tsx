@@ -61,17 +61,17 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
           type="button"
           variant="outline"
           size="sm"
-          className="size-8 p-0"
+          className="size-9 p-0"
           onClick={() => setValue(Math.max(min, value - step))}
         >
           -
         </Button>
-        <span className="w-8 text-center text-sm font-medium">{value}</span>
+        <span className="w-10 text-center text-sm font-medium">{value}</span>
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="size-8 p-0"
+          className="size-9 p-0"
           onClick={() => setValue(Math.min(max, value + step))}
         >
           +

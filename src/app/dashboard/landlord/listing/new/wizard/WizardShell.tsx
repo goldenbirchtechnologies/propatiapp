@@ -20,7 +20,6 @@ import Step7Amenities, { validate as validateStep7 } from './steps/Step7Amenitie
 import Step8Photos, { validate as validateStep8 } from './steps/Step8Photos';
 import Step9Title, { validate as validateStep9 } from './steps/Step9Title';
 import Step10Highlights, { validate as validateStep10 } from './steps/Step10Highlights';
-import Step11BookingSettings from './steps/Step11BookingSettings';
 import Step12Pricing, { validate as validateStep12 } from './steps/Step12Pricing';
 import Step13Discounts, { validate as validateStep13 } from './steps/Step13Discounts';
 import Step14Safety, { validate as validateStep14 } from './steps/Step14Safety';

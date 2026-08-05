@@ -246,7 +246,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     }
   };
 
-  if (vacantUnits.length === 0) {
+  const safeVacantUnits = Array.isArray(vacantUnits) ? vacantUnits : [];
+
+  if (safeVacantUnits.length === 0) {
     return (
       <div className="space-y-6">
         <div>
@@ -255,7 +257,6 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-
         <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
             <Building2 className="w-8 h-8 text-muted-foreground" />
@@ -550,16 +551,16 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 <Button
                   type="button"
                   onClick={handleSubmitClick}
-                  disabled={submitting || !selectedUnitId || vacantUnits.length === 0}
+                  disabled={submitting || !selectedUnitId || safeVacantUnits.length === 0}
                 >
                   {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <Store className="mr-2 h-4 w-4" />
                   Publish to Marketplace
                 </Button>
               </div>
-              {(!selectedUnitId || vacantUnits.length === 0) && (
+              {(!selectedUnitId || safeVacantUnits.length === 0) && (
                 <p className="text-xs text-muted-foreground text-right">
-                  {vacantUnits.length === 0 ? 'Add a vacant unit to enable publishing.' : 'Select a vacant unit to continue.'}
+                  {safeVacantUnits.length === 0 ? 'Add a vacant unit to enable publishing.' : 'Select a vacant unit to continue.'}
                 </p>
               )}
             </form>

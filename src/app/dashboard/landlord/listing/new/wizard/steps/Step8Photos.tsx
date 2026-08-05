@@ -10,11 +10,11 @@ import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
 import type { PhotoItem } from '../types';
 
 export interface Step8Props {
-  photos: PhotoItem[];
+  photos?: PhotoItem[];
   onChange: (photos: PhotoItem[]) => void;
 }
 
-export default function Step8Photos({ photos, onChange }: Step8Props) {
+export default function Step8Photos({ photos = [], onChange }: Step8Props) {
   const [dragOver, setDragOver] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [uploading, setUploading] = useState(false);

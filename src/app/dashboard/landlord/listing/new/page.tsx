@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -14,10 +13,6 @@ export const metadata = {
 
 export default async function LandlordAddListingPage() {
   try {
-    const session = await auth();
-    const userId = session?.userId;
-    if (!userId) redirect('/sign-in');
-
     const user = await getCurrentUserWithProfile();
     if (!user || user.role !== 'landlord') redirect('/dashboard');
 
@@ -52,8 +47,17 @@ export default async function LandlordAddListingPage() {
 
     const vacantUnits = listings.flatMap((listing) =>
       listing.units.map((unit) => ({
-        ...unit,
+        id: unit.id,
         listingId: listing.id,
+        unitNumber: unit.unitNumber,
+        buildingName: unit.buildingName,
+        type: unit.type,
+        bedrooms: unit.bedrooms,
+        bathrooms: unit.bathrooms,
+        sizeSqm: unit.sizeSqm ? unit.sizeSqm.toString() : null,
+        rent: unit.rent.toString(),
+        cautionDeposit: unit.cautionDeposit?.toString() ?? null,
+        serviceCharge: unit.serviceCharge?.toString() ?? null,
         listingTitle: listing.title,
         listingType: listing.listingType,
         propertyType: listing.propertyType,

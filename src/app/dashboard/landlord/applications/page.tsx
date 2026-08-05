@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -7,18 +6,14 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import LandlordApplicationsClient from './LandlordApplicationsClient';
 
+type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
+
 export const metadata = {
   title: 'Applications',
   description: 'Review, screen, and manage tenancy applications.',
 };
 
 export default async function LandlordApplicationsPage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {
@@ -60,14 +55,37 @@ export default async function LandlordApplicationsPage() {
   });
 
   const serialized = applications.map((app) => ({
-    ...app,
+    id: app.id,
+    status: app.status,
+    stage: (app.stage as ApplicationStage | null | undefined) ?? undefined,
+    message: app.message,
+    landlordNotes: app.landlordNotes,
+    rejectionReason: app.rejectionReason,
+    requestedInfoAt: app.requestedInfoAt ? app.requestedInfoAt.toISOString() : null,
+    createdAt: app.createdAt.toISOString(),
+    reviewedAt: app.reviewedAt ? app.reviewedAt.toISOString() : null,
     listing: {
-      ...app.listing,
+      id: app.listing.id,
+      title: app.listing.title,
+      area: app.listing.area,
+      state: app.listing.state,
       price: app.listing.price.toString(),
+      pricePeriod: app.listing.pricePeriod,
+      images: app.listing.images,
     },
     tenant: {
-      ...app.tenant,
+      id: app.tenant.id,
+      fullName: app.tenant.fullName,
+      email: app.tenant.email,
+      phone: app.tenant.phone,
+      avatarUrl: app.tenant.avatarUrl,
+      employmentStatus: app.tenant.employmentStatus,
+      employerName: app.tenant.employerName,
+      jobTitle: app.tenant.jobTitle,
       yearlyIncome: app.tenant.yearlyIncome ? app.tenant.yearlyIncome.toString() : null,
+      profileBio: app.tenant.profileBio,
+      idVerified: app.tenant.idVerified,
+      ninVerified: app.tenant.ninVerified,
     },
     screeningStatus: (app as any).screeningStatus || {},
     guarantorData: (app as any).guarantorData || {},

@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Hotel, Warehouse, Tent } from 'lucide-react';
+import { Home, Hotel, Warehouse, Tent, Check } from 'lucide-react';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import type { PropertyStructure } from '../types';

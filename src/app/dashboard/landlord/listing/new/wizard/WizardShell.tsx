@@ -20,7 +20,7 @@ import Step7Amenities, { validate as validateStep7 } from './steps/Step7Amenitie
 import Step8Photos, { validate as validateStep8 } from './steps/Step8Photos';
 import Step9Title, { validate as validateStep9 } from './steps/Step9Title';
 import Step10Highlights, { validate as validateStep10 } from './steps/Step10Highlights';
-import Step11BookingSettings from './steps/Step11BookingSettings';
+import Step11BookingSettings, { validate as validateStep11 } from './steps/Step11BookingSettings';
 import Step12Pricing, { validate as validateStep12 } from './steps/Step12Pricing';
 import Step13Discounts, { validate as validateStep13 } from './steps/Step13Discounts';
 import Step14Safety, { validate as validateStep14 } from './steps/Step14Safety';
@@ -48,7 +48,7 @@ const STEPS: StepConfig[] = [
   { title: 'Photos', component: Step8Photos, validate: validateStep8 },
   { title: 'Title', component: Step9Title, validate: validateStep9 },
   { title: 'Highlights', component: Step10Highlights, validate: validateStep10 },
-  { title: 'Booking', component: Step11BookingSettings, validate: (d) => validateStep(d, 'booking_model') },
+  { title: 'Booking', component: Step11BookingSettings, validate: validateStep11 },
   { title: 'Pricing', component: Step12Pricing, validate: validateStep12 },
   { title: 'Discounts', component: Step13Discounts, validate: validateStep13 },
   { title: 'Safety', component: Step14Safety, validate: validateStep14 },

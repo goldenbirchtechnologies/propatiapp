@@ -6,9 +6,6 @@ import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 
 export default async function AccountantWithdrawalsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
 

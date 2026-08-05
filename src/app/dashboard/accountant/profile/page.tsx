@@ -7,9 +7,6 @@ import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import AccountantProfileClient from './AccountantProfileClient';
 
 export default async function AccountantProfilePage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
 

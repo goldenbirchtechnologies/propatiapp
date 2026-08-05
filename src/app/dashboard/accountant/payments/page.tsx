@@ -14,9 +14,6 @@ const tabs: TabItem[] = [
 ];
 
 export default async function AccountantPaymentsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
 

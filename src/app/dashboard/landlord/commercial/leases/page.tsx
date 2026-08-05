@@ -14,9 +14,6 @@ export const metadata = {
 };
 
 export default async function CommercialLeasesPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 

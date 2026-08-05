@@ -3,9 +3,6 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import PaymentInitiationClient from './PaymentInitiationClient';
 
 export default async function PaymentInitiationPage({ params }: PageProps) {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/dashboard');
 

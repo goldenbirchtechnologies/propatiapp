@@ -6,8 +6,6 @@ import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import TenantReceiptsClient from '@/app/dashboard/tenant/receipts/TenantReceiptsClient';
 
 export default async function AccountantReceiptsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
   return (

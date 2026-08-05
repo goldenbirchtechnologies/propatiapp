@@ -6,8 +6,6 @@ import { AGENT_NAVIGATION } from '@/lib/navigation';
 import TenantInvoicesClient from '@/app/dashboard/tenant/invoices/TenantInvoicesClient';
 
 export default async function AgentInvoicesPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'agent') redirect('/dashboard');
   return (

@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -12,13 +11,6 @@ export default async function AgreementDetailLayout({
   params: Promise<{ role: string; id: string }>;
   children: React.ReactNode;
 }) {
-  // Server-side auth check
-  const { userId } = await auth();
-  
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
   const user = await getCurrentUserWithProfile();
   if (!user) {
     redirect('/sign-in');

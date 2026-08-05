@@ -6,8 +6,6 @@ import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import AutomatedMonthlyStatementClient from '@/app/dashboard/tenant/payments/statements/AutomatedMonthlyStatementClient';
 
 export default async function AccountantStatementsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
   return (

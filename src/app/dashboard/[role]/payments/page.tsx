@@ -3,9 +3,6 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import TransactionsListClient from './TransactionsListClient';
 
 export default async function PaymentsPage({ params }: PageProps) {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/dashboard');
 

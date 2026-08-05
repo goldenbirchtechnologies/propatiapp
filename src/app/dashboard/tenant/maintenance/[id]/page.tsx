@@ -6,9 +6,6 @@ import { TENANT_NAVIGATION } from '@/lib/navigation';
 import TenantMaintenanceTrackingClient from './TenantMaintenanceTrackingClient';
 
 export default async function Page(props: { params: { id: string } }) {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'tenant') redirect('/dashboard');
 

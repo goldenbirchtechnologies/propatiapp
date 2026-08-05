@@ -6,8 +6,6 @@ import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import TenantReceiptsClient from '@/app/dashboard/tenant/receipts/TenantReceiptsClient';
 
 export default async function EstateManagerReceiptsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'estate_manager') redirect('/dashboard');
   return (

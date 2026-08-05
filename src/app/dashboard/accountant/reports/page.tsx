@@ -6,8 +6,6 @@ import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import AdminReportsPage from '@/app/dashboard/admin/reports/page';
 
 export default async function AccountantReportsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'accountant') redirect('/dashboard');
   return (

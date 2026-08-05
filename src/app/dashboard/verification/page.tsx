@@ -45,9 +45,6 @@ const ROLE_VERIFICATION_TYPES: Record<string, typeof VERIFICATION_TYPES> = {
 };
 
 export default async function VerificationHubPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
 

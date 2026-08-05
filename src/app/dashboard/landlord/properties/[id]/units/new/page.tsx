@@ -13,9 +13,6 @@ export const metadata: Metadata = {
 };
 
 export default async function LandlordAddUnitPage({ params }: { params: Promise<{ id: string }> }) {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 

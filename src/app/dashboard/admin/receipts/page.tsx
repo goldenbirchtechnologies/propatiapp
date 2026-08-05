@@ -6,8 +6,6 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import TenantReceiptsClient from '@/app/dashboard/tenant/receipts/TenantReceiptsClient';
 
 export default async function AdminReceiptsPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'admin') redirect('/dashboard');
   return (

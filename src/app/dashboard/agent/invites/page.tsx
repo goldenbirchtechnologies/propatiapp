@@ -6,9 +6,6 @@ import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentInvitationCard from '@/components/agent-invites/AgentInvitationCard';
 
 export default async function AgentInvitesPage() {
-  const { userId } = await auth();
-  if (!userId) redirect('/sign-in');
-
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'agent') {
     redirect('/dashboard');

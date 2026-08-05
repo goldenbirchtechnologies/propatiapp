@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -67,6 +67,14 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
     inputRef.current?.click();
   };
 
+  // Auto-open the file picker once the upload area appears
+  useEffect(() => {
+    if (showUpload) {
+      // Next frame so the input is mounted
+      setTimeout(openFilePicker, 0);
+    }
+  }, [showUpload]);
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Add some photos of your place</h2>
@@ -83,7 +91,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
           </div>
           <button
             type="button"
-            onClick={openFilePicker}
+            onClick={() => setShowUpload(true)}
             className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm font-medium shadow-xs hover:bg-muted"
           >
             <Upload className="size-4" />

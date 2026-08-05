@@ -73,7 +73,11 @@ function getEmptyDraft(): Partial<ShortletListingPayload> {
   };
 }
 
-export default function WizardShell() {
+type Props = {
+  onComplete?: (listing: { id: string }) => void;
+};
+
+export default function WizardShell({ onComplete }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const listingId = searchParams.get('listingId');
@@ -130,6 +134,27 @@ export default function WizardShell() {
     }
   }, [currentStep, draft]);
 
+  const getStepData = (stepIndex: number) => {
+    switch (stepIndex) {
+      case 0: return draft.property_structure;
+      case 1: return draft.privacy_type;
+      case 2: return draft.location;
+      case 3: return draft.floor_plan;
+      case 4: return { bedroom_furnishings: draft.bedroom_furnishings, space_images: draft.space_images };
+      case 5: return { house_rules: draft.house_rules, unit_description: draft.unit_description };
+      case 6: return draft.amenities;
+      case 7: return draft.photos;
+      case 8: return draft.title;
+      case 9: return draft.highlights;
+      case 10: return draft.booking_model;
+      case 11: return draft.pricing;
+      case 12: return draft.discounts;
+      case 13: return draft.safety_disclosures;
+      case 14: return draft.kyc_compliance;
+      default: return {};
+    }
+  };
+
   const handleStepChange = useCallback((stepIndex: number, stepData: unknown) => {
     setDraft((prev) => {
       const next = { ...prev };
@@ -184,7 +209,7 @@ export default function WizardShell() {
     let allErrors: string[] = [];
     for (let i = 0; i < STEPS.length; i++) {
       const step = STEPS[i];
-      const data = currentStepData();
+      const data = getStepData(i);
       const stepErrors = step.validate(data);
       if (stepErrors.length > 0) {
         allErrors = [...allErrors, ...stepErrors];
@@ -198,6 +223,7 @@ export default function WizardShell() {
     setIsSubmitting(true);
     try {
       const masterPayload: ShortletListingPayload = {
+        listingType: 'short_let',
         property_structure: draft.property_structure,
         privacy_type: draft.privacy_type!,
         location: draft.location!,
@@ -217,15 +243,28 @@ export default function WizardShell() {
         kyc_compliance: draft.kyc_compliance!,
       };
 
-      console.log('Creating listing with payload:', masterPayload);
+      const res = await fetch('/api/listings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(masterPayload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || 'Failed to create listing');
+      }
+
+      const listing = await res.json();
 
       // Clear draft after successful creation
       localStorage.removeItem(STORAGE_KEY);
 
-      // Redirect to landlord dashboard
-      router.push('/dashboard/landlord?listing=created');
-    } catch {
-      setErrors(['Failed to create listing. Please try again.']);
+      onComplete?.(listing);
+      if (!onComplete) {
+        router.push('/dashboard/landlord?listing=created');
+      }
+    } catch (err) {
+      setErrors([err instanceof Error ? err.message : 'Failed to create listing. Please try again.']);
     } finally {
       setIsSubmitting(false);
     }

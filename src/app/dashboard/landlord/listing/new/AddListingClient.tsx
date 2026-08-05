@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   Pencil,
 } from 'lucide-react';
+import WizardShell from '@/app/dashboard/landlord/listing/new/wizard/WizardShell';
 import { useToast } from '@/hooks/use-toast';
 
 type ListingUnit = {
@@ -91,6 +92,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
   const [selectedUnitId, setSelectedUnitId] = useState<string>('');
   const [autoFilledSource, setAutoFilledSource] = useState<string | null>(null);
   const [clientErrors, setClientErrors] = useState<string[]>([]);
+  const [wizardMode, setWizardMode] = useState(false);
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema) as any,
@@ -167,9 +169,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       if (currentPeriod !== 'night' && currentPeriod !== 'total') {
         form.setValue('pricePeriod', 'night');
       }
-      router.push('/dashboard/landlord/listing/new/wizard');
+      setWizardMode(true);
     }
-  }, [form.watch('listingType'), form, router]);
+  }, [form.watch('listingType')]);
 
   const validateClientSide = (): boolean => {
     const values = form.getValues();
@@ -281,6 +283,20 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
           </p>
         </div>
       </div>
+    );
+  }
+
+  if (wizardMode) {
+    return (
+      <WizardShell
+        onComplete={(listing) => {
+          toast({
+            title: 'Listing created',
+            description: 'Your shortlet listing has been created.',
+          });
+          router.push(`/dashboard/landlord/properties/${listing.id}`);
+        }}
+      />
     );
   }
 

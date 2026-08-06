@@ -267,6 +267,12 @@ export default function WizardShell({ onComplete }: Props) {
 
   const StepComponent = STEPS[currentStep].component;
 
+  const stepValue = currentStepData() as any;
+  const stepOnChange = useCallback(
+    (data: unknown) => handleStepChange(currentStep, data),
+    [currentStep, handleStepChange]
+  );
+
   return (
     <div className="flex flex-col">
       {/* Sticky Header */}
@@ -309,8 +315,8 @@ export default function WizardShell({ onComplete }: Props) {
             )}
 
             <StepComponent
-              value={currentStepData() as any}
-              onChange={(data: unknown) => handleStepChange(currentStep, data)}
+              value={stepValue}
+              onChange={stepOnChange}
             />
           </Card>
         </main>

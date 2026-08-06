@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { DroppableArea } from '@/components/ui/droppable-area';
 import {
   DropdownMenu,
@@ -47,7 +46,6 @@ import {
   BadgePercent,
   Settings2,
   ShieldCheck,
-  User,
   Upload,
   Film,
 } from 'lucide-react';
@@ -55,7 +53,6 @@ import {
 const listingSchema = z.object({
   title: z.string().min(5, 'Property name must be at least 5 characters').max(100),
   description: z.string().max(5000).optional().or(z.literal('')),
-  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']),
   propertyType: z.enum(['apartment', 'house', 'duplex', 'land', 'office', 'shop', 'warehouse']).optional(),
   address: z.string().min(5, 'Street address must be at least 5 characters'),
   area: z.string().min(2, 'Area is required').optional(),
@@ -63,24 +60,42 @@ const listingSchema = z.object({
   city: z.string().optional().or(z.literal('')),
   postalCode: z.string().optional().or(z.literal('')),
   floors: z.number().int().nonnegative().optional(),
-  price: z.number().positive('Rent must be positive').optional(),
-  pricePeriod: z.enum(['night', 'month', 'year', 'total']).default('month'),
-  cautionDeposit: z.number().nonnegative().optional(),
-  serviceCharge: z.number().nonnegative().optional(),
-  bedrooms: z.number().int().nonnegative().optional(),
-  bathrooms: z.number().int().nonnegative().optional(),
-  toilets: z.number().int().nonnegative().optional(),
-  sizeSqm: z.number().positive().optional(),
-  floorLevel: z.number().int().nonnegative().optional(),
-  furnished: z.boolean().default(false),
-  parkingSpaces: z.number().int().nonnegative().default(0),
   amenities: z.array(z.string()).optional(),
-  availableFrom: z.string().optional().or(z.literal('')),
-  minimumStay: z.number().int().positive().optional(),
-  allowShortlet: z.boolean().default(false).optional(),
 });
 
 type ListingInput = z.infer<typeof listingSchema>;
+
+type ListingIntent = 'rent' | 'short_let' | 'sale' | 'unlisted';
+
+const UnitDraft = {
+  id: '',
+  unitNumber: '',
+  bedrooms: 1,
+  bathrooms: 1,
+  sizeSqm: undefined as number | undefined,
+  listingType: 'rent' as ListingIntent,
+  price: 0,
+  pricePeriod: 'month' as const,
+  minimumStay: undefined as number | undefined,
+  cautionDeposit: undefined as number | undefined,
+  serviceCharge: undefined as number | undefined,
+  isListed: true,
+};
+
+const newUnit = (num: number) => ({
+  id: `unit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${num}`,
+  unitNumber: String(num),
+  bedrooms: 1,
+  bathrooms: 1,
+  sizeSqm: undefined,
+  listingType: 'rent' as ListingIntent,
+  price: 0,
+  pricePeriod: 'month',
+  minimumStay: undefined,
+  cautionDeposit: undefined,
+  serviceCharge: undefined,
+  isListed: true,
+});
 
 const NIGERIAN_STATES = [
   'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue',
@@ -132,29 +147,21 @@ const RENT_PERIODS = [
   { value: 'day', label: 'Per day' },
 ];
 
-const UnitDraft = {
-  id: '',
-  unitNumber: '',
-  bedrooms: 1,
-  bathrooms: 1,
-  sizeSqm: undefined,
-  rent: 0,
-  period: 'month',
-  cautionDeposit: undefined,
-  serviceCharge: undefined,
-};
-
-const newUnit = (num: number) => ({
-  id: `unit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${num}`,
-  unitNumber: String(num),
-  bedrooms: 1,
-  bathrooms: 1,
-  sizeSqm: undefined,
-  rent: 0,
-  period: 'month',
-  cautionDeposit: undefined,
-  serviceCharge: undefined,
-});
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
 
 export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const router = useRouter();
@@ -162,13 +169,15 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const createListing = useCreateListing();
   const createUnit = useCreateUnit();
   const [submitting, setSubmitting] = useState(false);
-  const [units, setUnits] = useState<UnitDraft[]>([newUnit(1)]);
+  const [units, setUnits] = useState<typeof UnitDraft[]>([newUnit(1)]);
   const [nextUnitNum, setNextUnitNum] = useState(2);
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
-  const [quickRent, setQuickRent] = useState('');
+  const [quickListingType, setQuickListingType] = useState<ListingIntent>('rent');
+  const [quickPrice, setQuickPrice] = useState('');
   const [quickPeriod, setQuickPeriod] = useState('month');
+  const [quickMinStay, setQuickMinStay] = useState('');
   const [defaultCaution, setDefaultCaution] = useState('');
   const [defaultService, setDefaultService] = useState('');
   const [unverifiedNotice, setUnverifiedNotice] = useState(false);
@@ -179,7 +188,6 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
     defaultValues: {
       title: 'Maple Court Apartments',
       description: '',
-      listingType: 'rent',
       propertyType: 'apartment',
       address: '',
       area: '',
@@ -187,21 +195,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
       city: '',
       postalCode: '',
       floors: undefined,
-      price: undefined,
-      pricePeriod: 'month',
-      cautionDeposit: 0,
-      serviceCharge: 0,
-      bedrooms: 1,
-      bathrooms: 1,
-      toilets: 0,
-      sizeSqm: undefined,
-      floorLevel: 0,
-      furnished: false,
-      parkingSpaces: 0,
       amenities: [],
-      availableFrom: '',
-      minimumStay: undefined,
-      allowShortlet: false,
     },
   });
 
@@ -228,12 +222,34 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
     setAmenities((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
   };
 
-  const applyQuickRent = () => {
-    const rent = parseFloat(quickRent);
-    if (!isNaN(rent) && rent > 0) {
-      setUnits((cur) => cur.map((u) => ({ ...u, rent, period: quickPeriod })));
-      toast({ title: 'Rent applied', description: `₦${new Intl.NumberFormat('en-NG').format(rent)}/${quickPeriod} applied to all units.` });
-    }
+  const applyQuickSetup = () => {
+    const price = parseFloat(quickPrice);
+    const cd = parseFloat(defaultCaution);
+    const sc = parseFloat(defaultService);
+    const ms = parseInt(quickMinStay, 10);
+    const hasPrice = !isNaN(price) && price > 0;
+    const hasFees = (!isNaN(cd) && cd >= 0) || (!isNaN(sc) && sc >= 0);
+    if (!hasPrice && !hasFees) return;
+
+    setUnits((cur) =>
+      cur.map((u) => ({
+        ...u,
+        listingType: quickListingType,
+        price: hasPrice ? price : u.price,
+        pricePeriod:
+          quickListingType === 'short_let'
+            ? 'night'
+            : quickListingType === 'sale'
+              ? 'total'
+              : quickPeriod,
+        minimumStay:
+          quickListingType === 'short_let' && !isNaN(ms) && ms > 0 ? ms : u.minimumStay,
+        isListed: quickListingType !== 'unlisted',
+        cautionDeposit: !isNaN(cd) ? cd : u.cautionDeposit,
+        serviceCharge: !isNaN(sc) ? sc : u.serviceCharge,
+      }))
+    );
+    toast({ title: 'Quick setup applied', description: 'Settings updated for all units.' });
   };
 
   const applyDefaultFees = () => {
@@ -251,7 +267,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
     }
   };
 
-  const updateUnit = (id: string, patch: Partial<UnitDraft>) => {
+  const updateUnit = (id: string, patch: Partial<typeof UnitDraft>) => {
     setUnits((cur) => cur.map((u) => (u.id === id ? { ...u, ...patch } : u)));
   };
 
@@ -280,26 +296,24 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
         ...data,
         city: data.city || undefined,
         postalCode: data.postalCode || undefined,
-        availableFrom: data.availableFrom || undefined,
-      } as ListingInput;
+      };
 
-      const hasPositiveRent = units.some((u) => Number(u.rent || 0) > 0);
-      const price = safeData.price || (hasPositiveRent ? Math.max(...units.map((u) => Number(u.rent || 0))) : 0);
+      const hasPositivePrice = units.some((u) => Number(u.price || 0) > 0);
+      const price = hasPositivePrice ? Math.max(...units.map((u) => Number(u.price || 0))) : 0;
 
-      if (!hasPositiveRent || price <= 0) {
-        throw new Error('Set a positive rent for at least one unit before saving.');
+      if (!hasPositivePrice || price <= 0) {
+        throw new Error('Set a positive price for at least one unit before saving.');
       }
 
       const basePayload = {
         ...safeData,
         price,
+        listingType: 'rent' as const,
         area: safeData.area || safeData.address,
         amenities,
-      } as unknown as Parameters<typeof createListing.mutateAsync>[0];
+      };
 
-      const listing = await createListing.mutateAsync({
-        ...basePayload,
-      });
+      const listing = await createListing.mutateAsync(basePayload as any);
 
       toast({
         title: 'Property saved',
@@ -327,11 +341,14 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 buildingName: data.title,
                 unitNumber: u.unitNumber,
                 type: data.propertyType || 'apartment',
-                listingType: data.listingType || 'rent',
+                listingType: u.listingType,
+                pricePeriod: u.pricePeriod,
+                minimumStay: u.minimumStay,
+                isListed: u.isListed,
                 bedrooms: u.bedrooms,
                 bathrooms: u.bathrooms,
                 sizeSqm: u.sizeSqm,
-                rent: u.rent,
+                rent: u.price,
                 cautionDeposit: u.cautionDeposit,
                 serviceCharge: u.serviceCharge,
                 status: 'AVAILABLE',
@@ -395,11 +412,14 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 buildingName: data.title,
                 unitNumber: u.unitNumber,
                 type: data.propertyType || 'apartment',
-                listingType: data.listingType || 'rent',
+                listingType: u.listingType,
+                pricePeriod: u.pricePeriod,
+                minimumStay: u.minimumStay,
+                isListed: u.isListed,
                 bedrooms: u.bedrooms,
                 bathrooms: u.bathrooms,
                 sizeSqm: u.sizeSqm,
-                rent: u.rent,
+                rent: u.price,
                 cautionDeposit: u.cautionDeposit,
                 serviceCharge: u.serviceCharge,
                 status: 'AVAILABLE',
@@ -529,11 +549,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                   <FormItem className="md:col-span-2">
                     <FormLabel>Description (optional)</FormLabel>
                     <FormControl>
-                      <Textarea
-                        rows={4}
-                        placeholder="Anything tenants should know about the property."
-                        {...field}
-                      />
+                      <Textarea rows={4} placeholder="Anything tenants should know about the property." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -576,28 +592,6 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                         {...field}
                         onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control as unknown}
-                name="allowShortlet"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel className="text-sm font-medium text-foreground">Allow shortlet</FormLabel>
-                    <FormDescription className="text-xs text-muted-foreground">
-                      Allow tenants to use this unit for short stays/subletting.
-                    </FormDescription>
-                    <FormControl>
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          checked={!!field.value}
-                          onCheckedChange={(checked) => field.onChange(checked === true)}
-                        />
-                        <span className="text-sm text-foreground">Enable shortlet for this property</span>
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -712,7 +706,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-foreground">Units ({units.length})</h2>
-                <p className="text-sm text-muted-foreground mt-1">Addrent and details for each unit in this building.</p>
+                <p className="text-sm text-muted-foreground mt-1">Add address and details for each unit in this building.</p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Button type="button" variant="secondary" onClick={addUnit} className="gap-2">
@@ -724,13 +718,13 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                   onClick={() => document.getElementById('quick-setup')?.scrollIntoView({ behavior: 'smooth' })}
                   className="gap-2"
                 >
-                  <Settings2 className="h-4 w-4" /> Quick setup, same rent for several units
+                  <Settings2 className="h-4 w-4" /> Quick setup
                 </Button>
               </div>
             </div>
 
             <div className="grid grid-cols-1 gap-4">
-              {units.map((u, idx) => (
+              {units.map((u) => (
                 <div
                   key={u.id}
                   className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4"
@@ -749,9 +743,10 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                       </Button>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-muted-foreground">Unit number</label>
+                      <label className="text-xs font-medium text-muted-foreground">Unit Name / No</label>
                       <Input
                         value={u.unitNumber}
                         onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })}
@@ -789,60 +784,149 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                         }
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-muted-foreground">Rent (NGN)</label>
-                      <Input
-                        type="number"
-                        min={0}
-                        value={u.rent || ''}
-                        onChange={(e) => updateUnit(u.id, { rent: parseFloat(e.target.value) || 0 })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-muted-foreground">Period</label>
-                      <Select value={u.period} onValueChange={(val) => updateUnit(u.id, { period: val })}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {RENT_PERIODS.map((rp) => (
-                            <SelectItem key={rp.value} value={rp.value}>
-                              {rp.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-medium text-muted-foreground">Listing Intent</label>
+                    <div className="flex flex-wrap gap-3 mt-2">
+                      {['For Rent', 'Short-Let', 'For Sale', 'Unlisted'].map((intent) => {
+                        const value = intent.toLowerCase().replace(' ', '_') as ListingIntent;
+                        const active = u.listingType === value;
+                        return (
+                          <button
+                            key={value}
+                            type="button"
+                            onClick={() =>
+                              updateUnit(u.id, {
+                                listingType: value,
+                                isListed: value !== 'unlisted',
+                                ...(value === 'short_let' ? { pricePeriod: 'night' } : {}),
+                                ...(value === 'sale' ? { pricePeriod: 'total' } : {}),
+                                ...(value === 'rent' ? { pricePeriod: 'month' } : {}),
+                              })
+                            }
+                            className={[
+                              'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
+                              active
+                                ? 'border-primary bg-primary/10 text-primary'
+                                : 'border-outline-variant bg-surface-container-low text-foreground hover:bg-muted',
+                            ].join(' ')}
+                          >
+                            {active && <Check className="h-4 w-4" />}
+                            {intent}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
+
+                  {u.listingType !== 'unlisted' && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-medium text-muted-foreground">
+                          {u.listingType === 'short_let'
+                            ? 'Nightly Rate (NGN)'
+                            : u.listingType === 'sale'
+                              ? 'Outright Price (NGN)'
+                              : 'Rent (NGN)'}
+                        </label>
+                        <Input
+                          type="number"
+                          min={0}
+                          value={u.price || ''}
+                          onChange={(e) => updateUnit(u.id, { price: parseFloat(e.target.value) || 0 })}
+                        />
+                      </div>
+                      {u.listingType === 'rent' && (
+                        <div className="space-y-2">
+                          <label className="text-xs font-medium text-muted-foreground">Period</label>
+                          <Select value={u.pricePeriod} onValueChange={(val) => updateUnit(u.id, { pricePeriod: val })}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {RENT_PERIODS.map((rp) => (
+                                <SelectItem key={rp.value} value={rp.value}>
+                                  {rp.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      )}
+                      {u.listingType === 'short_let' && (
+                        <div className="space-y-2">
+                          <label className="text-xs font-medium text-muted-foreground">Min. Stay (nights)</label>
+                          <Input
+                            type="number"
+                            min={1}
+                            value={u.minimumStay ?? ''}
+                            onChange={(e) =>
+                              updateUnit(u.id, {
+                                minimumStay: e.target.value ? parseInt(e.target.value) : undefined,
+                              })
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {u.listingType === 'unlisted' && (
+                    <p className="text-xs text-muted-foreground">
+                      This unit stays attached to the building but will not appear on the public marketplace.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
 
-            {/* Quick setup / Default fees */}
+            {/* Quick Setup */}
             <div id="quick-setup" className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4">
-                <h3 className="text-sm font-semibold text-foreground">Quick setup, same rent for several units</h3>
+                <h3 className="text-sm font-semibold text-foreground">Quick setup</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    type="number"
-                    placeholder="Rent (NGN)"
-                    value={quickRent}
-                    onChange={(e) => setQuickRent(e.target.value)}
-                  />
-                  <Select value={quickPeriod} onValueChange={setQuickPeriod}>
+                  <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Listing type" />
                     </SelectTrigger>
                     <SelectContent>
-                      {RENT_PERIODS.map((rp) => (
-                        <SelectItem key={rp.value} value={rp.value}>
-                          {rp.label}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="rent">For Rent</SelectItem>
+                      <SelectItem value="short_let">Short-Let</SelectItem>
+                      <SelectItem value="sale">For Sale</SelectItem>
+                      <SelectItem value="unlisted">Unlisted</SelectItem>
                     </SelectContent>
                   </Select>
+                  <Input
+                    type="number"
+                    placeholder="Base price (NGN)"
+                    value={quickPrice}
+                    onChange={(e) => setQuickPrice(e.target.value)}
+                  />
+                  {quickListingType === 'rent' && (
+                    <Select value={quickPeriod} onValueChange={setQuickPeriod}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {RENT_PERIODS.map((rp) => (
+                          <SelectItem key={rp.value} value={rp.value}>
+                            {rp.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                  {quickListingType === 'short_let' && (
+                    <Input
+                      type="number"
+                      placeholder="Min. stay (nights)"
+                      value={quickMinStay}
+                      onChange={(e) => setQuickMinStay(e.target.value)}
+                    />
+                  )}
                 </div>
-                <Button type="button" size="sm" onClick={applyQuickRent} className="w-full">
+                <Button type="button" size="sm" onClick={applyQuickSetup} className="w-full">
                   Apply to all units
                 </Button>
               </div>
@@ -962,21 +1046,5 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
         </form>
       </Form>
     </div>
-  );
-}
-
-function ChevronDownIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
   );
 }

@@ -1226,6 +1226,11 @@ model Unit {
   // Listing strategy at unit level
   listingType       ListingType   @map("listing_type")
 
+  // Unit-level pricing
+  pricePeriod       String?       @map("price_period") // night | month | year | total
+  minimumStay       Int?          @map("minimum_stay")
+  isListed          Boolean       @default(false) @map("is_listed")
+
   // Financial
   rent              Decimal       @db.Decimal(10, 2)
   cautionDeposit    Decimal?      @db.Decimal(10, 2) @map("caution_deposit")

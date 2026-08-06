@@ -11,13 +11,16 @@ const createUnitSchema = z.object({
   bedrooms: z.number().int().min(0).max(20),
   bathrooms: z.number().int().min(0).max(20),
   sizeSqm: z.number().positive().optional(),
-  rent: z.number().positive(),
+  rent: z.number().nonnegative().default(0),
   cautionDeposit: z.number().positive().optional(),
   serviceCharge: z.number().positive().optional(),
   status: z.enum(['AVAILABLE', 'RENTED', 'MAINTENANCE', 'UNAVAILABLE']).optional(),
   occupancy: z.enum(['VACANT', 'OCCUPIED', 'NOTICE_GIVEN']).optional(),
   listingId: z.string().min(1, 'Parent property is required'),
-  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).default('rent'),
+  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial', 'unlisted']).default('rent'),
+  pricePeriod: z.enum(['night', 'month', 'year', 'total']).optional(),
+  minimumStay: z.number().int().positive().optional(),
+  isListed: z.boolean().optional(),
 });
 
 export async function GET(
@@ -216,6 +219,9 @@ export async function POST(
         occupancy: (validated.data.occupancy as UnitOccupancy) || 'VACANT',
         listingId: validated.data.listingId,
         listingType: validated.data.listingType,
+        pricePeriod: validated.data.pricePeriod,
+        minimumStay: validated.data.minimumStay,
+        isListed: validated.data.isListed ?? false,
       },
       include: {
         currentTenant: {

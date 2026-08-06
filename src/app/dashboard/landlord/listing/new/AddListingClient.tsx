@@ -221,7 +221,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       const res = await fetch('/api/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, status: 'active' }),
+        body: JSON.stringify({ ...payload, status: 'active', unitId: selectedUnitId }),
       });
 
       if (!res.ok) {

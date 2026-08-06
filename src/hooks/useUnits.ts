@@ -27,6 +27,9 @@ export interface CreateUnitInput {
   occupancy?: string;
   listingId: string;
   listingType?: string;
+  pricePeriod?: 'night' | 'month' | 'year' | 'total';
+  minimumStay?: number;
+  isListed?: boolean;
 }
 
 export interface UpdateUnitInput extends Partial<CreateUnitInput> {

@@ -179,6 +179,58 @@ export async function POST(request: NextRequest) {
     }
 
     let listing;
+    const unitId = (body as any)?.unitId as string | undefined;
+
+    if (unitId) {
+      const unit = await prisma.unit.findUnique({
+        where: { id: unitId },
+        include: { property: true },
+      });
+
+      if (!unit) {
+        return NextResponse.json({ error: 'Unit not found' }, { status: 404 });
+      }
+
+      const merged = {
+        ...(validated as any),
+        title: (validated as any).title || unit.listingTitle || `${unit.buildingName || 'Property'} - Unit ${unit.unitNumber}`,
+        address: (validated as any).address || unit.address,
+        area: (validated as any).area || unit.area || unit.address,
+        state: (validated as any).state || unit.state || 'Lagos',
+        price: (validated as any).price || Number(unit.rent || 0),
+        pricePeriod: (validated as any).pricePeriod || unit.pricePeriod || 'month',
+        bedrooms: (validated as any).bedrooms ?? unit.bedrooms ?? undefined,
+        bathrooms: (validated as any).bathrooms ?? unit.bathrooms ?? undefined,
+        sizeSqm: (validated as any).sizeSqm ?? (unit.sizeSqm ? Number(unit.sizeSqm) : undefined),
+        listingType: (validated as any).listingType || unit.listingType || 'rent',
+        propertyType: (validated as any).propertyType || unit.type || undefined,
+        cautionDeposit: (validated as any).cautionDeposit ?? (unit.cautionDeposit ? Number(unit.cautionDeposit) : undefined),
+        serviceCharge: (validated as any).serviceCharge ?? (unit.serviceCharge ? Number(unit.serviceCharge) : undefined),
+        minimumStay: (validated as any).minimumStay ?? unit.minimumStay ?? undefined,
+        description: (validated as any).description || unit.listingTitle || `Unit ${unit.unitNumber}`,
+      };
+
+      listing = await prisma.listing.create({
+        data: {
+          ...merged,
+          ownerId: userId,
+          area: merged.area || merged.address,
+          cautionDeposit: merged.cautionDeposit ?? null,
+          serviceCharge: merged.serviceCharge ?? null,
+        } as any,
+      });
+
+      await prisma.unit.update({
+        where: { id: unit.id },
+        data: {
+          listingId: listing.id,
+          isListed: true,
+        },
+      });
+
+      return NextResponse.json(listing, { status: 201 });
+    }
+
     if (listingType === 'short_let') {
       const shortlet = validated as z.infer<typeof createShortletListingSchema>;
       const prismaData: Record<string, unknown> = {

@@ -44,24 +44,30 @@ export default async function LandlordPropertiesPage() {
   const normalized = listings.map((listing) => {
     const totalUnits = listing.units.length;
     const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
+    const listedUnits = listing.units.filter((u) => u.isListed).length;
     return {
       ...listing,
       price: Number(listing.price),
       unitCount: totalUnits,
       vacantUnitCount: vacantUnits,
+      listedUnitCount: listedUnits,
       units: listing.units.map((unit) => ({
         id: unit.id,
         unitNumber: unit.unitNumber,
         buildingName: unit.buildingName,
         type: unit.type,
-        bedrooms: unit.bedrooms,
-        bathrooms: unit.bathrooms,
+        listingType: unit.listingType,
+        pricePeriod: unit.pricePeriod,
         rent: Number(unit.rent),
         status: unit.status,
         occupancy: unit.occupancy,
+        isListed: unit.isListed,
       })),
     };
   });
+
+  const totalUnits = normalized.reduce((sum, l) => sum + l.unitCount, 0);
+  const activeListings = normalized.reduce((sum, l) => sum + l.listedUnitCount, 0);
 
   return (
     <DashboardShell

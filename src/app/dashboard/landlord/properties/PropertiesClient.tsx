@@ -46,11 +46,12 @@ type ListingUnit = {
   unitNumber: string;
   buildingName: string | null;
   type: string;
-  bedrooms: number;
-  bathrooms: number;
+  listingType: string;
+  pricePeriod: string | null;
   rent: number;
   status: string;
   occupancy: string;
+  isListed: boolean;
 };
 
 type Listing = {
@@ -69,6 +70,7 @@ type Listing = {
   verification: { overallStatus: string; currentLayer: number } | null;
   unitCount: number;
   vacantUnitCount: number;
+  listedUnitCount: number;
   units: ListingUnit[];
 };
 
@@ -111,10 +113,11 @@ export default function PropertiesClient({ listings }: Props) {
   const [publishLoading, setPublishLoading] = useState(false);
 
   const counts = useMemo(() => {
-    const draft = listings.filter((l) => l.status === 'draft').length;
-    const active = listings.filter((l) => l.status === 'active').length;
+    const totalProperties = listings.length;
+    const totalUnits = listings.reduce((sum, l) => sum + l.unitCount, 0);
+    const activeListings = listings.reduce((sum, l) => sum + (l.listedUnitCount || 0), 0);
     const verified = listings.filter((l) => l.verification?.overallStatus === 'certified').length;
-    return { draft, active, verified };
+    return { totalProperties, totalUnits, activeListings, verified };
   }, [listings]);
 
   const filtered = useMemo(() => {
@@ -281,9 +284,9 @@ export default function PropertiesClient({ listings }: Props) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Listings" value={listings.length} icon={<BuildingIcon className="size-5" />} />
-        <StatCard label="Active" value={counts.active} icon={<CheckCircleIcon className="size-5" />} />
-        <StatCard label="Draft" value={counts.draft} icon={<FileIcon className="size-5" />} />
+        <StatCard label="Total Properties" value={counts.totalProperties} icon={<BuildingIcon className="size-5" />} />
+        <StatCard label="Total Units" value={counts.totalUnits} icon={<BuildingIcon className="size-5" />} />
+        <StatCard label="Active Listings" value={counts.activeListings} icon={<CheckCircleIcon className="size-5" />} />
         <StatCard label="Verified" value={counts.verified} icon={<ShieldCheckIcon className="size-5" />} />
       </div>
 
@@ -291,8 +294,8 @@ export default function PropertiesClient({ listings }: Props) {
         <Tabs value={statusFilter} onValueChange={setStatusFilter} className="w-full sm:w-auto">
           <TabsList>
             <TabsTrigger value="all">All ({listings.length})</TabsTrigger>
-            <TabsTrigger value="draft">Draft ({counts.draft})</TabsTrigger>
-            <TabsTrigger value="active">Active ({counts.active})</TabsTrigger>
+            <TabsTrigger value="draft">Draft ({listings.filter((l) => l.status === 'draft').length})</TabsTrigger>
+            <TabsTrigger value="active">Active ({listings.filter((l) => l.status === 'active').length})</TabsTrigger>
             <TabsTrigger value="verified">Verified ({counts.verified})</TabsTrigger>
           </TabsList>
         </Tabs>

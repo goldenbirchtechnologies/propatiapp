@@ -16,7 +16,8 @@ const createUnitSchema = z.object({
   serviceCharge: z.number().positive().optional(),
   status: z.enum(['AVAILABLE', 'RENTED', 'MAINTENANCE', 'UNAVAILABLE']).optional(),
   occupancy: z.enum(['VACANT', 'OCCUPIED', 'NOTICE_GIVEN']).optional(),
-  listingId: z.string().optional(),
+  listingId: z.string().min(1, 'Parent property is required'),
+  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).default('rent'),
 });
 
 export async function GET(
@@ -94,7 +95,13 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: units,
+      data: units.map((unit) => ({
+        ...unit,
+        rent: Number(unit.rent),
+        cautionDeposit: unit.cautionDeposit ? Number(unit.cautionDeposit) : null,
+        serviceCharge: unit.serviceCharge ? Number(unit.serviceCharge) : null,
+        sizeSqm: unit.sizeSqm ? Number(unit.sizeSqm) : null,
+      })),
       pagination: {
         page,
         limit,
@@ -208,6 +215,7 @@ export async function POST(
         status: (validated.data.status as UnitStatus) || 'AVAILABLE',
         occupancy: (validated.data.occupancy as UnitOccupancy) || 'VACANT',
         listingId: validated.data.listingId,
+        listingType: validated.data.listingType,
       },
       include: {
         currentTenant: {

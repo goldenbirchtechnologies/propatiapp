@@ -495,6 +495,7 @@ export default function PropertiesClient({ listings }: Props) {
                                       <thead>
                                         <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground">
                                           <th className="pb-2 pr-4">Unit</th>
+                                          <th className="pb-2 pr-4">Listing Type</th>
                                           <th className="pb-2 pr-4">Type</th>
                                           <th className="pb-2 pr-4">Beds</th>
                                           <th className="pb-2 pr-4">Baths</th>
@@ -513,6 +514,11 @@ export default function PropertiesClient({ listings }: Props) {
                                                   {unit.buildingName ? ` • ${unit.buildingName}` : ''}
                                                 </p>
                                               </div>
+                                            </td>
+                                            <td className="py-2 pr-4 capitalize">
+                                              <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground border border-outline-variant">
+                                                {unit.listingType || 'rent'}
+                                              </span>
                                             </td>
                                             <td className="py-2 pr-4 capitalize">{unit.type}</td>
                                             <td className="py-2 pr-4">{unit.bedrooms}</td>
@@ -577,7 +583,7 @@ export default function PropertiesClient({ listings }: Props) {
                       {unit.buildingName ? ` • ${unit.buildingName}` : ''}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {unit.type} • {unit.bedrooms} bed • {unit.bathrooms} bath • {formatCurrency(unit.rent)}
+                      {unit.type} • {unit.bedrooms} bed • {unit.bathrooms} bath • {formatCurrency(unit.rent)} • {unit.listingType || 'rent'}
                     </p>
                   </div>
                 </label>

@@ -23,6 +23,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
   const [unitNumber, setUnitNumber] = useState('');
   const [buildingName, setBuildingName] = useState(listingTitle || '');
   const [type, setType] = useState('apartment');
+  const [listingType, setListingType] = useState<'rent' | 'sale' | 'short_let' | 'share' | 'commercial'>('rent');
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
   const [sizeSqm, setSizeSqm] = useState('');
@@ -79,6 +80,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         buildingName: buildingName || undefined,
         unitNumber: unitNumber.trim(),
         type,
+        listingType,
         bedrooms,
         bathrooms,
         sizeSqm: sizeSqm ? Number(sizeSqm) : undefined,
@@ -106,11 +108,15 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Add Unit</h1>
-        <p className="text-muted-foreground mt-1">Create a new unit under this property.</p>
+        <p className="text-muted-foreground mt-1">Create a new unit under <span className="font-medium">{listingTitle || 'this property'}</span>.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="listingTitle">Parent Property</Label>
+            <Input id="listingTitle" value={listingTitle || ''} disabled className="bg-muted" />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="unitNumber">Unit Number</Label>
             <Input id="unitNumber" value={unitNumber} onChange={(e) => setUnitNumber(e.target.value)} required />
@@ -122,6 +128,22 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
           <div className="space-y-2">
             <Label htmlFor="type">Type</Label>
             <Input id="type" value={type} onChange={(e) => setType(e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="listingType">Listing Type</Label>
+            <select
+              id="listingType"
+              value={listingType}
+              onChange={(e) => setListingType(e.target.value as typeof listingType)}
+              className="w-full rounded-md border border-outline-variant bg-background px-3 py-2 text-sm"
+            >
+              <option value="rent">For Rent</option>
+              <option value="short_let">Short Let</option>
+              <option value="sale">For Sale</option>
+              <option value="share">Shared Apartment</option>
+              <option value="commercial">Commercial</option>
+            </select>
+            <p className="text-xs text-muted-foreground">This controls how this unit is listed and priced.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="bedrooms">Bedrooms</Label>

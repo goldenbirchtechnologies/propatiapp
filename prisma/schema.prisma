@@ -1212,8 +1212,8 @@ model Unit {
   organization      Organisation  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   // Location
-  listingId         String?       @map("listing_id")
-  listing           Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  listingId         String        @map("listing_id")
+  listing           Listing       @relation(fields: [listingId], references: [id], onDelete: Cascade)
   buildingName      String?       @map("building_name")
   unitNumber        String        @map("unit_number")
 
@@ -1222,6 +1222,9 @@ model Unit {
   bedrooms          Int
   bathrooms         Int
   sizeSqm           Decimal?      @db.Decimal(10, 2) @map("size_sqm")
+
+  // Listing strategy at unit level
+  listingType       ListingType   @map("listing_type")
 
   // Financial
   rent              Decimal       @db.Decimal(10, 2)
@@ -1250,6 +1253,7 @@ model Unit {
   @@index([organizationId], map: "idx_units_org")
   @@index([status], map: "idx_units_status")
   @@index([occupancy], map: "idx_units_occupancy")
+  @@index([listingId], map: "idx_units_listing")
   @@unique([organizationId, buildingName, unitNumber])
   @@map("units")
 }

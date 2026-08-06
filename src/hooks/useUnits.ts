@@ -25,7 +25,8 @@ export interface CreateUnitInput {
   serviceCharge?: number;
   status?: string;
   occupancy?: string;
-  listingId?: string;
+  listingId: string;
+  listingType?: string;
 }
 
 export interface UpdateUnitInput extends Partial<CreateUnitInput> {
@@ -244,10 +245,7 @@ export function useRentLedger(orgId: string, params?: LedgerFilters) {
  * Download CSV template for bulk upload
  */
 export function downloadUnitsCSVTemplate() {
-  const template = `buildingName,unitNumber,type,bedrooms,bathrooms,sizeSqm,rent,cautionDeposit,serviceCharge,status,occupancy
-Building A,101,apartment,2,2,85,150000,300000,15000,AVAILABLE,VACANT
-Building A,102,apartment,3,2,110,200000,400000,20000,RENTED,OCCUPIED
-Building B,201,apartment,1,1,60,100000,200000,10000,AVAILABLE,VACANT`;
+  const template = `buildingName,unitNumber,type,listingType,bedrooms,bathrooms,sizeSqm,rent,cautionDeposit,serviceCharge,status,occupancy\nBuilding A,101,apartment,rent,2,2,85,150000,300000,15000,AVAILABLE,VACANT\nBuilding A,102,apartment,short_let,3,2,110,200000,400000,20000,RENTED,OCCUPIED\nBuilding B,201,apartment,sale,1,1,60,100000,200000,10000,AVAILABLE,VACANT`;
 
   const blob = new Blob([template], { type: 'text/csv' });
   const url = window.URL.createObjectURL(blob);

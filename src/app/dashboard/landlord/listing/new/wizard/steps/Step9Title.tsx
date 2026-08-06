@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -15,10 +15,6 @@ export interface Step9Props {
 export default function Step9Title({ title, onChange }: Step9Props) {
   const [internal, setInternal] = useState(title ?? '');
   const value = title ?? internal;
-
-  useEffect(() => {
-    onChange(value);
-  }, [value, onChange]);
 
   const remaining = 50 - value.length;
 

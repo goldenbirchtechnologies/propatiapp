@@ -81,7 +81,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
 
   useEffect(() => {
     const latVal = Number.isFinite(latNum) ? latNum : DEFAULT_CENTER[0];
-    const lngVal = Number.isFinite(lngNum) ? lngVal : DEFAULT_CENTER[1];
+    const lngVal = Number.isFinite(lngNum) ? lngNum : DEFAULT_CENTER[1];
     markerRef.current?.setLatLng([latVal, lngVal]);
   }, [latNum, lngNum]);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,14 +33,14 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
     monthly_percentage: value?.monthly_percentage?.toString() ?? '10',
   });
 
-  useEffect(() => {
+  const sync = () => {
     onChange({
       new_listing_promotion: flags.new_listing_promotion,
       last_minute_percentage: flags.last_minute_percentage ? parseFloat(percents.last_minute_percentage) || 0 : undefined,
       weekly_percentage: flags.weekly_percentage ? parseFloat(percents.weekly_percentage) || 0 : undefined,
       monthly_percentage: flags.monthly_percentage ? parseFloat(percents.monthly_percentage) || 0 : undefined,
     });
-  }, [flags, percents, onChange]);
+  };
 
   return (
     <div className="space-y-4">
@@ -58,7 +58,10 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                   <Checkbox
                     id={option.key}
                     checked={checked}
-                    onCheckedChange={(c) => setFlags((prev) => ({ ...prev, [option.key]: Boolean(c) }))}
+                    onCheckedChange={(c) => {
+                      setFlags((prev) => ({ ...prev, [option.key]: Boolean(c) }));
+                      sync();
+                    }}
                   />
                   <Label htmlFor={option.key} className="text-sm font-medium">
                     {option.label}
@@ -73,7 +76,10 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                   min={0}
                   max={100}
                   value={percents[option.key as keyof typeof percents]}
-                  onChange={(e) => setPercents((prev) => ({ ...prev, [option.key]: e.target.value }))}
+                  onChange={(e) => {
+                    setPercents((prev) => ({ ...prev, [option.key]: e.target.value }));
+                    sync();
+                  }}
                   disabled={!checked}
                   className="w-20"
                 />

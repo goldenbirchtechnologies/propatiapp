@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -25,14 +25,14 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   const [beds, setBeds] = useState(value?.beds_count ?? DEFAULTS.beds_count);
   const [bathrooms, setBathrooms] = useState(value?.bathrooms_count ?? DEFAULTS.bathrooms_count);
 
-  useEffect(() => {
+  const sync = () => {
     onChange({
       guests_count: guests,
       bedrooms_count: bedrooms,
       beds_count: beds,
       bathrooms_count: bathrooms,
     });
-  }, [guests, bedrooms, beds, bathrooms, onChange]);
+  };
 
   const Stepper = ({
     label,
@@ -62,7 +62,10 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
           variant="outline"
           size="sm"
           className="size-9 p-0"
-          onClick={() => setValue(Math.max(min, value - step))}
+          onClick={() => {
+            setValue(Math.max(min, value - step));
+            sync();
+          }}
         >
           -
         </Button>
@@ -72,7 +75,10 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
           variant="outline"
           size="sm"
           className="size-9 p-0"
-          onClick={() => setValue(Math.min(max, value + step))}
+          onClick={() => {
+            setValue(Math.min(max, value + step));
+            sync();
+          }}
         >
           +
         </Button>

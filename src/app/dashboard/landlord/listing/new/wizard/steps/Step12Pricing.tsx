@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,13 +21,13 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
   const [basePrice, setBasePrice] = useState(value?.base_price?.toString() ?? '');
   const [weekend, setWeekend] = useState(value?.weekend_pricing?.toString() ?? '');
 
-  useEffect(() => {
+  const sync = () => {
     onChange({
       currency,
       base_price: parseFloat(basePrice) || 0,
       weekend_pricing: weekend ? parseFloat(weekend) : undefined,
     });
-  }, [currency, basePrice, weekend, onChange]);
+  };
 
   return (
     <div className="space-y-4">
@@ -36,7 +36,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
       <Card className="p-4 space-y-4">
         <div className="space-y-2">
           <Label htmlFor="currency">Currency</Label>
-          <Select value={currency} onValueChange={setCurrency}>
+          <Select value={currency} onValueChange={(v) => { setCurrency(v); sync(); }}>
             <SelectTrigger id="currency">
               <SelectValue placeholder="Select currency" />
             </SelectTrigger>
@@ -58,7 +58,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
               step="0.01"
               placeholder="0.00"
               value={basePrice}
-              onChange={(e) => setBasePrice(e.target.value)}
+              onChange={(e) => { setBasePrice(e.target.value); sync(); }}
               className="pl-8"
             />
           </div>
@@ -74,7 +74,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
           max={100}
           placeholder="e.g. 15 for 15% increase"
           value={weekend}
-          onChange={(e) => setWeekend(e.target.value)}
+          onChange={(e) => { setWeekend(e.target.value); sync(); }}
         />
         <p className="text-xs text-muted-foreground">Leave blank for no weekend adjustment.</p>
       </div>

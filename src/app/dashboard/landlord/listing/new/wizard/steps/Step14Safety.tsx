@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -38,13 +38,13 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
   const [noiseMonitor, setNoiseMonitor] = useState(value?.noise_decibel_monitor_present ?? false);
   const [weapons, setWeapons] = useState(value?.weapons_on_property ?? false);
 
-  useEffect(() => {
+  const sync = () => {
     onChange({
       exterior_security_camera_present: exteriorCamera,
       noise_decibel_monitor_present: noiseMonitor,
       weapons_on_property: weapons,
     });
-  }, [exteriorCamera, noiseMonitor, weapons, onChange]);
+  };
 
   return (
     <div className="space-y-4">
@@ -68,7 +68,10 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
               <Checkbox
                 id={item.key}
                 checked={checked}
-                onCheckedChange={(c) => setter(c as boolean)}
+                onCheckedChange={(c) => {
+                  setter(c as boolean);
+                  sync();
+                }}
                 className="mt-1"
               />
               <div className="flex-1">

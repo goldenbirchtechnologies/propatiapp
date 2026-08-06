@@ -103,14 +103,8 @@ export default function PropertiesClient({ listings }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [shortletStates, setShortletStates] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(listings.map((l) => [l.id, !!l.allowShortlet]))
-  );
-  const [shortletLoading, setShortletLoading] = useState<string | null>(null);
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  const [publishTarget, setPublishTarget] = useState<string | null>(null);
-  const [publishSelectedUnits, setPublishSelectedUnits] = useState<Record<string, boolean>>({});
-  const [publishLoading, setPublishLoading] = useState(false);
+  const [unitMarketplaceLoading, setUnitMarketplaceLoading] = useState<string | null>(null);
 
   const counts = useMemo(() => {
     const totalProperties = listings.length;
@@ -144,90 +138,28 @@ export default function PropertiesClient({ listings }: Props) {
     setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const openPublishModal = (listing: Listing) => {
-    const initial: Record<string, boolean> = {};
-    listing.units
-      .filter((u) => u.occupancy === 'VACANT')
-      .forEach((u) => {
-        initial[u.id] = true;
-      });
-    setPublishSelectedUnits(initial);
-    setPublishTarget(listing.id);
-  };
-
-  const selectedVacantUnitIds = useMemo(() => {
-    if (!publishTarget) return [];
-    const listing = listings.find((l) => l.id === publishTarget);
-    if (!listing) return [];
-    return listing.units
-      .filter((u) => u.occupancy === 'VACANT' && publishSelectedUnits[u.id])
-      .map((u) => u.id);
-  }, [publishTarget, publishSelectedUnits, listings]);
-
-  const handlePublish = async () => {
-    if (!publishTarget) return;
-    const listing = listings.find((l) => l.id === publishTarget);
-    if (!listing) return;
-
-    setPublishLoading(true);
+  const handleUnitMarketplaceToggle = async (unit: ListingUnit) => {
+    setUnitMarketplaceLoading(unit.id);
     try {
-      const selectedUnits = listing.units.filter((u) => publishSelectedUnits[u.id]);
-      const res = await fetch(`/api/listings/${publishTarget}`, {
+      const res = await fetch(`/api/orgs/${unit.organizationId || ''}/units/${unit.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'active' }),
+        body: JSON.stringify({ isListed: !unit.isListed }),
       });
-
       const data = await res.json().catch(() => ({ success: false }));
-
       if (!res.ok || !data?.success) {
-        throw new Error(data?.error || 'Failed to publish property');
+        throw new Error(data?.error || 'Failed to update unit listing status');
       }
-
-      const unitLabels = selectedUnits.map((u) => `Unit ${u.unitNumber}`).join(', ');
-      toast({
-        title: 'Published',
-        description: `Successfully published ${selectedUnits.length || listing.vacantUnitCount} unit(s) (${unitLabels || listing.title}) to the Marketplace.`,
-      });
-      setPublishTarget(null);
+      toast({ title: unit.isListed ? 'Unlisted' : 'Listed', description: `Unit ${unit.unitNumber} updated.` });
       router.refresh();
     } catch (error) {
       toast({
-        title: 'Publish failed',
+        title: 'Update failed',
         description: error instanceof Error ? error.message : 'Unexpected error',
         variant: 'destructive',
       });
     } finally {
-      setPublishLoading(false);
-    }
-  };
-
-  const handleShortletToggle = async (listingId: string, enabled: boolean) => {
-    setShortletLoading(listingId);
-    try {
-      const res = await fetch(`/api/listings/${listingId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ allowShortlet: enabled }),
-      });
-
-      const data = await res.json().catch(() => ({ success: false }));
-
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || 'Failed to update short-let setting');
-      }
-
-      setShortletStates((prev) => ({ ...prev, [listingId]: enabled }));
-      toast({ title: 'Updated', description: 'Short-let setting saved.' });
-    } catch (error) {
-      setShortletStates((prev) => ({ ...prev, [listingId]: !enabled }));
-      toast({
-        title: 'Update failed',
-        description: error instanceof Error ? error.message : 'Something went wrong.',
-        variant: 'destructive',
-      });
-    } finally {
-      setShortletLoading(null);
+      setUnitMarketplaceLoading(null);
     }
   };
 
@@ -253,33 +185,6 @@ export default function PropertiesClient({ listings }: Props) {
       });
     }
   };
-
-  const handleStatusChange = async (id: string, status: 'draft' | 'active' | 'suspended') => {
-    try {
-      const res = await fetch(`/api/listings/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
-      });
-
-      const data = await res.json().catch(() => ({ success: false }));
-
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || `Failed to ${status === 'active' ? 'publish' : status === 'draft' ? 'unpublish' : 'resume'} property`);
-      }
-
-      toast({ title: 'Updated', description: data?.message || `Listing status updated to ${status}` });
-      router.refresh();
-    } catch (error) {
-      toast({
-        title: 'Update failed',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const publishListing = listings.find((l) => l.id === publishTarget);
 
   return (
     <div className="space-y-6">
@@ -344,13 +249,9 @@ export default function PropertiesClient({ listings }: Props) {
                   <tr className="border-b border-outline-variant">
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground" />
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Property</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Verification</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Price</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Views</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Short-let</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Category</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Units</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Verification</th>
                     <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
@@ -358,7 +259,6 @@ export default function PropertiesClient({ listings }: Props) {
                   {filtered.map((listing) => {
                     const isExpanded = !!expandedRows[listing.id];
                     const listingTypeKey = LISTING_TYPE_MAP[listing.listingType.toLowerCase()] || 'rent';
-                    const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT');
                     return (
                       <>
                         <tr key={listing.id} className="border-b border-outline-variant last:border-b-0">
@@ -403,31 +303,7 @@ export default function PropertiesClient({ listings }: Props) {
                               )}
                             </span>
                           </td>
-                          <td className="p-4">
-                            <StatusBadge status={listing.status} />
-                          </td>
-                          <td className="p-4">
-                            <VerificationBadge verification={listing.verification} />
-                          </td>
-                          <td className="p-4 font-medium text-foreground">
-                            {formatCurrency(listing.price)}
-                            <span className="text-xs text-muted-foreground">/{listing.pricePeriod || 'month'}</span>
-                          </td>
-                          <td className="p-4 text-muted-foreground">{listing.viewsCount.toLocaleString()}</td>
-                          <td className="p-4">
-                            <div className="flex items-center gap-2">
-                              <Switch
-                                checked={!!shortletStates[listing.id]}
-                                disabled={shortletLoading === listing.id}
-                                onCheckedChange={(checked) => handleShortletToggle(listing.id, checked)}
-                              />
-                              <span className="text-xs text-muted-foreground">
-                                {shortletStates[listing.id] ? 'Enabled' : 'Off'}
-                              </span>
-                              {shortletLoading === listing.id && <Loader2 className="size-3 animate-spin text-muted-foreground" />}
-                            </div>
-                          </td>
-                          <td className="p-4 text-sm text-muted-foreground">
+                          <td className="p-4 text-sm text-foreground">
                             {listing.unitCount > 0 ? (
                               <button
                                 type="button"
@@ -435,15 +311,22 @@ export default function PropertiesClient({ listings }: Props) {
                                 className="text-left"
                               >
                                 <span>
-                                  {listing.unitCount} unit{listing.unitCount === 1 ? '' : 's'} &middot;{' '}
+                                  {listing.unitCount} total •{' '}
                                   <span className={listing.vacantUnitCount > 0 ? 'text-success' : 'text-destructive'}>
                                     {listing.vacantUnitCount} vacant
+                                  </span>{' '}
+                                  •{' '}
+                                  <span className="text-primary">
+                                    {listing.listedUnitCount || 0} listed
                                   </span>
                                 </span>
                               </button>
                             ) : (
-                              <span>No units</span>
+                              <span className="text-destructive">No units</span>
                             )}
+                          </td>
+                          <td className="p-4">
+                            <VerificationBadge verification={listing.verification} />
                           </td>
                           <td className="p-4 text-right">
                             <DropdownMenu>
@@ -457,21 +340,11 @@ export default function PropertiesClient({ listings }: Props) {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>Edit</Link>
+                                  <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>Edit Building</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/verify?listingId=${listing.id}`}>Verify</Link>
+                                  <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
                                 </DropdownMenuItem>
-                                {(listing.status === 'draft' || listing.status === 'active') && (
-                                  <DropdownMenuItem onSelect={() => openPublishModal(listing)}>
-                                    {listing.status === 'draft' ? 'Publish' : 'Republish'}
-                                  </DropdownMenuItem>
-                                )}
-                                {listing.status === 'suspended' && (
-                                  <DropdownMenuItem onSelect={() => handleStatusChange(listing.id, 'active')}>
-                                    Resume
-                                  </DropdownMenuItem>
-                                )}
                                 <DropdownMenuItem asChild>
                                   <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
                                 </DropdownMenuItem>
@@ -488,7 +361,7 @@ export default function PropertiesClient({ listings }: Props) {
                         </tr>
                         {isExpanded && (
                           <tr className="border-b border-outline-variant last:border-b-0">
-                            <td colSpan={10} className="p-0">
+                            <td colSpan={6} className="p-0">
                               <div className="px-4 py-4 bg-background/50">
                                 {listing.units.length === 0 ? (
                                   <p className="text-sm text-muted-foreground">No units linked to this property.</p>
@@ -499,12 +372,9 @@ export default function PropertiesClient({ listings }: Props) {
                                         <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground">
                                           <th className="pb-2 pr-4">Unit</th>
                                           <th className="pb-2 pr-4">Listing Type</th>
-                                          <th className="pb-2 pr-4">Type</th>
-                                          <th className="pb-2 pr-4">Beds</th>
-                                          <th className="pb-2 pr-4">Baths</th>
-                                          <th className="pb-2 pr-4">Rent</th>
+                                          <th className="pb-2 pr-4">Pricing</th>
                                           <th className="pb-2 pr-4">Status</th>
-                                          <th className="pb-2">Occupancy</th>
+                                          <th className="pb-2 pr-4">Marketplace</th>
                                         </tr>
                                       </thead>
                                       <tbody className="text-foreground">
@@ -523,15 +393,25 @@ export default function PropertiesClient({ listings }: Props) {
                                                 {unit.listingType || 'rent'}
                                               </span>
                                             </td>
-                                            <td className="py-2 pr-4 capitalize">{unit.type}</td>
-                                            <td className="py-2 pr-4">{unit.bedrooms}</td>
-                                            <td className="py-2 pr-4">{unit.bathrooms}</td>
-                                            <td className="py-2 pr-4">{formatCurrency(unit.rent)}</td>
-                                            <td className="py-2 pr-4 capitalize">{unit.status.toLowerCase()}</td>
-                                            <td className="py-2">
+                                            <td className="py-2 pr-4">
+                                              {formatCurrency(unit.rent)}
+                                              <span className="text-xs text-muted-foreground">/{unit.pricePeriod || 'month'}</span>
+                                            </td>
+                                            <td className="py-2 pr-4 capitalize">
                                               <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
-                                                {unit.occupancy.toLowerCase()}
+                                                {unit.status.toLowerCase()}
                                               </span>
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                              <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleUnitMarketplaceToggle(unit)}
+                                                disabled={unitMarketplaceLoading === unit.id}
+                                              >
+                                                {unitMarketplaceLoading === unit.id && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
+                                                {unit.isListed ? 'Unlist' : unit.listingType === 'short_let' ? 'Manage Calendar' : 'List to Marketplace'}
+                                              </Button>
                                             </td>
                                           </tr>
                                         ))}

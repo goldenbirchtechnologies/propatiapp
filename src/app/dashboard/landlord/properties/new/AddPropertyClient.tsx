@@ -305,6 +305,10 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
         throw new Error('Set a positive price for at least one unit before saving.');
       }
 
+      if (units.length === 0) {
+        throw new Error('Add at least one unit before saving this property.');
+      }
+
       const basePayload = {
         ...safeData,
         price,

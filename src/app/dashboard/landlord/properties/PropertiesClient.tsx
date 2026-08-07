@@ -16,6 +16,16 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -53,6 +63,8 @@ type ListingUnit = {
   occupancy: string;
   isListed: boolean;
   organizationId: string;
+  bedrooms?: number;
+  bathrooms?: number;
 };
 
 type Listing = {
@@ -97,7 +109,6 @@ function formatListingType(value?: string) {
     short_let: 'Short-Let',
     share: 'Shared',
     commercial: 'Commercial',
-    unlisted: 'Unlisted',
   };
   if (!value) return 'Rent';
   return map[value] || titleCase(value);
@@ -111,6 +122,28 @@ function formatUnitSubtext(unit: ListingUnit) {
     return titleCase(unit.type);
   }
   return `Unit ${unit.unitNumber}`;
+}
+
+function OccupancyBadge({ occupancy }: { occupancy?: string }) {
+  const cfg =
+    {
+      VACANT: { class: 'bg-success/10 text-success border-success/20', label: 'Vacant' },
+      OCCUPIED: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Occupied' },
+      NOTICE_GIVEN: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Notice Given' },
+      MAINTENANCE: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Under Maintenance' },
+    }[occupancy || 'VACANT'] || {
+      class: 'bg-muted text-muted-foreground border-outline-variant',
+      label: occupancy || 'Unknown',
+    };
+
+  return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
+}
+
+function ListingStatusBadge({ isListed }: { isListed?: boolean }) {
+  if (isListed) {
+    return <span className="tag bg-primary/10 text-primary border-primary/20">Listed</span>;
+  }
+  return <span className="tag bg-muted text-muted-foreground border-outline-variant">Unlisted</span>;
 }
 
 export default function PropertiesClient({ listings }: Props) {
@@ -361,8 +394,9 @@ export default function PropertiesClient({ listings }: Props) {
                                           <th className="pb-2 pr-4">Unit</th>
                                           <th className="pb-2 pr-4">Listing Type</th>
                                           <th className="pb-2 pr-4">Pricing</th>
-                                          <th className="pb-2 pr-4">Status</th>
-                                          <th className="pb-2 pr-4">Marketplace</th>
+                                          <th className="pb-2 pr-4">Occupancy</th>
+                                          <th className="pb-2 pr-4">Listing Status</th>
+                                          <th className="pb-2 pr-4">Actions</th>
                                         </tr>
                                       </thead>
                                       <tbody className="text-foreground">
@@ -387,19 +421,14 @@ export default function PropertiesClient({ listings }: Props) {
                                               {formatCurrency(unit.rent)}
                                               <span className="text-xs text-muted-foreground">/{unit.pricePeriod || 'month'}</span>
                                             </td>
-                                            <td className="py-2 pr-4 capitalize">
-                                              <span className={unit.occupancy === 'VACANT' ? 'text-success' : 'text-destructive'}>
-                                                {unit.status.toLowerCase()}
-                                              </span>
+                                            <td className="py-2 pr-4">
+                                              <OccupancyBadge occupancy={unit.occupancy} />
                                             </td>
                                             <td className="py-2 pr-4">
-                                              <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => goToPublish(listing.id, unit)}
-                                              >
-                                                {unit.isListed ? 'Unlist' : unit.listingType === 'short_let' ? 'Manage Calendar' : 'List to Marketplace'}
-                                              </Button>
+                                              <ListingStatusBadge isListed={unit.isListed} />
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                              <UnitActions listing={listing} unit={unit} onNavigate={goToPublish} />
                                             </td>
                                           </tr>
                                         ))}
@@ -482,4 +511,110 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
     default:
       return <span className="tag bg-muted text-muted-foreground border-outline-variant">{verification.overallStatus}</span>;
   }
+}
+
+function UnitActions({
+  listing,
+  unit,
+  onNavigate,
+}: {
+  listing: Listing;
+  unit: ListingUnit;
+  onNavigate: (listingId: string, unit: ListingUnit) => void;
+}) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  const handleAction = (action: () => void) => {
+    if (unit.occupancy === 'OCCUPIED' && !unit.isListed) {
+      setPendingAction(() => action);
+      setConfirmOpen(true);
+      return;
+    }
+    action();
+  };
+
+  const confirmOccupiedListing = () => {
+    if (pendingAction) {
+      pendingAction();
+    }
+    setConfirmOpen(false);
+    setPendingAction(null);
+  };
+
+  const occupancyLabel =
+    unit.occupancy === 'OCCUPIED'
+      ? 'This unit is currently occupied.'
+      : 'This unit has notice given.';
+
+  const leaseHint =
+    unit.occupancy === 'OCCUPIED'
+      ? 'Listing now may target a future move-in date.'
+      : 'The tenant may still be in place until vacated.';
+
+  if (unit.occupancy === 'OCCUPIED' && unit.isListed) {
+    return (
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="sm" variant="outline" asChild>
+          <Link href={`/dashboard/landlord/leases?unitId=${unit.id}`}>View Active Lease</Link>
+        </Button>
+        <Button size="sm" variant="ghost" asChild>
+          <Link href={`/dashboard/landlord/properties/${listing.id}`}>Tenant Info</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  if (unit.isListed) {
+    return (
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => onNavigate(listing.id, unit)}
+      >
+        Unlist
+      </Button>
+    );
+  }
+
+  if (unit.listingType === 'short_let') {
+    return (
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => onNavigate(listing.id, unit)}
+      >
+        Manage Calendar
+      </Button>
+    );
+  }
+
+  return (
+    <>
+      <Button
+        size="sm"
+        onClick={() =>
+          handleAction(() => onNavigate(listing.id, unit))
+        }
+      >
+        {unit.occupancy === 'NOTICE_GIVEN' ? 'List Ahead of Vacancy' : 'List to Marketplace'}
+      </Button>
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>List an occupied unit?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {occupancyLabel} {leaseHint}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmOccupiedListing}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
 }

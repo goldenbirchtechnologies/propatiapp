@@ -90,16 +90,6 @@ function titleCase(value: string) {
     .join(' ');
 }
 
-const LISTING_TYPE_MAP: Record<string, 'rent' | 'sale' | 'short_let' | 'share' | 'commercial'> = {
-  rent: 'rent',
-  sale: 'sale',
-  shortlet: 'short_let',
-  short_let: 'short_let',
-  share: 'share',
-  roomshare: 'share',
-  commercial: 'commercial',
-};
-
 export default function PropertiesClient({ listings }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -252,7 +242,6 @@ export default function PropertiesClient({ listings }: Props) {
                 <tbody>
                   {filtered.map((listing) => {
                     const isExpanded = !!expandedRows[listing.id];
-                    const listingTypeKey = LISTING_TYPE_MAP[listing.listingType.toLowerCase()] || 'rent';
                     return (
                       <>
                         <tr key={listing.id} className="border-b border-outline-variant last:border-b-0">
@@ -288,14 +277,11 @@ export default function PropertiesClient({ listings }: Props) {
                             </Link>
                           </td>
                           <td className="p-4">
-                            <span className="inline-flex items-center gap-1">
-                              <ListingTypeBadge type={listingTypeKey} />
-                              {listing.propertyType && (
-                                <Badge variant="secondary" className="ml-1">
-                                  {listing.propertyType}
-                                </Badge>
-                              )}
-                            </span>
+                            {listing.propertyType && (
+                              <Badge variant="secondary">
+                                {listing.propertyType}
+                              </Badge>
+                            )}
                           </td>
                           <td className="p-4 text-sm text-foreground">
                             {listing.unitCount > 0 ? (
@@ -378,7 +364,9 @@ export default function PropertiesClient({ listings }: Props) {
                                               <div>
                                                 <p className="font-medium">
                                                   Unit {unit.unitNumber}
-                                                  {unit.buildingName ? ` • ${unit.buildingName}` : ''}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                  {titleCase(listing.title)}
                                                 </p>
                                               </div>
                                             </td>
@@ -452,18 +440,6 @@ function StatusBadge({ status }: { status: string }) {
     deleted: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Deleted' },
   };
   const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: status };
-  return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
-}
-
-function ListingTypeBadge({ type }: { type: 'rent' | 'sale' | 'short_let' | 'share' | 'commercial' }) {
-  const config: Record<string, { class: string; label: string }> = {
-    rent: { class: 'bg-type-rent/10 text-type-rent border-type-rent/20', label: 'For Rent' },
-    sale: { class: 'bg-type-sale/10 text-type-sale border-type-sale/20', label: 'For Sale' },
-    short_let: { class: 'bg-type-shortlet/10 text-type-shortlet border-type-shortlet/20', label: 'Short Let' },
-    share: { class: 'bg-type-roomshare/10 text-type-roomshare border-type-roomshare/20', label: 'Room Share' },
-    commercial: { class: 'bg-commercial-gold/10 text-commercial-gold border-commercial-gold/20', label: 'Commercial' },
-  };
-  const cfg = config[type] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: type };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 

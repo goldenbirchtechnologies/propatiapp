@@ -174,6 +174,7 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
+  const [unitPhotos, setUnitPhotos] = useState<Record<string, File[]>>({});
   const [quickListingType, setQuickListingType] = useState<ListingIntent>('rent');
   const [quickPrice, setQuickPrice] = useState('');
   const [quickPeriod, setQuickPeriod] = useState('month');

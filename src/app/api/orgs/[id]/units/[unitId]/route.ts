@@ -8,7 +8,7 @@ const updateUnitSchema = z.object({
   status: z.enum(['AVAILABLE', 'RENTED', 'MAINTENANCE', 'UNAVAILABLE']).optional(),
   occupancy: z.enum(['VACANT', 'OCCUPIED', 'NOTICE_GIVEN']).optional(),
   rent: z.number().nonnegative().optional(),
-  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial', 'unlisted']).optional(),
+  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).optional(),
   pricePeriod: z.enum(['night', 'month', 'year', 'total']).optional(),
 });
 

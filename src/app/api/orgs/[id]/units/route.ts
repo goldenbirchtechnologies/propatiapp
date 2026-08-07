@@ -17,7 +17,7 @@ const createUnitSchema = z.object({
   status: z.enum(['AVAILABLE', 'RENTED', 'MAINTENANCE', 'UNAVAILABLE']).optional(),
   occupancy: z.enum(['VACANT', 'OCCUPIED', 'NOTICE_GIVEN']).optional(),
   listingId: z.string().min(1, 'Parent property is required'),
-  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial', 'unlisted']).default('rent'),
+  listingType: z.enum(['rent', 'sale', 'short_let', 'share', 'commercial']).default('rent'),
   pricePeriod: z.enum(['night', 'month', 'year', 'total']).optional(),
   minimumStay: z.number().int().positive().optional(),
   isListed: z.boolean().optional(),

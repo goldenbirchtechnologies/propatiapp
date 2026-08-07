@@ -65,7 +65,7 @@ const listingSchema = z.object({
 
 type ListingInput = z.infer<typeof listingSchema>;
 
-type ListingIntent = 'rent' | 'short_let' | 'sale' | 'unlisted';
+type ListingIntent = 'rent' | 'short_let' | 'sale';
 
 type UnitPeriod = 'month' | 'night' | 'total';
 
@@ -263,7 +263,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
               : quickPeriod,
         minimumStay:
           quickListingType === 'short_let' && !isNaN(ms) && ms > 0 ? ms : u.minimumStay,
-        isListed: quickListingType !== 'unlisted',
+        isListed: false,
         cautionDeposit: !isNaN(cd) ? cd : u.cautionDeposit,
         serviceCharge: !isNaN(sc) ? sc : u.serviceCharge,
       }))
@@ -754,7 +754,6 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                     <SelectItem value="rent">For Rent</SelectItem>
                     <SelectItem value="short_let">Short-Let</SelectItem>
                     <SelectItem value="sale">For Sale</SelectItem>
-                    <SelectItem value="unlisted">Unlisted</SelectItem>
                   </SelectContent>
                 </Select>
                 <Input
@@ -857,7 +856,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   <div>
                     <label className="text-xs font-medium text-muted-foreground">Listing Intent</label>
                     <div className="flex flex-wrap gap-3 mt-2">
-                      {['For Rent', 'Short-Let', 'For Sale', 'Unlisted'].map((intent) => {
+                      {['For Rent', 'Short-Let', 'For Sale'].map((intent) => {
                         const value = intent.toLowerCase().replace(' ', '_') as ListingIntent;
                         const active = u.listingType === value;
                         return (
@@ -867,7 +866,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                             onClick={() =>
                               updateUnit(u.id, {
                                 listingType: value,
-                                isListed: value !== 'unlisted',
+                                isListed: false,
                                 ...(value === 'short_let' ? { pricePeriod: 'night' } : {}),
                                 ...(value === 'sale' ? { pricePeriod: 'total' } : {}),
                                 ...(value === 'rent' ? { pricePeriod: 'month' } : {}),
@@ -888,7 +887,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                     </div>
                   </div>
 
-                  {u.listingType !== 'unlisted' && (
+                  {true && (
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-xs font-medium text-muted-foreground">
@@ -938,12 +937,6 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                         </div>
                       )}
                     </div>
-                  )}
-
-                  {u.listingType === 'unlisted' && (
-                    <p className="text-xs text-muted-foreground">
-                      This unit stays attached to the building but will not appear on the public marketplace.
-                    </p>
                   )}
 
                   <div className="space-y-2">

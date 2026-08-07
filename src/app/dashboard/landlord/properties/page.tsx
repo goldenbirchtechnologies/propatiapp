@@ -70,8 +70,23 @@ export default async function LandlordPropertiesPage() {
     };
   });
 
-  const totalUnits = normalized.reduce((sum, l) => sum + l.unitCount, 0);
-  const activeListings = normalized.reduce((sum, l) => sum + l.listedUnitCount, 0);
+  const listingIds = normalized.map((l) => l.id);
+  const [
+    totalUnitsFromRelation,
+    totalUnitsFromDb,
+    activeListingsFromDb,
+  ] = await Promise.all([
+    Promise.resolve(normalized.reduce((sum, l) => sum + l.unitCount, 0)),
+    listingIds.length
+      ? prisma.unit.count({ where: { listingId: { in: listingIds } } })
+      : Promise.resolve(0),
+    listingIds.length
+      ? prisma.unit.count({ where: { listingId: { in: listingIds }, isListed: true } })
+      : Promise.resolve(0),
+  ]);
+
+  const totalUnits = totalUnitsFromRelation || totalUnitsFromDb;
+  const activeListings = normalized.reduce((sum, l) => sum + l.listedUnitCount, 0) || activeListingsFromDb;
 
   return (
     <DashboardShell

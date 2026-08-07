@@ -95,8 +95,6 @@ export default function PropertiesClient({ listings }: Props) {
   const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  const [unitMarketplaceLoading, setUnitMarketplaceLoading] = useState<string | null>(null);
-
   const counts = useMemo(() => {
     const totalProperties = listings.length;
     const totalUnits = listings.reduce((sum, l) => sum + l.unitCount, 0);
@@ -122,29 +120,13 @@ export default function PropertiesClient({ listings }: Props) {
     setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleUnitMarketplaceToggle = async (unit: ListingUnit) => {
-    setUnitMarketplaceLoading(unit.id);
-    try {
-      const res = await fetch(`/api/orgs/${unit.organizationId || ''}/units/${unit.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isListed: !unit.isListed }),
-      });
-      const data = await res.json().catch(() => ({ success: false }));
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.error || 'Failed to update unit listing status');
-      }
-      toast({ title: unit.isListed ? 'Unlisted' : 'Listed', description: `Unit ${unit.unitNumber} updated.` });
-      router.refresh();
-    } catch (error) {
-      toast({
-        title: 'Update failed',
-        description: error instanceof Error ? error.message : 'Unexpected error',
-        variant: 'destructive',
-      });
-    } finally {
-      setUnitMarketplaceLoading(null);
-    }
+  const goToPublish = (listingId: string, unit: ListingUnit) => {
+    const search = new URLSearchParams();
+    if (unit.id) search.set('unitId', unit.id);
+    if (unit.listingType) search.set('listingType', unit.listingType);
+    if (unit.rent) search.set('rent', String(unit.rent));
+    if (unit.pricePeriod) search.set('pricePeriod', unit.pricePeriod);
+    router.push(`/dashboard/landlord/properties/${listingId}/publish?${search.toString()}`);
   };
 
   const handleDelete = async (id: string) => {
@@ -388,10 +370,8 @@ export default function PropertiesClient({ listings }: Props) {
                                               <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => handleUnitMarketplaceToggle(unit)}
-                                                disabled={unitMarketplaceLoading === unit.id}
+                                                onClick={() => goToPublish(listing.id, unit)}
                                               >
-                                                {unitMarketplaceLoading === unit.id && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
                                                 {unit.isListed ? 'Unlist' : unit.listingType === 'short_let' ? 'Manage Calendar' : 'List to Marketplace'}
                                               </Button>
                                             </td>

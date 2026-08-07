@@ -67,28 +67,45 @@ type ListingInput = z.infer<typeof listingSchema>;
 
 type ListingIntent = 'rent' | 'short_let' | 'sale' | 'unlisted';
 
-const UnitDraft = {
+type UnitPeriod = 'month' | 'night' | 'total';
+
+type UnitDraftType = {
+  id: string;
+  unitNumber: string;
+  bedrooms: number;
+  bathrooms: number;
+  sizeSqm: number | undefined;
+  listingType: ListingIntent;
+  price: number;
+  pricePeriod: UnitPeriod;
+  minimumStay: number | undefined;
+  cautionDeposit: number | undefined;
+  serviceCharge: number | undefined;
+  isListed: boolean;
+};
+
+const UnitDraft: UnitDraftType = {
   id: '',
   unitNumber: '',
   bedrooms: 1,
   bathrooms: 1,
-  sizeSqm: undefined as number | undefined,
-  listingType: 'rent' as ListingIntent,
+  sizeSqm: undefined,
+  listingType: 'rent',
   price: 0,
-  pricePeriod: 'month' as const,
-  minimumStay: undefined as number | undefined,
-  cautionDeposit: undefined as number | undefined,
-  serviceCharge: undefined as number | undefined,
+  pricePeriod: 'month',
+  minimumStay: undefined,
+  cautionDeposit: undefined,
+  serviceCharge: undefined,
   isListed: true,
 };
 
-const newUnit = (num: number) => ({
+const newUnit = (num: number): UnitDraftType => ({
   id: `unit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${num}`,
   unitNumber: String(num),
   bedrooms: 1,
   bathrooms: 1,
   sizeSqm: undefined,
-  listingType: 'rent' as ListingIntent,
+  listingType: 'rent',
   price: 0,
   pricePeriod: 'month',
   minimumStay: undefined,
@@ -169,12 +186,13 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
   const createListing = useCreateListing();
   const createUnit = useCreateUnit();
   const [submitting, setSubmitting] = useState(false);
-  const [units, setUnits] = useState<typeof UnitDraft[]>([newUnit(1)]);
+  const [units, setUnits] = useState<UnitDraftType[]>([newUnit(1)]);
   const [nextUnitNum, setNextUnitNum] = useState(2);
   const [photos, setPhotos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [videos, setVideos] = useState<{ file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string }[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
-  const [unitPhotos, setUnitPhotos] = useState<Record<string, File[]>>({});
+type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading' | 'completed' | 'error'; error?: string };
+  const [unitPhotos, setUnitPhotos] = useState<Record<string, UploadFile[]>>({});
   const [quickListingType, setQuickListingType] = useState<ListingIntent>('rent');
   const [quickPrice, setQuickPrice] = useState('');
   const [quickPeriod, setQuickPeriod] = useState('month');
@@ -717,15 +735,60 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                 <Button type="button" variant="secondary" onClick={addUnit} className="gap-2">
                   <Plus className="h-4 w-4" /> Add unit
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => document.getElementById('quick-setup')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="gap-2"
-                >
-                  <Settings2 className="h-4 w-4" /> Quick setup
-                </Button>
               </div>
+            </div>
+
+            {/* Quick Setup Toolbar */}
+            <div className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <Settings2 className="h-4 w-4" />
+                <h3 className="text-sm font-semibold text-foreground">Quick setup</h3>
+              </div>
+              <p className="text-xs text-muted-foreground">Bulk-apply listing intent, price, and period to all units.</p>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Listing type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rent">For Rent</SelectItem>
+                    <SelectItem value="short_let">Short-Let</SelectItem>
+                    <SelectItem value="sale">For Sale</SelectItem>
+                    <SelectItem value="unlisted">Unlisted</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  type="number"
+                  placeholder="Base price (NGN)"
+                  value={quickPrice}
+                  onChange={(e) => setQuickPrice(e.target.value)}
+                />
+                {quickListingType === 'rent' && (
+                  <Select value={quickPeriod} onValueChange={setQuickPeriod}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {RENT_PERIODS.map((rp) => (
+                        <SelectItem key={rp.value} value={rp.value}>
+                          {rp.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+                {quickListingType === 'short_let' && (
+                  <Input
+                    type="number"
+                    placeholder="Min. stay (nights)"
+                    value={quickMinStay}
+                    onChange={(e) => setQuickMinStay(e.target.value)}
+                  />
+                )}
+              </div>
+              <Button type="button" size="sm" onClick={applyQuickSetup} className="w-full md:w-auto">
+                Apply to all units
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 gap-4">
@@ -882,79 +945,57 @@ export default function AddPropertyClient({ orgId }: { orgId: string | null }) {
                       This unit stays attached to the building but will not appear on the public marketplace.
                     </p>
                   )}
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Unit photos</label>
+                    <DroppableArea
+                      accept="image/jpeg,image/png,image/webp,image/heic"
+                      maxSize={10 * 1024 * 1024}
+                      multiple
+                      files={unitPhotos[u.id] || []}
+                      onFilesSelected={(files) =>
+                        setUnitPhotos((cur) => ({
+                          ...cur,
+                          [u.id]: [...(cur[u.id] || []), ...files],
+                        }))
+                      }
+                      onRemoveFile={(idx) =>
+                        setUnitPhotos((cur) => ({
+                          ...cur,
+                          [u.id]: (cur[u.id] || []).filter((_, i) => i !== idx),
+                        }))
+                      }
+                      className="min-h-[120px]"
+                    >
+                      <Upload className="h-5 w-5 mb-2 text-muted-foreground" />
+                      <p className="font-medium text-sm text-foreground">Drop unit photos here, or click to browse</p>
+                      <p className="text-xs text-muted-foreground">These images belong to this unit only.</p>
+                    </DroppableArea>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Quick Setup */}
-            <div id="quick-setup" className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4">
-                <h3 className="text-sm font-semibold text-foreground">Quick setup</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Listing type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rent">For Rent</SelectItem>
-                      <SelectItem value="short_let">Short-Let</SelectItem>
-                      <SelectItem value="sale">For Sale</SelectItem>
-                      <SelectItem value="unlisted">Unlisted</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input
-                    type="number"
-                    placeholder="Base price (NGN)"
-                    value={quickPrice}
-                    onChange={(e) => setQuickPrice(e.target.value)}
-                  />
-                  {quickListingType === 'rent' && (
-                    <Select value={quickPeriod} onValueChange={setQuickPeriod}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {RENT_PERIODS.map((rp) => (
-                          <SelectItem key={rp.value} value={rp.value}>
-                            {rp.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                  {quickListingType === 'short_let' && (
-                    <Input
-                      type="number"
-                      placeholder="Min. stay (nights)"
-                      value={quickMinStay}
-                      onChange={(e) => setQuickMinStay(e.target.value)}
-                    />
-                  )}
-                </div>
-                <Button type="button" size="sm" onClick={applyQuickSetup} className="w-full">
-                  Apply to all units
-                </Button>
+            {/* Default Fees */}
+            <div className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4">
+              <h3 className="text-sm font-semibold text-foreground">Default fees (applied when adding a tenant)</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  type="number"
+                  placeholder="Caution deposit (NGN)"
+                  value={defaultCaution}
+                  onChange={(e) => setDefaultCaution(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Service charge (NGN)"
+                  value={defaultService}
+                  onChange={(e) => setDefaultService(e.target.value)}
+                />
               </div>
-              <div className="rounded-lg border border-outline-variant bg-surface-container-low p-5 space-y-4">
-                <h3 className="text-sm font-semibold text-foreground">Default fees (applied when adding a tenant)</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    type="number"
-                    placeholder="Caution deposit (NGN)"
-                    value={defaultCaution}
-                    onChange={(e) => setDefaultCaution(e.target.value)}
-                  />
-                  <Input
-                    type="number"
-                    placeholder="Service charge (NGN)"
-                    value={defaultService}
-                    onChange={(e) => setDefaultService(e.target.value)}
-                  />
-                </div>
-                <Button type="button" size="sm" onClick={applyDefaultFees} className="w-full">
-                  Apply to all units
-                </Button>
-              </div>
+              <Button type="button" size="sm" onClick={applyDefaultFees} className="w-full md:w-auto">
+                Apply to all units
+              </Button>
             </div>
           </section>
 

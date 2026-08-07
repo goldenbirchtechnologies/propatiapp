@@ -23,6 +23,24 @@ export default async function LandlordPropertyDetailPage({
       images: true,
       verification: true,
       owner: { select: { id: true, fullName: true, email: true } },
+      units: {
+        select: {
+          id: true,
+          unitNumber: true,
+          type: true,
+          listingType: true,
+          pricePeriod: true,
+          rent: true,
+          cautionDeposit: true,
+          serviceCharge: true,
+          status: true,
+          occupancy: true,
+          isListed: true,
+          bedrooms: true,
+          bathrooms: true,
+          sizeSqm: true,
+        },
+      },
     },
   });
 
@@ -63,7 +81,23 @@ export default async function LandlordPropertyDetailPage({
       url: img.url,
       isCover: img.isCover,
     })),
-  } as unknown;
+    units: listing.units.map((unit) => ({
+      id: unit.id,
+      unitNumber: unit.unitNumber,
+      type: unit.type,
+      listingType: unit.listingType,
+      pricePeriod: unit.pricePeriod,
+      rent: Number(unit.rent),
+      cautionDeposit: unit.cautionDeposit ? Number(unit.cautionDeposit) : null,
+      serviceCharge: unit.serviceCharge ? Number(unit.serviceCharge) : null,
+      status: unit.status,
+      occupancy: unit.occupancy,
+      isListed: unit.isListed,
+      bedrooms: unit.bedrooms,
+      bathrooms: unit.bathrooms,
+      sizeSqm: unit.sizeSqm ? Number(unit.sizeSqm) : null,
+    })),
+  };
 
   return (
     <DashboardShell

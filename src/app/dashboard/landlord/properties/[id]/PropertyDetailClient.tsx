@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
 import AppIcon from '@/components/icons/app-icon';
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import {
-
   Building2,
   CheckCircle2,
   Clock,
@@ -69,6 +69,22 @@ type Listing = {
     l5Status: string;
   } | null;
   images: { id: string; url: string; isCover: boolean }[];
+  units: {
+    id: string;
+    unitNumber: string;
+    type: string;
+    listingType: string;
+    pricePeriod: string | null;
+    rent: number;
+    cautionDeposit: number | null;
+    serviceCharge: number | null;
+    status: string;
+    occupancy: string;
+    isListed: boolean;
+    bedrooms: number;
+    bathrooms: number;
+    sizeSqm: number | null;
+  }[];
 };
 
 const AMENITY_ICON_MAP: Record<string, React.ReactNode> = {
@@ -87,6 +103,42 @@ const AMENITY_ICON_MAP: Record<string, React.ReactNode> = {
   'Dining': <Utensils className="h-4 w-4" />,
   'Furnished': <Armchair className="h-4 w-4" />,
 };
+
+function capitalizeWords(value: string) {
+  return value
+    .split(/[\s-]+/)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(' ');
+}
+
+function formatCurrency(value: number) {
+  return `₦${Number(value).toLocaleString()}`;
+}
+
+function formatListingType(value?: string) {
+  const map: Record<string, string> = {
+    rent: 'For Rent',
+    sale: 'For Sale',
+    short_let: 'Short-Let',
+    share: 'Shared',
+    commercial: 'Commercial',
+    unlisted: 'Unlisted',
+  };
+  if (!value) return 'For Rent';
+  return map[value] || capitalizeWords(value);
+}
+
+function formatUnitPrice(unit: Listing['units'][number]) {
+  const amount = formatCurrency(unit.rent);
+  if (unit.listingType === 'short_let') return `${amount} / night`;
+  if (unit.listingType === 'sale') return `${amount}`;
+  return `${amount} / ${unit.pricePeriod || 'month'}`;
+}
+
+function formatPropertyType(value?: string) {
+  if (!value) return 'N/A';
+  return capitalizeWords(value);
+}
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
@@ -151,7 +203,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
 }
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [activeTab, setActiveTab] = useState<'manage' | 'verification' | 'amenities'>('manage');
+  const [activeTab, setActiveTab] = useState<'manage' | 'units' | 'verification' | 'amenities'>('manage');
   const [editingManage, setEditingManage] = useState(false);
   const [manageForm, setManageForm] = useState({
     title: listing.title,
@@ -211,7 +263,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const currentLayer = listing.verification?.currentLayer || 1;
 
   const tabs = [
-    { id: 'manage' as const, label: 'Manage', icon: <Edit3 className="h-4 w-4" /> },
+    { id: 'manage' as const, label: 'Building', icon: <Edit3 className="h-4 w-4" /> },
+    { id: 'units' as const, label: 'Units', icon: <Layers className="h-4 w-4" /> },
     { id: 'verification' as const, label: 'Verification', icon: <Shield className="h-4 w-4" /> },
     { id: 'amenities' as const, label: 'Amenities', icon: <Layers className="h-4 w-4" /> },
   ];
@@ -243,12 +296,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </Link>
           <div>
             <h1
-              className="font-headline-sm text-headline-sm font-bold text-primary text-primary">
-              {listing.title}
+              className="font-headline-sm text-headline-sm font-bold text-primary text-primary"
+            >
+              {capitalizeWords(listing.title)}
             </h1>
             <p className="flex items-center gap-1 mt-1 text-on-surface-variant">
               <MapPin className="h-3 w-3" />
-              {listing.address}
+              {capitalizeWords(listing.address)}
             </p>
           </div>
         </div>
@@ -276,7 +330,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
-              Property Details
+              Building Information
             </h2>
             {!editingManage ? (
               <button onClick={() => setEditingManage(true)} className="btn btn-secondary btn-sm">
@@ -312,7 +366,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                   />
                 ) : (
                   <p className="font-medium text-primary">
-                    {listing.title}
+                    {capitalizeWords(listing.title)}
                   </p>
                 )}
               </div>
@@ -329,53 +383,32 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                   Location
                 </label>
                 <p className="font-medium text-primary">
-                  {listing.area}, {listing.state}
+                  {capitalizeWords(listing.area)}, {capitalizeWords(listing.state)}
                 </p>
               </div>
             </div>
             <div className="space-y-4">
               <div>
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
-                  Price
-                </label>
-                {editingManage ? (
-                  <input
-                    type="text"
-                    value={manageForm.price}
-                    onChange={(e) => updateManageField('price', e.target.value)}
-                    className="inp-field"
-                  />
-                ) : (
-                  <p className="font-medium text-primary">
-                    {listing.price}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
-                  Status
-                </label>
-                {editingManage ? (
-                  <select
-                    value={manageForm.status}
-                    onChange={(e) => updateManageField('status', e.target.value)}
-                    className="inp-field"
-                  >
-                    <option value="active">Active</option>
-                    <option value="draft">Draft</option>
-                    <option value="suspended">Suspended</option>
-                  </select>
-                ) : (
-                  <StatusBadge status={listing.status} />
-                )}
-              </div>
-              <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Property Type
                 </label>
                 <p className="font-medium text-primary">
-                  {listing.propertyType || 'N/A'}
+                  {formatPropertyType(listing.propertyType)}
                 </p>
+              </div>
+              <div>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                  Total Units
+                </label>
+                <p className="font-medium text-primary">
+                  {listing.units.length}
+                </p>
+              </div>
+              <div>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                  Verification
+                </label>
+                <VerificationBadge verification={listing.verification} />
               </div>
             </div>
           </div>
@@ -400,20 +433,6 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-outline-variant">
             <div className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4 text-on-surface-variant" />
-              <div>
-                <p className="text-xs text-on-surface-variant">Rent</p>
-                <p className="font-medium text-sm text-primary">{listing.pricePeriod || 'month'}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {listing.allowShortlet ? (
-                <CheckCircle2 className="h-4 w-4 text-success" />
-              ) : (
-                <X className="h-4 w-4 text-on-surface-variant" />
-              )}
-            </div>
-            <div className="flex items-center gap-2">
               <ImageIcon className="h-4 w-4 text-on-surface-variant" />
               <div>
                 <p className="text-xs text-on-surface-variant">Images</p>
@@ -423,11 +442,29 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Eye className="h-4 w-4 text-on-surface-variant" />
+              <Layers className="h-4 w-4 text-on-surface-variant" />
               <div>
-                <p className="text-xs text-on-surface-variant">Views</p>
+                <p className="text-xs text-on-surface-variant">Amenities</p>
                 <p className="font-medium text-sm text-primary">
-                  {listing.viewsCount}
+                  {listing.amenities.length}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-on-surface-variant" />
+              <div>
+                <p className="text-xs text-on-surface-variant">Added</p>
+                <p className="font-medium text-sm text-primary">
+                  {new Date(listing.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-on-surface-variant" />
+              <div>
+                <p className="text-xs text-on-surface-variant">ID</p>
+                <p className="font-medium text-sm text-primary">
+                  {listing.id}
                 </p>
               </div>
             </div>
@@ -435,7 +472,110 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         </div>
       )}
 
-      {activeTab === 'verification' && (
+      {activeTab === 'units' && (
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between p-6 pb-4">
+            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+              Units in Building
+            </h2>
+            <Button asChild>
+              <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
+                <Plus className="w-4 h-4 mr-2" />
+                Add Unit to Building
+              </Link>
+            </Button>
+          </div>
+
+          {listing.units.length === 0 ? (
+            <div className="p-12 text-center">
+              <Layers className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+              <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No units yet</h3>
+              <p className="text-muted-foreground mb-4">
+                Add your first unit to start listing this property.
+              </p>
+              <Button asChild>
+                <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Unit
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-outline-variant">
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Listing Intent</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Price</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Marketplace</th>
+                    <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {listing.units.map((unit) => (
+                    <tr key={unit.id} className="border-b border-outline-variant last:border-b-0">
+                      <td className="px-4 py-3">
+                        <div>
+                          <p className="font-medium text-foreground">Unit {unit.unitNumber}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {unit.bedrooms} Bed • {unit.bathrooms} Bath {unit.sizeSqm ? `• ${unit.sizeSqm} sqm` : ''}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-foreground">{formatPropertyType(unit.type)}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground border border-outline-variant">
+                          {formatListingType(unit.listingType)}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <p className="text-sm font-medium text-foreground">{formatUnitPrice(unit)}</p>
+                        {unit.cautionDeposit ? (
+                          <p className="text-xs text-muted-foreground">Caution: {formatCurrency(Number(unit.cautionDeposit))}</p>
+                        ) : null}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
+                          unit.occupancy === 'VACANT'
+                            ? 'bg-success/10 text-success border-success/20'
+                            : unit.occupancy === 'OCCUPIED'
+                              ? 'bg-muted text-muted-foreground border-outline-variant'
+                              : 'bg-warning/10 text-warning border-warning/20'
+                        }`}>
+                          {unit.occupancy}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        {unit.isListed ? (
+                          <span className="inline-flex items-center rounded-full bg-success/10 text-success border border-success/20 px-2.5 py-0.5 text-xs font-medium">
+                            Listed
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center rounded-full bg-muted text-muted-foreground border border-outline-variant px-2.5 py-0.5 text-xs font-medium">
+                            Unlisted
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}`}>
+                            Manage
+                          </Link>
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
         <div className="space-y-4">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">

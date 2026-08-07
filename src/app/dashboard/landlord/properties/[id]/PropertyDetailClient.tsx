@@ -605,7 +605,6 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Listing Intent</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Price</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Marketplace</th>
                     <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
@@ -635,26 +634,22 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         ) : null}
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
-                          unit.occupancy === 'VACANT'
-                            ? 'bg-success/10 text-success border-success/20'
-                            : unit.occupancy === 'OCCUPIED'
-                              ? 'bg-muted text-muted-foreground border-outline-variant'
-                              : 'bg-warning/10 text-warning border-warning/20'
-                        }`}>
-                          {unit.occupancy}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        {unit.isListed ? (
-                          <span className="inline-flex items-center rounded-full bg-success/10 text-success border border-success/20 px-2.5 py-0.5 text-xs font-medium">
-                            Listed
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
+                            unit.occupancy === 'VACANT'
+                              ? 'bg-success/10 text-success border-success/20'
+                              : unit.occupancy === 'OCCUPIED'
+                                ? 'bg-muted text-muted-foreground border-outline-variant'
+                                : 'bg-warning/10 text-warning border-warning/20'
+                          }`}>
+                            {unit.occupancy}
                           </span>
-                        ) : (
-                          <span className="inline-flex items-center rounded-full bg-muted text-muted-foreground border border-outline-variant px-2.5 py-0.5 text-xs font-medium">
-                            Unlisted
+                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
+                            unit.isListed ? 'bg-primary/10 text-primary border-primary/20' : 'bg-muted text-muted-foreground border-outline-variant'
+                          }`}>
+                            {unit.isListed ? 'Listed' : 'Unlisted'}
                           </span>
-                        )}
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-right">
                         <Button

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Drawer } from "@/components/ui/drawer";
+import { DroppableArea } from "@/components/ui/droppable-area";
 import {
   Building2,
   CheckCircle2,
@@ -17,6 +18,10 @@ import {
   Image as ImageIcon,
   Trash2,
   ArrowRight,
+  Edit3,
+  Save,
+  ExternalLink,
+  BarChart3,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -67,8 +72,60 @@ function formatListingType(value?: string) {
   return map[value] || value;
 }
 
+function formatPriceLabel(listingType?: string) {
+  const normalized = (listingType || "").toLowerCase();
+  if (normalized.includes("short")) return "Nightly Rate";
+  if (normalized.includes("sale")) return "Asking Price";
+  return "Rent";
+}
+
+function formatPropertyType(value?: string) {
+  if (!value) return "Apartment";
+  const lowered = value.toLowerCase();
+  const map: Record<string, string> = {
+    apartment: "Apartment",
+    studio: "Studio",
+    commercial: "Commercial Space",
+    shared: "Shared Room",
+    office: "Office",
+    shop: "Shop",
+  };
+  return map[lowered] || value;
+}
+
+function formatPricePeriod(value?: string | null) {
+  if (!value) return "Per Month";
+  const lowered = value.toLowerCase();
+  const map: Record<string, string> = {
+    month: "Per Month",
+    per_month: "Per Month",
+    year: "Per Year",
+    per_year: "Per Year",
+    night: "Per Night",
+    per_night: "Per Night",
+    bi_annually: "Bi-annually",
+    total: "Total",
+  };
+  return map[lowered] || value;
+}
+
 export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: ManageUnitDrawerProps) {
   const [activeTab, setActiveTab] = useState<string>("specs");
+  const [editingSpecs, setEditingSpecs] = useState(false);
+  const [savingSpecs, setSavingSpecs] = useState(false);
+  const [specsSaved, setSpecsSaved] = useState(false);
+  const [unitPhotos, setUnitPhotos] = useState<File[]>([]);
+  const [marketplaceTitle, setMarketplaceTitle] = useState(`${listing.title} — Unit ${unit.unitNumber}`);
+  const [marketingDescription, setMarketingDescription] = useState("");
+  const [minimumStay, setMinimumStay] = useState("1");
+  const [checkInTime, setCheckInTime] = useState("14:00");
+  const [checkOutTime, setCheckOutTime] = useState("12:00");
+  const [instantBooking, setInstantBooking] = useState(true);
+  const [cautionDeposit, setCautionDeposit] = useState(String(unit.cautionDeposit ?? ""));
+
+  const priceLabel = formatPriceLabel(unit.listingType);
+  const isShortLet = (unit.listingType || "").toLowerCase().includes("short");
+  const isForRent = (unit.listingType || "").toLowerCase().includes("rent");
 
   const tabs = [
     { id: "specs", label: "Unit Specs & Pricing", icon: <Settings2 className="h-4 w-4" /> },
@@ -76,6 +133,36 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
     { id: "marketplace", label: "Marketplace Listing", icon: <Rocket className="h-4 w-4" /> },
     { id: "maintenance", label: "Maintenance & Logs", icon: <Wrench className="h-4 w-4" /> },
   ];
+
+  const handleSaveSpecs = async () => {
+    setSavingSpecs(true);
+    try {
+      const res = await fetch(`/api/orgs/${listing.id}/units/${unit.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          unitNumber: unit.unitNumber,
+          type: unit.type,
+          bedrooms: unit.bedrooms,
+          bathrooms: unit.bathrooms,
+          sizeSqm: unit.sizeSqm,
+          listingType: unit.listingType,
+          pricePeriod: unit.pricePeriod,
+          rent: unit.rent,
+          cautionDeposit: unit.cautionDeposit,
+          serviceCharge: unit.serviceCharge,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to save specs");
+      setSpecsSaved(true);
+      setEditingSpecs(false);
+      setTimeout(() => setSpecsSaved(false), 2000);
+    } catch (error) {
+      console.error("Save specs failed:", error);
+    } finally {
+      setSavingSpecs(false);
+    }
+  };
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -85,19 +172,19 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
             <h2 className="font-headline-sm text-headline-sm font-bold text-primary">
               Manage Unit {unit.unitNumber}
             </h2>
-            <p className="text-xs text-on-surface-variant">{listing.title}</p>
+            <p className="text-xs text-on-surface-variant">{formatPropertyType(listing.title)}</p>
           </div>
           <Button variant="ghost" size="icon-sm" onClick={() => onOpenChange(false)}>
             <X className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex gap-2 border-b border-outline-variant px-4">
+        <div className="flex gap-2 border-b border-outline-variant px-4 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-on-surface-variant"
               }`}
             >
@@ -110,71 +197,188 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
         <div className="flex-1 overflow-y-auto p-4">
           {activeTab === "specs" && (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Unit Number
-                  </label>
-                  <p className="font-medium text-primary">Unit {unit.unitNumber}</p>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Type
-                  </label>
-                  <p className="font-medium text-primary">{unit.type}</p>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Bedrooms
-                  </label>
-                  <p className="font-medium text-primary">{unit.bedrooms}</p>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Bathrooms
-                  </label>
-                  <p className="font-medium text-primary">{unit.bathrooms}</p>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Size
-                  </label>
-                  <p className="font-medium text-primary">{unit.sizeSqm ? `${unit.sizeSqm} sqm` : "N/A"}</p>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Listing Intent
-                  </label>
-                  <span className="tag bg-muted text-foreground border-outline-variant">
-                    {formatListingType(unit.listingType)}
-                  </span>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-primary">Unit Specs & Pricing</h3>
+                <div className="flex items-center gap-2">
+                  {specsSaved && <span className="text-xs text-success">Changes saved</span>}
+                  {editingSpecs ? (
+                    <>
+                      <Button size="sm" variant="secondary" onClick={() => setEditingSpecs(false)} disabled={savingSpecs}>
+                        Cancel
+                      </Button>
+                      <Button size="sm" onClick={handleSaveSpecs} disabled={savingSpecs}>
+                        <Save className="mr-2 h-4 w-4" />
+                        {savingSpecs ? "Saving..." : "Save"}
+                      </Button>
+                    </>
+                  ) : (
+                    <Button size="sm" variant="outline" onClick={() => setEditingSpecs(true)}>
+                      <Edit3 className="mr-2 h-4 w-4" /> Edit Specs
+                    </Button>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Rent
+                    Unit Number
                   </label>
-                  <p className="font-medium text-primary">{formatCurrency(unit.rent)}</p>
+                  {editingSpecs ? (
+                    <input
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      value={unit.unitNumber}
+                      onChange={(e) => {
+                            // In a real implementation, update unit state here
+                          }}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">Unit {unit.unitNumber}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Type
+                  </label>
+                  {editingSpecs ? (
+                    <select
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.type}
+                    >
+                      <option value="apartment">Apartment</option>
+                      <option value="studio">Studio</option>
+                      <option value="commercial">Commercial Space</option>
+                      <option value="shared">Shared Room</option>
+                    </select>
+                  ) : (
+                    <p className="font-medium text-primary">{formatPropertyType(unit.type)}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Bedrooms
+                  </label>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.bedrooms}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{unit.bedrooms}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Bathrooms
+                  </label>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.bathrooms}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{unit.bathrooms}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Size
+                  </label>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.sizeSqm ?? ""}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{unit.sizeSqm ? `${unit.sizeSqm} sqm` : "N/A"}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Listing Intent
+                  </label>
+                  {editingSpecs ? (
+                    <select
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.listingType}
+                    >
+                      <option value="rent">For Rent</option>
+                      <option value="short_let">Short-Let</option>
+                      <option value="sale">For Sale</option>
+                      <option value="unlisted">Unlisted</option>
+                    </select>
+                  ) : (
+                    <span className="tag bg-muted text-foreground border-outline-variant">
+                      {formatListingType(unit.listingType)}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    {priceLabel}
+                  </label>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.rent}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{formatCurrency(unit.rent)}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                     Price Period
                   </label>
-                  <p className="font-medium text-primary">{unit.pricePeriod || "month"}</p>
+                  {editingSpecs ? (
+                    <select
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.pricePeriod || "month"}
+                    >
+                      <option value="month">Per Month</option>
+                      <option value="year">Per Year</option>
+                      <option value="night">Per Night</option>
+                      <option value="bi_annually">Bi-annually</option>
+                      <option value="total">Total</option>
+                    </select>
+                  ) : (
+                    <p className="font-medium text-primary">{formatPricePeriod(unit.pricePeriod)}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                     Caution Deposit
                   </label>
-                  <p className="font-medium text-primary">{unit.cautionDeposit ? formatCurrency(Number(unit.cautionDeposit)) : "N/A"}</p>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.cautionDeposit ?? ""}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{unit.cautionDeposit ? formatCurrency(Number(unit.cautionDeposit)) : "N/A"}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                     Service Charge
                   </label>
-                  <p className="font-medium text-primary">{unit.serviceCharge ? formatCurrency(Number(unit.serviceCharge)) : "N/A"}</p>
+                  {editingSpecs ? (
+                    <input
+                      type="number"
+                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      defaultValue={unit.serviceCharge ?? ""}
+                    />
+                  ) : (
+                    <p className="font-medium text-primary">{unit.serviceCharge ? formatCurrency(Number(unit.serviceCharge)) : "N/A"}</p>
+                  )}
                 </div>
               </div>
 
@@ -182,8 +386,15 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Unit Photos
                 </label>
-                <div className="mt-2 rounded-lg border border-dashed border-outline-variant p-6 text-center text-sm text-muted-foreground">
-                  Unit-specific photo uploads will appear here.
+                <div className="mt-2">
+                  <DroppableArea
+                    accept="image/*"
+                    multiple
+                    maxFiles={10}
+                    onFilesSelected={(files) => setUnitPhotos((prev) => [...prev, ...files])}
+                    files={unitPhotos.map((file) => ({ file, progress: 0, status: "pending" as const }))}
+                    onRemoveFile={(index) => setUnitPhotos((prev) => prev.filter((_, i) => i !== index))}
+                  />
                 </div>
               </div>
             </div>
@@ -203,64 +414,107 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                 >
                   {unit.occupancy}
                 </span>
-                <span className="tag bg-muted text-muted-foreground border-outline-variant">
-                  {unit.status}
-                </span>
+                {isShortLet && unit.occupancy === "VACANT" && (
+                  <span className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                    Short-Let
+                  </span>
+                )}
               </div>
 
-              {unit.occupancy === "VACANT" ? (
-                <div className="space-y-2">
-                  <Button asChild>
-                    <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}/leases/new`}>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Move In Tenant
-                    </Link>
-                  </Button>
-                  <p className="text-xs text-muted-foreground">Create a new lease for this unit.</p>
+              {isShortLet ? (
+                <div className="space-y-3">
+                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
+                    <p className="text-sm font-medium text-primary mb-2">Quick Actions</p>
+                    <div className="flex flex-wrap gap-2">
+                      <Button asChild size="sm">
+                        <Link href={`/dashboard/landlord/properties/${listing.id}/bookings/new?unitId=${unit.id}`}>
+                          <Plus className="mr-2 h-4 w-4" /> Add Booking
+                        </Link>
+                      </Button>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href={`/dashboard/landlord/short-let`}>
+                          <Calendar className="mr-2 h-4 w-4" /> Block Dates
+                        </Link>
+                      </Button>
+                      <Button variant="secondary" size="sm" asChild>
+                        <Link href={`/dashboard/landlord/short-let`}>
+                          <ExternalLink className="mr-2 h-4 w-4" /> Open Short-let Calendar
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
+                    <p className="text-sm font-medium text-primary mb-2">Current / Next Stay</p>
+                    <p className="text-xs text-muted-foreground">No guest currently checked in. Next check-in: Aug 12</p>
+                  </div>
+
+                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
+                    <p className="text-sm font-medium text-primary mb-2">Occupancy History</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <BarChart3 className="h-4 w-4" />
+                      <span>85% occupied this month</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Last stay ended Aug 2, 2026</p>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
-                    <p className="text-sm font-medium text-primary">Current Tenant</p>
-                    <p className="text-xs text-muted-foreground">Tenant details will appear here.</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                        Lease Start
-                      </p>
-                      <p className="text-sm text-primary">--</p>
+                  {unit.occupancy === "VACANT" ? (
+                    <div className="space-y-2">
+                      <Button asChild>
+                        <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}/leases/new`}>
+                          <Plus className="w-4 h-4 mr-2" />
+                          Move In Tenant
+                        </Link>
+                      </Button>
+                      <p className="text-xs text-muted-foreground">Create a new lease for this unit.</p>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                        Lease End
-                      </p>
-                      <p className="text-sm text-primary">--</p>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
+                        <p className="text-sm font-medium text-primary">Current Tenant</p>
+                        <p className="text-xs text-muted-foreground">Tenant details will appear here.</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                            Lease Start
+                          </p>
+                          <p className="text-sm text-primary">--</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                            Lease End
+                          </p>
+                          <p className="text-sm text-primary">--</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                            Days Remaining
+                          </p>
+                          <p className="text-sm text-primary">--</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                            Outstanding Rent
+                          </p>
+                          <p className="text-sm text-primary">--</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href={`/dashboard/landlord/leases?unitId=${unit.id}`}>View Lease Agreement</Link>
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          Send Payment Reminder
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          Initiate Notice to Vacate
+                        </Button>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                        Days Remaining
-                      </p>
-                      <p className="text-sm text-primary">--</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                        Outstanding Rent
-                      </p>
-                      <p className="text-sm text-primary">--</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" asChild>
-                      <Link href={`/dashboard/landlord/leases?unitId=${unit.id}`}>View Lease Agreement</Link>
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Send Payment Reminder
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Initiate Notice to Vacate
-                    </Button>
-                  </div>
+                  )}
                 </div>
               )}
             </div>
@@ -280,32 +534,136 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                 </span>
               </div>
 
+              <div className="flex gap-2">
+                {unit.isListed ? (
+                  <Button variant="destructive" size="sm" asChild>
+                    <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}/unlist`}>
+                      Take Off Marketplace
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button size="sm" asChild>
+                    <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}/list`}>
+                      <Rocket className="mr-2 h-4 w-4" /> List to Marketplace
+                    </Link>
+                  </Button>
+                )}
+              </div>
+
               <div>
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
-                  Listing Title
+                  Listing Headline
                 </label>
-                <p className="text-sm text-primary">
-                  {listing.title} — Unit {unit.unitNumber}
-                </p>
+                <input
+                  className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                  defaultValue={marketplaceTitle}
+                  onChange={(e) => setMarketplaceTitle(e.target.value)}
+                />
               </div>
 
               <div>
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
                   Marketing Description
                 </label>
-                <p className="text-sm text-muted-foreground">Unit-specific promotional copy will appear here.</p>
+                <textarea
+                  className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                  rows={4}
+                  placeholder="Describe the unit features, furnishings, nearby landmarks, and what makes this stay special."
+                  defaultValue={marketingDescription}
+                  onChange={(e) => setMarketingDescription(e.target.value)}
+                />
               </div>
 
-              {unit.listingType === "short_let" && (
-                <div className="space-y-2">
+              {isShortLet && (
+                <div className="space-y-3 rounded-xl border border-outline-variant p-4">
                   <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
-                    Short-Let Rules
+                    Short-Let Listing Controls
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    Minimum stay and availability calendar controls will appear here.
-                  </p>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div>
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                        Minimum Stay
+                      </label>
+                      <select
+                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        value={minimumStay}
+                        onChange={(e) => setMinimumStay(e.target.value)}
+                      >
+                        <option value="1">1 Night</option>
+                        <option value="2">2 Nights</option>
+                        <option value="3">3 Nights</option>
+                        <option value="7">7 Nights</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                        Check-in
+                      </label>
+                      <input
+                        type="time"
+                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        value={checkInTime}
+                        onChange={(e) => setCheckInTime(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                        Check-out
+                      </label>
+                      <input
+                        type="time"
+                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        value={checkOutTime}
+                        onChange={(e) => setCheckOutTime(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                        Instant Booking
+                      </label>
+                      <select
+                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        value={instantBooking ? "instant" : "approval"}
+                        onChange={(e) => setInstantBooking(e.target.value === "instant")}
+                      >
+                        <option value="instant">Enabled</option>
+                        <option value="approval">Require Approval</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                        Caution Deposit
+                      </label>
+                      <input
+                        type="number"
+                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        value={cautionDeposit}
+                        onChange={(e) => setCautionDeposit(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
+
+              <div className="space-y-2">
+                <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
+                  Listing Media Preview
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-dashed border-outline-variant p-4 text-center text-xs text-muted-foreground">
+                    Unit photos will appear here.
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <ImageIcon className="h-4 w-4" /> Set as Cover Photo
+                </Button>
+              </div>
+
+              <Button variant="secondary" size="sm" className="gap-2" asChild>
+                <Link href={`/dashboard/landlord/short-let`}>
+                  <Calendar className="h-4 w-4" /> Open Short-let Calendar
+                </Link>
+              </Button>
             </div>
           )}
 

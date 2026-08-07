@@ -90,6 +90,29 @@ function titleCase(value: string) {
     .join(' ');
 }
 
+function formatListingType(value?: string) {
+  const map: Record<string, string> = {
+    rent: 'Rent',
+    sale: 'For Sale',
+    short_let: 'Short-Let',
+    share: 'Shared',
+    commercial: 'Commercial',
+    unlisted: 'Unlisted',
+  };
+  if (!value) return 'Rent';
+  return map[value] || titleCase(value);
+}
+
+function formatUnitSubtext(unit: ListingUnit) {
+  if (unit.bedrooms != null && unit.bathrooms != null) {
+    return `${unit.bedrooms} Bed • ${unit.bathrooms} Bath`;
+  }
+  if (unit.type) {
+    return titleCase(unit.type);
+  }
+  return `Unit ${unit.unitNumber}`;
+}
+
 export default function PropertiesClient({ listings }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -107,7 +130,10 @@ export default function PropertiesClient({ listings }: Props) {
     const q = query.trim().toLowerCase();
     return listings.filter((listing) => {
       if (listing.unitCount === 0) return false;
-      if (statusFilter !== 'all' && listing.status !== statusFilter) return false;
+      if (statusFilter !== 'all') {
+        if (statusFilter === 'active' && listing.listedUnitCount === 0) return false;
+        if (statusFilter !== 'active' && listing.status !== statusFilter) return false;
+      }
       if (!q) return true;
       const haystack = [listing.title, listing.area, listing.state, listing.propertyType || '']
         .join(' ')
@@ -166,7 +192,7 @@ export default function PropertiesClient({ listings }: Props) {
           <TabsList>
             <TabsTrigger value="all">All ({listings.length})</TabsTrigger>
             <TabsTrigger value="draft">Draft ({listings.filter((l) => l.status === 'draft').length})</TabsTrigger>
-            <TabsTrigger value="active">Active ({listings.filter((l) => l.status === 'active').length})</TabsTrigger>
+            <TabsTrigger value="active">Active ({listings.filter((l) => l.listedUnitCount > 0).length})</TabsTrigger>
             <TabsTrigger value="verified">Verified ({counts.verified})</TabsTrigger>
           </TabsList>
         </Tabs>
@@ -348,13 +374,13 @@ export default function PropertiesClient({ listings }: Props) {
                                                   Unit {unit.unitNumber}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                  {titleCase(listing.title)}
+                                                  {formatUnitSubtext(unit)}
                                                 </p>
                                               </div>
                                             </td>
                                             <td className="py-2 pr-4 capitalize">
                                               <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground border border-outline-variant">
-                                                {unit.listingType || 'rent'}
+                                                {formatListingType(unit.listingType)}
                                               </span>
                                             </td>
                                             <td className="py-2 pr-4">

@@ -45,30 +45,34 @@ export default async function LandlordPropertiesPage() {
     orderBy: { createdAt: 'desc' },
   });
 
-  const normalized = listings.map((listing) => {
-    const totalUnits = listing.units.length;
-    const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
-    const listedUnits = listing.units.filter((u) => u.isListed).length;
-    return {
-      ...listing,
-      price: Number(listing.price),
-      unitCount: totalUnits,
-      vacantUnitCount: vacantUnits,
-      listedUnitCount: listedUnits,
-      units: listing.units.map((unit) => ({
-        id: unit.id,
-        unitNumber: unit.unitNumber,
-        buildingName: unit.buildingName,
-        type: unit.type,
-        listingType: unit.listingType,
-        pricePeriod: unit.pricePeriod,
-        rent: Number(unit.rent),
-        status: unit.status,
-        occupancy: unit.occupancy,
-        isListed: unit.isListed,
-      })),
-    };
-  });
+  const normalized = listings
+    .map((listing) => {
+      const totalUnits = listing.units.length;
+      const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
+      const listedUnits = listing.units.filter((u) => u.isListed).length;
+      return {
+        ...listing,
+        price: Number(listing.price),
+        unitCount: totalUnits,
+        vacantUnitCount: vacantUnits,
+        listedUnitCount: listedUnits,
+        units: listing.units.map((unit) => ({
+          id: unit.id,
+          unitNumber: unit.unitNumber,
+          buildingName: unit.buildingName,
+          type: unit.type,
+          listingType: unit.listingType,
+          pricePeriod: unit.pricePeriod,
+          rent: Number(unit.rent),
+          status: unit.status,
+          occupancy: unit.occupancy,
+          isListed: unit.isListed,
+          bedrooms: unit.bedrooms,
+          bathrooms: unit.bathrooms,
+        })),
+      };
+    })
+    .filter((l) => l.units.length > 0);
 
   const listingIds = normalized.map((l) => l.id);
   const [

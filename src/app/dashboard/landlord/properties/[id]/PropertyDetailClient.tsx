@@ -41,6 +41,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
+import ManageUnitDrawer from "./ManageUnitDrawer";
 
 type Listing = {
   id: string;
@@ -72,6 +73,7 @@ type Listing = {
   units: {
     id: string;
     unitNumber: string;
+    buildingName: string | null;
     type: string;
     listingType: string;
     pricePeriod: string | null;
@@ -233,6 +235,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const [amenityInput, setAmenityInput] = useState('');
   const [amenities, setAmenities] = useState<string[]>(listing.amenities);
   const [saved, setSaved] = useState(false);
+  const [manageUnitOpen, setManageUnitOpen] = useState(false);
+  const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+
+  const selectedUnit = selectedUnitId
+    ? listing.units.find((u) => u.id === selectedUnitId) || null
+    : null;
 
   const updateManageField = (field: string, value: string | number) => {
     setManageForm((prev) => ({ ...prev, [field]: value }));
@@ -649,10 +657,15 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         )}
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/dashboard/landlord/properties/${listing.id}/units/${unit.id}`}>
-                            Manage
-                          </Link>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedUnitId(unit.id);
+                            setManageUnitOpen(true);
+                          }}
+                        >
+                          Manage
                         </Button>
                       </td>
                     </tr>
@@ -695,7 +708,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 <div className="flex items-center gap-4">
                   <div
                     className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-on-surface-variant">
-                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <AppIcon name={index + 1} className="lucide" />}
+                    {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <AppIcon name={String(index + 1)} className="lucide" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-primary">
@@ -935,6 +948,15 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
           )}
         </div>
+      )}
+      
+      {selectedUnit && (
+        <ManageUnitDrawer
+          open={manageUnitOpen}
+          onOpenChange={setManageUnitOpen}
+          unit={selectedUnit}
+          listing={{ id: listing.id, title: listing.title }}
+        />
       )}
     </div>
   );

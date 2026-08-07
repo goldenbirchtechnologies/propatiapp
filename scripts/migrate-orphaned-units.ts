@@ -1,4 +1,4 @@
-import { prisma } from '../src/lib/prisma';
+import { prisma } from '../src/lib/prisma.ts';
 
 type OrphanCandidate = {
   id: string;
@@ -39,14 +39,21 @@ async function migrate() {
       pricePeriod: true,
       allowShortlet: true,
       ownerId: true,
-      organizationId: true,
+      orgListings: {
+        select: {
+          orgId: true,
+        },
+      },
     },
   });
 
   const orphanCandidates = candidates.filter((c) => {
     const match = c.title.match(UNIT_PATTERN);
     return !!match;
-  }) as OrphanCandidate[];
+  }).map((c) => ({
+    ...c,
+    organizationId: c.orgListings[0]?.orgId || null,
+  })) as Array<OrphanCandidate & { orgListings: { orgId: string }[] }>;
 
   console.log(`Found ${orphanCandidates.length} candidate orphaned entries.`);
 
@@ -64,7 +71,7 @@ async function migrate() {
         title: parentName,
         ownerId: candidate.ownerId,
       },
-      select: { id: true, organizationId: true },
+      select: { id: true, orgListings: { select: { orgId: true } } },
     });
 
     if (!parentListing) {
@@ -82,26 +89,43 @@ async function migrate() {
           allowShortlet: candidate.allowShortlet,
           status: 'draft',
           ownerId: candidate.ownerId,
-          organizationId: candidate.organizationId,
         },
-        select: { id: true, organizationId: true },
+        select: { id: true },
       });
+
+      if (candidate.organizationId) {
+        await prisma.orgListing.create({
+          data: {
+            orgId: candidate.organizationId,
+            listingId: parentListing.id,
+          },
+        });
+      }
     }
 
-    const orgId = parentListing.organizationId || candidate.organizationId;
+    const orgId = candidate.organizationId || (await prisma.orgMember.findFirst({
+      where: { userId: candidate.ownerId },
+      select: { orgId: true },
+    }))?.orgId || null;
 
     if (!orgId) {
       console.log(`  Skipping: no organization for parent listing ${parentListing.id}`);
       continue;
     }
 
-    const existingUnit = await prisma.unit.findFirst({
-      where: {
-        organizationId: orgId,
-        buildingName: parentName,
-        unitNumber,
-      },
-    });
+    let existingUnit = null;
+    try {
+      existingUnit = await prisma.$queryRaw<{ id: string }[]>`
+        SELECT id FROM units 
+        WHERE organization_id = ${orgId} 
+          AND building_name = ${parentName} 
+          AND unit_number = ${unitNumber}
+        LIMIT 1
+      `;
+      existingUnit = existingUnit[0] || null;
+    } catch (error) {
+      existingUnit = null;
+    }
 
     if (existingUnit) {
       console.log(`  Unit already exists: ${existingUnit.id}`);
@@ -119,6 +143,8 @@ async function migrate() {
           status: 'AVAILABLE',
           occupancy: 'VACANT',
           isListed: false,
+          bedrooms: 1,
+          bathrooms: 1,
         },
       });
       console.log(`  Created unit: ${unitNumber} under ${parentListing.id}`);

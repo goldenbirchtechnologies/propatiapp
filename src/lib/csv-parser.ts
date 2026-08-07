@@ -44,8 +44,8 @@ const unitRowSchema = z.object({
   occupancy: z.enum(['VACANT', 'OCCUPIED', 'NOTICE_GIVEN'], {
     errorMap: () => ({ message: 'Invalid occupancy' }),
   }).optional(),
-  listingId: z.string().optional(),
-});
+  listingId: z.string().min(1, 'listingId is required'),
+}));
 
 /**
  * Parse CSV content into an array of units
@@ -61,7 +61,7 @@ export function parseUnitsCSV(csvContent: string): CSVParseResult {
 
   // Parse header
   const header = lines[0].split(',').map(h => h.trim());
-  const requiredHeaders = ['unitNumber', 'type', 'bedrooms', 'bathrooms', 'rent'];
+  const requiredHeaders = ['listingId', 'unitNumber', 'type', 'bedrooms', 'bathrooms', 'rent'];
   const missingHeaders = requiredHeaders.filter(h => !header.includes(h));
 
   if (missingHeaders.length > 0) {
@@ -161,6 +161,7 @@ export function validateUnitRow(row: Record<string, unknown>): UnitValidationRes
  */
 export function generateUnitsCSVTemplate(): string {
   const headers = [
+    'listingId',
     'buildingName',
     'unitNumber',
     'type',
@@ -175,9 +176,9 @@ export function generateUnitsCSVTemplate(): string {
   ];
 
   const exampleRows = [
-    ['Building A', '101', 'apartment', '2', '2', '85', '150000', '300000', '15000', 'AVAILABLE', 'VACANT'],
-    ['Building A', '102', 'apartment', '3', '2', '110', '200000', '400000', '20000', 'RENTED', 'OCCUPIED'],
-    ['Building B', '201', 'apartment', '1', '1', '60', '100000', '200000', '10000', 'AVAILABLE', 'VACANT'],
+    ['lst_123', 'Building A', '101', 'apartment', '2', '2', '85', '150000', '300000', '15000', 'AVAILABLE', 'VACANT'],
+    ['lst_123', 'Building A', '102', 'apartment', '3', '2', '110', '200000', '400000', '20000', 'RENTED', 'OCCUPIED'],
+    ['lst_456', 'Building B', '201', 'apartment', '1', '1', '60', '100000', '200000', '10000', 'AVAILABLE', 'VACANT'],
   ];
 
   return [

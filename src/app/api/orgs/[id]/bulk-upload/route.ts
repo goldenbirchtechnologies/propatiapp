@@ -130,23 +130,29 @@ export async function POST(
               continue;
             }
 
-            // Validate listing if provided
-            if (unitData.listingId) {
-              const orgListing = await prisma.orgListing.findFirst({
-                where: {
-                  orgId: id,
-                  listingId: unitData.listingId,
-                },
+            if (!unitData.listingId) {
+              results.failed.push({
+                row: i + results.created.length + 1,
+                errors: ['listingId is required'],
+                data: unitData as unknown as Record<string, unknown>,
               });
+              continue;
+            }
 
-              if (!orgListing) {
-                results.failed.push({
-                  row: i + results.created.length + 1,
-                  errors: ['Listing does not belong to this organization'],
-                  data: unitData as unknown as Record<string, unknown>,
-                });
-                continue;
-              }
+            const orgListing = await prisma.orgListing.findFirst({
+              where: {
+                orgId: id,
+                listingId: unitData.listingId,
+              },
+            });
+
+            if (!orgListing) {
+              results.failed.push({
+                row: i + results.created.length + 1,
+                errors: ['Listing does not belong to this organization'],
+                data: unitData as unknown as Record<string, unknown>,
+              });
+              continue;
             }
 
             const unit = await prisma.unit.create({

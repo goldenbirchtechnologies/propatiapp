@@ -96,7 +96,7 @@ const UnitDraft: UnitDraftType = {
   minimumStay: undefined,
   cautionDeposit: undefined,
   serviceCharge: undefined,
-  isListed: true,
+  isListed: false,
 };
 
 const newUnit = (num: number): UnitDraftType => ({
@@ -111,7 +111,7 @@ const newUnit = (num: number): UnitDraftType => ({
   minimumStay: undefined,
   cautionDeposit: undefined,
   serviceCharge: undefined,
-  isListed: true,
+  isListed: false,
 });
 
 const NIGERIAN_STATES = [

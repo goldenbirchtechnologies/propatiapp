@@ -45,7 +45,7 @@ const unitRowSchema = z.object({
     errorMap: () => ({ message: 'Invalid occupancy' }),
   }).optional(),
   listingId: z.string().min(1, 'listingId is required'),
-}));
+});
 
 /**
  * Parse CSV content into an array of units

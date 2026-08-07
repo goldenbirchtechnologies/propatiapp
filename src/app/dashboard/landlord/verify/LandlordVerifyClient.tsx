@@ -134,6 +134,13 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                                 : 'bg-outline-variant text-on-surface-variant'
                           }`}
                         >
+                          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${
+                            isApproved
+                              ? 'bg-success-bright/10 text-success border-success-bright/20'
+                              : isCurrent
+                                ? 'bg-primary/10 text-primary border-primary/20'
+                                : 'bg-outline-variant text-on-surface-variant border-outline-variant'
+                          }`}>
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
                           <div className="flex-1 min-w-0">

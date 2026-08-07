@@ -52,6 +52,7 @@ type ListingUnit = {
   status: string;
   occupancy: string;
   isListed: boolean;
+  organizationId: string;
 };
 
 type Listing = {
@@ -117,17 +118,10 @@ export default function PropertiesClient({ listings }: Props) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return listings.filter((listing) => {
-      if (statusFilter !== 'all' && listing.status !== statusFilter) {
-        return false;
-      }
+      if (listing.unitCount === 0) return false;
+      if (statusFilter !== 'all' && listing.status !== statusFilter) return false;
       if (!q) return true;
-      const haystack = [
-        listing.title,
-        listing.area,
-        listing.state,
-        listing.listingType,
-        listing.propertyType || '',
-      ]
+      const haystack = [listing.title, listing.area, listing.state, listing.propertyType || '']
         .join(' ')
         .toLowerCase();
       return haystack.includes(q);

@@ -35,6 +35,7 @@ export default async function LandlordPropertiesPage() {
           rent: true,
           status: true,
           occupancy: true,
+          organizationId: true,
         },
       },
     },

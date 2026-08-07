@@ -104,6 +104,21 @@ const AMENITY_ICON_MAP: Record<string, React.ReactNode> = {
   'Furnished': <Armchair className="h-4 w-4" />,
 };
 
+const SHARED_AMENITY_PRESETS = [
+  '24/7 Security',
+  'Borehole Water',
+  'Prepaid Meter',
+  'Central Generator',
+  'Perimeter Fencing',
+  'CCTV',
+  'Gated Compound',
+  'Parking',
+  'Garden Area',
+  'WiFi',
+  'Pool',
+  'Gym',
+];
+
 function capitalizeWords(value: string) {
   return value
     .split(/[\s-]+/)
@@ -203,7 +218,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
 }
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [activeTab, setActiveTab] = useState<'manage' | 'units' | 'verification' | 'amenities'>('manage');
+  const [activeTab, setActiveTab] = useState<'units' | 'building' | 'shared-amenities' | 'media' | 'verification'>('units');
   const [editingManage, setEditingManage] = useState(false);
   const [manageForm, setManageForm] = useState({
     title: listing.title,
@@ -263,10 +278,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const currentLayer = listing.verification?.currentLayer || 1;
 
   const tabs = [
-    { id: 'manage' as const, label: 'Building', icon: <Edit3 className="h-4 w-4" /> },
-    { id: 'units' as const, label: 'Units', icon: <Layers className="h-4 w-4" /> },
+    { id: 'units' as const, label: `Units (${listing.units.length})`, icon: <Layers className="h-4 w-4" /> },
+    { id: 'building' as const, label: 'Building Details', icon: <Edit3 className="h-4 w-4" /> },
+    { id: 'shared-amenities' as const, label: 'Shared Amenities', icon: <Trees className="h-4 w-4" /> },
+    { id: 'media' as const, label: 'Media', icon: <ImageIcon className="h-4 w-4" /> },
     { id: 'verification' as const, label: 'Verification', icon: <Shield className="h-4 w-4" /> },
-    { id: 'amenities' as const, label: 'Amenities', icon: <Layers className="h-4 w-4" /> },
   ];
 
   return (
@@ -326,7 +342,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'manage' && (
+      {activeTab === 'building' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
@@ -576,6 +592,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           )}
         </div>
       )}
+
+      {activeTab === 'verification' && (
         <div className="space-y-4">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
@@ -639,11 +657,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         </div>
       )}
 
-      {activeTab === 'amenities' && (
+      {activeTab === 'shared-amenities' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
-              Amenities
+              Shared Building Amenities
             </h2>
             {saved && (
               <span className="text-xs text-success">
@@ -653,7 +671,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </div>
 
           <p className="text-sm mb-4 text-on-surface-variant">
-            Update amenities that tenants and buyers will see on this listing.
+            Manage shared building amenities for {listing.title}. These features will automatically apply to all units housed within this property.
           </p>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
@@ -665,14 +683,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex flex-wrap gap-2 mb-4">
             {amenities.map((amenity) => (
               <span
                 key={amenity}
                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm bg-primary/10 text-primary border border-primary/20"
               >
                 {AMENITY_ICON_MAP[amenity]}
-                {amenity}
+                {capitalizeWords(amenity)}
                 <button
                   onClick={() => removeAmenity(amenity)}
                   className="ml-1 hover:opacity-70"
@@ -682,6 +700,39 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 </button>
               </span>
             ))}
+          </div>
+
+          <div className="space-y-3">
+            <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
+              Quick Add
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {SHARED_AMENITY_PRESETS.map((preset) => {
+                const active = amenities.includes(preset);
+                return (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => {
+                      if (active) {
+                        removeAmenity(preset);
+                      } else {
+                        setAmenities((prev) => (prev.includes(preset) ? prev : [...prev, preset]));
+                        setSaved(false);
+                      }
+                    }}
+                    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      active
+                        ? 'bg-primary/10 border-primary/20 text-primary'
+                        : 'bg-background border-outline-variant text-on-surface-variant hover:border-primary/40'
+                    }`}
+                  >
+                    {AMENITY_ICON_MAP[preset]}
+                    {preset}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="flex gap-2">
@@ -699,6 +750,46 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               Add
             </button>
           </div>
+        </div>
+      )}
+
+      {activeTab === 'media' && (
+        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+              Property Media
+            </h2>
+            <span className="text-xs text-on-surface-variant">
+              {listing.images.length} {listing.images.length === 1 ? 'file' : 'files'}
+            </span>
+          </div>
+
+          {listing.images.length === 0 ? (
+            <div className="p-12 text-center">
+              <ImageIcon className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+              <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No media yet</h3>
+              <p className="text-muted-foreground">
+                Exterior shots, compound photos, and entrance images will appear here once uploaded.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {listing.images.map((image) => (
+                <div key={image.id} className="relative rounded-lg overflow-hidden border border-outline-variant">
+                  <img
+                    src={image.url}
+                    alt={listing.title}
+                    className="w-full h-40 object-cover"
+                  />
+                  {image.isCover && (
+                    <span className="absolute top-2 left-2 tag bg-primary/10 text-primary border-primary/20">
+                      Cover
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

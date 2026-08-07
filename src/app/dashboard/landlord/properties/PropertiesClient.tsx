@@ -432,61 +432,6 @@ export default function PropertiesClient({ listings }: Props) {
           )}
         </div>
       </section>
-
-      <Dialog open={!!publishTarget} onOpenChange={(open) => !open && !publishLoading && setPublishTarget(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Select units to publish</DialogTitle>
-            <DialogDescription>
-              {publishListing
-                ? `Choose which vacant units from ${titleCase(publishListing.title)} should go live on the marketplace.`
-                : 'Choose which vacant units should go live on the marketplace.'}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3 max-h-[50vh] overflow-y-auto">
-            {publishListing && publishListing.units.filter((u) => u.occupancy === 'VACANT').length === 0 && (
-              <p className="text-sm text-muted-foreground">No vacant units available for this property.</p>
-            )}
-            {publishListing?.units
-              .filter((u) => u.occupancy === 'VACANT')
-              .map((unit) => (
-                <label key={unit.id} className="flex items-start gap-3 rounded-lg border border-outline-variant p-3">
-                  <Checkbox
-                    checked={!!publishSelectedUnits[unit.id]}
-                    onCheckedChange={(checked) =>
-                      setPublishSelectedUnits((prev) => ({
-                        ...prev,
-                        [unit.id]: checked === true,
-                      }))
-                    }
-                  />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      Unit {unit.unitNumber}
-                      {unit.buildingName ? ` • ${unit.buildingName}` : ''}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {unit.type} • {unit.bedrooms} bed • {unit.bathrooms} bath • {formatCurrency(unit.rent)} • {unit.listingType || 'rent'}
-                    </p>
-                  </div>
-                </label>
-              ))}
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setPublishTarget(null)}
-              disabled={publishLoading}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handlePublish} disabled={publishLoading || selectedVacantUnitIds.length === 0}>
-              {publishLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Publish selected units
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

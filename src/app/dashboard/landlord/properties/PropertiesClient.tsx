@@ -179,13 +179,8 @@ export default function PropertiesClient({ listings }: Props) {
     setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const goToPublish = (listingId: string, unit: ListingUnit) => {
-    const search = new URLSearchParams();
-    if (unit.id) search.set('unitId', unit.id);
-    if (unit.listingType) search.set('listingType', unit.listingType);
-    if (unit.rent) search.set('rent', String(unit.rent));
-    if (unit.pricePeriod) search.set('pricePeriod', unit.pricePeriod);
-    router.push(`/dashboard/landlord/properties/${listingId}/publish?${search.toString()}`);
+  const goToPublish = (listingId: string, _unit?: ListingUnit) => {
+    router.push(`/dashboard/landlord/properties/${listingId}`);
   };
 
   const handleDelete = async (id: string) => {
@@ -361,7 +356,7 @@ export default function PropertiesClient({ listings }: Props) {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}/edit`}>Edit Building</Link>
+                                  <Link href={`/dashboard/landlord/properties/${listing.id}`}>Edit Building</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                   <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>

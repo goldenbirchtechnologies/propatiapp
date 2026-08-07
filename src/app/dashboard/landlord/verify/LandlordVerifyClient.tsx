@@ -124,18 +124,16 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                       return (
                         <div
                           key={layer.key}
-                          className={`flex items-center gap-3 p-3 rounded-lg ${isCurrent ? 'bg-primary/10 border border-primary' : 'border border-outline-variant bg-transparent'}`}
+                          className={`flex items-center gap-3 p-3 rounded-lg ${
+                            isCurrent ? 'bg-primary/10 border border-primary' : 'border border-outline-variant bg-transparent'
+                          } ${
+                            isApproved
+                              ? 'bg-success-bright/10 text-success'
+                              : isCurrent
+                                ? 'bg-primary/10 text-primary'
+                                : 'bg-outline-variant text-on-surface-variant'
+                          }`}
                         >
-                          <div
-                            className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                            className={
-                              isApproved
-                                ? 'bg-success-bright/10 text-success'
-                                : isCurrent
-                                  ? 'bg-primary/10 text-primary'
-                                  : 'bg-outline-variant text-on-surface-variant'
-                            }
-                          >
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -158,7 +156,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   {/* Actions */}
                   <div className="border-border flex items-center gap-2">
                     <Link
-                      href={`/dashboard/landlord/properties/${v.listingId}/edit`}
+                      href={`/dashboard/landlord/properties/${v.listingId}`}
                       className="btn btn-secondary w-full justify-center"
                     >
                       Edit Property

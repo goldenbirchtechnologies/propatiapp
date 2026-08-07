@@ -218,15 +218,18 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
 }
 
 export default function PropertyDetailClient({ listing }: { listing: Listing }) {
-  const [activeTab, setActiveTab] = useState<'units' | 'building' | 'shared-amenities' | 'media' | 'verification'>('units');
+  const [activeTab, setActiveTab] = useState<'building' | 'units' | 'shared-amenities' | 'media' | 'verification'>('building');
   const [editingManage, setEditingManage] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [manageForm, setManageForm] = useState({
     title: listing.title,
-    description: listing.description,
-    price: listing.price,
-    pricePeriod: listing.pricePeriod,
-    status: listing.status,
+    address: listing.address,
+    area: listing.area,
+    state: listing.state,
+    propertyType: listing.propertyType,
+    description: listing.description || '',
   });
+  const [images, setImages] = useState(listing.images);
   const [amenityInput, setAmenityInput] = useState('');
   const [amenities, setAmenities] = useState<string[]>(listing.amenities);
   const [saved, setSaved] = useState(false);
@@ -236,11 +239,35 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
     setSaved(false);
   };
 
-  const handleSaveManage = () => {
-    // In a real app, this would call an API endpoint
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-    setEditingManage(false);
+  const handleSaveManage = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/listings/${listing.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: manageForm.title,
+          address: manageForm.address,
+          area: manageForm.area,
+          state: manageForm.state,
+          propertyType: manageForm.propertyType,
+          description: manageForm.description,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: 'Failed to update' }));
+        throw new Error(data.error || 'Failed to update');
+      }
+
+      setSaved(true);
+      setEditingManage(false);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error('Failed to save property:', error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const addAmenity = () => {
@@ -359,9 +386,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                   <X className="w-4 h-4 mr-1" />
                   Cancel
                 </button>
-                <button onClick={handleSaveManage} className="btn btn-primary btn-sm">
+                <button onClick={handleSaveManage} disabled={saving} className="btn btn-primary btn-sm">
                   <Save className="w-4 h-4 mr-1" />
-                  {saved ? 'Saved!' : 'Save'}
+                  {saving ? 'Saving...' : saved ? 'Saved!' : 'Save'}
                 </button>
               </div>
             )}
@@ -390,17 +417,52 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Address
                 </label>
-                <p className="font-medium text-primary">
-                  {listing.address}
-                </p>
+                {editingManage ? (
+                  <input
+                    type="text"
+                    value={manageForm.address}
+                    onChange={(e) => updateManageField('address', e.target.value)}
+                    className="inp-field"
+                  />
+                ) : (
+                  <p className="font-medium text-primary">
+                    {listing.address}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
-                  Location
+                  Area
                 </label>
-                <p className="font-medium text-primary">
-                  {capitalizeWords(listing.area)}, {capitalizeWords(listing.state)}
-                </p>
+                {editingManage ? (
+                  <input
+                    type="text"
+                    value={manageForm.area}
+                    onChange={(e) => updateManageField('area', e.target.value)}
+                    className="inp-field"
+                  />
+                ) : (
+                  <p className="font-medium text-primary">
+                    {capitalizeWords(listing.area)}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                  State
+                </label>
+                {editingManage ? (
+                  <input
+                    type="text"
+                    value={manageForm.state}
+                    onChange={(e) => updateManageField('state', e.target.value)}
+                    className="inp-field"
+                  />
+                ) : (
+                  <p className="font-medium text-primary">
+                    {capitalizeWords(listing.state)}
+                  </p>
+                )}
               </div>
             </div>
             <div className="space-y-4">
@@ -408,9 +470,18 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
                   Property Type
                 </label>
-                <p className="font-medium text-primary">
-                  {formatPropertyType(listing.propertyType)}
-                </p>
+                {editingManage ? (
+                  <input
+                    type="text"
+                    value={manageForm.propertyType}
+                    onChange={(e) => updateManageField('propertyType', e.target.value)}
+                    className="inp-field"
+                  />
+                ) : (
+                  <p className="font-medium text-primary">
+                    {formatPropertyType(listing.propertyType)}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
@@ -759,12 +830,43 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
               Property Media
             </h2>
-            <span className="text-xs text-on-surface-variant">
-              {listing.images.length} {listing.images.length === 1 ? 'file' : 'files'}
-            </span>
+            <label className="btn btn-secondary btn-sm cursor-pointer">
+              <Plus className="w-4 h-4 mr-2" />
+              Upload Photo
+              <input
+                type="file"
+                accept="image/*"
+                className="sr-only"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const formData = new FormData();
+                  formData.append('file', file);
+                  formData.append('setCover', String(images.length === 0));
+                  try {
+                    const res = await fetch(`/api/listings/${listing.id}/images`, {
+                      method: 'POST',
+                      body: formData,
+                    });
+                    const data = await res.json().catch(() => ({}));
+                    if (!res.ok) throw new Error(data?.error || 'Failed to upload');
+                    setImages((prev) => {
+                      const next = [...prev, data.image].sort((a, b) => {
+                        if (a.isCover !== b.isCover) return a.isCover ? -1 : 1;
+                        return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
+                      });
+                      return next;
+                    });
+                  } catch (err) {
+                    console.error('Image upload failed:', err);
+                  }
+                  e.target.value = '';
+                }}
+              />
+            </label>
           </div>
 
-          {listing.images.length === 0 ? (
+          {images.length === 0 ? (
             <div className="p-12 text-center">
               <ImageIcon className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
               <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No media yet</h3>
@@ -774,7 +876,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {listing.images.map((image) => (
+              {images.map((image) => (
                 <div key={image.id} className="relative rounded-lg overflow-hidden border border-outline-variant">
                   <img
                     src={image.url}
@@ -786,6 +888,48 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                       Cover
                     </span>
                   )}
+                  <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/50 p-2 text-white text-xs">
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`/api/listings/${listing.id}/images`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageId: image.id, setCover: true }),
+                          });
+                          const data = await res.json().catch(() => ({}));
+                          if (!res.ok) throw new Error(data?.error || 'Failed to update cover');
+                          setImages((prev) => prev.map((img) => ({ ...img, isCover: img.id === image.id })));
+                        } catch (err) {
+                          console.error('Set cover failed:', err);
+                        }
+                      }}
+                      className={image.isCover ? 'font-medium' : 'opacity-80 hover:opacity-100'}
+                    >
+                      {image.isCover ? 'Cover' : 'Set cover'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`/api/listings/${listing.id}/images`, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageId: image.id }),
+                          });
+                          const data = await res.json().catch(() => ({}));
+                          if (!res.ok) throw new Error(data?.error || 'Failed to delete');
+                          setImages((prev) => prev.filter((img) => img.id !== image.id));
+                        } catch (err) {
+                          console.error('Delete image failed:', err);
+                        }
+                      }}
+                      className="opacity-80 hover:opacity-100"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

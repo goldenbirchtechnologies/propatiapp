@@ -109,14 +109,14 @@ export default function BookingCard({ listing }: Props) {
       </div>
 
       <div className="space-y-3">
-        <Link href={`/dashboard/landlord/properties/${listing.id}/publish`} className="block">
+        <Link href={`/dashboard/landlord/properties/${listing.id}`} className="block">
           <Button className="w-full" size="lg">
-            Publish / Update
+            View Property
           </Button>
         </Link>
         <Link href={`/dashboard/landlord/properties`} className="block">
           <Button variant="outline" className="w-full" size="lg">
-            View Properties
+            All Properties
           </Button>
         </Link>
       </div>

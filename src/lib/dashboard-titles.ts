@@ -14,8 +14,6 @@ const TITLE_MAP: Array<[RegExp, string]> = [
   [/^\/dashboard\/landlord\/properties$/, 'My Properties'],
   [/^\/dashboard\/landlord\/properties\/new$/, 'Add Property'],
   [/^\/dashboard\/landlord\/properties\/[^/]+$/, 'Property Details'],
-  [/^\/dashboard\/landlord\/properties\/[^/]+\/edit$/, 'Edit Property'],
-  [/^\/dashboard\/landlord\/properties\/[^/]+\/publish$/, 'Publish Property'],
   [/^\/dashboard\/landlord\/listing\/new$/, 'List to Marketplace'],
   [/^\/dashboard\/landlord\/listing\/[^/]+$/, 'Marketplace Listing'],
   [/^\/dashboard\/landlord\/applications$/, 'Applications'],

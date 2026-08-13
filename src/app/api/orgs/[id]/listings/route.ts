@@ -154,20 +154,31 @@ export async function POST(
       return NextResponse.json({ error: 'You do not have permission to add this listing' }, { status: 403 });
     }
 
-    const orgListing = await prisma.orgListing.create({
-      data: {
-        orgId: id,
-        listingId: validated.data.listingId,
-      },
-      include: {
-        listing: {
-          include: {
-            images: { where: { isCover: true }, take: 1 },
-            owner: { select: { id: true, fullName: true, email: true } },
+    let orgListing;
+    try {
+      orgListing = await prisma.orgListing.create({
+        data: {
+          orgId: id,
+          listingId: validated.data.listingId,
+        },
+        include: {
+          listing: {
+            include: {
+              images: { where: { isCover: true }, take: 1 },
+              owner: { select: { id: true, fullName: true, email: true } },
+            },
           },
         },
-      },
-    });
+      });
+    } catch (error) {
+      if ((error as { code?: string })?.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'Listing already added to organization' },
+          { status: 409 }
+        );
+      }
+      throw error;
+    }
 
     return NextResponse.json({ success: true, data: orgListing }, { status: 201 });
   } catch (error) {

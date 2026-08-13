@@ -539,6 +539,8 @@ export function DashboardShell({
     }
   });
 
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+
   React.useEffect(() => {
     try {
       localStorage.setItem('dashboard:sidebarCollapsed', sidebarCollapsed ? '1' : '0');
@@ -699,6 +701,13 @@ export function DashboardShell({
                         item={navItem}
                         isActive={itemActive}
                         sidebarCollapsed={sidebarCollapsed}
+                        expanded={!!expandedItems[navItem.label]}
+                        onToggle={() =>
+                          setExpandedItems((prev) => ({
+                            ...prev,
+                            [navItem.label]: !prev[navItem.label],
+                          }))
+                        }
                       />
                     ) : (
                       <Link
@@ -815,9 +824,19 @@ export function DashboardShell({
   );
 }
 
-function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavItem; isActive: boolean; sidebarCollapsed?: boolean }) {
-  const [expanded, setExpanded] = useState(isActive);
-
+function CollapsibleNavItem({
+  item,
+  isActive,
+  sidebarCollapsed,
+  expanded,
+  onToggle,
+}: {
+  item: NavItem;
+  isActive: boolean;
+  sidebarCollapsed?: boolean;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
   if (!item.children || item.children.length === 0) return null;
 
   if (sidebarCollapsed) {
@@ -839,7 +858,7 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
       <button
         className={`sb-nav-item ${isActive ? 'active' : ''}`}
         aria-current={isActive ? 'true' : undefined}
-        onClick={() => setExpanded(!expanded)}
+        onClick={onToggle}
         aria-expanded={expanded}
       >
         <span className="icon-slot">
@@ -865,7 +884,7 @@ function CollapsibleNavItem({ item, isActive, sidebarCollapsed }: { item: NavIte
           {item.children?.map((child) => (
             <li key={child.href}>
               <Link
-                href={child.href}
+                href={(child.href || '#') as any}
                 className="sb-nav-item"
                 style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
               >

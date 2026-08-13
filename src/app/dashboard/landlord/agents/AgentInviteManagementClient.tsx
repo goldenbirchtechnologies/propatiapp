@@ -110,8 +110,10 @@ export default function AgentInviteManagementClient() {
             <ArrowLeft className="size-4" />
             Back
           </Link>
-          <h1 className="font-heading text-headline-lg text-primary">Invite agent</h1>
-          <p className="text-on-surface-variant">They'll get an email to accept the invite</p>
+          <h1 className="font-heading text-headline-lg text-foreground">Invite agent</h1>
+          <p className="text-sm text-muted-foreground">
+            They'll get an email to accept the invite
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="gap-2">
@@ -137,7 +139,7 @@ export default function AgentInviteManagementClient() {
               className="max-w-xl dark:bg-slate-800/60 dark:placeholder:text-gray-400"
               required
             />
-            <p className="text-sm text-on-surface-variant">
+            <p className="text-sm text-muted-foreground">
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
@@ -147,8 +149,8 @@ export default function AgentInviteManagementClient() {
         <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
-              <h2 className="font-label-sm uppercase tracking-wide text-primary">Permissions</h2>
-              <p className="text-sm text-on-surface-variant">
+              <h2 className="font-label-sm uppercase tracking-wide text-foreground">Permissions</h2>
+              <p className="text-sm text-muted-foreground">
                 Pick what this agent can do. You can change this later.
               </p>
             </div>
@@ -172,11 +174,14 @@ export default function AgentInviteManagementClient() {
                       <Checkbox
                         checked={isSelected}
                         onCheckedChange={() => togglePermission(permission.id)}
-                        className="mt-0.5"
+                        className={cn(
+                          "mt-0.5 dark:border-white/50 dark:bg-transparent",
+                          isSelected && "dark:bg-primary"
+                        )}
                         tabIndex={-1}
                       />
                       <div className="space-y-1">
-                        <p className="font-medium text-sm text-primary">{permission.label}</p>
+                        <p className="font-medium text-sm text-foreground">{permission.label}</p>
                         <p className="text-xs text-muted-foreground leading-relaxed">
                           {permission.description}
                         </p>
@@ -192,8 +197,8 @@ export default function AgentInviteManagementClient() {
         {/* Scope */}
         <Card className="p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
-            <h2 className="font-label-sm uppercase tracking-wide text-primary">Scope</h2>
-            <p className="text-sm text-on-surface-variant">
+            <h2 className="font-label-sm uppercase tracking-wide text-foreground">Scope</h2>
+            <p className="text-sm text-muted-foreground">
               Leave empty to apply to all current and future listings. Add a listing first to scope the agent's access.
             </p>
           </div>
@@ -212,20 +217,20 @@ export default function AgentInviteManagementClient() {
 
       {/* Sent Invites */}
       <Card className="p-6">
-        <h4 className="font-heading text-primary mb-4">Sent Invites</h4>
+        <h4 className="font-heading text-foreground mb-4">Sent Invites</h4>
         {loading ? (
-          <p className="text-sm text-on-surface-variant">Loading invites...</p>
+          <p className="text-sm text-muted-foreground">Loading invites...</p>
         ) : invites.length === 0 ? (
-          <p className="text-sm text-on-surface-variant">No invites yet.</p>
+          <p className="text-sm text-muted-foreground">No invites yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-surface-container-low">
-                  <th className="px-4 py-3 font-label-sm text-on-surface-variant uppercase">Email</th>
-                  <th className="px-4 py-3 font-label-sm text-on-surface-variant uppercase">Status</th>
-                  <th className="px-4 py-3 font-label-sm text-on-surface-variant uppercase">Sent</th>
-                  <th className="px-4 py-3 font-label-sm text-on-surface-variant uppercase">Action</th>
+                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Email</th>
+                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Status</th>
+                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Sent</th>
+                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant">
@@ -237,7 +242,7 @@ export default function AgentInviteManagementClient() {
                         {invite.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-sm text-on-surface-variant">
+                    <td className="px-4 py-3 text-sm text-muted-foreground">
                       {new Date(invite.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-sm">

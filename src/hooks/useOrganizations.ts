@@ -174,9 +174,19 @@ export function useAddOrganizationListing() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ orgId, listingId }: { orgId: string; listingId: string }) => 
-      apiEndpoints.organizations.addListing(orgId, listingId),
-    onSuccess: (_, { orgId, listingId }) => {
+    mutationFn: async ({ orgId, listingId }: { orgId: string; listingId: string }) => {
+      const res = await fetch(`/api/orgs/${encodeURIComponent(orgId)}/listings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listingId }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok && res.status !== 409) {
+        throw new Error(data.error || 'Failed to add listing to organization');
+      }
+      return data;
+    },
+    onSuccess: (_, { orgId }) => {
       queryClient.invalidateQueries({ queryKey: organizationsKeys.listings(orgId) });
       queryClient.invalidateQueries({ 
         queryKey: ['listings', 'list'] 

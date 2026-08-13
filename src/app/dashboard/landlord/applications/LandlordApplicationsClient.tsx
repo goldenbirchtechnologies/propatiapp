@@ -106,15 +106,19 @@ interface Application {
   applicantDocuments: Array<Record<string, unknown>>;
 }
 
-const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
+const statusConfig: Record<string, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   under_review: { label: 'Under Review', className: 'bg-info/10 text-info border-info/20' },
   accepted: { label: 'Accepted', className: 'bg-success-bright/10 text-success border-success-bright/20' },
+  approved: { label: 'Approved', className: 'bg-success-bright/10 text-success border-success-bright/20' },
   rejected: { label: 'Rejected', className: 'bg-destructive/10 text-destructive border-destructive/20' },
   withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
+  cancelled: { label: 'Cancelled', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
+  canceled: { label: 'Canceled', className: 'bg-surface-container-low text-on-surface-variant border-outline-variant' },
+  submitted: { label: 'Submitted', className: 'bg-info/10 text-info border-info/20' },
 };
 
-const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
+const stageConfig: Record<string, { label: string; className: string }> = {
   submitted: { label: 'Submitted', className: 'bg-blue-50 text-blue-700 border-blue-200' },
   screening: { label: 'Screening', className: 'bg-green-50 text-green-700 border-green-200' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-warning/10 text-warning border-warning/20' },
@@ -145,19 +149,24 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
   const router = useRouter();
 
   const uniqueListings = Array.from(
-    new Map(applications.map((a) => [a.listing.id, a.listing])).values()
+    new Map(
+      applications
+        .filter((a) => a && a.listing && a.listing.id)
+        .map((a) => [a.listing.id, a.listing])
+    ).values()
   );
 
   const filtered = applications.filter((a) => {
+    if (!a) return false;
     if (statusFilter !== 'all' && a.status !== statusFilter) return false;
     if (stageFilter !== 'all' && (a.stage || 'submitted') !== stageFilter) return false;
-    if (listingFilter !== 'all' && a.listing.id !== listingFilter) return false;
+    if (listingFilter !== 'all' && a.listing?.id !== listingFilter) return false;
     return true;
   });
 
   const pending = applications.filter((a) => a.status === 'pending').length;
   const underReview = applications.filter((a) => a.status === 'under_review').length;
-  const accepted = applications.filter((a) => a.status === 'accepted').length;
+  const accepted = applications.filter((a) => a.status === 'accepted' || (a.status as string) === 'approved').length;
   const stageStats = {
     screening: applications.filter((a) => (a.stage || 'submitted') === 'screening').length,
     guarantor_pending: applications.filter((a) => (a.stage || 'submitted') === 'guarantor_pending').length,
@@ -317,31 +326,40 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               </thead>
               <tbody>
                 {filtered.map((app) => {
-                  const cfg = statusConfig[app.status];
+                  const cfg = statusConfig[app.status] || {
+                    label: app.status ? String(app.status).replace('_', ' ') : 'Unknown',
+                    className: 'bg-surface-container-low text-on-surface-variant border-outline-variant',
+                  };
                   const stage = app.stage || 'submitted';
-                  const stageCfg = stageConfig[stage];
+                  const stageCfg = stageConfig[stage] || {
+                    label: stage ? String(stage).replace('_', ' ') : 'Submitted',
+                    className: 'bg-blue-50 text-blue-700 border-blue-200',
+                  };
                   const isActionable = ['pending', 'under_review'].includes(app.status);
+                  const tenantName = app.tenant?.fullName || 'Tenant';
+                  const listingTitle = app.listing?.title || 'Untitled Listing';
+                  const listingLocation = [app.listing?.area, app.listing?.state].filter(Boolean).join(', ');
 
                   return (
                     <tr key={app.id} className="border-b border-outline-variant">
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div
-                            className="flex items-center justify-center"
+                            className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 text-primary text-xs font-semibold"
                           >
-                            {app.tenant.fullName.charAt(0)}
+                            {tenantName.charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <p className="font-medium text-sm text-primary">
-                              {app.tenant.fullName}
+                              {tenantName}
                             </p>
-                            <p className="text-xs text-on-surface-variant">{app.tenant.email}</p>
+                            <p className="text-xs text-on-surface-variant">{app.tenant?.email || ''}</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm font-medium text-primary">{app.listing.title}</p>
-                        <p className="text-xs text-on-surface-variant">{app.listing.area}, {app.listing.state}</p>
+                        <p className="text-sm font-medium text-primary">{listingTitle}</p>
+                        <p className="text-xs text-on-surface-variant">{listingLocation}</p>
                       </td>
                       <td className="p-4">
                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${stageCfg.className}`}>

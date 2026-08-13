@@ -74,43 +74,45 @@ export default async function LandlordApplicationsPage() {
     );
   }
 
-  const serialized = applications.map((app) => ({
-    id: app.id,
-    status: app.status,
-    stage: (app.stage as ApplicationStage | null | undefined) ?? undefined,
-    message: app.message,
-    landlordNotes: app.landlordNotes,
-    rejectionReason: app.rejectionReason,
-    requestedInfoAt: app.requestedInfoAt ? app.requestedInfoAt.toISOString() : null,
-    createdAt: app.createdAt.toISOString(),
-    reviewedAt: app.reviewedAt ? app.reviewedAt.toISOString() : null,
-    listing: {
-      id: app.listing.id,
-      title: app.listing.title,
-      area: app.listing.area,
-      state: app.listing.state,
-      price: app.listing.price.toString(),
-      pricePeriod: app.listing.pricePeriod,
-      images: app.listing.images,
-    },
-    tenant: {
-      id: app.tenant.id,
-      fullName: app.tenant.fullName,
-      email: app.tenant.email,
-      phone: app.tenant.phone,
-      avatarUrl: app.tenant.avatarUrl,
-      employmentStatus: app.tenant.employmentStatus,
-      employerName: app.tenant.employerName,
-      jobTitle: app.tenant.jobTitle,
-      yearlyIncome: app.tenant.yearlyIncome ? app.tenant.yearlyIncome.toString() : null,
-      profileBio: app.tenant.profileBio,
-      idVerified: app.tenant.idVerified,
-      ninVerified: app.tenant.ninVerified,
-    },
-    screeningStatus: (app as any).screeningStatus || {},
-    guarantorData: (app as any).guarantorData || {},
-    applicantDocuments: (app as any).applicantDocuments || [],
-  }));
+  const serialized = applications
+    .filter((app) => app && app.listing && app.tenant)
+    .map((app) => ({
+      id: app.id,
+      status: app.status,
+      stage: (app.stage as ApplicationStage | null | undefined) ?? undefined,
+      message: app.message ?? null,
+      landlordNotes: app.landlordNotes ?? null,
+      rejectionReason: app.rejectionReason ?? null,
+      requestedInfoAt: app.requestedInfoAt ? app.requestedInfoAt.toISOString() : null,
+      createdAt: app.createdAt ? app.createdAt.toISOString() : new Date().toISOString(),
+      reviewedAt: app.reviewedAt ? app.reviewedAt.toISOString() : null,
+      listing: {
+        id: app.listing?.id || '',
+        title: app.listing?.title || 'Untitled Listing',
+        area: app.listing?.area || '',
+        state: app.listing?.state || '',
+        price: app.listing?.price ? app.listing.price.toString() : '0',
+        pricePeriod: app.listing?.pricePeriod || null,
+        images: app.listing?.images || [],
+      },
+      tenant: {
+        id: app.tenant?.id || '',
+        fullName: app.tenant?.fullName || 'Tenant',
+        email: app.tenant?.email || '',
+        phone: app.tenant?.phone || null,
+        avatarUrl: app.tenant?.avatarUrl || null,
+        employmentStatus: app.tenant?.employmentStatus || null,
+        employerName: app.tenant?.employerName || null,
+        jobTitle: app.tenant?.jobTitle || null,
+        yearlyIncome: app.tenant?.yearlyIncome ? app.tenant.yearlyIncome.toString() : null,
+        profileBio: app.tenant?.profileBio || null,
+        idVerified: Boolean(app.tenant?.idVerified),
+        ninVerified: Boolean(app.tenant?.ninVerified),
+      },
+      screeningStatus: (app as any).screeningStatus || {},
+      guarantorData: (app as any).guarantorData || {},
+      applicantDocuments: Array.isArray((app as any).applicantDocuments) ? (app as any).applicantDocuments : [],
+    }));
 
   return (
     <DashboardShell

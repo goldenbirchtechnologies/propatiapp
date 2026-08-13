@@ -9,8 +9,9 @@ import PropertyDetailClient from './PropertyDetailClient';
 export default async function LandlordPropertyDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const user = await getCurrentUserWithProfile();
 
   if (!user || user.role !== 'landlord') {
@@ -18,7 +19,7 @@ export default async function LandlordPropertyDetailPage({
   }
 
   const listing = await prisma.listing.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       images: true,
       verification: true,

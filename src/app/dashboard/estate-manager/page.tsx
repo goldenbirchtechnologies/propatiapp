@@ -307,7 +307,7 @@ export default async function EstateManagerDashboardPage() {
   const priorityColors: Record<string, string> = {
     low: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
     medium: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-    high: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+    high: 'bg-green-500/10 text-green-400 border-green-500/20',
     urgent: 'bg-red-500/10 text-red-400 border-red-500/20',
   };
 
@@ -323,7 +323,7 @@ export default async function EstateManagerDashboardPage() {
     paid: 'bg-green-500/10 text-green-400 border-green-500/20',
     outstanding: 'bg-red-500/10 text-red-400 border-red-500/20',
     draft: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
-    unpaid: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+    unpaid: 'bg-green-500/10 text-green-400 border-green-500/20',
   };
 
   return (
@@ -523,7 +523,7 @@ export default async function EstateManagerDashboardPage() {
                   <span
                     key={idx}
                     className={`h-1.5 flex-1 rounded-full ${
-                      t.priority === 'urgent' ? 'bg-red-500' : t.priority === 'high' ? 'bg-orange-500' : 'bg-yellow-500'
+                      t.priority === 'urgent' ? 'bg-red-500' : t.priority === 'high' ? 'bg-green-500' : 'bg-yellow-500'
                     }`}
                   />
                 ))}

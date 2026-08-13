@@ -169,7 +169,7 @@ export function useTicketPriorityConfig() {
   return {
     low: { color: 'gray', label: 'Low', variant: 'outline' as const },
     medium: { color: 'blue', label: 'Medium', variant: 'default' as const },
-    high: { color: 'orange', label: 'High', variant: 'secondary' as const },
+    high: { color: 'green', label: 'High', variant: 'secondary' as const },
     urgent: { color: 'red', label: 'Urgent', variant: 'destructive' as const },
   };
 }

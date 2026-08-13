@@ -374,7 +374,7 @@ function ScreeningStatusBadge({ status }: { status: string }) {
     scheduled: { label: 'Scheduled', className: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
     completed: { label: 'Completed', className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
     cancelled: { label: 'Cancelled', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-    missed: { label: 'Missed', className: 'bg-orange-500/10 text-orange-500 border-orange-500/20' },
+    missed: { label: 'Missed', className: 'bg-green-500/10 text-green-500 border-green-500/20' },
   };
   const item = map[status] || { label: status, className: 'bg-muted' };
   return <Badge className={item.className}>{item.label}</Badge>;

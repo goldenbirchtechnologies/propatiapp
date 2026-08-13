@@ -67,12 +67,12 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
         <CardContent>
           <div className="relative">
             <div className="absolute top-5 left-0 w-full h-[2px] bg-border -z-10" />
-            <div className="absolute top-5 left-0 w-[55%] h-[2px] bg-orange-500 -z-10" />
+            <div className="absolute top-5 left-0 w-[55%] h-[2px] bg-green-500 -z-10" />
             <div className="flex justify-between items-start gap-2">
               {steps.map((step, i) => (
                 <div key={step.label} className="flex flex-col items-center text-center max-w-[120px]">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                    step.done ? 'bg-orange-500 text-primary shadow-md' : step.active ? 'bg-primary text-primary-foreground ring-4 ring-primary/20 shadow-md' : 'bg-muted text-muted-foreground'
+                    step.done ? 'bg-green-500 text-primary shadow-md' : step.active ? 'bg-primary text-primary-foreground ring-4 ring-primary/20 shadow-md' : 'bg-muted text-muted-foreground'
                   }`}>
                     {step.done ? <CheckCircle2 className="w-5 h-5" /> : step.active ? <CalendarDays className="w-5 h-5" /> : <span className="w-5 h-5" />}
                   </div>
@@ -181,7 +181,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <h5 className="text-xs text-muted-foreground font-mono uppercase mb-2">Attached Photos</h5>
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
-                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-border hover:border-orange-500 transition-all cursor-zoom-in group">
+                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-border hover:border-green-500 transition-all cursor-zoom-in group">
                         { }
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>

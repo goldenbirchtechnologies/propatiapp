@@ -24,7 +24,7 @@ Email templates live in `src/lib/email/templates/`.
 ### Style
 
 - Inline CSS for email client compatibility
-- PROPATI brand colors (orange/teal/blue accents)
+- PROPATI brand colors (green/teal/blue accents)
 - Clear CTA buttons
 - Nigerian context (NGN, local phone formats)
 

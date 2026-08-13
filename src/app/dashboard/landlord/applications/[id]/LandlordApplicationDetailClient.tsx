@@ -104,7 +104,7 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
 
 const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
   submitted: { label: 'Submitted', className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  screening: { label: 'Screening', className: 'bg-orange-50 text-orange-700 border-orange-200' },
+  screening: { label: 'Screening', className: 'bg-green-50 text-green-700 border-green-200' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   approved: { label: 'Approved', className: 'bg-success-bright/10 text-success border-success-bright/20' },
   rejected: { label: 'Rejected', className: 'bg-destructive/10 text-destructive border-destructive/20' },

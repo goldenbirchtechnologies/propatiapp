@@ -175,7 +175,7 @@ export function usePaymentStatus(transaction: Transaction | undefined) {
     in_escrow: { color: 'blue', label: 'In Escrow' },
     released: { color: 'green', label: 'Released' },
     failed: { color: 'red', label: 'Failed' },
-    refunded: { color: 'orange', label: 'Refunded' },
+    refunded: { color: 'green', label: 'Refunded' },
   };
 
   return statusConfig[transaction.status] || { color: 'gray', label: transaction.status };

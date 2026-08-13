@@ -48,7 +48,7 @@ const listingTypeChips = {
   rent: 'bg-sky-600/90 text-white border border-white/10',
   sale: 'bg-emerald-600/90 text-white border border-white/10',
   short_let: 'bg-teal-600/90 text-white border border-white/10',
-  share: 'bg-orange-600/90 text-white border border-white/10',
+  share: 'bg-green-600/90 text-white border border-white/10',
   commercial: 'bg-amber-700/90 text-white border border-white/10',
 } as const;
 

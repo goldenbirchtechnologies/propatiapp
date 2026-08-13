@@ -6,7 +6,7 @@
 
 | Role | Token | Hex | Usage |
 |------|-------|-----|-------|
-| Landlord | `--landlord` | `#f97316` (orange-500) | Sidebar active, buttons, accents |
+| Landlord | `--landlord` | `#22c55e` (green-500) | Sidebar active, buttons, accents |
 | Tenant | `--tenant` | `#14b8a6` (teal-500) | Sidebar active, buttons, accents |
 | Agent | `--agent` | `#eab308` (yellow-500) | Sidebar active, buttons, accents |
 | Estate Manager | `--em` | `#3b82f6` (blue-500) | Sidebar active, buttons, accents |

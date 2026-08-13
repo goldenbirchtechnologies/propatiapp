@@ -193,7 +193,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.</p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {missingActions.map((action) => (
-                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-orange-500/30 text-orange-600 hover:bg-orange-500/10">
+                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-green-500/30 text-green-500 hover:bg-green-500/10">
                     <AlertCircle className="h-3.5 w-3.5" />
                     {action}
                   </Button>
@@ -217,10 +217,10 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-outline-variant">
-          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Personal Info</TabsTrigger>
-          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Verification</TabsTrigger>
-          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Security</TabsTrigger>
-          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-orange-500 rounded-none">Notifications</TabsTrigger>
+          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Personal Info</TabsTrigger>
+          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Verification</TabsTrigger>
+          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Security</TabsTrigger>
+          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Notifications</TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal" className="mt-6">
@@ -457,7 +457,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
             </Badge>
           )}
           {!isVerified && !isReview && (
-            <Badge variant="destructive" className="border-orange-500/30 text-orange-600">Action Required</Badge>
+            <Badge variant="destructive" className="border-green-500/30 text-green-500">Action Required</Badge>
           )}
           {isReview && (
             <Badge variant="secondary" className="gap-1.5">

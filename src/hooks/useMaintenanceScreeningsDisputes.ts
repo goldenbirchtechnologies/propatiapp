@@ -126,7 +126,7 @@ export function useMaintenancePriority(ticket: MaintenanceTicket | undefined) {
   const priorityConfig: Record<string, { color: string; label: string }> = {
     low: { color: 'gray', label: 'Low' },
     medium: { color: 'blue', label: 'Medium' },
-    high: { color: 'orange', label: 'High' },
+    high: { color: 'green', label: 'High' },
     urgent: { color: 'red', label: 'Urgent' },
   };
 
@@ -206,7 +206,7 @@ export function useScreeningStatus(screening: ScreeningCall | undefined) {
     scheduled: { color: 'blue', label: 'Scheduled' },
     completed: { color: 'green', label: 'Completed' },
     cancelled: { color: 'red', label: 'Cancelled' },
-    no_show: { color: 'orange', label: 'No Show' },
+    no_show: { color: 'green', label: 'No Show' },
   };
 
   return statusConfig[screening.status] || { color: 'gray', label: screening.status };

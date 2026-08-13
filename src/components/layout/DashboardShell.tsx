@@ -5,7 +5,6 @@ import AppIcon from '@/components/icons/app-icon';
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SignOutButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
@@ -527,7 +526,6 @@ export function DashboardShell({
 }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
-  const { user } = useUser();
 
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -781,7 +779,7 @@ export function DashboardShell({
                   />
                 ) : (
                   <div className="h-7 w-7 rounded-full flex items-center justify-center text-xs font-semibold ring-1 ring-border bg-primary text-primary-foreground">
-                    {(userName || (user?.fullName || 'U')).charAt(0).toUpperCase()}
+                    {(userName || 'User').charAt(0).toUpperCase()}
                   </div>
                 )}
                 <ChevronDown className="h-3.5 w-3.5 text-muted-foreground mr-1 hidden sm:inline" />
@@ -789,7 +787,7 @@ export function DashboardShell({
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel className="flex items-center gap-2">
                   <div>
-                    <p className="font-semibold text-sm truncate">{userName || (user?.fullName || 'User')}</p>
+                    <p className="font-semibold text-sm truncate">{userName || 'User'}</p>
                     <p className="text-xs text-muted-foreground truncate">{orgName || 'Personal Workspace'}</p>
                   </div>
                 </DropdownMenuLabel>
@@ -806,9 +804,9 @@ export function DashboardShell({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <SignOutButton redirectUrl="/sign-in">
-                    <span className="text-destructive cursor-pointer w-full">Sign Out</span>
-                  </SignOutButton>
+                  <Link href="/api/auth/sign-out" className="text-destructive cursor-pointer w-full">
+                    Sign Out
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

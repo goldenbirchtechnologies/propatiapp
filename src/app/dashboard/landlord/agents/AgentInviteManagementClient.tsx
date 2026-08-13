@@ -159,12 +159,19 @@ export default function AgentInviteManagementClient() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <button
+                  <div
                     key={permission.id}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => togglePermission(permission.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        togglePermission(permission.id);
+                      }
+                    }}
                     className={cn(
-                      'text-left rounded-xl border p-4 transition-all',
+                      'text-left rounded-xl border p-4 transition-all cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-primary',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
@@ -173,9 +180,9 @@ export default function AgentInviteManagementClient() {
                     <div className="flex items-start gap-3">
                       <Checkbox
                         checked={isSelected}
-                        onCheckedChange={() => togglePermission(permission.id)}
+                        onCheckedChange={() => {}}
                         className={cn(
-                          "mt-0.5 dark:border-white/50 dark:bg-transparent",
+                          "mt-0.5 dark:border-white/50 dark:bg-transparent pointer-events-none",
                           isSelected && "dark:bg-primary"
                         )}
                         tabIndex={-1}
@@ -187,7 +194,7 @@ export default function AgentInviteManagementClient() {
                         </p>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>

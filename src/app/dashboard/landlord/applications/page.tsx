@@ -6,6 +6,8 @@ import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import LandlordApplicationsClient from './LandlordApplicationsClient';
 
+export const dynamic = 'force-dynamic';
+
 type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
 
 export const metadata = {
@@ -14,15 +16,14 @@ export const metadata = {
 };
 
 export default async function LandlordApplicationsPage() {
-  let user;
+  const user = await getCurrentUserWithProfile();
+
+  if (!user || user.role !== 'landlord') {
+    redirect('/dashboard');
+  }
+
   let applications;
   try {
-    user = await getCurrentUserWithProfile();
-
-    if (!user || user.role !== 'landlord') {
-      redirect('/dashboard');
-    }
-
     applications = await prisma.application.findMany({
       where: { landlordId: user.id },
       orderBy: { createdAt: 'desc' },

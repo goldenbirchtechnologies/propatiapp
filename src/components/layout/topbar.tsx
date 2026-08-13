@@ -3,14 +3,12 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, HelpCircle, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import GlobalSearch from './GlobalSearch';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
-import { Bell, ChevronDown, ChevronLeft, ChevronRight, LayoutDashboard, User, Settings, LogOut, BellRing, Moon, Sun, Monitor, MapPin, Building, CreditCard, FileText, Mail, Shield, HelpCircle, ChevronUp, Home, Check } from 'lucide-react';
+import { Bell, BellRing, Building, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CreditCard, FileText, HelpCircle, Home, LayoutDashboard, LogOut, Mail, MapPin, Monitor, Moon, Search, Settings, Shield, Sun, User, Users } from 'lucide-react';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 
 interface TopbarProps {
@@ -149,22 +147,39 @@ function ThemeToggle() {
 }
 
 import { DropdownMenuRadioItem } from '@/components/ui/dropdown-menu';
-import { Users, Check } from 'lucide-react';
 
 function UserMenu({ userRole }: { userRole?: string }) {
-  const { user } = useUser();
-
   return (
-    <UserButton
-      afterSignOutUrl="/"
-      appearance={{
-        elements: {
-          avatarBox: 'w-8 h-8',
-          userButtonPopover: 'rounded-lg shadow-lg border border-border bg-background',
-          userButtonPopoverActions: 'flex-col gap-2',
-        },
-      }}
-    />
+    <DropdownMenu>
+      <DropdownMenuTrigger className="flex items-center gap-2.5 p-1.5 pl-2.5 rounded-full bg-surface-elevated border border-border hover:bg-muted/50 transition-colors outline-none">
+        <span className="text-sm font-medium text-foreground max-w-[140px] truncate hidden sm:inline">
+          Workspace
+        </span>
+        <div className="h-7 w-7 rounded-full flex items-center justify-center text-xs font-semibold ring-1 ring-border bg-primary text-primary-foreground">
+          {(userRole || 'U').charAt(0).toUpperCase()}
+        </div>
+        <ChevronDown className="h-3.5 w-3.5 text-muted-foreground mr-1 hidden sm:inline" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel className="flex items-center gap-2">
+          <div>
+            <p className="font-semibold text-sm truncate">Workspace</p>
+            <p className="text-xs text-muted-foreground truncate">Account menu</p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole || 'tenant'}/profile`} className="cursor-pointer">
+            My Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/api/auth/sign-out" className="cursor-pointer text-destructive">
+            Sign Out
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -178,7 +193,6 @@ export function Topbar({
   className,
 }: TopbarProps) {
   const pathname = usePathname();
-  const { user } = useUser();
 
   return (
     <header className={cn('topbar', className)}>
@@ -232,9 +246,9 @@ export function Topbar({
         <PurposeSwitcher userRole={userRole} />
         <NotificationsBell userRole={userRole} />
         <ThemeToggle />
-        <UserMenu userRole={userRole} />
-      </div>
-    </header>
+            <UserMenu userRole={userRole} />
+          </div>
+        </header>
   );
 }
 

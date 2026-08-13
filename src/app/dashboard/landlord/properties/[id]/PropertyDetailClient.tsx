@@ -305,7 +305,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
     in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress' },
     certified: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Verified ✓' },
     rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected' },
-    pending: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Pending' },
+    pending: { class: 'bg-amber-500/10 text-amber-300 border-amber-500/30', label: 'Pending' },
     approved: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Approved' },
   };
 
@@ -367,7 +367,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === tab.id ? 'border-white text-white' : 'border-transparent text-neutral-400'
+              activeTab === tab.id ? 'border-white text-white' : 'border-transparent text-neutral-400 hover:text-white'
             }`}
           >
             {tab.icon}
@@ -709,7 +709,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     <p className="font-medium text-sm text-white">
                       {layer.label}
                     </p>
-                    <p className="text-xs text-neutral-400">
+                    <p className="text-xs text-neutral-300">
                       {layer.desc}
                     </p>
                   </div>
@@ -766,15 +766,10 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             {amenities.map((amenity) => (
               <span
                 key={amenity}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm bg-primary/10 text-primary border border-primary/20"
+                className="inline-flex items-center gap-1.5 bg-neutral-800 border border-neutral-700 text-white text-xs font-medium px-3 py-1 rounded-full"
               >
-                {AMENITY_ICON_MAP[amenity]}
                 {capitalizeWords(amenity)}
-                <button
-                  onClick={() => removeAmenity(amenity)}
-                  className="ml-1 hover:opacity-70"
-                  title={`Remove ${amenity}`}
-                >
+                <button onClick={() => removeAmenity(amenity)} className="text-neutral-400 hover:text-white transition-colors" title={`Remove ${amenity}`}>
                   <X className="h-3 w-3" />
                 </button>
               </span>
@@ -782,9 +777,19 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </div>
 
           <div className="space-y-3">
-            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
-              Quick Add
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+                Quick Add
+              </p>
+              <button
+                onClick={handleSaveAmenities}
+                disabled={savingAmenities}
+                className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-200 hover:bg-neutral-800 transition-colors disabled:opacity-60"
+              >
+                <Save className="w-3.5 h-3.5" />
+                {savingAmenities ? 'Saving...' : amenitiesSaved ? 'Saved' : 'Save Amenities'}
+              </button>
+            </div>
             <div className="flex flex-wrap gap-2">
               {SHARED_AMENITY_PRESETS.map((preset) => {
                 const active = amenities.includes(preset);
@@ -797,7 +802,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         removeAmenity(preset);
                       } else {
                         setAmenities((prev) => (prev.includes(preset) ? prev : [...prev, preset]));
-                        setSaved(false);
+                        setAmenitiesSaved(false);
                       }
                     }}
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
@@ -806,6 +811,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         : 'bg-background border-outline-variant text-neutral-400 hover:border-primary/40'
                     }`}
                   >
+                    {active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
                     {AMENITY_ICON_MAP[preset]}
                     {preset}
                   </button>
@@ -814,19 +820,19 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-4">
             <input
               type="text"
               placeholder="Add amenity..."
               value={amenityInput}
               onChange={(e) => setAmenityInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAmenity())}
-              className="inp-field"
+              className="inp-field border-neutral-800 focus:border-neutral-600 bg-[#090d16]"
               style={{ maxWidth: '300px' }}
             />
-            <button onClick={addAmenity} className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:bg-neutral-800 transition-colors">
+            <button onClick={addAmenity} className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-white px-3 py-1.5 text-xs font-medium text-neutral-900 hover:bg-neutral-200 transition-colors">
               <Plus className="w-4 h-4 mr-2" />
-              Add
+              Add Custom
             </button>
           </div>
         </div>

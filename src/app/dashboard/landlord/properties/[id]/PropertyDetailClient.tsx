@@ -323,7 +323,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-on-surface-variant">
+      <nav className="flex items-center gap-2 text-sm text-neutral-400">
         <Link href="/dashboard/landlord" className="hover:underline">
           Dashboard
         </Link>
@@ -342,7 +342,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/landlord/properties"
-            className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant">
+            className="p-2 rounded-lg hover:bg-surface-container text-neutral-400">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
@@ -528,36 +528,36 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-outline-variant">
             <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4 text-on-surface-variant" />
+              <ImageIcon className="h-4 w-4 text-neutral-400" />
               <div>
-                <p className="text-xs text-on-surface-variant">Images</p>
+                <p className="text-xs text-neutral-400">Images</p>
                 <p className="font-medium text-sm text-white">
                   {listing.images.length}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Layers className="h-4 w-4 text-on-surface-variant" />
+              <Layers className="h-4 w-4 text-neutral-400" />
               <div>
-                <p className="text-xs text-on-surface-variant">Amenities</p>
+                <p className="text-xs text-neutral-400">Amenities</p>
                 <p className="font-medium text-sm text-white">
                   {listing.amenities.length}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-on-surface-variant" />
+              <Clock className="h-4 w-4 text-neutral-400" />
               <div>
-                <p className="text-xs text-on-surface-variant">Added</p>
+                <p className="text-xs text-neutral-400">Added</p>
                 <p className="font-medium text-sm text-white">
                   {new Date(listing.createdAt).toLocaleDateString()}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <FileText className="h-4 w-4 text-on-surface-variant" />
+              <FileText className="h-4 w-4 text-neutral-400" />
               <div>
-                <p className="text-xs text-on-surface-variant">ID</p>
+                <p className="text-xs text-neutral-400">ID</p>
                 <p className="font-medium text-sm text-white">
                   {listing.id}
                 </p>
@@ -679,11 +679,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <h2 className="font-headline-sm text-headline-sm text-white">
                 Verification Status
               </h2>
-              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-on-surface-variant border-outline-variant'}`}>
+              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-neutral-400 border-outline-variant'}`}>
                 {statusColors[verificationStatus]?.label || 'Unknown'}
               </span>
             </div>
-            <p className="text-sm mb-4 text-on-surface-variant">
+            <p className="text-sm mb-4 text-neutral-400">
               {listing.verification
                 ? `Currently on Layer ${currentLayer} of the 5-layer verification process.`
                 : 'Verification has not been started for this property.'}
@@ -702,14 +702,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow border-outline-variant">
                 <div className="flex items-center gap-4">
                   <div
-                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-on-surface-variant">
+                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-neutral-400">
                     {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <AppIcon name={String(index + 1)} className="lucide" />}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-sm text-white">
                       {layer.label}
                     </p>
-                    <p className="text-xs text-on-surface-variant">
+                    <p className="text-xs text-neutral-400">
                       {layer.desc}
                     </p>
                   </div>
@@ -720,7 +720,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           })}
 
           <div className="flex gap-4 pt-2">
-            <Link href="/dashboard/landlord/verify" className="btn btn-secondary">
+            <Link href="/dashboard/landlord/verify" className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:bg-neutral-800 transition-colors">
               <Shield className="w-4 h-4 mr-2" />
               Go to Verifications
             </Link>
@@ -749,7 +749,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             )}
           </div>
 
-          <p className="text-sm mb-4 text-on-surface-variant">
+          <p className="text-sm mb-4 text-neutral-400">
             Manage shared building amenities for {listing.title}. These features will automatically apply to all units housed within this property.
           </p>
 
@@ -782,7 +782,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </div>
 
           <div className="space-y-3">
-            <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
+            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
               Quick Add
             </p>
             <div className="flex flex-wrap gap-2">
@@ -803,7 +803,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                       active
                         ? 'bg-primary/10 border-primary/20 text-primary'
-                        : 'bg-background border-outline-variant text-on-surface-variant hover:border-primary/40'
+                        : 'bg-background border-outline-variant text-neutral-400 hover:border-primary/40'
                     }`}
                   >
                     {AMENITY_ICON_MAP[preset]}
@@ -824,7 +824,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               className="inp-field"
               style={{ maxWidth: '300px' }}
             />
-            <button onClick={addAmenity} className="btn btn-secondary">
+            <button onClick={addAmenity} className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:bg-neutral-800 transition-colors">
               <Plus className="w-4 h-4 mr-2" />
               Add
             </button>
@@ -838,7 +838,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             <h2 className="font-headline-sm text-headline-sm text-white">
               Property Media
             </h2>
-            <label className="btn btn-secondary btn-sm cursor-pointer">
+            <label className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-800/80 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:bg-neutral-800 transition-colors cursor-pointer">
               <Plus className="w-4 h-4 mr-2" />
               Upload Photo
               <input

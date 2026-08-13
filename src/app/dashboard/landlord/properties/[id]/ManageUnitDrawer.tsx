@@ -169,10 +169,10 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between border-b border-outline-variant p-4">
           <div>
-            <h2 className="font-headline-sm text-headline-sm font-bold text-primary">
+            <h2 className="font-headline-sm text-headline-sm font-bold text-white">
               Manage Unit {unit.unitNumber}
             </h2>
-            <p className="text-xs text-on-surface-variant">{formatPropertyType(listing.title)}</p>
+            <p className="text-xs text-neutral-400">{formatPropertyType(listing.title)}</p>
           </div>
           <Button variant="ghost" size="icon-sm" onClick={() => onOpenChange(false)}>
             <X className="h-4 w-4" />
@@ -185,7 +185,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-on-surface-variant"
+                activeTab === tab.id ? "border-white text-white" : "border-transparent text-neutral-400"
               }`}
             >
               {tab.icon}
@@ -198,7 +198,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
           {activeTab === "specs" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-primary">Unit Specs & Pricing</h3>
+                <h3 className="text-sm font-medium text-white">Unit Specs & Pricing</h3>
                 <div className="flex items-center gap-2">
                   {specsSaved && <span className="text-xs text-success">Changes saved</span>}
                   {editingSpecs ? (
@@ -221,7 +221,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Unit Number
                   </label>
                   {editingSpecs ? (
@@ -233,11 +233,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                           }}
                     />
                   ) : (
-                    <p className="font-medium text-primary">Unit {unit.unitNumber}</p>
+                    <p className="font-medium text-white">Unit {unit.unitNumber}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Type
                   </label>
                   {editingSpecs ? (
@@ -251,11 +251,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       <option value="shared">Shared Room</option>
                     </select>
                   ) : (
-                    <p className="font-medium text-primary">{formatPropertyType(unit.type)}</p>
+                    <p className="font-medium text-white">{formatPropertyType(unit.type)}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Bedrooms
                   </label>
                   {editingSpecs ? (
@@ -265,11 +265,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.bedrooms}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{unit.bedrooms}</p>
+                    <p className="font-medium text-white">{unit.bedrooms}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Bathrooms
                   </label>
                   {editingSpecs ? (
@@ -279,11 +279,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.bathrooms}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{unit.bathrooms}</p>
+                    <p className="font-medium text-white">{unit.bathrooms}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Size
                   </label>
                   {editingSpecs ? (
@@ -293,11 +293,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.sizeSqm ?? ""}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{unit.sizeSqm ? `${unit.sizeSqm} sqm` : "N/A"}</p>
+                    <p className="font-medium text-white">{unit.sizeSqm ? `${unit.sizeSqm} sqm` : "N/A"}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Listing Intent
                   </label>
                   {editingSpecs ? (
@@ -320,7 +320,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     {priceLabel}
                   </label>
                   {editingSpecs ? (
@@ -330,11 +330,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.rent}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{formatCurrency(unit.rent)}</p>
+                    <p className="font-medium text-white">{formatCurrency(unit.rent)}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Price Period
                   </label>
                   {editingSpecs ? (
@@ -349,11 +349,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       <option value="total">Total</option>
                     </select>
                   ) : (
-                    <p className="font-medium text-primary">{formatPricePeriod(unit.pricePeriod)}</p>
+                    <p className="font-medium text-white">{formatPricePeriod(unit.pricePeriod)}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Caution Deposit
                   </label>
                   {editingSpecs ? (
@@ -363,11 +363,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.cautionDeposit ?? ""}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{unit.cautionDeposit ? formatCurrency(Number(unit.cautionDeposit)) : "N/A"}</p>
+                    <p className="font-medium text-white">{unit.cautionDeposit ? formatCurrency(Number(unit.cautionDeposit)) : "N/A"}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Service Charge
                   </label>
                   {editingSpecs ? (
@@ -377,13 +377,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       defaultValue={unit.serviceCharge ?? ""}
                     />
                   ) : (
-                    <p className="font-medium text-primary">{unit.serviceCharge ? formatCurrency(Number(unit.serviceCharge)) : "N/A"}</p>
+                    <p className="font-medium text-white">{unit.serviceCharge ? formatCurrency(Number(unit.serviceCharge)) : "N/A"}</p>
                   )}
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Unit Photos
                 </label>
                 <div className="mt-2">
@@ -415,7 +415,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {unit.occupancy}
                 </span>
                 {isShortLet && unit.occupancy === "VACANT" && (
-                  <span className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <span className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                     Short-Let
                   </span>
                 )}
@@ -478,28 +478,28 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                             Lease Start
                           </p>
-                          <p className="text-sm text-primary">--</p>
+                          <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                             Lease End
                           </p>
-                          <p className="text-sm text-primary">--</p>
+                          <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                             Days Remaining
                           </p>
-                          <p className="text-sm text-primary">--</p>
+                          <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                             Outstanding Rent
                           </p>
-                          <p className="text-sm text-primary">--</p>
+                          <p className="text-sm text-white">--</p>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -551,7 +551,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Listing Headline
                 </label>
                 <input
@@ -562,7 +562,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Marketing Description
                 </label>
                 <textarea
@@ -576,12 +576,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               {isShortLet && (
                 <div className="space-y-3 rounded-xl border border-outline-variant p-4">
-                  <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
+                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
                     Short-Let Listing Controls
                   </p>
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                         Minimum Stay
                       </label>
                       <select
@@ -596,7 +596,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                         Check-in
                       </label>
                       <input
@@ -607,7 +607,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                         Check-out
                       </label>
                       <input
@@ -618,7 +618,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                         Instant Booking
                       </label>
                       <select
@@ -631,7 +631,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant">
+                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                         Caution Deposit
                       </label>
                       <input
@@ -646,7 +646,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               )}
 
               <div className="space-y-2">
-                <p className="text-xs font-label-md uppercase tracking-wider text-on-surface-variant">
+                <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
                   Listing Media Preview
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -670,7 +670,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
           {activeTab === "maintenance" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-primary">Maintenance History</h3>
+                <h3 className="text-sm font-medium text-white">Maintenance History</h3>
                 <Button size="sm">
                   <Plus className="w-4 h-4 mr-2" />
                   Log Ticket

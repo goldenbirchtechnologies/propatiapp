@@ -235,6 +235,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const [amenityInput, setAmenityInput] = useState('');
   const [amenities, setAmenities] = useState<string[]>(listing.amenities);
   const [saved, setSaved] = useState(false);
+  const [savingAmenities, setSavingAmenities] = useState(false);
+  const [amenitiesSaved, setAmenitiesSaved] = useState(false);
   const [manageUnitOpen, setManageUnitOpen] = useState(false);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
 
@@ -283,13 +285,31 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
     if (val && !amenities.includes(val)) {
       setAmenities((prev) => [...prev, val]);
       setAmenityInput('');
-      setSaved(false);
+      setAmenitiesSaved(false);
+    }
+  };
+
+  const handleSaveAmenities = async () => {
+    setSavingAmenities(true);
+    try {
+      const res = await fetch(`/api/listings/${listing.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amenities }),
+      });
+      if (!res.ok) throw new Error('Failed to save amenities');
+      setAmenitiesSaved(true);
+      setTimeout(() => setAmenitiesSaved(false), 2000);
+    } catch (error) {
+      console.error('Failed to save amenities:', error);
+    } finally {
+      setSavingAmenities(false);
     }
   };
 
   const removeAmenity = (amenity: string) => {
     setAmenities((prev) => prev.filter((a) => a !== amenity));
-    setSaved(false);
+    setAmenitiesSaved(false);
   };
 
   const layerLabels = [

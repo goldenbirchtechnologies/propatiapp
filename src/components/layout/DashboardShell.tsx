@@ -9,9 +9,10 @@ import { SignOutButton, useUser } from '@clerk/nextjs';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, ChevronDown, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 
 export interface NavItem {
   label: string;
@@ -32,6 +33,7 @@ interface DashboardShellProps {
   userRole?: string;
   userName?: string;
   userAvatar?: string;
+  orgName?: string | null;
   shellLoading?: boolean;
 }
 function StatCardSkeleton() {
@@ -520,6 +522,7 @@ export function DashboardShell({
   userRole,
   userName,
   userAvatar,
+  orgName,
   shellLoading = false,
 }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -567,7 +570,6 @@ export function DashboardShell({
 
   const roleThemeClass = `theme-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
   const roleClass = `shell-${(userRole || 'tenant').toLowerCase().replace('_', '-')}`;
-  const profileHref = userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`;
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';
@@ -647,31 +649,6 @@ export function DashboardShell({
             </button>
           </div>
 
-          <Link
-            href={profileHref}
-            className="sb-user-card block transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-            aria-label="View Profile"
-            title="View Profile"
-          >
-            <div className="sb-user-row">
-              <div
-                className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold bg-surface-elevated text-foreground"
-              >
-                {userAvatar ? (
-                  <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full object-cover" />
-                ) : (
-                  (userName || 'U').charAt(0).toUpperCase()
-                )}
-              </div>
-              {!sidebarCollapsed && (
-                <div className="sb-user-text">
-                  <p className="sb-user-name truncate">{userName || (user?.fullName || 'User')}</p>
-                  <p className="sb-user-role truncate">Open profile</p>
-                </div>
-              )}
-            </div>
-          </Link>
-
           <nav className="sb-nav" aria-label="Dashboard navigation">
             <ul className="sb-nav-list" role="list">
               {navigation.map((item, idx) => {
@@ -747,15 +724,13 @@ export function DashboardShell({
           </nav>
 
           <div className="sb-footer">
-            <SignOutButton redirectUrl="/sign-in" className="sb-signout-btn">
-              {!sidebarCollapsed ? 'Sign Out' : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
-                </svg>
-              )}
-            </SignOutButton>
+            <Link
+              href={`/dashboard/${userRole}/settings`}
+              className="sb-signout-btn"
+            >
+              <Settings className="h-4 w-4" />
+              {!sidebarCollapsed && <span>Settings</span>}
+            </Link>
           </div>
         </div>
       </aside>
@@ -784,19 +759,50 @@ export function DashboardShell({
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
             <NotificationsBell position="right" userRole={userRole} />
-            {userAvatar ? (
-              <img
-                src={userAvatar}
-                alt={userName || 'Profile'}
-                className="h-9 w-9 rounded-full object-cover ring-2 ring-border"
-              />
-            ) : (
-              <div
-                className="h-9 w-9 rounded-full flex items-center justify-center text-sm font-semibold ring-2 ring-border bg-surface-elevated text-foreground"
-              >
-                {(userName || (user?.fullName || 'U')).charAt(0).toUpperCase()}
-              </div>
-            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2.5 p-1.5 pl-2.5 rounded-full bg-surface-elevated border border-border hover:bg-muted/50 transition-colors outline-none">
+                <span className="text-sm font-medium text-foreground max-w-[140px] truncate hidden sm:inline">
+                  {orgName || userName || 'Workspace'}
+                </span>
+                {userAvatar ? (
+                  <img
+                    src={userAvatar}
+                    alt={userName || 'Profile'}
+                    className="h-7 w-7 rounded-full object-cover ring-1 ring-border"
+                  />
+                ) : (
+                  <div className="h-7 w-7 rounded-full flex items-center justify-center text-xs font-semibold ring-1 ring-border bg-primary text-primary-foreground">
+                    {(userName || (user?.fullName || 'U')).charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground mr-1 hidden sm:inline" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="flex items-center gap-2">
+                  <div>
+                    <p className="font-semibold text-sm truncate">{userName || (user?.fullName || 'User')}</p>
+                    <p className="text-xs text-muted-foreground truncate">{orgName || 'Personal Workspace'}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href={userRole === 'estate_manager' ? '/dashboard/estate-manager/profile' : `/dashboard/${userRole}/profile`} className="cursor-pointer">
+                    My Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href={`/dashboard/${userRole}/settings`} className="cursor-pointer">
+                    Organization Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <SignOutButton redirectUrl="/sign-in">
+                    <span className="text-destructive cursor-pointer w-full">Sign Out</span>
+                  </SignOutButton>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 

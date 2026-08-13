@@ -40,12 +40,16 @@ export default async function RoleLayout({
   const navigation = getNavigationForRole(canonicalRole);
   const displayName = user.fullName || 'User';
 
+  const activeOrg = user.ownedOrganisations[0] || user.orgMemberships[0]?.org || null;
+  const orgName = activeOrg?.name || null;
+
   return (
     <DashboardShell
       navigation={navigation}
       userRole={canonicalRole}
       userName={displayName}
       userAvatar={user.avatarUrl || undefined}
+      orgName={orgName}
     >
       {children}
     </DashboardShell>

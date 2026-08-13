@@ -24,24 +24,11 @@ export interface NavSection {
 
 export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
   {
-    title: 'Overview',
+    title: 'Properties & Portfolio',
     items: [
       { label: 'Dashboard', href: '/dashboard/landlord', icon: <Home className="h-5 w-5" /> },
-      { label: 'Portfolio', href: '/dashboard/landlord/portfolio', icon: <BarChart2 className="h-5 w-5" /> },
-    ],
-  },
-  {
-    title: 'Properties',
-    items: [
       { label: 'My Properties', href: '/dashboard/landlord/properties', icon: <Building2 className="h-5 w-5" /> },
-      { label: 'Add Property', href: '/dashboard/landlord/properties/new', icon: <Plus className="h-5 w-5" /> },
-      { label: 'Verify Property', href: '/dashboard/verification?type=property', icon: <Shield className="h-5 w-5" /> },
-    ],
-  },
-  {
-    title: 'Marketplace',
-    items: [
-      { label: 'List to Marketplace', href: '/dashboard/landlord/listing/new', icon: <Store className="h-5 w-5" /> },
+      { label: 'Marketplace', href: '/dashboard/landlord/listing/new', icon: <Store className="h-5 w-5" /> },
     ],
   },
   {
@@ -49,7 +36,8 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     items: [
       { label: 'Applications', href: '/dashboard/landlord/applications', icon: <ClipboardList className="h-5 w-5" /> },
       { label: 'Tenants', href: '/dashboard/landlord/tenants', icon: <Users className="h-5 w-5" /> },
-      { label: 'Leases & Agreements',
+      {
+        label: 'Leases & Agreements',
         href: '/dashboard/landlord/leases',
         icon: <FileText className="h-5 w-5" />,
         children: [
@@ -77,7 +65,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
     ],
   },
   {
-    title: 'Finances & Intelligence',
+    title: 'Finances & Analytics',
     items: [
       {
         label: 'Financials',
@@ -89,7 +77,7 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
         ],
       },
       {
-        label: 'Financial Analytics',
+        label: 'Analytics',
         href: '/dashboard/landlord/financials/forecasting',
         icon: <TrendingUp className="h-5 w-5" />,
         children: [
@@ -100,7 +88,6 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       },
     ],
   },
-  { label: 'My Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [
@@ -189,4 +176,4 @@ export function getNavigationForRole(role: string): Array<NavItem | NavSection> 
   }
 }
 
-export type { NavSection };
+

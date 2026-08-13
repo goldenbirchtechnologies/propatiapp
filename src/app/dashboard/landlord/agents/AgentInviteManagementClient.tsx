@@ -159,42 +159,30 @@ export default function AgentInviteManagementClient() {
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 return (
-                  <div
+                  <label
                     key={permission.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => togglePermission(permission.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === ' ' || e.key === 'Enter') {
-                        e.preventDefault();
-                        togglePermission(permission.id);
-                      }
-                    }}
                     className={cn(
-                      'text-left rounded-xl border p-4 transition-all cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-primary',
+                      'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                       isSelected
                         ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
                         : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
                     )}
                   >
-                    <div className="flex items-start gap-3">
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={() => {}}
-                        className={cn(
-                          "mt-0.5 dark:border-white/50 dark:bg-transparent pointer-events-none",
-                          isSelected && "dark:bg-primary"
-                        )}
-                        tabIndex={-1}
-                      />
-                      <div className="space-y-1">
-                        <p className="font-medium text-sm text-foreground">{permission.label}</p>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
-                          {permission.description}
-                        </p>
-                      </div>
+                    <Checkbox
+                      checked={isSelected}
+                      onCheckedChange={() => togglePermission(permission.id)}
+                      className={cn(
+                        "mt-0.5 dark:border-white/50 dark:bg-transparent",
+                        isSelected && "dark:bg-primary"
+                      )}
+                    />
+                    <div className="space-y-1">
+                      <p className="font-medium text-sm text-foreground">{permission.label}</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {permission.description}
+                      </p>
                     </div>
-                  </div>
+                  </label>
                 );
               })}
             </div>

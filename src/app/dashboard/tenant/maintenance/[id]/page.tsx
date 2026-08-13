@@ -5,11 +5,11 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import TenantMaintenanceTrackingClient from './TenantMaintenanceTrackingClient';
 
-export default async function Page(props: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'tenant') redirect('/dashboard');
 
-  const { id } = props.params;
+  const { id } = await props.params;
 
   return (
     <DashboardShell

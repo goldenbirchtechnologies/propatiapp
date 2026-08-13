@@ -5,14 +5,14 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
-    const verificationId = params.id;
+    const verificationId = id;
 
     // Find verification record
     const verification = await prisma.verification.findUnique({

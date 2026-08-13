@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -24,7 +24,7 @@ export async function PATCH(
     const validated = lawyerReviewSchema.parse(body);
 
     const engagement = await prisma.engagement.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         case: { select: { id: true, status: true } },
       },
@@ -38,7 +38,7 @@ export async function PATCH(
       validated.status === 'approved' ? 'active' : 'withdrawn';
 
     const updated = await prisma.engagement.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         lawyerReviewStatus: validated.status,
         lawyerReviewNotes: validated.notes || null,
@@ -55,7 +55,7 @@ export async function PATCH(
       adminId: user.id,
       action: validated.status === 'approved' ? 'approve_engagement' : 'reject_engagement',
       targetType: 'engagement',
-      targetId: params.id,
+      targetId: id,
       details: { caseId: engagement.caseId, status: validated.status, notes: validated.notes },
       ipAddress: request.headers.get('x-forwarded-for') || undefined,
       userAgent: request.headers.get('user-agent') || undefined,

@@ -4,12 +4,14 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import PropertyDetailClient from './PropertyDetailClient';
 
-export default async function LandlordListingDetailPage({ params }: { params: { id: string } }) {
+export default async function LandlordListingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
   if (user.role !== 'landlord') redirect('/dashboard');
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/listings/${params.id}`, {
+  const { id } = await params;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/listings/${id}`, {
     cache: 'no-store',
   });
   if (!res.ok) redirect('/dashboard/landlord/properties');

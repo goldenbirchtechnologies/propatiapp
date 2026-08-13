@@ -10,14 +10,14 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(_request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const pack = await prisma.evidencePack.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         dispute: {
           select: {
@@ -73,7 +73,7 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -83,7 +83,7 @@ export async function PATCH(
     const { status, firmId, metadata } = body;
 
     const existing = await prisma.evidencePack.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!existing) {
@@ -101,7 +101,7 @@ export async function PATCH(
     if (metadata !== undefined) updateData.metadata = metadata;
 
     const pack = await prisma.evidencePack.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
       include: {
         dispute: {
@@ -139,7 +139,7 @@ export async function PATCH(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -159,7 +159,7 @@ export async function POST(
     }
 
     const pack = await prisma.evidencePack.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, chainHash: true },
     });
 
@@ -178,7 +178,7 @@ export async function POST(
     // Persist the custody entry
     const entry = await prisma.evidenceCustodyEntry.create({
       data: {
-        packId: params.id,
+        packId: id,
         action,
         note: note ?? null,
         exhibitRef: exhibitRef ?? null,
@@ -190,7 +190,7 @@ export async function POST(
 
     // Update the pack's chainHash to the new head
     await prisma.evidencePack.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { chainHash: stateHash, updatedAt: createdAt },
     });
 
@@ -206,14 +206,14 @@ export async function POST(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const existing = await prisma.evidencePack.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!existing) {
@@ -221,10 +221,10 @@ export async function DELETE(
     }
 
     await prisma.evidencePack.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
 
-    return successResponse({ id: params.id }, 'Evidence pack deleted');
+    return successResponse({ id: id }, 'Evidence pack deleted');
   } catch {
     return errorResponse('Failed to delete evidence pack', 500);
   }

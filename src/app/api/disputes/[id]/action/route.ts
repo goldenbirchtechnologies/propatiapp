@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -33,7 +33,7 @@ export async function POST(
         }
 
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: {
             status: newStatus as string,
             adminId: user.id,
@@ -58,7 +58,7 @@ export async function POST(
 
       case 'assign': {
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: { adminId: user.id },
           include: {
             raisedByUser: {
@@ -75,7 +75,7 @@ export async function POST(
 
       case 'escalate': {
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: {
             status: 'routed',
             adminId: user.id,
@@ -95,7 +95,7 @@ export async function POST(
 
       case 'consent_required': {
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: {
             status: 'consent_required',
             adminId: user.id,
@@ -115,7 +115,7 @@ export async function POST(
 
       case 'consent_granted': {
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: {
             status: 'consent_granted',
             adminId: user.id,
@@ -135,7 +135,7 @@ export async function POST(
 
       case 'engagemediation': {
         const dispute = await prisma.dispute.update({
-          where: { id: params.id },
+          where: { id: id },
           data: {
             status: 'engaged',
             adminId: user.id,

@@ -8,7 +8,7 @@ import LandlordApplicationDetailClient from './LandlordApplicationDetailClient';
 export default async function LandlordApplicationDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUserWithProfile();
 
@@ -16,8 +16,10 @@ export default async function LandlordApplicationDetailPage({
     redirect('/dashboard');
   }
 
+  const { id } = await params;
+
   const application = await prisma.application.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       listing: {
         select: {

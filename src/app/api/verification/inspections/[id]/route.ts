@@ -6,14 +6,14 @@ import { z } from 'zod';
 // GET inspection details
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
-    const verificationId = params.id;
+    const verificationId = id;
 
     const verification = await prisma.verification.findUnique({
       where: { id: verificationId },
@@ -104,14 +104,14 @@ const updateInspectionSchema = z.object({
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
-    const verificationId = params.id;
+    const verificationId = id;
     const body = await request.json();
     const validated = updateInspectionSchema.parse(body);
 

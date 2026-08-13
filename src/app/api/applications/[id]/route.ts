@@ -19,14 +19,16 @@ function serialize(application: any) {
   };
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
+  const { id } = await params;
+
   try {
     const application = await prisma.application.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         listing: { select: { id: true, title: true, description: true, address: true, area: true, state: true, price: true, pricePeriod: true, listingType: true, status: true, amenities: true, propertyType: true, images: { where: { isCover: true }, take: 5, select: { url: true } } } },
         tenant: { select: { id: true, fullName: true, email: true, phone: true, avatarUrl: true, employmentStatus: true, employerName: true, jobTitle: true, yearlyIncome: true, profileBio: true, idVerified: true, ninVerified: true, createdAt: true } },
@@ -46,14 +48,16 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
+  const { id } = await params;
+
   try {
     const existing: any = await prisma.application.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: { id: true, landlordId: true, tenantId: true, status: true, listingId: true },
     });
 
@@ -101,7 +105,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       });
 
       const updateOptions: any = {};
-      updateOptions.where = { id: params.id };
+      updateOptions.where = { id };
       updateOptions.data = {
         ...patch,
         status: 'accepted',
@@ -118,7 +122,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const updateOptions: any = {};
-    updateOptions.where = { id: params.id };
+    updateOptions.where = { id };
     updateOptions.data = {
       ...patch,
       reviewedAt: patch.status && ['accepted', 'rejected'].includes(patch.status as string) ? new Date() : undefined,

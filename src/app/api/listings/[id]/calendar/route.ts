@@ -3,7 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { createCalendarSlotSchema, bulkCalendarSlotsSchema } from '@/lib/validators.short-let';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -13,13 +14,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const end = searchParams.get('end');
 
     const listing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, ownerId: true },
     });
 
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
 
-    const where: Record<string, unknown> = { listingId: params.id };
+    const where: Record<string, unknown> = { listingId: id };
     if (start && end) {
       where.date = { gte: start, lte: end };
     }
@@ -35,7 +36,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -45,7 +47,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const isBulk = body.startDate && body.endDate;
 
     const listing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, ownerId: true, listingType: true },
     });
 
@@ -66,9 +68,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       const results = await prisma.$transaction(
         days.map((date) =>
           prisma.calendarSlot.upsert({
-            where: { listingId_date: { listingId: params.id, date } },
+            where: { listingId_date: { listingId: id, date } },
             update: { status: validated.status, price: validated.price ?? undefined, reason: validated.reason },
-            create: { listingId: params.id, date, status: validated.status, price: validated.price ?? undefined, reason: validated.reason },
+            create: { listingId: id, date, status: validated.status, price: validated.price ?? undefined, reason: validated.reason },
           })
         )
       );
@@ -79,7 +81,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const validated = createCalendarSlotSchema.parse(body);
     const slot = await prisma.calendarSlot.create({
       data: {
-        listingId: params.id,
+        listingId: id,
         date: validated.date,
         status: validated.status,
         price: validated.price,

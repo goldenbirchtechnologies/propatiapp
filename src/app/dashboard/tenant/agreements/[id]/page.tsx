@@ -7,11 +7,13 @@ import { Badge } from '@/components/ui/badge';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import TenantAgreementDetailClient from './TenantAgreementDetailClient';
 
-export default async function TenantAgreementDetailPage({ params }: { params: { id: string } }) {
+export default async function TenantAgreementDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/agreements/${params.id}`, {
+  const { id } = await params;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/agreements/${id}`, {
     cache: 'no-store',
   });
   if (!res.ok) {

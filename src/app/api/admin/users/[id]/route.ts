@@ -10,7 +10,7 @@ import { createAuditLog } from '@/lib/audit-log';
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -19,7 +19,7 @@ export async function PATCH(
   try {
     const body = await request.json();
     const validated = updateUserAdminSchema.parse(body);
-    const userId = params.id;
+    const userId = id;
 
     // Get user
     const user = await prisma.user.findUnique({
@@ -86,7 +86,7 @@ export async function PATCH(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -95,7 +95,7 @@ export async function POST(
   try {
     const url = new URL(request.url);
     const action = url.pathname.split('/').pop();
-    const userId = params.id;
+    const userId = id;
 
     // Get user
     const user = await prisma.user.findUnique({

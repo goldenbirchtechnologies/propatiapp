@@ -9,7 +9,7 @@ import TenantApplicationDetailClient from './TenantApplicationDetailClient';
 export default async function TenantApplicationDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUserWithProfile();
 
@@ -17,8 +17,10 @@ export default async function TenantApplicationDetailPage({
     redirect('/dashboard');
   }
 
+  const { id } = await params;
+
   const application = await prisma.application.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       listing: {
         include: {

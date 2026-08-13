@@ -3,14 +3,15 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { updateBookingSchema } from '@/lib/validators.short-let';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         listing: { select: { id: true, title: true, address: true, price: true, ownerId: true, images: { where: { isCover: true }, take: 1, select: { url: true } } } },
         guest: { select: { id: true, fullName: true, email: true, phone: true } },
@@ -32,7 +33,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -42,7 +44,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = updateBookingSchema.parse(body);
 
     const existing = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { listing: { select: { ownerId: true } } },
     });
 
@@ -55,7 +57,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const booking = await prisma.booking.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         status: validated.status,
         paymentStatus: validated.paymentStatus,
@@ -76,14 +78,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const booking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { listing: { select: { ownerId: true } } },
     });
 
@@ -96,7 +99,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     await prisma.booking.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { status: 'cancelled', cancelledAt: new Date() },
     });
 

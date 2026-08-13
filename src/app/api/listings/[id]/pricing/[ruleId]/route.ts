@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { updatePricingRuleSchema } from '@/lib/validators.short-let';
-export async function PATCH(request: NextRequest, { params }: { params: { id: string; ruleId: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string; ruleId: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -11,12 +11,13 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = updatePricingRuleSchema.parse(body);
     const v = validated as Record<string, unknown>;
 
+    const { ruleId } = await params;
     const rule = await prisma.pricingRule.findUnique({
-      where: { id: params.ruleId },
+      where: { id: ruleId },
       include: { listing: { select: { ownerId: true } } },
     });
 
-    if (!rule || rule.listingId !== params.id) {
+    if (!rule || rule.listingId !== id) {
       return NextResponse.json({ error: 'Pricing rule not found' }, { status: 404 });
     }
 
@@ -24,13 +25,13 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const isOwner = user.role === 'admin' || user.id === rule.listing.ownerId;
     if (!isOwner) {
       const approvedHost = await prisma.tenantShortlet.findFirst({
-        where: { listingId: params.id, tenantId: user.id, status: 'approved' },
+        where: { listingId: id, tenantId: user.id, status: 'approved' },
       });
       if (!approvedHost) return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
     const updated = await prisma.pricingRule.update({
-      where: { id: params.ruleId },
+      where: { id: ruleId },
       data: {
         name: v.name,
         ruleType: v.ruleType,
@@ -53,18 +54,18 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string; ruleId: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string; ruleId: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const rule = await prisma.pricingRule.findUnique({
-      where: { id: params.ruleId },
+      where: { id: ruleId },
       include: { listing: { select: { ownerId: true } } },
     });
 
-    if (!rule || rule.listingId !== params.id) {
+    if (!rule || rule.listingId !== id) {
       return NextResponse.json({ error: 'Pricing rule not found' }, { status: 404 });
     }
 
@@ -72,7 +73,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    await prisma.pricingRule.delete({ where: { id: params.ruleId } });
+    await prisma.pricingRule.delete({ where: { id: ruleId } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return errorResponse(error);

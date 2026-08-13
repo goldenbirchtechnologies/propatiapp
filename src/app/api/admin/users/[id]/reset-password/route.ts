@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -27,7 +27,7 @@ export async function POST(
 
     // Get target user
     const targetUser = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { email: true },
     });
 

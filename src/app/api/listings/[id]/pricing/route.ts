@@ -3,13 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse } from '@/lib/api-auth';
 import { createPricingRuleSchema, updatePricingRuleSchema } from '@/lib/validators.short-let';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const rules = await prisma.pricingRule.findMany({
-      where: { listingId: params.id },
+      where: { listingId: id },
       orderBy: [{ priority: 'desc' }, { createdAt: 'asc' }],
     });
 
@@ -19,7 +20,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -29,7 +31,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const validated = createPricingRuleSchema.parse(body);
 
     const listing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, ownerId: true },
     });
 
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
     const rule = await prisma.pricingRule.create({
       data: {
-        listingId: params.id,
+        listingId: id,
         name: validated.name,
         ruleType: validated.ruleType,
         priority: validated.priority,

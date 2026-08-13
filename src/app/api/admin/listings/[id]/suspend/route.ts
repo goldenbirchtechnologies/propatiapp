@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -28,7 +28,7 @@ export async function POST(
 
     // Suspend the listing
     await prisma.listing.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         status: 'suspended',
         // In production, you might have an adminNotes field to store the reason

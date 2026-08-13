@@ -9,7 +9,7 @@ import AgentClientDetailClient from './AgentClientDetailClient';
 export default async function AgentClientDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUserWithProfile();
 
@@ -17,11 +17,13 @@ export default async function AgentClientDetailPage({
     redirect('/dashboard');
   }
 
+  const { id } = await params;
+
   const conversation = await prisma.conversation.findFirst({
     where: {
       OR: [
-        { landlordId: user.id, tenantId: params.id },
-        { tenantId: user.id, landlordId: params.id },
+        { landlordId: user.id, tenantId: id },
+        { tenantId: user.id, landlordId: id },
       ],
     },
   });
@@ -31,7 +33,7 @@ export default async function AgentClientDetailPage({
   }
 
   const client = await prisma.user.findUnique({
-    where: { id: params.id },
+    where: { id },
     select: {
       id: true,
       fullName: true,
@@ -50,7 +52,7 @@ export default async function AgentClientDetailPage({
   const agreements = await prisma.agreement.findMany({
     where: {
       agentId: user.id,
-      OR: [{ tenantId: params.id }, { landlordId: params.id }],
+      OR: [{ tenantId: id }, { landlordId: id }],
     },
     select: {
       id: true,

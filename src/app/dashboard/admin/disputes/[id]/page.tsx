@@ -4,9 +4,11 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import Link from 'next/link';
 
-export default async function AdminDisputeDetailPage({ params }: { params: { id: string } }) {
+export default async function AdminDisputeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
   const tx = await prisma.transaction.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { listing: { select: { title: true, images: { where: { isCover: true }, take: 1 } } }, payer: { select: { fullName: true, email: true } }, payee: { select: { fullName: true, email: true } }, agent: { select: { fullName: true, email: true } } },
   });
 

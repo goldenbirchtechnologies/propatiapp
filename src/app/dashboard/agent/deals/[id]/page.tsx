@@ -9,7 +9,7 @@ import AgentDealDetailClient from './AgentDealDetailClient';
 export default async function DealDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUserWithProfile();
 
@@ -17,8 +17,10 @@ export default async function DealDetailPage({
     redirect('/dashboard');
   }
 
+  const { id } = await params;
+
   const deal = await prisma.transaction.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       listing: { select: { id: true, title: true, area: true } },
       payer: { select: { fullName: true, email: true } },

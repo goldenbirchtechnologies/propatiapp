@@ -3,13 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse, type AuthenticatedRequest } from '@/lib/api-auth';
 import { updateUtilityAllocationSchema } from '@/lib/validators.commercial';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const allocation = await prisma.utilityAllocation.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         unit: { select: { id: true, unitNumber: true, buildingName: true, organization: { select: { id: true, name: true } } } },
       },
@@ -23,7 +24,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
@@ -33,7 +35,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = updateUtilityAllocationSchema.parse(body);
 
     const existing = await prisma.utilityAllocation.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { unit: { select: { organizationId: true } } },
     });
 
@@ -47,7 +49,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const allocation = await prisma.utilityAllocation.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         type: validated.type,
         reading: validated.reading,
@@ -69,14 +71,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
 
   try {
     const existing = await prisma.utilityAllocation.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: { unit: { select: { organizationId: true } } },
     });
 
@@ -89,7 +92,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    await prisma.utilityAllocation.delete({ where: { id: params.id } });
+    await prisma.utilityAllocation.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return errorResponse(error);

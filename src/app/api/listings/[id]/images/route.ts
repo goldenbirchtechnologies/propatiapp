@@ -8,14 +8,15 @@ export const dynamic = 'force-dynamic';
 /**
  * GET /api/listings/[id]/images
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const listing = await prisma.listing.findFirst({
-      where: { id: params.id, ownerId: user.id },
+      where: { id: id, ownerId: user.id },
       select: { images: true },
     });
 
@@ -39,14 +40,15 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  * POST /api/listings/[id]/images
  * Body: multipart/form-data with 'file' and optional 'setCover'
  */
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const listing = await prisma.listing.findFirst({
-      where: { id: params.id, ownerId: user.id },
+      where: { id: id, ownerId: user.id },
       select: { id: true },
     });
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
@@ -83,7 +85,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
  * DELETE /api/listings/[id]/images
  * Body: JSON { imageId }
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -97,7 +100,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     const image = await prisma.listingImage.findFirst({
-      where: { id: imageId, listing: { ownerId: user.id, id: params.id } },
+      where: { id: imageId, listing: { ownerId: user.id, id: id } },
       select: { id: true, publicId: true, isCover: true },
     });
 
@@ -122,7 +125,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
  * PATCH /api/listings/[id]/images
  * Body: JSON { imageId, setCover?: boolean }
  */
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -136,7 +140,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const listing = await prisma.listing.findFirst({
-      where: { id: params.id, ownerId: user.id },
+      where: { id: id, ownerId: user.id },
       select: { id: true },
     });
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });

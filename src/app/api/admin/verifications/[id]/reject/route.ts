@@ -12,7 +12,7 @@ import { createAuditLog } from '@/lib/audit-log';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -21,7 +21,7 @@ export async function POST(
   try {
     const body = await request.json();
     const validated = rejectVerificationSchema.parse(body);
-    const verificationId = params.id;
+    const verificationId = id;
 
     // Get verification
     const verification = await prisma.verification.findUnique({

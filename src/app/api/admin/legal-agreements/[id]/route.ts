@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -18,7 +18,7 @@ export async function POST(
     const { action } = body;
 
     const agreement = await prisma.agreement.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!agreement) {
@@ -28,55 +28,55 @@ export async function POST(
     switch (action) {
       case 'lock':
         await prisma.agreement.update({
-          where: { id: params.id },
+          where: { id: id },
           data: { lockStatus: 'locked' },
         });
         await createAuditLog({
           adminId: user.id,
           action: 'lock_legal_agreement',
           targetType: 'agreement',
-          targetId: params.id,
+          targetId: id,
           details: { lockStatus: 'locked' },
         });
-        return successResponse({ id: params.id, lockStatus: 'locked' }, 'Agreement locked');
+        return successResponse({ id: id, lockStatus: 'locked' }, 'Agreement locked');
 
       case 'unlock':
         await prisma.agreement.update({
-          where: { id: params.id },
+          where: { id: id },
           data: { lockStatus: 'mutable' },
         });
         await createAuditLog({
           adminId: user.id,
           action: 'unlock_legal_agreement',
           targetType: 'agreement',
-          targetId: params.id,
+          targetId: id,
           details: { lockStatus: 'mutable' },
         });
-        return successResponse({ id: params.id, lockStatus: 'mutable' }, 'Agreement unlocked');
+        return successResponse({ id: id, lockStatus: 'mutable' }, 'Agreement unlocked');
 
       case 'assign':
         await createAuditLog({
           adminId: user.id,
           action: 'assign_legal_agreement',
           targetType: 'agreement',
-          targetId: params.id,
+          targetId: id,
           details: { assignedTo: user.id },
         });
-        return successResponse({ id: params.id, assignedTo: user.id }, 'Agreement assigned');
+        return successResponse({ id: id, assignedTo: user.id }, 'Agreement assigned');
 
       case 'escalate':
         await prisma.agreement.update({
-          where: { id: params.id },
+          where: { id: id },
           data: { riskTier: 'review_required' },
         });
         await createAuditLog({
           adminId: user.id,
           action: 'escalate_legal_agreement',
           targetType: 'agreement',
-          targetId: params.id,
+          targetId: id,
           details: { riskTier: 'review_required' },
         });
-        return successResponse({ id: params.id, riskTier: 'review_required' }, 'Agreement escalated');
+        return successResponse({ id: id, riskTier: 'review_required' }, 'Agreement escalated');
 
       default:
         return errorResponse('Invalid action', 400);

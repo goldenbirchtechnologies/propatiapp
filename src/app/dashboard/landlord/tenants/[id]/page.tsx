@@ -85,11 +85,11 @@ interface TenantProfileClientProps {
   tickets: TenantTicket[];
 }
 
-export default async function LandlordTenantProfilePage({ params }: { params: { id: string } }) {
+export default async function LandlordTenantProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUserWithProfile();
   if (!user || user.role !== 'landlord') redirect('/dashboard');
 
-  const tenantId = params.id;
+  const { id: tenantId } = await params;
 
   const tenant = await prisma.user.findUnique({
     where: { id: tenantId },

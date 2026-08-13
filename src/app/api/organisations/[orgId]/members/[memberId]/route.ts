@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse, type AuthenticatedRequest } from '@/lib/api-auth';
 
-export async function GET(_request: NextRequest, { params }: { params: { orgId: string; memberId: string } }) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ orgId: string; memberId: string }> }) {
   const authResult = await withAuth(_request);
   if (authResult instanceof NextResponse) return authResult;
 
+  const { orgId, memberId } = await params;
+
   try {
     const member = await prisma.orgMember.findUnique({
-      where: { id: params.memberId },
+      where: { id: memberId },
       include: {
         user: { select: { id: true, fullName: true, email: true, role: true, avatarUrl: true } },
         org: { select: { id: true, name: true } },
@@ -16,7 +18,7 @@ export async function GET(_request: NextRequest, { params }: { params: { orgId: 
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.orgId !== params.orgId) {
+    if (member.orgId !== orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 
@@ -26,18 +28,20 @@ export async function GET(_request: NextRequest, { params }: { params: { orgId: 
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { orgId: string; memberId: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ orgId: string; memberId: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
+  const { orgId, memberId } = await params;
+
   try {
     const member = await prisma.orgMember.findUnique({
-      where: { id: params.memberId },
+      where: { id: memberId },
       select: { id: true, orgId: true },
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.orgId !== params.orgId) {
+    if (member.orgId !== orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 
@@ -45,7 +49,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { orgId:
     const role = typeof body.role === 'string' ? body.role : undefined;
 
     const updated = await prisma.orgMember.update({
-      where: { id: params.memberId },
+      where: { id: memberId },
       data: { role: role || undefined },
       include: { user: { select: { id: true, fullName: true, email: true, role: true, avatarUrl: true } } },
     });
@@ -56,22 +60,24 @@ export async function PATCH(request: NextRequest, { params }: { params: { orgId:
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { orgId: string; memberId: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ orgId: string; memberId: string }> }) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
+  const { orgId, memberId } = await params;
+
   try {
     const member = await prisma.orgMember.findUnique({
-      where: { id: params.memberId },
+      where: { id: memberId },
       select: { id: true, orgId: true },
     });
 
     if (!member) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
-    if (member.orgId !== params.orgId) {
+    if (member.orgId !== orgId) {
       return NextResponse.json({ error: 'Member does not belong to this organisation' }, { status: 400 });
     }
 
-    await prisma.orgMember.delete({ where: { id: params.memberId } });
+    await prisma.orgMember.delete({ where: { id: memberId } });
 
     return NextResponse.json({ success: true });
   } catch (error) {

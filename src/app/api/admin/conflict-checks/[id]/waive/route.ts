@@ -18,7 +18,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -32,7 +32,7 @@ export async function POST(
     const rationale = typeof body.rationale === 'string' ? body.rationale : undefined;
 
     const check = await prisma.conflictCheck.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         case: { select: { id: true, status: true } },
         lawFirm: { select: { id: true, name: true } },
@@ -48,7 +48,7 @@ export async function POST(
     }
 
     const updated = await prisma.conflictCheck.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         status: waiverApproved ? 'waived' : 'clear',
         waiverApproved,
@@ -76,7 +76,7 @@ export async function POST(
       adminId: user.id,
       action: waiverApproved ? 'waive_conflict' : 'deny_conflict',
       targetType: 'conflict_check',
-      targetId: params.id,
+      targetId: id,
       details: {
         caseId: check.caseId,
         waiverApproved,

@@ -6,7 +6,7 @@ import type { Prisma } from '@prisma/client';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -14,7 +14,7 @@ export async function GET(
 
   try {
     const task = await prisma.turnoverTask.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         booking: { select: { id: true, checkIn: true, checkOut: true, guestId: true } },
         listing: { select: { id: true, title: true, address: true, ownerId: true } },
@@ -56,7 +56,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -64,7 +64,7 @@ export async function PATCH(
 
   try {
     const existing = await prisma.turnoverTask.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, listingId: true, booking: { select: { guestId: true } } },
     });
 
@@ -128,7 +128,7 @@ export async function PATCH(
     }
 
     const task = await prisma.turnoverTask.update({
-      where: { id: params.id },
+      where: { id: id },
       data,
       include: {
         booking: { select: { id: true, checkIn: true, checkOut: true } },
@@ -145,7 +145,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
@@ -153,7 +153,7 @@ export async function DELETE(
 
   try {
     const existing = await prisma.turnoverTask.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, listingId: true, booking: { select: { guestId: true } } },
     });
 
@@ -187,7 +187,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
     }
 
-    await prisma.turnoverTask.delete({ where: { id: params.id } });
+    await prisma.turnoverTask.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return errorResponse(error);

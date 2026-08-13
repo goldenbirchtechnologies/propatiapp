@@ -10,7 +10,7 @@ import { createAuditLog } from '@/lib/audit-log';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -20,7 +20,7 @@ export async function POST(
     const url = new URL(request.url);
     const action = url.pathname.split('/').pop();
 
-    const listingId = params.id;
+    const listingId = id;
 
     // Get listing
     const listing = await prisma.listing.findUnique({

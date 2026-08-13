@@ -6,13 +6,13 @@ import { z } from 'zod';
 // PATCH /api/notifications/:id/read - Mark notification as read/unread
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
   const { user } = authResult;
-  const notificationId = params.id;
+  const notificationId = id;
 
   try {
     // Check if notification exists and belongs to user

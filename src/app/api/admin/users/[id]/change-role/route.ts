@@ -5,7 +5,7 @@ import { UserRole } from '@prisma/client';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -35,7 +35,7 @@ export async function POST(
 
     // Update user role
     await prisma.user.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { role },
     });
 

@@ -4,14 +4,14 @@ import { withAuth } from '@/lib/api-auth';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authResult = await withAuth(request);
     if (authResult instanceof NextResponse) return authResult;
     const { user } = authResult;
 
-    const { id: listingId } = params;
+    const { id: listingId } = await params;
 
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
@@ -46,14 +46,14 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authResult = await withAuth(request);
     if (authResult instanceof NextResponse) return authResult;
     const { user } = authResult;
 
-    const { id: listingId } = params;
+    const { id: listingId } = await params;
 
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },

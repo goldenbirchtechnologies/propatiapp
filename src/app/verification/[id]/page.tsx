@@ -242,16 +242,18 @@ function TimelineTab({ verification }: { verification: unknown }) {
 }
 
 // ─── Main server component ────────────────────────────────────────────────────
-export default async function VerificationDetailPage({ params }: { params: { id: string } }) {
+export default async function VerificationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) redirect('/sign-in');
+
+  const { id } = await params;
 
   const user = await getCurrentUser();
   if (!user) redirect('/sign-in');
 
   // Fetch verification + listing + documents
   const verification = await prisma.verification.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       listing: { select: { id: true, title: true, verificationTier: true, status: true, area: true } },
       ...(process.env.NODE_ENV !== 'production'

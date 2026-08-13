@@ -9,7 +9,7 @@ import AgentListingDetailClient from './AgentListingDetailClient';
 export default async function AgentListingDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUserWithProfile();
 
@@ -17,8 +17,10 @@ export default async function AgentListingDetailPage({
     redirect('/dashboard');
   }
 
+  const { id } = await params;
+
   const listing = await prisma.listing.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       owner: { select: { fullName: true } },
       images: true,

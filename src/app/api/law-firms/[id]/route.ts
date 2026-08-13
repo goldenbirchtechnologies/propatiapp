@@ -3,13 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse, type AuthenticatedRequest } from '@/lib/api-auth';
 import { updateLawFirmSchema } from '@/lib/validators.commercial';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const firm = await prisma.lawFirm.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!firm) return NextResponse.json({ error: 'Law firm not found' }, { status: 404 });
@@ -20,7 +21,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
@@ -34,7 +36,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = updateLawFirmSchema.parse(body);
 
     const firm = await prisma.lawFirm.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         name: validated.name,
         email: validated.email,
@@ -53,7 +55,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
@@ -63,7 +66,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Only admins can delete law firms' }, { status: 403 });
     }
 
-    await prisma.lawFirm.delete({ where: { id: params.id } });
+    await prisma.lawFirm.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return errorResponse(error);

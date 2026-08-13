@@ -3,13 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { withAuth, errorResponse, type AuthenticatedRequest } from '@/lib/api-auth';
 import { updateServiceChargeSchema } from '@/lib/validators.commercial';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const charge = await prisma.serviceCharge.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         listing: { select: { id: true, title: true, address: true } },
         organization: { select: { id: true, name: true } },
@@ -25,7 +26,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
@@ -35,7 +37,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = updateServiceChargeSchema.parse(body);
 
     const existing = await prisma.serviceCharge.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!existing) return NextResponse.json({ error: 'Service charge not found' }, { status: 404 });
@@ -49,7 +51,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const charge = await prisma.serviceCharge.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         amount: validated.amount,
         currency: validated.currency,
@@ -72,14 +74,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult as AuthenticatedRequest;
 
   try {
     const existing = await prisma.serviceCharge.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { estateManagerId: true, organizationId: true },
     });
 
@@ -94,7 +97,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     await prisma.serviceCharge.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { status: 'cancelled' },
     });
 

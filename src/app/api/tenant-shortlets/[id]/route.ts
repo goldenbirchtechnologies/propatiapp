@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { tenantShortletStatusSchema } from '@/lib/validators';
 import { prisma } from '@/lib/prisma';
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request, ['landlord', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
@@ -14,7 +15,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validated = z.object({ status: tenantShortletStatusSchema, notes: z.string().max(500).optional() }).parse(body);
 
     const existing = await prisma.tenantShortlet.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, landlordId: true },
     });
 
@@ -32,7 +33,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     if (validated.status === 'revoked') data.revokedAt = new Date();
 
     const updated = await prisma.tenantShortlet.update({
-      where: { id: params.id },
+      where: { id: id },
       data,
       include: { listing: { select: { title: true, address: true } } },
     });
@@ -54,14 +55,15 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const authResult = await withAuth(request, ['landlord', 'admin']);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
     const existing = await prisma.tenantShortlet.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, landlordId: true },
     });
 
@@ -70,7 +72,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await prisma.tenantShortlet.delete({ where: { id: params.id } });
+    await prisma.tenantShortlet.delete({ where: { id: id } });
 
     return NextResponse.json({ success: true });
   } catch (error) {

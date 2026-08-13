@@ -8,14 +8,14 @@ import { withAuth, type AuthenticatedRequest, successResponse, errorResponse } f
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const plan = await prisma.subscriptionPlan.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: {
         id: true,
         name: true,
@@ -53,7 +53,7 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -62,7 +62,7 @@ export async function PATCH(
     const body = await request.json();
 
     const plan = await prisma.subscriptionPlan.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         name: body.name?.trim(),
         description: body.description !== undefined ? body.description?.trim() || null : undefined,
@@ -113,14 +113,14 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const subCount = await prisma.userSubscription.count({
-      where: { planId: params.id },
+      where: { planId: id },
     });
 
     if (subCount > 0) {
@@ -128,7 +128,7 @@ export async function DELETE(
     }
 
     await prisma.subscriptionPlan.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     return successResponse({}, 'Plan deleted successfully');

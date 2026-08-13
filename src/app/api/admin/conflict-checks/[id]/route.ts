@@ -11,14 +11,14 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(_request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const check = await prisma.conflictCheck.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         case: {
           select: {
@@ -52,7 +52,7 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -62,7 +62,7 @@ export async function PATCH(
     const body = await request.json();
 
     const existing = await prisma.conflictCheck.findUnique({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     if (!existing) {
@@ -88,7 +88,7 @@ export async function PATCH(
     }
 
     const check = await prisma.conflictCheck.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
       include: {
         case: {
@@ -110,7 +110,7 @@ export async function PATCH(
       adminId: user.id,
       action: 'update_conflict_check',
       targetType: 'conflict_check',
-      targetId: params.id,
+      targetId: id,
       details: { updatedFields: Object.keys(updateData), status: check.status },
       ipAddress: request.headers.get('x-forwarded-for') || undefined,
       userAgent: request.headers.get('user-agent') || undefined,
@@ -129,7 +129,7 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -137,7 +137,7 @@ export async function DELETE(
 
   try {
     const existing = await prisma.conflictCheck.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { id: true, caseId: true },
     });
 
@@ -146,20 +146,20 @@ export async function DELETE(
     }
 
     await prisma.conflictCheck.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     await createAuditLog({
       adminId: user.id,
       action: 'delete_conflict_check',
       targetType: 'conflict_check',
-      targetId: params.id,
+      targetId: id,
       details: { caseId: existing.caseId },
       ipAddress: request.headers.get('x-forwarded-for') || undefined,
       userAgent: request.headers.get('user-agent') || undefined,
     });
 
-    return successResponse({ id: params.id }, 'Conflict check deleted');
+    return successResponse({ id: id }, 'Conflict check deleted');
   } catch {
     return errorResponse('Failed to delete conflict check', 500);
   }

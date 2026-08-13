@@ -9,14 +9,14 @@ import { deleteFromCloudinary } from '@/lib/cloudinary';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
-    const verificationId = params.id;
+    const verificationId = id;
 
     // Get verification with documents
     const verification = await prisma.verification.findUnique({
@@ -104,14 +104,14 @@ export async function GET(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
   const { user } = authResult;
 
   try {
-    const verificationId = params.id;
+    const verificationId = id;
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('documentId');
 

@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
@@ -19,7 +19,7 @@ export async function POST(
 
   try {
     const engagement = await prisma.engagement.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         case: { select: { id: true, status: true } },
       },
@@ -34,7 +34,7 @@ export async function POST(
     }
 
     const updated = await prisma.engagement.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { status: 'sent_to_client' },
       include: {
         case: { select: { id: true, status: true } },
@@ -46,7 +46,7 @@ export async function POST(
       adminId: user.id,
       action: 'send_engagement',
       targetType: 'engagement',
-      targetId: params.id,
+      targetId: id,
       details: { caseId: engagement.caseId, newStatus: 'sent_to_client' },
       ipAddress: request.headers.get('x-forwarded-for') || undefined,
       userAgent: request.headers.get('user-agent') || undefined,

@@ -579,7 +579,7 @@ export const apiEndpoints = {
   },
   agentInvites: {
     list: (params?: PaginationParams) => api.get<PaginatedResponse<AgentInvite>>('/agent-invites', params),
-    create: (data: { email: string }) => api.post<AgentInvite>('/agent-invites', data),
+    create: (data: { email: string; permissions?: string[]; scope?: string; listingIds?: string[] }) => api.post<AgentInvite>('/agent-invites', data),
     accept: (id: string) => api.post<any>(`/agent-invites/${id}/accept`, {}),
     revoke: (id: string) => api.post<any>(`/agent-invites/${id}/revoke`, {}),
   },

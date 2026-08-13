@@ -25,13 +25,23 @@ const PERMISSIONS = [
   { id: 'manage_team', label: 'Manage team', description: 'Invite or remove other agents under your account.' },
 ];
 
-export default function AgentInviteManagementClient() {
+export interface PropertyItem {
+  id: string;
+  title: string;
+  address: string;
+  area: string;
+  state: string;
+}
+
+export default function AgentInviteManagementClient({ properties = [] }: { properties?: PropertyItem[] }) {
   const [invites, setInvites] = useState<AgentInvite[]>([]);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [actionId, setActionId] = useState<string | null>(null);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const [scopeType, setScopeType] = useState<'all' | 'specific'>('all');
+  const [selectedListingIds, setSelectedListingIds] = useState<string[]>([]);
   const { toast } = useToast();
 
   const load = async () => {
@@ -57,6 +67,12 @@ export default function AgentInviteManagementClient() {
     );
   };
 
+  const toggleListing = (id: string) => {
+    setSelectedListingIds(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
   const sendInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) {
@@ -66,9 +82,16 @@ export default function AgentInviteManagementClient() {
 
     setSending(true);
     try {
-      await apiEndpoints.agentInvites.create({ email: email.trim() });
+      await apiEndpoints.agentInvites.create({
+        email: email.trim(),
+        permissions: selectedPermissions,
+        scope: scopeType,
+        listingIds: scopeType === 'specific' ? selectedListingIds : [],
+      });
       setEmail('');
       setSelectedPermissions([]);
+      setScopeType('all');
+      setSelectedListingIds([]);
       toast({
         title: 'Invitation sent',
         description: `Agent invite sent to ${email.trim()}.`,
@@ -190,13 +213,107 @@ export default function AgentInviteManagementClient() {
         </Card>
 
         {/* Scope */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
-          <div className="space-y-2">
-            <h2 className="font-label-sm uppercase tracking-wide text-foreground">Scope</h2>
+        <Card className="p-6 border-0 ring-1 ring-foreground/5 space-y-4">
+          <div className="space-y-1">
+            <h2 className="font-label-sm uppercase tracking-wide text-foreground">Property Scope</h2>
             <p className="text-sm text-muted-foreground">
-              Leave empty to apply to all current and future listings. Add a listing first to scope the agent's access.
+              Choose which properties this agent can manage.
             </p>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* All Properties */}
+            <label
+              className={cn(
+                'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
+                scopeType === 'all'
+                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                  : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
+              )}
+            >
+              <input
+                type="radio"
+                name="scope"
+                checked={scopeType === 'all'}
+                onChange={() => setScopeType('all')}
+                className="mt-1 accent-primary"
+              />
+              <div className="space-y-1">
+                <p className="font-medium text-sm text-foreground">All Current &amp; Future Properties</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Agent automatically gets access to all your present properties and any properties created in the future.
+                </p>
+              </div>
+            </label>
+
+            {/* Specific Properties */}
+            <label
+              className={cn(
+                'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
+                scopeType === 'specific'
+                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                  : 'border-outline hover:border-primary/40 hover:bg-surface-container-lowest'
+              )}
+            >
+              <input
+                type="radio"
+                name="scope"
+                checked={scopeType === 'specific'}
+                onChange={() => setScopeType('specific')}
+                className="mt-1 accent-primary"
+              />
+              <div className="space-y-1">
+                <p className="font-medium text-sm text-foreground">Specific Properties Only</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Restrict agent access strictly to selected properties.
+                </p>
+              </div>
+            </label>
+          </div>
+
+          {/* Specific Property Selection Grid */}
+          {scopeType === 'specific' && (
+            <div className="pt-2 space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select Properties ({selectedListingIds.length} selected)</p>
+              {properties.length === 0 ? (
+                <div className="p-4 rounded-xl border border-dashed text-center space-y-2 bg-muted/20">
+                  <p className="text-sm text-muted-foreground">No properties added yet.</p>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/dashboard/landlord/properties/new">+ Add property</Link>
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
+                  {properties.map((prop) => {
+                    const isSelected = selectedListingIds.includes(prop.id);
+                    return (
+                      <label
+                        key={prop.id}
+                        className={cn(
+                          'flex items-start gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none',
+                          isSelected
+                            ? 'border-primary bg-primary/5'
+                            : 'border-outline hover:border-primary/40'
+                        )}
+                      >
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={() => toggleListing(prop.id)}
+                          className="mt-0.5"
+                        />
+                        <div className="space-y-0.5">
+                          <p className="font-medium text-sm text-foreground line-clamp-1">{prop.title}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-1">
+                            {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
+                          </p>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </Card>
 
         {/* Footer Actions */}

@@ -6,6 +6,9 @@ import { randomBytes } from 'crypto';
 
 const createAgentInviteSchema = z.object({
   email: z.string().email(),
+  permissions: z.array(z.string()).optional(),
+  scope: z.enum(['all', 'specific']).optional(),
+  listingIds: z.array(z.string()).optional(),
 });
 
 export async function GET(request: NextRequest) {

@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
       ...app,
       listing: {
         ...app.listing,
-        price: app.listing.price.toString(),
+        price: app.listing?.price ? app.listing.price.toString() : '0',
       },
       screeningStatus: (app as any).screeningStatus || {},
       guarantorData: (app as any).guarantorData || {},

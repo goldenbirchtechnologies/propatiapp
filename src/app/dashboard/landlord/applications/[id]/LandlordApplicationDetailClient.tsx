@@ -235,7 +235,7 @@ export default function LandlordApplicationDetailClient({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {application.listing.images.length > 0 && (
+            {(application.listing?.images?.length || 0) > 0 && (
               <div className="aspect-video rounded-lg overflow-hidden bg-surface-container-lowest">
                 <img
                   src={application.listing.images[0].url}

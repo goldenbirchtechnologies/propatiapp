@@ -3,13 +3,18 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 
 function serialize(application: any) {
+  const listing = application.listing || {};
+  const tenant = application.tenant || {};
   return {
     ...application,
-    listing: { ...application.listing, price: application.listing.price.toString() },
+    listing: {
+      ...listing,
+      price: listing.price ? listing.price.toString() : '0',
+    },
     tenant: {
-      ...application.tenant,
-      yearlyIncome: application.tenant.yearlyIncome ? application.tenant.yearlyIncome.toString() : null,
-      createdAt: application.tenant.createdAt ? new Date(application.tenant.createdAt).toISOString() : null,
+      ...tenant,
+      yearlyIncome: tenant.yearlyIncome ? tenant.yearlyIncome.toString() : null,
+      createdAt: tenant.createdAt ? new Date(tenant.createdAt).toISOString() : null,
     },
     screeningStatus: application.screeningStatus || {},
     guarantorData: application.guarantorData || {},

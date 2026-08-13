@@ -244,203 +244,59 @@ export default function PropertiesClient({ listings }: Props) {
         </div>
       </div>
 
-      <section>
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-medium text-zinc-200">Properties Overview</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.length === 0 ? (
-            <div className="p-12 text-center">
-              <BuildingIcon className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No properties found</h3>
-              <p className="text-muted-foreground mb-4">
-                {query ? 'Try adjusting your search or filter.' : 'Get started by adding your first property listing.'}
-              </p>
-              {!query && (
-                <Button asChild>
-                  <Link href="/dashboard/landlord/properties/new">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Property
-                  </Link>
-                </Button>
-              )}
+            <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-zinc-400">
+              No properties found.
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-outline-variant">
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground" />
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Property</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Category</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Units</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Verification</th>
-                    <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((listing) => {
-                    const isExpanded = !!expandedRows[listing.id];
-                    return (
-                      <>
-                        <tr key={listing.id} className="border-b border-outline-variant last:border-b-0">
-                          <td className="p-4">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 w-8 p-0"
-                              onClick={() => toggleRow(listing.id)}
-                            >
-                              {isExpanded ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
-                            </Button>
-                          </td>
-                          <td className="p-4">
-                            <Link href={`/dashboard/landlord/properties/${listing.id}`} className="group">
-                              {listing.images[0] ? (
-                                <img
-                                  src={listing.images[0].url}
-                                  alt={listing.title}
-                                  className="w-14 h-14 rounded-lg object-cover"
-                                />
-                              ) : (
-                                <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center">
-                                  <BuildingIcon className="w-5 h-5 text-muted-foreground" />
-                                </div>
-                              )}
-                              <div>
-                                <p className="font-medium text-foreground group-hover:underline">{titleCase(listing.title)}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {titleCase(listing.area)}, {titleCase(listing.state)}
-                                </p>
-                              </div>
-                            </Link>
-                          </td>
-                          <td className="p-4">
-                            {listing.propertyType && (
-                              <Badge variant="secondary">
-                                {listing.propertyType}
-                              </Badge>
-                            )}
-                          </td>
-                          <td className="p-4 text-sm text-foreground">
-                            {listing.unitCount > 0 ? (
-                              <button
-                                type="button"
-                                onClick={() => toggleRow(listing.id)}
-                                className="text-left"
-                              >
-                                <span>
-                                  {listing.unitCount} total •{' '}
-                                  <span className={listing.vacantUnitCount > 0 ? 'text-success' : 'text-destructive'}>
-                                    {listing.vacantUnitCount} vacant
-                                  </span>{' '}
-                                  •{' '}
-                                  <span className="text-primary">
-                                    {listing.listedUnitCount || 0} listed
-                                  </span>
-                                </span>
-                              </button>
-                            ) : (
-                              <span className="text-destructive">No units</span>
-                            )}
-                          </td>
-                          <td className="p-4">
-                            <VerificationBadge verification={listing.verification} />
-                          </td>
-                          <td className="p-4 text-right">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                  <MoreVertical className="size-4" />
-                                  <span className="sr-only">Actions</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}`}>Edit Building</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem
-                                  className="text-destructive focus:text-destructive"
-                                  onSelect={() => handleDelete(listing.id)}
-                                >
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </td>
-                        </tr>
-                        {isExpanded && (
-                          <tr className="border-b border-outline-variant last:border-b-0">
-                            <td colSpan={6} className="p-0">
-                              <div className="px-4 py-4 bg-background/50">
-                                {listing.units.length === 0 ? (
-                                  <p className="text-sm text-muted-foreground">No units linked to this property.</p>
-                                ) : (
-                                  <div className="overflow-x-auto">
-                                    <table className="w-full text-sm">
-                                      <thead>
-                                        <tr className="text-left text-[10px] uppercase tracking-wider text-muted-foreground">
-                                          <th className="pb-2 pr-4">Unit</th>
-                                          <th className="pb-2 pr-4">Listing Type</th>
-                                          <th className="pb-2 pr-4">Pricing</th>
-                                          <th className="pb-2 pr-4">Occupancy</th>
-                                          <th className="pb-2 pr-4">Listing Status</th>
-                                          <th className="pb-2 pr-4">Actions</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody className="text-foreground">
-                                        {listing.units.map((unit) => (
-                                          <tr key={unit.id} className="border-t border-outline-variant/60">
-                                            <td className="py-2 pr-4">
-                                              <div>
-                                                <p className="font-medium">
-                                                  Unit {unit.unitNumber}
-                                                </p>
-                                                <p className="text-xs text-muted-foreground">
-                                                  {formatUnitSubtext(unit)}
-                                                </p>
-                                              </div>
-                                            </td>
-                                            <td className="py-2 pr-4 capitalize">
-                                              <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground border border-outline-variant">
-                                                {formatListingType(unit.listingType)}
-                                              </span>
-                                            </td>
-                                            <td className="py-2 pr-4">
-                                              {formatCurrency(unit.rent)}
-                                              <span className="text-xs text-muted-foreground">/{unit.pricePeriod || 'month'}</span>
-                                            </td>
-                                            <td className="py-2 pr-4">
-                                              <OccupancyBadge occupancy={unit.occupancy} />
-                                            </td>
-                                            <td className="py-2 pr-4">
-                                              <ListingStatusBadge isListed={unit.isListed} />
-                                            </td>
-                                            <td className="py-2 pr-4">
-                                              <UnitActions listing={listing} unit={unit} onNavigate={goToPublish} />
-                                            </td>
-                                          </tr>
-                                        ))}
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            filtered.map((listing) => (
+              <div key={listing.id} className="flex flex-col rounded-xl border border-zinc-800/80 bg-[#121820] transition hover:border-zinc-700/80">
+                <Link href={`/dashboard/landlord/properties/${listing.id}`} className="relative block aspect-[16/9] w-full overflow-hidden rounded-t-xl bg-zinc-900">
+                  {listing.images[0]?.url ? (
+                    <img src={listing.images[0].url} alt={titleCase(listing.title)} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <BuildingIcon className="h-10 w-10 text-zinc-700" />
+                    </div>
+                  )}
+                  <span className="absolute right-2.5 top-2.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold backdrop-blur-md">
+                    <VerificationBadge verification={listing.verification} />
+                  </span>
+                </Link>
+                <div className="flex flex-1 flex-col justify-between p-4">
+                  <div>
+                    <Link href={`/dashboard/landlord/properties/${listing.id}`}>
+                      <h3 className="truncate text-sm font-semibold text-zinc-100 group-hover:underline">{titleCase(listing.title)}</h3>
+                    </Link>
+                    <div className="mt-1 flex items-center justify-between text-xs text-zinc-400">
+                      <span className="truncate pr-2">{titleCase(listing.area)}, {titleCase(listing.state)}</span>
+                      <span className="shrink-0 font-medium text-zinc-300">{listing.unitCount} Units</span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-zinc-400">
+                      <span className={`tag ${listing.listedUnitCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-muted text-muted-foreground border-outline-variant'}`}>
+                        {listing.listedUnitCount > 0 ? 'Listed' : 'Unlisted'}
+                      </span>
+                      <span className={`tag ${listing.vacantUnitCount > 0 ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
+                        {listing.vacantUnitCount > 0 ? `${listing.vacantUnitCount} Vacant` : 'Full'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <Button variant="outline" size="sm" asChild className="rounded-lg border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10">
+                      <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
+                    </Button>
+                    <Button variant="secondary" size="sm" asChild className="rounded-lg bg-[#1a212b] border border-zinc-800 text-zinc-300 hover:bg-zinc-800">
+                      <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </section>

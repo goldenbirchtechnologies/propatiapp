@@ -18,45 +18,52 @@ export default async function LandlordApplicationDetailPage({
 
   const { id } = await params;
 
-  const application = await prisma.application.findUnique({
-    where: { id },
-    include: {
-      listing: {
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          address: true,
-          area: true,
-          state: true,
-          price: true,
-          pricePeriod: true,
-          propertyType: true,
-          listingType: true,
-          images: { where: { isCover: true }, take: 5, select: { url: true } },
-          amenities: true,
+  let application: any = null;
+
+  try {
+    application = await prisma.application.findUnique({
+      where: { id },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            address: true,
+            area: true,
+            state: true,
+            price: true,
+            pricePeriod: true,
+            propertyType: true,
+            listingType: true,
+            images: { where: { isCover: true }, take: 5, select: { url: true } },
+            amenities: true,
+          },
         },
-      },
-      tenant: {
-        select: {
-          id: true,
-          fullName: true,
-          email: true,
-          phone: true,
-          avatarUrl: true,
-          employmentStatus: true,
-          employerName: true,
-          jobTitle: true,
-          yearlyIncome: true,
-          profileBio: true,
-          idVerified: true,
-          ninVerified: true,
-          createdAt: true,
+        tenant: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+            avatarUrl: true,
+            employmentStatus: true,
+            employerName: true,
+            jobTitle: true,
+            yearlyIncome: true,
+            profileBio: true,
+            idVerified: true,
+            ninVerified: true,
+            createdAt: true,
+          },
         },
+        landlord: { select: { id: true, fullName: true, email: true } },
       },
-      landlord: { select: { id: true, fullName: true, email: true } },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('Error loading landlord application:', error);
+    redirect('/dashboard/landlord/applications');
+  }
 
   if (!application || application.landlordId !== user.id) {
     redirect('/dashboard/landlord/applications');

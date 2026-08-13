@@ -13,32 +13,39 @@ export default async function TenantApplicationsPage() {
     redirect('/dashboard');
   }
 
-  const applications = await prisma.application.findMany({
-    where: { tenantId: user.id },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      listing: {
-        select: {
-          id: true,
-          title: true,
-          address: true,
-          area: true,
-          state: true,
-          price: true,
-          pricePeriod: true,
-          listingType: true,
-          images: { where: { isCover: true }, take: 1, select: { url: true } },
+  let applications: Awaited<ReturnType<typeof prisma.application.findMany>> = [];
+
+  try {
+    applications = await prisma.application.findMany({
+      where: { tenantId: user.id },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            address: true,
+            area: true,
+            state: true,
+            price: true,
+            pricePeriod: true,
+            listingType: true,
+            images: { where: { isCover: true }, take: 1, select: { url: true } },
+          },
+        },
+        landlord: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            avatarUrl: true,
+          },
         },
       },
-      landlord: {
-        select: {
-          id: true,
-          fullName: true,
-          avatarUrl: true,
-        },
-      },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('Error loading tenant applications:', error);
+  }
 
   const serialized = applications.map((app) => ({
     ...app,

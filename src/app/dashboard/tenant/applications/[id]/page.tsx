@@ -19,24 +19,31 @@ export default async function TenantApplicationDetailPage({
 
   const { id } = await params;
 
-  const application = await prisma.application.findUnique({
-    where: { id },
-    include: {
-      listing: {
-        include: {
-          images: true,
+  let application: any = null;
+
+  try {
+    application = await prisma.application.findUnique({
+      where: { id },
+      include: {
+        listing: {
+          include: {
+            images: true,
+          },
+        },
+        landlord: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            avatarUrl: true,
+          },
         },
       },
-      landlord: {
-        select: {
-          id: true,
-          fullName: true,
-          email: true,
-          avatarUrl: true,
-        },
-      },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('Error loading tenant application:', error);
+    redirect('/dashboard/tenant/applications');
+  }
 
   if (!application || application.tenantId !== user.id) {
     redirect('/dashboard/tenant/applications');

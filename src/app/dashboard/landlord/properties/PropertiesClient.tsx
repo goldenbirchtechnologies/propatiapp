@@ -162,7 +162,6 @@ export default function PropertiesClient({ listings }: Props) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return listings.filter((listing) => {
-      if (listing.unitCount === 0) return false;
       if (statusFilter !== 'all') {
         if (statusFilter === 'active' && listing.listedUnitCount === 0) return false;
         if (statusFilter !== 'active' && listing.status !== statusFilter) return false;
@@ -292,6 +291,17 @@ export default function PropertiesClient({ listings }: Props) {
                     </Button>
                     <Button variant="secondary" size="sm" asChild className="rounded-lg bg-[#1a212b] border border-zinc-800 text-zinc-300 hover:bg-zinc-800">
                       <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="col-span-2 rounded-lg border border-destructive/40 text-destructive hover:bg-destructive/10"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDelete(listing.id);
+                      }}
+                    >
+                      Delete Property
                     </Button>
                   </div>
                 </div>

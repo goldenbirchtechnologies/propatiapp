@@ -332,7 +332,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           Properties
         </Link>
         <AppIcon name="/" className="lucide" />
-        <span className="font-medium text-primary truncate">
+        <span className="font-medium text-white truncate">
           {listing.title}
         </span>
       </nav>
@@ -347,11 +347,11 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </Link>
           <div>
             <h1
-              className="font-headline-sm text-headline-sm font-bold text-primary text-primary"
+              className="font-headline-sm text-headline-sm font-bold text-white"
             >
               {capitalizeWords(listing.title)}
             </h1>
-            <p className="flex items-center gap-1 mt-1 text-on-surface-variant">
+            <p className="flex items-center gap-1 mt-1 text-neutral-400">
               <MapPin className="h-3 w-3" />
               {capitalizeWords(listing.address)}
             </p>
@@ -367,7 +367,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-on-surface-variant'
+              activeTab === tab.id ? 'border-white text-white' : 'border-transparent text-neutral-400'
             }`}
           >
             {tab.icon}
@@ -380,12 +380,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       {activeTab === 'building' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+            <h2 className="font-headline-sm text-headline-sm text-white">
               Building Information
             </h2>
             {!editingManage ? (
-              <button onClick={() => setEditingManage(true)} className="btn btn-secondary btn-sm">
-                <Edit3 className="w-4 h-4 mr-2" />
+              <button onClick={() => setEditingManage(true)} className="flex items-center gap-1.5 text-xs font-medium text-neutral-300 hover:text-white bg-neutral-800/80 hover:bg-neutral-800 border border-neutral-700/80 px-3 py-1.5 rounded-lg transition-colors">
+                <Edit3 className="w-3.5 h-3.5" />
                 Edit
               </button>
             ) : (
@@ -405,7 +405,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Property Title
                 </label>
                 {editingManage ? (
@@ -416,13 +416,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium text-primary">
+                  <p className="font-medium text-white">
                     {capitalizeWords(listing.title)}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Address
                 </label>
                 {editingManage ? (
@@ -433,13 +433,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium text-primary">
+                  <p className="font-medium text-white">
                     {listing.address}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Area
                 </label>
                 {editingManage ? (
@@ -450,13 +450,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium text-primary">
+                  <p className="font-medium text-white">
                     {capitalizeWords(listing.area)}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   State
                 </label>
                 {editingManage ? (
@@ -467,7 +467,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium text-primary">
+                  <p className="font-medium text-white">
                     {capitalizeWords(listing.state)}
                   </p>
                 )}
@@ -475,7 +475,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Property Type
                 </label>
                 {editingManage ? (
@@ -486,21 +486,21 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className="inp-field"
                   />
                 ) : (
-                  <p className="font-medium text-primary">
+                  <p className="font-medium text-white">
                     {formatPropertyType(listing.propertyType)}
                   </p>
                 )}
               </div>
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Total Units
                 </label>
-                <p className="font-medium text-primary">
+                <p className="font-medium text-white">
                   {listing.units.length}
                 </p>
               </div>
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
                   Verification
                 </label>
                 <VerificationBadge verification={listing.verification} />
@@ -509,7 +509,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </div>
 
           <div className="mt-6">
-            <label className="block text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+            <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
               Description
             </label>
             {editingManage ? (
@@ -520,7 +520,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 className="inp-field"
               />
             ) : (
-              <p className="text-sm leading-relaxed text-primary">
+              <p className="text-sm leading-relaxed text-white">
                 {listing.description || 'No description provided.'}
               </p>
             )}
@@ -531,7 +531,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <ImageIcon className="h-4 w-4 text-on-surface-variant" />
               <div>
                 <p className="text-xs text-on-surface-variant">Images</p>
-                <p className="font-medium text-sm text-primary">
+                <p className="font-medium text-sm text-white">
                   {listing.images.length}
                 </p>
               </div>
@@ -540,7 +540,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <Layers className="h-4 w-4 text-on-surface-variant" />
               <div>
                 <p className="text-xs text-on-surface-variant">Amenities</p>
-                <p className="font-medium text-sm text-primary">
+                <p className="font-medium text-sm text-white">
                   {listing.amenities.length}
                 </p>
               </div>
@@ -549,7 +549,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <Clock className="h-4 w-4 text-on-surface-variant" />
               <div>
                 <p className="text-xs text-on-surface-variant">Added</p>
-                <p className="font-medium text-sm text-primary">
+                <p className="font-medium text-sm text-white">
                   {new Date(listing.createdAt).toLocaleDateString()}
                 </p>
               </div>
@@ -558,7 +558,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <FileText className="h-4 w-4 text-on-surface-variant" />
               <div>
                 <p className="text-xs text-on-surface-variant">ID</p>
-                <p className="font-medium text-sm text-primary">
+                <p className="font-medium text-sm text-white">
                   {listing.id}
                 </p>
               </div>
@@ -570,7 +570,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       {activeTab === 'units' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between p-6 pb-4">
-            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+            <h2 className="font-headline-sm text-headline-sm text-white">
               Units in Building
             </h2>
             <Button asChild>
@@ -676,7 +676,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="space-y-4">
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+              <h2 className="font-headline-sm text-headline-sm text-white">
                 Verification Status
               </h2>
               <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-on-surface-variant border-outline-variant'}`}>
@@ -706,7 +706,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     {isApproved ? <CheckCircle2 className="w-5 h-5" /> : <AppIcon name={String(index + 1)} className="lucide" />}
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-sm text-primary">
+                    <p className="font-medium text-sm text-white">
                       {layer.label}
                     </p>
                     <p className="text-xs text-on-surface-variant">
@@ -739,7 +739,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       {activeTab === 'shared-amenities' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+            <h2 className="font-headline-sm text-headline-sm text-white">
               Shared Building Amenities
             </h2>
             {saved && (
@@ -835,7 +835,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       {activeTab === 'media' && (
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-headline-sm text-headline-sm text-primary text-primary">
+            <h2 className="font-headline-sm text-headline-sm text-white">
               Property Media
             </h2>
             <label className="btn btn-secondary btn-sm cursor-pointer">

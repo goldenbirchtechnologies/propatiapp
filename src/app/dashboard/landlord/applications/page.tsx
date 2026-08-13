@@ -14,45 +14,64 @@ export const metadata = {
 };
 
 export default async function LandlordApplicationsPage() {
-  const user = await getCurrentUserWithProfile();
+  let user;
+  let applications;
+  try {
+    user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'landlord') {
-    redirect('/dashboard');
+    if (!user || user.role !== 'landlord') {
+      redirect('/dashboard');
+    }
+
+    applications = await prisma.application.findMany({
+      where: { landlordId: user.id },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            area: true,
+            state: true,
+            price: true,
+            pricePeriod: true,
+            images: { where: { isCover: true }, take: 1, select: { url: true } },
+          },
+        },
+        tenant: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+            avatarUrl: true,
+            employmentStatus: true,
+            employerName: true,
+            jobTitle: true,
+            yearlyIncome: true,
+            profileBio: true,
+            idVerified: true,
+            ninVerified: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error('LandlordApplicationsPage server data load error:', error);
+    return (
+      <DashboardShell
+        navigation={LANDLORD_NAVIGATION}
+        userRole={user?.role}
+        userName={user?.fullName}
+        userAvatar={user?.avatarUrl || undefined}
+      >
+        <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
+          <p className="text-destructive font-medium mb-1">Unable to load applications</p>
+          <p className="text-sm text-muted-foreground">Something went wrong while fetching your applications. Please try again later.</p>
+        </div>
+      </DashboardShell>
+    );
   }
-
-  const applications = await prisma.application.findMany({
-    where: { landlordId: user.id },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      listing: {
-        select: {
-          id: true,
-          title: true,
-          area: true,
-          state: true,
-          price: true,
-          pricePeriod: true,
-          images: { where: { isCover: true }, take: 1, select: { url: true } },
-        },
-      },
-      tenant: {
-        select: {
-          id: true,
-          fullName: true,
-          email: true,
-          phone: true,
-          avatarUrl: true,
-          employmentStatus: true,
-          employerName: true,
-          jobTitle: true,
-          yearlyIncome: true,
-          profileBio: true,
-          idVerified: true,
-          ninVerified: true,
-        },
-      },
-    },
-  });
 
   const serialized = applications.map((app) => ({
     id: app.id,
@@ -99,12 +118,9 @@ export default async function LandlordApplicationsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <LandlordApplicationsClient applications={serialized} />
-    
+        <LandlordApplicationsClient applications={serialized} />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

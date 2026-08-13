@@ -1,233 +1,172 @@
-'use client'
+'use client';
 
-import AppIcon from '@/components/icons/app-icon';
-
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Building2, Users, CreditCard, Wrench, TrendingUp, MapPin, Search, Bell, ChevronDown, Box } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useLandlordWallet } from '@/hooks/useLandlordWallet';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 
+const statusStyles: Record<string, string> = {
+  active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+  draft: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/30',
+  pending: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+  accepted: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+  rejected: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
+};
 
-interface LandlordDashboardClientProps {
-  userName?: string;
+interface ListingItem {
+  id: string;
+  title: string;
+  listingType?: string;
+  status?: string;
+  price?: number | string;
+  createdAt?: string;
 }
 
-const applications = [
-  { initials: 'EO', name: 'Emeka Okafor', listing: '3BR Luxury Flat, Lekki Ph 1', status: 'Pending', date: 'Oct 24, 2023', color: 'bg-surface-container' },
-  { initials: 'SA', name: 'Sade Adekunle', listing: 'Penthouse, Victoria Island', status: 'Verified', date: 'Oct 22, 2023', color: 'bg-success-bright/10 text-success' },
-  { initials: 'JO', name: 'John Obinna', listing: 'Modern Duplex, Ikoyi', status: 'Rejected', date: 'Oct 20, 2023', color: 'bg-destructive/10 text-destructive' },
-  { initials: 'FA', name: 'Funmi Alakija', listing: 'Studio, Maryland', status: 'Pending', date: 'Oct 19, 2023', color: 'bg-warning/10 text-warning' },
-];
+interface Props {
+  displayName: string;
+  totalRevenue: number;
+  listingCount: number;
+  activeListingCount: number;
+  pendingApplicationCount: number;
+  openMaintenanceCount: number;
+  recentListings: ListingItem[];
+}
 
-const rentSchedule = [
-  { title: 'Rent Received - Apt 4B', detail: '₦450,000 • Received Today', icon: 'check_circle', bg: 'bg-success', ring: 'ring-green-600' },
-  { title: 'Rent Due - Villa 12', detail: '₦1,200,000 • Due in 2 days', icon: 'schedule', bg: 'bg-warning', ring: 'ring-amber-500' },
-  { title: 'Auto-Reminders Sent', detail: '6 Tenants Notified • Oct 25', icon: 'notifications_active', bg: 'bg-surface-container', ring: 'ring-gray-300' },
-  { title: 'Upcoming Renewal', detail: 'Lekki Flat C • Oct 30', icon: 'event', bg: 'bg-surface-container', ring: 'ring-gray-300' },
-];
+export default function LandlordDashboardClient({
+  displayName,
+  totalRevenue,
+  listingCount,
+  activeListingCount,
+  pendingApplicationCount,
+  openMaintenanceCount,
+  recentListings,
+}: Props) {
+  const [query, setQuery] = useState('');
 
-export default function LandlordDashboardClient({ userName }: LandlordDashboardClientProps) {
-  const { balance, isLoading, error } = useLandlordWallet();
-  const displayName = userName || 'Landlord';
+  const filtered = recentListings.filter((item) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return (item.title || '').toLowerCase().includes(q) || (item.listingType || '').toLowerCase().includes(q);
+  });
 
   return (
-    <div className="space-y-8">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="font-headline-sm text-headline-sm text-primary">
-            Welcome back, {displayName.split(' ')[0]}
-          </h1>
-          <p className="mt-2 text-muted-foreground">
-            Here is what is happening with your Lagos portfolio today.
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <Link
-            href="/dashboard/landlord/properties/new"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground hover:shadow-lg transition-all"
-          >
-            <ArrowRight className="h-4 w-4 rotate-180" />
-            Add Property
-          </Link>
-          <Link
-            href="/dashboard/landlord/applications"
-            className="inline-flex items-center gap-2 rounded-xl border border-outline-variant bg-card px-6 py-2.5 text-sm font-bold hover:bg-muted transition-all"
-          >
-            <ArrowRight className="h-4 w-4 rotate-180" />
-            View Applications
-          </Link>
-        </div>
-      </div>
-
-      {/* Stats Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <AppIcon name="home_work" className="lucide" />
+    <div className="min-h-[calc(100vh-var(--topbar-height))] bg-[#0b1015] text-zinc-100 antialiased">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-zinc-100">
+              Overview: {displayName}
+            </h1>
+            <p className="mt-2 text-sm text-zinc-400">Portfolio snapshot and recent listings.</p>
           </div>
-          <CardContent className="p-6">
-            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Active Listings</p>
-            <p className="font-headline-md text-headline-md text-primary">12</p>
-            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success">
-              <AppIcon name="trending_up" className="lucide" />
-              +2 since last month
+          <div className="flex items-center gap-2">
+            <div className="relative w-72">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search listings..."
+                className="w-full rounded-lg border border-zinc-800 bg-[#141b22] pl-9 pr-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 outline-none focus:border-emerald-500/50"
+              />
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <AppIcon name="pending_actions" className="lucide" />
+            <button className="relative rounded-lg p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50">
+              <Bell className="h-4 w-4" />
+              <span className="absolute right-1.5 top-1.5 h-4 w-4 rounded-full bg-emerald-500 text-[10px] font-bold text-zinc-950">0</span>
+            </button>
           </div>
-          <CardContent className="p-6">
-            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Pending Applications</p>
-            <p className="font-headline-md text-headline-md text-primary">08</p>
-            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-warning">
-              <AppIcon name="priority_high" className="lucide" />
-              3 require urgent review
-            </div>
-          </CardContent>
-        </Card>
+        </header>
 
-        <Card className="relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
-          <div className="absolute inset-0 animate-shimmer opacity-30 pointer-events-none" />
-          <CardContent className="p-6 relative z-10">
-            <p className="text-xs font-medium uppercase tracking-wider text-on-primary/70 mb-1">This Month&apos;s Rent</p>
-            <p className="text-3xl font-headline-sm text-headline-sm font-bold text-primary text-on-primary mb-4">₦4,250,000</p>
-            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-success-bright">
-              <AppIcon name="verified" className="lucide" />
-              85% Collected
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Total Properties</p>
+                <p className="mt-1 text-2xl font-bold text-zinc-100">{listingCount}</p>
+              </div>
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
+                <Building2 className="h-5 w-5" />
+              </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <AppIcon name="verified_user" className="lucide" />
           </div>
-          <CardContent className="p-6">
-            <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1">Verification Status</p>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant="certified" className="text-[10px] uppercase tracking-wider">Certified</Badge>
+          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Monthly Revenue</p>
+                <p className="mt-1 text-2xl font-bold text-zinc-100">{formatCurrency(totalRevenue)}</p>
+              </div>
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
+                <CreditCard className="h-5 w-5" />
+              </div>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">Platinum Partner Level</p>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Active Listings</p>
+                <p className="mt-1 text-2xl font-bold text-zinc-100">
+                  {activeListingCount} <span className="text-base text-zinc-500">/ {listingCount}</span>
+                </p>
+              </div>
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
+                <TrendingUp className="h-5 w-5" />
+              </div>
+            </div>
+          </div>
+          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Open Maintenance</p>
+                <p className="mt-1 text-2xl font-bold text-zinc-100">{openMaintenanceCount}</p>
+              </div>
+              <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2 text-rose-400">
+                <Wrench className="h-5 w-5" />
+              </div>
+            </div>
+          </div>
+        </section>
 
-      {/* Recent Applications Table */}
-      <Card className="overflow-hidden">
-        <div className="p-6 border-b border-outline-variant flex items-center justify-between">
-          <h3 className="font-headline-sm text-headline-sm text-primary">Recent Applications</h3>
-          <Link href="/dashboard/landlord/applications" className="text-sm font-bold text-primary hover:underline">
-            View All
-          </Link>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-muted/50">
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Tenant Name</th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Listing</th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Date</th>
-                <th className="px-6 py-4" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {applications.map((app, idx) => (
-                <tr key={idx} className="hover:bg-muted/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className={cn('h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold', app.color)}>
-                        {app.initials}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-medium text-zinc-200">Recent Listings</h2>
+            <Link href="/dashboard/landlord/properties" className="text-xs text-emerald-400 hover:text-emerald-300">
+              View all
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.length === 0 ? (
+              <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-zinc-400">
+                No listings found.
+              </div>
+            ) : (
+              filtered.map((item) => (
+                <div key={item.id} className="flex flex-col rounded-xl border border-zinc-800/80 bg-[#121820] transition hover:border-zinc-700/80">
+                  <div className="flex h-44 items-center justify-center bg-zinc-900">
+                    <Box className="h-10 w-10 text-zinc-700" />
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between p-4">
+                    <div>
+                      <h3 className="text-sm font-semibold text-zinc-100">{item.title}</h3>
+                      <div className="mt-1 flex items-center justify-between text-xs text-zinc-400">
+                        <span className="capitalize">{item.listingType || 'Listing'}</span>
+                        <span>{formatCurrency(Number(item.price))}</span>
                       </div>
-                      <span className="font-medium text-sm">{app.name}</span>
                     </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{app.listing}</td>
-                  <td className="px-6 py-4">
-                    <Badge variant={app.status === 'Verified' ? 'certified' : app.status === 'Rejected' ? 'destructive' : 'secondary'} className="text-[11px]">
-                      {app.status}
-                    </Badge>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{app.date}</td>
-                  <td className="px-6 py-4 text-right">
-                    <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
-
-      {/* Rent Schedule Timeline + Ecosystem Health */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
-          <div className="p-6 border-b border-outline-variant flex items-center justify-between">
-            <h5 className="font-headline-sm text-headline-sm font-semibold text-primary">Rent Schedule</h5>
-            <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="Calendar">calendar_month</button>
-          </div>
-          <div className="p-6 space-y-6">
-            {rentSchedule.map((item, idx) => (
-              <div key={idx} className="relative flex items-center gap-4">
-                <div className={cn('absolute left-0 w-10 h-10 rounded-full flex items-center justify-center ring-8 ring-background', item.bg)}>
-                  <span className="lucide text-on-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${statusStyles[item.status || 'draft'] || statusStyles.draft}`}>
+                        {item.status || 'draft'}
+                      </span>
+                      <div className="flex gap-2">
+                        <Link href={`/dashboard/landlord/listing/${item.id}`} className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10">
+                          Manage
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-12">
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className={cn('text-xs font-medium', idx === 0 ? 'text-success' : idx === 1 ? 'text-warning' : 'text-muted-foreground')}>
-                    {item.detail}
-                  </p>
-                </div>
-              </div>
-            ))}
-            <div className="mt-6 p-4 bg-primary-container rounded-lg">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-medium text-on-primary/80">Ecosystem Health</p>
-                <span className="text-sm font-bold text-on-primary">98%</span>
-              </div>
-              <div className="w-full bg-primary h-2 rounded-full overflow-hidden">
-                <div className="bg-secondary-container h-full w-[98%] rounded-full" />
-              </div>
-              <p className="mt-2 text-[11px] text-on-primary/70">Your portfolio trust rating is exceptional this month.</p>
-            </div>
+              ))
+            )}
           </div>
-        </Card>
-
-        <Card className="bg-surface-container-lowest">
-          <CardContent className="p-6">
-            <h5 className="font-headline-sm text-headline-sm font-semibold text-primary mb-4">Quick Actions</h5>
-            <div className="space-y-3">
-              <Link
-                href="/dashboard/landlord/listing/new"
-                className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
-              >
-                <AppIcon name="add_circle" className="lucide" />
-                <span className="text-sm font-medium">Post New Listing</span>
-              </Link>
-              <Link
-                href="/dashboard/landlord/applications"
-                className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
-              >
-                <AppIcon name="description" className="lucide" />
-                <span className="text-sm font-medium">Review Applications</span>
-              </Link>
-              <Link
-                href="/dashboard/landlord/rents"
-                className="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:border-primary transition-all"
-              >
-                <AppIcon name="payments" className="lucide" />
-                <span className="text-sm font-medium">Collect Rent</span>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        </section>
       </div>
     </div>
   );

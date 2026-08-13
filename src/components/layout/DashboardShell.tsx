@@ -725,11 +725,11 @@ export function DashboardShell({
 
           <div className="sb-footer">
             <Link
-              href={`/dashboard/${userRole}/settings`}
+              href={userRole === 'admin' ? `/dashboard/${userRole}/settings` : `/dashboard/${userRole}/profile`}
               className="sb-signout-btn"
             >
               <Settings className="h-4 w-4" />
-              {!sidebarCollapsed && <span>Settings</span>}
+              {!sidebarCollapsed && <span>{userRole === 'admin' ? 'Settings' : 'Profile'}</span>}
             </Link>
           </div>
         </div>
@@ -791,8 +791,8 @@ export function DashboardShell({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/${userRole}/settings`} className="cursor-pointer">
-                    Organization Settings
+                  <Link href={userRole === 'admin' ? `/dashboard/${userRole}/settings` : `/dashboard/${userRole}/profile`} className="cursor-pointer">
+                    {userRole === 'admin' ? 'Organization Settings' : 'Profile'}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

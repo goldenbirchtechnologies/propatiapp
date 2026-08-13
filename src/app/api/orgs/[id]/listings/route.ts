@@ -143,7 +143,7 @@ export async function POST(
     if (existing) {
       return NextResponse.json(
         { error: 'Listing already added to organization' },
-        { status: 400 }
+        { status: 409 }
       );
     }
 

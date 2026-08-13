@@ -18,7 +18,7 @@ export const metadata = {
 export default async function LandlordApplicationsPage() {
   const user = await getCurrentUserWithProfile();
 
-  if (!user || user.role !== 'landlord') {
+  if (!user || (user.role !== 'landlord' && user.role !== 'admin')) {
     redirect('/dashboard');
   }
 

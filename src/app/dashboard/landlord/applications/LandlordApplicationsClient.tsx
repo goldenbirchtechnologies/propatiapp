@@ -405,58 +405,58 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               <DialogHeader>
                 <DialogTitle>Application Review</DialogTitle>
                 <DialogDescription>
-                  {selectedApp.listing.title} · {selectedApp.listing.area}, {selectedApp.listing.state}
+                  {selectedApp.listing?.title || 'Listing'} · {[selectedApp.listing?.area, selectedApp.listing?.state].filter(Boolean).join(', ')}
                 </DialogDescription>
               </DialogHeader>
 
               {detailTab === 'applicant' && (
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center">
-                      {selectedApp.tenant.fullName.charAt(0)}
+                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 text-primary text-sm font-bold">
+                      {(selectedApp.tenant?.fullName || 'T').charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="font-semibold text-primary">
-                          {selectedApp.tenant.fullName}
+                          {selectedApp.tenant?.fullName || 'Tenant'}
                         </p>
-                        {selectedApp.tenant.idVerified && (
+                        {selectedApp.tenant?.idVerified && (
                           <span className="inline-flex items-center gap-1 text-xs text-success bg-success-bright/10 border border-success-bright/20 rounded-full px-2 py-0.5">
                             <BadgeCheck className="w-3 h-3" /> ID Verified
                           </span>
                         )}
-                        {selectedApp.tenant.ninVerified && (
+                        {selectedApp.tenant?.ninVerified && (
                           <span className="inline-flex items-center gap-1 text-xs text-info bg-info/10 border border-info/20 rounded-full px-2 py-0.5">
                             <ShieldCheck className="w-3 h-3" /> NIN Verified
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant.email}</p>
-                      {selectedApp.tenant.phone && (
+                      <p className="text-sm text-on-surface-variant">{selectedApp.tenant?.email || ''}</p>
+                      {selectedApp.tenant?.phone && (
                         <p className="text-sm text-on-surface-variant">{selectedApp.tenant.phone}</p>
                       )}
                     </div>
                   </div>
 
-                  {(selectedApp.tenant.employmentStatus || selectedApp.tenant.employerName || selectedApp.tenant.yearlyIncome) && (
+                  {(selectedApp.tenant?.employmentStatus || selectedApp.tenant?.employerName || selectedApp.tenant?.yearlyIncome) && (
                     <div className="p-3 rounded-lg space-y-1 text-sm border border-outline-variant">
                       <p className="font-medium mb-2 text-primary">Employment</p>
-                      {selectedApp.tenant.employmentStatus && (
+                      {selectedApp.tenant?.employmentStatus && (
                         <p className="text-on-surface-variant">
                           Status: <span className="font-medium">{String(selectedApp.tenant.employmentStatus).replace('_', ' ')}</span>
                         </p>
                       )}
-                      {selectedApp.tenant.employerName && (
+                      {selectedApp.tenant?.employerName && (
                         <p className="text-on-surface-variant">
                           Employer: <span className="text-primary">{selectedApp.tenant.employerName}</span>
                         </p>
                       )}
-                      {selectedApp.tenant.jobTitle && (
+                      {selectedApp.tenant?.jobTitle && (
                         <p className="text-on-surface-variant">
                           Role: <span className="text-primary">{selectedApp.tenant.jobTitle}</span>
                         </p>
                       )}
-                      {selectedApp.tenant.yearlyIncome && (
+                      {selectedApp.tenant?.yearlyIncome && (
                         <p className="text-on-surface-variant">
                           Income: <span className="text-primary">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
                         </p>
@@ -464,7 +464,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     </div>
                   )}
 
-                  {selectedApp.tenant.profileBio && (
+                  {selectedApp.tenant?.profileBio && (
                     <div>
                       <p className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-primary">About</p>
                       <p className="text-sm text-on-surface-variant">{selectedApp.tenant.profileBio}</p>
@@ -488,10 +488,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                   <div className="space-y-2">
                     <p className="text-xs font-medium text-primary">Documents</p>
-                    {selectedApp.applicantDocuments.length === 0 && (
+                    {(selectedApp.applicantDocuments || []).length === 0 && (
                       <p className="text-xs text-on-surface-variant">No documents uploaded.</p>
                     )}
-                    {selectedApp.applicantDocuments.map((doc, idx) => (
+                    {(selectedApp.applicantDocuments || []).map((doc, idx) => (
                       <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-primary">
                         <FileText className="w-4 h-4" /> {String(doc.name || doc.type || 'Document')}
                       </a>

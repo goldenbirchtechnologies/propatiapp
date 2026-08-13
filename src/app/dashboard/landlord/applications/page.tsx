@@ -16,7 +16,9 @@ export const metadata = {
 };
 
 export default async function LandlordApplicationsPage() {
+  console.log('LandlordApplicationsPage: rendering');
   const user = await getCurrentUserWithProfile();
+  console.log('LandlordApplicationsPage: user', user ? { id: user.id, role: user.role } : null);
 
   if (!user || (user.role !== 'landlord' && user.role !== 'admin')) {
     redirect('/dashboard');
@@ -24,6 +26,7 @@ export default async function LandlordApplicationsPage() {
 
   let applications;
   try {
+    console.log('LandlordApplicationsPage: fetching applications for user', user.id, 'role', user.role);
     applications = await prisma.application.findMany({
       where: { landlordId: user.id },
       orderBy: { createdAt: 'desc' },
@@ -59,6 +62,7 @@ export default async function LandlordApplicationsPage() {
     });
   } catch (error) {
     console.error('LandlordApplicationsPage server data load error:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return (
       <DashboardShell
         navigation={LANDLORD_NAVIGATION}
@@ -69,6 +73,11 @@ export default async function LandlordApplicationsPage() {
         <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
           <p className="text-destructive font-medium mb-1">Unable to load applications</p>
           <p className="text-sm text-muted-foreground">Something went wrong while fetching your applications. Please try again later.</p>
+          {process.env.NODE_ENV !== 'production' && (
+            <pre className="mt-4 text-left text-xs text-destructive bg-destructive/10 p-3 rounded overflow-auto">
+              {message}
+            </pre>
+          )}
         </div>
       </DashboardShell>
     );

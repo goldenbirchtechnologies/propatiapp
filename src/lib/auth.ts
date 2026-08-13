@@ -62,16 +62,8 @@ export async function getCurrentUser() {
       const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
                    (clerkUser.publicMetadata?.role as UserRole) ??
                    'tenant';
-      return {
-        id: clerkUser.id,
-        clerkId: clerkUser.id,
-        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
-        fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || 'User',
-        avatarUrl: clerkUser.imageUrl,
-        role,
-        isActive: true,
-        isBanned: false,
-      } as any;
+      console.error('getCurrentUser fallback: database unavailable, cannot resolve Prisma user id for', clerkUser.id);
+      return null;
     } catch {
       return null;
     }
@@ -202,18 +194,8 @@ export async function getCurrentUserWithProfile() {
       const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
                    (clerkUser.publicMetadata?.role as UserRole) ??
                    'tenant';
-      return {
-        id: clerkUser.id,
-        clerkId: clerkUser.id,
-        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
-        fullName: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || 'User',
-        avatarUrl: clerkUser.imageUrl,
-        role,
-        isActive: true,
-        isBanned: false,
-        ownedOrganisations: [],
-        orgMemberships: [],
-      } as any;
+      console.error('getCurrentUserWithProfile fallback: database unavailable, cannot resolve Prisma user id for', clerkUser.id);
+      return null;
     } catch {
       return null;
     }

@@ -127,6 +127,7 @@ export default function LandlordApplicationDetailClient({
   const [notes, setNotes] = useState(application.landlordNotes ?? '');
   const [rejectionReason, setRejectionReason] = useState(application.rejectionReason ?? '');
   const [isPending, startTransition] = useTransition();
+  const isLoading = isPending;
   const [actionType, setActionType] = useState<'accept' | 'reject' | 'review' | 'request_info' | null>(null);
   const [detailTab, setDetailTab] = useState<'applicant' | 'guarantor' | 'decision'>('applicant');
   const router = useRouter();

@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 
+function safeJson(value: unknown, fallback: unknown = {}) {
+  if (!value) return fallback;
+  if (typeof value === 'string') {
+    try { return JSON.parse(value); } catch { return fallback; }
+  }
+  return value;
+}
+
 function serialize(application: any) {
   const listing = application.listing || {};
   const tenant = application.tenant || {};
@@ -16,13 +24,16 @@ function serialize(application: any) {
       yearlyIncome: tenant.yearlyIncome ? tenant.yearlyIncome.toString() : null,
       createdAt: tenant.createdAt ? new Date(tenant.createdAt).toISOString() : null,
     },
-    screeningStatus: application.screeningStatus || {},
-    guarantorData: application.guarantorData || {},
-    applicantDocuments: application.applicantDocuments || [],
+    screeningStatus: safeJson(application.screeningStatus, {}),
+    guarantorData: safeJson(application.guarantorData, {}),
+    applicantDocuments: Array.isArray(application.applicantDocuments)
+      ? application.applicantDocuments
+      : safeJson(application.applicantDocuments, []),
     createdAt: application.createdAt ? new Date(application.createdAt).toISOString() : null,
     reviewedAt: application.reviewedAt ? new Date(application.reviewedAt).toISOString() : null,
   };
 }
+
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const authResult = await withAuth(request);
@@ -80,7 +91,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
     if (body.stage) patch.stage = body.stage;
     if (body.screeningStatus) patch.screeningStatus = body.screeningStatus;
-    if (body.guarantorData) patch.guarantorData = JSON.stringify(body.guarantorData);
+    if (body.guarantorData) patch.guarantorData = body.guarantorData;
 
     if (patch.status && !['pending', 'under_review', 'accepted', 'rejected', 'withdrawn'].includes(patch.status as string)) {
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
@@ -119,7 +130,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       };
       updateOptions.include = {
         listing: { select: { id: true, title: true, address: true, area: true, state: true, price: true, pricePeriod: true, images: { where: { isCover: true }, take: 1, select: { url: true } } } },
-        tenant: { select: { id: true, fullName: true, email: true, avatarUrl: true, employmentStatus: true, employerName: true, jobTitle: true, yearlyIncome: true, profileBio: true } },
+        tenant: { select: { id: true, fullName: true, email: true, phone: true, avatarUrl: true, employmentStatus: true, employerName: true, jobTitle: true, yearlyIncome: true, profileBio: true, idVerified: true, ninVerified: true, createdAt: true } },
         landlord: { select: { id: true, fullName: true, email: true } },
       };
       const updated = await prisma.application.update(updateOptions);
@@ -134,7 +145,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     };
     updateOptions.include = {
       listing: { select: { id: true, title: true, address: true, area: true, state: true, price: true, pricePeriod: true, images: { where: { isCover: true }, take: 1, select: { url: true } } } },
-      tenant: { select: { id: true, fullName: true, email: true, avatarUrl: true, employmentStatus: true, employerName: true, jobTitle: true, yearlyIncome: true, profileBio: true, idVerified: true, ninVerified: true } },
+      tenant: { select: { id: true, fullName: true, email: true, phone: true, avatarUrl: true, employmentStatus: true, employerName: true, jobTitle: true, yearlyIncome: true, profileBio: true, idVerified: true, ninVerified: true, createdAt: true } },
       landlord: { select: { id: true, fullName: true, email: true } },
     };
 

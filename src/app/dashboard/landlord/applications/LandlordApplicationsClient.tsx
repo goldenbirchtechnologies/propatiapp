@@ -99,7 +99,6 @@ interface Application {
     profileBio: string | null;
     idVerified: boolean;
     ninVerified: boolean;
-    employmentStatus?: string | null;
   };
   screeningStatus: Record<string, string>;
   guarantorData: GuarantorData;

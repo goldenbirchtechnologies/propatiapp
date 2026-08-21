@@ -118,9 +118,9 @@ export default async function LandlordApplicationsPage() {
         idVerified: Boolean(app.tenant?.idVerified),
         ninVerified: Boolean(app.tenant?.ninVerified),
       },
-      screeningStatus: (app as any).screeningStatus || {},
-      guarantorData: (app as any).guarantorData || {},
-      applicantDocuments: Array.isArray((app as any).applicantDocuments) ? (app as any).applicantDocuments : [],
+      screeningStatus: (() => { const v = (app as any).screeningStatus; if (!v) return {}; if (typeof v === 'string') { try { return JSON.parse(v); } catch { return {}; } } return v; })(),
+      guarantorData: (() => { const v = (app as any).guarantorData; if (!v) return {}; if (typeof v === 'string') { try { return JSON.parse(v); } catch { return {}; } } return v; })(),
+      applicantDocuments: (() => { const v = (app as any).applicantDocuments; if (Array.isArray(v)) return v; if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } } return []; })(),
     }));
 
   return (

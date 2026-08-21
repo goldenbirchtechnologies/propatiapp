@@ -650,6 +650,19 @@ export function DashboardShell({
             </button>
           </div>
 
+          {quickAction && !sidebarCollapsed && (
+            <div className="px-1 pt-1 pb-2">
+              <Link
+                href={quickAction.href}
+                className="flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors"
+                style={{ background: 'var(--accent)', color: '#000' }}
+              >
+                {quickAction.icon || <Plus className="h-4 w-4" />}
+                <span>{quickAction.label}</span>
+              </Link>
+            </div>
+          )}
+
           <nav className="sb-nav" aria-label="Dashboard navigation">
             <ul className="sb-nav-list" role="list">
               {navigation.map((item, idx) => {
@@ -730,16 +743,6 @@ export function DashboardShell({
               })}
             </ul>
           </nav>
-
-          <div className="sb-footer">
-            <Link
-              href={userRole === 'admin' ? `/dashboard/${userRole}/settings` : `/dashboard/${userRole}/profile`}
-              className="sb-signout-btn"
-            >
-              <Settings className="h-4 w-4" />
-              {!sidebarCollapsed && <span>{userRole === 'admin' ? 'Settings' : 'Profile'}</span>}
-            </Link>
-          </div>
         </div>
       </aside>
 

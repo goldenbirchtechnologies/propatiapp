@@ -11,11 +11,11 @@ export default async function AgentReceiptsPage() {
   return (
     <DashboardShell navigation={AGENT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
 
-      <ErrorBoundary>
+      <ErrorBoundary><div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
       <TenantReceiptsClient initialReceipts={[]} />
     
-      </ErrorBoundary>
+      </div></ErrorBoundary>
 </DashboardShell>
   );
 }

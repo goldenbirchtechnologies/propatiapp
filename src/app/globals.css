@@ -54,14 +54,14 @@
   --theme-tenant-accent2: #14a88e;
 
   /* Agent */
-  --theme-agent-bg: #060d18;
-  --theme-agent-surface: #0d1b2e;
-  --theme-agent-border: rgba(255, 255, 255, 0.05);
-  --theme-agent-text: #e8eef8;
-  --theme-agent-muted: #1e293b;
-  --theme-agent-muted-foreground: #cbd5e1;
-  --theme-agent-accent: #22c55e;
-  --theme-agent-accent2: #4ade80;
+  --theme-agent-bg: #000000;
+  --theme-agent-surface: #171717;
+  --theme-agent-border: #262626;
+  --theme-agent-text: #ffffff;
+  --theme-agent-muted: #171717;
+  --theme-agent-muted-foreground: #a3a3a3;
+  --theme-agent-accent: #00ff66;
+  --theme-agent-accent2: #00ff66;
 
   /* Admin */
   --theme-admin-bg: #0c0e12;
@@ -346,10 +346,10 @@
   --surface-bright: var(--theme-agent-surface);
   --surface-elevated: var(--theme-agent-surface);
   --on-surface: var(--theme-agent-text);
-  --on-surface-variant: var(--theme-agent-muted);
+  --on-surface-variant: var(--theme-agent-muted-foreground);
   --inverse-surface: var(--theme-agent-text);
   --inverse-on-surface: var(--theme-agent-bg);
-  --outline: var(--theme-agent-muted);
+  --outline: var(--theme-agent-border);
   --outline-variant: var(--theme-agent-border);
   --primary-container: var(--theme-agent-accent);
   --on-primary-container: #ffffff;
@@ -361,11 +361,14 @@
   --card-foreground: var(--text);
   --popover: var(--surface);
   --popover-foreground: var(--text);
-  --primary-foreground: #ffffff;
+  --primary: var(--accent);
+  --primary-foreground: #000000;
   --secondary: var(--surface);
   --secondary-foreground: var(--text);
+  --muted: var(--muted);
   --muted-foreground: var(--theme-agent-muted-foreground);
-  --accent-foreground: #ffffff;
+  --accent: var(--accent);
+  --accent-foreground: #000000;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --input: var(--border);
@@ -378,7 +381,7 @@
   --sidebar: var(--surface);
   --sidebar-foreground: var(--text);
   --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: #ffffff;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent: var(--surface);
   --sidebar-accent-foreground: var(--text);
   --sidebar-border: var(--border);

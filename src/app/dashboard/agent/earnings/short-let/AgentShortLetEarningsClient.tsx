@@ -104,17 +104,17 @@ export default function AgentShortLetEarningsClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-headline-sm font-bold">Short-let Revenue</h1>
-        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Track earnings, occupancy, and payouts.</p>
+        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Track earnings, occupancy, and payouts.</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="md:col-span-2 bg-primary text-primary-foreground relative overflow-hidden">
+        <Card className="md:col-span-2 bg-[#00ff66] text-white-foreground relative overflow-hidden">
           <CardContent className="p-6 relative z-10">
             <p className="text-xs font-label-md uppercase tracking-wider opacity-80">Available Revenue</p>
             <h2 className="text-headline-sm font-bold mt-2">₦12,450,000.00</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Button className="bg-warning text-primary hover:brightness-110">
+              <Button className="bg-[#262626] text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
               <Button variant="outline" className="border-white/20 text-white hover:bg-surface-container-lowest/10">
@@ -122,32 +122,32 @@ export default function AgentShortLetEarningsClient() {
               </Button>
             </div>
           </CardContent>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-warning opacity-10 rounded-full blur-3xl" />
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-[#262626] opacity-10 rounded-full blur-3xl" />
         </Card>
 
         <Card>
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Occupancy Rate</p>
-              <span className="bg-success/10 text-success px-2 py-1 rounded text-xs font-bold border border-outline-variant">+12%</span>
+              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Occupancy Rate</p>
+              <span className="bg-[#00ff66]/10 text-[#00ff66] px-2 py-1 rounded text-xs font-bold border border-[#262626]">+12%</span>
             </div>
             <h3 className="text-headline-sm font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs font-label-md uppercase tracking-wider mt-2" style={{ color: 'text-on-surface-variant' }}>Average across 14 properties</p>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-2" className="text-neutral-400" }}>Average across 14 properties</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Next Payout</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Next Payout</p>
             <h3 className="text-headline-sm font-bold mt-2">{nextPayout}</h3>
             <div className="flex items-center gap-3 mt-4">
-              <div className="p-2 bg-warning/10 rounded-lg">
-                <TrendingUp className="h-4 w-4 text-warning" />
+              <div className="p-2 bg-[#262626] rounded-xl">
+                <TrendingUp className="h-4 w-4 text-neutral-300" />
               </div>
               <div>
                 <p className="text-sm font-bold">₦{nextPayoutAmount.toLocaleString()}</p>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Estimated amount</p>
+                <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Estimated amount</p>
               </div>
             </div>
           </CardContent>
@@ -156,11 +156,11 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Calendar + Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader className="pb-4 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-headline-sm">Revenue Forecast</CardTitle>
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>May 2024 Bookings</p>
+              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>May 2024 Bookings</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -173,36 +173,36 @@ export default function AgentShortLetEarningsClient() {
           </CardHeader>
           <CardContent>
             <div className="min-w-[600px] grid grid-cols-7 gap-2">
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>MON</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>TUE</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>WED</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>THU</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>FRI</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>SAT</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" style={{ color: 'text-on-surface-variant' }}>SUN</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>MON</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>TUE</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>WED</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>THU</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>FRI</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>SAT</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>SUN</div>
               {calendarDays.map((d) => (
                 <div
                   key={d.date}
                   className={cn(
-                    'h-24 p-2 rounded-lg border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-muted border-outline-variant opacity-40' : 'bg-surface-container-lowest border-outline-variant hover:border-primary cursor-pointer',
-                    d.active ? 'bg-primary text-white border-primary' : '',
-                    d.peak ? 'bg-warning text-white border-warning' : ''
+                    'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
+                    d.disabled ? 'bg-[#171717] border-[#262626] opacity-40' : 'bg-surface-container-lowest border-[#262626] hover:border-primary cursor-pointer',
+                    d.active ? 'bg-[#00ff66] text-white border-primary' : '',
+                    d.peak ? 'bg-[#262626] text-white border-[#262626]' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
                   {d.revenue && (
                     <div>
-                      <span className={cn('text-[10px] font-label-md uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-success')}>
+                      <span className={cn('text-[10px] font-label-md uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-[#00ff66]')}>
                         ₦{(d.revenue / 1000).toFixed(0)}k
                       </span>
                       {(d.active || d.peak) && (
-                        <div className="h-1 w-full bg-warning/60 rounded-full mt-1" />
+                        <div className="h-1 w-full bg-[#262626]/60 rounded-full mt-1" />
                       )}
                     </div>
                   )}
                   {d.blocked && (
-                    <div className="flex items-center gap-1" style={{ color: 'text-on-surface-variant' }}>
+                    <div className="flex items-center gap-1" className="text-neutral-400" }}>
                       <Wrench className="h-3 w-3" />
                       <span className="text-[10px] font-label-md uppercase tracking-wider">Blocked</span>
                     </div>
@@ -213,7 +213,7 @@ export default function AgentShortLetEarningsClient() {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col">
+        <Card className="flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
             <CardTitle className="text-headline-sm">Revenue Breakdown</CardTitle>
           </CardHeader>
@@ -221,26 +221,26 @@ export default function AgentShortLetEarningsClient() {
             {breakdown.map((item) => (
               <div key={item.label} className="space-y-2">
                 <div className="flex justify-between text-sm font-mono">
-                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-on-surface-variant' : '')}>
+                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-neutral-400' : '')}>
                     {item.label}
                   </span>
-                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-destructive' : '')}>{item.value}</span>
+                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-red-500' : '')}>{item.value}</span>
                 </div>
-                <div className="w-full bg-muted rounded-full h-3">
+                <div className="w-full bg-[#171717] rounded-full h-3">
                   <div
-                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-destructive/60' : 'bg-primary')}
+                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-destructive/60' : 'bg-[#00ff66]')}
                     style={{ width: `${Math.min(item.pct, 100)}%` }}
                   />
                 </div>
               </div>
             ))}
-            <div className="pt-6 mt-6 border-t border-outline-variant">
+            <div className="pt-6 mt-6 border-t border-[#262626]">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Net Revenue</p>
-                  <p className="text-headline-sm font-bold text-success">₦12,450,000</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Net Revenue</p>
+                  <p className="text-headline-sm font-bold text-[#00ff66]">₦12,450,000</p>
                 </div>
-                <div className="bg-success/10 text-success px-3 py-1 rounded-full text-xs font-bold border border-outline-variant">
+                <div className="bg-[#00ff66]/10 text-[#00ff66] px-3 py-1 rounded-full text-xs font-bold border border-[#262626]">
                   VERIFIED
                 </div>
               </div>
@@ -259,7 +259,7 @@ export default function AgentShortLetEarningsClient() {
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-muted/50" style={{ color: 'text-on-surface-variant' }}>
+            <thead className="bg-[#171717]/50" className="text-neutral-400" }}>
               <tr>
                 <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Property & Guest</th>
                 <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Stay Dates</th>
@@ -271,29 +271,29 @@ export default function AgentShortLetEarningsClient() {
             </thead>
             <tbody className="divide-y divide-outline-variant">
               {initialStays.map((stay) => (
-                <tr key={stay.id} className="hover:bg-muted/30 transition-colors">
+                <tr key={stay.id} className="hover:bg-[#171717]/30 transition-colors">
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-                        <CalendarDays className="h-5 w-5" style={{ color: 'text-on-surface-variant' }} />
+                      <div className="w-10 h-10 rounded-xl bg-[#171717] flex items-center justify-center shrink-0">
+                        <CalendarDays className="h-5 w-5" className="text-neutral-400" }} />
                       </div>
                       <div>
                         <p className="text-sm font-bold">{stay.property}</p>
-                        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Guest: {stay.guest}</p>
+                        <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Guest: {stay.guest}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-xs font-label-md uppercase tracking-wider">
                     {stay.dates}
-                    <span className="text-xs font-label-md uppercase tracking-wider block" style={{ color: 'text-on-surface-variant' }}>({stay.nights} nights)</span>
+                    <span className="text-xs font-label-md uppercase tracking-wider block" className="text-neutral-400" }}>({stay.nights} nights)</span>
                   </td>
                   <td className="px-4 py-4 text-sm font-mono">₦{stay.gross.toLocaleString()}</td>
-                  <td className="px-4 py-4 text-sm font-label-md uppercase tracking-wider text-destructive">-₦{stay.serviceFee.toLocaleString()}</td>
+                  <td className="px-4 py-4 text-sm font-label-md uppercase tracking-wider text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>
                   <td className="px-4 py-4 text-sm font-bold">₦{stay.net.toLocaleString()}</td>
                   <td className="px-4 py-4">
                     <Badge
                       variant={stay.status === 'Settled' ? 'default' : 'secondary'}
-                      className="bg-success/10 text-success hover:bg-success/10"
+                      className="bg-[#00ff66]/10 text-[#00ff66] hover:bg-[#00ff66]/10"
                     >
                       {stay.status}
                     </Badge>

@@ -48,8 +48,8 @@ export default function AgentMessagesClient({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm font-bold text-headline-sm text-primary">Messages</h1>
-          <p className="text-sm text-on-surface-variant mt-1">
+          <h1 className="text-3xl font-semibold tracking-tight text-white">Messages</h1>
+          <p className="text-base text-neutral-400 mt-1">
             {unreadTotal > 0
               ? `You have ${unreadTotal} unread message${unreadTotal > 1 ? 's' : ''}`
               : 'No unread messages'}
@@ -59,7 +59,7 @@ export default function AgentMessagesClient({
 
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
           <Input
             placeholder="Search conversations..."
             value={filter}
@@ -72,10 +72,10 @@ export default function AgentMessagesClient({
       <Card>
         <CardContent className="p-0">
           {filtered.length === 0 ? (
-            <div className="p-12 text-center">
-              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-on-surface-variant opacity-50" />
-              <h3 className="font-headline-sm text-headline-sm text-primary mb-2">No conversations</h3>
-              <p className="text-sm text-on-surface-variant">
+            <div className="flex flex-col items-center justify-center p-12 text-center">
+              <MessageSquare className="w-16 h-16 mx-auto mb-4 text-neutral-400 opacity-50" />
+              <h3 className="font-headline-sm text-headline-sm text-white mb-2">No conversations</h3>
+              <p className="text-sm text-neutral-400">
                 {filter ? 'No matches for your search.' : 'Messages will appear here when someone contacts you.'}
               </p>
             </div>
@@ -87,27 +87,27 @@ export default function AgentMessagesClient({
                   <Link
                     key={c.id}
                     href={`#conversation-${c.id}`}
-                    className={`block px-4 py-4 hover:bg-surface-container-high/50 transition-colors ${unread > 0 ? 'bg-primary/5' : ''}`}
+                    className={`block px-4 py-4 hover:bg-[#0a0a0a]/30 transition-colors ${unread > 0 ? 'bg-[#00ff66]/5' : ''}`}
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-primary/10 text-primary' : 'bg-muted text-on-surface-variant'}`}
+                        className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${unread > 0 ? 'bg-[#00ff66]/10 text-white' : 'bg-[#171717] text-neutral-400'}`}
                       >
                         <MessageSquare className="h-4 w-4" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm truncate ${unread > 0 ? 'font-bold text-primary' : 'font-medium text-primary'}`}>
+                        <p className={`text-sm truncate ${unread > 0 ? 'font-bold text-white' : 'font-medium text-white'}`}>
                           {c.subject || `Conversation ${c.id}`}
                         </p>
-                        <p className="text-xs text-on-surface-variant truncate mt-0.5">
+                        <p className="text-xs text-neutral-400 truncate mt-0.5">
                           {c.lastMessage || 'No messages yet'}
                         </p>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         {unread > 0 ? (
-                          <Badge className="bg-primary text-primary-foreground">{unread}</Badge>
+                          <Badge className="bg-[#00ff66] text-white-foreground">{unread}</Badge>
                         ) : null}
-                        <span className="flex items-center gap-1 text-xs text-on-surface-variant">
+                        <span className="flex items-center gap-1 text-xs text-neutral-400">
                           <Clock className="h-3 w-3" />
                           {c.lastMessageAt
                             ? new Date(c.lastMessageAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short' })

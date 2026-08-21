@@ -66,11 +66,11 @@ export default async function AgentListingDetailPage({
       userAvatar={user.avatarUrl || undefined}
     >
 
-      <ErrorBoundary>
+      <ErrorBoundary><div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
       <AgentListingDetailClient listing={initialListing} />
     
-      </ErrorBoundary>
+      </div></ErrorBoundary>
 </DashboardShell>
   );
 }

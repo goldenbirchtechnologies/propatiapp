@@ -87,7 +87,7 @@ export default async function AgentCommissionsPage() {
             <CardTitle>Commissions</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">{commissionsError}</p>
+            <p className="text-neutral-400-foreground">{commissionsError}</p>
             <button
               type="button"
               className="mt-4 underline"

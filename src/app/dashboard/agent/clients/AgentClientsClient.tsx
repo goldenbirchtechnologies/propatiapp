@@ -71,17 +71,17 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
         <div
           className="p-2 rounded-full flex-shrink-0"
           style={{
-            background: 'bg-primary/10',
-            color: 'text-primary',
+            background: 'bg-[#00ff66]/10',
+            color: 'text-white',
           }}
         >
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
             {label}
           </p>
-          <p className="text-2xl font-headline-sm font-bold" style={{ color: 'text-primary' }}>
+          <p className="text-2xl font-headline-sm font-bold" className="text-white" }}>
             {value}
           </p>
         </div>
@@ -93,12 +93,12 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className="card p-12 text-center">
-      <Users className="w-16 h-16 mx-auto mb-4" style={{ color: 'text-on-surface-variant', opacity: 0.4 }} />
-      <h3 className="font-headline-sm font-bold text-lg mb-2" style={{ color: 'text-primary' }}>
+    <div className="card flex flex-col items-center justify-center p-12 text-center">
+      <Users className="w-16 h-16 mx-auto mb-4" className="text-neutral-400", opacity: 0.4 }} />
+      <h3 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>
         No clients yet
       </h3>
-      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto" style={{ color: 'text-on-surface-variant' }}>
+      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto" className="text-neutral-400" }}>
         Your client portfolio is empty. Start by adding buyers or sellers to track your deals and relationships.
       </p>
       <Button onClick={onAdd} className="gap-2">
@@ -117,17 +117,17 @@ function ClientRow({ client }: { client: Client }) {
         {/* Avatar */}
         <div
           className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
-          style={{ background: 'bg-primary/10', color: 'text-primary' }}
+          style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}
         >
           <Users className="h-4 w-4" />
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium" style={{ color: 'text-primary' }}>
+          <p className="text-sm font-medium" className="text-white" }}>
             {client.name}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
             {client.phone}
           </p>
         </div>
@@ -137,8 +137,8 @@ function ClientRow({ client }: { client: Client }) {
           className={cn(
             'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0',
             client.type === 'Buyer'
-              ? 'bg-success/10 text-success border border-outline-variant'
-              : 'bg-warning/10 text-warning border border-outline-variant'
+              ? 'bg-[#00ff66]/10 text-[#00ff66] border border-[#262626]'
+              : 'bg-[#262626] text-neutral-300 border border-[#262626]'
           )}
         >
           {client.type}
@@ -146,16 +146,16 @@ function ClientRow({ client }: { client: Client }) {
 
         {/* Budget */}
         <div className="text-right hidden md:block flex-shrink-0">
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Budget</p>
-          <p className="text-sm font-medium" style={{ color: 'text-primary' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Budget</p>
+          <p className="text-sm font-medium" className="text-white" }}>
             {formatCurrency(client.minBudget)} – {formatCurrency(client.maxBudget)}
           </p>
         </div>
 
         {/* Last contact */}
         <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 90 }}>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Last Contact</p>
-          <p className="text-sm" style={{ color: 'text-primary' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Last Contact</p>
+          <p className="text-sm" className="text-white" }}>
             {new Date(client.lastContact).toLocaleDateString('en-NG', {
               day: '2-digit',
               month: 'short',
@@ -168,24 +168,24 @@ function ClientRow({ client }: { client: Client }) {
         <div className="flex items-center gap-1 flex-shrink-0">
           <Link
             href={`tel:${client.phone}`}
-            className="p-2 rounded-md hover:bg-muted/50"
+            className="p-2 rounded-md hover:bg-[#171717]/50"
             title="Call"
           >
-            <Phone className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+            <Phone className="w-4 h-4" className="text-neutral-400" }} />
           </Link>
           <Link
             href={`mailto:${client.name.replace(/\s+/g, '.').toLowerCase()}@example.com`}
-            className="p-2 rounded-md hover:bg-muted/50"
+            className="p-2 rounded-md hover:bg-[#171717]/50"
             title="Email"
           >
-            <Mail className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+            <Mail className="w-4 h-4" className="text-neutral-400" }} />
           </Link>
           <Link
             href={`/dashboard/agent/pipeline?clientId=${client.id}`}
-            className="p-2 rounded-md hover:bg-muted/50"
+            className="p-2 rounded-md hover:bg-[#171717]/50"
             title="View Deal"
           >
-            <Eye className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+            <Eye className="w-4 h-4" className="text-neutral-400" }} />
           </Link>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function AgentClientsClient({
       {/* Filters */}
       <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+          <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
             <Building2 className="w-3.5 h-3.5 inline mr-1" />
             Filter
           </span>
@@ -261,8 +261,8 @@ export default function AgentClientsClient({
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium border transition-all capitalize',
                 filter === f
-                  ? 'text-primary border-outline-variant bg-surface-container-low'
-                  : 'border-transparent hover:bg-muted/50'
+                  ? 'text-white border-[#262626] bg-surface-container-low'
+                  : 'border-transparent hover:bg-[#171717]/50'
               )}
             >
               {f}
@@ -285,12 +285,12 @@ export default function AgentClientsClient({
         {clients.length === 0 ? (
           <EmptyClientsState onAdd={() => {}} />
         ) : filtered.length === 0 ? (
-          <div className="card p-12 text-center">
-            <Users className="w-12 h-12 mx-auto mb-3" style={{ color: 'text-on-surface-variant', opacity: 0.4 }} />
-            <p className="text-sm font-medium" style={{ color: 'text-primary' }}>
+          <div className="card flex flex-col items-center justify-center p-12 text-center">
+            <Users className="w-12 h-12 mx-auto mb-3" className="text-neutral-400", opacity: 0.4 }} />
+            <p className="text-sm font-medium" className="text-white" }}>
               No clients in this category
             </p>
-            <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>
               Try clearing the filter to see all clients.
             </p>
           </div>
@@ -309,11 +309,11 @@ function PageHeader() {
       <div>
         <h1
           className="font-headline-sm font-bold"
-          style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}
+          style={{ fontSize: 'font-headline-sm', color: 'text-white' }}
         >
           My Clients
         </h1>
-        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>
+        <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
           Manage lead relationships and budgets
         </p>
       </div>

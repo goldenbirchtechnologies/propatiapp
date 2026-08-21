@@ -37,46 +37,64 @@ export default async function AgentPaymentsPage() {
       <ErrorBoundary>
         <RentAndPaymentsHub tabs={tabs}>
           <TabsContent value="overview">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+            <div className="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">
               <div>
-                <h1 className="text-4xl font-bold text-foreground tracking-tight">Rent & Payments</h1>
-                <p className="text-muted-foreground mt-3 text-base">Wallet balance, deposits, withdrawals, and transaction history.</p>
+                <h1 className="text-3xl font-semibold tracking-tight text-white">Rent &amp; Payments</h1>
+                <p className="mt-3 text-base text-neutral-400">Wallet balance, deposits, withdrawals, and transaction history.</p>
               </div>
 
-              <div className="grid gap-5 md:grid-cols-3">
-                <div className="rounded-xl border border-border p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Wallet Balance</p>
-                  <p className="text-3xl font-bold text-foreground">₦{balance.toLocaleString()}</p>
-                </div>
-                <div className="rounded-xl border border-border p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Total Deposits</p>
-                  <p className="text-3xl font-bold text-foreground">{deposits}</p>
-                </div>
-                <div className="rounded-xl border border-border p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Total Withdrawals</p>
-                  <p className="text-3xl font-bold text-foreground">{withdrawals}</p>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-border">
-                <div className="p-5 border-b border-border">
-                  <h2 className="text-xl font-semibold text-foreground">Recent Transactions</h2>
-                </div>
-                <div className="divide-y divide-border">
-                  {recent.length === 0 && <p className="p-6 text-sm text-muted-foreground">No transactions yet.</p>}
-                  {recent.map((tx) => (
-                    <div key={tx.id} className="flex items-center justify-between p-5">
-                      <div>
-                        <p className="text-sm font-medium text-foreground">{tx.description || tx.type}</p>
-                        <p className="text-xs text-muted-foreground">{new Date(tx.createdAt).toLocaleString()}</p>
-                      </div>
-                      <p className={`text-sm font-semibold ${tx.type === 'withdrawal' ? 'text-red-400' : 'text-green-400'}`}>
-                        {tx.type === 'withdrawal' ? '-' : '+'}₦{Number(tx.amount).toLocaleString()}
-                      </p>
+              <div className="grid gap-6 md:grid-cols-3">
+                <div className="relative overflow-hidden rounded-xl border border-[#262626] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
+                  <div className="relative z-10">
+                    <p className="mb-2 text-sm font-medium text-neutral-400">Wallet Balance</p>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-semibold tracking-tight text-white">₦{balance.toLocaleString()}</span>
                     </div>
-                  ))}
+                  </div>
+                </div>
+                <div className="relative overflow-hidden rounded-xl border border-[#262626] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
+                  <div className="relative z-10">
+                    <p className="mb-2 text-sm font-medium text-neutral-400">Total Deposits</p>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-semibold tracking-tight text-white">{deposits}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative overflow-hidden rounded-xl border border-[#262626] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
+                  <div className="relative z-10">
+                    <p className="mb-2 text-sm font-medium text-neutral-400">Total Withdrawals</p>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-semibold tracking-tight text-white">{withdrawals}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              <section className="overflow-hidden rounded-xl border border-[#262626] bg-[rgba(23,23,23,0.4)] backdrop-blur backdrop-blur">
+                <div className="border-b border-[#262626] bg-[#0a0a0a]/30 px-6 py-5">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#00ff66]">
+                      <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+                      <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+                      <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+                    </svg>
+                    Recent Transactions
+                  </h3>
+                </div>
+                <div className="flex flex-col items-center justify-center p-12 text-center">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#262626] bg-[#0a0a0a]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500">
+                      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                      <path d="m3.3 7 8.7 5 8.7-5" />
+                      <path d="M12 22V12" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-neutral-400">No transactions yet.</p>
+                </div>
+              </section>
             </div>
           </TabsContent>
           <TabsContent value="commissions">
@@ -96,9 +114,9 @@ export default async function AgentPaymentsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-border p-10 text-center">
-      <p className="text-base font-semibold" style={{ color: 'var(--text)' }}>{title}</p>
-      <p className="text-base text-muted-foreground mt-2">{description}</p>
+    <div className="rounded-xl border border-[#262626] bg-[rgba(23,23,23,0.4)] backdrop-blur p-10 text-center backdrop-blur">
+      <p className="text-base font-semibold text-white">{title}</p>
+      <p className="mt-2 text-base text-neutral-400">{description}</p>
     </div>
   );
 }

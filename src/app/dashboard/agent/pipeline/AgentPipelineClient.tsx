@@ -59,16 +59,16 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
             Deal Pipeline
           </h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
             Track deals across enquiries, viewings, offers, agreements, and closed
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" className="text-neutral-400" }} />
             <input
               type="text"
               placeholder="Search deals..."
@@ -108,7 +108,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
 function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; color: string }) {
   return (
     <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '320px' }}>
-      <Card className="h-full flex flex-col">
+      <Card className="h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
         <CardHeader className="pb-3" style={{ background: `${color}15` }}>
           <div className="flex items-center justify-between">
             <CardTitle className="text-base" style={{ color }}>{stage.title}</CardTitle>
@@ -118,8 +118,8 @@ function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; 
         <CardContent className="flex-1 p-0">
           <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'bg-surface-container-lowest' }}>
             {deals.length === 0 ? (
-              <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed border-outline-variant', borderRadius: 'rounded-xl' }}>
-                <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>No deals in this stage</span>
+              <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed border-[#262626]', borderRadius: 'rounded-xl' }}>
+                <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>No deals in this stage</span>
               </div>
             ) : (
               deals.map((deal) => <DealCard key={deal.id} deal={deal} color={color} />)
@@ -136,10 +136,10 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
 
   return (
     <div
-      className="p-3 rounded-lg cursor-pointer transition-all"
+      className="p-3 rounded-xl cursor-pointer transition-all"
       style={{
         background: 'bg-surface-container-low',
-        border: '1px solid border-outline-variant',
+        border: '1px solid border-[#262626]',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}
       onClick={() => setExpanded(!expanded)}
@@ -147,42 +147,42 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-medium truncate" style={{ color: 'text-primary' }}>{deal.title}</span>
+            <span className="text-sm font-medium truncate" className="text-white" }}>{deal.title}</span>
             <Badge variant="outline" className="text-xs">{deal.property}</Badge>
           </div>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Client: {deal.client}</p>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Client: {deal.client}</p>
         </div>
         <div className="flex items-center gap-1">
-          <GripVertical className="w-4 h-4" style={{ color: 'text-on-surface-variant', cursor: 'grab' }} />
+          <GripVertical className="w-4 h-4" className="text-neutral-400", cursor: 'grab' }} />
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" style={{ borderColor: 'border-outline-variant', color: 'text-on-surface-variant' }}>
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" style={{ borderColor: 'border-[#262626]', color: 'text-neutral-400' }}>
         <AppIcon name="₦{deal.value.toLocaleString()}" className="lucide" />
         <AppIcon name={deal.lastContact} className="lucide" />
       </div>
 
       {expanded && (
-        <div className="mt-3 p-3 rounded-lg" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
+        <div className="mt-3 p-3 rounded-xl" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Property:</span>
-              <span style={{ color: 'text-primary' }}>{deal.property}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Property:</span>
+              <span className="text-white" }}>{deal.property}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Client:</span>
-              <span style={{ color: 'text-primary' }}>{deal.client}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Client:</span>
+              <span className="text-white" }}>{deal.client}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Value:</span>
-              <span className="text-sm font-medium" style={{ color: 'text-primary' }}>₦{deal.value.toLocaleString()}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Value:</span>
+              <span className="text-sm font-medium" className="text-white" }}>₦{deal.value.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Last Contact:</span>
-              <span style={{ color: 'text-primary' }}>{deal.lastContact}</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Last Contact:</span>
+              <span className="text-white" }}>{deal.lastContact}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'border-outline-variant' }}>
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'border-[#262626]' }}>
             <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
             <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
             <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>
@@ -200,17 +200,17 @@ function StatCard({ label, value, icon: Icon, trend, trendPositive = true }: { l
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{label}</p>
-            <p className="text-2xl font-headline-sm font-bold" style={{ color: 'text-primary' }}>{value}</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{label}</p>
+            <p className="text-2xl font-headline-sm font-bold" className="text-white" }}>{value}</p>
           </div>
-          <div className="p-3 rounded-xl" style={{ background: 'bg-primary/10', color: 'text-primary' }}>{Icon}</div>
+          <div className="p-3 rounded-xl" style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}>{Icon}</div>
         </div>
         {trend && (
           <div className="mt-4 flex items-center gap-1">
-            <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: trendPositive ? 'text-success' : 'var(--red)' }}>
+            <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: trendPositive ? 'text-[#00ff66]' : 'var(--red)' }}>
               {trendPositive ? '↑' : '↓'}
             </span>
-            <span className="text-xs" style={{ color: trendPositive ? 'text-success' : 'var(--red)' }}>{trend}</span>
+            <span className="text-xs" style={{ color: trendPositive ? 'text-[#00ff66]' : 'var(--red)' }}>{trend}</span>
           </div>
         )}
       </CardContent>

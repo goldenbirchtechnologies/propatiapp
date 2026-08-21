@@ -71,14 +71,14 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Link href="/dashboard/agent/pipeline" className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+            <Link href="/dashboard/agent/pipeline" className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
               <ChevronLeft className="w-4 h-4" /> Pipeline
             </Link>
           </div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
             {deal.title}
           </h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', marginTop: 'mt-1' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
             {deal.property}
           </p>
         </div>
@@ -113,15 +113,15 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b" style={{ borderColor: 'border-outline-variant' }}>
+      <div className="flex gap-2 border-b" style={{ borderColor: 'border-[#262626]' }}>
         {(['overview', 'timeline', 'actions', 'documents'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className="px-4 py-2 text-sm font-medium border-b-2 transition-colors capitalize"
             style={{
-              borderColor: activeTab === tab ? 'text-primary' : 'transparent',
-              color: activeTab === tab ? 'text-primary' : 'text-on-surface-variant',
+              borderColor: activeTab === tab ? 'text-white' : 'transparent',
+              color: activeTab === tab ? 'text-white' : 'text-neutral-400',
             }}
           >
             {tab}
@@ -132,8 +132,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
-            <h3 className="font-headline-sm font-bold text-sm mb-4" style={{ color: 'text-primary' }}>Deal Details</h3>
+          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+            <h3 className="font-headline-sm font-bold text-sm mb-4" className="text-white" }}>Deal Details</h3>
             <div className="space-y-3">
               <DetailRow icon={<Home className="w-4 h-4" />} label="Property" value={deal.property} />
               <DetailRow icon={<User className="w-4 h-4" />} label="Client" value={deal.client} />
@@ -142,8 +142,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <DetailRow icon={<Clock className="w-4 h-4" />} label="Last Contact" value={formatDate(deal.lastContact)} />
             </div>
           </div>
-          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
-            <h3 className="font-headline-sm font-bold text-sm mb-4" style={{ color: 'text-primary' }}>Status Overview</h3>
+          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+            <h3 className="font-headline-sm font-bold text-sm mb-4" className="text-white" }}>Status Overview</h3>
             <div className="space-y-3">
               <StatusBar label="Enquiries" active={deal.status === 'enquiries'} />
               <StatusBar label="Viewings" active={deal.status === 'viewings'} />
@@ -156,19 +156,19 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'timeline' && (
-        <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
-          <h3 className="font-headline-sm font-bold text-sm mb-6" style={{ color: 'text-primary' }}>Deal Timeline</h3>
+        <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+          <h3 className="font-headline-sm font-bold text-sm mb-6" className="text-white" }}>Deal Timeline</h3>
           <div className="space-y-0">
             {deal.timeline.map((item, idx) => (
               <div key={item.id} className="flex gap-4">
                 <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 rounded-full" style={{ background: 'text-primary' }} />
-                  {idx < deal.timeline.length - 1 && <div className="w-0.5 flex-1 mt-1" style={{ background: 'border-outline-variant' }} />}
+                  <div className="w-3 h-3 rounded-full" style={{ background: 'text-white' }} />
+                  {idx < deal.timeline.length - 1 && <div className="w-0.5 flex-1 mt-1" style={{ background: 'border-[#262626]' }} />}
                 </div>
                 <div className="pb-6">
-                  <p className="text-sm font-medium" style={{ color: 'text-primary' }}>{item.event}</p>
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{formatDate(item.date)}</p>
-                  <p className="text-sm mt-1" style={{ color: 'text-on-surface-variant' }}>{item.detail}</p>
+                  <p className="text-sm font-medium" className="text-white" }}>{item.event}</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{formatDate(item.date)}</p>
+                  <p className="text-sm mt-1" className="text-neutral-400" }}>{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -206,38 +206,38 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'documents' && (
-        <div className="card overflow-hidden" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant' }}>
-          <div className="p-4 border-b" style={{ borderColor: 'border-outline-variant' }}>
-            <h3 className="font-headline-sm font-bold text-sm" style={{ color: 'text-primary' }}>Documents</h3>
+        <div className="card overflow-hidden" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+          <div className="p-4 border-b" style={{ borderColor: 'border-[#262626]' }}>
+            <h3 className="font-headline-sm font-bold text-sm" className="text-white" }}>Documents</h3>
           </div>
           {deal.documents.length === 0 ? (
             <div className="p-10 text-center">
-              <FileText className="w-10 h-10 mx-auto mb-3" style={{ color: 'text-on-surface-variant', opacity: 0.5 }} />
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>No documents uploaded yet</p>
+              <FileText className="w-10 h-10 mx-auto mb-3" className="text-neutral-400", opacity: 0.5 }} />
+              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>No documents uploaded yet</p>
             </div>
           ) : (
-            <table className="w-full">
+            <table className="w-full divide-y divide-[#262626]">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'border-outline-variant' }}>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Name</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Type</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Size</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Uploaded</th>
-                  <th className="text-right p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Action</th>
+                <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Name</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Type</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Size</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Uploaded</th>
+                  <th className="text-right p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {deal.documents.map((doc) => (
-                  <tr key={doc.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'border-outline-variant' }}>
-                    <td className="p-4 font-medium text-sm flex items-center gap-2" style={{ color: 'text-primary' }}>
-                      <FileText className="w-4 h-4" style={{ color: 'text-on-surface-variant' }} />
+                  <tr key={doc.id} className="border-b transition-colors hover:bg-[#171717]/30" style={{ borderColor: 'border-[#262626]' }}>
+                    <td className="p-4 font-medium text-sm flex items-center gap-2" className="text-white" }}>
+                      <FileText className="w-4 h-4" className="text-neutral-400" }} />
                       {doc.name}
                     </td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{doc.type}</td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{doc.size}</td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{formatDate(doc.uploadedAt)}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{doc.type}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{doc.size}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{formatDate(doc.uploadedAt)}</td>
                     <td className="p-4 text-right">
-                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-surface-container-low', color: 'text-primary', border: '1px solid border-outline-variant' }}>
+                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-surface-container-low', color: 'text-white', border: '1px solid border-[#262626]' }}>
                         <Download className="w-3 h-3" /> Download
                       </button>
                     </td>
@@ -255,11 +255,11 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
 function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
-        <span className="inline-flex" style={{ color: 'text-primary' }}>{icon}</span>
+      <div className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+        <span className="inline-flex" className="text-white" }}>{icon}</span>
         {label}
       </div>
-      <span className="text-sm font-medium" style={{ color: 'text-primary' }}>{value}</span>
+      <span className="text-sm font-medium" className="text-white" }}>{value}</span>
     </div>
   );
 }
@@ -267,25 +267,25 @@ function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: strin
 function StatusBar({ label, active }: { label: string; active: boolean }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex-1 h-2 rounded-full" style={{ background: 'border-outline-variant' }}>
-        <div className="h-2 rounded-full" style={{ width: active ? '100%' : '0%', background: active ? 'text-primary' : 'transparent', transition: 'width 0.3s ease' }} />
+      <div className="flex-1 h-2 rounded-full" style={{ background: 'border-[#262626]' }}>
+        <div className="h-2 rounded-full" style={{ width: active ? '100%' : '0%', background: active ? 'text-white' : 'transparent', transition: 'width 0.3s ease' }} />
       </div>
-      <span className="text-xs font-label-md uppercase tracking-wider font-medium w-24 text-right" style={{ color: active ? 'text-primary' : 'text-on-surface-variant' }}>{label}</span>
+      <span className="text-xs font-label-md uppercase tracking-wider font-medium w-24 text-right" style={{ color: active ? 'text-white' : 'text-neutral-400' }}>{label}</span>
     </div>
   );
 }
 
 function ActionCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
-    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-outline-variant', textDecoration: 'none' }}>
-      <div className="p-3 rounded-xl" style={{ background: 'bg-primary/10', color: 'text-primary' }}>
+    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]', textDecoration: 'none' }}>
+      <div className="p-3 rounded-xl" style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-headline-sm font-bold text-sm" style={{ color: 'text-primary' }}>{title}</p>
-        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>{description}</p>
+        <p className="font-headline-sm font-bold text-sm" className="text-white" }}>{title}</p>
+        <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>{description}</p>
       </div>
-      <ChevronRight className="w-4 h-4 mt-1 transition-transform group-hover:translate-x-1" style={{ color: 'text-on-surface-variant' }} />
+      <ChevronRight className="w-4 h-4 mt-1 transition-transform group-hover:translate-x-1" className="text-neutral-400" }} />
     </Link>
   );
 }

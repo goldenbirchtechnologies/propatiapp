@@ -52,18 +52,18 @@ export default function AgentProfileClient({
 
   const tierColor =
     user.agentTier === 'premium'
-      ? 'bg-success/10 text-success border border-success-bright/20'
+      ? 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20'
       : user.agentTier === 'standard'
-        ? 'bg-primary/10 text-primary border border-primary/20'
-        : 'bg-muted text-on-surface-variant border border-outline-variant';
+        ? 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20'
+        : 'bg-[#171717] text-neutral-400 border border-[#262626]';
 
   const { data: kyc, reload } = useKycStatus();
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-sm font-bold text-headline-sm text-primary">My Profile</h1>
-        <p className="text-sm text-on-surface-variant mt-1">Manage your agent account details and preferences</p>
+        <h1 className="text-3xl font-semibold tracking-tight text-white">My Profile</h1>
+        <p className="text-base text-neutral-400 mt-1">Manage your agent account details and preferences</p>
       </div>
 
       <Card>
@@ -73,20 +73,20 @@ export default function AgentProfileClient({
               <img
                 src={user.avatarUrl}
                 alt={user.fullName}
-                className="h-16 w-16 rounded-full border border-outline-variant"
+                className="h-16 w-16 rounded-full border border-[#262626]"
               />
             ) : (
-              <div className="h-16 w-16 rounded-full bg-primary/10 border border-outline-variant flex items-center justify-center">
-                <UserCircle className="h-8 w-8 text-primary" />
+              <div className="h-16 w-16 rounded-full bg-[#00ff66]/10 border border-[#262626] flex items-center justify-center">
+                <UserCircle className="h-8 w-8 text-[#00ff66]" />
               </div>
             )}
             <div>
               <CardTitle className="text-lg">{user.fullName}</CardTitle>
-              <p className="text-xs text-on-surface-variant mt-1">Agent since {formattedDate}</p>
+              <p className="text-xs text-neutral-400 mt-1">Agent since {formattedDate}</p>
               <div className="flex items-center gap-2 mt-2">
                 <Badge variant="outline" className={tierColor}>{user.agentTier}</Badge>
                 {user.agentApproved && (
-                  <Badge variant="outline" className="bg-success/10 text-success border border-success-bright/20">Approved</Badge>
+                  <Badge variant="outline" className="bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20">Approved</Badge>
                 )}
               </div>
             </div>
@@ -94,50 +94,50 @@ export default function AgentProfileClient({
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
-              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
-                <Mail className="h-4 w-4 text-primary" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
+                <Mail className="h-4 w-4 text-[#00ff66]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Email</p>
-                <p className="text-sm text-primary mt-0.5 truncate">{user.email}</p>
+                <p className="text-xs uppercase tracking-wider text-neutral-400">Email</p>
+                <p className="text-sm text-white mt-0.5 truncate">{user.email}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
-              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
-                <Phone className="h-4 w-4 text-primary" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
+                <Phone className="h-4 w-4 text-[#00ff66]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Phone</p>
-                <p className="text-sm text-primary mt-0.5">
+                <p className="text-xs uppercase tracking-wider text-neutral-400">Phone</p>
+                <p className="text-sm text-white mt-0.5">
                   {user.phone ? '••••••' : 'Not provided'}
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
-              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
-                <Shield className="h-4 w-4 text-primary" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
+                <Shield className="h-4 w-4 text-[#00ff66]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Role</p>
-                <p className="text-sm text-primary mt-0.5 capitalize">{user.role}</p>
+                <p className="text-xs uppercase tracking-wider text-neutral-400">Role</p>
+                <p className="text-sm text-white mt-0.5 capitalize">{user.role}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
-              <div className="p-2 rounded-full bg-primary/10 flex-shrink-0">
-                <Calendar className="h-4 w-4 text-primary" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
+                <Calendar className="h-4 w-4 text-[#00ff66]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs uppercase tracking-wider text-on-surface-variant">Member Since</p>
-                <p className="text-sm text-primary mt-0.5">{formattedDate}</p>
+                <p className="text-xs uppercase tracking-wider text-neutral-400">Member Since</p>
+                <p className="text-sm text-white mt-0.5">{formattedDate}</p>
               </div>
             </div>
           </div>
 
           {user.profileBio && (
-            <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant">
-              <p className="text-xs uppercase tracking-wider text-on-surface-variant mb-2">Bio</p>
-              <p className="text-sm text-primary">{user.profileBio}</p>
+            <div className="p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+              <p className="text-xs uppercase tracking-wider text-neutral-400 mb-2">Bio</p>
+              <p className="text-sm text-white">{user.profileBio}</p>
             </div>
           )}
 

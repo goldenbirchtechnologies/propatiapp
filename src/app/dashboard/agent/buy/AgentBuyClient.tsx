@@ -24,19 +24,19 @@ type AgreementItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-muted text-on-surface-variant border border-outline-variant', label: 'Draft' },
-  pending_landlord: { color: 'bg-warning/10 text-warning border border-warning/20', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-warning/10 text-warning border border-warning/20', label: 'Pending Tenant' },
-  tenant_signed: { color: 'bg-primary/10 text-primary border border-primary/20', label: 'Tenant Signed' },
-  landlord_signed: { color: 'bg-primary/10 text-primary border border-primary/20', label: 'Landlord Signed' },
-  fully_signed: { color: 'bg-success/10 text-success border border-success-bright/20', label: 'Fully Signed' },
-  active: { color: 'bg-success/10 text-success border border-success-bright/20', label: 'Active' },
-  expired: { color: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Expired' },
-  terminated: { color: 'bg-destructive/10 text-destructive border border-destructive/20', label: 'Terminated' },
+  draft: { color: 'bg-[#171717] text-neutral-400 border border-[#262626]', label: 'Draft' },
+  pending_landlord: { color: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Pending Tenant' },
+  tenant_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Tenant Signed' },
+  landlord_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Landlord Signed' },
+  fully_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Fully Signed' },
+  active: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Active' },
+  expired: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Expired' },
+  terminated: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Terminated' },
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-muted text-on-surface-variant border border-outline-variant', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-neutral-400 border border-[#262626]', label: s };
 }
 
 export default function AgentBuyClient({ initialDeals }: { initialDeals: AgreementItem[] }) {
@@ -59,42 +59,42 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm font-bold text-headline-sm text-primary">Buy Pipeline</h1>
-          <p className="text-sm text-on-surface-variant mt-1">Track sale agreements initiated for your clients</p>
+          <h1 className="text-3xl font-semibold tracking-tight text-white">Buy Pipeline</h1>
+          <p className="text-base text-neutral-400 mt-1">Track sale agreements initiated for your clients</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-on-surface-variant">Total Deals</CardTitle>
+            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Deals</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-primary">{stats.total}</p>
+            <p className="text-2xl font-bold text-white">{stats.total}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-on-surface-variant">Total Value</CardTitle>
+            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Value</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-primary">{fmtCurrency(stats.totalValue)}</p>
+            <p className="text-2xl font-bold text-white">{fmtCurrency(stats.totalValue)}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-on-surface-variant">Active Pending</CardTitle>
+            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Active Pending</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-primary">{(stats.counts.draft || 0) + (stats.counts.pending_landlord || 0) + (stats.counts.pending_tenant || 0)}</p>
+            <p className="text-2xl font-bold text-white">{(stats.counts.draft || 0) + (stats.counts.pending_landlord || 0) + (stats.counts.pending_tenant || 0)}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-on-surface-variant">Closed</CardTitle>
+            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Closed</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-success">{(stats.counts.fully_signed || 0) + (stats.counts.active || 0)}</p>
+            <p className="text-2xl font-bold text-[#00ff66]">{(stats.counts.fully_signed || 0) + (stats.counts.active || 0)}</p>
           </CardContent>
         </Card>
       </div>
@@ -102,44 +102,44 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
       <Card>
         <CardContent className="p-0">
           {initialDeals.length === 0 ? (
-            <div className="p-12 text-center">
-              <FileSearch className="w-16 h-16 mx-auto mb-4 text-on-surface-variant opacity-50" />
-              <h3 className="font-headline-sm text-headline-sm text-primary mb-2">No buy deals</h3>
-              <p className="text-sm text-on-surface-variant">Sale agreements will appear here.</p>
+            <div className="flex flex-col items-center justify-center p-12 text-center">
+              <FileSearch className="w-16 h-16 mx-auto mb-4 text-neutral-400 opacity-50" />
+              <h3 className="font-headline-sm text-headline-sm text-white mb-2">No buy deals</h3>
+              <p className="text-sm text-neutral-400">Sale agreements will appear here.</p>
             </div>
           ) : (
-            <table className="w-full">
+            <table className="w-full divide-y divide-[#262626]">
               <thead>
-                <tr className="border-b border-outline-variant">
-                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Property</th>
-                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Type</th>
-                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Status</th>
-                  <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Value</th>
-                  <th className="text-left p-4 text-sm font-medium text-on-surface-variant">Created</th>
-                  <th className="text-right p-4 text-sm font-medium text-on-surface-variant">Details</th>
+                <tr>
+                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Property</th>
+                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Type</th>
+                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Status</th>
+                  <th className="text-right p-4 text-sm font-medium text-neutral-400">Value</th>
+                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Created</th>
+                  <th className="text-right p-4 text-sm font-medium text-neutral-400">Details</th>
                 </tr>
               </thead>
               <tbody>
                 {initialDeals.map((d) => {
                   const st = sc(d.status);
                   return (
-                    <tr key={d.id} className="border-b border-outline-variant hover:bg-surface-container-high/50 transition-colors">
-                      <td className="p-4 font-medium text-sm text-primary">
+                    <tr key={d.id} className="border-b border-[#262626] hover:bg-[#0a0a0a]/30 transition-colors">
+                      <td className="p-4 font-medium text-sm text-white">
                         <div>
                           <p>{d.property}</p>
-                          <p className="text-xs text-on-surface-variant">{d.landlord}</p>
+                          <p className="text-xs text-neutral-400">{d.landlord}</p>
                         </div>
                       </td>
-                      <td className="p-4 text-sm text-primary capitalize">{d.type}</td>
+                      <td className="p-4 text-sm text-white capitalize">{d.type}</td>
                       <td className="p-4">
                         <Badge variant="outline" className={st.color}>{st.label}</Badge>
                       </td>
-                      <td className="p-4 text-sm text-right text-primary font-medium">{fmtCurrency(d.value)}</td>
-                      <td className="p-4 text-sm text-on-surface-variant">
+                      <td className="p-4 text-sm text-right text-white font-medium">{fmtCurrency(d.value)}</td>
+                      <td className="p-4 text-sm text-neutral-400">
                         {new Date(d.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </td>
                       <td className="p-4 text-right">
-                        <Link href={`/dashboard/agent/deals/${d.id}`} className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                        <Link href={`/dashboard/agent/deals/${d.id}`} className="inline-flex items-center gap-1 text-sm text-white hover:underline">
                           View <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                       </td>

@@ -29,15 +29,15 @@ export default function CommissionLedgerPage() {
       <Card>
         <CardHeader><CardTitle>Commission ledger</CardTitle></CardHeader>
         <CardContent>
-          {loading && <p className="text-sm text-muted-foreground">Loading...</p>}
-          {!loading && items.length === 0 && <p className="text-sm text-muted-foreground">No commissions yet.</p>}
+          {loading && <p className="text-sm text-neutral-400-foreground">Loading...</p>}
+          {!loading && items.length === 0 && <p className="text-sm text-neutral-400-foreground">No commissions yet.</p>}
           <div className="space-y-4">
             {items.map((tx) => (
               <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-border/60 bg-background p-3">
                 <div>
                   <p className="text-sm font-semibold">{String(tx.type ?? 'adjustment').toUpperCase()}</p>
-                  <p className="text-xs text-muted-foreground">{String(tx.description ?? '')}</p>
-                  <p className="text-[11px] text-muted-foreground">{new Date(String(tx.createdAt)).toLocaleString()}</p>
+                  <p className="text-xs text-neutral-400-foreground">{String(tx.description ?? '')}</p>
+                  <p className="text-[11px] text-neutral-400-foreground">{new Date(String(tx.createdAt)).toLocaleString()}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold">{formatAmount(tx.amount)}</p>

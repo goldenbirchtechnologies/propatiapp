@@ -59,9 +59,9 @@ export default function AgentOfficeInspectionClient() {
       <div className="space-y-8">
         <div>
           <h1 className="text-headline-sm font-bold">Office Site Inspection</h1>
-          <p className="mt-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+          <p className="mt-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
             Schedule your physical premises verification to achieve{' '}
-            <span className="text-warning font-bold">Tier 2 Verified</span> status.
+            <span className="text-neutral-300 font-bold">Tier 2 Verified</span> status.
           </p>
         </div>
 
@@ -69,15 +69,15 @@ export default function AgentOfficeInspectionClient() {
         <Card>
           <CardContent className="p-4">
             <div className="flex justify-between mb-4 px-2">
-              <span className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1 text-success">
+              <span className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1 text-[#00ff66]">
                 <CheckCircle className="h-3 w-3" /> Submitted
               </span>
-              <span className="text-xs font-label-md uppercase tracking-wider text-primary">Scheduled</span>
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Visit</span>
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Report</span>
+              <span className="text-xs font-label-md uppercase tracking-wider text-white">Scheduled</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Visit</span>
+              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Report</span>
             </div>
-            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-              <div className="absolute h-full w-[45%] bg-gradient-to-r from-success to-warning" />
+            <div className="relative h-2 bg-[#171717] rounded-full overflow-hidden">
+              <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#00ff66] to-[#262626]" />
             </div>
           </CardContent>
         </Card>
@@ -88,7 +88,7 @@ export default function AgentOfficeInspectionClient() {
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <CalendarDays className="h-5 w-5 text-primary" />
+                  <CalendarDays className="h-5 w-5 text-white" />
                   <CardTitle className="text-headline-sm">Select Preferred Date & Time</CardTitle>
                 </div>
               </CardHeader>
@@ -107,7 +107,7 @@ export default function AgentOfficeInspectionClient() {
                         </Button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2" style={{ color: 'text-on-surface-variant' }}>
+                    <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2" className="text-neutral-400" }}>
                       <AppIcon name="M" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="W" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="F" className="lucide" /><AppIcon name="S" className="lucide" /><AppIcon name="S" className="lucide" />
                     </div>
                     <div className="grid grid-cols-7 gap-1 text-center text-sm">
@@ -118,8 +118,8 @@ export default function AgentOfficeInspectionClient() {
                           onClick={() => d.disabled ? undefined : setSelectedDate(d.date)}
                           className={cn(
                             'p-2 rounded-md transition-colors',
-                            d.disabled ? 'text-on-surface-variant cursor-not-allowed' : 'hover:bg-muted cursor-pointer',
-                            d.active ? 'bg-primary text-white font-bold shadow-md' : ''
+                            d.disabled ? 'text-neutral-400 cursor-not-allowed' : 'hover:bg-[#171717] cursor-pointer',
+                            d.active ? 'bg-[#00ff66] text-white font-bold shadow-md' : ''
                           )}
                         >
                           {d.date}
@@ -130,17 +130,17 @@ export default function AgentOfficeInspectionClient() {
 
                   {/* Time Slots */}
                   <div className="space-y-4">
-                    <label className="text-xs font-label-md uppercase tracking-wider font-bold block" style={{ color: 'text-on-surface-variant' }}>
+                    <label className="text-xs font-label-md uppercase tracking-wider font-bold block" className="text-neutral-400" }}>
                       Select Time Slot
                     </label>
                     <div className="space-y-3">
                       <button
                         onClick={() => setSelectedSlot('morning')}
                         className={cn(
-                          'w-full flex items-center justify-between p-4 rounded-lg border-2 transition-all',
+                          'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'morning'
-                            ? 'border-primary bg-primary/10 text-primary font-bold'
-                            : 'border-outline-variant hover:border-primary/50 text-on-surface-variant'
+                            ? 'border-primary bg-[#00ff66]/10 text-white font-bold'
+                            : 'border-[#262626] hover:border-primary/50 text-neutral-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -154,10 +154,10 @@ export default function AgentOfficeInspectionClient() {
                       <button
                         onClick={() => setSelectedSlot('afternoon')}
                         className={cn(
-                          'w-full flex items-center justify-between p-4 rounded-lg border-2 transition-all',
+                          'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'afternoon'
-                            ? 'border-primary bg-primary/10 text-primary font-bold'
-                            : 'border-outline-variant hover:border-primary/50 text-on-surface-variant'
+                            ? 'border-primary bg-[#00ff66]/10 text-white font-bold'
+                            : 'border-[#262626] hover:border-primary/50 text-neutral-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -169,9 +169,9 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       </button>
                     </div>
-                    <div className="bg-muted p-4 rounded-lg border border-outline-variant flex items-start gap-3">
-                      <Info className="h-5 w-5 text-warning shrink-0 mt-0.5" />
-                      <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>
+                    <div className="bg-[#171717] p-4 rounded-xl border border-[#262626] flex items-start gap-3">
+                      <Info className="h-5 w-5 text-neutral-300 shrink-0 mt-0.5" />
+                      <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
                         Verification officers usually arrive within the first hour of the selected slot.
                       </p>
                     </div>
@@ -201,23 +201,23 @@ export default function AgentOfficeInspectionClient() {
                 </CardContent>
               </Card>
 
-              <Card className="overflow-hidden relative">
+              <Card className="overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
                 <CardHeader>
-                  <CardTitle className="text-headline-sm text-primary">What to Expect</CardTitle>
+                  <CardTitle className="text-headline-sm text-white">What to Expect</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-xs font-label-md uppercase tracking-wider mb-4" style={{ color: 'text-on-surface-variant' }}>
+                  <p className="text-xs font-label-md uppercase tracking-wider mb-4" className="text-neutral-400" }}>
                     The 30-minute walkthrough includes:
                   </p>
                   <div className="space-y-4">
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-warning text-primary flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-[#262626] text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         1
                       </div>
                       <p className="text-xs font-label-md uppercase tracking-wider">Physical sighting of all original documentation.</p>
                     </div>
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-warning text-primary flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-[#262626] text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         2
                       </div>
                       <p className="text-xs font-label-md uppercase tracking-wider">Verification of office operational capacity and staff.</p>
@@ -230,76 +230,76 @@ export default function AgentOfficeInspectionClient() {
 
           {/* Right Column */}
           <aside className="lg:col-span-5 space-y-6">
-            <Card className="overflow-hidden shadow-lg">
-              <div className="bg-primary px-6 py-4 flex justify-between items-center">
+            <Card className="overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
+              <div className="bg-[#00ff66] px-6 py-4 flex justify-between items-center">
                 <h3 className="text-white font-headline-sm font-bold">Inspection Summary</h3>
-                <span className="bg-warning text-primary px-3 py-1 rounded-full text-xs font-label-md uppercase tracking-wider font-bold">
+                <span className="bg-[#262626] text-white px-3 py-1 rounded-full text-xs font-label-md uppercase tracking-wider font-bold">
                   Tier 2
                 </span>
               </div>
               <CardContent className="p-6 space-y-6">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
-                    <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
+                  <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
+                    <div className="p-2 bg-surface-container-lowest rounded ">
                       <AppIcon name="calendar_month" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Date</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Date</p>
                       <p className="font-headline-sm font-bold">Wednesday, Oct 9th, 2024</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 p-3 bg-muted rounded-lg">
-                    <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
+                  <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
+                    <div className="p-2 bg-surface-container-lowest rounded ">
                       <AppIcon name="schedule" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Time Window</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Time Window</p>
                       <p className="font-headline-sm font-bold">09:00 AM - 12:00 PM</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4 p-3 bg-muted rounded-lg">
-                    <div className="p-2 bg-surface-container-lowest rounded shadow-sm">
+                  <div className="flex items-start gap-4 p-3 bg-[#171717] rounded-xl">
+                    <div className="p-2 bg-surface-container-lowest rounded ">
                       <AppIcon name="location_on" className="lucide" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" style={{ color: 'text-on-surface-variant' }}>Inspection Address</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Inspection Address</p>
                       <p className="font-headline-sm font-bold leading-tight">Plot 102, Adeola Odeku St, Victoria Island, Lagos, Nigeria.</p>
-                      <button className="text-primary text-xs font-label-md uppercase tracking-wider font-bold underline mt-2 hover:text-primary/80">
+                      <button className="text-white text-xs font-label-md uppercase tracking-wider font-bold underline mt-2 hover:text-white/80">
                         Change Address
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-outline-variant">
+                <div className="pt-6 border-t border-[#262626]">
                   <Button className="w-full py-4 text-headline-sm font-bold hover:shadow-lg active:scale-95 transition-all">
                     Confirm Schedule
                   </Button>
-                  <p className="text-center text-xs font-label-md uppercase tracking-wider mt-4" style={{ color: 'text-on-surface-variant' }}>
+                  <p className="text-center text-xs font-label-md uppercase tracking-wider mt-4" className="text-neutral-400" }}>
                     By confirming, you agree to our Verification Terms.
                   </p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="border border-success/20 bg-success/5">
+            <Card className="border border-[#00ff66] bg-[#00ff66]/5 bg-[rgba(23,23,23,0.4)] backdrop-blur rounded-xl">
               <CardContent className="p-6 flex items-start gap-3">
-                <Verified className="h-5 w-5 text-success mt-0.5" />
+                <Verified className="h-5 w-5 text-[#00ff66] mt-0.5" />
                 <div>
-                  <h4 className="font-headline-sm font-bold text-success mb-1">Why verify?</h4>
-                  <p className="text-xs font-label-md uppercase tracking-wider text-success/80 leading-relaxed">
+                  <h4 className="font-headline-sm font-bold text-[#00ff66] mb-1">Why verify?</h4>
+                  <p className="text-xs font-label-md uppercase tracking-wider text-[#00ff66]/80 leading-relaxed">
                     Verified agents receive 3x more property inquiries and gain access to the &quot;Verified Prime&quot; filter on the PROPATI consumer portal.
                   </p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
               <div className="h-40 relative">
-                <div className="absolute inset-0 bg-muted" />
+                <div className="absolute inset-0 bg-[#171717]" />
                 <div className="absolute bottom-4 left-4 bg-surface-container-lowest px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                  <span className="text-xs font-label-md uppercase tracking-wider font-bold text-primary">Agent HQ Location</span>
+                  <span className="text-xs font-label-md uppercase tracking-wider font-bold text-white">Agent HQ Location</span>
                 </div>
               </div>
             </Card>

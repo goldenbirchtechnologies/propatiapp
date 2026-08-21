@@ -73,7 +73,7 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">New Agreement</h1>
-        <p className="text-muted-foreground mt-1">Create a new agreement draft from a deal.</p>
+        <p className="text-neutral-400-foreground mt-1">Create a new agreement draft from a deal.</p>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">

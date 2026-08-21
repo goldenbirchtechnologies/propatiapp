@@ -34,19 +34,19 @@ const statusBadge = (status: 'verified' | 'pending' | 'not-started') => {
   switch (status) {
     case 'verified':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-success/10 text-success border border-outline-variant text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#00ff66]/10 text-[#00ff66] border border-[#262626] text-xs font-bold">
           <CheckCircle className="h-3 w-3" /> Verified
         </span>
       );
     case 'pending':
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-warning/10 text-warning border border-outline-variant text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#262626] text-neutral-300 border border-[#262626] text-xs font-bold">
           <Clock className="h-3 w-3" /> Pending Review
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-on-surface-variant border border-outline-variant text-xs font-bold">
+        <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#171717] text-neutral-400 border border-[#262626] text-xs font-bold">
           Not Started
         </span>
       );
@@ -59,8 +59,8 @@ export default function AgentVerificationsClient() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Verification Overview</h1>
-        <p className="mt-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Complete your profile to unlock premium marketplace listings.</p>
+        <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Verification Overview</h1>
+        <p className="mt-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Complete your profile to unlock premium marketplace listings.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -70,11 +70,11 @@ export default function AgentVerificationsClient() {
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="font-headline-sm font-bold">Verification Status</CardTitle>
-                  <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-on-surface-variant' }}>Track your onboarding completion.</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>Track your onboarding completion.</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-4xl font-bold" style={{ color: 'text-primary' }}>{progress}%</span>
-                  <p className="text-[10px] font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>Profile Progress</p>
+                  <span className="text-4xl font-bold" className="text-white" }}>{progress}%</span>
+                  <p className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Profile Progress</p>
                 </div>
               </div>
             </CardHeader>
@@ -86,12 +86,12 @@ export default function AgentVerificationsClient() {
                     <div
                       className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center',
-                        idx < 2 ? 'bg-success text-white' : idx === 2 ? 'bg-warning text-white' : 'opacity-40 bg-muted text-on-surface-variant'
+                        idx < 2 ? 'bg-success text-white' : idx === 2 ? 'bg-[#262626] text-white' : 'opacity-40 bg-[#171717] text-neutral-400'
                       )}
                     >
                       <span className="lucide text-[18px]">{idx < 2 ? 'check' : idx === 2 ? 'pending' : 'location_on'}</span>
                     </div>
-                    <span className="text-[10px] font-label-md uppercase tracking-wider text-center" style={{ color: 'text-on-surface-variant' }}>{step}</span>
+                    <span className="text-[10px] font-label-md uppercase tracking-wider text-center" className="text-neutral-400" }}>{step}</span>
                   </div>
                 ))}
               </div>
@@ -100,16 +100,16 @@ export default function AgentVerificationsClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {modules.map((mod) => (
-              <Card key={mod.id} className={cn('flex flex-col transition-all hover:shadow-md', mod.status === 'not-started' ? 'border-dashed border-2' : mod.status === 'pending' ? 'border-l-4 border-warning' : '')}>
+              <Card key={mod.id} className={cn('flex flex-col transition-all hover:shadow-md', mod.status === 'not-started' ? 'border-dashed border-2' : mod.status === 'pending' ? 'border-l-4 border-[#262626]' : '')}>
                 <CardContent className="p-5 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-4">
-                    <div className="p-2 bg-muted rounded-lg">
-                      <span className="lucide" style={{ color: 'text-primary' }}>{mod.icon}</span>
+                    <div className="p-2 bg-[#171717] rounded-xl">
+                      <span className="lucide" className="text-white" }}>{mod.icon}</span>
                     </div>
                     {statusBadge(mod.status)}
                   </div>
-                  <h4 className="font-headline-sm font-bold text-lg mb-2" style={{ color: 'text-primary' }}>{mod.title}</h4>
-                  <p className="text-xs font-label-md uppercase tracking-wider flex-1" style={{ color: 'text-on-surface-variant' }}>{mod.description}</p>
+                  <h4 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>{mod.title}</h4>
+                  <p className="text-xs font-label-md uppercase tracking-wider flex-1" className="text-neutral-400" }}>{mod.description}</p>
                   {mod.actionLabel && (
                     <div className="mt-4">
                       <Button variant={mod.status === 'not-started' ? 'default' : 'outline'} className="gap-2">
@@ -119,7 +119,7 @@ export default function AgentVerificationsClient() {
                     </div>
                   )}
                   {mod.status === 'verified' && (
-                    <div className="mt-4 flex items-center text-sm font-bold" style={{ color: 'text-primary' }}>
+                    <div className="mt-4 flex items-center text-sm font-bold" className="text-white" }}>
                       View Details <ArrowRight className="ml-1 h-4 w-4" />
                     </div>
                   )}
@@ -130,13 +130,13 @@ export default function AgentVerificationsClient() {
         </div>
 
         <div className="lg:col-span-4 space-y-6">
-          <Card className="bg-primary text-primary-foreground">
+          <Card className="bg-[#00ff66] text-white-foreground">
             <CardHeader>
-              <CardTitle className="text-warning">Next Priority Action</CardTitle>
+              <CardTitle className="text-neutral-300">Next Priority Action</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-xs font-label-md uppercase tracking-wider opacity-90">Upload your Office Verification documents to schedule your mandatory physical site inspection.</p>
-              <Button className="w-full bg-warning text-primary font-bold hover:brightness-110">Complete Office Verification</Button>
+              <Button className="w-full bg-[#262626] text-white font-bold hover:brightness-110">Complete Office Verification</Button>
             </CardContent>
           </Card>
 
@@ -144,21 +144,21 @@ export default function AgentVerificationsClient() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg font-headline-sm font-bold">Recent Activity</CardTitle>
-                <History className="h-4 w-4" style={{ color: 'text-on-surface-variant' }} />
+                <History className="h-4 w-4" className="text-neutral-400" }} />
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-6 relative">
-                <div className="absolute left-4 top-2 bottom-2 w-[1px]" style={{ background: 'border-outline-variant' }} />
+                <div className="absolute left-4 top-2 bottom-2 w-[1px]" style={{ background: 'border-[#262626]' }} />
                 {recentActivity.map((item, idx) => (
                   <div key={idx} className="flex gap-4 relative">
                     <div className="z-10 w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shrink-0">
                       <AppIcon name={item.icon} className="lucide" />
                     </div>
                     <div>
-                      <p className="font-headline-sm font-bold text-sm" style={{ color: 'text-primary' }}>{item.title}</p>
-                      <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant' }}>{item.description}</p>
-                      <span className="text-[10px] font-label-md uppercase tracking-wider" style={{ color: 'text-on-surface-variant', opacity: 0.7 }}>{item.timestamp}</span>
+                      <p className="font-headline-sm font-bold text-sm" className="text-white" }}>{item.title}</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{item.description}</p>
+                      <span className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400", opacity: 0.7 }}>{item.timestamp}</span>
                     </div>
                   </div>
                 ))}

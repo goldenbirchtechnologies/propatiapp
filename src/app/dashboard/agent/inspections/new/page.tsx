@@ -15,7 +15,7 @@ export default async function AgentInspectionNewPage({ searchParams }: { searchP
           <CardTitle>New Inspection</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
+          <p className="text-neutral-400-foreground">
             {searchParams?.dealId
               ? `Create an inspection request for deal ${searchParams.dealId}.`
               : 'Select a deal and create a new inspection request from the deal detail page.'}

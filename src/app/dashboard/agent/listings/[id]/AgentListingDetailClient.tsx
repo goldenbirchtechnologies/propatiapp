@@ -25,15 +25,15 @@ export default function AgentListingDetailClient({ listing }: { listing: Listing
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/listings"
-          className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
+          className="p-2 rounded-xl hover:bg-surface-container text-neutral-400"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
+          <h1 className="font-headline-sm text-headline-sm font-bold text-white">
             {listing.title}
           </h1>
-          <p className="flex items-center gap-1 mt-1 text-sm text-on-surface-variant">
+          <p className="flex items-center gap-1 mt-1 text-sm text-neutral-400">
             <MapPin className="h-3 w-3" />
             {listing.address}
           </p>
@@ -42,29 +42,29 @@ export default function AgentListingDetailClient({ listing }: { listing: Listing
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card p-4">
-          <p className="text-xs uppercase tracking-wider text-on-surface-variant">Price</p>
+          <p className="text-xs uppercase tracking-wider text-neutral-400">Price</p>
           <p className="text-sm font-medium mt-1">
             ₦{listing.price.toLocaleString()}
           </p>
         </div>
         <div className="card p-4">
-          <p className="text-xs uppercase tracking-wider text-on-surface-variant">Status</p>
+          <p className="text-xs uppercase tracking-wider text-neutral-400">Status</p>
           <p className="text-sm font-medium mt-1 capitalize">{listing.status}</p>
         </div>
         <div className="card p-4">
-          <p className="text-xs uppercase tracking-wider text-on-surface-variant">Views</p>
+          <p className="text-xs uppercase tracking-wider text-neutral-400">Views</p>
           <p className="text-sm font-medium mt-1">{listing.viewsCount}</p>
         </div>
       </div>
 
       <div className="card p-4">
-        <p className="text-xs uppercase tracking-wider text-on-surface-variant mb-2">
+        <p className="text-xs uppercase tracking-wider text-neutral-400 mb-2">
           Owner / Landlord
         </p>
-        <p className="text-sm font-medium text-primary">
+        <p className="text-sm font-medium text-white">
           {listing.owner?.fullName || '—'}
         </p>
-        <p className="text-xs text-on-surface-variant">
+        <p className="text-xs text-neutral-400">
           {listing.listingType} · {listing.propertyType || 'N/A'}
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function AgentListingDetailClient({ listing }: { listing: Listing
               key={img.id}
               src={img.url}
               alt={listing.title}
-              className="rounded-lg border border-outline-variant object-cover h-32 w-full"
+              className="rounded-xl border border-[#262626] object-cover h-32 w-full"
             />
           ))}
         </div>

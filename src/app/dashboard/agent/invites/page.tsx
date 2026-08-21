@@ -18,8 +18,8 @@ export default async function AgentInvitesPage() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
         <div>
-          <h3 className="font-heading text-headline-lg text-primary">Invitations</h3>
-          <p className="text-on-surface-variant">Landlords can optionally invite you to manage their listings.</p>
+          <h3 className="font-heading text-headline-lg text-white">Invitations</h3>
+          <p className="text-neutral-400">Landlords can optionally invite you to manage their listings.</p>
         </div>
         <AgentInvitationCard email={user.email ?? ''} />
       </div>

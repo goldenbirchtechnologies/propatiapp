@@ -28,7 +28,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/clients"
-          className="p-2 rounded-lg hover:bg-surface-container text-on-surface-variant"
+          className="p-2 rounded-xl hover:bg-surface-container text-neutral-400"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
@@ -42,10 +42,10 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
             {client.fullName.charAt(0)}
           </div>
           <div>
-            <h1 className="font-headline-sm text-headline-sm font-bold text-primary">
+            <h1 className="font-headline-sm text-headline-sm font-bold text-white">
               {client.fullName}
             </h1>
-            <p className="text-sm text-on-surface-variant">
+            <p className="text-sm text-neutral-400">
               {client.role === 'landlord' ? 'Seller' : 'Buyer'} · Client since{' '}
               {new Date(client.createdAt).toLocaleDateString('en-NG', {
                 month: 'short',
@@ -66,27 +66,27 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-2 text-sm">
-              <Mail className="w-4 h-4 text-on-surface-variant" />
-              <span className="text-primary">{client.email}</span>
+              <Mail className="w-4 h-4 text-neutral-400" />
+              <span className="text-white">{client.email}</span>
             </div>
             {client.phone && (
               <div className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-on-surface-variant" />
-                <span className="text-primary">{client.phone}</span>
+                <Phone className="w-4 h-4 text-neutral-400" />
+                <span className="text-white">{client.phone}</span>
               </div>
             )}
             {client.profileBio && (
-              <div className="pt-2 border-t border-outline-variant">
-                <p className="text-xs font-medium mb-1 text-on-surface-variant">
+              <div className="pt-2 border-t border-[#262626]">
+                <p className="text-xs font-medium mb-1 text-neutral-400">
                   Notes
                 </p>
-                <p className="text-sm text-primary">{client.profileBio}</p>
+                <p className="text-sm text-white">{client.profileBio}</p>
               </div>
             )}
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Home className="w-5 h-5" style={{ color: 'var(--accent)' }} />
@@ -95,7 +95,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
           </CardHeader>
           <CardContent>
             {client.deals.length === 0 ? (
-              <p className="text-sm text-on-surface-variant text-center py-6">
+              <p className="text-sm text-neutral-400 text-center py-6">
                 No deals yet
               </p>
             ) : (
@@ -103,17 +103,17 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
                 {client.deals.map((deal) => (
                   <div
                     key={deal.id}
-                    className="flex items-center justify-between p-3 rounded-lg border border-outline-variant"
+                    className="flex items-center justify-between p-3 rounded-xl border border-[#262626]"
                   >
                     <div>
-                      <p className="text-sm font-medium text-primary">
+                      <p className="text-sm font-medium text-white">
                         {deal.property}
                       </p>
-                      <p className="text-xs text-on-surface-variant capitalize">
+                      <p className="text-xs text-neutral-400 capitalize">
                         {deal.status.replace(/_/g, ' ')}
                       </p>
                     </div>
-                    <p className="text-xs text-on-surface-variant">
+                    <p className="text-xs text-neutral-400">
                       {new Date(deal.createdAt).toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',

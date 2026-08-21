@@ -109,7 +109,7 @@ function CommissionStatCard({
 function EmptyState() {
   return (
     <div className="card flex flex-col items-center justify-center p-12 text-center">
-      <DollarSign className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.4  } />
+      <DollarSign className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">
         No commissions yet
       </h3>

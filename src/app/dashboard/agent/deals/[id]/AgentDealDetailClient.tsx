@@ -212,7 +212,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
           </div>
           {deal.documents.length === 0 ? (
             <div className="p-10 text-center">
-              <FileText className="w-10 h-10 mx-auto mb-3" className="text-neutral-400" style={ opacity: 0.5  } />
+              <FileText className="w-10 h-10 mx-auto mb-3 text-neutral-400" style={{ opacity: 0.5 }} />
               <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">No documents uploaded yet</p>
             </div>
           ) : (

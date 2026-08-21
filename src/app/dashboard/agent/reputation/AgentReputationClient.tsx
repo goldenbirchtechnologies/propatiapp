@@ -30,7 +30,7 @@ export default function AgentReputationClient({ initialReviews }: { initialRevie
 
       {initialReviews.length === 0 ? (
         <div className="card-body text-center py-16">
-          <Star className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.5  } />
+          <Star className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
           <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No reviews yet</h3>
           <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Reviews from completed deals will appear here.</p>
         </div>

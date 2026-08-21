@@ -94,7 +94,7 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
 function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="card flex flex-col items-center justify-center p-12 text-center">
-      <Users className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.4  } />
+      <Users className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">
         No clients yet
       </h3>
@@ -286,7 +286,7 @@ export default function AgentClientsClient({
           <EmptyClientsState onAdd={() => {}} />
         ) : filtered.length === 0 ? (
           <div className="card flex flex-col items-center justify-center p-12 text-center">
-            <Users className="w-12 h-12 mx-auto mb-3" className="text-neutral-400" style={ opacity: 0.4  } />
+            <Users className="w-12 h-12 mx-auto mb-3 text-neutral-400" style={{ opacity: 0.4 }} />
             <p className="text-sm font-medium text-white">
               No clients in this category
             </p>

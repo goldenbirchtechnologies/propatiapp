@@ -49,7 +49,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
             ))}
           </div>
           {filtered.length === 0 ? (
-            <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.5  } /><h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No inspections</h3><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Schedule your first inspection.</p></div>
+            <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} /><h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No inspections</h3><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Schedule your first inspection.</p></div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead><tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>

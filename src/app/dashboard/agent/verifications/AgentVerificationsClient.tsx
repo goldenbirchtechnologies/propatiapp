@@ -158,7 +158,7 @@ export default function AgentVerificationsClient() {
                     <div>
                       <p className="font-headline-sm font-bold text-sm text-white">{item.title}</p>
                       <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">{item.description}</p>
-                      <span className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" style={ opacity: 0.7  }>{item.timestamp}</span>
+                      <span className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400" style={{ opacity: 0.7 }}>{item.timestamp}</span>
                     </div>
                   </div>
                 ))}

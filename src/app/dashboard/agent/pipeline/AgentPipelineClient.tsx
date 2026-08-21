@@ -153,7 +153,7 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
           <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Client: {deal.client}</p>
         </div>
         <div className="flex items-center gap-1">
-          <GripVertical className="w-4 h-4" className="text-neutral-400", cursor: 'grab' }} />
+          <GripVertical className="w-4 h-4 text-neutral-400" style={{ cursor: 'grab' }} />
         </div>
       </div>
 

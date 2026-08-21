@@ -143,7 +143,7 @@ export default function AgentScheduleClient() {
         ) : schedule.length === 0 ? (
           <div className="card overflow-hidden">
             <div className="card-body text-center py-16">
-              <CalendarDays className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.5  } />
+              <CalendarDays className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
               <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No events scheduled</h3>
               <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Schedule inspections or meetings to get started.</p>
             </div>

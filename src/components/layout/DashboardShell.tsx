@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 import GlobalSearch from './GlobalSearch';
 import { SkeletonNavItem, SidebarOverlay } from '@/components/layout/sidebar';
-import { HelpCircle, ChevronDown, Settings } from 'lucide-react';
+import { HelpCircle, ChevronDown, Settings, Plus, MessageSquare, Mail, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDashboardPageTitle } from '@/lib/dashboard-titles';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
@@ -34,6 +34,7 @@ interface DashboardShellProps {
   userAvatar?: string;
   orgName?: string | null;
   shellLoading?: boolean;
+  quickAction?: { href: string; label: string; icon?: React.ReactNode };
 }
 function StatCardSkeleton() {
   return (
@@ -765,6 +766,16 @@ export function DashboardShell({
             >
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
+            {['landlord', 'tenant', 'agent', 'accountant'].includes((userRole || '').toLowerCase()) && (
+              <Link href={`/dashboard/${userRole}/messages`} className="hidden md:flex p-2 rounded-full transition hover:bg-muted" aria-label="Messages" title="Messages">
+                <MessageSquare size={20} style={{ color: 'var(--muted-foreground)' }} />
+              </Link>
+            )}
+            {userRole === 'agent' && (
+              <Link href="/dashboard/agent/invites" className="hidden md:flex p-2 rounded-full transition hover:bg-muted" aria-label="Invitations" title="Invitations">
+                <Mail size={20} style={{ color: 'var(--muted-foreground)' }} />
+              </Link>
+            )}
             <NotificationsBell position="right" userRole={userRole} />
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2.5 p-1.5 pl-2.5 rounded-full bg-surface-elevated border border-border hover:bg-muted/50 transition-colors outline-none">
@@ -797,11 +808,20 @@ export function DashboardShell({
                     My Profile
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={userRole === 'admin' ? `/dashboard/${userRole}/settings` : `/dashboard/${userRole}/profile`} className="cursor-pointer">
-                    {userRole === 'admin' ? 'Organization Settings' : 'Profile'}
-                  </Link>
-                </DropdownMenuItem>
+                {userRole === 'agent' && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/verification?type=professional" className="cursor-pointer">
+                      Verifications
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {userRole === 'admin' && (
+                  <DropdownMenuItem asChild>
+                    <Link href={`/dashboard/${userRole}/settings`} className="cursor-pointer">
+                      Organization Settings
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/api/auth/sign-out" className="text-destructive cursor-pointer w-full">

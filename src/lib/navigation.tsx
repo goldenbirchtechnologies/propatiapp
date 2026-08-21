@@ -100,22 +100,51 @@ export const TENANT_NAVIGATION: NavItem[] = [
   { label: 'My Profile', href: '/dashboard/tenant/profile', icon: <User className="h-5 w-5" /> },
 ];
 
-export const AGENT_NAVIGATION: NavItem[] = [
-  { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
-  { label: 'Rent & Payments', href: '/dashboard/agent/payments', icon: <DollarSign className="h-5 w-5" /> },
-  { label: 'Buy Pipeline', href: '/dashboard/agent/buy', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'Sell Pipeline', href: '/dashboard/agent/sell', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'Deal Pipeline', href: '/dashboard/agent/pipeline', icon: <BarChart2 className="h-5 w-5" /> },
-  { label: 'My Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
-  { label: 'My Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
-  { label: 'Market', href: '/dashboard/agent/market', icon: <TrendingUp className="h-5 w-5" /> },
-  { label: 'Invitations', href: '/dashboard/agent/invites', icon: <Mail className="h-5 w-5" /> },
-  { label: 'Reputation', href: '/dashboard/agent/reputation', icon: <Star className="h-5 w-5" /> },
-  { label: 'Schedule', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
-  { label: 'My Profile', href: '/dashboard/agent/profile', icon: <User className="h-5 w-5" /> },
-  { label: 'Messages', href: '/dashboard/agent/messages', icon: <MessageSquare className="h-5 w-5" /> },
-  { label: 'Verifications', href: '/dashboard/verification?type=professional', icon: <Shield className="h-5 w-5" /> },
-  { label: 'Statements', href: '/dashboard/agent/statements', icon: <FileText className="h-5 w-5" /> },
+export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
+  {
+    title: 'Main',
+    items: [
+      { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
+      { label: 'Calendar', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Sales & CRM',
+    items: [
+      {
+        label: 'Pipelines',
+        href: '/dashboard/agent/pipeline',
+        icon: <BarChart2 className="h-5 w-5" />,
+        children: [
+          { label: 'Buy', href: '/dashboard/agent/buy', icon: <BarChart2 className="h-5 w-5" /> },
+          { label: 'Sell', href: '/dashboard/agent/sell', icon: <BarChart2 className="h-5 w-5" /> },
+          { label: 'All Deals', href: '/dashboard/agent/pipeline', icon: <BarChart2 className="h-5 w-5" /> },
+        ],
+      },
+      { label: 'Listings', href: '/dashboard/agent/listings', icon: <Building2 className="h-5 w-5" /> },
+      { label: 'Clients', href: '/dashboard/agent/clients', icon: <Users className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Market & Leads',
+    items: [
+      { label: 'Marketplace', href: '/dashboard/agent/market', icon: <TrendingUp className="h-5 w-5" /> },
+    ],
+  },
+  {
+    title: 'Finance',
+    items: [
+      {
+        label: 'Finance',
+        href: '/dashboard/agent/payments',
+        icon: <DollarSign className="h-5 w-5" />,
+        children: [
+          { label: 'Rent & Payments', href: '/dashboard/agent/payments', icon: <DollarSign className="h-5 w-5" /> },
+          { label: 'Statements', href: '/dashboard/agent/statements', icon: <FileText className="h-5 w-5" /> },
+        ],
+      },
+    ],
+  },
 ];
 
 export const ADMIN_NAVIGATION: NavItem[] = [

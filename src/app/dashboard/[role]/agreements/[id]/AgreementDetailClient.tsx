@@ -229,8 +229,7 @@ export default function AgreementDetailClient() {
               )}
             </div>
           </div>
-        </div>
-      </div>
+        </Card>
 
       {/* Parties Information */}
       <Card className="p-6 mb-6">

@@ -56,7 +56,7 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
                 </div>
                 <span className="text-sm font-medium">{opt.label}</span>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

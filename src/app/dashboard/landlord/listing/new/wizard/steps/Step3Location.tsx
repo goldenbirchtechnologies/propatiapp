@@ -228,7 +228,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
             </Button>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

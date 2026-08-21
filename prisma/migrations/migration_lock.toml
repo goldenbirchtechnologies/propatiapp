@@ -1,1 +1,4 @@
-prismaMigrateLock = "20240718115738"
+[prisma]
+  Version = "5.22.0"
+  Schema = "prisma/schema.prisma"
+  Provider = "postgresql"

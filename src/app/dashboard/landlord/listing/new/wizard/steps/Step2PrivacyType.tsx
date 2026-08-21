@@ -71,7 +71,7 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
                   <div className="text-sm text-muted-foreground">{opt.description}</div>
                 </div>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

@@ -78,10 +78,10 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             {label}
           </p>
-          <p className="text-2xl font-headline-sm font-bold" className="text-white" }}>
+          <p className="text-2xl font-headline-sm font-bold text-white">
             {value}
           </p>
         </div>
@@ -94,11 +94,11 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
 function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="card flex flex-col items-center justify-center p-12 text-center">
-      <Users className="w-16 h-16 mx-auto mb-4" className="text-neutral-400", opacity: 0.4 }} />
-      <h3 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>
+      <Users className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.4  } />
+      <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">
         No clients yet
       </h3>
-      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto" className="text-neutral-400" }}>
+      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto text-neutral-400">
         Your client portfolio is empty. Start by adding buyers or sellers to track your deals and relationships.
       </p>
       <Button onClick={onAdd} className="gap-2">
@@ -124,10 +124,10 @@ function ClientRow({ client }: { client: Client }) {
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium" className="text-white" }}>
+          <p className="text-sm font-medium text-white">
             {client.name}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             {client.phone}
           </p>
         </div>
@@ -146,16 +146,16 @@ function ClientRow({ client }: { client: Client }) {
 
         {/* Budget */}
         <div className="text-right hidden md:block flex-shrink-0">
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Budget</p>
-          <p className="text-sm font-medium" className="text-white" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Budget</p>
+          <p className="text-sm font-medium text-white">
             {formatCurrency(client.minBudget)} – {formatCurrency(client.maxBudget)}
           </p>
         </div>
 
         {/* Last contact */}
         <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 90 }}>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Last Contact</p>
-          <p className="text-sm" className="text-white" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Last Contact</p>
+          <p className="text-sm text-white">
             {new Date(client.lastContact).toLocaleDateString('en-NG', {
               day: '2-digit',
               month: 'short',
@@ -171,21 +171,21 @@ function ClientRow({ client }: { client: Client }) {
             className="p-2 rounded-md hover:bg-[#171717]/50"
             title="Call"
           >
-            <Phone className="w-4 h-4" className="text-neutral-400" }} />
+            <Phone className="w-4 h-4 text-neutral-400" />
           </Link>
           <Link
             href={`mailto:${client.name.replace(/\s+/g, '.').toLowerCase()}@example.com`}
             className="p-2 rounded-md hover:bg-[#171717]/50"
             title="Email"
           >
-            <Mail className="w-4 h-4" className="text-neutral-400" }} />
+            <Mail className="w-4 h-4 text-neutral-400" />
           </Link>
           <Link
             href={`/dashboard/agent/pipeline?clientId=${client.id}`}
             className="p-2 rounded-md hover:bg-[#171717]/50"
             title="View Deal"
           >
-            <Eye className="w-4 h-4" className="text-neutral-400" }} />
+            <Eye className="w-4 h-4 text-neutral-400" />
           </Link>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function AgentClientsClient({
       {/* Filters */}
       <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             <Building2 className="w-3.5 h-3.5 inline mr-1" />
             Filter
           </span>
@@ -286,11 +286,11 @@ export default function AgentClientsClient({
           <EmptyClientsState onAdd={() => {}} />
         ) : filtered.length === 0 ? (
           <div className="card flex flex-col items-center justify-center p-12 text-center">
-            <Users className="w-12 h-12 mx-auto mb-3" className="text-neutral-400", opacity: 0.4 }} />
-            <p className="text-sm font-medium" className="text-white" }}>
+            <Users className="w-12 h-12 mx-auto mb-3" className="text-neutral-400" style={ opacity: 0.4  } />
+            <p className="text-sm font-medium text-white">
               No clients in this category
             </p>
-            <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-1 text-neutral-400">
               Try clearing the filter to see all clients.
             </p>
           </div>
@@ -313,7 +313,7 @@ function PageHeader() {
         >
           My Clients
         </h1>
-        <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
+        <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
           Manage lead relationships and budgets
         </p>
       </div>

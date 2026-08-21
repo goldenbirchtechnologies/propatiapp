@@ -59,7 +59,7 @@ export default function AgentOfficeInspectionClient() {
       <div className="space-y-8">
         <div>
           <h1 className="text-headline-sm font-bold">Office Site Inspection</h1>
-          <p className="mt-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="mt-2 text-xs font-label-md uppercase tracking-wider text-neutral-400">
             Schedule your physical premises verification to achieve{' '}
             <span className="text-neutral-300 font-bold">Tier 2 Verified</span> status.
           </p>
@@ -73,8 +73,8 @@ export default function AgentOfficeInspectionClient() {
                 <CheckCircle className="h-3 w-3" /> Submitted
               </span>
               <span className="text-xs font-label-md uppercase tracking-wider text-white">Scheduled</span>
-              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Visit</span>
-              <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Report</span>
+              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Visit</span>
+              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Report</span>
             </div>
             <div className="relative h-2 bg-[#171717] rounded-full overflow-hidden">
               <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#00ff66] to-[#262626]" />
@@ -107,7 +107,7 @@ export default function AgentOfficeInspectionClient() {
                         </Button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2" className="text-neutral-400" }}>
+                    <div className="grid grid-cols-7 text-center text-xs font-label-md uppercase tracking-wider mb-2 text-neutral-400">
                       <AppIcon name="M" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="W" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="F" className="lucide" /><AppIcon name="S" className="lucide" /><AppIcon name="S" className="lucide" />
                     </div>
                     <div className="grid grid-cols-7 gap-1 text-center text-sm">
@@ -130,7 +130,7 @@ export default function AgentOfficeInspectionClient() {
 
                   {/* Time Slots */}
                   <div className="space-y-4">
-                    <label className="text-xs font-label-md uppercase tracking-wider font-bold block" className="text-neutral-400" }}>
+                    <label className="text-xs font-label-md uppercase tracking-wider font-bold block text-neutral-400">
                       Select Time Slot
                     </label>
                     <div className="space-y-3">
@@ -171,7 +171,7 @@ export default function AgentOfficeInspectionClient() {
                     </div>
                     <div className="bg-[#171717] p-4 rounded-xl border border-[#262626] flex items-start gap-3">
                       <Info className="h-5 w-5 text-neutral-300 shrink-0 mt-0.5" />
-                      <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+                      <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
                         Verification officers usually arrive within the first hour of the selected slot.
                       </p>
                     </div>
@@ -206,7 +206,7 @@ export default function AgentOfficeInspectionClient() {
                   <CardTitle className="text-headline-sm text-white">What to Expect</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-xs font-label-md uppercase tracking-wider mb-4" className="text-neutral-400" }}>
+                  <p className="text-xs font-label-md uppercase tracking-wider mb-4 text-neutral-400">
                     The 30-minute walkthrough includes:
                   </p>
                   <div className="space-y-4">
@@ -244,7 +244,7 @@ export default function AgentOfficeInspectionClient() {
                       <AppIcon name="calendar_month" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Date</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold text-neutral-400">Date</p>
                       <p className="font-headline-sm font-bold">Wednesday, Oct 9th, 2024</p>
                     </div>
                   </div>
@@ -253,7 +253,7 @@ export default function AgentOfficeInspectionClient() {
                       <AppIcon name="schedule" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Time Window</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold text-neutral-400">Time Window</p>
                       <p className="font-headline-sm font-bold">09:00 AM - 12:00 PM</p>
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function AgentOfficeInspectionClient() {
                       <AppIcon name="location_on" className="lucide" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-label-md uppercase tracking-wider font-bold" className="text-neutral-400" }}>Inspection Address</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider font-bold text-neutral-400">Inspection Address</p>
                       <p className="font-headline-sm font-bold leading-tight">Plot 102, Adeola Odeku St, Victoria Island, Lagos, Nigeria.</p>
                       <button className="text-white text-xs font-label-md uppercase tracking-wider font-bold underline mt-2 hover:text-white/80">
                         Change Address
@@ -275,7 +275,7 @@ export default function AgentOfficeInspectionClient() {
                   <Button className="w-full py-4 text-headline-sm font-bold hover:shadow-lg active:scale-95 transition-all">
                     Confirm Schedule
                   </Button>
-                  <p className="text-center text-xs font-label-md uppercase tracking-wider mt-4" className="text-neutral-400" }}>
+                  <p className="text-center text-xs font-label-md uppercase tracking-wider mt-4 text-neutral-400">
                     By confirming, you agree to our Verification Terms.
                   </p>
                 </div>

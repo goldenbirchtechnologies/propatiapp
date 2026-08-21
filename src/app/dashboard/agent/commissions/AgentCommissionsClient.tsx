@@ -88,7 +88,7 @@ function CommissionStatCard({
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             {label}
           </p>
           <p
@@ -109,11 +109,11 @@ function CommissionStatCard({
 function EmptyState() {
   return (
     <div className="card flex flex-col items-center justify-center p-12 text-center">
-      <DollarSign className="w-16 h-16 mx-auto mb-4" className="text-neutral-400", opacity: 0.4 }} />
-      <h3 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>
+      <DollarSign className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.4  } />
+      <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">
         No commissions yet
       </h3>
-      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto" className="text-neutral-400" }}>
+      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto text-neutral-400">
         Your earnings will appear here when deals are closed and transactions are released for you.
       </p>
       <Button variant="outline" asChild>
@@ -137,20 +137,20 @@ function CommissionRow({ commission }: { commission: Commission }) {
       <div className="p-5 flex flex-wrap items-center gap-4">
         {/* Deal */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium" className="text-white" }}>
+          <p className="text-sm font-medium text-white">
             {commission.deal}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             Client: {commission.client}
           </p>
         </div>
 
         {/* Amount */}
         <div className="text-right flex-shrink-0">
-          <p className="text-sm font-bold" className="text-white" }}>
+          <p className="text-sm font-bold text-white">
             {formatCurrency(commission.amount)}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
             @ {commission.rate}
           </p>
         </div>
@@ -189,7 +189,7 @@ function FilterBar({
   return (
     <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+        <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
           <Table2 className="w-3.5 h-3.5 inline mr-1" />
           Filter
         </span>
@@ -285,7 +285,7 @@ export default function AgentCommissionsClient({
 
       {/* Export bar */}
       <div className="card p-4 flex items-center justify-between">
-        <p className="text-sm font-medium" className="text-white" }}>
+        <p className="text-sm font-medium text-white">
           Commission summary
         </p>
         <Button variant="outline" className="gap-2" asChild>
@@ -321,7 +321,7 @@ function PageHeader() {
       >
         Commissions
       </h1>
-      <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
+      <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
         Track earnings and payouts per deal
       </p>
     </div>

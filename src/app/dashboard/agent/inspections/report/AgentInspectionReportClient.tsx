@@ -120,7 +120,7 @@ export default function AgentInspectionReportClient() {
               </div>
               <div className="text-center md:text-left">
                 <h3 className="text-headline-sm font-bold mb-2">Master Verification Passed</h3>
-                <p className="text-xs font-label-md uppercase tracking-wider mb-4" className="text-neutral-400" }}>
+                <p className="text-xs font-label-md uppercase tracking-wider mb-4 text-neutral-400">
                   This property has successfully navigated the comprehensive Tier 2 audit framework,
                   confirming legal residency, operational capacity, and structural compliance.
                 </p>
@@ -162,7 +162,7 @@ export default function AgentInspectionReportClient() {
                       </span>
                     </div>
                     <h4 className="font-headline-sm font-bold text-lg mb-2">{cat.title}</h4>
-                    <ul className="space-y-2 mb-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+                    <ul className="space-y-2 mb-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">
                       {cat.items.map((item, i) => (
                         <li key={i} className="flex justify-between">
                           <AppIcon name="{item.label}:" className="lucide" />
@@ -192,7 +192,7 @@ export default function AgentInspectionReportClient() {
                   className="group relative aspect-square bg-[#171717] rounded-xl overflow-hidden cursor-zoom-in"
                 >
                   <div className="w-full h-full bg-[#171717] flex items-center justify-center">
-                    <Image className="h-8 w-8" className="text-neutral-400" }} />
+                    <Image className="h-8 w-8 text-neutral-400" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                     <p className="text-white text-xs font-label-md uppercase tracking-wider font-bold">{img.alt}</p>
@@ -207,7 +207,7 @@ export default function AgentInspectionReportClient() {
             <h4 className="text-xs font-label-md uppercase tracking-wider text-white mb-2">
               Inspector&apos;s Professional Remarks
             </h4>
-            <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
               The facility located at the Mainland Regional Office HQ is fully operational and meets all
               Lagos State regulatory requirements for Tier 2 accreditation. Documentation was verified
               against original state records and physical infrastructure exceeds standard safety and
@@ -225,7 +225,7 @@ export default function AgentInspectionReportClient() {
                 </div>
                 <div>
                   <p className="text-headline-sm font-bold">Chidi Anthony Okafor</p>
-                  <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Lead Field Inspector • ID: PR-992</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Lead Field Inspector • ID: PR-992</p>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -244,14 +244,14 @@ export default function AgentInspectionReportClient() {
                 C.A. Okafor
               </div>
               <div className="w-48 h-[1px] bg-outline-variant ml-auto mb-2" />
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Authorized Digital Signature</p>
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Authorized Digital Signature</p>
             </div>
           </footer>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto text-center no-print">
-        <p className="text-xs font-label-md uppercase tracking-wider opacity-60" className="text-neutral-400" }}>
+        <p className="text-xs font-label-md uppercase tracking-wider opacity-60 text-neutral-400">
           This is a system-generated document. For verification queries, visit propati.com/verify-id?#INS-2024-0882
         </p>
       </div>

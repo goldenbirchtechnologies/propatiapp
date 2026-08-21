@@ -104,7 +104,7 @@ export default function AgentShortLetEarningsClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-headline-sm font-bold">Short-let Revenue</h1>
-        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Track earnings, occupancy, and payouts.</p>
+        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Track earnings, occupancy, and payouts.</p>
       </div>
 
       {/* Stats Grid */}
@@ -128,18 +128,18 @@ export default function AgentShortLetEarningsClient() {
         <Card>
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Occupancy Rate</p>
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Occupancy Rate</p>
               <span className="bg-[#00ff66]/10 text-[#00ff66] px-2 py-1 rounded text-xs font-bold border border-[#262626]">+12%</span>
             </div>
             <h3 className="text-headline-sm font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs font-label-md uppercase tracking-wider mt-2" className="text-neutral-400" }}>Average across 14 properties</p>
+            <p className="text-xs font-label-md uppercase tracking-wider mt-2 text-neutral-400">Average across 14 properties</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Next Payout</p>
+            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Next Payout</p>
             <h3 className="text-headline-sm font-bold mt-2">{nextPayout}</h3>
             <div className="flex items-center gap-3 mt-4">
               <div className="p-2 bg-[#262626] rounded-xl">
@@ -147,7 +147,7 @@ export default function AgentShortLetEarningsClient() {
               </div>
               <div>
                 <p className="text-sm font-bold">₦{nextPayoutAmount.toLocaleString()}</p>
-                <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Estimated amount</p>
+                <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Estimated amount</p>
               </div>
             </div>
           </CardContent>
@@ -160,7 +160,7 @@ export default function AgentShortLetEarningsClient() {
           <CardHeader className="pb-4 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-headline-sm">Revenue Forecast</CardTitle>
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>May 2024 Bookings</p>
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">May 2024 Bookings</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -173,13 +173,13 @@ export default function AgentShortLetEarningsClient() {
           </CardHeader>
           <CardContent>
             <div className="min-w-[600px] grid grid-cols-7 gap-2">
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>MON</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>TUE</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>WED</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>THU</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>FRI</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>SAT</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2" className="text-neutral-400" }}>SUN</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">MON</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">TUE</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">WED</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">THU</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">FRI</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">SAT</div>
+              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">SUN</div>
               {calendarDays.map((d) => (
                 <div
                   key={d.date}
@@ -202,7 +202,7 @@ export default function AgentShortLetEarningsClient() {
                     </div>
                   )}
                   {d.blocked && (
-                    <div className="flex items-center gap-1" className="text-neutral-400" }}>
+                    <div className="flex items-center gap-1 text-neutral-400">
                       <Wrench className="h-3 w-3" />
                       <span className="text-[10px] font-label-md uppercase tracking-wider">Blocked</span>
                     </div>
@@ -237,7 +237,7 @@ export default function AgentShortLetEarningsClient() {
             <div className="pt-6 mt-6 border-t border-[#262626]">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Net Revenue</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Net Revenue</p>
                   <p className="text-headline-sm font-bold text-[#00ff66]">₦12,450,000</p>
                 </div>
                 <div className="bg-[#00ff66]/10 text-[#00ff66] px-3 py-1 rounded-full text-xs font-bold border border-[#262626]">
@@ -259,7 +259,7 @@ export default function AgentShortLetEarningsClient() {
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#171717]/50" className="text-neutral-400" }}>
+            <thead className="bg-[#171717]/50 text-neutral-400">
               <tr>
                 <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Property & Guest</th>
                 <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Stay Dates</th>
@@ -275,17 +275,17 @@ export default function AgentShortLetEarningsClient() {
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[#171717] flex items-center justify-center shrink-0">
-                        <CalendarDays className="h-5 w-5" className="text-neutral-400" }} />
+                        <CalendarDays className="h-5 w-5 text-neutral-400" />
                       </div>
                       <div>
                         <p className="text-sm font-bold">{stay.property}</p>
-                        <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Guest: {stay.guest}</p>
+                        <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Guest: {stay.guest}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-xs font-label-md uppercase tracking-wider">
                     {stay.dates}
-                    <span className="text-xs font-label-md uppercase tracking-wider block" className="text-neutral-400" }}>({stay.nights} nights)</span>
+                    <span className="text-xs font-label-md uppercase tracking-wider block text-neutral-400">({stay.nights} nights)</span>
                   </td>
                   <td className="px-4 py-4 text-sm font-mono">₦{stay.gross.toLocaleString()}</td>
                   <td className="px-4 py-4 text-sm font-label-md uppercase tracking-wider text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>

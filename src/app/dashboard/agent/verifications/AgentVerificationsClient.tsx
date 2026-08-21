@@ -60,7 +60,7 @@ export default function AgentVerificationsClient() {
     <div className="space-y-8">
       <div>
         <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Verification Overview</h1>
-        <p className="mt-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Complete your profile to unlock premium marketplace listings.</p>
+        <p className="mt-2 text-xs font-label-md uppercase tracking-wider text-neutral-400">Complete your profile to unlock premium marketplace listings.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -70,11 +70,11 @@ export default function AgentVerificationsClient() {
               <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="font-headline-sm font-bold">Verification Status</CardTitle>
-                  <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>Track your onboarding completion.</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider mt-1 text-neutral-400">Track your onboarding completion.</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-4xl font-bold" className="text-white" }}>{progress}%</span>
-                  <p className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Profile Progress</p>
+                  <span className="text-4xl font-bold text-white">{progress}%</span>
+                  <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Profile Progress</p>
                 </div>
               </div>
             </CardHeader>
@@ -91,7 +91,7 @@ export default function AgentVerificationsClient() {
                     >
                       <span className="lucide text-[18px]">{idx < 2 ? 'check' : idx === 2 ? 'pending' : 'location_on'}</span>
                     </div>
-                    <span className="text-[10px] font-label-md uppercase tracking-wider text-center" className="text-neutral-400" }}>{step}</span>
+                    <span className="text-[10px] font-label-md uppercase tracking-wider text-center text-neutral-400">{step}</span>
                   </div>
                 ))}
               </div>
@@ -104,12 +104,12 @@ export default function AgentVerificationsClient() {
                 <CardContent className="p-5 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-2 bg-[#171717] rounded-xl">
-                      <span className="lucide" className="text-white" }}>{mod.icon}</span>
+                      <span className="lucide text-white">{mod.icon}</span>
                     </div>
                     {statusBadge(mod.status)}
                   </div>
-                  <h4 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>{mod.title}</h4>
-                  <p className="text-xs font-label-md uppercase tracking-wider flex-1" className="text-neutral-400" }}>{mod.description}</p>
+                  <h4 className="font-headline-sm font-bold text-lg mb-2 text-white">{mod.title}</h4>
+                  <p className="text-xs font-label-md uppercase tracking-wider flex-1 text-neutral-400">{mod.description}</p>
                   {mod.actionLabel && (
                     <div className="mt-4">
                       <Button variant={mod.status === 'not-started' ? 'default' : 'outline'} className="gap-2">
@@ -119,7 +119,7 @@ export default function AgentVerificationsClient() {
                     </div>
                   )}
                   {mod.status === 'verified' && (
-                    <div className="mt-4 flex items-center text-sm font-bold" className="text-white" }}>
+                    <div className="mt-4 flex items-center text-sm font-bold text-white">
                       View Details <ArrowRight className="ml-1 h-4 w-4" />
                     </div>
                   )}
@@ -144,7 +144,7 @@ export default function AgentVerificationsClient() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg font-headline-sm font-bold">Recent Activity</CardTitle>
-                <History className="h-4 w-4" className="text-neutral-400" }} />
+                <History className="h-4 w-4 text-neutral-400" />
               </div>
             </CardHeader>
             <CardContent>
@@ -156,9 +156,9 @@ export default function AgentVerificationsClient() {
                       <AppIcon name={item.icon} className="lucide" />
                     </div>
                     <div>
-                      <p className="font-headline-sm font-bold text-sm" className="text-white" }}>{item.title}</p>
-                      <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{item.description}</p>
-                      <span className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400", opacity: 0.7 }}>{item.timestamp}</span>
+                      <p className="font-headline-sm font-bold text-sm text-white">{item.title}</p>
+                      <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">{item.description}</p>
+                      <span className="text-[10px] font-label-md uppercase tracking-wider" className="text-neutral-400" style={ opacity: 0.7  }>{item.timestamp}</span>
                     </div>
                   </div>
                 ))}

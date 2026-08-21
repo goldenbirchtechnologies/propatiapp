@@ -88,7 +88,7 @@ export default function AgentScheduleClient() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Schedule</h1>
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>Inspection and meeting calendar</p>
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">Inspection and meeting calendar</p>
             </div>
           </div>
           <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
@@ -108,7 +108,7 @@ export default function AgentScheduleClient() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Schedule</h1>
-            <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>Inspection and meeting calendar</p>
+            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">Inspection and meeting calendar</p>
           </div>
           <button className="btn btn-primary inline-flex items-center gap-2"><Plus className="w-4 h-4" /> New Event</button>
         </div>
@@ -129,11 +129,11 @@ export default function AgentScheduleClient() {
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
                   <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
-                    <th className="text-left p-4 text-sm font-medium" className="text-neutral-400" }}>Event</th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-neutral-400" }}>Date</th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-neutral-400" }}>Time</th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-neutral-400" }}>Type</th>
-                    <th className="text-left p-4 text-sm font-medium" className="text-neutral-400" }}>Status</th>
+                    <th className="text-left p-4 text-sm font-medium text-neutral-400">Event</th>
+                    <th className="text-left p-4 text-sm font-medium text-neutral-400">Date</th>
+                    <th className="text-left p-4 text-sm font-medium text-neutral-400">Time</th>
+                    <th className="text-left p-4 text-sm font-medium text-neutral-400">Type</th>
+                    <th className="text-left p-4 text-sm font-medium text-neutral-400">Status</th>
                   </tr>
                 </thead>
                 <tbody>{[1, 2, 3, 4].map((i) => <ScheduleRowSkeleton key={i} />)}</tbody>
@@ -143,18 +143,18 @@ export default function AgentScheduleClient() {
         ) : schedule.length === 0 ? (
           <div className="card overflow-hidden">
             <div className="card-body text-center py-16">
-              <CalendarDays className="w-16 h-16 mx-auto mb-4" className="text-neutral-400", opacity: 0.5 }} />
-              <h3 className="font-headline-sm font-bold text-lg mb-2" className="text-white" }}>No events scheduled</h3>
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Schedule inspections or meetings to get started.</p>
+              <CalendarDays className="w-16 h-16 mx-auto mb-4" className="text-neutral-400" style={ opacity: 0.5  } />
+              <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No events scheduled</h3>
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Schedule inspections or meetings to get started.</p>
             </div>
           </div>
         ) : (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Total Events</p><p className="text-2xl font-bold" className="text-white" }}>{mockSchedule.length}</p></div>
-              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Upcoming</p><p className="text-2xl font-bold" className="text-white" }}>{upcomingCount}</p></div>
-              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Completed</p><p className="text-2xl font-bold" className="text-white" }}>{completedCount}</p></div>
-              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Cancelled</p><p className="text-2xl font-bold" className="text-white" }}>{cancelledCount}</p></div>
+              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Total Events</p><p className="text-2xl font-bold text-white">{mockSchedule.length}</p></div>
+              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Upcoming</p><p className="text-2xl font-bold text-white">{upcomingCount}</p></div>
+              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Completed</p><p className="text-2xl font-bold text-white">{completedCount}</p></div>
+              <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Cancelled</p><p className="text-2xl font-bold text-white">{cancelledCount}</p></div>
             </div>
             <div className="card overflow-hidden">
               <div className="p-4 flex flex-wrap gap-2 border-b" style={{ borderColor: 'border-[#262626]' }}>
@@ -165,12 +165,12 @@ export default function AgentScheduleClient() {
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
                   <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Event</th>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Date</th>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Time</th>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Type</th>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Status</th>
-                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider hidden md:table-cell" className="text-neutral-400" }}>Location</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Event</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Date</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Time</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Type</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Status</th>
+                    <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider hidden md:table-cell text-neutral-400">Location</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -184,22 +184,22 @@ export default function AgentScheduleClient() {
                               <CalendarDays className="w-5 h-5" />
                             </div>
                             <div className="min-w-0">
-                              <p className="font-medium text-sm truncate" className="text-white" }}>{item.title}</p>
-                              <p className="text-xs font-label-md uppercase tracking-wider truncate" className="text-neutral-400" }}>{item.listing}</p>
+                              <p className="font-medium text-sm truncate text-white">{item.title}</p>
+                              <p className="text-xs font-label-md uppercase tracking-wider truncate text-neutral-400">{item.listing}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="p-4 text-sm whitespace-nowrap" className="text-white" }}>
+                        <td className="p-4 text-sm whitespace-nowrap text-white">
                           {new Date(item.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
-                        <td className="p-4 text-sm whitespace-nowrap" className="text-white" }}>
+                        <td className="p-4 text-sm whitespace-nowrap text-white">
                           <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" />{item.time}</span>
                         </td>
-                        <td className="p-4 text-sm capitalize whitespace-nowrap" className="text-white" }}>{item.type}</td>
+                        <td className="p-4 text-sm capitalize whitespace-nowrap text-white">{item.type}</td>
                         <td className="p-4">
                           <span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span>
                         </td>
-                        <td className="p-4 text-sm hidden md:table-cell" className="text-neutral-400" }}>
+                        <td className="p-4 text-sm hidden md:table-cell text-neutral-400">
                           <span className="inline-flex items-center gap-1"><MapPin className="w-3 h-3" />{item.address}</span>
                         </td>
                       </tr>

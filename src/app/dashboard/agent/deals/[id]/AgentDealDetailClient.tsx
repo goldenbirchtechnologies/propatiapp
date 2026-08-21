@@ -71,14 +71,14 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Link href="/dashboard/agent/pipeline" className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
+            <Link href="/dashboard/agent/pipeline" className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider text-neutral-400">
               <ChevronLeft className="w-4 h-4" /> Pipeline
             </Link>
           </div>
           <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
             {deal.title}
           </h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400", marginTop: 'mt-1' }}>
+          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
             {deal.property}
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
-            <h3 className="font-headline-sm font-bold text-sm mb-4" className="text-white" }}>Deal Details</h3>
+            <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Deal Details</h3>
             <div className="space-y-3">
               <DetailRow icon={<Home className="w-4 h-4" />} label="Property" value={deal.property} />
               <DetailRow icon={<User className="w-4 h-4" />} label="Client" value={deal.client} />
@@ -143,7 +143,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
             </div>
           </div>
           <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
-            <h3 className="font-headline-sm font-bold text-sm mb-4" className="text-white" }}>Status Overview</h3>
+            <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Status Overview</h3>
             <div className="space-y-3">
               <StatusBar label="Enquiries" active={deal.status === 'enquiries'} />
               <StatusBar label="Viewings" active={deal.status === 'viewings'} />
@@ -157,7 +157,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
 
       {activeTab === 'timeline' && (
         <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
-          <h3 className="font-headline-sm font-bold text-sm mb-6" className="text-white" }}>Deal Timeline</h3>
+          <h3 className="font-headline-sm font-bold text-sm mb-6 text-white">Deal Timeline</h3>
           <div className="space-y-0">
             {deal.timeline.map((item, idx) => (
               <div key={item.id} className="flex gap-4">
@@ -166,9 +166,9 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
                   {idx < deal.timeline.length - 1 && <div className="w-0.5 flex-1 mt-1" style={{ background: 'border-[#262626]' }} />}
                 </div>
                 <div className="pb-6">
-                  <p className="text-sm font-medium" className="text-white" }}>{item.event}</p>
-                  <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{formatDate(item.date)}</p>
-                  <p className="text-sm mt-1" className="text-neutral-400" }}>{item.detail}</p>
+                  <p className="text-sm font-medium text-white">{item.event}</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">{formatDate(item.date)}</p>
+                  <p className="text-sm mt-1 text-neutral-400">{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -208,34 +208,34 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {activeTab === 'documents' && (
         <div className="card overflow-hidden" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
           <div className="p-4 border-b" style={{ borderColor: 'border-[#262626]' }}>
-            <h3 className="font-headline-sm font-bold text-sm" className="text-white" }}>Documents</h3>
+            <h3 className="font-headline-sm font-bold text-sm text-white">Documents</h3>
           </div>
           {deal.documents.length === 0 ? (
             <div className="p-10 text-center">
-              <FileText className="w-10 h-10 mx-auto mb-3" className="text-neutral-400", opacity: 0.5 }} />
-              <p className="text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>No documents uploaded yet</p>
+              <FileText className="w-10 h-10 mx-auto mb-3" className="text-neutral-400" style={ opacity: 0.5  } />
+              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">No documents uploaded yet</p>
             </div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
                 <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Name</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Type</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Size</th>
-                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Uploaded</th>
-                  <th className="text-right p-4 text-sm font-label-md uppercase tracking-wider" className="text-neutral-400" }}>Action</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Name</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Type</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Size</th>
+                  <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Uploaded</th>
+                  <th className="text-right p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {deal.documents.map((doc) => (
                   <tr key={doc.id} className="border-b transition-colors hover:bg-[#171717]/30" style={{ borderColor: 'border-[#262626]' }}>
-                    <td className="p-4 font-medium text-sm flex items-center gap-2" className="text-white" }}>
-                      <FileText className="w-4 h-4" className="text-neutral-400" }} />
+                    <td className="p-4 font-medium text-sm flex items-center gap-2 text-white">
+                      <FileText className="w-4 h-4 text-neutral-400" />
                       {doc.name}
                     </td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{doc.type}</td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{doc.size}</td>
-                    <td className="p-4 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>{formatDate(doc.uploadedAt)}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{doc.type}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{doc.size}</td>
+                    <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{formatDate(doc.uploadedAt)}</td>
                     <td className="p-4 text-right">
                       <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-surface-container-low', color: 'text-white', border: '1px solid border-[#262626]' }}>
                         <Download className="w-3 h-3" /> Download
@@ -255,11 +255,11 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
 function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" className="text-neutral-400" }}>
-        <span className="inline-flex" className="text-white" }}>{icon}</span>
+      <div className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider text-neutral-400">
+        <span className="inline-flex text-white">{icon}</span>
         {label}
       </div>
-      <span className="text-sm font-medium" className="text-white" }}>{value}</span>
+      <span className="text-sm font-medium text-white">{value}</span>
     </div>
   );
 }
@@ -282,10 +282,10 @@ function ActionCard({ icon, title, description, href }: { icon: React.ReactNode;
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-headline-sm font-bold text-sm" className="text-white" }}>{title}</p>
-        <p className="text-xs font-label-md uppercase tracking-wider mt-1" className="text-neutral-400" }}>{description}</p>
+        <p className="font-headline-sm font-bold text-sm text-white">{title}</p>
+        <p className="text-xs font-label-md uppercase tracking-wider mt-1 text-neutral-400">{description}</p>
       </div>
-      <ChevronRight className="w-4 h-4 mt-1 transition-transform group-hover:translate-x-1" className="text-neutral-400" }} />
+      <ChevronRight className="w-4 h-4 mt-1 transition-transform group-hover:translate-x-1 text-neutral-400" />
     </Link>
   );
 }

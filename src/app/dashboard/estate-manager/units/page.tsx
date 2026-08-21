@@ -159,7 +159,7 @@ export default function UnitsPage() {
               <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Unit registry and occupancy overview</p>
             </div>
           </div>
-          <Card className="border-destructive/30 bg-destructive/5">
+          <Card className="border-red-500/30 bg-destructive/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load units</p>
@@ -171,7 +171,7 @@ export default function UnitsPage() {
                 Retry
               </Button>
             </CardContent>
-          </Card>
+          </div>
         </div>
     );
   }
@@ -205,35 +205,35 @@ export default function UnitsPage() {
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Total Units</p>
               </div>
               <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{totalUnits}</p>
-            </Card>
+            </div>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-4 h-4 text-green-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Occupied</p>
               </div>
               <p className="text-2xl font-bold text-green-600">{occupiedUnits}</p>
-            </Card>
+            </div>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Home className="w-4 h-4 text-amber-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Vacant</p>
               </div>
               <p className="text-2xl font-bold text-amber-600">{vacantUnits}</p>
-            </Card>
+            </div>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Wrench className="w-4 h-4 text-red-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Maintenance</p>
               </div>
               <p className="text-2xl font-bold text-red-600">{maintenanceUnits}</p>
-            </Card>
+            </div>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <DollarSign className="w-4 h-4 text-green-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Monthly Rent</p>
               </div>
               <p className="text-2xl font-bold text-green-600">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
-            </Card>
+            </div>
           </div>
         )}
 
@@ -277,7 +277,7 @@ export default function UnitsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Table */}
@@ -371,7 +371,7 @@ export default function UnitsPage() {
               </Table>
             )}
           </div>
-        </Card>
+        </div>
       </div>
   );
 }

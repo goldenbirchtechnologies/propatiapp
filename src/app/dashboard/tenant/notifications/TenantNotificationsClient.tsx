@@ -53,10 +53,10 @@ const typeConfig: Record<
 };
 
 const colorMap: Record<string, string> = {
-  green: 'bg-success/10 text-success border-success-bright/20',
+  green: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20',
   amber: 'bg-warning/10 text-warning border-warning/20',
-  red: 'bg-destructive/10 text-destructive border-destructive/20',
-  blue: 'bg-blue-500/10 text-blue-700 border-blue-200',
+  red: 'bg-red-500/10 text-red-500 border-red-500/20',
+  blue: 'bg-[#262626] text-neutral-300 border-[#262626]',
   slate: 'bg-slate-500/10 text-slate-700 border-slate-200',
 };
 
@@ -107,10 +107,10 @@ function StatCard({
           <Icon className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-xs font-medium text-on-surface-variant">
+          <p className="text-xs font-medium text-neutral-400">
             {label}
           </p>
-          <p className="text-2xl text-headline-sm text-primary">
+          <p className="text-2xl text-headline-sm text-white">
             {value}
           </p>
         </div>
@@ -123,11 +123,11 @@ function StatCard({
 function EmptyState({ filter }: { filter: string }) {
   return (
     <div className="card p-12 text-center">
-      <Bell className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
+      <Bell className="w-12 h-12 text-neutral-400" style={{ opacity: 0.4 }} />
+      <h3 className="font-headline-sm text-headline-sm mb-2 text-white">
         {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
       </h3>
-      <p  className="text-on-surface-variant">
+      <p  className="text-neutral-400">
         {filter === 'unread' ? "You're all caught up!" : 'You will see alerts here when there is activity on your account.'}
       </p>
     </div>
@@ -174,14 +174,14 @@ function NotificationRow({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
-            <p className="font-medium text-sm text-primary">
+            <p className="font-medium text-sm text-white">
               {notification.title}
             </p>
-            <span className="text-xs flex-shrink-0 text-on-surface-variant">
+            <span className="text-xs flex-shrink-0 text-neutral-400">
               {timeStr}
             </span>
           </div>
-          <p className="text-sm line-clamp-2 text-on-surface-variant">
+          <p className="text-sm line-clamp-2 text-neutral-400">
             {notification.body}
           </p>
 
@@ -320,7 +320,7 @@ export default function TenantNotificationsClient() {
             </button>
           ))}
         </div>
-        <span className="text-xs text-on-surface-variant">
+        <span className="text-xs text-neutral-400">
           {total} notification{total !== 1 ? 's' : ''} total
         </span>
       </div>
@@ -357,7 +357,7 @@ function PageHeader() {
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           Notifications
         </h1>
-        <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-neutral-400" style={{ marginTop: 'var(--space-vs)' }}>
           Stay updated with your rental activity
         </p>
       </div>

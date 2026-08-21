@@ -75,19 +75,19 @@ const statusConfig: Record<
   },
   under_review: {
     label: 'Under Review',
-    className: 'bg-blue-100 text-blue-800 border-blue-200',
+    className: 'bg-[#262626] text-neutral-300 border-[#262626]',
   },
   accepted: {
     label: 'Accepted',
-    className: 'bg-success/10 text-success border-success-bright/20',
+    className: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20',
   },
   rejected: {
     label: 'Not Successful',
-    className: 'bg-destructive/10 text-destructive border-destructive/20',
+    className: 'bg-red-500/10 text-red-500 border-red-500/20',
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-surface-container-low text-on-surface-variant border-border',
+    className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]',
   },
 };
 
@@ -125,18 +125,18 @@ export default function TenantApplicationDetailClient({
           {breadcrumbs.map((item, index) => (
             <li key={index} className="flex items-center gap-2">
               {index > 0 && (
-                <span  className="text-on-surface-variant">/</span>
+                <span  className="text-neutral-400">/</span>
               )}
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="transition-colors text-on-surface-variant"
+                  className="transition-colors text-neutral-400"
                 >
                   {item.label}
                 </Link>
               ) : (
                 <span
-                  className="font-medium text-primary"
+                  className="font-medium text-white"
                 >
                   {item.label}
                 </span>
@@ -162,7 +162,7 @@ export default function TenantApplicationDetailClient({
               Application Details
             </h1>
             <p
-              className="flex items-center gap-1 mt-1 text-on-surface-variant"
+              className="flex items-center gap-1 mt-1 text-neutral-400"
             >
               <MapPin className="h-4 w-4" />
               {initial.listing.address}
@@ -200,32 +200,32 @@ export default function TenantApplicationDetailClient({
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <p className="text-sm text-on-surface-variant">
+                    <p className="text-sm text-neutral-400">
                       Property
                     </p>
                     <p
-                      className="font-medium text-primary"
+                      className="font-medium text-white"
                     >
                       {initial.listing.title}
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-on-surface-variant">
+                      <p className="text-sm text-neutral-400">
                         Area
                       </p>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {initial.listing.area}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-on-surface-variant">
+                      <p className="text-sm text-neutral-400">
                         State
                       </p>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {initial.listing.state}
                       </p>
@@ -233,11 +233,11 @@ export default function TenantApplicationDetailClient({
                   </div>
                   <Separator />
                   <div>
-                    <p className="text-sm text-on-surface-variant">
+                    <p className="text-sm text-neutral-400">
                       Rent
                     </p>
                     <p
-                      className="text-2xl font-bold text-primary"
+                      className="text-2xl font-bold text-white"
                     >
                       ₦{initial.listing.price.toLocaleString()}
                       {initial.listing.pricePeriod
@@ -246,17 +246,17 @@ export default function TenantApplicationDetailClient({
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-on-surface-variant">
+                    <p className="text-sm text-neutral-400">
                       Type
                     </p>
                     <p
-                      className="font-medium text-primary"
+                      className="font-medium text-white"
                     >
                       {initial.listing.listingType}
                     </p>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
 
               <Card>
                 <CardHeader>
@@ -271,7 +271,7 @@ export default function TenantApplicationDetailClient({
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-headline-sm text-foreground"
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-headline-sm text-white"
                       style={{
                         background: `linear-gradient(135deg, var(--accent), var(--accent2))`, }}
                     >
@@ -287,12 +287,12 @@ export default function TenantApplicationDetailClient({
                     </div>
                     <div>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {initial.landlord.fullName}
                       </p>
                       <p
-                        className="text-sm text-on-surface-variant"
+                        className="text-sm text-neutral-400"
                       >
                         {initial.landlord.email}
                       </p>
@@ -301,11 +301,11 @@ export default function TenantApplicationDetailClient({
                   <Separator />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-on-surface-variant">
+                      <p className="text-sm text-neutral-400">
                         Applied On
                       </p>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {new Date(initial.createdAt).toLocaleDateString(
                           'en-NG',
@@ -318,11 +318,11 @@ export default function TenantApplicationDetailClient({
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-on-surface-variant">
+                      <p className="text-sm text-neutral-400">
                         Last Updated
                       </p>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {new Date(initial.updatedAt).toLocaleDateString(
                           'en-NG',
@@ -337,11 +337,11 @@ export default function TenantApplicationDetailClient({
                   </div>
                   {initial.reviewedAt && (
                     <div>
-                      <p className="text-sm text-on-surface-variant">
+                      <p className="text-sm text-neutral-400">
                         Reviewed On
                       </p>
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         {new Date(initial.reviewedAt).toLocaleDateString(
                           'en-NG',
@@ -355,7 +355,7 @@ export default function TenantApplicationDetailClient({
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
             </div>
           </DashboardSection>
         </TabsContent>
@@ -382,7 +382,7 @@ export default function TenantApplicationDetailClient({
                     {initial.listing.images.map((img) => (
                       <div
                         key={img.id}
-                        className="rounded-xl overflow-hidden border border-border"
+                        className="rounded-xl overflow-hidden border border-[#262626]"
                       >
                         <img
                           src={img.url}
@@ -393,29 +393,29 @@ export default function TenantApplicationDetailClient({
                     ))}
                   </div>
                   <p
-                    className="text-sm mt-4 text-on-surface-variant"
+                    className="text-sm mt-4 text-neutral-400"
                   >
                     These are the listing images associated with the
                     property.
                   </p>
                 </CardContent>
-              </Card>
+              </div>
             ) : (
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                   <ImageIcon
-                    className="text-on-surface-variant" style={{ opacity: 0.4 }}
+                    className="text-neutral-400" style={{ opacity: 0.4 }}
                   />
                   <h3
-                    className="font-headline-sm text-headline-sm mb-2 text-primary"
+                    className="font-headline-sm text-headline-sm mb-2 text-white"
                   >
                     No documents yet
                   </h3>
-                  <p  className="text-on-surface-variant">
+                  <p  className="text-neutral-400">
                     There are no documents attached to this application.
                   </p>
                 </CardContent>
-              </Card>
+              </div>
             )}
           </DashboardSection>
         </TabsContent>
@@ -447,12 +447,12 @@ export default function TenantApplicationDetailClient({
                     </div>
                     <div className="space-y-1">
                       <p
-                        className="font-medium text-primary"
+                        className="font-medium text-white"
                       >
                         Application Submitted
                       </p>
                       <p
-                        className="text-sm text-on-surface-variant"
+                        className="text-sm text-neutral-400"
                       >
                         {new Date(initial.createdAt).toLocaleString(
                           'en-NG',
@@ -482,12 +482,12 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium text-primary"
+                          className="font-medium text-white"
                         >
                           Application Reviewed
                         </p>
                         <p
-                          className="text-sm text-on-surface-variant"
+                          className="text-sm text-neutral-400"
                         >
                           {new Date(initial.reviewedAt).toLocaleString(
                             'en-NG',
@@ -513,12 +513,12 @@ export default function TenantApplicationDetailClient({
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium text-primary"
+                          className="font-medium text-white"
                         >
                           Application Accepted
                         </p>
                         <p
-                          className="text-sm text-on-surface-variant"
+                          className="text-sm text-neutral-400"
                         >
                           Congratulations! Your application has been
                           accepted.
@@ -529,16 +529,16 @@ export default function TenantApplicationDetailClient({
                   {initial.status === 'rejected' && (
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center">
-                        <XCircle className="h-5 w-5 text-destructive" />
+                        <XCircle className="h-5 w-5 text-red-500" />
                       </div>
                       <div className="space-y-1">
                         <p
-                          className="font-medium text-primary"
+                          className="font-medium text-white"
                         >
                           Application Not Successful
                         </p>
                         <p
-                          className="text-sm text-on-surface-variant"
+                          className="text-sm text-neutral-400"
                         >
                           Unfortunately, your application was not
                           successful.
@@ -548,7 +548,7 @@ export default function TenantApplicationDetailClient({
                   )}
                 </div>
               </CardContent>
-            </Card>
+            </div>
           </DashboardSection>
         </TabsContent>
 
@@ -572,12 +572,12 @@ export default function TenantApplicationDetailClient({
                   </CardHeader>
                   <CardContent>
                     <p
-                      className="whitespace-pre-line text-primary"
+                      className="whitespace-pre-line text-white"
                     >
                       {initial.message}
                     </p>
                   </CardContent>
-                </Card>
+                </div>
               )}
               {initial.landlordNotes && (
                 <Card>
@@ -592,29 +592,29 @@ export default function TenantApplicationDetailClient({
                   </CardHeader>
                   <CardContent>
                     <p
-                      className="whitespace-pre-line text-primary"
+                      className="whitespace-pre-line text-white"
                     >
                       {initial.landlordNotes}
                     </p>
                   </CardContent>
-                </Card>
+                </div>
               )}
               {!initial.message && !initial.landlordNotes && (
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                     <MessageSquare
-                      className="text-on-surface-variant" style={{ opacity: 0.4 }}
+                      className="text-neutral-400" style={{ opacity: 0.4 }}
                     />
                     <h3
-                      className="font-headline-sm text-headline-sm mb-2 text-primary"
+                      className="font-headline-sm text-headline-sm mb-2 text-white"
                     >
                       No notes yet
                     </h3>
-                    <p  className="text-on-surface-variant">
+                    <p  className="text-neutral-400">
                       There are no messages or notes on this application.
                     </p>
                   </CardContent>
-                </Card>
+                </div>
               )}
             </div>
           </DashboardSection>

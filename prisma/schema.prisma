@@ -202,6 +202,9 @@ enum NotificationType {
   maintenance
   screening
   system
+  agent_invite_sent
+  agent_invite_accepted
+  agent_revoked
 }
 
 enum OrgPlanTier {
@@ -558,6 +561,8 @@ model User {
   assignedTurnoverTasks TurnoverTask[] @relation("TurnoverTaskAssignee")
   sentAgentInvites      AgentInvite[]  @relation("AgentInviteSender")
   receivedAgentInvites  AgentInvite[]  @relation("AgentInviteRecipient")
+  agentAssignments      AgentAssignment[] @relation("AgentAssignments")
+  agentConversations    Conversation[] @relation("ConversationAgent")
   sentInvoices          Invoice[]      @relation("InvoiceLandlord")
   receivedInvoices      Invoice[]      @relation("InvoiceTenant")
   wallet                Wallet?
@@ -680,6 +685,7 @@ model Listing {
 
   owner                User              @relation("ListingOwner", fields: [ownerId], references: [id])
   agent                User?             @relation("ListingAgent", fields: [agentId], references: [id])
+  assignments          AgentAssignment[] @relation("ListingAssignments")
   images               ListingImage[]
   savedBy              SavedListing[]
   flags                ListingFlag[]
@@ -961,6 +967,7 @@ model Conversation {
   orgId            String?            @map("org_id")
   landlordId       String?            @map("landlord_id")
   tenantId         String?            @map("tenant_id")
+  agentId          String?            @map("agent_id")
   participants     Json?              @default("[]")
   subject          String?
   lastMessage      String?            @map("last_message")
@@ -973,11 +980,13 @@ model Conversation {
   listing          Listing?           @relation(fields: [listingId], references: [id], onDelete: SetNull)
   landlord         User?              @relation("ConversationLandlord", fields: [landlordId], references: [id])
   tenant           User?              @relation("ConversationTenant", fields: [tenantId], references: [id])
+  agent            User?              @relation("ConversationAgent", fields: [agentId], references: [id])
   messages         Message[]
 
   @@index([listingId], map: "idx_conversations_listing")
   @@index([landlordId], map: "idx_conversations_landlord")
   @@index([tenantId], map: "idx_conversations_tenant")
+  @@index([agentId], map: "idx_conversations_agent")
   @@index([orgId], map: "idx_conversations_org")
   @@index([propertyId], map: "idx_conversations_property")
   @@map("conversations")
@@ -1958,14 +1967,39 @@ model AgentInvite {
   createdAt    DateTime          @default(now()) @map("created_at")
   updatedAt    DateTime          @updatedAt @map("updated_at")
 
+  permissions  Json?             @default("[]")
+  scope        String?
+  listingIds   Json?             @default("[]")
+  message      String?           @db.Text
+
   sender       User              @relation("AgentInviteSender", fields: [landlordId], references: [id])
   recipient    User?             @relation("AgentInviteRecipient", fields: [agentId], references: [id])
+  assignments  AgentAssignment[]
 
   @@index([landlordId], map: "idx_agent_invites_landlord")
   @@index([agentId], map: "idx_agent_invites_agent")
   @@index([email], map: "idx_agent_invites_email")
   @@index([status], map: "idx_agent_invites_status")
   @@map("agent_invites")
+}
+model AgentAssignment {
+  id           String   @id @default(cuid()) @map("id") // 'asn_' + 12 chars
+  inviteId     String   @map("invite_id")
+  agentId      String   @map("agent_id")
+  listingId    String   @map("listing_id")
+  permissions  Json     @default("[]")
+  scope        String
+  status       String   @default("active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  invite       AgentInvite @relation(fields: [inviteId], references: [id], onDelete: Cascade)
+  agent        User        @relation("AgentAssignments", fields: [agentId], references: [id])
+  listing      Listing     @relation("ListingAssignments", fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([agentId], map: "idx_agent_assignments_agent")
+  @@index([listingId], map: "idx_agent_assignments_listing")
+  @@unique([agentId, listingId], map: "uq_agent_assignments_agent_listing")
+  @@map("agent_assignments")
 }
 model Invoice {
   id             String        @id @default(cuid()) @map("id") // 'inv_' + 12 chars

@@ -94,7 +94,7 @@ export default function AgentProfileClient({
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
                 <Mail className="h-4 w-4 text-[#00ff66]" />
               </div>
@@ -103,7 +103,7 @@ export default function AgentProfileClient({
                 <p className="text-sm text-white mt-0.5 truncate">{user.email}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
                 <Phone className="h-4 w-4 text-[#00ff66]" />
               </div>
@@ -114,7 +114,7 @@ export default function AgentProfileClient({
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
                 <Shield className="h-4 w-4 text-[#00ff66]" />
               </div>
@@ -123,7 +123,7 @@ export default function AgentProfileClient({
                 <p className="text-sm text-white mt-0.5 capitalize">{user.role}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
                 <Calendar className="h-4 w-4 text-[#00ff66]" />
               </div>
@@ -135,7 +135,7 @@ export default function AgentProfileClient({
           </div>
 
           {user.profileBio && (
-            <div className="p-4 rounded-xl bg-surface-container-lowest border border-[#262626]">
+            <div className="p-4 rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <p className="text-xs uppercase tracking-wider text-neutral-400 mb-2">Bio</p>
               <p className="text-sm text-white">{user.profileBio}</p>
             </div>
@@ -147,7 +147,7 @@ export default function AgentProfileClient({
             <Button variant="outline" className="gap-2"><Phone className="h-4 w-4" /> Change Phone</Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       <KycVerificationCard
         status={kyc?.status || 'not_started'}

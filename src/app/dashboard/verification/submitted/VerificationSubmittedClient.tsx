@@ -25,7 +25,7 @@ function VerificationSubmittedClient(props: Props) {
   return (
     <div className="flex flex-col items-center justify-center py-12 space-y-6">
       <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center">
-        <CheckCircle2 className="h-8 w-8 text-success" />
+        <CheckCircle2 className="h-8 w-8 text-[#00ff66]" />
       </div>
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Layer {props.layer} Submitted</h2>
@@ -54,7 +54,7 @@ function VerificationSubmittedClient(props: Props) {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

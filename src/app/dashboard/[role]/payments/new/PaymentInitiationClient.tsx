@@ -128,7 +128,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
         </Button>
         <div>
           <h1 className="text-3xl font-bold">Initiate Payment</h1>
-          <p className="text-on-surface-variant">
+          <p className="text-neutral-400">
             Make a secure payment for rent, deposits, or service charges
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 </SelectContent>
               </Select>
             </CardContent>
-          </Card>
+          </div>
 
           {/* Agreement Selection */}
           <Card>
@@ -183,16 +183,16 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               </div>
 
               {selectedAgreement && (
-                <div className="bg-surface-container-low/50 rounded-lg p-4">
+                <div className="bg-obsidian-800/30/50 rounded-lg p-4">
                   <p className="text-sm font-semibold">{selectedAgreement.listing?.title}</p>
-                  <p className="text-sm text-on-surface-variant">{selectedAgreement.listing?.area}</p>
-                  <p className="text-xs text-on-surface-variant mt-1">
+                  <p className="text-sm text-neutral-400">{selectedAgreement.listing?.area}</p>
+                  <p className="text-xs text-neutral-400 mt-1">
                     Agreement: {selectedAgreement.id.slice(-8).toUpperCase()}
                   </p>
                 </div>
               )}
             </CardContent>
-          </Card>
+          </div>
 
           {/* Amount */}
           <Card>
@@ -225,7 +225,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 />
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           {/* Fee Breakdown */}
           {breakdown && (
@@ -236,12 +236,12 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-on-surface-variant">Payment Amount</span>
+                    <span className="text-neutral-400">Payment Amount</span>
                     <span className="font-semibold">{formatAmountFromKobo(breakdown.amount)}</span>
                   </div>
                   {breakdown.platformFee > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-on-surface-variant">
+                      <span className="text-neutral-400">
                         Platform Fee ({((breakdown.platformFee / breakdown.amount) * 100).toFixed(1)}%)
                       </span>
                       <AppIcon name={formatAmountFromKobo(breakdown.platformFee)} className="lucide" />
@@ -249,7 +249,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   )}
                   {breakdown.agentCommission > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-on-surface-variant">Agent Commission</span>
+                      <span className="text-neutral-400">Agent Commission</span>
                       <span>{formatAmountFromKobo(breakdown.agentCommission)}</span>
                     </div>
                   )}
@@ -259,10 +259,10 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
 
-                <div className="mt-4 bg-primary/10 border border-outline-variant rounded-lg p-3">
+                <div className="mt-4 bg-[#262626] border border-[#262626] rounded-lg p-3">
                   <div className="flex gap-2">
-                    <AlertCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-primary">
+                    <AlertCircle className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-white">
                       <p className="font-semibold">Escrow Protection</p>
                       <p>
                         Your payment will be held securely in escrow until the transaction is completed.
@@ -272,7 +272,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {/* Submit Button */}
@@ -296,11 +296,11 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </>
                 )}
               </Button>
-              <p className="text-xs text-center text-on-surface-variant mt-3">
+              <p className="text-xs text-center text-neutral-400 mt-3">
                 You will be redirected to Paystack to complete your payment securely
               </p>
             </CardContent>
-          </Card>
+          </div>
         </div>
       </form>
     </div>

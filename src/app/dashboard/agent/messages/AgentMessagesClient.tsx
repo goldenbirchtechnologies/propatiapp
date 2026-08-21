@@ -80,7 +80,7 @@ export default function AgentMessagesClient({
               </p>
             </div>
           ) : (
-            <div className="divide-y divide-outline-variant">
+            <div className="divide-y divide-[#262626]">
               {filtered.map((c) => {
                 const unread = getUnreadFor(c, userId);
                 return (
@@ -105,7 +105,7 @@ export default function AgentMessagesClient({
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         {unread > 0 ? (
-                          <Badge className="bg-[#00ff66] text-white-foreground">{unread}</Badge>
+                          <Badge className="bg-[#00ff66] text-white">{unread}</Badge>
                         ) : null}
                         <span className="flex items-center gap-1 text-xs text-neutral-400">
                           <Clock className="h-3 w-3" />
@@ -121,7 +121,7 @@ export default function AgentMessagesClient({
             </div>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

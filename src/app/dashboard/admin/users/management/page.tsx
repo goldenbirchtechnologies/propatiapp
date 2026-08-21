@@ -141,7 +141,7 @@ function UsersManagementClient({
   const VerificationBadge = ({ user }: { user: (typeof users)[0] }) => {
     if (user.idVerified)
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm border border-on-tertiary-container/20">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#00ff66] font-label-sm text-label-sm border border-on-tertiary-container/20">
           <AppIcon name="verified" className="lucide" size={16} />
           Lvl 5
         </span>
@@ -154,7 +154,7 @@ function UsersManagementClient({
         </span>
       );
     return (
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-muted-foreground font-label-sm text-label-sm border border-outline-variant">
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-muted-foreground font-label-sm text-label-sm border border-[#262626]">
         Lvl 1
       </span>
     );
@@ -172,9 +172,9 @@ function UsersManagementClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-outline-variant bg-surface p-md shadow-sm flex items-center gap-4"
+            className="rounded-xl border border-[#262626] bg-surface p-md shadow-sm flex items-center gap-4"
           >
-            <div className="p-3 rounded-lg bg-primary-container/5 text-primary shrink-0">
+            <div className="p-3 rounded-lg bg-primary-container/5 text-white shrink-0">
               <AppIcon name={card.icon} className="lucide" size={28} />
             </div>
             <div>
@@ -184,7 +184,7 @@ function UsersManagementClient({
                 {card.label}
               </p>
               <h2
-                className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-primary'}`}
+                className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-white'}`}
               >
                 {card.value}
               </h2>
@@ -194,18 +194,18 @@ function UsersManagementClient({
       </div>
 
       {/* Filters */}
-      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden flex flex-col">
-        <div className="p-lg border-b border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-between gap-4">
+      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden flex flex-col">
+        <div className="p-lg border-b border-[#262626] bg-obsidian-800/30 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative w-64">
               <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search name or email…"
-                className="w-full pl-9 pr-4 py-2 border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
+                className="w-full pl-9 pr-4 py-2 border border-[#262626] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
               />
             </div>
-            <select className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+            <select className="border border-[#262626] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
               <option value="">All Roles</option>
               {['tenant', 'landlord', 'agent', 'admin', 'estate_manager'].map((r) => (
                 <option key={r} value={r} selected={roleFilter === r}>
@@ -214,7 +214,7 @@ function UsersManagementClient({
               ))}
             </select>
             <select
-              className="border border-outline-variant rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
+              className="border border-[#262626] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
               defaultValue={statusFilter}
             >
               <option value="">All Statuses</option>
@@ -240,7 +240,7 @@ function UsersManagementClient({
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-container text-muted-foreground border-b border-outline-variant sticky top-0">
+                <tr className="bg-surface-container text-muted-foreground border-b border-[#262626] sticky top-0">
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
@@ -251,16 +251,16 @@ function UsersManagementClient({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant/50">
+              <tbody className="divide-y divide-[#262626]/50">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-surface-container-low transition-all duration-200">
+                  <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-all duration-200">
                     <td className="px-lg py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-primary-container font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center text-white-container font-bold text-sm">
                           {initials(u.fullName)}
                         </div>
                         <div>
-                          <p className="font-bold text-primary">{u.fullName}</p>
+                          <p className="font-bold text-white">{u.fullName}</p>
                           <p className="text-body-sm text-muted-foreground">{u.email}</p>
                         </div>
                       </div>
@@ -282,7 +282,7 @@ function UsersManagementClient({
                           }`}
                         />
                         <span
-                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-on-tertiary-container' : 'text-muted-foreground'}`}
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#00ff66]' : 'text-muted-foreground'}`}
                         >
                           {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -306,7 +306,7 @@ function UsersManagementClient({
         </div>
 
         {/* Pagination */}
-        <div className="px-lg py-3 border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+        <div className="px-lg py-3 border-t border-[#262626] bg-obsidian-800/30 flex items-center justify-between">
           <p className="text-body-sm text-muted-foreground">
             Showing{' '}
             <span className="font-bold">
@@ -318,8 +318,8 @@ function UsersManagementClient({
           <div className="flex items-center gap-1">
             <a
               href={buildHref(currentPage - 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant transition-colors ${
-                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-surface-container-high text-primary'
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-[#262626] transition-colors ${
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-obsidian-800-high text-white'
               }`}
             >
               <ChevronLeft className="!w-5 !h-5" />
@@ -337,7 +337,7 @@ function UsersManagementClient({
                   className={`w-10 h-10 flex items-center justify-center rounded-lg font-label-md text-label-md transition-colors ${
                     pageNum === currentPage
                       ? 'bg-primary text-on-primary shadow-sm font-bold'
-                      : 'border border-outline-variant text-muted-foreground hover:bg-surface-container-high'
+                      : 'border border-[#262626] text-muted-foreground hover:bg-obsidian-800-high'
                   }`}
                 >
                   {pageNum}
@@ -346,8 +346,8 @@ function UsersManagementClient({
             })}
             <a
               href={buildHref(currentPage + 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant transition-colors ${
-                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-surface-container-high text-primary'
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-[#262626] transition-colors ${
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-obsidian-800-high text-white'
               }`}
             >
               <ChevronRight className="!w-5 !h-5" />

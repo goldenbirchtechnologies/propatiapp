@@ -56,10 +56,10 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <h1 className="text-headline-lg-mobile font-bold text-foreground">Welcome back, {greeting}</h1>
+            <h1 className="text-headline-lg-mobile font-bold text-white">Welcome back, {greeting}</h1>
             <p className="text-muted-foreground mt-1">Track your search, tenancy, and payments.</p>
           </div>
           <div className="flex items-center gap-2">
@@ -70,7 +70,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Search Hub */}
-      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
         <Tabs defaultValue="residential" className="w-full">
           <TabsList>
             <TabsTrigger value="residential">Residential</TabsTrigger>
@@ -79,9 +79,9 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           <TabsContent value="residential" className="mt-4">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {searchCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-border bg-background p-4 text-center transition hover:border-primary">
+                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
                   <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
-                  <div className="text-sm font-semibold text-foreground">{item.label}</div>
+                  <div className="text-sm font-semibold text-white">{item.label}</div>
                 </Link>
               ))}
             </div>
@@ -89,9 +89,9 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           <TabsContent value="commercial" className="mt-4">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {commercialCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-border bg-background p-4 text-center transition hover:border-primary">
+                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
                   <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
-                  <div className="text-sm font-semibold text-foreground">{item.label}</div>
+                  <div className="text-sm font-semibold text-white">{item.label}</div>
                 </Link>
               ))}
             </div>
@@ -106,40 +106,40 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <CardTitle className="text-sm text-muted-foreground">Total Payments Made</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="font-headline-md text-headline-md text-primary">₦1.85M</div>
-            <div className="mt-2 flex items-center gap-2 text-xs text-success">
+            <div className="font-headline-md text-headline-md text-white">₦1.85M</div>
+            <div className="mt-2 flex items-center gap-2 text-xs text-[#00ff66]">
               <TrendingUp className="h-4 w-4" />
               <span className="font-medium">On track</span>
             </div>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">Active Applications</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="font-headline-md text-headline-md text-primary">3</div>
+            <div className="font-headline-md text-headline-md text-white">3</div>
             <p className="text-xs text-muted-foreground">1 pending review</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">Saved Properties</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="font-headline-md text-headline-md text-primary">12</div>
+            <div className="font-headline-md text-headline-md text-white">12</div>
             <p className="text-xs text-muted-foreground">4 updated this week</p>
           </CardContent>
-        </Card>
+        </div>
       </section>
 
       {/* Current Property */}
-      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="h-40 w-full md:w-64 rounded-xl bg-muted" />
           <div className="flex-1 space-y-2">
             <Badge variant="secondary">Active Lease</Badge>
-            <h2 className="font-headline-sm text-headline-sm text-primary">2 Bed Flat · Ikoyi</h2>
+            <h2 className="font-headline-sm text-headline-sm text-white">2 Bed Flat · Ikoyi</h2>
             <p className="text-sm text-muted-foreground">Landlord: Adebayo Estates</p>
             <p className="text-sm text-muted-foreground">Next rent due in 18 days</p>
             <div className="flex flex-wrap gap-2 pt-2">
@@ -152,32 +152,32 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Recent Payments */}
-      <section className="rounded-2xl border border-border bg-card shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-card shadow-sm">
         <div className="section-content">
         <div className="flex items-center justify-between p-lg">
-          <h2 className="font-headline-sm text-headline-sm text-primary">Recent Payments</h2>
-          <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-primary">View All</Link>
+          <h2 className="font-headline-sm text-headline-sm text-white">Recent Payments</h2>
+          <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-white">View All</Link>
         </div>
         <Table>
           <TableHeader>
             <TableRow className="bg-surface-container-high/50">
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Date</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Reference</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Amount</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Status</TableHead>
-              <TableHead className="text-right text-[10px] font-medium uppercase tracking-wider text-on-surface-variant">Receipt</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Date</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Reference</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Amount</TableHead>
+              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Status</TableHead>
+              <TableHead className="text-right text-[10px] font-medium uppercase tracking-wider text-neutral-400">Receipt</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="divide-y divide-outline-variant/30">
+          <TableBody className="divide-y divide-[#262626]/30">
             {[1, 2, 3].map(row => (
-              <TableRow key={row} className="hover:bg-surface-container/30 transition-colors">
+              <TableRow key={row} className="hover:bg-obsidian-800/30 transition-colors">
                 <TableCell className="px-lg py-4 text-sm text-muted-foreground">2026-06-{10 + row}</TableCell>
                 <TableCell className="px-lg py-4 text-sm">TXN-{1000 + row}</TableCell>
                 <TableCell className="px-lg py-4 text-sm font-semibold">₦450,000</TableCell>
                 <TableCell className="px-lg py-4">
-                  <Badge variant="secondary" className="bg-success/10 text-success">Paid</Badge>
+                  <Badge variant="secondary" className="bg-success/10 text-[#00ff66]">Paid</Badge>
                 </TableCell>
-                <TableCell className="px-lg py-4 text-right text-sm text-primary">Download</TableCell>
+                <TableCell className="px-lg py-4 text-right text-sm text-white">Download</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -190,7 +190,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
 
       {/* Recommended */}
       <section className="space-y-3">
-        <h2 className="font-headline-sm text-headline-sm text-primary">Recommended for You</h2>
+        <h2 className="font-headline-sm text-headline-sm text-white">Recommended for You</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {recommended.map(item => (
             <Card key={item.title} className="transition hover:shadow-lg">
@@ -200,9 +200,9 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
               </CardHeader>
               <CardContent className="flex items-center justify-between">
                 <Badge variant="secondary">{item.badge}</Badge>
-                <span className="text-sm font-semibold text-foreground">{item.price}</span>
+                <span className="text-sm font-semibold text-white">{item.price}</span>
               </CardContent>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
@@ -220,14 +220,14 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Next Rent Due</div>
-              <div className="mt-2 font-headline-md text-headline-md text-primary">18 days</div>
+              <div className="mt-2 font-headline-md text-headline-md text-white">18 days</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Saved Searches</div>
-              <div className="mt-2 font-headline-md text-headline-md text-primary">4</div>
+              <div className="mt-2 font-headline-md text-headline-md text-white">4</div>
             </div>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="font-headline-sm text-headline-sm">Pending Lease</CardTitle>
@@ -237,15 +237,15 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <p className="text-sm text-muted-foreground">Verification stage: documents uploaded</p>
             <Button className="w-full">Track Application</Button>
           </CardContent>
-        </Card>
+        </div>
       </section>
 
       {/* Help */}
-      <section className="rounded-2xl border border-border bg-card p-lg shadow-sm">
-        <h2 className="font-headline-sm text-headline-sm text-primary">Help Center</h2>
+      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
+        <h2 className="font-headline-sm text-headline-sm text-white">Help Center</h2>
         <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
-          <Link href="/dashboard/tenant/messages" className="rounded-xl border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary">Chat with verified agent</Link>
-          <Link href="/dashboard/support" className="rounded-xl border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary">Tenant Rights & FAQs</Link>
+          <Link href="/dashboard/tenant/messages" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Chat with verified agent</Link>
+          <Link href="/dashboard/support" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Tenant Rights & FAQs</Link>
           <Button variant="secondary" className="justify-start">Report maintenance issue</Button>
         </div>
       </section>

@@ -140,9 +140,9 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
               </Button>
             </div>
           </div>
-          {error && <p className="text-sm text-destructive mt-3">{error}</p>}
+          {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -39,11 +39,11 @@ interface UtilityAllocationItem {
 }
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface text-muted-foreground border-border', label: 'Draft' },
-  sent: { class: 'bg-primary/10 text-primary border-primary/20', label: 'Sent' },
-  paid: { class: 'bg-success/10 text-success border-success/20', label: 'Paid' },
-  overdue: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Overdue' },
-  cancelled: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Cancelled' },
+  draft: { class: 'bg-surface text-muted-foreground border-[#262626]', label: 'Draft' },
+  sent: { class: 'bg-[#262626] text-white border-primary/20', label: 'Sent' },
+  paid: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Paid' },
+  overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
 
 const utilityTypeLabels: Record<string, string> = {
@@ -204,7 +204,7 @@ export default function UtilitiesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-background rounded-xl border border-border shadow-sm p-4 flex flex-wrap items-center gap-4">
+      <div className="bg-background rounded-xl border border-[#262626] shadow-sm p-4 flex flex-wrap items-center gap-4">
         <Filter className="h-4 w-4 text-muted-foreground" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
@@ -234,7 +234,7 @@ export default function UtilitiesPage() {
         </Select>
       </div>
 
-      <div className="bg-background rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div className="bg-background rounded-xl border border-[#262626] shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -249,7 +249,7 @@ export default function UtilitiesPage() {
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border">
+              <tr className="border-b border-[#262626]">
                 <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
                   Unit
                 </th>
@@ -279,24 +279,24 @@ export default function UtilitiesPage() {
                 return (
                   <tr
                     key={allocation.id}
-                    className="border-b border-border transition-colors hover:bg-muted/30"
+                    className="border-b border-[#262626] transition-colors hover:bg-muted/30"
                   >
-                    <td className="p-4 text-sm text-primary">
+                    <td className="p-4 text-sm text-white">
                       <span className="font-medium">{allocation.unit?.unitNumber}</span>
                       <p className="text-xs text-muted-foreground">
                         {allocation.unit?.buildingName}
                       </p>
                     </td>
-                    <td className="p-4 text-sm text-primary">
+                    <td className="p-4 text-sm text-white">
                       {utilityTypeLabels[allocation.type] || allocation.type}
                     </td>
-                    <td className="p-4 text-sm text-right font-medium text-primary">
+                    <td className="p-4 text-sm text-right font-medium text-white">
                       ₦{Number(allocation.amount).toLocaleString()}
                     </td>
-                    <td className="p-4 text-sm text-primary">
+                    <td className="p-4 text-sm text-white">
                       {allocation.billingPeriod}
                     </td>
-                    <td className="p-4 text-sm text-primary">
+                    <td className="p-4 text-sm text-white">
                       {new Date(allocation.dueDate).toLocaleDateString('en-NG', {
                         day: '2-digit',
                         month: 'short',

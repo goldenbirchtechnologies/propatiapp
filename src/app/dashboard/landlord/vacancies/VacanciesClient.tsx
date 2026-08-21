@@ -146,9 +146,9 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function StatusBadge({ status }: { status: VacancyStatus }) {
     const config: Record<VacancyStatus, string> = {
-      open: 'bg-success/10 text-success border-success/20',
-      filled: 'bg-primary/10 text-primary border-primary/20',
-      closed: 'bg-muted/30 text-on-surface-variant border-muted/50',
+      open: 'bg-success/10 text-[#00ff66] border-success/20',
+      filled: 'bg-[#262626] text-white border-primary/20',
+      closed: 'bg-muted/30 text-neutral-400 border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
     };
     const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -157,36 +157,36 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function VacancyTableSkeleton() {
     return (
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-border">
-              <th className="text-on-surface-variant">
+            <tr className="border-[#262626]">
+              <th className="text-neutral-400">
                 Property
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Type
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Status
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Rent
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Applicants
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Listed
               </th>
-              <th className="text-on-surface-variant">
+              <th className="text-neutral-400">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-border">
+              <tr key={i} className="border-[#262626]">
                 <td className="p-4">
                   <Skeleton className="h-5 w-48 mb-1" />
                   <Skeleton className="h-3 w-32" />
@@ -221,10 +221,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-primary">
+          <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-white">
             Vacancies
           </h1>
-          <p className="text-on-surface-variant">
+          <p className="text-neutral-400">
             Track active vacancies, applicants count, and listing performance
           </p>
         </div>
@@ -267,10 +267,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
+      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="text-on-surface-variant" />
+            <Search className="text-neutral-400" />
             <input
               type="text"
               placeholder="Search property or location..."
@@ -280,7 +280,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="text-on-surface-variant" />
+            <Filter className="text-neutral-400" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
@@ -309,12 +309,12 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         skeleton={<VacancyTableSkeleton />}
       >
         {filteredVacancies.length === 0 ? (
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
-            <Search className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" style={{ opacity: 0.5 }} />
-            <h3 className="text-primary">
+          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626]-body text-center py-16">
+            <Search className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
+            <h3 className="text-white">
               No vacancies found
             </h3>
-            <p className="text-on-surface-variant">
+            <p className="text-neutral-400">
               {searchQuery || filterStatus !== 'all'
                 ? 'Try adjusting your filters to see more results.'
                 : 'Vacancies will appear here once you list your properties.'}
@@ -327,76 +327,76 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             )}
           </div>
         ) : (
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-border">
-                    <th className="text-on-surface-variant">
+                  <tr className="border-[#262626]">
+                    <th className="text-neutral-400">
                       Property
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Type
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Status
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Rent
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Applicants
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Days Listed
                     </th>
-                    <th className="text-on-surface-variant">
+                    <th className="text-neutral-400">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredVacancies.map((vacancy) => (
-                    <tr key={vacancy.id} className="border-border">
+                    <tr key={vacancy.id} className="border-[#262626]">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div
-                            className="bg-primary/10 text-primary"
+                            className="bg-[#262626] text-white"
                           >
                             <HomeIcon className="w-5 h-5" />
                           </div>
                           <div>
                             <Link
                               href={`/dashboard/landlord/properties/${vacancy.propertyId}`}
-                              className="text-primary"
+                              className="text-white"
                             >
                               {vacancy.property}
                             </Link>
-                            <p className="text-on-surface-variant">
+                            <p className="text-neutral-400">
                               {vacancy.location}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-on-surface-variant border border-outline-variant">{vacancy.type}</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-neutral-400 border border-[#262626]">{vacancy.type}</span>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={vacancy.status} />
                       </td>
-                      <td className="text-primary">
+                      <td className="text-white">
                         {vacancy.rent}
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-1">
-                          <Users className="text-on-surface-variant" />
-                          <span className="text-primary">{vacancy.applicants}</span>
+                          <Users className="text-neutral-400" />
+                          <span className="text-white">{vacancy.applicants}</span>
                         </div>
                       </td>
                       <td className="p-4">
                         <span
                           className="flex items-center gap-1"
-                          className={vacancy.daysListed > 30 ? 'text-destructive' : 'text-primary'}
+                          className={vacancy.daysListed > 30 ? 'text-red-500' : 'text-white'}
                         >
                           <Clock className="h-3 w-3" />
                           {vacancy.daysListed} days
@@ -445,26 +445,26 @@ function StatCard({
   trendPositive?: boolean;
 }) {
   return (
-    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+    <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-on-surface-variant">
+          <p className="text-neutral-400">
             {label}
           </p>
-          <p className="text-primary">
+          <p className="text-white">
             {value}
           </p>
         </div>
-        <div className="bg-primary/10 text-primary">
+        <div className="bg-[#262626] text-white">
           {icon}
         </div>
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-destructive'}`}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
             {trendPositive ? '↑' : '↓'}
           </span>
-          <span className={`text-xs ${trendPositive ? 'text-success' : 'text-destructive'}`}>
+          <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
             {trend}
           </span>
         </div>

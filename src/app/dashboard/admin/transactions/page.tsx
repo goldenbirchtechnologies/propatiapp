@@ -17,7 +17,7 @@ export default async function AdminTransactionsPage() {
         <CardContent>
           <p className="text-muted-foreground">Use the sidebar links to view escrow or withdrawal transactions.</p>
         </CardContent>
-      </Card>
+      </div>
     </DashboardShell>
   );
 }

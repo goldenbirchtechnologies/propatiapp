@@ -34,6 +34,29 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
   }
 }
 
+export interface AgentInviteEmailOptions {
+  to: string;
+  landlordName: string;
+  acceptUrl: string;
+  listingTitle?: string;
+  message?: string;
+}
+
+export async function sendAgentInviteEmail({
+  to,
+  landlordName,
+  acceptUrl,
+  listingTitle,
+  message,
+}: AgentInviteEmailOptions): Promise<boolean> {
+  const template = emailTemplates.agentInvite('', landlordName, acceptUrl, listingTitle, message);
+  return sendEmail({
+    to,
+    subject: template.subject,
+    html: template.html,
+  });
+}
+
 export const emailTemplates = {
   welcome: (name: string, loginUrl: string) => ({
     subject: 'Welcome to PROPATI!',
@@ -113,6 +136,19 @@ export const emailTemplates = {
         <p>Hi ${name},</p>
         <p>Your maintenance ticket <strong>${ticketTitle}</strong> is now <strong>${status}</strong>.</p>
         ${details ? `<p>${details}</p>` : ''}
+      </div>
+    `,
+  }),
+
+  agentInvite: (agentName: string, landlordName: string, acceptUrl: string, listingTitle?: string, message?: string) => ({
+    subject: `You've been invited to join PROPATI as an agent`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">You're Invited!</h1>
+        <p>Hi ${agentName || 'there'},</p>
+        <p><strong>${landlordName}</strong> has invited you to act as an agent on PROPATI${listingTitle ? ` for <strong>${listingTitle}</strong>` : ''}.</p>
+        ${message ? `<p><em>${message}</em></p>` : ''}
+        <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
       </div>
     `,
   }),

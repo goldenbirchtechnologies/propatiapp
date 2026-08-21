@@ -24,17 +24,17 @@ type Props = {
 };
 
 function statusIcon(status: string) {
-  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-success" />;
-  if (status === 'rejected') return <XCircle className="h-5 w-5 text-destructive" />;
+  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />;
+  if (status === 'rejected') return <XCircle className="h-5 w-5 text-red-500" />;
   if (status === 'pending') return <Loader2 className="h-5 w-4 animate-spin text-warning" />;
   return <Loader2 className="h-5 w-5 text-muted-foreground" />;
 }
 
 function statusColor(status: string) {
-  if (status === 'approved') return 'bg-success/10 text-success border-success/20';
-  if (status === 'rejected') return 'bg-destructive/10 text-destructive border-destructive/20';
+  if (status === 'approved') return 'bg-success/10 text-[#00ff66] border-success/20';
+  if (status === 'rejected') return 'bg-red-500/10 text-red-500 border-red-500/20';
   if (status === 'pending') return 'bg-warning/10 text-warning border-warning/20';
-  return 'bg-muted text-muted-foreground border-outline-variant';
+  return 'bg-muted text-muted-foreground border-[#262626]';
 }
 
 function VerificationChecklistClient(props: Props) {
@@ -56,7 +56,7 @@ function VerificationChecklistClient(props: Props) {
         <CardContent>
           <Progress value={progress} className="h-3" />
         </CardContent>
-      </Card>
+      </div>
 
       <Card>
         <CardHeader>
@@ -66,7 +66,7 @@ function VerificationChecklistClient(props: Props) {
           <div className="space-y-4">
             {props.layers.map((layer, idx) => (
               <div key={layer.label}>
-                <div className="flex items-center justify-between p-4 rounded-lg border border-border">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-[#262626]">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-sm">
                       {idx + 1}
@@ -88,7 +88,7 @@ function VerificationChecklistClient(props: Props) {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       {props.adminNotes && (
         <Card>
@@ -101,16 +101,16 @@ function VerificationChecklistClient(props: Props) {
               <p className="text-xs text-muted-foreground mt-2">Reviewed on {new Date(props.reviewedAt).toLocaleString()}</p>
             )}
           </CardContent>
-        </Card>
+        </div>
       )}
 
       <div className="flex justify-end">
         {props.overallStatus === 'certified' ? (
-          <Badge className="bg-success/10 text-success border-success/20 px-4 py-2 text-sm font-bold">
+          <Badge className="bg-success/10 text-[#00ff66] border-success/20 px-4 py-2 text-sm font-bold">
             Fully Certified
           </Badge>
         ) : props.overallStatus === 'rejected' ? (
-          <Badge className="bg-destructive/10 text-destructive border-destructive/20 px-4 py-2 text-sm font-bold">
+          <Badge className="bg-red-500/10 text-red-500 border-red-500/20 px-4 py-2 text-sm font-bold">
             Verification Rejected
           </Badge>
         ) : (

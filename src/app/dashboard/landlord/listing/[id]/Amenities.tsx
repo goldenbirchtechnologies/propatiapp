@@ -44,22 +44,22 @@ export default function Amenities({ amenities }: Props) {
   if (!amenities || amenities.length === 0) {
     return (
       <div>
-        <h2 className="text-xl font-semibold mb-3 text-primary">Amenities</h2>
-        <p className="text-on-surface-variant text-sm">No amenities listed.</p>
+        <h2 className="text-xl font-semibold mb-3 text-white">Amenities</h2>
+        <p className="text-neutral-400 text-sm">No amenities listed.</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4 text-primary">Amenities</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white">Amenities</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {amenities.map((amenity) => (
           <div
             key={amenity}
-            className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-lowest p-3 text-sm text-primary shadow-sm"
+            className="flex items-center gap-2 rounded-xl border border-[#262626] bg-obsidian-800/30 p-3 text-sm text-white shadow-sm"
           >
-            <span className="text-primary">{AMENITY_ICON_MAP[amenity]}</span>
+            <span className="text-white">{AMENITY_ICON_MAP[amenity]}</span>
             <span className="font-medium truncate">{amenity}</span>
           </div>
         ))}

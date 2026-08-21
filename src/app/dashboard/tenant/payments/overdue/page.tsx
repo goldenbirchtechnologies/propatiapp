@@ -20,10 +20,10 @@ export default function TenantOverduePaymentNoticePage() {
     >
       <ErrorBoundary>
         <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
             <div className="flex items-center gap-3">
               <Badge variant="destructive" className="rounded-full">Notice</Badge>
-              <h1 className="text-2xl font-bold text-foreground">Overdue Payment Notice</h1>
+              <h1 className="text-2xl font-bold text-white">Overdue Payment Notice</h1>
             </div>
             <p className="text-muted-foreground mt-2">You have outstanding payment(s) linked to your current agreements.</p>
           </section>
@@ -34,28 +34,28 @@ export default function TenantOverduePaymentNoticePage() {
                 <CardTitle className="text-sm font-medium text-muted-foreground">Overdue balance</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-destructive">₦0</p>
+                <p className="text-2xl font-bold text-red-500">₦0</p>
                 <p className="text-xs text-muted-foreground mt-1">Pending verification</p>
               </CardContent>
-            </Card>
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium text-muted-foreground">Due date</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-foreground">--</p>
+                <p className="text-2xl font-bold text-white">--</p>
                 <p className="text-xs text-muted-foreground mt-1">No active overdue item</p>
               </CardContent>
-            </Card>
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium text-muted-foreground">Notice reference</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-foreground">--</p>
+                <p className="text-2xl font-bold text-white">--</p>
                 <p className="text-xs text-muted-foreground mt-1">Awaiting issuance</p>
               </CardContent>
-            </Card>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -74,7 +74,7 @@ export default function TenantOverduePaymentNoticePage() {
                 <li>Contact your landlord or agent if you need a payment plan.</li>
               </ul>
             </CardContent>
-          </Card>
+          </div>
         </div>
       </ErrorBoundary>
     </DashboardShell>

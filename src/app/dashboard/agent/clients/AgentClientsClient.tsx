@@ -261,7 +261,7 @@ export default function AgentClientsClient({
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium border transition-all capitalize',
                 filter === f
-                  ? 'text-white border-[#262626] bg-surface-container-low'
+                  ? 'text-white border-[#262626] bg-obsidian-800/30'
                   : 'border-transparent hover:bg-[#171717]/50'
               )}
             >

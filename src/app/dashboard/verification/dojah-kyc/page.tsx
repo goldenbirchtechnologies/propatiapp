@@ -42,7 +42,7 @@ export default async function VerificationDojahKycPage() {
     >
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Identity Verification</h1>
+          <h1 className="text-3xl font-bold text-white">Identity Verification</h1>
           <p className="text-muted-foreground mt-1">
             Complete one quick identity check to unlock payments, agreements, and full marketplace access.
           </p>

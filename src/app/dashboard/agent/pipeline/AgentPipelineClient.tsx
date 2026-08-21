@@ -116,7 +116,7 @@ function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; 
           </div>
         </CardHeader>
         <CardContent className="flex-1 p-0">
-          <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'bg-surface-container-lowest' }}>
+          <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'bg-obsidian-800/30' }}>
             {deals.length === 0 ? (
               <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed border-[#262626]', borderRadius: 'rounded-xl' }}>
                 <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">No deals in this stage</span>
@@ -126,7 +126,7 @@ function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; 
             )}
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }
@@ -138,7 +138,7 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
     <div
       className="p-3 rounded-xl cursor-pointer transition-all"
       style={{
-        background: 'bg-surface-container-low',
+        background: 'bg-obsidian-800/30',
         border: '1px solid border-[#262626]',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}
@@ -157,13 +157,13 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" style={{ borderColor: 'border-[#262626]', color: 'text-neutral-400' }}>
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" className=\"border-[#262626] text-neutral-400\">
         <AppIcon name="₦{deal.value.toLocaleString()}" className="lucide" />
         <AppIcon name={deal.lastContact} className="lucide" />
       </div>
 
       {expanded && (
-        <div className="mt-3 p-3 rounded-xl" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+        <div className="mt-3 p-3 rounded-xl" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Property:</span>
@@ -182,7 +182,7 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
               <span className="text-white">{deal.lastContact}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'border-[#262626]' }}>
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t" className=\"border-[#262626]\">
             <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
             <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
             <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>
@@ -214,6 +214,6 @@ function StatCard({ label, value, icon: Icon, trend, trendPositive = true }: { l
           </div>
         )}
       </CardContent>
-    </Card>
+    </div>
   );
 }

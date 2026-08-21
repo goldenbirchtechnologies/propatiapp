@@ -76,7 +76,7 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
       {/* Purpose Switcher */}
       <div className="card p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-headline-sm text-primary">What are you looking for?</h2>
+          <h2 className="text-headline-sm text-white">What are you looking for?</h2>
           <div className="flex items-center gap-2">
             <Tabs value={activePurpose} onValueChange={setActivePurpose} className="flex gap-2">
               <TabsList className="grid grid-cols-4 bg-transparent p-1">
@@ -86,7 +86,7 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
                     value={purpose.value}
                     className={cn(
                       'flex flex-col items-center gap-1 p-3 text-sm',
-                      activePurpose === purpose.value && 'bg-surface-container-lowest shadow-sm'
+                      activePurpose === purpose.value && 'bg-obsidian-800/30 shadow-sm'
                     )}
                   >
                     <span className="flex items-center justify-center">{purpose.icon}</span>
@@ -97,14 +97,14 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
             </Tabs>
           </div>
         </div>
-        <p className="text-sm text-on-surface-variant">{purposeConfig.description}</p>
+        <p className="text-sm text-neutral-400">{purposeConfig.description}</p>
       </div>
 
       {/* Search Bar */}
       <div className="card p-4">
         <div className="flex gap-3 mb-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
             <Input
               type="text"
               placeholder={`Search ${purposeConfig.label.toLowerCase()} properties...`}
@@ -125,7 +125,7 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
 
         {/* Filters */}
         {showFilters && (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-border">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-[#262626]">
             <Input
               placeholder="State"
               value={filters.state}
@@ -179,11 +179,11 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
 
       {/* Results */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-on-surface-variant">
+        <p className="text-sm text-neutral-400">
           {listings.length} {purposeConfig.label.toLowerCase()} propert{listings.length === 1 ? 'y' : 'ies'} found
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-on-surface-variant">Sort by:</span>
+          <span className="text-sm text-neutral-400">Sort by:</span>
           <select className="inp-field py-1.5" style={{ width: 'auto' }}>
             <option value="newest">Newest First</option>
             <option value="price_asc">Price: Low to High</option>
@@ -201,9 +201,9 @@ export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSe
         </div>
       ) : listings.length === 0 ? (
         <div className="card p-12 text-center">
-          <Home className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.5 }} />
-          <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No properties found</h3>
-          <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
+          <Home className="w-12 h-12 text-neutral-400" style={{ opacity: 0.5 }} />
+          <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No properties found</h3>
+          <p className="text-neutral-400" style={{ marginBottom: 'var(--space-lg)' }}>
             Try adjusting your search or filters.
           </p>
           <Button
@@ -273,16 +273,16 @@ function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-surface-container">
-            <Home className="w-12 h-12 text-on-surface-variant" />
+            <Home className="w-12 h-12 text-neutral-400" />
           </div>
         )}
         <div className="absolute top-2 left-2 right-2 flex justify-between">
           <span
-            className={`tag ${isVerified ? 'bg-success/10 text-success border-success/20' : 'bg-warning/10 text-warning border-warning/20'}`}
+            className={`tag ${isVerified ? 'bg-success/10 text-[#00ff66] border-success/20' : 'bg-warning/10 text-warning border-warning/20'}`}
           >
             {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
           </span>
-          <Button variant="ghost" size="icon" className="bg-surface-container-lowest/90 hover:bg-surface-container-lowest">
+          <Button variant="ghost" size="icon" className="bg-obsidian-800/30/90 hover:bg-obsidian-800-lowestest">
             <Heart
               className="w-4 h-4"
               onClick={(e) => {
@@ -305,23 +305,23 @@ function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }
           <Badge variant="outline" className="text-xs">
             {(listing as { area?: string }).area}, {(listing as { state?: string }).state}
           </Badge>
-          <p className="text-headline-sm text-primary">
+          <p className="text-headline-sm text-white">
             {purpose === 'sale'
               ? '₦' + Number((listing as { price?: number }).price).toLocaleString()
               : '₦' + Number((listing as { price?: number }).price).toLocaleString() + '/yr'}
           </p>
         </div>
-        <h3 className="text-headline-sm mb-1 line-clamp-1 text-primary">
+        <h3 className="text-headline-sm mb-1 line-clamp-1 text-white">
           {(listing as { title?: string }).title}
         </h3>
-        <p className="text-sm mb-3 flex-1 text-on-surface-variant">
+        <p className="text-sm mb-3 flex-1 text-neutral-400">
           {(listing as { bedrooms?: number }).bedrooms} bed •{' '}
           {(listing as { bathrooms?: number }).bathrooms} bath •{' '}
           {(listing as { sizeSqm?: number }).sizeSqm
             ? (listing as { sizeSqm: number }).sizeSqm + ' sqm'
             : 'Size not specified'}
         </p>
-        <div className="flex items-center justify-between text-xs text-on-surface-variant">
+        <div className="flex items-center justify-between text-xs text-neutral-400">
           <span className="flex items-center gap-1">
             <MapPin className="w-3 h-3" />
             {(listing as { area?: string }).area}

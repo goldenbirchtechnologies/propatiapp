@@ -101,7 +101,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                   className="flex items-center justify-between gap-4 p-4 hover:bg-muted/50"
                 >
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#262626] text-white shrink-0">
                       <Wrench className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
@@ -137,7 +137,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
             </div>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

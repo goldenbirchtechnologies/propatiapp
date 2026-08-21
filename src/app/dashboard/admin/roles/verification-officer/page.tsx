@@ -96,13 +96,13 @@ function VerificationOfficerClient({
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <nav className="flex items-center gap-xs text-muted-foreground mb-2">
-            <a className="hover:text-primary transition-colors text-xs" href="/dashboard/admin">
+            <a className="hover:text-white transition-colors text-xs" href="/dashboard/admin">
               Admin
             </a>
             <ChevronRight className="text-xs" />
-            <span className="text-primary font-semibold text-xs">Verification Officers</span>
+            <span className="text-white font-semibold text-xs">Verification Officers</span>
           </nav>
-          <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">
+          <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
             Verification Officer Roles
           </h1>
           <p className="text-muted-foreground font-body-md mt-1">
@@ -117,26 +117,26 @@ function VerificationOfficerClient({
       {/* Queue Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-on-tertiary-container' },
+          { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#00ff66]' },
           { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
           { label: 'Certified', value: counts.certifiedCount, color: 'bg-primary-container text-on-primary-container' },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm"
           >
             <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${stat.color}`}>
               {stat.label}
             </div>
-            <div className="font-headline-md text-headline-md text-primary">{stat.value.toLocaleString()}</div>
+            <div className="font-headline-md text-headline-md text-white">{stat.value.toLocaleString()}</div>
           </div>
         ))}
       </div>
 
       {/* Assigned Users */}
-      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
-          <h3 className="font-headline-sm text-primary">Assigned Users</h3>
+      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
+          <h3 className="font-headline-sm text-white">Assigned Users</h3>
           <span className="text-xs text-muted-foreground">
             {users.filter((u) => u.isActive && !u.isBanned).length} active
           </span>
@@ -147,23 +147,23 @@ function VerificationOfficerClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-surface-container text-muted-foreground border-b border-outline-variant">
+                <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Last Login</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="divide-y divide-[#262626]">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-surface-container-low transition-colors">
+                  <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
                     <td className="px-lg py-md">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-primary">
+                        <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-white">
                           {initials(u.fullName)}
                         </div>
                         <div>
-                          <div className="font-bold text-primary text-sm">{u.fullName}</div>
+                          <div className="font-bold text-white text-sm">{u.fullName}</div>
                           <div className="text-xs text-muted-foreground">{u.email}</div>
                         </div>
                       </div>
@@ -175,7 +175,7 @@ function VerificationOfficerClient({
                           u.isBanned
                             ? 'bg-error/10 text-error'
                             : u.isActive
-                              ? 'bg-on-tertiary-container/10 text-on-tertiary-container'
+                              ? 'bg-on-tertiary-container/10 text-[#00ff66]'
                               : 'bg-outline-variant/30 text-muted-foreground'
                         }`}
                       >

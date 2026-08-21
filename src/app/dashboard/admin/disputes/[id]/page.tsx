@@ -18,7 +18,7 @@ export default async function AdminDisputeDetailPage({ params }: { params: Promi
         <ErrorBoundary>
           <div className="space-y-6">
             <h1 className="text-2xl font-bold">Dispute not found</h1>
-            <Link href="/dashboard/admin/disputes" className="text-blue-600 underline">Back to disputes</Link>
+            <Link href="/dashboard/admin/disputes" className="text-neutral-300 underline">Back to disputes</Link>
           </div>
         </ErrorBoundary>
       </DashboardShell>

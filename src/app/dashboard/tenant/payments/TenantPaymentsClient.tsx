@@ -100,27 +100,27 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
           <Card>
             <CardContent className="p-10 text-center">
               <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
-              <p className="font-headline-sm text-primary">Your invoice statements will appear here.</p>
+              <p className="font-headline-sm text-white">Your invoice statements will appear here.</p>
             </CardContent>
-          </Card>
+          </div>
         );
       case 'receipts':
         return (
           <Card>
             <CardContent className="p-10 text-center">
               <Receipt className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
-              <p className="font-headline-sm text-primary">Payment receipts will appear here.</p>
+              <p className="font-headline-sm text-white">Payment receipts will appear here.</p>
             </CardContent>
-          </Card>
+          </div>
         );
       case 'overdue':
         return (
           <Card>
             <CardContent className="p-10 text-center">
               <AlertCircle className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
-              <p className="font-headline-sm text-primary">No overdue payments.</p>
+              <p className="font-headline-sm text-white">No overdue payments.</p>
             </CardContent>
-          </Card>
+          </div>
         );
       default:
         return (
@@ -160,7 +160,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     </Button>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
 
               {/* Card 2 — Wallet Summary */}
               <Card className="border border-slate-800">
@@ -174,7 +174,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     </div>
                     <div className="flex flex-col gap-1">
                       <p className="text-sm text-muted-foreground">Wallet Balance</p>
-                      <p className="font-headline-sm text-3xl text-primary font-bold tracking-tight">
+                      <p className="font-headline-sm text-3xl text-white font-bold tracking-tight">
                         ₦{((wallet?.balance || 0) / 100).toLocaleString()}
                       </p>
                     </div>
@@ -188,7 +188,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     </Button>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             </div>
 
             {/* Section C: Quick Payment */}
@@ -284,11 +284,11 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </Button>
                 </form>
               </CardContent>
-            </Card>
+            </div>
 
             {/* Section D: Transaction History */}
             <div className="flex items-center justify-between">
-              <h2 className="font-headline-sm text-headline-sm text-primary">Transaction History</h2>
+              <h2 className="font-headline-sm text-headline-sm text-white">Transaction History</h2>
               <Button variant="ghost" size="sm" onClick={() => setShowFilters(!showFilters)}>
                 <Filter className="mr-1 h-4 w-4" /> Filters
               </Button>
@@ -317,7 +317,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </select>
                   <Button variant="outline">Apply</Button>
                 </CardContent>
-              </Card>
+              </div>
             )}
 
             <Card className="border border-slate-800">
@@ -331,7 +331,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 ) : transactions.length === 0 ? (
                   <div className="p-12 text-center">
                     <Receipt className="mx-auto mb-3 h-12 w-12 text-muted-foreground" style={{ opacity: 0.5 }} />
-                    <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">No transactions yet</h3>
+                    <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No transactions yet</h3>
                     <p className="text-muted-foreground" style={{ marginBottom: 'var(--space-lg)' }}>
                       Your completed payment history will appear here.
                     </p>
@@ -339,7 +339,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 ) : (
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-border">
+                      <tr className="border-b border-[#262626]">
                         <th className="text-left p-4 text-sm font-medium text-muted-foreground">Date</th>
                         <th className="text-left p-4 text-sm font-medium text-muted-foreground">Type</th>
                         <th className="text-left p-4 text-sm font-medium text-muted-foreground">Property</th>
@@ -357,7 +357,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 )}
               </div>
               {(hasNextPage || isFetchingNextPage) && (
-                <div className="p-4 border-t border-border">
+                <div className="p-4 border-t border-[#262626]">
                   <Button
                     variant="outline"
                     onClick={handleLoadMore}
@@ -375,7 +375,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </Button>
                 </div>
               )}
-            </Card>
+            </div>
           </>
         );
     }
@@ -385,11 +385,11 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
     <div className="space-y-6">
       {/* Section A: Header & Navigation Tabs (Full Width) */}
       <div>
-        <h1 className="font-headline-xl text-on-surface">Rent & Payments</h1>
+        <h1 className="font-headline-xl text-white">Rent & Payments</h1>
         <p className="text-muted-foreground mt-1">Manage your rent, payments, and wallet</p>
       </div>
 
-      <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto bg-slate-900/60 rounded-lg p-1">
+      <div className="flex items-center gap-1 sm:gap-2 border-b border-[#262626] overflow-x-auto bg-slate-900/60 rounded-lg p-1">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -398,7 +398,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
               activeTab === tab.value
                 ? 'bg-slate-800 text-emerald-400 shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-slate-800/50'
+                : 'text-muted-foreground hover:text-white hover:bg-slate-800/50'
             )}
           >
             {tab.label}
@@ -442,7 +442,7 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
   }
 
   return (
-    <tr className="border-b border-border">
+    <tr className="border-b border-[#262626]">
       <td className="p-4 text-muted-foreground">{format(new Date(transaction.createdAt), 'dd MMM yyyy')}</td>
       <td className="p-4">
         <Badge variant="outline" className="capitalize">
@@ -450,10 +450,10 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
         </Badge>
       </td>
       <td className="p-4">
-        <p className="font-medium text-primary">{transaction.listing?.title || 'N/A'}</p>
+        <p className="font-medium text-white">{transaction.listing?.title || 'N/A'}</p>
         <p className="text-xs text-muted-foreground">{transaction.agreement?.id?.slice(-8).toUpperCase()}</p>
       </td>
-      <td className="p-4 text-right font-headline-sm text-primary">₦{Number(transaction.amount).toLocaleString()}</td>
+      <td className="p-4 text-right font-headline-sm text-white">₦{Number(transaction.amount).toLocaleString()}</td>
       <td className="p-4">
         <Badge
           variant={
@@ -491,7 +491,7 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
 
 function TransactionRowSkeleton() {
   return (
-    <tr className="border-b animate-pulse border-border">
+    <tr className="border-b animate-pulse border-[#262626]">
       <td className="p-4">
         <div className="h-4 w-24 bg-surface-container" />
       </td>

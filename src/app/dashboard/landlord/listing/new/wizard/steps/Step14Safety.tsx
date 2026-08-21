@@ -50,7 +50,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-semibold">Safety details and legal disclosures</h2>
-        <Shield className="size-5 text-primary" />
+        <Shield className="size-5 text-white" />
       </div>
       <p className="text-sm text-muted-foreground">Please disclose any safety features or hazards on your property.</p>
 
@@ -83,7 +83,7 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                     )}
                   </Label>
                   {item.policyLink && (
-                    <a href={item.policyLink} className="text-xs text-primary flex items-center gap-1">
+                    <a href={item.policyLink} className="text-xs text-white flex items-center gap-1">
                       <FileText className="size-3" /> Policy
                     </a>
                   )}
@@ -93,13 +93,13 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
             </div>
           );
         })}
-      </Card>
+      </div>
 
       <Card className="p-4 bg-muted/50 border-dashed">
         <p className="text-xs text-muted-foreground">
           You are required to keep this information accurate. Review your local safety regulations before submitting.
         </p>
-      </Card>
+      </div>
     </div>
   );
 }

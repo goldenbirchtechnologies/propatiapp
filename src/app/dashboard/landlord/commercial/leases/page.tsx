@@ -37,7 +37,7 @@ export default async function CommercialLeasesPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Commercial Lease Management</h1>
+          <h1 className="text-2xl font-bold text-white">Commercial Lease Management</h1>
           <p className="text-muted-foreground mt-1">
             Verified Enterprise — Manage revenue, billing, and legal records for commercial properties.
           </p>
@@ -88,7 +88,7 @@ export default async function CommercialLeasesPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

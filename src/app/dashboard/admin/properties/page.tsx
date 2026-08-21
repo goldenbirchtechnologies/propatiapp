@@ -32,7 +32,7 @@ export default async function AdminPropertiesPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Properties</h1>
+            <h1 className="text-3xl font-bold text-white">Properties</h1>
             <p className="text-muted-foreground mt-1">Manage and approve property listings.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
@@ -41,27 +41,27 @@ export default async function AdminPropertiesPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total Listings</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{totalListings.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-white mt-2">{totalListings.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Active</p>
             <p className="text-2xl font-bold text-green-600 mt-2">{activeCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Draft</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{draftCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Open Flags</p>
             <p className="text-2xl font-bold text-red-600 mt-2">{flaggedCount.toLocaleString()}</p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">Recent Listings</h2>
+        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-[#262626]">
+            <h2 className="text-lg font-semibold text-white">Recent Listings</h2>
           </div>
           {recentListings.length === 0 ? (
             <div className="p-12 text-center">
@@ -71,7 +71,7 @@ export default async function AdminPropertiesPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-muted-foreground">
+                  <tr className="border-b border-[#262626] text-left text-muted-foreground">
                     <th className="p-3 font-medium">Title</th>
                     <th className="p-3 font-medium">Type</th>
                     <th className="p-3 font-medium">Status</th>
@@ -80,15 +80,15 @@ export default async function AdminPropertiesPage() {
                 </thead>
                 <tbody>
                   {recentListings.map((listing) => (
-                    <tr key={listing.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
-                      <td className="p-3 text-foreground">{listing.title}</td>
-                      <td className="p-3 text-foreground capitalize">{listing.listingType.replace(/_/g, ' ')}</td>
+                    <tr key={listing.id} className="border-b border-[#262626] last:border-0 hover:bg-obsidian-800-lowest/50">
+                      <td className="p-3 text-white">{listing.title}</td>
+                      <td className="p-3 text-white capitalize">{listing.listingType.replace(/_/g, ' ')}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground capitalize">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-white capitalize">
                           {listing.status}
                         </span>
                       </td>
-                      <td className="p-3 text-foreground">{new Date(listing.createdAt).toLocaleDateString('en-NG')}</td>
+                      <td className="p-3 text-white">{new Date(listing.createdAt).toLocaleDateString('en-NG')}</td>
                     </tr>
                   ))}
                 </tbody>

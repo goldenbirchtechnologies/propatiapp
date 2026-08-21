@@ -136,7 +136,7 @@ export default function MaintenancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Maintenance Tickets</h1>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Maintenance Tickets</h1>
           <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Track and manage maintenance requests</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -224,7 +224,7 @@ export default function MaintenancePage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       {/* Kanban Board */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -261,7 +261,7 @@ export default function MaintenancePage() {
                         <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
                     </CardContent>
-                  </Card>
+                  </div>
                 ))
               ) : (
                 <div className="text-center py-8 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
@@ -269,7 +269,7 @@ export default function MaintenancePage() {
                 </div>
               )}
             </CardContent>
-          </Card>
+          </div>
         ))}
       </div>
     </div>

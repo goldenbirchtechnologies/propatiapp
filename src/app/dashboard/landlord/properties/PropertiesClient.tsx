@@ -127,12 +127,12 @@ function formatUnitSubtext(unit: ListingUnit) {
 function OccupancyBadge({ occupancy }: { occupancy?: string }) {
   const cfg =
     {
-      VACANT: { class: 'bg-success/10 text-success border-success/20', label: 'Vacant' },
-      OCCUPIED: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Occupied' },
+      VACANT: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Vacant' },
+      OCCUPIED: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Occupied' },
       NOTICE_GIVEN: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Notice Given' },
-      MAINTENANCE: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Under Maintenance' },
+      MAINTENANCE: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Under Maintenance' },
     }[occupancy || 'VACANT'] || {
-      class: 'bg-muted text-muted-foreground border-outline-variant',
+      class: 'bg-muted text-muted-foreground border-[#262626]',
       label: occupancy || 'Unknown',
     };
 
@@ -141,9 +141,9 @@ function OccupancyBadge({ occupancy }: { occupancy?: string }) {
 
 function ListingStatusBadge({ isListed }: { isListed?: boolean }) {
   if (isListed) {
-    return <span className="tag bg-primary/10 text-primary border-primary/20">Listed</span>;
+    return <span className="tag bg-[#262626] text-white border-primary/20">Listed</span>;
   }
-  return <span className="tag bg-muted text-muted-foreground border-outline-variant">Unlisted</span>;
+  return <span className="tag bg-muted text-muted-foreground border-[#262626]">Unlisted</span>;
 }
 
 export default function PropertiesClient({ listings }: Props) {
@@ -249,7 +249,7 @@ export default function PropertiesClient({ listings }: Props) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.length === 0 ? (
-            <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-zinc-400">
+            <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-neutral-400">
               No properties found.
             </div>
           ) : (
@@ -272,15 +272,15 @@ export default function PropertiesClient({ listings }: Props) {
                     <Link href={`/dashboard/landlord/properties/${listing.id}`}>
                       <h3 className="truncate text-sm font-semibold text-zinc-100 group-hover:underline">{titleCase(listing.title)}</h3>
                     </Link>
-                    <div className="mt-1 flex items-center justify-between text-xs text-zinc-400">
+                    <div className="mt-1 flex items-center justify-between text-xs text-neutral-400">
                       <span className="truncate pr-2">{titleCase(listing.area)}, {titleCase(listing.state)}</span>
-                      <span className="shrink-0 font-medium text-zinc-300">{listing.unitCount} Units</span>
+                      <span className="shrink-0 font-medium text-neutral-300">{listing.unitCount} Units</span>
                     </div>
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-zinc-400">
-                      <span className={`tag ${listing.listedUnitCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-muted text-muted-foreground border-outline-variant'}`}>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-neutral-400">
+                      <span className={`tag ${listing.listedUnitCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-muted text-muted-foreground border-[#262626]'}`}>
                         {listing.listedUnitCount > 0 ? 'Listed' : 'Unlisted'}
                       </span>
-                      <span className={`tag ${listing.vacantUnitCount > 0 ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
+                      <span className={`tag ${listing.vacantUnitCount > 0 ? 'bg-amber-500/10 text-neutral-300 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
                         {listing.vacantUnitCount > 0 ? `${listing.vacantUnitCount} Vacant` : 'Full'}
                       </span>
                     </div>
@@ -289,13 +289,13 @@ export default function PropertiesClient({ listings }: Props) {
                     <Button variant="outline" size="sm" asChild className="rounded-lg border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10">
                       <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
                     </Button>
-                    <Button variant="secondary" size="sm" asChild className="rounded-lg bg-[#1a212b] border border-zinc-800 text-zinc-300 hover:bg-zinc-800">
+                    <Button variant="secondary" size="sm" asChild className="rounded-lg bg-[#1a212b] border border-zinc-800 text-neutral-300 hover:bg-zinc-800">
                       <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
                     </Button>
                     <Button
                       variant="destructive"
                       size="sm"
-                      className="col-span-2 rounded-lg border border-destructive/40 text-destructive hover:bg-destructive/10"
+                      className="col-span-2 rounded-lg border border-red-500/40 text-red-500 hover:bg-red-500/10"
                       onClick={(e) => {
                         e.preventDefault();
                         handleDelete(listing.id);
@@ -316,13 +316,13 @@ export default function PropertiesClient({ listings }: Props) {
 
 function StatCard({ label, value, icon: Icon }: { label: string; value: number; icon: React.ReactNode }) {
   return (
-    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-5 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-5 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">{label}</p>
-          <p className="text-2xl font-headline-sm font-bold text-foreground">{value.toLocaleString()}</p>
+          <p className="text-2xl font-headline-sm font-bold text-white">{value.toLocaleString()}</p>
         </div>
-        <div className="p-2.5 rounded-xl bg-primary/10 text-primary">{Icon}</div>
+        <div className="p-2.5 rounded-xl bg-[#262626] text-white">{Icon}</div>
       </div>
     </div>
   );
@@ -330,26 +330,26 @@ function StatCard({ label, value, icon: Icon }: { label: string; value: number; 
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'bg-success/10 text-success border-success/20', label: 'Active' },
-    draft: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Draft' },
-    suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
-    deleted: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Deleted' },
+    active: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Active' },
+    draft: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Draft' },
+    suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
+    deleted: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: status };
+  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-[#262626]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: { overallStatus: string; currentLayer: number } | null }) {
   if (!verification) {
-    return <span className="tag bg-muted text-muted-foreground border-outline-variant">Not Started</span>;
+    return <span className="tag bg-muted text-muted-foreground border-[#262626]">Not Started</span>;
   }
 
   switch (verification.overallStatus) {
     case 'not_started':
-      return <span className="tag bg-muted text-muted-foreground border-outline-variant">Not Started</span>;
+      return <span className="tag bg-muted text-muted-foreground border-[#262626]">Not Started</span>;
     case 'in_progress':
       return (
-        <span className="tag bg-primary/10 text-primary border-primary/20 inline-flex items-center gap-1">
+        <span className="tag bg-[#262626] text-white border-primary/20 inline-flex items-center gap-1">
           <svg
             width="10"
             height="10"
@@ -368,9 +368,9 @@ function VerificationBadge({ verification }: { verification: { overallStatus: st
     case 'certified':
       return <SharedVerificationBadge tier="certified" />;
     case 'rejected':
-      return <span className="tag bg-destructive/10 text-destructive border-destructive/20">Rejected</span>;
+      return <span className="tag bg-red-500/10 text-red-500 border-red-500/20">Rejected</span>;
     default:
-      return <span className="tag bg-muted text-muted-foreground border-outline-variant">{verification.overallStatus}</span>;
+      return <span className="tag bg-muted text-muted-foreground border-[#262626]">{verification.overallStatus}</span>;
   }
 }
 

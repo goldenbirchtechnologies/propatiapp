@@ -17,16 +17,16 @@ export default function DashboardError({
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-6 py-16">
-      <div className="w-full max-w-2xl rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 shadow-sm">
+      <div className="w-full max-w-2xl rounded-3xl border border-[#262626] bg-obsidian-800/30 p-8 shadow-sm">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#262626] text-white">
             <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">Dashboard error</p>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">We could not load this page</h1>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">We could not load this page</h1>
           </div>
         </div>
 

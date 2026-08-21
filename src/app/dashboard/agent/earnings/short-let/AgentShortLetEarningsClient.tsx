@@ -109,7 +109,7 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="md:col-span-2 bg-[#00ff66] text-white-foreground relative overflow-hidden">
+        <Card className="md:col-span-2 bg-[#00ff66] text-white relative overflow-hidden">
           <CardContent className="p-6 relative z-10">
             <p className="text-xs font-label-md uppercase tracking-wider opacity-80">Available Revenue</p>
             <h2 className="text-headline-sm font-bold mt-2">₦12,450,000.00</h2>
@@ -117,13 +117,13 @@ export default function AgentShortLetEarningsClient() {
               <Button className="bg-[#262626] text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-surface-container-lowest/10">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-obsidian-800-lowestest/10">
                 History
               </Button>
             </div>
           </CardContent>
           <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-[#262626] opacity-10 rounded-full blur-3xl" />
-        </Card>
+        </div>
 
         <Card>
           <CardContent className="p-6">
@@ -135,7 +135,7 @@ export default function AgentShortLetEarningsClient() {
             <Progress value={occupancy} className="mt-4 h-2" />
             <p className="text-xs font-label-md uppercase tracking-wider mt-2 text-neutral-400">Average across 14 properties</p>
           </CardContent>
-        </Card>
+        </div>
 
         <Card>
           <CardContent className="p-6">
@@ -151,7 +151,7 @@ export default function AgentShortLetEarningsClient() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       {/* Calendar + Breakdown */}
@@ -185,7 +185,7 @@ export default function AgentShortLetEarningsClient() {
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-[#171717] border-[#262626] opacity-40' : 'bg-surface-container-lowest border-[#262626] hover:border-primary cursor-pointer',
+                    d.disabled ? 'bg-[#171717] border-[#262626] opacity-40' : 'bg-obsidian-800/30 border-[#262626] hover:border-white cursor-pointer',
                     d.active ? 'bg-[#00ff66] text-white border-primary' : '',
                     d.peak ? 'bg-[#262626] text-white border-[#262626]' : ''
                   )}
@@ -211,7 +211,7 @@ export default function AgentShortLetEarningsClient() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         <Card className="flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
@@ -246,7 +246,7 @@ export default function AgentShortLetEarningsClient() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       {/* Recent Completed Stays */}
@@ -269,7 +269,7 @@ export default function AgentShortLetEarningsClient() {
                 <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-outline-variant">
+            <tbody className="divide-y divide-[#262626]">
               {initialStays.map((stay) => (
                 <tr key={stay.id} className="hover:bg-[#171717]/30 transition-colors">
                   <td className="px-4 py-4">
@@ -303,7 +303,7 @@ export default function AgentShortLetEarningsClient() {
             </tbody>
           </table>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

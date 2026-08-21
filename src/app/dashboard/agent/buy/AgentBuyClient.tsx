@@ -72,7 +72,7 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.total}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Value</CardTitle>
@@ -80,7 +80,7 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
           <CardContent>
             <p className="text-2xl font-bold text-white">{fmtCurrency(stats.totalValue)}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Active Pending</CardTitle>
@@ -88,7 +88,7 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
           <CardContent>
             <p className="text-2xl font-bold text-white">{(stats.counts.draft || 0) + (stats.counts.pending_landlord || 0) + (stats.counts.pending_tenant || 0)}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Closed</CardTitle>
@@ -96,7 +96,7 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
           <CardContent>
             <p className="text-2xl font-bold text-[#00ff66]">{(stats.counts.fully_signed || 0) + (stats.counts.active || 0)}</p>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       <Card>
@@ -150,7 +150,7 @@ export default function AgentBuyClient({ initialDeals }: { initialDeals: Agreeme
             </table>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

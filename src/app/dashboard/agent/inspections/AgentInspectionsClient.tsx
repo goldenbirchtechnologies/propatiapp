@@ -43,16 +43,16 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
         </div>
 
         <div className="card overflow-hidden">
-          <div className="p-4 flex flex-wrap gap-2 border-b" style={{ borderColor: 'border-[#262626]' }}>
+          <div className="p-4 flex flex-wrap gap-2 border-b" className=\"border-[#262626]\">
             {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-white border-[#262626] bg-surface-container-low' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
+              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-white border-[#262626] bg-obsidian-800/30' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
             ))}
           </div>
           {filtered.length === 0 ? (
             <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} /><h3 className="font-headline-sm font-bold text-lg mb-2 text-white">No inspections</h3><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Schedule your first inspection.</p></div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
-              <thead><tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
+              <thead><tr className="border-b" className=\"border-[#262626]\">
                 <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Property</th>
                 <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Date</th>
                 <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Status</th>
@@ -62,7 +62,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                 {filtered.map((i) => {
                   const sc = statusConfig[i.status] || statusConfig.scheduled;
                   return (
-                    <tr key={i.id} className="border-b transition-colors hover:bg-[#171717]/30" style={{ borderColor: 'border-[#262626]' }}>
+                    <tr key={i.id} className="border-b transition-colors hover:bg-[#171717]/30" className=\"border-[#262626]\">
                       <td className="p-4 text-sm font-medium text-white">{i.listing?.title || '—'}</td>
                       <td className="p-4 text-xs font-label-md uppercase tracking-wider text-white">{new Date(i.scheduledAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                       <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>

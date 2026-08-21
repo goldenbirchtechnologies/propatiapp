@@ -82,7 +82,7 @@ export default function AgentInspectionReportClient() {
       </div>
 
       {/* Report Paper */}
-      <div className="bg-surface-container-lowest shadow-lg border border-[#262626] rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
+      <div className="bg-obsidian-800/30 shadow-lg border border-[#262626] rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
         {/* Report Header */}
         <div className="bg-[#00ff66] text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-[#262626]">
           <div className="space-y-2">
@@ -174,7 +174,7 @@ export default function AgentInspectionReportClient() {
                       View Original <AppIcon name="open_in_new" className="lucide" />
                     </button>
                   </CardContent>
-                </Card>
+                </div>
               ))}
             </div>
           </section>

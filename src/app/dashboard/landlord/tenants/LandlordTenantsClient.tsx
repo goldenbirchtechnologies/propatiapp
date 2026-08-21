@@ -48,16 +48,16 @@ function formatDate(date: Date | null) {
 
 function rentBadge(tenant: Tenant) {
   const s = tenant.latestInvoice?.status;
-  if (!s) return <Badge variant="outline" className="bg-muted/30 text-muted-foreground border border-border">No Record</Badge>;
+  if (!s) return <Badge variant="outline" className="bg-muted/30 text-muted-foreground border border-[#262626]">No Record</Badge>;
   switch (s) {
     case 'paid':
-      return <Badge variant="default" className="bg-success/10 text-success border border-border">Paid</Badge>;
+      return <Badge variant="default" className="bg-success/10 text-[#00ff66] border border-[#262626]">Paid</Badge>;
     case 'overdue':
-      return <Badge variant="destructive" className="bg-destructive/10 text-destructive border border-border">Overdue</Badge>;
+      return <Badge variant="destructive" className="bg-red-500/10 text-red-500 border border-[#262626]">Overdue</Badge>;
     case 'sent':
-      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-border">Pending</Badge>;
+      return <Badge variant="secondary" className="bg-warning/10 text-warning border border-[#262626]">Pending</Badge>;
     default:
-      return <Badge variant="outline" className="bg-muted/30 text-muted-foreground border border-border">{s.replace('_', ' ')}</Badge>;
+      return <Badge variant="outline" className="bg-muted/30 text-muted-foreground border border-[#262626]">{s.replace('_', ' ')}</Badge>;
   }
 }
 
@@ -118,31 +118,31 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Tenants</h1>
+          <h1 className="text-3xl font-bold text-white">Tenants</h1>
           <p className="text-muted-foreground mt-1">Manage tenant operations and occupancy</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Total</p>
-          <p className="text-2xl font-bold mt-1 text-primary">{stats.total}</p>
+          <p className="text-2xl font-bold mt-1 text-white">{stats.total}</p>
         </div>
-        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Active</p>
-          <p className="text-2xl font-bold mt-1 text-success">{stats.active}</p>
+          <p className="text-2xl font-bold mt-1 text-[#00ff66]">{stats.active}</p>
         </div>
-        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Pending</p>
           <p className="text-2xl font-bold mt-1 text-warning">{stats.pending}</p>
         </div>
-        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Moved Out</p>
-          <p className="text-2xl font-bold mt-1 text-destructive">{stats.expired}</p>
+          <p className="text-2xl font-bold mt-1 text-red-500">{stats.expired}</p>
         </div>
       </div>
 
-      <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-4 shadow-sm">
+      <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-4 shadow-sm">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -174,17 +174,17 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         </div>
       </div>
 
-      <div className="rounded-xl border border-outline-variant bg-surface-container-lowest shadow-sm">
+      <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 shadow-sm">
         {tenants.length === 0 ? (
           <div className="p-12 text-center">
             <Users className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-60" />
-            <p className="font-medium text-primary">No tenants found</p>
+            <p className="font-medium text-white">No tenants found</p>
             <p className="text-sm mt-1 text-muted-foreground">Add tenants by creating an agreement.</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center">
             <Users className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-60" />
-            <p className="font-medium text-primary">No tenants match filters</p>
+            <p className="font-medium text-white">No tenants match filters</p>
             <p className="text-sm mt-1 text-muted-foreground">Try adjusting your filters.</p>
           </div>
         ) : (
@@ -212,18 +212,18 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                     <TableRow key={tenant.id}>
                       <TableCell className="font-medium">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
+                          <div className="w-8 h-8 rounded-full bg-[#262626] text-white flex items-center justify-center font-bold text-sm">
                             {tenant.fullName.charAt(0)}
                           </div>
                           <div>
-                            <p className="text-primary text-sm">{tenant.fullName}</p>
+                            <p className="text-white text-sm">{tenant.fullName}</p>
                             <p className="text-xs text-muted-foreground">{tenant.email}</p>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
-                          <p className="text-primary text-sm">{tenant.property?.title || 'Unlinked'}</p>
+                          <p className="text-white text-sm">{tenant.property?.title || 'Unlinked'}</p>
                           <p className="text-xs text-muted-foreground">
                             {tenant.property?.area}{tenant.property?.state ? `, ${tenant.property.state}` : ''} · {unitLabel}
                           </p>
@@ -233,9 +233,9 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                       <TableCell>{rentBadge(tenant)}</TableCell>
                       <TableCell>
                         {tenant.idVerified || tenant.ninVerified ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-success border-success/20">Verified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-[#00ff66] border-success/20">Verified</span>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-muted-foreground border-outline-variant">Unverified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-muted-foreground border-[#262626]">Unverified</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">

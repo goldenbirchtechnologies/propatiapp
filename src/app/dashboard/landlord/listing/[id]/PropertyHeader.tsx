@@ -15,7 +15,7 @@ type Props = {
 function VerificationBadge({ verification }: { verification: Props['verification'] }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
         Not Started
       </span>
     );
@@ -24,13 +24,13 @@ function VerificationBadge({ verification }: { verification: Props['verification
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary border border-primary/20 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#262626] px-2.5 py-0.5 text-xs font-bold text-white border border-primary/20 dark:bg-primary/20 dark:text-white dark:border-primary/30">
           <svg
             width="10"
             height="10"
@@ -48,19 +48,19 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     case 'certified':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-bold text-green-600 border border-green-500/20 dark:bg-green-500/20 dark:text-green-400 dark:border-green-500/40">
+        <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-bold text-green-600 border border-green-500/20 dark:bg-green-500/20 dark:text-[#00ff66] dark:border-green-500/40">
           Certified
         </span>
       );
     case 'rejected':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-bold text-destructive border border-destructive/20 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-bold text-red-500 border border-red-500/20 dark:bg-red-950/40 dark:text-red-500 dark:border-red-800">
           Rejected
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
           {verification.overallStatus}
         </span>
       );
@@ -80,8 +80,8 @@ export default function PropertyHeader({
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold text-primary tracking-tight">{title}</h1>
-          <p className="flex items-center gap-1 mt-1 text-on-surface-variant">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight">{title}</h1>
+          <p className="flex items-center gap-1 mt-1 text-neutral-400">
             <MapPin className="h-4 w-4" />
             {location}
           </p>

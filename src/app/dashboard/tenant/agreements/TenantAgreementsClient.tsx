@@ -40,6 +40,11 @@ interface Tenant {
   fullName: string | null;
 }
 
+interface Agent {
+  id: string;
+  fullName: string | null;
+}
+
 interface Signature {
   userId: string;
   user: { fullName: string | null };
@@ -51,6 +56,7 @@ export interface Agreement {
   listing: Listing;
   landlord: Landlord | null;
   tenant: Tenant | null;
+  agent: Agent | null;
   type: string;
   status: string;
   rentAmount: number;
@@ -68,9 +74,9 @@ const statusConfig: Record<
   string,
   { class: string; label: string; icon: React.ReactNode }
 > = {
-  draft: { class: 'bg-surface-container-low text-on-surface-variant border-border', label: 'Draft', icon: <FileText className="w-3 h-3 mr-1" /> },
+  draft: { class: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]', label: 'Draft', icon: <FileText className="w-3 h-3 mr-1" /> },
   pending_landlord: {
-    class: 'bg-primary/10 text-primary border-primary/30',
+    class: 'bg-[#262626] text-white border-primary/30',
     label: 'Pending Landlord',
     icon: <Clock className="w-3 h-3 mr-1" />,
   },
@@ -79,19 +85,19 @@ const statusConfig: Record<
     label: 'Pending Your Signature',
     icon: <Pen className="w-3 h-3 mr-1" />,
   },
-  tenant_signed: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'You Signed', icon: <CheckCircle2 className="w-3 h-3 mr-1" /> },
+  tenant_signed: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'You Signed', icon: <CheckCircle2 className="w-3 h-3 mr-1" /> },
   landlord_signed: {
-    class: 'bg-success-bright/10 text-success border-success-bright/20',
+    class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20',
     label: 'Landlord Signed',
     icon: <CheckCircle2 className="w-3 h-3 mr-1" />,
   },
   fully_signed: {
-    class: 'bg-success-bright/10 text-success border-success-bright/20',
+    class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20',
     label: 'Fully Signed ✓',
     icon: <CheckCircle2 className="w-3 h-3 mr-1" />,
   },
-  terminated: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Terminated', icon: <XCircle className="w-3 h-3 mr-1" /> },
-  expired: { class: 'bg-surface-container-low text-on-surface-variant border-border', label: 'Expired', icon: <AlertTriangle className="w-3 h-3 mr-1" /> },
+  terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated', icon: <XCircle className="w-3 h-3 mr-1" /> },
+  expired: { class: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]', label: 'Expired', icon: <AlertTriangle className="w-3 h-3 mr-1" /> },
 };
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -146,7 +152,7 @@ interface StatCardProps {
   color?: string;
 }
 
-function StatCard({ label, value, icon, color = 'text-primary' }: StatCardProps) {
+function StatCard({ label, value, icon, color = 'text-white' }: StatCardProps) {
   return (
     <div className="card p-5">
       <div className="flex items-center gap-3">
@@ -154,10 +160,10 @@ function StatCard({ label, value, icon, color = 'text-primary' }: StatCardProps)
           {icon}
         </div>
         <div>
-          <p className="text-xs font-medium text-on-surface-variant">
+          <p className="text-xs font-medium text-neutral-400">
             {label}
           </p>
-          <p className="text-2xl text-headline-sm text-primary">
+          <p className="text-2xl text-headline-sm text-white">
             {value}
           </p>
         </div>
@@ -177,11 +183,11 @@ function EmptyAgreementState({ tab }: { tab: TabValue }) {
 
   return (
     <div className="card p-12 text-center">
-      <FileText className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
+      <FileText className="w-12 h-12 text-neutral-400" style={{ opacity: 0.4 }} />
+      <h3 className="font-headline-sm text-headline-sm mb-2 text-white">
         No agreements found
       </h3>
-      <p className="text-sm mb-6 text-on-surface-variant">
+      <p className="text-sm mb-6 text-neutral-400">
         {messages[tab] || messages.all}
       </p>
       <Button asChild>
@@ -227,21 +233,21 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
                 className="w-full h-full object-cover rounded-xl"
               />
             ) : (
-              <Home className="w-8 h-8 text-on-surface-variant" />
+              <Home className="w-8 h-8 text-neutral-400" />
             )}
           </div>
 
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div>
-                <h3 className="text-headline-sm text-primary">
+                <h3 className="text-headline-sm text-white">
                   {agreement.listing?.title || 'Unknown Property'}
                 </h3>
-                <p className="text-sm text-on-surface-variant">
+                <p className="text-sm text-neutral-400">
                   {agreement.listing?.area}
                   {agreement.listing?.state ? `, ${agreement.listing.state}` : ''}
                 </p>
-                <p className="text-xs mt-1 text-on-surface-variant">
+                <p className="text-xs mt-1 text-neutral-400">
                   ID: {agreement.id.slice(-8).toUpperCase()} · Created{' '}
                   {new Date(agreement.createdAt).toLocaleDateString('en-NG', {
                     day: '2-digit',
@@ -253,17 +259,17 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
               <span className={labelClass}>{cfg.icon ?? null}{cfg.label}</span>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
               <div>
-                <p  className="text-on-surface-variant">Rent</p>
-                <p className="font-medium text-primary">
+                <p  className="text-neutral-400">Rent</p>
+                <p className="font-medium text-white">
                   {formatter.format(rentValue)}
                   {agreement.rentPeriod ? `/${agreement.rentPeriod}` : ''}
                 </p>
               </div>
               <div>
-                <p  className="text-on-surface-variant">Period</p>
-                <p className="font-medium text-primary">
+                <p  className="text-neutral-400">Period</p>
+                <p className="font-medium text-white">
                   {agreement.startDate
                     ? new Date(agreement.startDate).toLocaleDateString('en-NG', {
                         month: 'short',
@@ -280,15 +286,21 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
                 </p>
               </div>
               <div>
-                <p  className="text-on-surface-variant">Type</p>
-                <p className="font-medium capitalize text-primary">
+                <p  className="text-neutral-400">Type</p>
+                <p className="font-medium capitalize text-white">
                   {agreement.type}
                 </p>
               </div>
               <div>
-                <p  className="text-on-surface-variant">Landlord</p>
-                <p className="font-medium truncate text-primary">
+                <p  className="text-neutral-400">Landlord</p>
+                <p className="font-medium truncate text-white">
                   {agreement.landlord?.fullName || 'Unknown'}
+                </p>
+              </div>
+              <div>
+                <p  className="text-neutral-400">Agent</p>
+                <p className="font-medium truncate text-white">
+                  {agreement.agent?.fullName || '—'}
                 </p>
               </div>
             </div>
@@ -297,7 +309,7 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
       </div>
 
       {/* Actions + Signatures row */}
-      <div className="border-t px-5 py-3 flex flex-wrap items-center justify-between gap-2 border-border">
+      <div className="border-t px-5 py-3 flex flex-wrap items-center justify-between gap-2 border-[#262626]">
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href={`/dashboard/tenant/agreements/${agreement.id}`}
@@ -336,18 +348,18 @@ function AgreementCard({ agreement }: { agreement: Agreement }) {
                     className={cn(
                       'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0',
                       sig
-                        ? 'bg-success text-foreground'
+                        ? 'bg-success text-white'
                         : 'bg-muted text-muted-foreground'
                     )}
                   >
                     {sig ? <CheckCircle2 className="w-3.5 h-3.5" /> : role[0].toUpperCase()}
                   </div>
-                  <span className="text-xs capitalize text-on-surface-variant">
+                  <span className="text-xs capitalize text-neutral-400">
                     {role}
                   </span>
                   {sig && (
                     <span
-                      className="text-xs text-on-surface-variant"
+                      className="text-xs text-neutral-400"
                     >
                       {new Date(sig.signedAt).toLocaleDateString('en-NG', {
                         day: '2-digit',
@@ -425,7 +437,7 @@ export default function TenantAgreementsClient({
           >
             My Agreements
           </h1>
-          <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
+          <p className="text-neutral-400" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage your rental agreements
           </p>
         </div>
@@ -454,7 +466,7 @@ export default function TenantAgreementsClient({
         >
           My Agreements
         </h1>
-        <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-neutral-400" style={{ marginTop: 'var(--space-vs)' }}>
           View and manage your rental agreements
         </p>
       </div>
@@ -477,7 +489,7 @@ export default function TenantAgreementsClient({
 
       {/* Filter tabs */}
       <div className="flex flex-wrap gap-2">
-        <ListFilter className="w-4 h-4 self-center mr-1 text-on-surface-variant" />
+        <ListFilter className="w-4 h-4 self-center mr-1 text-neutral-400" />
         {statusTabs.map((tab) => (
           <button
             key={tab.value}

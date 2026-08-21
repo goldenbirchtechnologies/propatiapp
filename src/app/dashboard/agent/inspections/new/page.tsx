@@ -15,13 +15,13 @@ export default async function AgentInspectionNewPage({ searchParams }: { searchP
           <CardTitle>New Inspection</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-neutral-400-foreground">
+          <p className="text-neutral-400">
             {searchParams?.dealId
               ? `Create an inspection request for deal ${searchParams.dealId}.`
               : 'Select a deal and create a new inspection request from the deal detail page.'}
           </p>
         </CardContent>
-      </Card>
+      </div>
     </DashboardShell>
   );
 }

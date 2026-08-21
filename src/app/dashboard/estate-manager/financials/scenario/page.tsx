@@ -22,15 +22,15 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Refined Revenue Forecasting Advanced Scenario Builder Owner Console</h1>
+        <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-white">Refined Revenue Forecasting Advanced Scenario Builder Owner Console</h1>
           <p className="text-muted-foreground mt-1">Propati Finance | Revenue Forecasting Propati Finance Revenue Analytics dashboard Dashboard analytics Analytics domain A...</p>
         </section>
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader><CardTitle>Revenue Forecasting</CardTitle></CardHeader>
             <CardContent><p className="text-sm text-muted-foreground">Content from refined_revenue_forecasting_advanced_scenario_builder_propati_owner_console.</p></CardContent>
-          </Card>
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Upgrade to Premium</Button>
@@ -49,12 +49,12 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
               <li>High demand for short-lets in Victoria Island following corporate relocation trends. Expected yield increase by 1.2% in Q3.</li>
             </ul>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>refined_revenue_forecasting_advanced_scenario_builder_propati_owner_console.html</strong></p>
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

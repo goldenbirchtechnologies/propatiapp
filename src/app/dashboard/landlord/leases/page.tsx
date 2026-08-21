@@ -53,7 +53,7 @@ export default async function LandlordLeasesPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Leases</h1>
+            <h1 className="text-3xl font-bold text-white">Leases</h1>
             <p className="text-muted-foreground mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
           </div>
           <Link
@@ -70,11 +70,11 @@ export default async function LandlordLeasesPage() {
           <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" trendPositive={false} />
         </div>
 
-        <div className="rounded-lg border border-outline-variant bg-surface-container-lowest shadow-sm">
+        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-outline-variant">
+                <tr className="border-b border-[#262626]">
                   <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Property</th>
                   <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Tenant</th>
                   <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Status</th>
@@ -85,7 +85,7 @@ export default async function LandlordLeasesPage() {
               </thead>
               <tbody>
                 {leases.map((lease) => (
-                  <tr key={lease.id} className="border-b border-outline-variant">
+                  <tr key={lease.id} className="border-b border-[#262626]">
                     <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
                     <td className="px-4 py-3">{lease.tenant.fullName}</td>
                     <td className="px-4 py-3">{statusBadge(lease.status)}</td>
@@ -105,7 +105,7 @@ export default async function LandlordLeasesPage() {
             {leases.length === 0 && (
               <div className="p-12 text-center">
                 <p className="text-muted-foreground">No lease agreements yet.</p>
-                <Link href="/dashboard/landlord/agreements/new" className="text-sm text-primary mt-2 inline-block hover:underline">
+                <Link href="/dashboard/landlord/agreements/new" className="text-sm text-white mt-2 inline-block hover:underline">
                   Create your first agreement
                 </Link>
               </div>
@@ -121,7 +121,7 @@ export default async function LandlordLeasesPage() {
 
 function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; trend: string; trendPositive?: boolean }) {
   return (
-    <div className="rounded-xl border border-outline-variant p-6 shadow-sm">
+    <div className="rounded-xl border border-[#262626] p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{label}</p>
@@ -129,10 +129,10 @@ function StatCard({ label, value, icon, trend, trendPositive = true }: { label: 
         </div>
       </div>
       <div className="mt-3 flex items-center gap-1">
-        <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-destructive'}`}>
+        <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
           {trendPositive ? '↑' : '↓'}
         </span>
-        <span className={`text-xs ${trendPositive ? 'text-success' : 'text-destructive'}`}>{trend}</span>
+        <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
       </div>
     </div>
   );

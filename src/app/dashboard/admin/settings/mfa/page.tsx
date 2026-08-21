@@ -22,15 +22,15 @@ export default function securitymfasettingspropatiPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Security Mfa Settings</h1>
+        <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-white">Security Mfa Settings</h1>
           <p className="text-muted-foreground mt-1">Security & MFA Settings | EstateVerify EstateVerify Admin Console dashboard Overview domain Properties payments Transact...</p>
         </section>
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader><CardTitle>Security &amp; Privacy</CardTitle></CardHeader>
             <CardContent><p className="text-sm text-muted-foreground">Content from security_mfa_settings_propati.</p></CardContent>
-          </Card>
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Enable</Button>
@@ -52,12 +52,12 @@ export default function securitymfasettingspropatiPage() {
               <li>Account Health: Fair</li>
             </ul>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>security_mfa_settings_propati.html</strong></p>
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

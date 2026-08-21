@@ -88,7 +88,7 @@ function Step4InspectionClient(props: Props) {
             {props.inspection.l4Status === 'approved' ? 'Inspection completed and approved' : props.inspection.l4Status === 'pending' ? 'Inspection scheduled' : 'Schedule a physical inspection'}
           </p>
         </CardContent>
-      </Card>
+      </div>
 
       {!canProceed ? (
         <Card>
@@ -98,17 +98,17 @@ function Step4InspectionClient(props: Props) {
               <p>Please complete Layer 3 (Video verification) before proceeding.</p>
             </div>
           </CardContent>
-        </Card>
+        </div>
       ) : props.inspection.l4Status === 'approved' ? (
         <Card>
           <CardContent className="space-y-4">
-            <div className="flex items-center gap-2 text-success">
+            <div className="flex items-center gap-2 text-[#00ff66]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Inspection completed successfully</p>
             </div>
             {props.inspection.l4Agent && (
               <div className="text-sm text-muted-foreground">
-                Inspected by <span className="font-medium text-foreground">{props.inspection.l4Agent.fullName}</span> ({props.inspection.l4Agent.agentTier})
+                Inspected by <span className="font-medium text-white">{props.inspection.l4Agent.fullName}</span> ({props.inspection.l4Agent.agentTier})
               </div>
             )}
             {props.inspection.l4CompletedAt && (
@@ -117,7 +117,7 @@ function Step4InspectionClient(props: Props) {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       ) : props.inspection.l4Status === 'pending' ? (
         <Card>
           <CardContent className="space-y-4">
@@ -132,11 +132,11 @@ function Step4InspectionClient(props: Props) {
             )}
             {props.inspection.l4Agent && (
               <div className="text-sm text-muted-foreground">
-                Agent: <span className="font-medium text-foreground">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
+                Agent: <span className="font-medium text-white">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       ) : (
         <Card>
           <CardHeader>
@@ -184,7 +184,7 @@ function Step4InspectionClient(props: Props) {
               Request Inspection
             </Button>
           </CardContent>
-        </Card>
+        </div>
       )}
 
       {props.inspection.l4Status === 'approved' && (

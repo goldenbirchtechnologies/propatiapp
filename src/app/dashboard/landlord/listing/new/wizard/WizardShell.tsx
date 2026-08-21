@@ -305,8 +305,8 @@ export default function WizardShell({ onComplete }: Props) {
             </div>
 
             {errors.length > 0 && (
-              <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/20">
-                <ul className="text-sm text-destructive space-y-1">
+              <div className="mb-4 p-3 rounded-md bg-red-500/10 border border-red-500/20">
+                <ul className="text-sm text-red-500 space-y-1">
                   {errors.map((err, idx) => (
                     <li key={idx}>{err}</li>
                   ))}
@@ -318,7 +318,7 @@ export default function WizardShell({ onComplete }: Props) {
               value={stepValue}
               onChange={stepOnChange}
             />
-          </Card>
+          </div>
         </main>
 
       {/* Sticky Footer */}

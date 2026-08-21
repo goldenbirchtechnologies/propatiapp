@@ -74,19 +74,19 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-white transition-colors">
           PAYMENTS
         </Link>
         <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
-        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-white transition-colors">
           SAVED METHODS
         </Link>
         <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
-        <span className="font-mono text-primary font-semibold">ADD PAYMENT METHOD</span>
+        <span className="font-mono text-white font-semibold">ADD PAYMENT METHOD</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -95,11 +95,11 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
           <Card>
             <CardContent className="p-6 md:p-8">
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-full bg-primary text-foreground flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
                   <CreditCard className="w-5 h-5" />
                 </div>
                 <div>
-                  <h1 className="font-heading text-xl font-bold text-primary">Add Payment Method</h1>
+                  <h1 className="font-heading text-xl font-bold text-white">Add Payment Method</h1>
                   <p className="text-sm text-muted-foreground">Securely link your card or bank details.</p>
                 </div>
               </div>
@@ -120,7 +120,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                 <TabsContent value="card" className="space-y-5">
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-on-surface-variant">
+                    <Label className="font-label-md label-md text-neutral-400">
                       Cardholder Name
                     </Label>
                     <Input
@@ -132,7 +132,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-on-surface-variant">
+                    <Label className="font-label-md label-md text-neutral-400">
                       Card Number
                     </Label>
                     <div className="relative">
@@ -156,7 +156,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                           style={{ filter: 'grayscale(1) opacity(0.5)' }}
                           src={networkIcons.mastercard.src}
                         />
-                        <div className="h-4 px-1 bg-primary text-[8px] font-bold text-foreground rounded flex items-center justify-center">
+                        <div className="h-4 px-1 bg-primary text-[8px] font-bold text-white rounded flex items-center justify-center">
                           VERVE
                         </div>
                       </div>
@@ -165,11 +165,11 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="font-label-md label-md text-on-surface-variant">
+                      <Label className="font-label-md label-md text-neutral-400">
                         Expiry Date
                       </Label>
                       <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm">
                           <option value="">MM</option>
                           {months.map((m) => (
                             <option key={m} value={m}>
@@ -177,7 +177,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                             </option>
                           ))}
                         </select>
-                        <select className="h-11 px-3 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm">
                           <option value="">YY</option>
                           {years.map((y) => (
                             <option key={y} value={y}>
@@ -188,9 +188,9 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label className="font-label-md label-md text-on-surface-variant flex items-center gap-xs">
+                      <Label className="font-label-md label-md text-neutral-400 flex items-center gap-xs">
                         CVV
-                        <HelpCircle className="text-[16px] text-on-surface-variant cursor-help" title="3-digit security code on the back of your card" />
+                        <HelpCircle className="text-[16px] text-neutral-400 cursor-help" title="3-digit security code on the back of your card" />
                       </Label>
                       <div className="relative">
                         <Input
@@ -202,7 +202,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         <button
                           type="button"
                           onClick={() => setShowSecurity(!showSecurity)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400"
                         >
                           {showSecurity ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -216,7 +216,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                       checked={saveInfo}
                       onCheckedChange={(c) => setSaveInfo(c === true)}
                     />
-                    <Label htmlFor="save" className="text-sm text-on-surface leading-relaxed">
+                    <Label htmlFor="save" className="text-sm text-white leading-relaxed">
                       Save Card for Future Payments
                     </Label>
                   </div>
@@ -224,13 +224,13 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                 <TabsContent value="bank" className="space-y-5">
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-on-surface-variant">
+                    <Label className="font-label-md label-md text-neutral-400">
                       Select Bank
                     </Label>
                     <select
                       value={selectedBank}
                       onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-border bg-surface-container-lowest appearance-none text-sm"
+                      className="w-full h-11 px-4 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm"
                     >
                       <option value="">Choose your bank</option>
                       {banks.map((b) => (
@@ -242,7 +242,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-on-surface-variant">
+                    <Label className="font-label-md label-md text-neutral-400">
                       Account Number
                     </Label>
                     <div className="relative">
@@ -260,15 +260,15 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-on-surface-variant">
+                    <Label className="font-label-md label-md text-neutral-400">
                       Account Name
                     </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-surface-container rounded-lg border border-border text-sm">
-                      <span className={accountName.includes('Fetching') ? 'text-on-surface-variant' : 'text-primary font-semibold'}>
+                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-surface-container rounded-lg border border-[#262626] text-sm">
+                      <span className={accountName.includes('Fetching') ? 'text-neutral-400' : 'text-white font-semibold'}>
                         {accountName}
                       </span>
                       {accountName === 'ADEWALE SULEIMAN BOLAJI' && (
-                        <Verified className="w-4 h-4 text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }} />
+                        <Verified className="w-4 h-4 text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }} />
                       )}
                     </div>
                   </div>
@@ -286,29 +286,29 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                 </Link>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
 
         {/* Right: Security bento */}
         <div className="space-y-5">
-          <Card className="bg-surface-variant border-border">
+          <Card className="bg-surface-variant border-[#262626]">
             <CardContent className="p-6 flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-4">
-                <Lock className="w-7 h-7 text-primary" />
+                <Lock className="w-7 h-7 text-white" />
               </div>
-              <h4 className="font-heading text-base font-semibold text-primary mb-2">Trust Shield</h4>
-              <p className="text-sm text-on-surface-variant">Your financial data is secured by 256-bit SSL encryption.</p>
+              <h4 className="font-heading text-base font-semibold text-white mb-2">Trust Shield</h4>
+              <p className="text-sm text-neutral-400">Your financial data is secured by 256-bit SSL encryption.</p>
             </CardContent>
-          </Card>
-          <Card className="bg-muted border-border flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-border">
-              <Shield className="w-5 h-5 text-primary" />
+          </div>
+          <Card className="bg-muted border-[#262626] flex items-center gap-4 p-5">
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-[#262626]">
+              <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-primary">PCI-DSS Compliant</p>
-              <p className="text-xs text-on-surface-variant">Routers-Atlas applies for all transfers.</p>
+              <p className="text-sm font-bold text-white">PCI-DSS Compliant</p>
+              <p className="text-xs text-neutral-400">Routers-Atlas applies for all transfers.</p>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </div>

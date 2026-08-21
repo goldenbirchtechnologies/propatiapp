@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { apiEndpoints } from '@/lib/api';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { AgentInvite } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 type Props = {
   email: string;
@@ -15,6 +17,8 @@ export default function AgentInvitationCard({ email }: Props) {
   const [invites, setInvites] = useState<AgentInvite[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionId, setActionId] = useState<string | null>(null);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const load = async () => {
     setLoading(true);
@@ -37,9 +41,11 @@ export default function AgentInvitationCard({ email }: Props) {
     setActionId(id);
     try {
       await apiEndpoints.agentInvites.accept(id);
-      await load();
+      toast({ title: 'Invitation accepted', description: 'Redirecting to your listings...' });
+      router.push('/dashboard/agent/listings');
     } catch (error) {
       console.error('Failed to accept invite:', error);
+      toast({ title: 'Failed to accept invite', variant: 'destructive' });
     } finally {
       setActionId(null);
     }

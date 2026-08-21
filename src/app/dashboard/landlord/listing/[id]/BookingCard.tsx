@@ -45,9 +45,9 @@ export default function BookingCard({ listing }: Props) {
           : '/ Month';
 
   return (
-    <div className="border border-outline-variant rounded-2xl p-6 shadow-lg bg-card space-y-6">
+    <div className="border border-[#262626] rounded-2xl p-6 shadow-lg bg-card space-y-6">
       {listing.availableFrom && (
-        <div className="bg-primary/10 text-primary text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
+        <div className="bg-[#262626] text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
           <Info className="w-4 h-4" />
           Available from:{' '}
           <span className="font-semibold">
@@ -63,7 +63,7 @@ export default function BookingCard({ listing }: Props) {
       <div>
         <p className="text-xs uppercase font-semibold text-muted-foreground">Rent Price</p>
         <div className="flex items-baseline gap-1 mt-1">
-          <span className="text-3xl font-extrabold text-foreground">
+          <span className="text-3xl font-extrabold text-white">
             {formatCurrency(listing.price)}
           </span>
           <span className="text-muted-foreground text-sm">{pricePeriodLabel}</span>
@@ -71,13 +71,13 @@ export default function BookingCard({ listing }: Props) {
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-foreground uppercase mb-2">
+        <label className="block text-xs font-semibold text-white uppercase mb-2">
           Select Duration
         </label>
         <select
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
-          className="w-full border border-outline-variant rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-surface-container-low text-foreground"
+          className="w-full border border-[#262626] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-obsidian-800/30 text-white"
         >
           <option value="1">1 Month</option>
           <option value="3">3 Months</option>
@@ -86,23 +86,23 @@ export default function BookingCard({ listing }: Props) {
         </select>
       </div>
 
-      <div className="space-y-3 text-sm border-t border-outline-variant pt-4 text-muted-foreground">
+      <div className="space-y-3 text-sm border-t border-[#262626] pt-4 text-muted-foreground">
         <div className="flex justify-between">
           <span>Rent ({duration} mo)</span>
-          <span className="font-medium text-foreground">{formatCurrency(totalRent)}</span>
+          <span className="font-medium text-white">{formatCurrency(totalRent)}</span>
         </div>
         <div className="flex justify-between">
           <span>Service Charge</span>
-          <span className="font-medium text-foreground">{formatCurrency(serviceCharge)}</span>
+          <span className="font-medium text-white">{formatCurrency(serviceCharge)}</span>
         </div>
         <div className="flex justify-between">
           <span>Refundable Caution Deposit</span>
-          <span className="font-medium text-foreground">{formatCurrency(cautionDeposit)}</span>
+          <span className="font-medium text-white">{formatCurrency(cautionDeposit)}</span>
         </div>
 
-        <div className="border-t border-outline-variant pt-3 flex justify-between items-center">
-          <span className="font-bold text-base text-foreground">Total</span>
-          <span className="font-extrabold text-xl text-primary">
+        <div className="border-t border-[#262626] pt-3 flex justify-between items-center">
+          <span className="font-bold text-base text-white">Total</span>
+          <span className="font-extrabold text-xl text-white">
             {formatCurrency(grandTotal)}
           </span>
         </div>

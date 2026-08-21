@@ -65,7 +65,7 @@ export default async function TenantAgreementsPage() {
               Retry
             </button>
           </CardContent>
-        </Card>
+        </div>
       </DashboardShell>
     );
   }

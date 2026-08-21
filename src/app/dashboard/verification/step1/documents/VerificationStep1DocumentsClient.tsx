@@ -135,7 +135,7 @@ function Step1DocumentsClient(props: Props) {
         <CardContent>
           <Progress value={progress} className="h-3" />
         </CardContent>
-      </Card>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {REQUIRED_DOCS.map((type) => {
@@ -145,7 +145,7 @@ function Step1DocumentsClient(props: Props) {
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
-                    <CheckCircle2 className="h-5 w-5 text-success" />
+                    <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />
                   ) : (
                     <AlertCircle className="h-5 w-5 text-muted-foreground" />
                   )}
@@ -158,7 +158,7 @@ function Step1DocumentsClient(props: Props) {
                   {hasDoc ? 'Document uploaded and ready for review' : 'Please upload this document to continue'}
                 </p>
                 {!isReadOnly && (
-                  <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground cursor-pointer hover:opacity-90 transition">
+                  <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white cursor-pointer hover:opacity-90 transition">
                     <Upload className="h-4 w-4" />
                     <span className="text-sm font-medium">{uploading ? 'Uploading...' : 'Upload'}</span>
                     <input
@@ -171,7 +171,7 @@ function Step1DocumentsClient(props: Props) {
                   </label>
                 )}
               </CardContent>
-            </Card>
+            </div>
           );
         })}
       </div>

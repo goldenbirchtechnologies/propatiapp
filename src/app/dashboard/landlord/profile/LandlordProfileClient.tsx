@@ -163,12 +163,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm md:p-8">
+      <div className="rounded-3xl border border-[#262626] bg-obsidian-800/30 p-6 shadow-sm md:p-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
               <div className="h-24 w-24 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 ring-2 ring-border">
-                <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-primary md:text-3xl">
+                <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white md:text-3xl">
                   {user?.avatarUrl ? (
                     <img src={user.avatarUrl} alt={user?.fullName || 'User'} className="h-full w-full object-cover" />
                   ) : (
@@ -176,7 +176,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   )}
                 </div>
               </div>
-              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary text-white shadow-lg">
                 <Camera className="h-3.5 w-3.5" />
                 <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
               </label>
@@ -188,7 +188,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </Badge>
                 {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
               </div>
-              <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{user?.fullName || 'My profile'}</h1>
+              <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">{user?.fullName || 'My profile'}</h1>
               <p className="text-sm text-muted-foreground">{user?.email}</p>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.</p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -216,7 +216,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-outline-variant">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-[#262626]">
           <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Verification</TabsTrigger>
           <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Security</TabsTrigger>
@@ -239,13 +239,13 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                         <AvatarFallback className="text-lg">{initials}</AvatarFallback>
                       )}
                     </Avatar>
-                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow">
+                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-primary text-white shadow">
                       <Camera className="h-3 w-3" />
                       <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
                     </label>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">Profile photo</p>
+                    <p className="text-sm font-medium text-white">Profile photo</p>
                     <p className="text-xs text-muted-foreground">JPG or PNG, under 5MB</p>
                   </div>
                 </div>
@@ -316,7 +316,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </div>
 
             <div className="flex justify-end">
               <Button type="submit" disabled={updateProfileMutation.isPending}>
@@ -362,7 +362,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </Button>
               </form>
             </CardContent>
-          </Card>
+          </div>
 
           <Card className="mt-6">
             <CardHeader>
@@ -378,7 +378,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
-          </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="notifications" className="mt-6">
@@ -399,7 +399,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               ] as const).map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex-1">
-                    <p className="font-medium text-foreground">{item.label}</p>
+                    <p className="font-medium text-white">{item.label}</p>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
                   </div>
                   <Switch
@@ -409,7 +409,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
@@ -418,14 +418,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-primary bg-primary/10' : 'border-outline-variant bg-surface-container')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-primary bg-[#262626]' : 'border-[#262626] bg-surface-container')}>
       <div className="flex items-center gap-3">
-        <div className="bg-primary/10 text-primary">
+        <div className="bg-[#262626] text-white">
           <Monitor className="h-5 w-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-foreground">{device}</span>
+            <span className="font-medium text-white">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
           <p className="text-xs text-muted-foreground">{browser} • {location}</p>
@@ -447,7 +447,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
   const isVerified = resolved === 'approved';
 
   return (
-    <Card className="rounded-3xl border border-outline-variant bg-surface-container-lowest">
+    <Card className="rounded-3xl border border-[#262626] bg-obsidian-800/30">
       <CardHeader className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="text-lg">Identity Verification</CardTitle>
@@ -471,11 +471,11 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#262626] text-white">
             <ShieldCheck className="h-8 w-8" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-lg font-semibold text-foreground">Instant Identity Check</h4>
+            <h4 className="text-lg font-semibold text-white">Instant Identity Check</h4>
             <p className="text-sm text-muted-foreground">Verify your identity in seconds using our secure automated check.</p>
           </div>
           {isUnverified && (
@@ -494,6 +494,6 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
           )}
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 }

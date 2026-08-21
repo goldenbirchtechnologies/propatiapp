@@ -15,8 +15,8 @@ type Screening = {
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   scheduled: { class: 'bg-accent/10 text-accent border-accent/30', label: 'Scheduled' },
-  completed: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Completed' },
-  cancelled: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Cancelled' },
+  completed: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Completed' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
 
 export default function LandlordScreeningClient({ initialScreenings }: { initialScreenings: Screening[] }) {
@@ -26,57 +26,57 @@ export default function LandlordScreeningClient({ initialScreenings }: { initial
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-sm text-headline-sm font-bold text-primary text-primary">Screening Calls</h1>
-        <p className="text-on-surface-variant">View tenant screening results</p>
+        <h1 className="font-headline-sm text-headline-sm font-bold text-white text-white">Screening Calls</h1>
+        <p className="text-neutral-400">View tenant screening results</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {['scheduled', 'completed', 'cancelled'].map((key) => (
-          <div key={key} className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow">
-            <p className="text-xs font-medium capitalize text-on-surface-variant">{key}</p>
-            <p className="text-2xl font-bold mt-1 text-primary">{initialScreenings.filter((s) => s.status === key).length}</p>
+          <div key={key} className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4 shadow-sm hover:shadow-md transition-shadow">
+            <p className="text-xs font-medium capitalize text-neutral-400">{key}</p>
+            <p className="text-2xl font-bold mt-1 text-white">{initialScreenings.filter((s) => s.status === key).length}</p>
           </div>
         ))}
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-outline-variant">
+      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-[#262626]">
           {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize border transition-colors ${filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'hover:bg-muted/50'}`}>{f}</button>
           ))}
         </div>
         {filtered.length === 0 ? (
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center shadow-sm hover:shadow-md transition-shadow">
-            <Phone className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" />
-            <h3 className="font-headline-sm text-headline-sm text-primary mb-2 text-primary">No screenings yet</h3>
-            <p className="text-on-surface-variant">Screening requests will appear here.</p>
+          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-12 text-center shadow-sm hover:shadow-md transition-shadow">
+            <Phone className="w-16 h-16 mx-auto mb-4 text-neutral-400" />
+            <h3 className="font-headline-sm text-headline-sm text-white mb-2 text-white">No screenings yet</h3>
+            <p className="text-neutral-400">Screening requests will appear here.</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-outline-variant">
-                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Tenant</th>
-                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Property</th>
-                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Status</th>
-                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Notes</th>
-                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">Date</th>
+              <tr className="border-b border-[#262626]">
+                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">Tenant</th>
+                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">Property</th>
+                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">Status</th>
+                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">Notes</th>
+                <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">Date</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((s) => {
                 const sc = statusConfig[s.status] || statusConfig.scheduled;
                 return (
-                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-outline-variant">
+                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-[#262626]">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center"><User className="w-4 h-4" /></div>
-                        <span className="font-medium text-sm text-primary">{s.tenant}</span>
+                        <span className="font-medium text-sm text-white">{s.tenant}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-primary">{s.property}</td>
+                    <td className="p-4 text-sm text-white">{s.property}</td>
                     <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>
-                    <td className="p-4 text-sm text-on-surface-variant">{s.notes}</td>
-                    <td className="p-4 text-sm text-primary">{new Date(s.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                    <td className="p-4 text-sm text-neutral-400">{s.notes}</td>
+                    <td className="p-4 text-sm text-white">{new Date(s.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                   </tr>
                 );
               })}

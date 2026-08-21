@@ -54,7 +54,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.active}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Avg Price</CardTitle>
@@ -62,7 +62,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           <CardContent>
             <p className="text-2xl font-bold text-white">{fmtCurrency(stats.avgPrice)}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Shown</CardTitle>
@@ -70,7 +70,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.total}</p>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Property Types</CardTitle>
@@ -78,7 +78,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.types.length}</p>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       <Card>
@@ -124,7 +124,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
             </table>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

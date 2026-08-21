@@ -7,8 +7,8 @@ import { formatCurrency } from '@/lib/utils';
 
 const statusStyles: Record<string, string> = {
   active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-  draft: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/30',
-  pending: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+  draft: 'bg-zinc-500/10 text-neutral-400 border-zinc-500/30',
+  pending: 'bg-amber-500/10 text-neutral-300 border-amber-500/30',
   accepted: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
   rejected: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
 };
@@ -57,7 +57,7 @@ export default function LandlordDashboardClient({
             <h1 className="text-2xl font-semibold tracking-tight text-zinc-100">
               Overview: {displayName}
             </h1>
-            <p className="mt-2 text-sm text-zinc-400">Portfolio snapshot and recent listings.</p>
+            <p className="mt-2 text-sm text-neutral-400">Portfolio snapshot and recent listings.</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="relative w-72">
@@ -69,7 +69,7 @@ export default function LandlordDashboardClient({
                 className="w-full rounded-lg border border-zinc-800 bg-[#141b22] pl-9 pr-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 outline-none focus:border-emerald-500/50"
               />
             </div>
-            <button className="relative rounded-lg p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50">
+            <button className="relative rounded-lg p-2 text-neutral-400 hover:text-zinc-200 hover:bg-zinc-800/50">
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-4 w-4 rounded-full bg-emerald-500 text-[10px] font-bold text-zinc-950">0</span>
             </button>
@@ -80,7 +80,7 @@ export default function LandlordDashboardClient({
           <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Total Properties</p>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Total Properties</p>
                 <p className="mt-1 text-2xl font-bold text-zinc-100">{listingCount}</p>
               </div>
               <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
@@ -91,7 +91,7 @@ export default function LandlordDashboardClient({
           <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Monthly Revenue</p>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Monthly Revenue</p>
                 <p className="mt-1 text-2xl font-bold text-zinc-100">{formatCurrency(totalRevenue)}</p>
               </div>
               <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
@@ -102,7 +102,7 @@ export default function LandlordDashboardClient({
           <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Active Listings</p>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Active Listings</p>
                 <p className="mt-1 text-2xl font-bold text-zinc-100">
                   {activeListingCount} <span className="text-base text-zinc-500">/ {listingCount}</span>
                 </p>
@@ -115,7 +115,7 @@ export default function LandlordDashboardClient({
           <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-400">Open Maintenance</p>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Open Maintenance</p>
                 <p className="mt-1 text-2xl font-bold text-zinc-100">{openMaintenanceCount}</p>
               </div>
               <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2 text-rose-400">
@@ -134,7 +134,7 @@ export default function LandlordDashboardClient({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.length === 0 ? (
-              <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-zinc-400">
+              <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-neutral-400">
                 No listings found.
               </div>
             ) : (
@@ -146,7 +146,7 @@ export default function LandlordDashboardClient({
                   <div className="flex flex-1 flex-col justify-between p-4">
                     <div>
                       <h3 className="text-sm font-semibold text-zinc-100">{item.title}</h3>
-                      <div className="mt-1 flex items-center justify-between text-xs text-zinc-400">
+                      <div className="mt-1 flex items-center justify-between text-xs text-neutral-400">
                         <span className="capitalize">{item.listingType || 'Listing'}</span>
                         <span>{formatCurrency(Number(item.price))}</span>
                       </div>

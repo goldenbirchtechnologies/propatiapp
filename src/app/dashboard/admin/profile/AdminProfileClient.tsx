@@ -20,24 +20,24 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
     <DashboardShell navigation={ADMIN_NAVIGATION} userRole="admin" userName={form.fullName}>
       <div className="space-y-6">
         <div>
-          <h1 className="font-headline-sm text-primary mb-1">My Profile</h1>
-          <p className="text-on-surface-variant">Manage your administrative account settings</p>
+          <h1 className="font-headline-sm text-white mb-1">My Profile</h1>
+          <p className="text-neutral-400">Manage your administrative account settings</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="card-shell p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">My Profile</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">My Profile</label>
                 <input
                   type="text"
                   value={form.fullName}
                   onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                   className="inp-field w-full"
                 />
-                <p className="text-xs text-on-surface-variant mt-1">Display name used across admin actions.</p>
+                <p className="text-xs text-neutral-400 mt-1">Display name used across admin actions.</p>
               </div>
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">Full Name</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">Full Name</label>
                 <input
                   type="text"
                   value={form.fullName}
@@ -46,44 +46,44 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
                 />
               </div>
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">Email Address</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">Email Address</label>
                 <input
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className="inp-field w-full"
                 />
-                <p className="text-xs text-on-surface-variant mt-1">Used for admin alerts and audit logs.</p>
+                <p className="text-xs text-neutral-400 mt-1">Used for admin alerts and audit logs.</p>
               </div>
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">Phone Number</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">Phone Number</label>
                 <input
                   type="tel"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="inp-field w-full"
                 />
-                <p className="text-xs text-on-surface-variant mt-1">Prefer +234 country format for SMS verifications.</p>
+                <p className="text-xs text-neutral-400 mt-1">Prefer +234 country format for SMS verifications.</p>
               </div>
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">Platform Role</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">Platform Role</label>
                 <input
                   type="text"
                   value={form.role}
                   disabled
                   className="inp-field w-full opacity-60 cursor-not-allowed"
                 />
-                <p className="text-xs text-on-surface-variant mt-1">Contact super admin to change platform role.</p>
+                <p className="text-xs text-neutral-400 mt-1">Contact super admin to change platform role.</p>
               </div>
               <div>
-                <label className="text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant mb-1 block">Account Status</label>
+                <label className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 mb-1 block">Account Status</label>
                 <input
                   type="text"
                   value="Active"
                   disabled
                   className="inp-field w-full opacity-60 cursor-not-allowed"
                 />
-                <p className="text-xs text-on-surface-variant mt-1">Locked status blocks dashboard access until cleared.</p>
+                <p className="text-xs text-neutral-400 mt-1">Locked status blocks dashboard access until cleared.</p>
               </div>
             </div>
           </div>
@@ -94,13 +94,13 @@ export default function AdminProfileClient({ user }: { user: unknown }) {
                 <User className="w-10 h-10" />
               </div>
               <button
-                className="absolute bottom-0 right-0 p-2 rounded-full border border-outline-variant bg-surface-container-lowest"
+                className="absolute bottom-0 right-0 p-2 rounded-full border border-[#262626] bg-obsidian-800/30"
               >
-                <Camera className="w-4 h-4 text-primary" />
+                <Camera className="w-4 h-4 text-white" />
               </button>
             </div>
-            <p className="mt-4 font-medium text-primary">{form.fullName}</p>
-            <p className="text-xs text-on-surface-variant">Admin since 2024</p>
+            <p className="mt-4 font-medium text-white">{form.fullName}</p>
+            <p className="text-xs text-neutral-400">Admin since 2024</p>
             <button className="btn btn-primary mt-4 w-full inline-flex items-center justify-center gap-2">
               <Save className="w-4 h-4" /> Save Changes
             </button>

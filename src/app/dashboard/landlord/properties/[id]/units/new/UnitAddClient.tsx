@@ -151,7 +151,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">
+        <h1 className="text-3xl font-bold text-white">
           Add Unit to {capitalizeWords(listingTitle || 'this property')}
         </h1>
         <p className="text-muted-foreground mt-1">
@@ -265,7 +265,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
               onRemoveFile={(index) => setPhotos((prev) => prev.filter((_, i) => i !== index))}
               showFileList
             >
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-outline-variant p-6 text-center">
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-[#262626] p-6 text-center">
                 <p className="text-sm text-muted-foreground">Drag and drop unit photos here, or click to browse</p>
               </div>
             </DroppableArea>

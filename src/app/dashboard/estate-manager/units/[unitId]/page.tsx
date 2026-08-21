@@ -147,7 +147,7 @@ export default function UnitDetailPage() {
               </h1>
             </div>
           </div>
-          <Card className="border-destructive/30 bg-destructive/5">
+          <Card className="border-red-500/30 bg-destructive/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load unit details</p>
@@ -167,7 +167,7 @@ export default function UnitDetailPage() {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -304,7 +304,7 @@ export default function UnitDetailPage() {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
 
               <Card>
                 <CardHeader>
@@ -337,7 +337,7 @@ export default function UnitDetailPage() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
             </div>
 
             {unit.currentTenant && (
@@ -380,7 +380,7 @@ export default function UnitDetailPage() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
             )}
           </TabsContent>
 
@@ -449,7 +449,7 @@ export default function UnitDetailPage() {
                   </div>
                 )}
               </CardContent>
-            </Card>
+            </div>
           </TabsContent>
 
           {/* Tenant History */}
@@ -511,7 +511,7 @@ export default function UnitDetailPage() {
                   </div>
                 )}
               </CardContent>
-            </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -34,7 +34,7 @@ export default function ManagedCollectionsPage() {
           {!loading && items.length === 0 && <p className="text-sm text-muted-foreground">No pending managed collections.</p>}
           <div className="space-y-4">
             {items.map((tx) => (
-              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-border/60 bg-background p-3">
+              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-[#262626]/60 bg-background p-3">
                 <div>
                   <p className="text-sm font-semibold">{String(tx.listing?.title || tx.reference)}</p>
                   <p className="text-xs text-muted-foreground">Tenant: {String(tx.payer?.fullName || tx.payerId)} • Landlord: {String(tx.payee?.fullName || tx.payeeId)}</p>
@@ -51,7 +51,7 @@ export default function ManagedCollectionsPage() {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </div>
     
       </ErrorBoundary>
 </DashboardShell>

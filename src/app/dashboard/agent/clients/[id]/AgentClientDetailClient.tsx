@@ -28,7 +28,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/clients"
-          className="p-2 rounded-xl hover:bg-surface-container text-neutral-400"
+          className="p-2 rounded-xl hover:bg-obsidian-800 text-neutral-400"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
@@ -84,7 +84,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
 
         <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
@@ -125,7 +125,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );

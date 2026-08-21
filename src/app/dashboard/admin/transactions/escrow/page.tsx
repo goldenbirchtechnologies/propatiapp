@@ -146,7 +146,7 @@ function EscrowClient({
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">
+          <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
             Escrow Transactions
           </h1>
           <p className="text-muted-foreground font-body-md mt-1">
@@ -185,7 +185,7 @@ function EscrowClient({
             className={`rounded-xl border shadow-sm p-lg ${
               card.danger
                 ? 'border-error/20 bg-error/5'
-                : 'border-outline-variant bg-surface'
+                : 'border-[#262626] bg-surface'
             }`}
           >
             <div
@@ -194,7 +194,7 @@ function EscrowClient({
               {card.label}
             </div>
             <div
-              className={`font-headline-md text-headline-md ${card.danger ? 'text-error' : 'text-primary'}`}
+              className={`font-headline-md text-headline-md ${card.danger ? 'text-error' : 'text-white'}`}
             >
               {card.value}
             </div>
@@ -204,9 +204,9 @@ function EscrowClient({
       </div>
 
       {/* Escrowed Transactions */}
-      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
-          <h3 className="font-headline-sm text-primary">Active Escrow Transactions</h3>
+      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
+          <h3 className="font-headline-sm text-white">Active Escrow Transactions</h3>
           <span className="text-xs text-muted-foreground">
             {escrowed.length} records
           </span>
@@ -217,7 +217,7 @@ function EscrowClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-container border-b border-outline-variant">
+                <tr className="bg-surface-container border-b border-[#262626]">
                   {['ID', 'Type', 'Amount', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
@@ -228,14 +228,14 @@ function EscrowClient({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="divide-y divide-[#262626]">
                 {escrowed.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-surface-container-low transition-colors">
-                    <td className="px-md py-4 font-label-sm text-label-sm text-primary whitespace-nowrap">
+                  <tr key={tx.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                    <td className="px-md py-4 font-label-sm text-label-sm text-white whitespace-nowrap">
                       {tx.reference || tx.id.slice(0, 12)}
                     </td>
                     <td className="px-md py-4 text-body-sm capitalize">{tx.type.replace(/_/g, ' ')}</td>
-                    <td className="px-md py-4 font-bold text-primary text-body-sm whitespace-nowrap">{formatKobo(tx.amount)}</td>
+                    <td className="px-md py-4 font-bold text-white text-body-sm whitespace-nowrap">{formatKobo(tx.amount)}</td>
                     <td className="px-md py-4 text-body-sm">{tx.payer?.fullName || '—'}</td>
                     <td className="px-md py-4 text-body-sm">{tx.payee?.fullName || '—'}</td>
                     <td className="px-md py-4">

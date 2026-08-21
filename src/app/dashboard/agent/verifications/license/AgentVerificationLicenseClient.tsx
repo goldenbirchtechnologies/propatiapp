@@ -94,17 +94,17 @@ export default function AgentVerificationLicenseClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl md:text-4xl font-bold">Professional License</h1>
-        <p className="mt-2 text-neutral-400-foreground max-w-2xl">
+        <p className="mt-2 text-neutral-400 max-w-2xl">
           To ensure the integrity of our marketplace, all agents must provide valid regulatory documentation.
           Verified agents receive a &apos;Certified&apos; badge on all listings.
         </p>
       </div>
 
       {/* Header Status */}
-      <Card className="bg-[#171717]/50 border border-border">
+      <Card className="bg-[#171717]/50 border border-[#262626]">
         <CardContent className="p-4 flex flex-wrap items-center gap-6">
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-neutral-400-foreground">
+            <span className="text-xs uppercase tracking-wider text-neutral-400">
               Current Status
             </span>
             <span className="flex items-center gap-2 font-bold">
@@ -114,13 +114,13 @@ export default function AgentVerificationLicenseClient() {
           </div>
           <div className="h-10 w-[1px] bg-border" />
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-neutral-400-foreground">
+            <span className="text-xs uppercase tracking-wider text-neutral-400">
               Last Update
             </span>
             <span className="font-bold">Oct 24, 2023</span>
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Form & Upload */}
@@ -128,7 +128,7 @@ export default function AgentVerificationLicenseClient() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white-foreground flex items-center justify-center font-bold text-sm">
+                <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white flex items-center justify-center font-bold text-sm">
                   1
                 </span>
                 <CardTitle>License Details</CardTitle>
@@ -177,12 +177,12 @@ export default function AgentVerificationLicenseClient() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white-foreground flex items-center justify-center font-bold text-sm">
+                <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white flex items-center justify-center font-bold text-sm">
                   2
                 </span>
                 <CardTitle>File Upload</CardTitle>
@@ -191,14 +191,14 @@ export default function AgentVerificationLicenseClient() {
             <CardContent className="space-y-4">
               <label
                 htmlFor="license-upload"
-                className="relative flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-10 cursor-pointer hover:border-primary hover:bg-[#171717]/30 transition-all"
+                className="relative flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-10 cursor-pointer hover:border-white hover:bg-[#171717]/30 transition-all"
               >
                 <input id="license-upload" type="file" accept=".pdf,.png,.jpg,.jpeg" className="absolute inset-0 opacity-0 cursor-pointer" />
                 <div className="w-16 h-16 rounded-full bg-[#00ff66]/10 flex items-center justify-center mb-4">
                   <FileUp className="h-8 w-8 text-white" />
                 </div>
                 <p className="font-bold text-lg mb-1">Drag & drop your certificate</p>
-                <p className="text-sm text-neutral-400-foreground text-center">
+                <p className="text-sm text-neutral-400 text-center">
                   Support for PDF, PNG, or JPEG. Maximum file size 5MB.
                 </p>
                 <Button variant="outline" className="mt-4">
@@ -213,12 +213,12 @@ export default function AgentVerificationLicenseClient() {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
 
         {/* Guidance */}
         <div className="lg:col-span-4 space-y-6">
-          <Card className="bg-[#00ff66] text-white-foreground">
+          <Card className="bg-[#00ff66] text-white">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#00ff66]" />
@@ -238,13 +238,13 @@ export default function AgentVerificationLicenseClient() {
                   </li>
                 ))}
               </ul>
-              <div className="p-3 bg-surface-container-lowest/10 rounded-xl border border-white/10">
+              <div className="p-3 bg-obsidian-800/30/10 rounded-xl border border-white/10">
                 <p className="text-xs italic opacity-70">
                   Verification typically takes 24-48 business hours. You&apos;ll receive a push notification once approved.
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           <Card>
             <CardHeader>
@@ -264,21 +264,21 @@ export default function AgentVerificationLicenseClient() {
                         step.status === 'done'
                           ? 'bg-green-600 text-white'
                           : step.status === 'pending'
-                            ? 'bg-[#00ff66] text-white-foreground animate-pulse'
-                            : 'bg-[#171717] text-neutral-400-foreground'
+                            ? 'bg-[#00ff66] text-white animate-pulse'
+                            : 'bg-[#171717] text-neutral-400'
                       }`}
                     >
                       <AppIcon name={step.status} className="lucide" />
                     </div>
                     <div>
                       <p className="text-sm font-bold">{step.label}</p>
-                      <p className="text-xs text-neutral-400-foreground">{step.sub}</p>
+                      <p className="text-xs text-neutral-400">{step.sub}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
       </div>
 
@@ -293,7 +293,7 @@ export default function AgentVerificationLicenseClient() {
         <CardContent className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-[#171717]/50 text-neutral-400-foreground">
+              <tr className="bg-[#171717]/50 text-neutral-400">
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">License Type</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Submitted</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Reference ID</th>
@@ -312,7 +312,7 @@ export default function AgentVerificationLicenseClient() {
                       <span className="font-medium text-sm">{s.licenseType}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-neutral-400-foreground">{s.submittedAt}</td>
+                  <td className="px-4 py-4 text-sm text-neutral-400">{s.submittedAt}</td>
                   <td className="px-4 py-4 text-sm font-mono">{s.refId}</td>
                   <td className="px-4 py-4">{statusBadge(s.status)}</td>
                   <td className="px-4 py-4">
@@ -333,7 +333,7 @@ export default function AgentVerificationLicenseClient() {
             </tbody>
           </table>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

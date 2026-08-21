@@ -41,7 +41,7 @@ export default async function AdminRevenuePage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Revenue</h1>
+            <h1 className="text-3xl font-bold text-white">Revenue</h1>
             <p className="text-muted-foreground mt-1">Track and analyze platform revenue and fees.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
@@ -50,28 +50,28 @@ export default async function AdminRevenuePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total Revenue</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{formatCurrency(totalReleased)}</p>
+            <p className="text-2xl font-bold text-white mt-2">{formatCurrency(totalReleased)}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Platform Fees</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{formatCurrency(totalPlatformFees)}</p>
+            <p className="text-2xl font-bold text-white mt-2">{formatCurrency(totalPlatformFees)}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Agent Commissions</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{formatCurrency(totalAgentCommissions)}</p>
+            <p className="text-2xl font-bold text-white mt-2">{formatCurrency(totalAgentCommissions)}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Volume</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{formatCurrency(totalVolume)}</p>
+            <p className="text-2xl font-bold text-white mt-2">{formatCurrency(totalVolume)}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-            <div className="px-6 py-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-foreground">Revenue by Type</h2>
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#262626]">
+              <h2 className="text-lg font-semibold text-white">Revenue by Type</h2>
             </div>
             <div className="p-6 space-y-3">
               {Object.entries(revenueByType).length === 0 ? (
@@ -79,17 +79,17 @@ export default async function AdminRevenuePage() {
               ) : (
                 Object.entries(revenueByType).map(([type, amount]) => (
                   <div key={type} className="flex items-center justify-between">
-                    <span className="text-foreground capitalize">{type.replace(/_/g, ' ')}</span>
-                    <span className="font-semibold text-foreground">{formatCurrency(amount)}</span>
+                    <span className="text-white capitalize">{type.replace(/_/g, ' ')}</span>
+                    <span className="font-semibold text-white">{formatCurrency(amount)}</span>
                   </div>
                 ))
               )}
             </div>
           </div>
 
-          <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-            <div className="px-6 py-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-foreground">Recent Released Payments</h2>
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#262626]">
+              <h2 className="text-lg font-semibold text-white">Recent Released Payments</h2>
             </div>
             {recentRevenue.length === 0 ? (
               <div className="p-12 text-center">
@@ -99,7 +99,7 @@ export default async function AdminRevenuePage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-border text-left text-muted-foreground">
+                    <tr className="border-b border-[#262626] text-left text-muted-foreground">
                       <th className="p-3 font-medium">Type</th>
                       <th className="p-3 font-medium">Amount</th>
                       <th className="p-3 font-medium">Date</th>
@@ -107,10 +107,10 @@ export default async function AdminRevenuePage() {
                   </thead>
                   <tbody>
                     {recentRevenue.map((tx) => (
-                      <tr key={tx.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
-                        <td className="p-3 text-foreground capitalize">{tx.type.replace(/_/g, ' ')}</td>
-                        <td className="p-3 text-foreground">{formatCurrency(tx.payeeAmount || tx.amount)}</td>
-                        <td className="p-3 text-foreground">{tx.paidAt ? new Date(tx.paidAt).toLocaleDateString('en-NG') : '—'}</td>
+                      <tr key={tx.id} className="border-b border-[#262626] last:border-0 hover:bg-obsidian-800-lowest/50">
+                        <td className="p-3 text-white capitalize">{tx.type.replace(/_/g, ' ')}</td>
+                        <td className="p-3 text-white">{formatCurrency(tx.payeeAmount || tx.amount)}</td>
+                        <td className="p-3 text-white">{tx.paidAt ? new Date(tx.paidAt).toLocaleDateString('en-NG') : '—'}</td>
                       </tr>
                     ))}
                   </tbody>

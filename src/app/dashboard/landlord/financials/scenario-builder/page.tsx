@@ -146,7 +146,7 @@ export default async function LandlordScenarioBuilderPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -174,11 +174,11 @@ export default async function LandlordScenarioBuilderPage() {
                       <p className="text-sm">{s.vacancy}</p>
                     </div>
                   </CardContent>
-                </Card>
+                </div>
               ))}
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

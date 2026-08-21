@@ -101,7 +101,7 @@ export default function AgreementsPage() {
                   <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
                   <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
                   <div className="h-3 bg-muted rounded w-2/3"></div>
-                </Card>
+                </div>
               ))}
             </div>
           ) : filteredAgreements.length === 0 ? (
@@ -121,7 +121,7 @@ export default function AgreementsPage() {
                   </Button>
                 )}
               </div>
-            </Card>
+            </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredAgreements.map((agreement) => (
@@ -166,7 +166,7 @@ export default function AgreementsPage() {
                     {/* Rent Amount */}
                     <div>
                       <p className="text-xs text-muted-foreground">Rent Amount</p>
-                      <p className="text-lg font-bold text-primary">
+                      <p className="text-lg font-bold text-white">
                         {formatCurrency(agreement.rentAmount || 0)}
                         <span className="text-sm font-normal text-muted-foreground">
                           /{agreement.rentPeriod || 'month'}
@@ -178,7 +178,7 @@ export default function AgreementsPage() {
                     <div className="flex justify-between text-xs text-muted-foreground">
                       <div>
                         <p>Start</p>
-                        <p className="font-medium text-foreground">
+                        <p className="font-medium text-white">
                           {agreement.startDate
                             ? format(new Date(agreement.startDate), 'MMM dd, yyyy')
                             : 'TBD'}
@@ -186,7 +186,7 @@ export default function AgreementsPage() {
                       </div>
                       <div>
                         <p>End</p>
-                        <p className="font-medium text-foreground">
+                        <p className="font-medium text-white">
                           {agreement.endDate
                             ? format(new Date(agreement.endDate), 'MMM dd, yyyy')
                             : 'TBD'}
@@ -216,7 +216,7 @@ export default function AgreementsPage() {
                       )}
                     </div>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           )}

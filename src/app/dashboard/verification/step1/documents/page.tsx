@@ -80,7 +80,7 @@ export default async function VerificationStep1DocumentsPage({
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
+          <h1 className="text-3xl font-bold text-white">
             Verification Step 1
           </h1>
           <p className="text-muted-foreground mt-1">

@@ -121,8 +121,8 @@ function AuditLogsClient({
     const lower = action.toLowerCase();
     if (lower.includes('blocked') || lower.includes('ban') || lower.includes('suspend'))
       return 'text-error';
-    if (lower.includes('approve') || lower.includes('verify')) return 'text-on-tertiary-container';
-    return 'text-primary';
+    if (lower.includes('approve') || lower.includes('verify')) return 'text-[#00ff66]';
+    return 'text-white';
   };
 
   const dotColor = (action: string) => {
@@ -136,7 +136,7 @@ function AuditLogsClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">System Audit Logs</h1>
+        <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">System Audit Logs</h1>
         <p className="text-muted-foreground font-body-md mt-1">
           Comprehensive immutable records of all administrative and system-level activities.
         </p>
@@ -165,13 +165,13 @@ function AuditLogsClient({
             icon: 'admin_panel_settings',
           },
         ].map((m) => (
-          <div key={m.label} className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm">
+          <div key={m.label} className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-muted-foreground font-medium">{m.label}</span>
               <AppIcon name={m.icon} className="lucide" size={20} />
             </div>
             <div
-              className={`font-headline-lg text-headline-lg ${m.danger ? 'text-error' : 'text-primary'}`}
+              className={`font-headline-lg text-headline-lg ${m.danger ? 'text-error' : 'text-white'}`}
             >
               {m.value}
             </div>
@@ -181,13 +181,13 @@ function AuditLogsClient({
       </div>
 
       {/* Filter Bar */}
-      <div className="rounded-xl border border-outline-variant bg-surface p-4 flex flex-wrap items-center gap-4">
-        <span className="flex items-center gap-2 font-label-md text-label-md text-primary font-bold">
+      <div className="rounded-xl border border-[#262626] bg-surface p-4 flex flex-wrap items-center gap-4">
+        <span className="flex items-center gap-2 font-label-md text-label-md text-white font-bold">
           <AppIcon name="filter_list" className="lucide" size={16} />
           Filters
         </span>
         <span className="h-6 w-px bg-outline-variant hidden sm:block" />
-        <select className="border border-outline-variant rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-[#262626] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Administrators</option>
           {adminUsers.map((a) => (
             <option key={a.id} value={a.id}>
@@ -195,7 +195,7 @@ function AuditLogsClient({
             </option>
           ))}
         </select>
-        <select className="border border-outline-variant rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-[#262626] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Action Types</option>
           <option value="approve">Approve</option>
           <option value="reject">Reject</option>
@@ -206,14 +206,14 @@ function AuditLogsClient({
       </div>
 
       {/* Audit Table */}
-      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
         {logs.length === 0 ? (
           <p className="p-lg text-sm text-muted-foreground text-center">No audit logs recorded yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-surface-container-low border-b border-outline-variant">
+                <tr className="bg-obsidian-800/30 border-b border-[#262626]">
                   {['Timestamp', 'Administrator', 'Module', 'Action', 'Description', 'IP Address', 'Detail'].map(
                     (h) => (
                       <th
@@ -226,11 +226,11 @@ function AuditLogsClient({
                   )}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="divide-y divide-[#262626]">
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-surface-container-low transition-colors">
+                  <tr key={log.id} className="hover:bg-obsidian-800-lowest transition-colors">
                     <td className="px-lg py-md whitespace-nowrap">
-                      <p className="font-label-md text-label-md text-primary">{formatDate(log.timestamp)}</p>
+                      <p className="font-label-md text-label-md text-white">{formatDate(log.timestamp)}</p>
                       <p className="font-label-sm text-label-sm text-muted-foreground">{formatTime(log.timestamp)}</p>
                     </td>
                     <td className="px-lg py-md whitespace-nowrap">
@@ -238,13 +238,13 @@ function AuditLogsClient({
                         <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
                           {initials(log.admin?.fullName || 'System')}
                         </div>
-                        <span className="font-label-md text-label-md text-primary font-semibold">
+                        <span className="font-label-md text-label-md text-white font-semibold">
                           {log.admin?.fullName || 'System'}
                         </span>
                       </div>
                     </td>
                     <td className="px-lg py-md whitespace-nowrap">
-                      <span className="inline-block px-2 py-1 rounded bg-surface-container-high text-primary text-xs uppercase font-bold">
+                      <span className="inline-block px-2 py-1 rounded bg-surface-container-high text-white text-xs uppercase font-bold">
                         {log.targetType}
                       </span>
                     </td>
@@ -275,7 +275,7 @@ function AuditLogsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-outline-variant flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-[#262626] flex items-center justify-between">
           <p className="text-xs text-muted-foreground">
             Showing {logs.length > 0 ? '1' : 0} to {logs.length} of {stats.todayCount.toLocaleString()} entries
           </p>

@@ -31,32 +31,32 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
-    certified: { class: 'bg-success/10 text-success border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
-    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
+    certified: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
-    approved: { class: 'bg-success/10 text-success border-success/20', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Approved', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-primary">
+        <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-white">
           Verifications
         </h1>
-        <p className="text-on-surface-variant">
+        <p className="text-neutral-400">
           Track 5-layer property verification and tier status.
         </p>
       </div>
 
       <DashboardSection loading={false} error={null}>
         {initialVerifications.length === 0 ? (
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant-body text-center py-16">
-            <Shield className="w-16 h-16 mx-auto mb-4 text-on-surface-variant" style={{ opacity: 0.5 }} />
-            <h3 className="text-primary">
+          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626]-body text-center py-16">
+            <Shield className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
+            <h3 className="text-white">
               No verifications
             </h3>
-            <p className="text-on-surface-variant">
+            <p className="text-neutral-400">
               Start a verification for your listings to earn the Certified badge.
             </p>
             <Link href="/dashboard/landlord/properties/new" className="btn btn-primary mt-4">
@@ -76,19 +76,19 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
               const progress = Math.round((approvedCount / 5) * 100);
 
               return (
-                <div key={v.id} className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+                <div key={v.id} className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className="bg-primary/10 text-primary"
+                        className="bg-[#262626] text-white"
                       >
                         <BuildingIcon className="w-6 h-6" />
                       </div>
                       <div>
-                        <h3 className="text-primary">
+                        <h3 className="text-white">
                           {v.listing?.title || 'Unknown'}
                         </h3>
-                        <p className="text-on-surface-variant">
+                        <p className="text-neutral-400">
                           {v.listing?.address}
                         </p>
                       </div>
@@ -101,7 +101,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
                   {/* Progress */}
                   <div className="mb-4">
-                    <div className="text-on-surface-variant">
+                    <div className="text-neutral-400">
                       <AppIcon name="Progress" className="lucide" />
                       <AppIcon name="{progress}%" className="lucide" />
                     </div>
@@ -125,29 +125,29 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                         <div
                           key={layer.key}
                           className={`flex items-center gap-3 p-3 rounded-lg ${
-                            isCurrent ? 'bg-primary/10 border border-primary' : 'border border-outline-variant bg-transparent'
+                            isCurrent ? 'bg-[#262626] border border-primary' : 'border border-[#262626] bg-transparent'
                           } ${
                             isApproved
-                              ? 'bg-success-bright/10 text-success'
+                              ? 'bg-[#00ff66]/10 text-[#00ff66]'
                               : isCurrent
-                                ? 'bg-primary/10 text-primary'
-                                : 'bg-outline-variant text-on-surface-variant'
+                                ? 'bg-[#262626] text-white'
+                                : 'bg-outline-variant text-neutral-400'
                           }`}
                         >
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${
                             isApproved
-                              ? 'bg-success-bright/10 text-success border-success-bright/20'
+                              ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20'
                               : isCurrent
-                                ? 'bg-primary/10 text-primary border-primary/20'
-                                : 'bg-outline-variant text-on-surface-variant border-outline-variant'
+                                ? 'bg-[#262626] text-white border-primary/20'
+                                : 'bg-outline-variant text-neutral-400 border-[#262626]'
                           }`}>
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-primary">
+                            <p className="text-white">
                               {layer.label}
                             </p>
-                            <p className="text-on-surface-variant">
+                            <p className="text-neutral-400">
                               {layer.desc}
                             </p>
                           </div>
@@ -161,7 +161,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   </div>
 
                   {/* Actions */}
-                  <div className="border-border flex items-center gap-2">
+                  <div className="border-[#262626] flex items-center gap-2">
                     <Link
                       href={`/dashboard/landlord/properties/${v.listingId}`}
                       className="btn btn-secondary w-full justify-center"

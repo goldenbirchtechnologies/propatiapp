@@ -35,7 +35,7 @@ export default async function AdminVerificationsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Verifications</h1>
+            <h1 className="text-3xl font-bold text-white">Verifications</h1>
             <p className="text-muted-foreground mt-1">Manage platform-wide user verifications.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
@@ -44,27 +44,27 @@ export default async function AdminVerificationsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{totalVerifications.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-white mt-2">{totalVerifications.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Not Started</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{pendingCount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-white mt-2">{pendingCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">In Progress</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{inProgressCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Certified</p>
             <p className="text-2xl font-bold text-green-600 mt-2">{certifiedCount.toLocaleString()}</p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">Recent Verifications</h2>
+        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-[#262626]">
+            <h2 className="text-lg font-semibold text-white">Recent Verifications</h2>
           </div>
           {recentVerifications.length === 0 ? (
             <div className="p-12 text-center">
@@ -74,7 +74,7 @@ export default async function AdminVerificationsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-muted-foreground">
+                  <tr className="border-b border-[#262626] text-left text-muted-foreground">
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Owner</th>
                     <th className="p-3 font-medium">Layer</th>
@@ -83,12 +83,12 @@ export default async function AdminVerificationsPage() {
                 </thead>
                 <tbody>
                   {recentVerifications.map((ver) => (
-                    <tr key={ver.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
-                      <td className="p-3 text-foreground">{ver.listing?.title ?? '—'}</td>
-                      <td className="p-3 text-foreground">{ver.owner?.fullName ?? '—'}</td>
-                      <td className="p-3 text-foreground">{ver.currentLayer}</td>
+                    <tr key={ver.id} className="border-b border-[#262626] last:border-0 hover:bg-obsidian-800-lowest/50">
+                      <td className="p-3 text-white">{ver.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-white">{ver.owner?.fullName ?? '—'}</td>
+                      <td className="p-3 text-white">{ver.currentLayer}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-white">
                           {ver.overallStatus.replace(/_/g, ' ')}
                         </span>
                       </td>

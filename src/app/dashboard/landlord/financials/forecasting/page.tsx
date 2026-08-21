@@ -61,7 +61,7 @@ export default async function LandlordFinancialForecastingPage() {
           </div>
           <Link
             href="/dashboard/landlord/revenue-forecast/report"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-surface-container-low transition-colors text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#262626] hover:bg-obsidian-800-lowest transition-colors text-sm font-medium"
           >
             View Full Forecast →
           </Link>
@@ -72,16 +72,16 @@ export default async function LandlordFinancialForecastingPage() {
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Projected Annual Revenue</p>
               <p className="text-2xl font-bold mt-2">₦{totalRevenue.toLocaleString()}</p>
-              <p className="text-sm text-success mt-1">From collected payments</p>
+              <p className="text-sm text-[#00ff66] mt-1">From collected payments</p>
             </CardContent>
-          </Card>
+          </div>
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">This Month</p>
               <p className="text-2xl font-bold mt-2">₦{currentMonthRevenue.toLocaleString()}</p>
               <p className="text-sm text-muted-foreground mt-1">{currentMonth ? Number(currentMonth.count) : 0} transactions</p>
             </CardContent>
-          </Card>
+          </div>
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Transactions YTD</p>
@@ -90,7 +90,7 @@ export default async function LandlordFinancialForecastingPage() {
               </p>
               <p className="text-sm text-muted-foreground mt-1">{monthlyData.length} active months</p>
             </CardContent>
-          </Card>
+          </div>
         </div>
 
         <Card>
@@ -123,7 +123,7 @@ export default async function LandlordFinancialForecastingPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

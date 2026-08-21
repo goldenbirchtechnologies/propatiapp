@@ -160,13 +160,13 @@ function AdminOverviewClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm hover:shadow-md transition-all"
+            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm hover:shadow-md transition-all"
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm text-muted-foreground font-medium">{card.label}</span>
               <AppIcon name={card.icon} className="lucide" size={20} />
             </div>
-            <div className="text-headline-md font-bold text-primary">{card.value}</div>
+            <div className="text-headline-md font-bold text-white">{card.value}</div>
             <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
           </div>
         ))}
@@ -175,9 +175,9 @@ function AdminOverviewClient({
       {/* Recent Users + Quick Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Users Table */}
-        <div className="lg:col-span-2 rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
-          <div className="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
-            <h3 className="font-headline-sm text-primary">Newest Users</h3>
+        <div className="lg:col-span-2 rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
+          <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
+            <h3 className="font-headline-sm text-white">Newest Users</h3>
             <span className="text-xs text-muted-foreground">Last 5 signups</span>
           </div>
           {recentUsers.length === 0 ? (
@@ -186,22 +186,22 @@ function AdminOverviewClient({
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-surface-container text-muted-foreground border-b border-outline-variant">
+                  <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-outline-variant">
+                <tbody className="divide-y divide-[#262626]">
                   {recentUsers.map((u) => (
-                    <tr key={u.id} className="hover:bg-surface-container-low transition-colors">
+                    <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
                       <td className="px-lg py-md">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">
                             {initials(u.fullName || u.email)}
                           </div>
                           <div>
-                            <div className="font-bold text-primary text-sm">{u.fullName}</div>
+                            <div className="font-bold text-white text-sm">{u.fullName}</div>
                             <div className="text-xs text-muted-foreground">{u.email}</div>
                           </div>
                         </div>
@@ -220,8 +220,8 @@ function AdminOverviewClient({
 
         {/* Platform Health Sidebar */}
         <div className="space-y-4">
-          <div className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm">
-            <h3 className="font-headline-sm text-primary mb-3">Platform Health</h3>
+          <div className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
+            <h3 className="font-headline-sm text-white mb-3">Platform Health</h3>
             <div className="space-y-3">
               {[
                 { label: 'Active Listings', value: `${kpi.activeListings.toLocaleString()} / ${kpi.totalListings.toLocaleString()}` },
@@ -231,16 +231,16 @@ function AdminOverviewClient({
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{item.label}</span>
-                  <span className="font-bold text-primary">{item.value}</span>
+                  <span className="font-bold text-white">{item.value}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm">
-            <h3 className="font-headline-sm text-primary mb-2">Trend Snapshot</h3>
+          <div className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
+            <h3 className="font-headline-sm text-white mb-2">Trend Snapshot</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Revenue tracked to date includes{' '}
-              <span className="font-bold text-primary">released</span> and{' '}
+              <span className="font-bold text-white">released</span> and{' '}
               <span className="font-bold text-secondary">in-escrow</span> transactions.
               {kpi.disputeCount > 0 && (
                 <> <span className="text-error font-bold">{kpi.disputeCount}</span> open disputes require attention.</>

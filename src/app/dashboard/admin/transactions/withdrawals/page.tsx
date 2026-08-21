@@ -139,7 +139,7 @@ function WithdrawalsClient({
       case 'in_escrow':
         return 'bg-secondary-container text-on-secondary-container';
       case 'pending':
-        return 'bg-outline-variant text-primary';
+        return 'bg-outline-variant text-white';
       case 'failed':
         return 'bg-error/10 text-error';
       default:
@@ -150,7 +150,7 @@ function WithdrawalsClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight">
+        <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
           Withdrawals &amp; Financials
         </h1>
         <p className="text-muted-foreground font-body-md mt-1">
@@ -184,19 +184,19 @@ function WithdrawalsClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-outline-variant bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm"
           >
             <div className="text-sm text-muted-foreground font-medium mb-2">{card.label}</div>
-            <div className="font-headline-md text-headline-md text-primary leading-tight">{card.value}</div>
+            <div className="font-headline-md text-headline-md text-white leading-tight">{card.value}</div>
             <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Transaction Feed */}
-      <div className="rounded-xl border border-outline-variant bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-md bg-surface-container-low">
-          <h3 className="font-headline-sm text-primary">Recent Transactions</h3>
+      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-[#262626] flex flex-col md:flex-row md:items-center justify-between gap-md bg-obsidian-800/30">
+          <h3 className="font-headline-sm text-white">Recent Transactions</h3>
           <span className="text-xs text-muted-foreground">
             Showing {transactions.length} most recent
           </span>
@@ -207,7 +207,7 @@ function WithdrawalsClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-container border-b border-outline-variant">
+                <tr className="bg-surface-container border-b border-[#262626]">
                   {['ID', 'Type', 'Amount', 'Fee', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
@@ -218,14 +218,14 @@ function WithdrawalsClient({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="divide-y divide-[#262626]">
                 {transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-surface-container-low transition-colors">
-                    <td className="px-md py-4 font-label-sm text-label-sm text-primary whitespace-nowrap">
+                  <tr key={tx.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                    <td className="px-md py-4 font-label-sm text-label-sm text-white whitespace-nowrap">
                       {tx.reference || tx.id.slice(0, 12)}
                     </td>
                     <td className="px-md py-4 text-body-sm capitalize">{tx.type.replace(/_/g, ' ')}</td>
-                    <td className="px-md py-4 font-bold text-primary text-body-sm whitespace-nowrap">
+                    <td className="px-md py-4 font-bold text-white text-body-sm whitespace-nowrap">
                       {formatKobo(tx.amount)}
                     </td>
                     <td className="px-md py-4 text-xs text-muted-foreground whitespace-nowrap">
@@ -267,7 +267,7 @@ function WithdrawalsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-outline-variant flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-[#262626] flex items-center justify-between">
           <p className="text-xs text-muted-foreground">
             {transactions.length} records shown
           </p>

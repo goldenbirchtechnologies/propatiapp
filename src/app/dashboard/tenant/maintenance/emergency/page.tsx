@@ -22,8 +22,8 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-foreground">Refined Emergency Hotline State Maintenance</h1>
+        <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-white">Refined Emergency Hotline State Maintenance</h1>
           <p className="text-muted-foreground mt-1">PROPATI - New Maintenance Request PROPATI Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
         </section>
         <div className="flex flex-wrap gap-2">
@@ -46,12 +46,12 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
               <li>Fast Response</li>
             </ul>
           </CardContent>
-        </Card>
+        </div>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>refined_emergency_hotline_state_propati_maintenance.html</strong></p>
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

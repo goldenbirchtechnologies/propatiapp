@@ -78,26 +78,26 @@ export default async function LandlordOverduePaymentsPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Overdue Payment Notices</h1>
+          <h1 className="text-3xl font-bold text-white">Overdue Payment Notices</h1>
           <p className="text-muted-foreground mt-1">Track and manage overdue rent and service charge payments.</p>
         </div>
 
         {rows.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-success font-medium">No overdue payments</p>
+              <p className="text-[#00ff66] font-medium">No overdue payments</p>
               <p className="text-sm text-muted-foreground mt-1">All rent schedules and invoices are up to date.</p>
             </CardContent>
-          </Card>
+          </div>
         ) : (
-          <div className="rounded-xl border border-outline-variant shadow-sm overflow-hidden">
-            <div className="p-5 border-b border-outline-variant flex justify-between items-center">
+          <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
+            <div className="p-5 border-b border-[#262626] flex justify-between items-center">
               <h3 className="font-heading font-bold">Overdue Accounts</h3>
               <span className="text-sm text-muted-foreground">{rows.length} Accounts</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-surface-container-high border-b border-outline-variant">
+                <thead className="bg-surface-container-high border-b border-[#262626]">
                   <tr>
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Reference</th>
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Type</th>
@@ -108,17 +108,17 @@ export default async function LandlordOverduePaymentsPage() {
                     <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Notice Sent</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-outline-variant">
+                <tbody className="divide-y divide-[#262626]">
                   {rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-surface-container-low transition-colors">
+                    <tr key={row.id} className="hover:bg-obsidian-800-lowest transition-colors">
                       <td className="px-5 py-4 text-sm font-mono text-muted-foreground">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>
                       <td className="px-5 py-4 text-sm text-muted-foreground">{row.unit}</td>
-                      <td className="px-5 py-4 text-sm font-medium text-destructive">₦{row.amount.toLocaleString()}</td>
-                      <td className="px-5 py-4 text-sm text-destructive font-bold">{row.days} days</td>
+                      <td className="px-5 py-4 text-sm font-medium text-red-500">₦{row.amount.toLocaleString()}</td>
+                      <td className="px-5 py-4 text-sm text-red-500 font-bold">{row.days} days</td>
                       <td className="px-5 py-4">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${row.noticeSent ? 'bg-success/10 text-success border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'}`}>
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${row.noticeSent ? 'bg-success/10 text-[#00ff66] border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'}`}>
                           {row.noticeSent ? 'Sent' : 'Pending'}
                         </span>
                       </td>

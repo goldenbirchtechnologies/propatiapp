@@ -53,12 +53,12 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
               onClick={() => toggle(opt.value)}
               className={`relative cursor-pointer transition border-2 min-w-[140px] ${
                 isActive
-                  ? 'border-primary bg-primary/10'
-                  : 'border-border hover:border-primary/40'
+                  ? 'border-primary bg-[#262626]'
+                  : 'border-[#262626] hover:border-white/40'
               }`}
             >
               {isActive && (
-                <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-1">
                   <Check className="w-3 h-3" />
                 </div>
               )}
@@ -66,7 +66,7 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
                 <div className="font-medium text-sm">{opt.label}</div>
                 <div className="text-xs text-muted-foreground">{opt.description}</div>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

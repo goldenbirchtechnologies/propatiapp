@@ -123,7 +123,7 @@ export default function NewAgreementPage() {
               <div
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   currentStep >= step
-                    ? 'bg-primary text-primary-foreground border-primary'
+                    ? 'bg-primary text-white border-primary'
                     : 'bg-background border-muted'
                 }`}
               >
@@ -169,7 +169,7 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.listingId && (
-                  <p className="text-sm text-destructive mt-1">{errors.listingId.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.listingId.message}</p>
                 )}
               </div>
 
@@ -181,7 +181,7 @@ export default function NewAgreementPage() {
                   placeholder="Enter tenant email or ID"
                 />
                 {errors.tenantId && (
-                  <p className="text-sm text-destructive mt-1">{errors.tenantId.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.tenantId.message}</p>
                 )}
                 <p className="text-sm text-muted-foreground mt-1">
                   The tenant will receive an invitation to review and sign the agreement.
@@ -205,11 +205,11 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.type && (
-                  <p className="text-sm text-destructive mt-1">{errors.type.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.type.message}</p>
                 )}
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Step 2: Agreement Terms */}
@@ -226,7 +226,7 @@ export default function NewAgreementPage() {
                   {...register('startDate')}
                 />
                 {errors.startDate && (
-                  <p className="text-sm text-destructive mt-1">{errors.startDate.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.startDate.message}</p>
                 )}
               </div>
 
@@ -238,14 +238,14 @@ export default function NewAgreementPage() {
                   {...register('endDate')}
                 />
                 {errors.endDate && (
-                  <p className="text-sm text-destructive mt-1">{errors.endDate.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.endDate.message}</p>
                 )}
               </div>
             </div>
 
             {calculateLeaseDuration() && (
               <div className="bg-accent/10 p-4 rounded-lg">
-                <p className="text-sm font-medium text-primary">
+                <p className="text-sm font-medium text-white">
                   Lease Duration: {calculateLeaseDuration()} months
                 </p>
               </div>
@@ -261,7 +261,7 @@ export default function NewAgreementPage() {
                   placeholder="e.g., 500000"
                 />
                 {errors.rentAmount && (
-                  <p className="text-sm text-destructive mt-1">{errors.rentAmount.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.rentAmount.message}</p>
                 )}
               </div>
 
@@ -281,7 +281,7 @@ export default function NewAgreementPage() {
                   </SelectContent>
                 </Select>
                 {errors.rentPeriod && (
-                  <p className="text-sm text-destructive mt-1">{errors.rentPeriod.message}</p>
+                  <p className="text-sm text-red-500 mt-1">{errors.rentPeriod.message}</p>
                 )}
               </div>
 
@@ -315,7 +315,7 @@ export default function NewAgreementPage() {
                 />
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Step 3: Review & Create */}
@@ -415,7 +415,7 @@ export default function NewAgreementPage() {
                 </div>
               )}
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Navigation Buttons */}

@@ -45,7 +45,7 @@ export default async function LandlordVerificationPage() {
             <h1 className="font-heading font-bold">
               Property Verification
             </h1>
-            <p className="text-on-surface-variant">
+            <p className="text-neutral-400">
               Complete the 5-layer verification to get the Certified badge and attract more tenants
             </p>
           </div>
@@ -75,16 +75,16 @@ export default async function LandlordVerificationPage() {
 
         {/* Properties with Verification Status */}
         <section>
-          <h2 className="text-primary">Your Properties</h2>
+          <h2 className="text-white">Your Properties</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (
               <VerificationCard key={listing.id} listing={listing} />
             ))}
             {listings.length === 0 && (
-              <div className="col-span-full bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center">
+              <div className="col-span-full bg-obsidian-800/30 rounded-xl border border-[#262626] p-12 text-center">
                 <BuildingIcon className="w-5 h-5" />
-                <h3 className="text-primary">No properties to verify</h3>
-                <p className="text-on-surface-variant">Add a property to start the verification process.</p>
+                <h3 className="text-white">No properties to verify</h3>
+                <p className="text-neutral-400">Add a property to start the verification process.</p>
                 <Link href="/dashboard/landlord/properties/new" className="btn btn-primary">
                   <PlusIcon className="w-4 h-4 mr-2" /> Add Property
                 </Link>
@@ -103,22 +103,22 @@ export default async function LandlordVerificationPage() {
 
 function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trend?: string; trendPositive?: boolean }) {
   return (
-    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+    <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-on-surface-variant">{label}</p>
-          <p className="text-primary">{value}</p>
+          <p className="text-neutral-400">{label}</p>
+          <p className="text-white">{value}</p>
         </div>
-        <div className="bg-primary/10 text-primary">
+        <div className="bg-[#262626] text-white">
           {Icon}
         </div>
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-on-surface-variant'}`}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-neutral-400'}`}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className={`text-xs ${trendPositive ? 'text-success' : 'text-on-surface-variant'}`}>
+          <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-neutral-400'}`}>
             {trend}
           </span>
         </div>
@@ -142,11 +142,11 @@ function VerificationCard({ listing }: { listing: unknown }) {
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
-    certified: { class: 'bg-success/10 text-success border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
-    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
+    certified: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    approved: { class: 'bg-success/10 text-success border-success/20', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
   };
 
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;
@@ -164,15 +164,15 @@ function VerificationCard({ listing }: { listing: unknown }) {
   const progress = Math.round(approvedCount * 100);
 
   return (
-    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+    <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 text-primary">
+          <div className="bg-[#262626] text-white">
             <BuildingIcon className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-primary">{listing.title}</h3>
-            <p className="text-on-surface-variant">{listing.area}, {listing.state}</p>
+            <h3 className="text-white">{listing.title}</h3>
+            <p className="text-neutral-400">{listing.area}, {listing.state}</p>
           </div>
         </div>
         <span className={`tag ${overallConfig.class} flex items-center gap-1`}>
@@ -183,7 +183,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
 
       {/* Progress Bar */}
       <div className="mb-4">
-        <div className="text-on-surface-variant">
+        <div className="text-neutral-400">
           <AppIcon name="Progress" className="lucide" />
           <span>{progress}%</span>
         </div>
@@ -209,7 +209,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
           return (
             <div
               key={layer.key}
-              className={`flex items-center gap-3 p-3 rounded-lg ${isCurrent ? 'bg-primary/10 border border-primary' : 'bg-transparent border border-outline-variant'}`}
+              className={`flex items-center gap-3 p-3 rounded-lg ${isCurrent ? 'bg-[#262626] border border-primary' : 'bg-transparent border border-[#262626]'}`}
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                 style={{
@@ -224,8 +224,8 @@ function VerificationCard({ listing }: { listing: unknown }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-primary">{layer.label}</p>
-                <p className="text-on-surface-variant">{layer.desc}</p>
+                <p className="text-white">{layer.label}</p>
+                <p className="text-neutral-400">{layer.desc}</p>
               </div>
               <span className={`tag ${config.class} flex items-center gap-1 whitespace-nowrap`}>
                 {config.icon}
@@ -237,7 +237,7 @@ function VerificationCard({ listing }: { listing: unknown }) {
       </div>
 
       {/* Action Button */}
-      <div className="border-border">
+      <div className="border-[#262626]">
         {overallStatus === 'certified' ? (
           <Link
             href={`/dashboard/landlord/properties/${listing.id}`}

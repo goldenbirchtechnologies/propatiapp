@@ -12,13 +12,13 @@ export default function SettingsDashboardClient() {
         {/* Header Section */}
         <section className="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
           <div>
-            <h2 className="font-headline-lg text-headline-lg text-primary">System Settings</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant">
+            <h2 className="font-headline-lg text-headline-lg text-white">System Settings</h2>
+            <p className="font-body-md text-body-md text-neutral-400">
               Manage platform-wide configurations, security, and integrations.
             </p>
           </div>
           <div className="flex gap-md">
-            <button className="px-lg py-md rounded-lg border border-primary text-primary font-label-md hover:bg-surface-container transition-all">
+            <button className="px-lg py-md rounded-lg border border-primary text-white font-label-md hover:bg-obsidian-800 transition-all">
               Discard
             </button>
             <button className="px-xl py-md rounded-lg bg-primary text-on-primary font-label-md shadow-sm hover:shadow-md transition-all">
@@ -37,24 +37,24 @@ export default function SettingsDashboardClient() {
             </div>
             <div className="space-y-md">
               <div className="group">
-                <label className="font-label-sm text-on-surface-variant block mb-xs">Platform Name</label>
+                <label className="font-label-sm text-neutral-400 block mb-xs">Platform Name</label>
                 <input
-                  className="w-full border border-outline-variant rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                  className="w-full border border-[#262626] rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   type="text"
                   defaultValue="PROPATI"
                 />
               </div>
               <div className="group">
-                <label className="font-label-sm text-on-surface-variant block mb-xs">Contact Email</label>
+                <label className="font-label-sm text-neutral-400 block mb-xs">Contact Email</label>
                 <input
-                  className="w-full border border-outline-variant rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                  className="w-full border border-[#262626] rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   type="email"
                   defaultValue="admin@propati.ng"
                 />
               </div>
               <div className="group">
-                <label className="font-label-sm text-on-surface-variant block mb-xs">Timezone</label>
-                <select className="w-full border border-outline-variant rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                <label className="font-label-sm text-neutral-400 block mb-xs">Timezone</label>
+                <select className="w-full border border-[#262626] rounded-lg px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all">
                   <option selected={true}>WAT (West Africa Time)</option>
                   <option>GMT (Greenwich Mean Time)</option>
                 </select>
@@ -73,21 +73,21 @@ export default function SettingsDashboardClient() {
                 <span className="px-md py-1 rounded-full text-label-sm font-label-sm verified-pill">Secured</span>
               </div>
               <div className="space-y-md">
-                <div className="flex justify-between items-center py-sm border-b border-outline-variant">
+                <div className="flex justify-between items-center py-sm border-b border-[#262626]">
                   <span className="text-body-sm font-medium">2FA Status</span>
-                  <span className="text-on-tertiary-container font-label-md">Enforced</span>
+                  <span className="text-[#00ff66] font-label-md">Enforced</span>
                 </div>
-                <div className="flex justify-between items-center py-sm border-b border-outline-variant">
+                <div className="flex justify-between items-center py-sm border-b border-[#262626]">
                   <span className="text-body-sm font-medium">Active Admin Sessions</span>
                   <span className="bg-surface-container-high px-md py-xs rounded text-label-sm font-label-sm">12 Active</span>
                 </div>
                 <div className="flex justify-between items-center py-sm">
                   <span className="text-body-sm font-medium">Last Security Audit</span>
-                  <span className="text-on-surface-variant font-label-sm">Oct 24, 2023</span>
+                  <span className="text-neutral-400 font-label-sm">Oct 24, 2023</span>
                 </div>
               </div>
             </div>
-            <button className="w-full mt-md text-primary font-label-md flex items-center justify-center gap-sm hover:underline">
+            <button className="w-full mt-md text-white font-label-md flex items-center justify-center gap-sm hover:underline">
               View Full Security Log <AppIcon name="arrow_forward" className="lucide" />
             </button>
           </div>
@@ -100,21 +100,21 @@ export default function SettingsDashboardClient() {
             </div>
             <div className="space-y-lg">
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#00ff66]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-primary">Payment Gateway</p>
-                  <p className="text-xs text-on-surface-variant">Paystack • Online</p>
+                  <p className="text-sm font-bold text-white">Payment Gateway</p>
+                  <p className="text-xs text-neutral-400">Paystack • Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#00ff66]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-primary">SMS Service</p>
-                  <p className="text-xs text-on-surface-variant">Twilio • Online</p>
+                  <p className="text-sm font-bold text-white">SMS Service</p>
+                  <p className="text-xs text-neutral-400">Twilio • Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-md">
@@ -122,8 +122,8 @@ export default function SettingsDashboardClient() {
                   <AppIcon name="warning" className="lucide" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-primary">Email (SendGrid)</p>
-                  <p className="text-xs text-on-surface-variant">Degraded • Check logs</p>
+                  <p className="text-sm font-bold text-white">Email (SendGrid)</p>
+                  <p className="text-xs text-neutral-400">Degraded • Check logs</p>
                 </div>
               </div>
             </div>
@@ -131,15 +131,15 @@ export default function SettingsDashboardClient() {
         </div>
 
         {/* Tabbed Settings Section */}
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden mb-lg">
-          <div className="flex border-b border-outline-variant overflow-x-auto">
-            <button className="px-lg py-md font-label-md text-label-md text-primary border-b-2 border-primary font-bold whitespace-nowrap">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] shadow-sm overflow-hidden mb-lg">
+          <div className="flex border-b border-[#262626] overflow-x-auto">
+            <button className="px-lg py-md font-label-md text-label-md text-white border-b-2 border-primary font-bold whitespace-nowrap">
               Platform Logic
             </button>
-            <button className="px-lg py-md font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+            <button className="px-lg py-md font-label-md text-label-md text-neutral-400 hover:text-white transition-colors whitespace-nowrap">
               Localization & Advanced
             </button>
-            <button className="px-lg py-md font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">
+            <button className="px-lg py-md font-label-md text-label-md text-neutral-400 hover:text-white transition-colors whitespace-nowrap">
               Maintenance Mode
             </button>
           </div>
@@ -147,58 +147,58 @@ export default function SettingsDashboardClient() {
           {/* Platform Logic Content */}
           <div className="p-lg space-y-xl">
             <div>
-              <h4 className="font-headline-sm text-primary mb-md">Registration Settings</h4>
+              <h4 className="font-headline-sm text-white mb-md">Registration Settings</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center justify-between p-4 rounded-xl border border-outline-variant bg-surface-container-low">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-[#262626] bg-obsidian-800/30">
                   <div>
-                    <p className="font-bold text-primary text-sm">Auto-Verify Properties</p>
-                    <p className="text-xs text-on-surface-variant">Automatically approve properties with valid docs</p>
+                    <p className="font-bold text-white text-sm">Auto-Verify Properties</p>
+                    <p className="text-xs text-neutral-400">Automatically approve properties with valid docs</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-outline-variant bg-surface-container-low">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-[#262626] bg-obsidian-800/30">
                   <div>
-                    <p className="font-bold text-primary text-sm">Require Email Verification</p>
-                    <p className="text-xs text-on-surface-variant">Block logins until email is confirmed</p>
+                    <p className="font-bold text-white text-sm">Require Email Verification</p>
+                    <p className="text-xs text-neutral-400">Block logins until email is confirmed</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-outline-variant bg-surface-container-low">
+                <div className="flex items-center justify-between p-4 rounded-xl border border-[#262626] bg-obsidian-800/30">
                   <div>
-                    <p className="font-bold text-primary text-sm">Enable Agent Commissions</p>
-                    <p className="text-xs text-on-surface-variant">Allow agents to earn on closed deals</p>
+                    <p className="font-bold text-white text-sm">Enable Agent Commissions</p>
+                    <p className="text-xs text-neutral-400">Allow agents to earn on closed deals</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-surface-container-lowest after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
             </div>
 
             {/* Asymmetric Detail Section: System Health */}
-            <div className="p-lg rounded-xl bg-surface-container-low border border-outline-variant">
+            <div className="p-lg rounded-xl bg-obsidian-800/30 border border-[#262626]">
               <div className="flex items-center gap-sm mb-lg">
                 <AppIcon name="monitoring" className="lucide" />
-                <h4 className="font-headline-sm text-primary">System Health</h4>
+                <h4 className="font-headline-sm text-white">System Health</h4>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-surface border border-outline-variant">
-                  <p className="text-xs text-on-surface-variant mb-1">API Latency</p>
-                  <p className="text-2xl font-bold text-primary">42ms</p>
+                <div className="p-4 rounded-xl bg-surface border border-[#262626]">
+                  <p className="text-xs text-neutral-400 mb-1">API Latency</p>
+                  <p className="text-2xl font-bold text-white">42ms</p>
                   <div className="w-full bg-surface-container rounded-full h-1.5 mt-2">
                     <div className="h-full bg-success rounded-full" style={{ width: '95%' }}></div>
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-surface border border-outline-variant">
-                  <p className="text-xs text-on-surface-variant mb-1">DB Connection Pool</p>
-                  <p className="text-2xl font-bold text-primary">68/100</p>
+                <div className="p-4 rounded-xl bg-surface border border-[#262626]">
+                  <p className="text-xs text-neutral-400 mb-1">DB Connection Pool</p>
+                  <p className="text-2xl font-bold text-white">68/100</p>
                   <div className="w-full bg-surface-container rounded-full h-1.5 mt-2">
                     <div className="h-full bg-warning rounded-full" style={{ width: '68%' }}></div>
                   </div>
@@ -209,17 +209,17 @@ export default function SettingsDashboardClient() {
         </div>
 
         {/* Footer Fixed Save Bar */}
-        <div className="fixed bottom-0 left-64 right-0 bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant py-4 px-gutter flex justify-between items-center z-40">
+        <div className="fixed bottom-0 left-64 right-0 bg-obsidian-800/30/80 backdrop-blur-md border-t border-[#262626] py-4 px-gutter flex justify-between items-center z-40">
           <div className="flex items-center gap-4">
-            <span className="lucide text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
+            <span className="lucide text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }}>
               check_circle
             </span>
-            <p className="text-body-sm text-on-surface-variant">
-              System-wide auto-save enabled. Last saved <span className="font-bold text-primary">12 seconds ago</span>.
+            <p className="text-body-sm text-neutral-400">
+              System-wide auto-save enabled. Last saved <span className="font-bold text-white">12 seconds ago</span>.
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest mr-4">
+            <p className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest mr-4">
               Revision History: V4.1.09
             </p>
             <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">

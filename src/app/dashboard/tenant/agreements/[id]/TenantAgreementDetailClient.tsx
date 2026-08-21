@@ -56,14 +56,14 @@ const statusConfig: Record<
   string,
   { label: string; class: string }
 > = {
-  draft: { label: 'Draft', class: 'bg-muted text-muted-foreground border-border' },
-  pending_landlord: { label: 'Pending Landlord', class: 'bg-primary/10 text-primary border-primary/30' },
+  draft: { label: 'Draft', class: 'bg-muted text-muted-foreground border-[#262626]' },
+  pending_landlord: { label: 'Pending Landlord', class: 'bg-[#262626] text-white border-primary/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
-  tenant_signed: { label: 'Tenant Signed', class: 'bg-success-bright/10 text-success border-success-bright/20' },
-  landlord_signed: { label: 'Landlord Signed', class: 'bg-success-bright/10 text-success border-success-bright/20' },
-  fully_signed: { label: 'Fully Signed', class: 'bg-success-bright/10 text-success border-success-bright/20' },
-  terminated: { label: 'Terminated', class: 'bg-destructive/10 text-destructive border-destructive/20' },
-  expired: { label: 'Expired', class: 'bg-muted text-muted-foreground border-border' },
+  tenant_signed: { label: 'Tenant Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
+  landlord_signed: { label: 'Landlord Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
+  fully_signed: { label: 'Fully Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
+  terminated: { label: 'Terminated', class: 'bg-red-500/10 text-red-500 border-red-500/20' },
+  expired: { label: 'Expired', class: 'bg-muted text-muted-foreground border-[#262626]' },
 };
 
 function fmtCurrency(value: number) {
@@ -105,7 +105,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold text-foreground">Agreement Details</h1>
+        <h1 className="text-3xl font-bold text-white">Agreement Details</h1>
         <Badge className={status.class}>{status.label}</Badge>
       </div>
 
@@ -119,35 +119,35 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
             {coverImage && (
-              <div className="rounded-xl overflow-hidden border border-border">
+              <div className="rounded-xl overflow-hidden border border-[#262626]">
                 <img src={coverImage.url} alt={agreement.listing?.title || ''} className="w-full h-48 object-cover" />
               </div>
             )}
             <div className="space-y-3">
               <div>
                 <p className="text-sm text-muted-foreground">Property</p>
-                <p className="font-medium text-foreground">{agreement.listing?.title}</p>
+                <p className="font-medium text-white">{agreement.listing?.title}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location</p>
-                <p className="font-medium text-foreground">
+                <p className="font-medium text-white">
                   {agreement.listing?.area}
                   {agreement.listing?.state ? `, ${agreement.listing.state}` : ''}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Rent</p>
-                <p className="font-medium text-foreground">{fmtCurrency(agreement.rentAmount)} {agreement.rentPeriod ? `/ ${agreement.rentPeriod}` : ''}</p>
+                <p className="font-medium text-white">{fmtCurrency(agreement.rentAmount)} {agreement.rentPeriod ? `/ ${agreement.rentPeriod}` : ''}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Period</p>
-                <p className="font-medium text-foreground">
+                <p className="font-medium text-white">
                   {agreement.startDate ? new Date(agreement.startDate).toLocaleDateString('en-NG') : '—'} – {agreement.endDate ? new Date(agreement.endDate).toLocaleDateString('en-NG') : '—'}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Jurisdiction</p>
-                <p className="font-medium text-foreground">
+                <p className="font-medium text-white">
                   {agreement.jurisdictionState ? `${agreement.jurisdictionState}` : '—'}
                   {agreement.governingStatute ? ` • ${agreement.governingStatute}` : ''}
                 </p>
@@ -158,11 +158,11 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
           {agreement.specialClauses && (
             <div className="mt-4">
               <p className="text-sm text-muted-foreground">Special Clauses</p>
-              <p className="text-sm whitespace-pre-wrap text-foreground">{agreement.specialClauses}</p>
+              <p className="text-sm whitespace-pre-wrap text-white">{agreement.specialClauses}</p>
             </div>
           )}
         </CardContent>
-      </Card>
+      </div>
 
       <Card>
         <CardHeader>
@@ -175,22 +175,22 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
           <div className="grid md:grid-cols-3 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Landlord</p>
-              <p className="font-medium text-foreground">{agreement.landlord?.fullName || 'Unknown'}</p>
+              <p className="font-medium text-white">{agreement.landlord?.fullName || 'Unknown'}</p>
               <p className="text-xs text-muted-foreground">{agreement.landlord?.email}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Tenant</p>
-              <p className="font-medium text-foreground">{agreement.tenant?.fullName || 'Unknown'}</p>
+              <p className="font-medium text-white">{agreement.tenant?.fullName || 'Unknown'}</p>
               <p className="text-xs text-muted-foreground">{agreement.tenant?.email}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Agent</p>
-              <p className="font-medium text-foreground">{agreement.agent?.fullName || '—'}</p>
+              <p className="font-medium text-white">{agreement.agent?.fullName || '—'}</p>
               <p className="text-xs text-muted-foreground">{agreement.agent?.email}</p>
             </div>
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       <Card>
         <CardHeader>
@@ -204,9 +204,9 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             {['landlord', 'tenant', 'agent'].map((role) => {
               const sig = agreement.signatures.find((s) => s.role === role);
               return (
-                <div key={role} className="flex items-center justify-between border border-border rounded-lg p-3">
+                <div key={role} className="flex items-center justify-between border border-[#262626] rounded-lg p-3">
                   <div>
-                    <p className="text-sm font-medium capitalize text-foreground">{role}</p>
+                    <p className="text-sm font-medium capitalize text-white">{role}</p>
                     {sig && (
                       <p className="text-xs text-muted-foreground">
                         Signed on {new Date(sig.signedAt).toLocaleString('en-NG')}
@@ -214,12 +214,12 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                     )}
                   </div>
                   {sig ? (
-                    <Badge className="bg-success/10 text-success border-success/20">
+                    <Badge className="bg-success/10 text-[#00ff66] border-success/20">
                       <CheckCircle2 className="h-3 w-3 mr-1" />
                       Signed
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="border-border text-muted-foreground">
+                    <Badge variant="outline" className="border-[#262626] text-muted-foreground">
                       <Clock className="h-3 w-3 mr-1" />
                       Pending
                     </Badge>
@@ -229,7 +229,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             })}
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       {agreement.transactions?.length > 0 && (
         <Card>
@@ -242,20 +242,20 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
           <CardContent>
             <div className="space-y-2">
               {agreement.transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between border border-border rounded-lg p-3">
+                <div key={tx.id} className="flex items-center justify-between border border-[#262626] rounded-lg p-3">
                   <div>
-                    <p className="text-sm font-medium text-foreground capitalize">{tx.type}</p>
+                    <p className="text-sm font-medium text-white capitalize">{tx.type}</p>
                     <p className="text-xs text-muted-foreground">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-foreground">{fmtCurrency(tx.amount)}</p>
+                    <p className="text-sm font-medium text-white">{fmtCurrency(tx.amount)}</p>
                     <p className="text-xs text-muted-foreground capitalize">{tx.status.replace(/_/g, ' ')}</p>
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
-        </Card>
+        </div>
       )}
 
       <div className="flex flex-wrap gap-3">

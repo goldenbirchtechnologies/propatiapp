@@ -34,7 +34,7 @@ export default async function CommercialMoveInPage() {
 
       <div className="space-y-6">
         <section>
-          <h1 className="text-2xl font-bold text-foreground">Move-In Coordination — Commercial</h1>
+          <h1 className="text-2xl font-bold text-white">Move-In Coordination — Commercial</h1>
           <p className="text-muted-foreground mt-1">
             Welcoming new tenants for commercial grade-A serviced offices.
           </p>
@@ -69,7 +69,7 @@ export default async function CommercialMoveInPage() {
                         <td className="py-3">{b.checkIn}</td>
                         <td className="py-3">{b.checkOut}</td>
                         <td className="py-3">
-                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-[#262626] text-neutral-300 border border-[#262626]">
                             {b.status}
                           </span>
                         </td>
@@ -80,7 +80,7 @@ export default async function CommercialMoveInPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

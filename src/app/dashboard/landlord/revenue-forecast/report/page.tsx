@@ -44,11 +44,11 @@ export default async function LandlordRevenueForecastReportPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Revenue Forecast Reports</h1>
+            <h1 className="text-3xl font-bold text-white">Revenue Forecast Reports</h1>
             <p className="text-muted-foreground mt-1">Archived financial projections derived from transaction history.</p>
           </div>
           <div className="flex gap-3">
-            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-surface-container-lowest text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#262626] bg-obsidian-800/30 text-sm font-medium">
               Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
             </span>
           </div>
@@ -79,7 +79,7 @@ export default async function LandlordRevenueForecastReportPage() {
                         <td className="py-3">{Number(row.count)}</td>
                         <td className="py-3 text-right font-mono">₦{parseKoboToNaira(Number(row.revenue)).toLocaleString()}</td>
                         <td className="py-3">
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-success border-success/20">
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-[#00ff66] border-success/20">
                             Closed
                           </span>
                         </td>
@@ -90,7 +90,7 @@ export default async function LandlordRevenueForecastReportPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

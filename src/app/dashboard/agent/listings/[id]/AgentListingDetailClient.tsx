@@ -25,7 +25,7 @@ export default function AgentListingDetailClient({ listing }: { listing: Listing
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/listings"
-          className="p-2 rounded-xl hover:bg-surface-container text-neutral-400"
+          className="p-2 rounded-xl hover:bg-obsidian-800 text-neutral-400"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>

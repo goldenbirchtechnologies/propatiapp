@@ -58,7 +58,7 @@ function VerificationGuideClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-primary text-primary-foreground">
+      <Card className="bg-primary text-white">
         <CardHeader>
           <CardTitle className="capitalize">{props.type} Verification</CardTitle>
         </CardHeader>
@@ -67,13 +67,13 @@ function VerificationGuideClient(props: Props) {
             Follow the steps below to complete your {props.type} verification. Each layer must be completed before moving to the next.
           </p>
         </CardContent>
-      </Card>
+      </div>
 
       <div className="space-y-4">
         {steps.map((step, idx) => (
           <Card key={step.layer} className="hover:shadow-md transition-shadow">
             <CardContent className="p-5 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-full bg-[#262626] text-white flex items-center justify-center shrink-0">
                 <step.icon className="h-5 w-5" />
               </div>
               <div className="flex-1">
@@ -89,13 +89,13 @@ function VerificationGuideClient(props: Props) {
                 </Link>
               </Button>
             </CardContent>
-          </Card>
+          </div>
         ))}
       </div>
 
       <Card className="border-success/20 bg-success/5">
         <CardContent className="p-5 flex items-start gap-4">
-          <CheckCircle2 className="h-6 w-6 text-success shrink-0 mt-0.5" />
+          <CheckCircle2 className="h-6 w-6 text-[#00ff66] shrink-0 mt-0.5" />
           <div>
             <h4 className="font-bold mb-1">Why verify?</h4>
             <p className="text-sm text-muted-foreground">
@@ -104,7 +104,7 @@ function VerificationGuideClient(props: Props) {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

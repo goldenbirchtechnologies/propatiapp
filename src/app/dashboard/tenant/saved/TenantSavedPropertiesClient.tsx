@@ -47,7 +47,7 @@ interface TenantSavedPropertiesClientProps {
 // Skeleton Components
 function SkeletonPropertyCard() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-border overflow-hidden animate-pulse">
+    <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] overflow-hidden animate-pulse">
       <div className="aspect-video bg-surface-variant"></div>
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
@@ -81,7 +81,7 @@ function SavedPropertyCard({
   const listingTypeStyles: Record<string, string> = {
     rent: 'bg-teal-50 text-teal-700',
     sale: 'bg-warning/10 text-warning',
-    short_let: 'bg-blue-50 text-blue-700',
+    short_let: 'bg-[#262626] text-neutral-300',
     share: 'bg-purple-50 text-purple-700',
     commercial: 'bg-warning/10 text-warning',
   };
@@ -99,8 +99,8 @@ function SavedPropertyCard({
 
   return (
     <div
-      className={`bg-surface-container-lowest rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
-        selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-border'
+      className={`bg-obsidian-800/30 rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
+        selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-[#262626]'
       }`}
     >
       {/* Selection Checkbox */}
@@ -117,14 +117,14 @@ function SavedPropertyCard({
       <div className="absolute top-3 right-3 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={onAddNote}
-          className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-surface-container transition-colors"
+          className="p-2 bg-obsidian-800/30 rounded-full shadow-lg hover:bg-obsidian-800 transition-colors"
           title="Add note"
         >
           <AppIcon name="edit_note" className="lucide" />
         </button>
         <button
           onClick={onRemove}
-          className="p-2 bg-surface-container-lowest rounded-full shadow-lg hover:bg-error-container transition-colors"
+          className="p-2 bg-obsidian-800/30 rounded-full shadow-lg hover:bg-error-container transition-colors"
           title="Remove from saved"
         >
           <AppIcon name="delete" className="lucide" />
@@ -149,7 +149,7 @@ function SavedPropertyCard({
           {/* Verification Badge */}
           {property.listing.verified && (
             <div className="absolute bottom-3 left-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-foreground shadow-lg">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-white shadow-lg">
                 <AppIcon name="verified" className="lucide" />
                 Verified
               </span>
@@ -166,19 +166,19 @@ function SavedPropertyCard({
             >
               {label}
             </span>
-            <span className="font-headline-md font-bold text-on-surface">
+            <span className="font-headline-md font-bold text-white">
               {formatPrice(property.listing.price)}
               {property.listing.pricePeriod ? `/${property.listing.pricePeriod}` : ''}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="font-headline-sm font-bold text-on-surface mb-2 line-clamp-2">
+          <h3 className="font-headline-sm font-bold text-white mb-2 line-clamp-2">
             {property.listing.title}
           </h3>
 
           {/* Location & Details */}
-          <p className="text-sm text-on-surface-variant mb-3 flex items-start gap-2">
+          <p className="text-sm text-neutral-400 mb-3 flex items-start gap-2">
             <AppIcon name="location_on" className="lucide" />
             <span className="line-clamp-1">
               {property.listing.area}, {property.listing.state}
@@ -186,7 +186,7 @@ function SavedPropertyCard({
           </p>
 
           {/* Property Info */}
-          <div className="flex items-center gap-3 text-xs text-on-surface-variant mb-3">
+          <div className="flex items-center gap-3 text-xs text-neutral-400 mb-3">
             {property.listing.bedrooms && (
               <span className="flex items-center gap-1">
                 <AppIcon name="bed" className="lucide" />
@@ -218,7 +218,7 @@ function SavedPropertyCard({
           </div>
 
           {/* Saved Date */}
-          <div className="flex items-center justify-between text-xs text-on-surface-variant pt-3 border-t border-border">
+          <div className="flex items-center justify-between text-xs text-neutral-400 pt-3 border-t border-[#262626]">
             <span className="flex items-center gap-1">
               <AppIcon name="schedule" className="lucide" />
               Saved {new Date(property.savedAt).toLocaleDateString()}
@@ -243,15 +243,15 @@ function formatPrice(price: number): string {
 // Empty State Component
 function EmptyState() {
   return (
-    <div className="bg-surface-container-lowest rounded-lg border border-border p-12 text-center">
+    <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] p-12 text-center">
       <AppIcon name="bookmark_remove" className="lucide" />
-      <h3 className="font-headline-md font-bold text-on-surface mb-2">No Saved Properties</h3>
-      <p className="text-on-surface-variant mb-6 max-w-md mx-auto">
+      <h3 className="font-headline-md font-bold text-white mb-2">No Saved Properties</h3>
+      <p className="text-neutral-400 mb-6 max-w-md mx-auto">
         Start saving properties you&apos;re interested in to keep track of them and compare later.
       </p>
       <Link
         href="/dashboard/tenant/search"
-        className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-foreground rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
       >
         <AppIcon name="search" className="lucide" />
         Browse Properties
@@ -382,20 +382,20 @@ export default function TenantSavedPropertiesClient({
           <div className="flex items-center gap-3 mb-2">
             <Link
               href="/dashboard/tenant"
-              className="p-2 hover:bg-surface-container rounded-lg transition-colors md:hidden"
+              className="p-2 hover:bg-obsidian-800 rounded-lg transition-colors md:hidden"
             >
               <AppIcon name="arrow_back" className="lucide" />
             </Link>
-            <h1 className="font-headline-xl text-on-surface">Saved Properties</h1>
+            <h1 className="font-headline-xl text-white">Saved Properties</h1>
           </div>
-          <p className="text-on-surface-variant">
+          <p className="text-neutral-400">
             {isLoading ? 'Loading...' : `${filteredProperties.length} ${filteredProperties.length === 1 ? 'property' : 'properties'} saved`}
           </p>
         </div>
 
         {/* Action Bar */}
         {!isLoading && properties.length > 0 && (
-          <div className="bg-surface-container-lowest rounded-lg border border-border p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
+          <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
             {/* Selection */}
             <div className="flex items-center gap-3">
               <input
@@ -404,7 +404,7 @@ export default function TenantSavedPropertiesClient({
                 onChange={selectAll}
                 className="w-5 h-5 rounded cursor-pointer accent-residential-teal"
               />
-              <span className="text-sm font-medium text-on-surface">
+              <span className="text-sm font-medium text-white">
                 {selectedIds.size > 0 ? `${selectedIds.size} selected` : 'Select all'}
               </span>
             </div>
@@ -421,7 +421,7 @@ export default function TenantSavedPropertiesClient({
                 </button>
                 <button
                   onClick={bulkExport}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-high transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors"
                 >
                   <AppIcon name="download" className="lucide" />
                   <span className="hidden sm:inline">Export</span>
@@ -432,7 +432,7 @@ export default function TenantSavedPropertiesClient({
             {/* Filters Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-high transition-colors ml-auto"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors ml-auto"
             >
               <AppIcon name="tune" className="lucide" />
               Filters
@@ -442,19 +442,19 @@ export default function TenantSavedPropertiesClient({
 
         {/* Filters Panel */}
         {showFilters && !isLoading && (
-          <div className="bg-surface-container-lowest rounded-lg border border-border p-4 md:p-6 mb-6">
-            <h3 className="font-headline-sm font-bold text-on-surface mb-4">Filter & Sort</h3>
+          <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 md:p-6 mb-6">
+            <h3 className="font-headline-sm font-bold text-white mb-4">Filter & Sort</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Listing Type */}
               <div>
-                <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                <label className="block text-sm font-medium text-neutral-400 mb-2">
                   Listing Type
                 </label>
                 <select
                   value={filters.listingType}
                   onChange={e => setFilters({ ...filters, listingType: e.target.value })}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Types</option>
                   <option value="rent">For Rent</option>
@@ -467,13 +467,13 @@ export default function TenantSavedPropertiesClient({
 
               {/* Property Type */}
               <div>
-                <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                <label className="block text-sm font-medium text-neutral-400 mb-2">
                   Property Type
                 </label>
                 <select
                   value={filters.propertyType}
                   onChange={e => setFilters({ ...filters, propertyType: e.target.value })}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Properties</option>
                   <option value="apartment">Apartment</option>
@@ -487,13 +487,13 @@ export default function TenantSavedPropertiesClient({
 
               {/* Price Range */}
               <div>
-                <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                <label className="block text-sm font-medium text-neutral-400 mb-2">
                   Price Range
                 </label>
                 <select
                   value={filters.priceRange}
                   onChange={e => setFilters({ ...filters, priceRange: e.target.value })}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="all">All Prices</option>
                   <option value="0-1000000">Under ₦1M</option>
@@ -505,13 +505,13 @@ export default function TenantSavedPropertiesClient({
 
               {/* Sort By */}
               <div>
-                <label className="block text-sm font-medium text-on-surface-variant mb-2">
+                <label className="block text-sm font-medium text-neutral-400 mb-2">
                   Sort By
                 </label>
                 <select
                   value={filters.sortBy}
                   onChange={e => setFilters({ ...filters, sortBy: e.target.value })}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
                 >
                   <option value="recent">Recently Saved</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -555,7 +555,7 @@ export default function TenantSavedPropertiesClient({
           <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 md:static md:transform-none md:mt-8">
             <button
               onClick={() => router.push(`/compare?ids=${[...selectedIds].join(',')}`)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-foreground rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
             >
               <AppIcon name="compare" className="lucide" />
               Compare {selectedIds.size} Properties
@@ -572,12 +572,12 @@ export default function TenantSavedPropertiesClient({
           aria-modal="true"
           aria-label="Saved item preview"
         >
-          <div className="bg-surface-container-lowest rounded-lg max-w-lg w-full p-6">
+          <div className="bg-obsidian-800/30 rounded-lg max-w-lg w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-headline-md font-bold text-on-surface">Add Note</h3>
+              <h3 className="font-headline-md font-bold text-white">Add Note</h3>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="p-2 hover:bg-surface-container rounded-lg transition-colors"
+                className="p-2 hover:bg-obsidian-800 rounded-lg transition-colors"
               >
                 <AppIcon name="close" className="lucide" />
               </button>
@@ -587,20 +587,20 @@ export default function TenantSavedPropertiesClient({
               value={noteText}
               onChange={e => setNoteText(e.target.value)}
               placeholder="Add your thoughts, reminders, or questions about this property..."
-              className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal resize-none"
+              className="w-full px-4 py-3 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal resize-none"
               rows={5}
             />
 
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={saveNote}
-                className="flex-1 px-4 py-3 bg-residential-teal text-foreground rounded-lg font-semibold hover:bg-residential-teal/90 transition-colors"
+                className="flex-1 px-4 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-colors"
               >
                 Save Note
               </button>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="px-4 py-3 bg-surface-container text-on-surface rounded-lg font-semibold hover:bg-surface-container-high transition-colors"
+                className="px-4 py-3 bg-surface-container text-white rounded-lg font-semibold hover:bg-obsidian-800-high transition-colors"
               >
                 Cancel
               </button>

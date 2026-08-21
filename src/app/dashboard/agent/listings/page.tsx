@@ -11,7 +11,12 @@ export default async function Page() {
   if (!user || user.role !== 'agent') redirect('/dashboard');
 
   const listings = await prisma.listing.findMany({
-    where: { agentId: user.id },
+    where: {
+      OR: [
+        { agentId: user.id },
+        { assignments: { some: { agentId: user.id, status: 'active' } } },
+      ],
+    },
     select: {
       id: true,
       title: true,

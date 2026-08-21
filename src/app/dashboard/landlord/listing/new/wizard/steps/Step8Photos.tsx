@@ -151,7 +151,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); removePhoto(photo.photo_id); }}
-                    className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                    className="absolute top-1 right-1 bg-destructive text-red-500-foreground rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                   >
                     <X className="size-3" />
                   </button>
@@ -186,7 +186,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
               Close
             </Button>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

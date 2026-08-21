@@ -77,7 +77,7 @@ export default async function TenantDashboardPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
             <header className="flex flex-col gap-3">
               <h1 className="text-4xl font-extrabold tracking-tight">
-                Welcome back, <span className="text-primary">{displayName}</span>
+                Welcome back, <span className="text-white">{displayName}</span>
               </h1>
               <p className="text-muted-foreground text-base">Here is what's happening with your tenancy today.</p>
             </header>
@@ -87,39 +87,39 @@ export default async function TenantDashboardPage() {
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Next Payment Due</p>
                   <p className="text-2xl font-extrabold font-mono">₦ 0.00</p>
-                  <span className="mt-2 inline-flex items-center gap-1 text-xs text-success font-medium">
+                  <span className="mt-2 inline-flex items-center gap-1 text-xs text-[#00ff66] font-medium">
                     🟢 Up to date
                   </span>
                 </CardContent>
-              </Card>
+              </div>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Active Agreements</p>
                   <p className="text-2xl font-extrabold font-mono">{activeAgreementCount}</p>
                 </CardContent>
-              </Card>
+              </div>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Pending Maintenance</p>
                   <p className="text-2xl font-extrabold font-mono">{openMaintenanceCount}</p>
                 </CardContent>
-              </Card>
+              </div>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Saved Properties</p>
                   <p className="text-2xl font-extrabold font-mono">{savedCount}</p>
                 </CardContent>
-              </Card>
+              </div>
             </section>
 
             <section className="flex flex-col sm:flex-row gap-3">
-              <Link href="/dashboard/tenant/search" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary">
+              <Link href="/dashboard/tenant/search" className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#262626] bg-surface px-5 py-3 text-sm font-semibold text-white transition hover:border-white">
                 Find a Property
               </Link>
-              <Link href="/dashboard/tenant/payments" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary">
+              <Link href="/dashboard/tenant/payments" className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#262626] bg-surface px-5 py-3 text-sm font-semibold text-white transition hover:border-white">
                 Pay Rent
               </Link>
-              <Link href="/dashboard/tenant/maintenance" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary">
+              <Link href="/dashboard/tenant/maintenance" className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#262626] bg-surface px-5 py-3 text-sm font-semibold text-white transition hover:border-white">
                 Report Maintenance Issue
               </Link>
             </section>
@@ -134,7 +134,7 @@ export default async function TenantDashboardPage() {
                     <div className="flex flex-col items-center justify-center gap-3 py-8 text-center">
                       <FileText className="h-8 w-8 text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">No agreements yet. Start applying for properties to see active leases here.</p>
-                      <Link href="/dashboard/tenant/search" className="inline-flex items-center rounded-xl border border-border bg-surface px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary">
+                      <Link href="/dashboard/tenant/search" className="inline-flex items-center rounded-xl border border-[#262626] bg-surface px-4 py-2 text-sm font-semibold text-white transition hover:border-white">
                         Browse Properties
                       </Link>
                     </div>
@@ -144,7 +144,7 @@ export default async function TenantDashboardPage() {
                         <Link
                           key={agreement.id}
                           href={`/dashboard/tenant/agreements/${agreement.id}`}
-                          className="flex items-center justify-between rounded-xl border border-border p-4 transition hover:border-primary"
+                          className="flex items-center justify-between rounded-xl border border-[#262626] p-4 transition hover:border-white"
                         >
                           <div>
                             <p className="text-sm font-semibold">{agreement.listing?.title || 'Unknown listing'}</p>
@@ -158,7 +158,7 @@ export default async function TenantDashboardPage() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
 
               <Card>
                 <CardHeader className="pb-4">
@@ -175,7 +175,7 @@ export default async function TenantDashboardPage() {
                       {recentTransactions.map((tx) => (
                         <div
                           key={tx.id}
-                          className="flex items-center justify-between rounded-xl border border-border p-4"
+                          className="flex items-center justify-between rounded-xl border border-[#262626] p-4"
                         >
                           <div>
                             <p className="text-sm font-semibold capitalize">{tx.type.replace('_', ' ')}</p>
@@ -187,7 +187,7 @@ export default async function TenantDashboardPage() {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
             </div>
           </div>
         </div>

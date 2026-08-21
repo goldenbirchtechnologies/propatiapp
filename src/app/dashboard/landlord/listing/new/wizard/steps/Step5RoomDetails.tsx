@@ -106,7 +106,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
               className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
                 selected.includes(opt)
                   ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/40'
+                  : 'border-[#262626] hover:border-white/40'
               }`}
             >
               <Checkbox
@@ -145,7 +145,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
                   <button
                     type="button"
                     onClick={() => removeImage(img.photo_id)}
-                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full size-5 flex items-center justify-center"
+                    className="absolute -top-2 -right-2 bg-destructive text-red-500-foreground rounded-full size-5 flex items-center justify-center"
                   >
                     <X className="size-3" />
                   </button>
@@ -166,7 +166,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
             id="space-photos"
             onChange={(e) => processFiles(e.target.files)}
           />
-          <Label htmlFor="space-photos" className="cursor-pointer flex items-center gap-1 text-sm text-primary">
+          <Label htmlFor="space-photos" className="cursor-pointer flex items-center gap-1 text-sm text-white">
             <Upload className="size-4" /> Upload photos
           </Label>
         </div>

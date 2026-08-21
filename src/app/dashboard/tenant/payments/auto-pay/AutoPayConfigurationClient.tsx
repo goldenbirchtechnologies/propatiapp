@@ -53,45 +53,45 @@ export default function AutoPayConfigurationClient() {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-white transition-colors">
           PAYMENTS
         </Link>
         <ChevronRight className="w-4 h-4 text-muted-foreground" />
-        <span className="font-mono text-primary font-semibold">AUTO-PAY SETTINGS</span>
+        <span className="font-mono text-white font-semibold">AUTO-PAY SETTINGS</span>
       </nav>
 
       {/* Header */}
       <div className="space-y-xs">
-        <h2 className="font-heading text-headline-lg text-primary">Manage Automated Payments</h2>
-        <p className="font-body-md text-on-surface-variant max-w-2xl">
+        <h2 className="font-heading text-headline-lg text-white">Manage Automated Payments</h2>
+        <p className="font-body-md text-neutral-400 max-w-2xl">
           Automate your monthly payments to avoid late fees and maintain your{' '}
-          <span className="text-on-tertiary-container font-semibold">Perfect Payer status</span>.
+          <span className="text-[#00ff66] font-semibold">Perfect Payer status</span>.
         </p>
       </div>
 
       {/* Master Toggle Card */}
-      <Card className="border-border">
+      <Card className="border-[#262626]">
         <CardContent className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-success-bright text-on-tertiary-fixed flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-[#00ff66] text-black flex items-center justify-center">
               <Zap className="w-6 h-6" style={{ fontVariationSettings: "'FILL' 1" }} />
             </div>
             <div>
               <h3 className="font-heading text-headline-sm">Global Auto-Pay Status</h3>
-              <p className="text-body-sm text-on-surface-variant">
+              <p className="text-body-sm text-neutral-400">
                 Enable to allow the system to process scheduled charges automatically.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="font-label-md text-label-md bg-accent/10 text-on-tertiary-container px-3 py-1 rounded-full flex items-center gap-xs">
+            <span className="font-label-md text-label-md bg-accent/10 text-[#00ff66] px-3 py-1 rounded-full flex items-center gap-xs">
               <span className="w-2 h-2 rounded-full bg-accent"></span>
               ACTIVE
             </span>
             <Switch checked={globalEnabled} onCheckedChange={setGlobalEnabled} />
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       {/* Main Configuration Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -101,7 +101,7 @@ export default function AutoPayConfigurationClient() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="font-heading text-lg">Payment Method</CardTitle>
-              <button className="text-primary font-label-md label-md hover:underline flex items-center gap-xs">
+              <button className="text-white font-label-md label-md hover:underline flex items-center gap-xs">
                 <AppIcon name="add_circle" className="lucide" />
                 Add
               </button>
@@ -109,7 +109,7 @@ export default function AutoPayConfigurationClient() {
             <CardContent>
               <p className="text-sm text-muted-foreground">Auto-pay method will appear here once configured.</p>
             </CardContent>
-          </Card>
+          </div>
 
           {/* Automation Rules */}
           <Card>
@@ -119,15 +119,15 @@ export default function AutoPayConfigurationClient() {
             <CardContent className="space-y-6">
               {/* Timing */}
               <div className="space-y-3">
-                <p className="font-label-md text-label-md text-on-surface-variant">PAYMENT TIMING</p>
+                <p className="font-label-md text-label-md text-neutral-400">PAYMENT TIMING</p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {timingOptions.map((opt) => (
                     <button
                       key={opt.label}
                       className={`p-3 rounded-lg text-body-sm font-semibold transition-all border ${
                         opt.active
-                          ? 'border-2 border-[#0a2540] bg-surface-container-low text-primary'
-                          : 'border border-border hover:border-primary'
+                          ? 'border-2 border-[#262626] bg-obsidian-800/50 text-white'
+                          : 'border border-[#262626] hover:border-white'
                       }`}
                     >
                       {opt.label}
@@ -139,25 +139,25 @@ export default function AutoPayConfigurationClient() {
               {/* Limit */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <p className="font-label-md text-label-md text-on-surface-variant">
+                  <p className="font-label-md text-label-md text-neutral-400">
                     MAXIMUM PAYMENT LIMIT (OPTIONAL)
                   </p>
-                  <span className="lucide text-on-surface-variant cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
+                  <span className="lucide text-neutral-400 cursor-help" title="Security measure: Transactions above this amount will require manual approval.">
                     info
                   </span>
                 </div>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-primary">₦</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-white">₦</span>
                   <Input
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-surface-container-low border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary font-heading-sm text-headline-sm"
+                    className="pl-10 pr-4 py-3 bg-obsidian-800 border border-[#262626] rounded-lg focus:ring-2 focus:ring-[#00ff66] focus:border-[#00ff66] font-heading-sm text-headline-sm"
                   />
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
 
         {/* Right Column: Categories & Summary */}
@@ -180,39 +180,39 @@ export default function AutoPayConfigurationClient() {
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </div>
 
           {/* Summary & Security */}
-          <Card className=" text-foreground border-none shadow-xl relative overflow-hidden">
+          <Card className=" text-white border-none shadow-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
             <CardContent className="p-5 space-y-4 relative z-10">
               <div className="flex items-center gap-2">
-                <span className="lucide text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <span className="lucide text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }}>
                   verified_user
                 </span>
-                <span className="font-label-sm label-sm tracking-widest text-primary-foreground uppercase">
+                <span className="font-label-sm label-sm tracking-widest text-white uppercase">
                   Secure Automation
                 </span>
               </div>
               <div className="space-y-1">
-                <p className="text-body-sm text-primary-foreground">Next scheduled payment</p>
+                <p className="text-body-sm text-white">Next scheduled payment</p>
                 <p className="font-headline-md headline-md">₦450,000.00</p>
                 <p className="text-secondary-container font-bold text-body-md">September 27, 2023</p>
               </div>
               <div className="pt-3 border-t border-on-primary-container/20">
-                <p className="text-body-sm text-primary-foreground italic">
+                <p className="text-body-sm text-white italic">
                   Payments are processed at 09:00 AM WAT. Ensure sufficient funds are available.
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <Button className="w-full py-3 bg-primary text-foreground rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
+            <Button className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
               Save Configuration
             </Button>
-            <Button variant="outline" className="w-full py-3 border border-outline text-on-surface-variant rounded-xl font-bold hover:bg-surface-variant transition-all">
+            <Button variant="outline" className="w-full py-3 border border-[#262626] text-neutral-400 rounded-xl font-bold hover:bg-surface-variant transition-all">
               Cancel
             </Button>
           </div>
@@ -220,18 +220,18 @@ export default function AutoPayConfigurationClient() {
       </div>
 
       {/* Info Footer */}
-      <footer className="mt-6 pt-4 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="mt-6 pt-4 border-t border-[#262626] flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <AppIcon name="lock" className="lucide" />
-            <span className="text-body-sm text-on-surface-variant">Bank-grade Encryption</span>
+            <span className="text-body-sm text-neutral-400">Bank-grade Encryption</span>
           </div>
           <div className="flex items-center gap-2">
             <AppIcon name="verified" className="lucide" />
-            <span className="text-body-sm text-on-surface-variant">Central Bank Licensed</span>
+            <span className="text-body-sm text-neutral-400">Central Bank Licensed</span>
           </div>
         </div>
-        <p className="text-body-sm text-on-surface-variant">© 2024 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
+        <p className="text-body-sm text-neutral-400">© 2024 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
       </footer>
     </div>
   );

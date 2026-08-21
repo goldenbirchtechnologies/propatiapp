@@ -64,7 +64,7 @@ export default function ImageGallery({ images }: Props) {
             </div>
           </>
         ) : (
-          <div className="md:col-span-3 flex items-center justify-center bg-surface-container text-on-surface-variant">
+          <div className="md:col-span-3 flex items-center justify-center bg-surface-container text-neutral-400">
             No images available
           </div>
         )}

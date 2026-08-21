@@ -36,7 +36,7 @@ export default async function CommercialLeaseNegotiationPage() {
 
       <div className="space-y-6">
         <section>
-          <h1 className="text-2xl font-bold text-foreground">Lease Negotiation Workspace</h1>
+          <h1 className="text-2xl font-bold text-white">Lease Negotiation Workspace</h1>
           <p className="text-muted-foreground mt-1">
             PROPATI Commercial — Finalize commercial lease terms with tenants and agents.
           </p>
@@ -47,7 +47,7 @@ export default async function CommercialLeaseNegotiationPage() {
             <CardContent className="p-8 text-center">
               <p className="text-muted-foreground">No agreements in negotiation.</p>
             </CardContent>
-          </Card>
+          </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {agreements.map((agr) => (
@@ -73,7 +73,7 @@ export default async function CommercialLeaseNegotiationPage() {
                   </p>
                   <Badge variant="secondary">{agr.status.replace('_', ' ')}</Badge>
                 </CardContent>
-              </Card>
+              </div>
             ))}
           </div>
         )}

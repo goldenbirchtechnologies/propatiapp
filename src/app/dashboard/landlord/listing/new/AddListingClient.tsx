@@ -252,16 +252,16 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">List to Marketplace</h1>
+          <h1 className="text-3xl font-bold text-white">List to Marketplace</h1>
           <p className="text-muted-foreground mt-2">
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-        <div className="rounded-xl border border-outline-variant bg-surface-container-lowest p-12 text-center">
+        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
             <Building2 className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-bold text-foreground mb-2">No Vacant Units Available</h3>
+          <h3 className="text-lg font-bold text-white mb-2">No Vacant Units Available</h3>
           <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
             To publish a listing to the marketplace, you need at least one vacant unit in your property portfolio.
           </p>
@@ -304,16 +304,16 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">List to Marketplace</h1>
+        <h1 className="text-3xl font-bold text-white">List to Marketplace</h1>
         <p className="text-muted-foreground mt-2">
           Create a live marketplace listing from a vacant unit in your properties.
         </p>
       </div>
 
       {clientErrors.length > 0 && (
-        <div className="rounded-xl border border-destructive/20 bg-destructive/10 p-4">
-          <p className="text-sm font-medium text-destructive mb-2">Fix the following before publishing:</p>
-          <ul className="list-disc pl-5 text-sm text-destructive space-y-1">
+        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4">
+          <p className="text-sm font-medium text-red-500 mb-2">Fix the following before publishing:</p>
+          <ul className="list-disc pl-5 text-sm text-red-500 space-y-1">
             {clientErrors.map((error) => (
               <li key={error}>{error}</li>
             ))}
@@ -321,10 +321,10 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         </div>
       )}
 
-      <div className="rounded-xl border border-outline-variant bg-surface-container-lowest">
-        <div className="p-6 border-b border-outline-variant">
+      <div className="rounded-xl border border-[#262626] bg-obsidian-800/30">
+        <div className="p-6 border-b border-[#262626]">
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-bold text-foreground">Marketplace Listing Details</h2>
+            <h2 className="text-xl font-bold text-white">Marketplace Listing Details</h2>
             <p className="text-sm text-muted-foreground">
               {selectedUnitId
                 ? 'Review and adjust the auto-filled details from your property data.'
@@ -356,7 +356,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             })} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-foreground mb-1">Vacant Unit</label>
+                  <label className="block text-sm font-medium text-white mb-1">Vacant Unit</label>
                   <Select value={selectedUnitId} onValueChange={(value) => {
                     setSelectedUnitId(value);
                     setClientErrors([]);
@@ -387,7 +387,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 </div>
 
                 {autoFilledSource && (
-                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-outline-variant bg-background p-3">
+                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-[#262626] bg-background p-3">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     <span className="text-xs text-muted-foreground">Auto-filled from</span>
                     <Badge variant="secondary" className="text-xs">{autoFilledSource}</Badge>
@@ -414,7 +414,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     <FormItem className="md:col-span-2">
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} className="placeholder:text-foreground/40" />
+                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} className="placeholder:text-white/40" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -472,24 +472,24 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 />
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-foreground mb-1">Address</label>
-                  <Input placeholder="Full street address" {...form.register('address')} className="placeholder:text-foreground/40" />
-                  {form.formState.errors.address && <p className="text-xs text-destructive mt-1">{form.formState.errors.address.message}</p>}
+                  <label className="block text-sm font-medium text-white mb-1">Address</label>
+                  <Input placeholder="Full street address" {...form.register('address')} className="placeholder:text-white/40" />
+                  {form.formState.errors.address && <p className="text-xs text-red-500 mt-1">{form.formState.errors.address.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">Area</label>
-                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="placeholder:text-foreground/40" />
-                  {form.formState.errors.area && <p className="text-xs text-destructive mt-1">{form.formState.errors.area.message}</p>}
+                  <label className="block text-sm font-medium text-white mb-1">Area</label>
+                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="placeholder:text-white/40" />
+                  {form.formState.errors.area && <p className="text-xs text-red-500 mt-1">{form.formState.errors.area.message}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">State</label>
-                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="placeholder:text-foreground/40" />
-                  {form.formState.errors.state && <p className="text-xs text-destructive mt-1">{form.formState.errors.state.message}</p>}
+                  <label className="block text-sm font-medium text-white mb-1">State</label>
+                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="placeholder:text-white/40" />
+                  {form.formState.errors.state && <p className="text-xs text-red-500 mt-1">{form.formState.errors.state.message}</p>}
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-foreground mb-1">
+                  <label className="block text-sm font-medium text-white mb-1">
                     Price {form.watch('listingType') === 'short_let' ? '(per night)' : form.watch('listingType') === 'sale' ? '(total price)' : '(per month)'}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -498,10 +498,10 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                       <Input
                         type="number"
                         placeholder={form.watch('listingType') === 'short_let' ? 'e.g., 25,000' : '500,000'}
-                        className="pl-8 placeholder:text-foreground/40"
+                        className="pl-8 placeholder:text-white/40"
                         {...form.register('price', { valueAsNumber: true })}
                       />
-                      {form.formState.errors.price && <p className="text-xs text-destructive mt-1">{form.formState.errors.price.message}</p>}
+                      {form.formState.errors.price && <p className="text-xs text-red-500 mt-1">{form.formState.errors.price.message}</p>}
                     </div>
                     <Select value={form.watch('pricePeriod')} onValueChange={(value) => form.setValue('pricePeriod', value as ListingInput['pricePeriod'])}>
                       <SelectTrigger>
@@ -535,7 +535,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     <FormItem className="md:col-span-2">
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe the property..." {...field} className="placeholder:text-foreground/40" />
+                        <Textarea rows={5} placeholder="Describe the property..." {...field} className="placeholder:text-white/40" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

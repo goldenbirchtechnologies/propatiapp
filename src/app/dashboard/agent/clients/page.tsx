@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import AgentClientsClient from './AgentClientsClient';
 
 export default async function Page() {
@@ -29,6 +29,24 @@ export default async function Page() {
   for (const c of conversations) {
     if (c.landlordId && c.landlordId !== user.id) relatedUserIds.add(c.landlordId);
     if (c.tenantId && c.tenantId !== user.id) relatedUserIds.add(c.tenantId);
+  }
+
+  // Also surface landlords from accepted AgentInvites and AgentAssignments
+  const acceptedInvites = await prisma.agentInvite.findMany({
+    where: { agentId: user.id, status: 'accepted' },
+    select: { landlordId: true },
+  });
+
+  const assignments = await prisma.agentAssignment.findMany({
+    where: { agentId: user.id },
+    select: { invite: { select: { landlordId: true } } },
+  });
+
+  for (const invite of acceptedInvites) {
+    if (invite.landlordId) relatedUserIds.add(invite.landlordId);
+  }
+  for (const assignment of assignments) {
+    if (assignment.invite.landlordId) relatedUserIds.add(assignment.invite.landlordId);
   }
 
   const relatedUsers = await prisma.user.findMany({

@@ -26,17 +26,38 @@ export default async function LandlordAgentsPage() {
     orderBy: { createdAt: 'desc' },
   });
 
+  const invites = await prisma.agentInvite.findMany({
+    where: { landlordId: user.id },
+    include: {
+      recipient: { select: { id: true, fullName: true } },
+      assignments: {
+        include: {
+          listing: { select: { id: true, title: true, address: true } },
+        },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const assignments = await prisma.agentAssignment.findMany({
+    where: { invite: { landlordId: user.id } },
+    include: {
+      agent: { select: { id: true, fullName: true } },
+      listing: { select: { id: true, title: true } },
+    },
+  });
+
   return (
     <DashboardShell navigation={LANDLORD_NAVIGATION} userRole={user.role} userName={user.fullName}>
       <ErrorBoundary>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
           <div className="flex items-end justify-between">
             <div>
-              <h3 className="font-heading text-headline-lg text-foreground">Agent Management</h3>
+              <h3 className="font-heading text-headline-lg text-white">Agent Management</h3>
               <p className="text-sm text-muted-foreground">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
             </div>
           </div>
-          <AgentInviteManagementClient properties={listings} />
+          <AgentInviteManagementClient properties={listings} initialInvites={invites} initialAssignments={assignments} />
         </div>
       </ErrorBoundary>
     </DashboardShell>

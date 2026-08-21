@@ -80,7 +80,7 @@ export default function AgentOfficeInspectionClient() {
               <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#00ff66] to-[#262626]" />
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column */}
@@ -140,7 +140,7 @@ export default function AgentOfficeInspectionClient() {
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'morning'
                             ? 'border-primary bg-[#00ff66]/10 text-white font-bold'
-                            : 'border-[#262626] hover:border-primary/50 text-neutral-400'
+                            : 'border-[#262626] hover:border-white/50 text-neutral-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -157,7 +157,7 @@ export default function AgentOfficeInspectionClient() {
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'afternoon'
                             ? 'border-primary bg-[#00ff66]/10 text-white font-bold'
-                            : 'border-[#262626] hover:border-primary/50 text-neutral-400'
+                            : 'border-[#262626] hover:border-white/50 text-neutral-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -178,7 +178,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </div>
 
             {/* Preparation Bento */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -199,7 +199,7 @@ export default function AgentOfficeInspectionClient() {
                     ))}
                   </ul>
                 </CardContent>
-              </Card>
+              </div>
 
               <Card className="overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
                 <CardHeader>
@@ -224,7 +224,7 @@ export default function AgentOfficeInspectionClient() {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             </div>
           </div>
 
@@ -240,7 +240,7 @@ export default function AgentOfficeInspectionClient() {
               <CardContent className="p-6 space-y-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-surface-container-lowest rounded ">
+                    <div className="p-2 bg-obsidian-800/30 rounded ">
                       <AppIcon name="calendar_month" className="lucide" />
                     </div>
                     <div>
@@ -249,7 +249,7 @@ export default function AgentOfficeInspectionClient() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-surface-container-lowest rounded ">
+                    <div className="p-2 bg-obsidian-800/30 rounded ">
                       <AppIcon name="schedule" className="lucide" />
                     </div>
                     <div>
@@ -258,7 +258,7 @@ export default function AgentOfficeInspectionClient() {
                     </div>
                   </div>
                   <div className="flex items-start gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-surface-container-lowest rounded ">
+                    <div className="p-2 bg-obsidian-800/30 rounded ">
                       <AppIcon name="location_on" className="lucide" />
                     </div>
                     <div className="flex-1">
@@ -280,7 +280,7 @@ export default function AgentOfficeInspectionClient() {
                   </p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
 
             <Card className="border border-[#00ff66] bg-[#00ff66]/5 bg-[rgba(23,23,23,0.4)] backdrop-blur rounded-xl">
               <CardContent className="p-6 flex items-start gap-3">
@@ -292,17 +292,17 @@ export default function AgentOfficeInspectionClient() {
                   </p>
                 </div>
               </CardContent>
-            </Card>
+            </div>
 
             <Card className="overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
               <div className="h-40 relative">
                 <div className="absolute inset-0 bg-[#171717]" />
-                <div className="absolute bottom-4 left-4 bg-surface-container-lowest px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
+                <div className="absolute bottom-4 left-4 bg-obsidian-800/30 px-3 py-1 rounded-full shadow-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                   <span className="text-xs font-label-md uppercase tracking-wider font-bold text-white">Agent HQ Location</span>
                 </div>
               </div>
-            </Card>
+            </div>
           </aside>
         </div>
       </div>

@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
             </a>
           </Button>
         </CardContent>
-      </Card>
+      </div>
 
       {/* Plan Comparison */}
       <div>
@@ -194,7 +194,7 @@ export default function SubscriptionPage() {
                 )}
                 <CardTitle>{plan.name}</CardTitle>
                 <CardDescription>
-                  <span className="text-3xl font-bold text-primary">
+                  <span className="text-3xl font-bold text-white">
                     ₦{plan.price.toLocaleString()}
                   </span>
                   <span className="text-muted-foreground">/{plan.period}</span>
@@ -226,7 +226,7 @@ export default function SubscriptionPage() {
                   </Button>
                 )}
               </CardContent>
-            </Card>
+            </div>
           ))}
         </div>
       </div>
@@ -297,7 +297,7 @@ export default function SubscriptionPage() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

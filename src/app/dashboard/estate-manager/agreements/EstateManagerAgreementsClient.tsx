@@ -18,14 +18,14 @@ type Agreement = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface text-muted-foreground border-border', label: 'Draft' },
+  draft: { class: 'bg-surface text-muted-foreground border-[#262626]', label: 'Draft' },
   pending_landlord: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
   pending_tenant: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
-  tenant_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Tenant Signed' },
-  landlord_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Landlord Signed' },
-  fully_signed: { class: 'bg-success/10 text-success border-success/20', label: 'Fully Signed' },
-  terminated: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Terminated' },
-  expired: { class: 'bg-surface text-muted-foreground border-border', label: 'Expired' },
+  tenant_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Tenant Signed' },
+  landlord_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Landlord Signed' },
+  fully_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Fully Signed' },
+  terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
+  expired: { class: 'bg-surface text-muted-foreground border-[#262626]', label: 'Expired' },
 };
 
 export default function EstateManagerAgreementsClient({ initialAgreements }: { initialAgreements: Agreement[] }) {
@@ -43,14 +43,14 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-background rounded-xl border border-border p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Total</p><p className="text-2xl font-bold text-primary">{initialAgreements.length}</p></div>
-        <div className="bg-background rounded-xl border border-border p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-success">Signed</p><p className="text-2xl font-bold text-success">{initialAgreements.filter((a) => a.status === 'fully_signed').length}</p></div>
-        <div className="bg-background rounded-xl border border-border p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-warning">Pending</p><p className="text-2xl font-bold text-warning">{initialAgreements.filter((a) => ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(a.status)).length}</p></div>
-        <div className="bg-background rounded-xl border border-border p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Draft</p><p className="text-2xl font-bold text-primary">{initialAgreements.filter((a) => a.status === 'draft').length}</p></div>
+        <div className="bg-background rounded-xl border border-[#262626] p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Total</p><p className="text-2xl font-bold text-white">{initialAgreements.length}</p></div>
+        <div className="bg-background rounded-xl border border-[#262626] p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-[#00ff66]">Signed</p><p className="text-2xl font-bold text-[#00ff66]">{initialAgreements.filter((a) => a.status === 'fully_signed').length}</p></div>
+        <div className="bg-background rounded-xl border border-[#262626] p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-warning">Pending</p><p className="text-2xl font-bold text-warning">{initialAgreements.filter((a) => ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(a.status)).length}</p></div>
+        <div className="bg-background rounded-xl border border-[#262626] p-4 shadow-sm"><p className="text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Draft</p><p className="text-2xl font-bold text-white">{initialAgreements.filter((a) => a.status === 'draft').length}</p></div>
       </div>
 
-      <div className="bg-background rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-border">
+      <div className="bg-background rounded-xl border border-[#262626] shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-[#262626]">
           {['all', 'draft', 'pending_landlord', 'pending_tenant', 'fully_signed', 'terminated', 'expired'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors ${filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'border-transparent hover:bg-muted/50'}`}>
               {f === 'all' ? 'All' : f.replace('_', ' ')}
@@ -58,10 +58,10 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
           ))}
         </div>
         {filtered.length === 0 ? (
-          <div className="p-8 text-center py-16"><FileText className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" /><h3 className="font-heading font-bold text-lg mb-2 text-primary">No agreements</h3><p className="text-muted-foreground">Create your first agreement.</p></div>
+          <div className="p-8 text-center py-16"><FileText className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" /><h3 className="font-heading font-bold text-lg mb-2 text-white">No agreements</h3><p className="text-muted-foreground">Create your first agreement.</p></div>
         ) : (
           <table className="w-full">
-            <thead><tr className="border-b border-border">
+            <thead><tr className="border-b border-[#262626]">
               <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Reference</th>
               <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Title</th>
               <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Parties</th>
@@ -74,15 +74,15 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
               {filtered.map((a) => {
                 const sc = statusConfig[a.status] || statusConfig.draft;
                 return (
-                  <tr key={a.id} className="border-b border-border transition-colors hover:bg-muted/30">
-                    <td className="p-4 font-mono text-sm text-primary">{a.id.slice(-8).toUpperCase()}</td>
-                    <td className="p-4 text-sm text-primary">{a.listing?.title || '—'}</td>
+                  <tr key={a.id} className="border-b border-[#262626] transition-colors hover:bg-muted/30">
+                    <td className="p-4 font-mono text-sm text-white">{a.id.slice(-8).toUpperCase()}</td>
+                    <td className="p-4 text-sm text-white">{a.listing?.title || '—'}</td>
                     <td className="p-4 text-sm text-muted-foreground">{a.tenant?.fullName || '—'} / {a.landlord?.fullName || '—'}</td>
-                    <td className="p-4 text-sm text-primary">
+                    <td className="p-4 text-sm text-white">
                       {a.startDate ? new Date(a.startDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'} —
                       {a.endDate ? new Date(a.endDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
                     </td>
-                    <td className="p-4 text-sm text-primary">₦{Number(a.rentAmount || 0).toLocaleString()}{a.rentPeriod ? `/${a.rentPeriod}` : ''}</td>
+                    <td className="p-4 text-sm text-white">₦{Number(a.rentAmount || 0).toLocaleString()}{a.rentPeriod ? `/${a.rentPeriod}` : ''}</td>
                     <td className="p-4"><span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${sc.class}`}>{sc.label}</span></td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-1">

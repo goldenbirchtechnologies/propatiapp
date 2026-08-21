@@ -36,7 +36,7 @@ export default async function CommercialAgreementsReviewPage() {
 
       <div className="space-y-6">
         <section>
-          <h1 className="text-2xl font-bold text-foreground">Commercial Lease Agreement Review</h1>
+          <h1 className="text-2xl font-bold text-white">Commercial Lease Agreement Review</h1>
           <p className="text-muted-foreground mt-1">
             Gold Verified Agent workspace — review proposed commercial terms.
           </p>
@@ -47,7 +47,7 @@ export default async function CommercialAgreementsReviewPage() {
             <CardContent className="p-8 text-center">
               <p className="text-muted-foreground">No agreements currently pending review.</p>
             </CardContent>
-          </Card>
+          </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {agreements.map((agr) => (
@@ -85,7 +85,7 @@ export default async function CommercialAgreementsReviewPage() {
                     </Badge>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             ))}
           </div>
         )}

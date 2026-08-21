@@ -19,10 +19,10 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
     return (
       <DashboardShell navigation={LANDLORD_NAVIGATION}>
         <section className="space-y-6">
-          <h1 className="text-3xl font-bold text-foreground">Advanced Scenario Builder</h1>
-          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-6">
-            <p className="text-destructive font-medium">Error</p>
-            <p className="text-destructive text-sm mt-1">{error}</p>
+          <h1 className="text-3xl font-bold text-white">Advanced Scenario Builder</h1>
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-6">
+            <p className="text-red-500 font-medium">Error</p>
+            <p className="text-red-500 text-sm mt-1">{error}</p>
             <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-on-destructive rounded-lg hover:bg-destructive">Retry</button>
           </div>
         </section>
@@ -36,14 +36,14 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Advanced Scenario Builder</h1>
+        <h1 className="text-3xl font-bold text-white">Advanced Scenario Builder</h1>
         <p className="text-muted-foreground mt-1">Model 'what-if' scenarios for your portfolio.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card p-5 rounded-xl border border-outline-variant shadow-sm">
-          <h3 className="font-heading font-bold text-primary mb-4">Growth Trajectory (FY 24-26)</h3>
-          <div className="h-64 flex items-end gap-2 border-b border-outline-variant relative">
+        <div className="lg:col-span-2 card p-5 rounded-xl border border-[#262626] shadow-sm">
+          <h3 className="font-heading font-bold text-white mb-4">Growth Trajectory (FY 24-26)</h3>
+          <div className="h-64 flex items-end gap-2 border-b border-[#262626] relative">
             {[40, 65, 80, 95].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1 items-center">
                 <div className="w-full flex items-end gap-1">
@@ -110,7 +110,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
             <p className="text-xs opacity-60 mb-1">Resulting Forecast</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-surface-bright">₦{calculated}M</span>
-              <span className="text-sm text-on-tertiary-container">+₦{(Number(calculated) - baseRevenue).toFixed(1)}M impact</span>
+              <span className="text-sm text-[#00ff66]">+₦{(Number(calculated) - baseRevenue).toFixed(1)}M impact</span>
             </div>
           </div>
         </div>

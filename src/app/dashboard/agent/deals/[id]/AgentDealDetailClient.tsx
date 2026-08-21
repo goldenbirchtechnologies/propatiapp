@@ -91,7 +91,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       </div>
 
       {showActions && (
-        <div className="rounded-xl border border-border/60 bg-background p-4">
+        <div className="rounded-xl border border-[#262626]/60 bg-background p-4">
           <h3 className="text-sm font-semibold mb-3">Deal actions</h3>
           <div className="flex flex-wrap items-center gap-3">
             {isInEscrow && (
@@ -113,7 +113,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b" style={{ borderColor: 'border-[#262626]' }}>
+      <div className="flex gap-2 border-b" className=\"border-[#262626]\">
         {(['overview', 'timeline', 'actions', 'documents'] as const).map((tab) => (
           <button
             key={tab}
@@ -132,7 +132,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+          <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Deal Details</h3>
             <div className="space-y-3">
               <DetailRow icon={<Home className="w-4 h-4" />} label="Property" value={deal.property} />
@@ -142,7 +142,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <DetailRow icon={<Clock className="w-4 h-4" />} label="Last Contact" value={formatDate(deal.lastContact)} />
             </div>
           </div>
-          <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+          <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Status Overview</h3>
             <div className="space-y-3">
               <StatusBar label="Enquiries" active={deal.status === 'enquiries'} />
@@ -156,7 +156,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'timeline' && (
-        <div className="card p-5" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
+        <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
           <h3 className="font-headline-sm font-bold text-sm mb-6 text-white">Deal Timeline</h3>
           <div className="space-y-0">
             {deal.timeline.map((item, idx) => (
@@ -206,8 +206,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'documents' && (
-        <div className="card overflow-hidden" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]' }}>
-          <div className="p-4 border-b" style={{ borderColor: 'border-[#262626]' }}>
+        <div className="card overflow-hidden" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
+          <div className="p-4 border-b" className=\"border-[#262626]\">
             <h3 className="font-headline-sm font-bold text-sm text-white">Documents</h3>
           </div>
           {deal.documents.length === 0 ? (
@@ -218,7 +218,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
-                <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
+                <tr className="border-b" className=\"border-[#262626]\">
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Name</th>
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Type</th>
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Size</th>
@@ -228,7 +228,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               </thead>
               <tbody>
                 {deal.documents.map((doc) => (
-                  <tr key={doc.id} className="border-b transition-colors hover:bg-[#171717]/30" style={{ borderColor: 'border-[#262626]' }}>
+                  <tr key={doc.id} className="border-b transition-colors hover:bg-[#171717]/30" className=\"border-[#262626]\">
                     <td className="p-4 font-medium text-sm flex items-center gap-2 text-white">
                       <FileText className="w-4 h-4 text-neutral-400" />
                       {doc.name}
@@ -237,7 +237,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
                     <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{doc.size}</td>
                     <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{formatDate(doc.uploadedAt)}</td>
                     <td className="p-4 text-right">
-                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-surface-container-low', color: 'text-white', border: '1px solid border-[#262626]' }}>
+                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-obsidian-800/30', color: 'text-white', border: '1px solid border-[#262626]' }}>
                         <Download className="w-3 h-3" /> Download
                       </button>
                     </td>
@@ -277,7 +277,7 @@ function StatusBar({ label, active }: { label: string; active: boolean }) {
 
 function ActionCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
-    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group" style={{ background: 'bg-surface-container-lowest', border: '1px solid border-[#262626]', textDecoration: 'none' }}>
+    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]', textDecoration: 'none' }}>
       <div className="p-3 rounded-xl" style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}>
         {icon}
       </div>

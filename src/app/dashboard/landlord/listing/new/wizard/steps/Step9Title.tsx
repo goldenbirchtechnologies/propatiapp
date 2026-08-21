@@ -29,7 +29,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
           </Label>
           <span
             className={`text-xs font-medium ${
-              remaining < 0 ? 'text-destructive' : remaining < 10 ? 'text-yellow-600' : 'text-muted-foreground'
+              remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-yellow-600' : 'text-muted-foreground'
             }`}
           >
             {value.length} / 50
@@ -54,7 +54,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
             {remaining} characters left
           </Badge>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

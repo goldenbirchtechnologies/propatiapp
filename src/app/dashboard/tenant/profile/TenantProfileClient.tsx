@@ -122,7 +122,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
               'inline-flex items-center justify-center whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors',
               activeTab === tab.value
                 ? 'border-emerald-500 text-emerald-400'
-                : 'border-transparent hover:text-foreground'
+                : 'border-transparent hover:text-white'
             )}
             style={activeTab !== tab.value ? { color: 'var(--muted)' } : undefined}
           >
@@ -168,7 +168,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                 </span>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
 
         {/* Right Panel: Active Tab Content */}
@@ -181,7 +181,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
               <CardContent>
                 <ProfileForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {activeTab === 'rental' && (
@@ -192,7 +192,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
               <CardContent>
                 <RentalApplicationForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {activeTab === 'guarantors' && (
@@ -217,7 +217,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                   </div>
                 )}
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {activeTab === 'kyc' && (

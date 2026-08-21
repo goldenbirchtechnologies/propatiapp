@@ -34,22 +34,22 @@ function StatCardSkeleton() {
       style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="rounded" style={{ height: 14, width: 14, background: 'border-border' }} />
-        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-border' }} />
+        <div className="rounded" style={{ height: 14, width: 14, background: 'border-[#262626]' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-[#262626]' }} />
       </div>
-      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-border' }} />
+      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-[#262626]' }} />
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <tr className="border-b" style={{ borderColor: 'border-border', animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-border' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-border' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-border' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-border' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-border' }} /></td>
+    <tr className="border-b border-[#262626]" style={{ animation: \'skel-pulse 1.6s ease-in-out infinite\' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-[#262626]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-[#262626]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-[#262626]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-[#262626]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-[#262626]' }} /></td>
     </tr>
   );
 }
@@ -83,11 +83,11 @@ export default function EstateManagerTenantsPage() {
         <ErrorBoundary>
           <div className="space-y-6">
             <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Tenants</h1>
+              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
               <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
             </div>
-            <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
-              <p className="text-destructive font-medium mb-1">Unable to load tenants</p>
+            <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
+              <p className="text-red-500 font-medium mb-1">Unable to load tenants</p>
               <p className="text-sm text-muted-foreground mb-3">{error instanceof Error ? error.message : 'Something went wrong.'}</p>
               <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
             </div>
@@ -111,13 +111,13 @@ export default function EstateManagerTenantsPage() {
   const statusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="default" className="bg-success/10 text-success border border-border">Active</Badge>;
+        return <Badge variant="default" className="bg-success/10 text-[#00ff66] border border-[#262626]">Active</Badge>;
       case 'pending':
-        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-border">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-[#262626]">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-border">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-[#262626]">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-border">{status}</Badge>;
+        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-[#262626]">{status}</Badge>;
     }
   };
 
@@ -129,7 +129,7 @@ export default function EstateManagerTenantsPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Tenants</h1>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
           </div>
         </div>
@@ -146,29 +146,29 @@ export default function EstateManagerTenantsPage() {
                   <Users className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Tenants</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{totalTenants}</p>
-              </Card>
+                <p className="text-2xl font-bold" className="text-white">{totalTenants}</p>
+              </div>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-success" />
+                  <Users className="w-4 h-4 text-[#00ff66]" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Active</p>
                 </div>
-                <p className="text-2xl font-bold text-success">{activeTenants}</p>
-              </Card>
+                <p className="text-2xl font-bold text-[#00ff66]">{activeTenants}</p>
+              </div>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Pending</p>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{pendingTenants}</p>
-              </Card>
+                <p className="text-2xl font-bold" className="text-white">{pendingTenants}</p>
+              </div>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-warning" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Notice Period</p>
                 </div>
                 <p className="text-2xl font-bold text-warning">{noticePeriodTenants}</p>
-              </Card>
+              </div>
             </>
           )}
         </div>
@@ -193,7 +193,7 @@ export default function EstateManagerTenantsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </Card>
+          </div>
         )}
 
         <Card>
@@ -217,13 +217,13 @@ export default function EstateManagerTenantsPage() {
             ) : tenants.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
-                <p className="font-medium" style={{ color: 'text-primary' }}>No tenants found</p>
+                <p className="font-medium" className="text-white">No tenants found</p>
                 <p className="text-sm mt-1" style={{ color: 'text-muted-foreground' }}>No tenants assigned yet.</p>
               </div>
             ) : filteredTenants.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
-                <p className="font-medium" style={{ color: 'text-primary' }}>No tenants found</p>
+                <p className="font-medium" className="text-white">No tenants found</p>
                 <p className="text-sm mt-1" style={{ color: 'text-muted-foreground' }}>Try adjusting your filters.</p>
               </div>
             ) : (
@@ -251,7 +251,7 @@ export default function EstateManagerTenantsPage() {
               </Table>
             )}
           </div>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

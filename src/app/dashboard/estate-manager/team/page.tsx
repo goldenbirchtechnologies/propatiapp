@@ -253,7 +253,7 @@ export default function TeamManagementPage() {
               {org.maxSeats} seats available
             </p>
           </CardContent>
-        </Card>
+        </div>
 
         <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -265,7 +265,7 @@ export default function TeamManagementPage() {
               {activeMembers.length}
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -277,7 +277,7 @@ export default function TeamManagementPage() {
               {pendingMembers.length}
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       {/* Members Table */}
@@ -380,7 +380,7 @@ export default function TeamManagementPage() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </div>
 
       {/* Remove Confirmation Dialog */}
       <AlertDialog

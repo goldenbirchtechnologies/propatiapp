@@ -37,10 +37,10 @@ interface Application {
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
-  under_review: { label: 'Under Review', className: 'bg-blue-100 text-blue-800 border-blue-200' },
-  accepted: { label: 'Accepted', className: 'bg-success/10 text-success border-success-bright/20' },
-  rejected: { label: 'Not Successful', className: 'bg-destructive/10 text-destructive border-destructive/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-surface-container-low text-on-surface-variant border-border' },
+  under_review: { label: 'Under Review', className: 'bg-[#262626] text-neutral-300 border-[#262626]' },
+  accepted: { label: 'Accepted', className: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20' },
+  rejected: { label: 'Not Successful', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]' },
 };
 
 export default function TenantApplicationsClient({ applications: initial }: { applications: Application[] }) {
@@ -89,7 +89,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           My Applications
         </h1>
-        <p className="text-on-surface-variant" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-neutral-400" style={{ marginTop: 'var(--space-vs)' }}>
           Track the status of your rental applications
         </p>
       </div>
@@ -105,11 +105,11 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       {applications.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <Building2 className="w-12 h-12 text-on-surface-variant" style={{ opacity: 0.4 }} />
-            <h3 className="font-headline-sm text-headline-sm mb-2 text-primary">
+            <Building2 className="w-12 h-12 text-neutral-400" style={{ opacity: 0.4 }} />
+            <h3 className="font-headline-sm text-headline-sm mb-2 text-white">
               No applications yet
             </h3>
-            <p className="text-on-surface-variant" style={{ marginBottom: 'var(--space-lg)' }}>
+            <p className="text-neutral-400" style={{ marginBottom: 'var(--space-lg)' }}>
               You haven't applied to any properties yet. Browse listings to get started.
             </p>
             <Link
@@ -119,7 +119,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
               Browse Listings
             </Link>
           </CardContent>
-        </Card>
+        </div>
       ) : (
         <div className="space-y-4">
           {applications.map((app) => {
@@ -146,13 +146,13 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div>
-                          <h3 className="text-headline-sm truncate text-primary">
+                          <h3 className="text-headline-sm truncate text-white">
                             {app.listing.title}
                           </h3>
-                          <p className="text-sm text-on-surface-variant">
+                          <p className="text-sm text-neutral-400">
                             {app.listing.area}, {app.listing.state}
                           </p>
-                          <p className="text-sm font-medium mt-1 text-primary">
+                          <p className="text-sm font-medium mt-1 text-white">
                             ₦{Number(app.listing.price).toLocaleString()}
                             {app.listing.pricePeriod ? `/${app.listing.pricePeriod}` : ''}
                           </p>
@@ -164,7 +164,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                         </span>
                       </div>
 
-                      <div className="mt-3 text-xs text-on-surface-variant">
+                      <div className="mt-3 text-xs text-neutral-400">
                         Applied {new Date(app.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         {' · '}Landlord: {app.landlord.fullName}
                       </div>
@@ -174,7 +174,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                           <span className="bg-accent/10 text-accent border-accent/20 rounded-md px-2 py-1 text-sm">
                             Landlord note:
                           </span>
-                          <p className="text-sm text-on-surface-variant">{app.landlordNotes}</p>
+                          <p className="text-sm text-neutral-400">{app.landlordNotes}</p>
                         </div>
                       )}
 
@@ -191,7 +191,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                             size="sm"
                             onClick={() => handleWithdraw(app.id)}
                             disabled={isWithdrawing}
-                            className="text-destructive border-destructive/20 hover:bg-destructive/10"
+                            className="text-red-500 border-red-500/20 hover:bg-red-500/10"
                           >
                             {isWithdrawing ? (
                               <Loader2 className="w-3 h-3 mr-1 animate-spin" />
@@ -205,7 +205,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </div>
             );
           })}
         </div>
@@ -220,14 +220,14 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm font-medium mb-1 text-on-surface-variant">{label}</p>
-            <p className="text-2xl text-headline-sm text-primary">{value}</p>
+            <p className="text-sm font-medium mb-1 text-neutral-400">{label}</p>
+            <p className="text-2xl text-headline-sm text-white">{value}</p>
           </div>
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400" style={{ flexShrink: 0 }}>
             {icon}
           </div>
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 }

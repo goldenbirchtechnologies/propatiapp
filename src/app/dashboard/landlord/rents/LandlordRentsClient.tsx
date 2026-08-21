@@ -88,12 +88,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
   function RentTableSkeleton() {
     return (
-      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-outline-variant">
+            <tr className="border-b border-[#262626]">
               {['Tenant Name', 'Property Unit', 'Amount', 'Date', 'Status', 'Action'].map((h) => (
-                <th key={h} className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-on-surface-variant text-on-surface-variant">
+                <th key={h} className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-neutral-400">
                   {h}
                 </th>
               ))}
@@ -101,7 +101,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           </thead>
           <tbody>
             {[0, 1, 2, 3].map((i) => (
-              <tr key={i} className="border-b border-outline-variant">
+              <tr key={i} className="border-b border-[#262626]">
                 <td className="p-4"><Skeleton className="h-4 w-40" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-32" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-24" /></td>
@@ -122,7 +122,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1
-            className="font-headline-sm text-headline-sm font-bold text-primary text-3xl md:text-4xl text-primary">
+            className="font-headline-sm text-headline-sm font-bold text-white text-3xl md:text-4xl text-white">
             Rent Collection
           </h1>
           <p className="mt-2 text-muted-foreground">
@@ -147,25 +147,25 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-xs font-medium uppercase tracking-widest text-on-primary/60 mb-2">
               Total Expected Revenue
             </p>
-            <p className="text-4xl font-headline-sm text-headline-sm font-bold text-primary text-on-primary mb-4">₦14,250,000</p>
+            <p className="text-4xl font-headline-sm text-headline-sm font-bold text-white text-on-primary mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1 text-success-bright">
+              <div className="flex items-center gap-1 text-[#00ff66]-bright">
                 <AppIcon name="trending_up" className="lucide" />
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
-              <div className="bg-surface-container-lowest/10 px-3 py-1 rounded-full text-xs font-bold text-white">
+              <div className="bg-obsidian-800/30/10 px-3 py-1 rounded-full text-xs font-bold text-white">
                 Fiscal Year 2024
               </div>
             </div>
           </CardContent>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-surface-container-lowest/10 rounded-full opacity-20" />
-        </Card>
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-obsidian-800/30/10 rounded-full opacity-20" />
+        </div>
 
         {/* Collected Funds */}
         <Card className="border-t-4" style={{ borderTopColor: 'hsl(var(--tertiary))' }}>
           <CardContent className="p-6">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2">Collected Funds</p>
-            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
+            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
             <div className="mt-4">
               <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
                 <div className="bg-success h-full w-[82%] rounded-full" />
@@ -173,33 +173,33 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               <p className="text-xs text-muted-foreground mt-2">82% of target reached</p>
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         {/* Pending Arrears */}
-        <Card className="border-t-4 border-destructive">
+        <Card className="border-t-4 border-red-500">
           <CardContent className="p-6">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2">Pending Arrears</p>
-            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-primary text-destructive">₦2,450,000</p>
+            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-white text-red-500">₦2,450,000</p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xs text-muted-foreground">14 Units Overdue</span>
               <AppIcon name="warning" className="lucide" />
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
 
       {/* Recent Rent Payments Table */}
       <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
         {transactions.length === 0 ? (
-          <Card className="bg-surface-container-lowest rounded-xl border border-outline-variant p-12 text-center shadow-sm hover:shadow-md transition-shadow">
+          <Card className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-12 text-center shadow-sm hover:shadow-md transition-shadow">
             <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-            <h3 className="font-headline-sm text-headline-sm text-primary mb-2">No transactions yet</h3>
+            <h3 className="font-headline-sm text-headline-sm text-white mb-2">No transactions yet</h3>
             <p className="text-muted-foreground">Rent payments will appear here once tenants start paying.</p>
-          </Card>
+          </div>
         ) : (
           <Card className="overflow-hidden">
-            <div className="p-6 border-b border-outline-variant flex items-center justify-between">
-              <h3 className="font-headline-sm text-headline-sm font-semibold text-primary">Recent Rent Payments</h3>
+            <div className="p-6 border-b border-[#262626] flex items-center justify-between">
+              <h3 className="font-headline-sm text-headline-sm font-semibold text-white">Recent Rent Payments</h3>
               <p className="text-xs text-muted-foreground">Showing {Math.min(transactions.length, 8)} of {transactions.length} transactions</p>
             </div>
             <div className="overflow-x-auto">
@@ -235,14 +235,14 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                         <RentStatusBadge status={tx.status} />
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <button className="lucide text-muted-foreground hover:text-primary transition-colors" aria-label="More options">more_vert</button>
+                        <button className="lucide text-muted-foreground hover:text-white transition-colors" aria-label="More options">more_vert</button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </Card>
+          </div>
         )}
       </DashboardSection>
 
@@ -253,7 +253,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h4 className="font-headline-sm text-headline-sm font-semibold text-primary">Revenue Distribution</h4>
+                <h4 className="font-headline-sm text-headline-sm font-semibold text-white">Revenue Distribution</h4>
                 <p className="text-xs text-muted-foreground">Monthly collection performance</p>
               </div>
               <AppIcon name="info" className="lucide" />
@@ -270,18 +270,18 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               ))}
             </div>
           </CardContent>
-        </Card>
+        </div>
 
         {/* Quick Verified Action */}
         <Card className="relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <CardContent className="p-6 relative z-10 flex flex-col justify-between h-full">
             <div>
-              <h4 className="font-headline-sm text-headline-sm font-semibold text-primary text-on-primary mb-2">Quick Verified Action</h4>
+              <h4 className="font-headline-sm text-headline-sm font-semibold text-white text-on-primary mb-2">Quick Verified Action</h4>
               <p className="text-sm text-on-primary/80 mb-6">
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-surface-container-lowest/10 p-3 rounded-lg border border-outline-variant">
+                <div className="flex items-center gap-3 bg-obsidian-800/30/10 p-3 rounded-lg border border-[#262626]">
                   <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
                     <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
@@ -290,12 +290,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 </div>
               </div>
             </div>
-            <Button className="mt-6 w-full bg-warning text-foreground hover:bg-warning font-bold">
+            <Button className="mt-6 w-full bg-warning text-white hover:bg-warning font-bold">
               <Wallet className="h-4 w-4" />
               Request Instant Payout
             </Button>
           </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );
@@ -303,13 +303,13 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
 function RentStatusBadge({ status }: { status: string }) {
   const config: Record<string, { className: string; label: string }> = {
-    released: { className: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Paid' },
+    released: { className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Paid' },
     in_escrow: { className: 'bg-accent/20 text-accent border-accent/30', label: 'In Escrow' },
     pending: { className: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
-    failed: { className: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Failed' },
+    failed: { className: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
     refunded: { className: 'bg-warning/10 text-warning border-warning/30', label: 'Refunded' },
   };
-  const cfg = config[status] || { className: 'bg-surface-container-low text-on-surface-variant border-outline-variant', label: status };
+  const cfg = config[status] || { className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
       {status === 'released' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}

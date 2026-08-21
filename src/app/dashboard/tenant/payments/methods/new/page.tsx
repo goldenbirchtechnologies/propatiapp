@@ -24,10 +24,10 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Add Payment Method</h1>
+              <h1 className="text-2xl font-bold text-white">Add Payment Method</h1>
               <p className="text-muted-foreground mt-1">
                 Add a verified payment method to your tenant portal for secure transactions.
               </p>
@@ -44,7 +44,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Cardholder Name</label>
+                  <label className="text-sm font-medium text-white">Cardholder Name</label>
                   <input
                     type="text"
                     placeholder="Name on card"
@@ -52,7 +52,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Card Number</label>
+                  <label className="text-sm font-medium text-white">Card Number</label>
                   <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
@@ -60,7 +60,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Expiry Date</label>
+                  <label className="text-sm font-medium text-white">Expiry Date</label>
                   <input
                     type="text"
                     placeholder="MM/YY"
@@ -68,7 +68,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">CVV</label>
+                  <label className="text-sm font-medium text-white">CVV</label>
                   <input
                     type="text"
                     placeholder="123"
@@ -82,7 +82,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   id="save"
                   className="h-4 w-4 rounded border-input"
                 />
-                <label htmlFor="save" className="text-sm text-foreground">
+                <label htmlFor="save" className="text-sm text-white">
                   Save this card for future payments
                 </label>
               </div>
@@ -91,7 +91,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                 <Button variant="outline">Cancel</Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           <div className="space-y-4">
             <Card>
@@ -104,10 +104,10 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   alt="Add Payment Method Modal Reference"
                   width={480}
                   height={360}
-                  className="rounded-lg border border-border"
+                  className="rounded-lg border border-[#262626]"
                 />
               </CardContent>
-            </Card>
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle>Saved Methods</CardTitle>
@@ -119,7 +119,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   <li>Expires 12/25</li>
                 </ul>
               </CardContent>
-            </Card>
+            </div>
           </div>
         </div>
       </div>

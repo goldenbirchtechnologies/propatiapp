@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { Building2, Plus, Eye, Edit, Trash2, ShieldCheck, Shield } from 'lucide-react';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  active: { class: 'bg-success-bright/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Active' },
+  active: { class: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Active' },
   draft: { class: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Draft' },
   suspended: { class: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
-  deleted: { class: 'bg-surface-container-low text-neutral-400 border border-[#262626]', label: 'Deleted' },
+  deleted: { class: 'bg-obsidian-800/30 text-neutral-400 border border-[#262626]', label: 'Deleted' },
 };
 
 type Listing = {
@@ -45,28 +45,28 @@ export default function AgentListingsClient({ initialListings }: { initialListin
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-surface-container-lowest rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
           <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Total</p>
           <p className="font-headline-md text-headline-md text-white">{initialListings.length}</p>
         </div>
-        <div className="bg-surface-container-lowest rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
           <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Active</p>
           <p className="font-headline-md text-headline-md text-[#00ff66]">{activeCount}</p>
         </div>
-        <div className="bg-surface-container-lowest rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
           <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Verified</p>
           <p className="font-headline-md text-headline-md text-[#00ff66]">{verifiedCount}</p>
         </div>
-        <div className="bg-surface-container-lowest rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4  hover:shadow-md transition-shadow">
           <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Views</p>
           <p className="font-headline-md text-headline-md text-white">{totalViews.toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-xl border border-[#262626] overflow-hidden  hover:shadow-md transition-shadow">
+      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden  hover:shadow-md transition-shadow">
         <div className="p-4 flex flex-wrap gap-2 border-b border-[#262626]">
           {['all', 'active', 'draft', 'suspended'].map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-[#00ff66]/10 text-white border-[#00ff66]/20' : 'border-transparent hover:bg-surface-container')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
+            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-[#00ff66]/10 text-white border-[#00ff66]/20' : 'border-transparent hover:bg-obsidian-800')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
           ))}
         </div>
         {filtered.length === 0 ? (
@@ -101,10 +101,10 @@ export default function AgentListingsClient({ initialListings }: { initialListin
                   <td className="p-4 text-sm text-right text-white">{l.views.toLocaleString()}</td>
                   <td className="p-4 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <Link href={`/dashboard/agent/listings/${l.id}`} className="p-2 rounded-md hover:bg-surface-container">
+                      <Link href={`/dashboard/agent/listings/${l.id}`} className="p-2 rounded-md hover:bg-obsidian-800">
                         <Eye className="w-4 h-4 text-neutral-400" />
                       </Link>
-                      <button className="p-2 rounded-md hover:bg-surface-container"><Edit className="w-4 h-4 text-neutral-400" /></button>
+                      <button className="p-2 rounded-md hover:bg-obsidian-800"><Edit className="w-4 h-4 text-neutral-400" /></button>
                       <button className="p-2 rounded-md hover:bg-destructive/5"><Trash2 className="w-4 h-4 text-red-500" /></button>
                     </div>
                   </td>

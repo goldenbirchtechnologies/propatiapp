@@ -42,7 +42,7 @@ export default async function LandlordAgreementPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Lease Agreements</h1>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Lease Agreements</h1>
           <p className="text-muted-foreground mt-1">View and manage lease agreements for your properties.</p>
         </div>
 
@@ -92,7 +92,7 @@ export default async function LandlordAgreementPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

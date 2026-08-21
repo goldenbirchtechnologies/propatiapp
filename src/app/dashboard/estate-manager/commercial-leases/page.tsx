@@ -16,9 +16,9 @@ const leases = [
 ];
 
 const statusStyles: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-success border border-border', label: 'PAID' },
-  overdue: { class: 'bg-destructive/10 text-destructive border border-border', label: 'OVERDUE' },
-  partial: { class: 'bg-warning/10 text-warning border border-border', label: 'PARTIAL' },
+  paid: { class: 'bg-success/10 text-[#00ff66] border border-[#262626]', label: 'PAID' },
+  overdue: { class: 'bg-red-500/10 text-red-500 border border-[#262626]', label: 'OVERDUE' },
+  partial: { class: 'bg-warning/10 text-warning border border-[#262626]', label: 'PARTIAL' },
 };
 
 export default function EstateManagerCommercialLeasesPage() {
@@ -30,10 +30,10 @@ export default function EstateManagerCommercialLeasesPage() {
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName="Estate Manager" userAvatar={undefined}>
         <ErrorBoundary>
           <div className="space-y-6">
-            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Commercial Leases</h1>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Commercial Leases</h1>
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unable to load commercial lease data.</p>
-            <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6">
-              <p className="text-destructive font-medium mb-1">Error</p>
+            <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6">
+              <p className="text-red-500 font-medium mb-1">Error</p>
               <p className="text-sm text-muted-foreground mb-3">{error}</p>
               <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-on-error rounded-lg hover:bg-destructive/90">Retry</button>
             </div>
@@ -51,13 +51,13 @@ export default function EstateManagerCommercialLeasesPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Commercial Lease Collection</h1>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Commercial Lease Collection</h1>
             <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
               Managing revenue for The Platinum Plaza &amp; Business District. Automated billing for rent, service charges, and utility recoveries.
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background hover:bg-surface transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#262626] bg-background hover:bg-surface transition-colors text-sm font-medium">
               <Download className="w-4 h-4" /> Export Report
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
@@ -67,37 +67,37 @@ export default function EstateManagerCommercialLeasesPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
+          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Collection Rate</span>
-              <TrendingUp className="w-5 h-5 text-success" />
+              <TrendingUp className="w-5 h-5 text-[#00ff66]" />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>94.2%</p>
-              <p className="text-xs text-success mt-1">+2.4% from last month</p>
+              <p className="text-2xl font-bold" className="text-white">94.2%</p>
+              <p className="text-xs text-[#00ff66] mt-1">+2.4% from last month</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
+          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Arrears</span>
-              <Wrench className="w-5 h-5 text-destructive" />
+              <Wrench className="w-5 h-5 text-red-500" />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold text-destructive">₦14.2M</p>
+              <p className="text-2xl font-bold text-red-500">₦14.2M</p>
               <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>12 Pending notices</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
+          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Service Charges</span>
               <Receipt className="w-5 h-5" style={{ color: 'text-muted-foreground' }} />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>₦8.5M</p>
+              <p className="text-2xl font-bold" className="text-white">₦8.5M</p>
               <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>88% Recovery achieved</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow bg-primary text-on-primary relative overflow-hidden">
+          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow bg-primary text-on-primary relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
@@ -111,12 +111,12 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-border shadow-sm overflow-hidden bg-background">
-          <div className="p-5 border-b border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
-            <h3 className="font-headline-sm font-bold" style={{ color: 'text-primary' }}>Unit Collections</h3>
+        <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden bg-background">
+          <div className="p-5 border-b border-[#262626] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
+            <h3 className="font-headline-sm font-bold" className="text-white">Unit Collections</h3>
             <div className="flex items-center gap-2">
               <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Filter by:</span>
-              <select className="border border-border rounded-lg text-sm px-3 py-1.5 bg-background">
+              <select className="border border-[#262626] rounded-lg text-sm px-3 py-1.5 bg-background">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
                 <option>Commercial Wing B</option>
@@ -125,7 +125,7 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-muted border-b border-border">
+              <thead className="bg-muted border-b border-[#262626]">
                 <tr>
                   <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unit / Tenant</th>
                   <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Base Rent</th>
@@ -136,19 +136,19 @@ export default function EstateManagerCommercialLeasesPage() {
                   <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-outline-variant">
+              <tbody className="divide-y divide-[#262626]">
                 {leases.map((row) => (
                   <tr key={row.unit} className="hover:bg-surface transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-white font-bold">{row.unit}</div>
                         <div>
-                          <div className="font-headline-sm font-bold" style={{ color: 'text-primary' }}>{row.tenant}</div>
+                          <div className="font-headline-sm font-bold" className="text-white">{row.tenant}</div>
                           <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{row.location}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-sm font-medium" style={{ color: 'text-primary' }}>₦{row.baseRent.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-sm font-medium" className="text-white">₦{row.baseRent.toLocaleString()}</td>
                     <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>₦{row.serviceCharge.toLocaleString()}</td>
                     <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>₦{row.utilities.toLocaleString()}</td>
                     <td className="px-5 py-4">
@@ -166,13 +166,13 @@ export default function EstateManagerCommercialLeasesPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 border-t border-border flex justify-between items-center">
+          <div className="p-4 border-t border-[#262626] flex justify-between items-center">
             <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">←</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary">1</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">2</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-background">→</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">2</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">→</button>
             </div>
           </div>
         </div>

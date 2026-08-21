@@ -22,12 +22,12 @@ export default function EstateManagerLeaseReviewPage() {
       <DashboardShell navigation={ESTATE_MANAGER_NAVIGATION}>
         <ErrorBoundary>
           <section className="space-y-6">
-            <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
+            <h1 className="text-3xl font-bold text-white">Lease Agreement Review</h1>
             <p className="text-muted-foreground">Unable to load agreement.</p>
-            <div className="bg-destructive/10 rounded-xl border border-destructive/20 p-6">
-              <p className="text-destructive font-medium">Error</p>
-              <p className="text-destructive/80 text-sm mt-1">{error}</p>
-              <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90">Retry</button>
+            <div className="bg-red-500/10 rounded-xl border border-red-500/20 p-6">
+              <p className="text-red-500 font-medium">Error</p>
+              <p className="text-red-500/80 text-sm mt-1">{error}</p>
+              <button onClick={() => setError(null)} className="mt-4 px-4 py-2 bg-destructive text-red-500-foreground rounded-lg hover:bg-destructive/90">Retry</button>
             </div>
           </section>
         </ErrorBoundary>
@@ -43,17 +43,17 @@ export default function EstateManagerLeaseReviewPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Lease Agreement Review</h1>
+            <h1 className="text-3xl font-bold text-white">Lease Agreement Review</h1>
             <p className="text-muted-foreground mt-1">Reference: PROP-2024-88492-L · Platinum Plaza, Suite 402</p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-destructive/20 text-destructive hover:bg-destructive/10 transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500/20 text-red-500 hover:bg-red-500/10 transition-colors text-sm font-medium">
               <XCircle className="w-4 h-4" /> Reject
             </button>
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-secondary bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors text-sm font-medium">
               <AlertTriangle className="w-4 h-4" /> Request Changes
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-success-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-md">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#00ff66]-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-md">
               <CheckCircle2 className="w-4 h-4" /> Approve Agreement
             </button>
           </div>
@@ -61,17 +61,17 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-border shadow-sm bg-background p-6">
-            <div className="border-b border-border pb-4 mb-6 flex justify-between items-start">
+          <div className="lg:col-span-2 rounded-xl border border-[#262626] shadow-sm bg-background p-6">
+            <div className="border-b border-[#262626] pb-4 mb-6 flex justify-between items-start">
               <div>
-                <h2 className="font-heading text-xl font-bold text-primary uppercase">Commercial Lease Agreement</h2>
+                <h2 className="font-heading text-xl font-bold text-white uppercase">Commercial Lease Agreement</h2>
                 <p className="text-sm text-muted-foreground mt-1">Reference: PROP-2024-88492-L</p>
               </div>
               <div className="p-2 bg-secondary-fixed/10 rounded-lg">
                 <FileText className="w-6 h-6 text-secondary" />
               </div>
             </div>
-            <div className="space-y-4 text-sm text-primary leading-relaxed">
+            <div className="space-y-4 text-sm text-white leading-relaxed">
               <p>
                 This Agreement is made between <strong>Landlord</strong> and <strong>Tenant</strong> for the lease of commercial space located at Platinum Plaza, Suite 402, Victoria Island, Lagos.
               </p>
@@ -94,12 +94,12 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-border shadow-sm bg-background p-5">
-            <h3 className="font-heading font-bold text-primary mb-4">Clause Checklist</h3>
+          <div className="rounded-xl border border-[#262626] shadow-sm bg-background p-5">
+            <h3 className="font-heading font-bold text-white mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (
-                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-border">
-                  <span className="text-sm font-medium text-primary">{clause.title}</span>
+                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-[#262626]">
+                  <span className="text-sm font-medium text-white">{clause.title}</span>
                   <span className="tag tag-amber">Pending</span>
                 </div>
               ))}

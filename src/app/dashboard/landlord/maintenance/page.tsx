@@ -67,7 +67,7 @@ export default async function LandlordMaintenancePage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Maintenance Requests</h1>
+            <h1 className="text-3xl font-bold text-white">Maintenance Requests</h1>
             <p className="text-muted-foreground mt-1">Track and manage maintenance requests across your properties.</p>
           </div>
         </div>
@@ -84,9 +84,9 @@ export default async function LandlordMaintenancePage() {
           </CardHeader>
           <CardContent>
             {tickets.length === 0 ? (
-              <div className="rounded-lg border border-dashed border-outline-variant bg-muted/40 p-8 text-center">
+              <div className="rounded-lg border border-dashed border-[#262626] bg-muted/40 p-8 text-center">
                 <Wrench className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
-                <p className="font-medium text-primary mb-1">No maintenance requests yet</p>
+                <p className="font-medium text-white mb-1">No maintenance requests yet</p>
                 <p className="text-sm text-muted-foreground mb-4">Requests from tenants and on-site managers will appear here.</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <Button asChild variant="outline" size="sm" className="gap-2">
@@ -123,7 +123,7 @@ export default async function LandlordMaintenancePage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>
@@ -133,14 +133,14 @@ export default async function LandlordMaintenancePage() {
 
 function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; icon: string; trend: string; trendPositive?: boolean }) {
   return (
-    <div className="rounded-xl border border-outline-variant p-5 shadow-sm">
+    <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
       <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{label}</p>
       <p className="text-2xl font-bold mt-1">{value}</p>
       <div className="mt-2 flex items-center gap-1">
-        <span className={`text-xs font-medium ${trendPositive ? 'text-success' : 'text-destructive'}`}>
+        <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
           {trendPositive ? '↑' : '↓'}
         </span>
-        <span className={`text-xs ${trendPositive ? 'text-success' : 'text-destructive'}`}>{trend}</span>
+        <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
       </div>
     </div>
   );

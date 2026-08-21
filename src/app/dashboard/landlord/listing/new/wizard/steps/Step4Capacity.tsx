@@ -123,7 +123,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
           step={0.5}
           icon={<Bath className="size-5" />}
         />
-      </Card>
+      </div>
     </div>
   );
 }

@@ -84,11 +84,11 @@ function statusMeta(status: StatusCheckItem['status']) {
       return { badge: 'secondary' as const, label: 'Verified', text: 'text-emerald-400', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' };
     case 'pending':
     case 'in_progress':
-      return { badge: 'secondary' as const, label: 'Pending', text: 'text-amber-400', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' };
+      return { badge: 'secondary' as const, label: 'Pending', text: 'text-neutral-300', className: 'bg-[#262626] text-neutral-300 border-[#262626]' };
     case 'requires_review':
-      return { badge: 'outline' as const, label: 'Needs Review', text: 'text-amber-400', className: 'border-amber-500/30 text-amber-400' };
+      return { badge: 'outline' as const, label: 'Needs Review', text: 'text-neutral-300', className: 'border-amber-500/30 text-neutral-300' };
     case 'rejected':
-      return { badge: 'destructive' as const, label: 'Not Verified', text: 'text-red-400', className: '' };
+      return { badge: 'destructive' as const, label: 'Not Verified', text: 'text-red-500', className: '' };
     default:
       return { badge: 'secondary' as const, label: 'Not Verified', text: 'text-slate-400', className: 'bg-slate-500/10 text-slate-400 border-slate-500/20' };
   }
@@ -152,7 +152,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               Retry
             </Button>
           </CardContent>
-        </Card>
+        </div>
       )}
 
       {isApproved && (
@@ -168,7 +168,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
       )}
 
       {!allVerified && (
@@ -204,7 +204,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               </p>
             )}
           </CardContent>
-        </Card>
+        </div>
       )}
 
       {!allVerified && (
@@ -221,7 +221,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               onComplete={handleWidgetComplete}
             />
           </CardContent>
-        </Card>
+        </div>
       )}
 
       <div className="flex justify-end">

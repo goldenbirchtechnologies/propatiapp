@@ -159,19 +159,19 @@ function formatPropertyType(value?: string) {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Active' },
-    draft: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Draft' },
-    suspended: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Suspended' },
-    deleted: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Deleted' },
+    active: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Active' },
+    draft: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Draft' },
+    suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
+    deleted: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-outline-variant', label: status };
+  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-[#262626]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
         Not Started
       </span>
     );
@@ -180,13 +180,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary border border-primary/20 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#262626] px-2.5 py-0.5 text-xs font-bold text-white border border-primary/20 dark:bg-primary/20 dark:text-white dark:border-primary/30">
           <svg
             width="10"
             height="10"
@@ -206,13 +206,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       return <SharedVerificationBadge tier="certified" />;
     case 'rejected':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-bold text-destructive border border-destructive/20 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 px-2.5 py-0.5 text-xs font-bold text-red-500 border border-red-500/20 dark:bg-red-950/40 dark:text-red-500 dark:border-red-800">
           Rejected
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-outline-variant">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
           {verification.overallStatus}
         </span>
       );
@@ -321,12 +321,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'bg-muted text-muted-foreground border-outline-variant', label: 'Not Started' },
-    in_progress: { class: 'bg-primary/10 text-primary border-primary/20', label: 'In Progress' },
-    certified: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Verified ✓' },
-    rejected: { class: 'bg-destructive/10 text-destructive border-destructive/20', label: 'Rejected' },
+    not_started: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Not Started' },
+    in_progress: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Progress' },
+    certified: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Verified ✓' },
+    rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected' },
     pending: { class: 'bg-amber-500/10 text-amber-300 border-amber-500/30', label: 'Pending' },
-    approved: { class: 'bg-success-bright/10 text-success border-success-bright/20', label: 'Approved' },
+    approved: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Approved' },
   };
 
   const verificationStatus = listing.verification?.overallStatus || 'not_started';
@@ -362,7 +362,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/landlord/properties"
-            className="p-2 rounded-lg hover:bg-surface-container text-neutral-400">
+            className="p-2 rounded-lg hover:bg-obsidian-800 text-neutral-400">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
@@ -381,7 +381,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-outline-variant">
+      <div className="flex gap-2 border-b border-[#262626]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -398,7 +398,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
       {/* Tab Content */}
       {activeTab === 'building' && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-white">
               Building Information
@@ -546,7 +546,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-outline-variant">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-[#262626]">
             <div className="flex items-center gap-2">
               <ImageIcon className="h-4 w-4 text-neutral-400" />
               <div>
@@ -588,7 +588,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       )}
 
       {activeTab === 'units' && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between p-6 pb-4">
             <h2 className="font-headline-sm text-headline-sm text-white">
               Units in Building
@@ -604,7 +604,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           {listing.units.length === 0 ? (
             <div className="p-12 text-center">
               <Layers className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
-              <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No units yet</h3>
+              <h3 className="font-headline-sm text-headline-sm font-bold text-white mb-2">No units yet</h3>
               <p className="text-muted-foreground mb-4">
                 Add your first unit to start listing this property.
               </p>
@@ -619,7 +619,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-outline-variant">
+                  <tr className="border-b border-[#262626]">
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
                     <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Listing Intent</th>
@@ -630,25 +630,25 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                 </thead>
                 <tbody>
                   {listing.units.map((unit) => (
-                    <tr key={unit.id} className="border-b border-outline-variant last:border-b-0">
+                    <tr key={unit.id} className="border-b border-[#262626] last:border-b-0">
                       <td className="px-4 py-3">
                         <div>
-                          <p className="font-medium text-foreground">Unit {unit.unitNumber}</p>
+                          <p className="font-medium text-white">Unit {unit.unitNumber}</p>
                           <p className="text-xs text-muted-foreground">
                             {unit.bedrooms} Bed • {unit.bathrooms} Bath {unit.sizeSqm ? `• ${unit.sizeSqm} sqm` : ''}
                           </p>
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-sm text-foreground">{formatPropertyType(unit.type)}</span>
+                        <span className="text-sm text-white">{formatPropertyType(unit.type)}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground border border-outline-variant">
+                        <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-white border border-[#262626]">
                           {formatListingType(unit.listingType)}
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <p className="text-sm font-medium text-foreground">{formatUnitPrice(unit)}</p>
+                        <p className="text-sm font-medium text-white">{formatUnitPrice(unit)}</p>
                         {unit.cautionDeposit ? (
                           <p className="text-xs text-muted-foreground">Caution: {formatCurrency(Number(unit.cautionDeposit))}</p>
                         ) : null}
@@ -657,15 +657,15 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         <div className="flex flex-wrap items-center gap-2">
                           <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
                             unit.occupancy === 'VACANT'
-                              ? 'bg-success/10 text-success border-success/20'
+                              ? 'bg-success/10 text-[#00ff66] border-success/20'
                               : unit.occupancy === 'OCCUPIED'
-                                ? 'bg-muted text-muted-foreground border-outline-variant'
+                                ? 'bg-muted text-muted-foreground border-[#262626]'
                                 : 'bg-warning/10 text-warning border-warning/20'
                           }`}>
                             {unit.occupancy}
                           </span>
                           <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
-                            unit.isListed ? 'bg-primary/10 text-primary border-primary/20' : 'bg-muted text-muted-foreground border-outline-variant'
+                            unit.isListed ? 'bg-[#262626] text-white border-primary/20' : 'bg-muted text-muted-foreground border-[#262626]'
                           }`}>
                             {unit.isListed ? 'Listed' : 'Unlisted'}
                           </span>
@@ -694,12 +694,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
       {activeTab === 'verification' && (
         <div className="space-y-4">
-          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-headline-sm text-headline-sm text-white">
                 Verification Status
               </h2>
-              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-neutral-400 border-outline-variant'}`}>
+              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-neutral-400 border-[#262626]'}`}>
                 {statusColors[verificationStatus]?.label || 'Unknown'}
               </span>
             </div>
@@ -719,7 +719,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
             return (
               <div
                 key={layer.key}
-                className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-sm hover:shadow-md transition-shadow border-outline-variant">
+                className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4 shadow-sm hover:shadow-md transition-shadow border-[#262626]">
                 <div className="flex items-center gap-4">
                   <div
                     className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-neutral-400">
@@ -757,13 +757,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       )}
 
       {activeTab === 'shared-amenities' && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-white">
               Shared Building Amenities
             </h2>
             {saved && (
-              <span className="text-xs text-success">
+              <span className="text-xs text-[#00ff66]">
                 Changes saved
               </span>
             )}
@@ -774,9 +774,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           </p>
 
           {listing.verification && listing.verification.overallStatus !== 'certified' && (
-            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-primary/10 text-primary border border-primary">
-              <AlertTriangle className="h-4 w-4 text-primary" />
-              <p className="text-sm text-primary">
+            <div className="flex items-center gap-2 p-3 rounded-lg mb-4 bg-[#262626] text-white border border-primary">
+              <AlertTriangle className="h-4 w-4 text-white" />
+              <p className="text-sm text-white">
                 Amenity updates will be reviewed during verification.
               </p>
             </div>
@@ -827,8 +827,8 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     }}
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                       active
-                        ? 'bg-primary/10 border-primary/20 text-primary'
-                        : 'bg-background border-outline-variant text-neutral-400 hover:border-primary/40'
+                        ? 'bg-[#262626] border-primary/20 text-white'
+                        : 'bg-background border-[#262626] text-neutral-400 hover:border-white/40'
                     }`}
                   >
                     {active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -859,7 +859,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
       )}
 
       {activeTab === 'media' && (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-headline-sm text-headline-sm text-white">
               Property Media
@@ -903,7 +903,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           {images.length === 0 ? (
             <div className="p-12 text-center">
               <ImageIcon className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
-              <h3 className="font-headline-sm text-headline-sm font-bold text-foreground mb-2">No media yet</h3>
+              <h3 className="font-headline-sm text-headline-sm font-bold text-white mb-2">No media yet</h3>
               <p className="text-muted-foreground">
                 Exterior shots, compound photos, and entrance images will appear here once uploaded.
               </p>
@@ -911,14 +911,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {images.map((image) => (
-                <div key={image.id} className="relative rounded-lg overflow-hidden border border-outline-variant">
+                <div key={image.id} className="relative rounded-lg overflow-hidden border border-[#262626]">
                   <img
                     src={image.url}
                     alt={listing.title}
                     className="w-full h-40 object-cover"
                   />
                   {image.isCover && (
-                    <span className="absolute top-2 left-2 tag bg-primary/10 text-primary border-primary/20">
+                    <span className="absolute top-2 left-2 tag bg-[#262626] text-white border-primary/20">
                       Cover
                     </span>
                   )}

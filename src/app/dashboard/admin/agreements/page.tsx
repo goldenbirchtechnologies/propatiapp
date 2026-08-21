@@ -35,28 +35,28 @@ export default async function AdminAgreementsPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Agreements</h1>
+          <h1 className="text-3xl font-bold text-white">Agreements</h1>
           <p className="text-muted-foreground mt-1">Manage platform agreements, terms, and contracts.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total Agreements</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{totalAgreements.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-white mt-2">{totalAgreements.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Fully Signed</p>
             <p className="text-2xl font-bold text-green-600 mt-2">{signedCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Draft</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{draftCount.toLocaleString()}</p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">Recent Agreements</h2>
+        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-[#262626]">
+            <h2 className="text-lg font-semibold text-white">Recent Agreements</h2>
           </div>
           {recentAgreements.length === 0 ? (
             <div className="p-12 text-center">
@@ -66,7 +66,7 @@ export default async function AdminAgreementsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-muted-foreground">
+                  <tr className="border-b border-[#262626] text-left text-muted-foreground">
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Landlord</th>
                     <th className="p-3 font-medium">Tenant</th>
@@ -75,12 +75,12 @@ export default async function AdminAgreementsPage() {
                 </thead>
                 <tbody>
                   {recentAgreements.map((agr) => (
-                    <tr key={agr.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
-                      <td className="p-3 text-foreground">{agr.listing?.title ?? '—'}</td>
-                      <td className="p-3 text-foreground">{agr.landlord?.fullName ?? '—'}</td>
-                      <td className="p-3 text-foreground">{agr.tenant?.fullName ?? '—'}</td>
+                    <tr key={agr.id} className="border-b border-[#262626] last:border-0 hover:bg-obsidian-800-lowest/50">
+                      <td className="p-3 text-white">{agr.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-white">{agr.landlord?.fullName ?? '—'}</td>
+                      <td className="p-3 text-white">{agr.tenant?.fullName ?? '—'}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-white">
                           {agr.status.replace(/_/g, ' ')}
                         </span>
                       </td>

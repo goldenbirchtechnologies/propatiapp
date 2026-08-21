@@ -43,7 +43,7 @@ function StatCardSkeleton() {
 
 function ScheduleRowSkeleton() {
   return (
-    <tr className="border-b" style={{ borderColor: 'border-[#262626]', animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+    <tr className="border-b" className=\"border-[#262626]\" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-[#262626]' }} /></td>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-[#262626]' }} /></td>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '30%', background: 'border-[#262626]' }} /></td>
@@ -91,7 +91,7 @@ export default function AgentScheduleClient() {
               <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">Inspection and meeting calendar</p>
             </div>
           </div>
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-center" role="alert">
+          <div className="rounded-xl border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
             <AlertTriangle className="w-12 h-12 mx-auto mb-3 text-red-500" />
             <p className="text-red-500 font-medium mb-1">Unable to load schedule</p>
             <p className="text-sm text-neutral-400 mb-3">{error.message}</p>
@@ -119,7 +119,7 @@ export default function AgentScheduleClient() {
               <StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton />
             </div>
             <div className="card overflow-hidden">
-              <div className="p-4 border-b" style={{ borderColor: 'border-[#262626]' }}>
+              <div className="p-4 border-b" className=\"border-[#262626]\">
                 <div className="flex gap-2">
                   <div className="rounded" style={{ height: 32, width: 80, background: 'border-[#262626]' }} />
                   <div className="rounded" style={{ height: 32, width: 80, background: 'border-[#262626]' }} />
@@ -128,7 +128,7 @@ export default function AgentScheduleClient() {
               </div>
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
-                  <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
+                  <tr className="border-b" className=\"border-[#262626]\">
                     <th className="text-left p-4 text-sm font-medium text-neutral-400">Event</th>
                     <th className="text-left p-4 text-sm font-medium text-neutral-400">Date</th>
                     <th className="text-left p-4 text-sm font-medium text-neutral-400">Time</th>
@@ -157,14 +157,14 @@ export default function AgentScheduleClient() {
               <div className="card p-4"><p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Cancelled</p><p className="text-2xl font-bold text-white">{cancelledCount}</p></div>
             </div>
             <div className="card overflow-hidden">
-              <div className="p-4 flex flex-wrap gap-2 border-b" style={{ borderColor: 'border-[#262626]' }}>
+              <div className="p-4 flex flex-wrap gap-2 border-b" className=\"border-[#262626]\">
                 {(['all', 'inspection', 'meeting'] as const).map((f) => (
-                  <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-white border-[#262626] bg-surface-container-low' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
+                  <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-white border-[#262626] bg-obsidian-800/30' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
                 ))}
               </div>
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
-                  <tr className="border-b" style={{ borderColor: 'border-[#262626]' }}>
+                  <tr className="border-b" className=\"border-[#262626]\">
                     <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Event</th>
                     <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Date</th>
                     <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Time</th>
@@ -177,7 +177,7 @@ export default function AgentScheduleClient() {
                   {schedule.map((item) => {
                     const sc = statusConfig[item.status] || statusConfig.upcoming;
                     return (
-                      <tr key={item.id} className="border-b transition-colors hover:bg-[#171717]/30" style={{ borderColor: 'border-[#262626]' }}>
+                      <tr key={item.id} className="border-b transition-colors hover:bg-[#171717]/30" className=\"border-[#262626]\">
                         <td className="p-4">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-[#00ff66]/10 text-white flex items-center justify-center flex-shrink-0">

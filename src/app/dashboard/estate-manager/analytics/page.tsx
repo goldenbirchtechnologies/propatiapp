@@ -154,7 +154,7 @@ export default async function EstateManagerAnalyticsPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-primary' }}>Analytics</h1>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Analytics</h1>
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Portfolio performance and financial insights</p>
           </div>
           <div className="flex items-center gap-3">
@@ -171,30 +171,30 @@ export default async function EstateManagerAnalyticsPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="card p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Portfolio Value</p>
-            <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{portfolioValue}</p>
-            <p className="text-xs text-success mt-1">+4.2% vs last month</p>
+            <p className="text-2xl font-bold" className="text-white">{portfolioValue}</p>
+            <p className="text-xs text-[#00ff66] mt-1">+4.2% vs last month</p>
           </div>
           <div className="card p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Active Units</p>
-            <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{activeUnits}</p>
-            <p className="text-xs text-success mt-1">{occupancyRate}% occupancy</p>
+            <p className="text-2xl font-bold" className="text-white">{activeUnits}</p>
+            <p className="text-xs text-[#00ff66] mt-1">{occupancyRate}% occupancy</p>
           </div>
           <div className="card p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Monthly Collections</p>
-            <p className="text-2xl font-bold text-success">{monthlyCollections}</p>
-            <p className="text-xs text-success mt-1">+7.1% vs last month</p>
+            <p className="text-2xl font-bold text-[#00ff66]">{monthlyCollections}</p>
+            <p className="text-xs text-[#00ff66] mt-1">+7.1% vs last month</p>
           </div>
           <div className="card p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Avg Rent / Unit</p>
-            <p className="text-2xl font-bold" style={{ color: 'text-primary' }}>{avgRent}</p>
+            <p className="text-2xl font-bold" className="text-white">{avgRent}</p>
             <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>Gross rental yield</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-4" style={{ color: 'text-primary' }}>Collection Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-border border-dashed rounded-lg">
+            <h3 className="font-headline-sm font-bold mb-4" className="text-white">Collection Trend</h3>
+            <div className="h-64 flex items-center justify-center border border-[#262626] border-dashed rounded-lg">
               <div className="text-center">
                 <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-muted-foreground' }} />
                 <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Monthly collection trend</p>
@@ -203,8 +203,8 @@ export default async function EstateManagerAnalyticsPage() {
             </div>
           </div>
           <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-4" style={{ color: 'text-primary' }}>Occupancy Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-border border-dashed rounded-lg">
+            <h3 className="font-headline-sm font-bold mb-4" className="text-white">Occupancy Trend</h3>
+            <div className="h-64 flex items-center justify-center border border-[#262626] border-dashed rounded-lg">
               <div className="text-center">
                 <TrendingUp className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-muted-foreground' }} />
                 <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Occupancy rate trend</p>
@@ -216,16 +216,16 @@ export default async function EstateManagerAnalyticsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-4" style={{ color: 'text-primary' }}>Unit Distribution</h3>
-            <div className="h-64 flex items-center justify-center border border-border border-dashed rounded-lg">
+            <h3 className="font-headline-sm font-bold mb-4" className="text-white">Unit Distribution</h3>
+            <div className="h-64 flex items-center justify-center border border-[#262626] border-dashed rounded-lg">
               <div className="text-center">
                 <PieChartIcon className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-muted-foreground' }} />
                 <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unit type breakdown</p>
                 <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>Hook chart library here</p>
                 <div className="mt-3 flex flex-wrap justify-center gap-3">
                   {unitDistribution.map((u) => (
-                    <span key={u.label} className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider px-2 py-1 rounded-full bg-muted" style={{ color: 'text-primary' }}>
-                      <span className="w-2 h-2 rounded-full" style={{ background: 'text-primary' }} />
+                    <span key={u.label} className="inline-flex items-center gap-1 text-xs font-label-md uppercase tracking-wider px-2 py-1 rounded-full bg-muted" className="text-white">
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'text-white' }} />
                       {u.label}: {u.count}
                     </span>
                   ))}
@@ -234,8 +234,8 @@ export default async function EstateManagerAnalyticsPage() {
             </div>
           </div>
           <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-4" style={{ color: 'text-primary' }}>Revenue vs Expenses</h3>
-            <div className="h-64 flex items-center justify-center border border-border border-dashed rounded-lg">
+            <h3 className="font-headline-sm font-bold mb-4" className="text-white">Revenue vs Expenses</h3>
+            <div className="h-64 flex items-center justify-center border border-[#262626] border-dashed rounded-lg">
               <div className="text-center">
                 <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-muted-foreground' }} />
                 <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Revenue vs expenses chart</p>
@@ -246,12 +246,12 @@ export default async function EstateManagerAnalyticsPage() {
         </div>
 
         <div className="card overflow-hidden">
-          <div className="p-4 border-b" style={{ borderColor: 'border-border' }}>
-            <h3 className="font-headline-sm font-bold" style={{ color: 'text-primary' }}>Recent Transactions</h3>
+          <div className="p-4 border-b border-[#262626]">
+            <h3 className="font-headline-sm font-bold" className="text-white">Recent Transactions</h3>
           </div>
           <table className="w-full">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'border-border' }}>
+              <tr className="border-b border-[#262626]">
                 <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unit</th>
                 <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Tenant</th>
                 <th className="text-right p-4 text-sm font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Amount</th>
@@ -260,11 +260,11 @@ export default async function EstateManagerAnalyticsPage() {
             </thead>
             <tbody>
               {recentTransactions.map((r) => (
-                <tr key={r.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'border-border' }}>
-                  <td className="p-4 text-sm" style={{ color: 'text-primary' }}>{r.unit}</td>
+                <tr key={r.id} className="border-b transition-colors hover:bg-muted/30 border-[#262626]">
+                  <td className="p-4 text-sm" className="text-white">{r.unit}</td>
                   <td className="p-4 text-sm" style={{ color: 'text-muted-foreground' }}>{r.tenant}</td>
-                  <td className="p-4 text-sm font-medium text-right" style={{ color: 'text-primary' }}>₦{r.amount.toLocaleString()}</td>
-                  <td className="p-4 text-sm" style={{ color: 'text-primary' }}>
+                  <td className="p-4 text-sm font-medium text-right" className="text-white">₦{r.amount.toLocaleString()}</td>
+                  <td className="p-4 text-sm" className="text-white">
                     {new Date(r.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </td>
                 </tr>

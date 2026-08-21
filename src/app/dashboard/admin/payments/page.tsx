@@ -35,30 +35,30 @@ export default async function AdminPaymentsPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Payments</h1>
+          <h1 className="text-3xl font-bold text-white">Payments</h1>
           <p className="text-muted-foreground mt-1">Monitor escrow, rent, and agreement payments across the platform.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Total Transactions</p>
-            <p className="text-2xl font-bold text-foreground mt-2">{totalTransactions.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-white mt-2">{totalTransactions.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Pending</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{pendingTxns.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-border bg-surface-container-lowest p-6 shadow-card">
+          <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 p-6 shadow-card">
             <p className="text-muted-foreground text-sm">Recent Volume</p>
-            <p className="text-2xl font-bold text-foreground mt-2">
+            <p className="text-2xl font-bold text-white mt-2">
               {formatCurrency(Number(recentTransactions.reduce((sum, t) => sum + Number(t.amount), 0)))}
             </p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface-container-lowest shadow-card overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h2 className="text-lg font-semibold text-foreground">Recent Transactions</h2>
+        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-[#262626]">
+            <h2 className="text-lg font-semibold text-white">Recent Transactions</h2>
           </div>
           {recentTransactions.length === 0 ? (
             <div className="p-12 text-center">
@@ -68,7 +68,7 @@ export default async function AdminPaymentsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-muted-foreground">
+                  <tr className="border-b border-[#262626] text-left text-muted-foreground">
                     <th className="p-3 font-medium">Reference</th>
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Payer</th>
@@ -79,14 +79,14 @@ export default async function AdminPaymentsPage() {
                 </thead>
                 <tbody>
                   {recentTransactions.map((tx) => (
-                    <tr key={tx.id} className="border-b border-border last:border-0 hover:bg-surface-container-low/50">
-                      <td className="p-3 text-foreground font-mono text-xs">{tx.reference ?? tx.id}</td>
-                      <td className="p-3 text-foreground">{tx.listing?.title ?? '—'}</td>
-                      <td className="p-3 text-foreground">{tx.payer?.fullName ?? '—'}</td>
-                      <td className="p-3 text-foreground">{tx.payee?.fullName ?? '—'}</td>
+                    <tr key={tx.id} className="border-b border-[#262626] last:border-0 hover:bg-obsidian-800-lowest/50">
+                      <td className="p-3 text-white font-mono text-xs">{tx.reference ?? tx.id}</td>
+                      <td className="p-3 text-white">{tx.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-white">{tx.payer?.fullName ?? '—'}</td>
+                      <td className="p-3 text-white">{tx.payee?.fullName ?? '—'}</td>
                       <td className="p-3 text-right">{formatCurrency(Number(tx.amount))}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-foreground">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-muted text-white">
                           {tx.status.replace(/_/g, ' ')}
                         </span>
                       </td>

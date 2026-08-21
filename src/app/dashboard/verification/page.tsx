@@ -68,7 +68,7 @@ export default async function VerificationHubPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Verification Center</h1>
+          <h1 className="text-3xl font-bold text-white">Verification Center</h1>
           <p className="text-muted-foreground mt-1">{verificationsError}</p>
         </div>
         <button
@@ -92,7 +92,7 @@ export default async function VerificationHubPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Verification Center</h1>
+        <h1 className="text-3xl font-bold text-white">Verification Center</h1>
         <p className="text-muted-foreground mt-1">
           Choose a verification type to begin or continue your application.
         </p>
@@ -105,11 +105,11 @@ export default async function VerificationHubPage() {
             <a
               key={item.key}
               href={item.href}
-              className="rounded-lg border border-border p-5 transition hover:border-foreground"
+              className="rounded-lg border border-[#262626] p-5 transition hover:border-foreground"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xl font-semibold text-foreground">{item.title}</p>
+                  <p className="text-xl font-semibold text-white">{item.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
                 </div>
                 <span className="text-2xl">{item.icon}</span>

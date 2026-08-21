@@ -10,7 +10,7 @@ const shimmerBg = 'bg-outline-variant';
 const shimmerAnimation = 'animate-pulse';
 
 const StatCardSkeleton = () => (
-  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-outline-variant p-4 sm:p-6`}>
+  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-[#262626] p-4 sm:p-6`}>
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <div className={`${shimmerBg} h-4 rounded w-24 mb-3`} />
@@ -23,7 +23,7 @@ const StatCardSkeleton = () => (
 );
 
 const ActionCardSkeleton = () => (
-  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-outline-variant p-4 sm:p-5`}>
+  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-[#262626] p-4 sm:p-5`}>
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg" />
       <div className="flex-1">
@@ -35,7 +35,7 @@ const ActionCardSkeleton = () => (
 );
 
 const TableRowSkeleton = () => (
-  <div className="flex items-center justify-between py-3 border-b border-outline-variant/30">
+  <div className="flex items-center justify-between py-3 border-b border-[#262626]/30">
     <div className="flex items-center gap-3 flex-1">
       <div className="w-10 h-10 rounded-full" />
       <div className="flex-1">
@@ -58,17 +58,17 @@ interface StatCardProps {
 }
 
 const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: StatCardProps) => (
-  <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
+  <div className={`bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
     <div className="flex items-start justify-between">
       <div className="flex-1">
-        <p className="text-on-surface-variant text-sm font-medium mb-2">{title}</p>
-        <p className={`text-primary font-headline-md mb-1`}>{value}</p>
+        <p className="text-neutral-400 text-sm font-medium mb-2">{title}</p>
+        <p className={`text-white font-headline-md mb-1`}>{value}</p>
         {trend && (
           <div className="flex items-center gap-1">
-            <span className={`lucide text-sm ${trendUp ? 'text-success' : 'text-destructive'}`}>
+            <span className={`lucide text-sm ${trendUp ? 'text-[#00ff66]' : 'text-red-500'}`}>
               {trendUp ? 'trending_up' : 'trending_down'}
             </span>
-            <span className={`text-xs font-medium ${trendUp ? 'text-success' : 'text-destructive'}`}>{trend}</span>
+            <span className={`text-xs font-medium ${trendUp ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
           </div>
         )}
       </div>
@@ -91,14 +91,14 @@ interface ActionCardProps {
 
 const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass }: ActionCardProps) => (
   <a href={href}>
-    <div className={`bg-surface-container-lowest rounded-lg border border-outline-variant p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
+    <div className={`bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
       <div className="flex items-center gap-3">
         <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
           <span className={`lucide text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
         </div>
         <div className="flex-1">
-          <h3 className={`font-headline-sm text-primary mb-1`}>{title}</h3>
-          <p className="text-on-surface-variant text-xs sm:text-sm">{description}</p>
+          <h3 className={`font-headline-sm text-white mb-1`}>{title}</h3>
+          <p className="text-neutral-400 text-xs sm:text-sm">{description}</p>
         </div>
       </div>
       {count !== undefined && count > 0 && (
@@ -123,35 +123,35 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
   const statusColors: Record<string, string> = {
     pending: 'bg-warning/10 text-warning',
     verified: 'bg-verification-verified/10 text-verification-verified',
-    active: 'bg-success/10 text-success',
+    active: 'bg-success/10 text-[#00ff66]',
   };
 
   const roleColors: Record<string, string> = {
     tenant: 'bg-verification-verified/10 text-verification-verified',
     landlord: 'bg-commercial-gold/10 text-commercial-gold',
-    agent: 'bg-primary/10 text-primary',
+    agent: 'bg-[#262626] text-white',
     'estate-manager': 'bg-commercial-gold/10 text-commercial-gold',
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-outline-variant/30 gap-2 sm:gap-4 hover:bg-surface-container/30 transition-colors duration-150">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-[#262626]/30 gap-2 sm:gap-4 hover:bg-obsidian-800/30 transition-colors duration-150">
       <div className="flex items-center gap-3 flex-1">
         <div className="w-10 h-10 rounded-full flex items-center justify-center text-on-primary font-bold bg-gradient-to-br from-primary to-accent">
           {userItem.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-primary text-sm sm:text-base truncate">{userItem.name}</p>
-          <p className="text-on-surface-variant text-xs sm:text-sm truncate">{userItem.email}</p>
+          <p className="font-semibold text-white text-sm sm:text-base truncate">{userItem.name}</p>
+          <p className="text-neutral-400 text-xs sm:text-sm truncate">{userItem.email}</p>
         </div>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
-        <span className={`${roleColors[userItem.role] || 'bg-muted text-foreground'} px-2 py-1 rounded-full text-xs font-medium`}>
+        <span className={`${roleColors[userItem.role] || 'bg-muted text-white'} px-2 py-1 rounded-full text-xs font-medium`}>
           {userItem.role}
         </span>
         <span className={`${statusColors[userItem.status]} px-2 py-1 rounded-full text-xs font-medium hidden sm:inline`}>
           {userItem.status}
         </span>
-        <span className="text-on-surface-variant text-xs hidden sm:block">{userItem.registeredAt}</span>
+        <span className="text-neutral-400 text-xs hidden sm:block">{userItem.registeredAt}</span>
       </div>
     </div>
   );
@@ -165,9 +165,9 @@ interface AlertBannerProps {
 
 const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   const styles: Record<string, string> = {
-    warning: 'bg-warning/10 border-outline-variant text-warning',
-    info: 'bg-primary/5 border-outline-variant text-primary',
-    success: 'bg-success/10 border-outline-variant text-success',
+    warning: 'bg-warning/10 border-[#262626] text-warning',
+    info: 'bg-primary/5 border-[#262626] text-white',
+    success: 'bg-success/10 border-[#262626] text-[#00ff66]',
   };
 
   const iconMap: Record<string, string> = {
@@ -237,7 +237,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
 
         {/* Platform Statistics */}
         <div>
-          <h2 className="font-headline-md text-primary mb-4">Platform Statistics</h2>
+          <h2 className="font-headline-md text-white mb-4">Platform Statistics</h2>
           {stats.totalUsers === 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[...Array(8)].map((_, i) => <StatCardSkeleton key={i} />)}
@@ -277,7 +277,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
                 icon="payments"
                 trend="+14.7% this month"
                 trendUp={true}
-                colorClass="text-success"
+                colorClass="text-[#00ff66]"
                 bgClass="bg-success/10"
               />
             </div>
@@ -286,7 +286,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
 
         {/* Quick Actions */}
         <div>
-          <h2 className="font-headline-md text-primary mb-4">Quick Actions</h2>
+          <h2 className="font-headline-md text-white mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <ActionCard
               title="User Management"
@@ -312,8 +312,8 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
               icon="gavel"
               href="/dashboard/admin/disputes"
               count={stats.disputesCases}
-              colorClass="text-destructive"
-              bgClass="bg-destructive/10"
+              colorClass="text-red-500"
+              bgClass="bg-red-500/10"
             />
             <ActionCard
               title="Properties"
@@ -328,7 +328,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
               description="Review escrow and payments"
               icon="payments"
               href="/dashboard/admin/transactions/escrow"
-              colorClass="text-success"
+              colorClass="text-[#00ff66]"
               bgClass="bg-success/10"
             />
             <ActionCard
@@ -336,16 +336,16 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
               description="View financial analytics"
               icon="insights"
               href="/dashboard/admin/revenue"
-              colorClass="text-primary"
-              bgClass="bg-primary/10"
+              colorClass="text-white"
+              bgClass="bg-[#262626]"
             />
           </div>
         </div>
 
         {/* Recent User Registrations */}
         <div>
-          <h2 className="font-headline-md text-primary">Recent User Registrations</h2>
-          <div className="mt-4 bg-surface-container-lowest rounded-lg border border-outline-variant divide-y divide-outline-variant/30">
+          <h2 className="font-headline-md text-white">Recent User Registrations</h2>
+          <div className="mt-4 bg-obsidian-800/30 rounded-lg border border-[#262626] divide-y divide-[#262626]/30">
             {stats.totalUsers === 0 ? (
               <div className="p-4">
                 <TableRowSkeleton />

@@ -83,7 +83,7 @@ function Step3VideoClient(props: Props) {
             {props.l3Status === 'approved' ? 'Video verified successfully' : props.l3Status === 'pending' ? 'Waiting for admin review' : 'Record and upload a video walkthrough'}
           </p>
         </CardContent>
-      </Card>
+      </div>
 
       {!canProceed ? (
         <Card>
@@ -93,11 +93,11 @@ function Step3VideoClient(props: Props) {
               <p>Please complete Layer 2 (Identity verification) before proceeding.</p>
             </div>
           </CardContent>
-        </Card>
+        </div>
       ) : props.l3Status === 'approved' ? (
         <Card>
           <CardContent className="p-6">
-            <div className="flex items-center gap-2 text-success">
+            <div className="flex items-center gap-2 text-[#00ff66]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Video verification complete.</p>
             </div>
@@ -105,7 +105,7 @@ function Step3VideoClient(props: Props) {
               <video src={videoUrl} controls className="mt-4 rounded-lg max-h-[400px]" />
             )}
           </CardContent>
-        </Card>
+        </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -116,7 +116,7 @@ function Step3VideoClient(props: Props) {
               <p className="text-sm text-muted-foreground">
                 Record a video walking through the property. Show all rooms and display the QR code at the start.
               </p>
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-8 cursor-pointer hover:border-primary hover:bg-muted/30 transition-all">
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-8 cursor-pointer hover:border-white hover:bg-muted/30 transition-all">
                 <input
                   type="file"
                   accept="video/mp4,video/quicktime,video/webm"
@@ -125,10 +125,10 @@ function Step3VideoClient(props: Props) {
                   onChange={handleUpload}
                 />
                 {uploading ? (
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <Loader2 className="h-8 w-8 animate-spin text-white" />
                 ) : (
                   <>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary mb-3">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white mb-3">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                       <polyline points="17 8 12 3 7 8" />
                       <line x1="12" y1="3" x2="12" y2="15" />
@@ -142,7 +142,7 @@ function Step3VideoClient(props: Props) {
                 <video src={videoUrl} controls className="rounded-lg max-h-[300px]" />
               )}
             </CardContent>
-          </Card>
+          </div>
 
           <Card>
             <CardHeader>
@@ -168,7 +168,7 @@ function Step3VideoClient(props: Props) {
                 Generate QR Code
               </Button>
             </CardContent>
-          </Card>
+          </div>
         </div>
       )}
 

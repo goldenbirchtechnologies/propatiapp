@@ -167,7 +167,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between border-b border-outline-variant p-4">
+        <div className="flex items-center justify-between border-b border-[#262626] p-4">
           <div>
             <h2 className="font-headline-sm text-headline-sm font-bold text-white">
               Manage Unit {unit.unitNumber}
@@ -179,7 +179,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
           </Button>
         </div>
 
-        <div className="flex gap-2 border-b border-outline-variant px-4 overflow-x-auto">
+        <div className="flex gap-2 border-b border-[#262626] px-4 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -200,7 +200,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-white">Unit Specs & Pricing</h3>
                 <div className="flex items-center gap-2">
-                  {specsSaved && <span className="text-xs text-success">Changes saved</span>}
+                  {specsSaved && <span className="text-xs text-[#00ff66]">Changes saved</span>}
                   {editingSpecs ? (
                     <>
                       <Button size="sm" variant="secondary" onClick={() => setEditingSpecs(false)} disabled={savingSpecs}>
@@ -226,7 +226,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   </label>
                   {editingSpecs ? (
                     <input
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       value={unit.unitNumber}
                       onChange={(e) => {
                             // In a real implementation, update unit state here
@@ -242,7 +242,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.type}
                     >
                       <option value="apartment">Apartment</option>
@@ -261,7 +261,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.bedrooms}
                     />
                   ) : (
@@ -275,7 +275,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.bathrooms}
                     />
                   ) : (
@@ -289,7 +289,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.sizeSqm ?? ""}
                     />
                   ) : (
@@ -302,7 +302,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.listingType}
                     >
                       <option value="rent">For Rent</option>
@@ -311,7 +311,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       <option value="unlisted">Unlisted</option>
                     </select>
                   ) : (
-                    <span className="tag bg-muted text-foreground border-outline-variant">
+                    <span className="tag bg-muted text-white border-[#262626]">
                       {formatListingType(unit.listingType)}
                     </span>
                   )}
@@ -326,7 +326,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.rent}
                     />
                   ) : (
@@ -339,7 +339,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.pricePeriod || "month"}
                     >
                       <option value="month">Per Month</option>
@@ -359,7 +359,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.cautionDeposit ?? ""}
                     />
                   ) : (
@@ -373,7 +373,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                       defaultValue={unit.serviceCharge ?? ""}
                     />
                   ) : (
@@ -406,9 +406,9 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                 <span
                   className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border ${
                     unit.occupancy === "VACANT"
-                      ? "bg-success/10 text-success border-success/20"
+                      ? "bg-success/10 text-[#00ff66] border-success/20"
                       : unit.occupancy === "OCCUPIED"
-                        ? "bg-muted text-muted-foreground border-outline-variant"
+                        ? "bg-muted text-muted-foreground border-[#262626]"
                         : "bg-warning/10 text-warning border-warning/20"
                   }`}
                 >
@@ -423,8 +423,8 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               {isShortLet ? (
                 <div className="space-y-3">
-                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
-                    <p className="text-sm font-medium text-primary mb-2">Quick Actions</p>
+                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                    <p className="text-sm font-medium text-white mb-2">Quick Actions</p>
                     <div className="flex flex-wrap gap-2">
                       <Button asChild size="sm">
                         <Link href={`/dashboard/landlord/properties/${listing.id}/bookings/new?unitId=${unit.id}`}>
@@ -444,13 +444,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                     </div>
                   </div>
 
-                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
-                    <p className="text-sm font-medium text-primary mb-2">Current / Next Stay</p>
+                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                    <p className="text-sm font-medium text-white mb-2">Current / Next Stay</p>
                     <p className="text-xs text-muted-foreground">No guest currently checked in. Next check-in: Aug 12</p>
                   </div>
 
-                  <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
-                    <p className="text-sm font-medium text-primary mb-2">Occupancy History</p>
+                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                    <p className="text-sm font-medium text-white mb-2">Occupancy History</p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <BarChart3 className="h-4 w-4" />
                       <span>85% occupied this month</span>
@@ -472,8 +472,8 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-4">
-                        <p className="text-sm font-medium text-primary">Current Tenant</p>
+                      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                        <p className="text-sm font-medium text-white">Current Tenant</p>
                         <p className="text-xs text-muted-foreground">Tenant details will appear here.</p>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -524,12 +524,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-primary">Marketplace Status</p>
+                  <p className="text-sm font-medium text-white">Marketplace Status</p>
                   <p className="text-xs text-muted-foreground">
                     {unit.isListed ? "This unit is visible on the marketplace." : "This unit is not listed."}
                   </p>
                 </div>
-                <span className={`tag ${unit.isListed ? "bg-success/10 text-success border-success/20" : "bg-muted text-muted-foreground border-outline-variant"}`}>
+                <span className={`tag ${unit.isListed ? "bg-success/10 text-[#00ff66] border-success/20" : "bg-muted text-muted-foreground border-[#262626]"}`}>
                   {unit.isListed ? "Listed" : "Unlisted"}
                 </span>
               </div>
@@ -555,7 +555,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   Listing Headline
                 </label>
                 <input
-                  className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                   defaultValue={marketplaceTitle}
                   onChange={(e) => setMarketplaceTitle(e.target.value)}
                 />
@@ -566,7 +566,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   Marketing Description
                 </label>
                 <textarea
-                  className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                   rows={4}
                   placeholder="Describe the unit features, furnishings, nearby landmarks, and what makes this stay special."
                   defaultValue={marketingDescription}
@@ -575,7 +575,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               {isShortLet && (
-                <div className="space-y-3 rounded-xl border border-outline-variant p-4">
+                <div className="space-y-3 rounded-xl border border-[#262626] p-4">
                   <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
                     Short-Let Listing Controls
                   </p>
@@ -585,7 +585,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                         Minimum Stay
                       </label>
                       <select
-                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                         value={minimumStay}
                         onChange={(e) => setMinimumStay(e.target.value)}
                       >
@@ -601,7 +601,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </label>
                       <input
                         type="time"
-                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                         value={checkInTime}
                         onChange={(e) => setCheckInTime(e.target.value)}
                       />
@@ -612,7 +612,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </label>
                       <input
                         type="time"
-                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                         value={checkOutTime}
                         onChange={(e) => setCheckOutTime(e.target.value)}
                       />
@@ -622,7 +622,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                         Instant Booking
                       </label>
                       <select
-                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                         value={instantBooking ? "instant" : "approval"}
                         onChange={(e) => setInstantBooking(e.target.value === "instant")}
                       >
@@ -636,7 +636,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </label>
                       <input
                         type="number"
-                        className="mt-1 w-full rounded-lg border border-outline-variant bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
                         value={cautionDeposit}
                         onChange={(e) => setCautionDeposit(e.target.value)}
                       />
@@ -650,7 +650,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   Listing Media Preview
                 </p>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-lg border border-dashed border-outline-variant p-4 text-center text-xs text-muted-foreground">
+                  <div className="rounded-lg border border-dashed border-[#262626] p-4 text-center text-xs text-muted-foreground">
                     Unit photos will appear here.
                   </div>
                 </div>
@@ -676,7 +676,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   Log Ticket
                 </Button>
               </div>
-              <div className="rounded-lg border border-outline-variant p-6 text-center text-sm text-muted-foreground">
+              <div className="rounded-lg border border-[#262626] p-6 text-center text-sm text-muted-foreground">
                 No maintenance tickets yet.
               </div>
             </div>

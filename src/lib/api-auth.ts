@@ -124,3 +124,40 @@ export function paginatedResponse<T>(
     },
   });
 }
+
+export async function requireAgentPermission(
+  user: AuthenticatedRequest['user'],
+  listingId: string,
+  permission?: string
+): Promise<NextResponse | { allowed: true }> {
+  if (user.role === 'admin') {
+    return { allowed: true };
+  }
+
+  const listing = await prisma.listing.findFirst({
+    where: {
+      id: listingId,
+      OR: [
+        { agentId: user.id },
+        {
+          agentAssignments: {
+            some: {
+              agentId: user.id,
+              status: 'active',
+            },
+          },
+        },
+      ],
+    },
+    select: { id: true },
+  });
+
+  if (!listing) {
+    return NextResponse.json(
+      { error: 'FORBIDDEN: No agent access to this listing' },
+      { status: 403 }
+    );
+  }
+
+  return { allowed: true };
+}

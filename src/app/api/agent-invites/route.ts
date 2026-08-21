@@ -3,12 +3,15 @@ import { withAuth } from '@/lib/api-auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 import { randomBytes } from 'crypto';
+import { sendAgentInviteEmail } from '@/lib/email';
+import { notifyAgentInviteSent } from '@/lib/notifications';
 
 const createAgentInviteSchema = z.object({
   email: z.string().email(),
   permissions: z.array(z.string()).optional(),
   scope: z.enum(['all', 'specific']).optional(),
   listingIds: z.array(z.string()).optional(),
+  message: z.string().optional(),
 });
 
 export async function GET(request: NextRequest) {
@@ -88,10 +91,28 @@ export async function POST(request: NextRequest) {
         email: validated.email.toLowerCase(),
         token,
         status: 'pending',
+        permissions: validated.permissions || [],
+        scope: validated.scope || 'specific',
+        listingIds: validated.listingIds || [],
+        message: validated.message || null,
       },
       include: {
         sender: { select: { id: true, fullName: true, email: true } },
       },
+    });
+
+    const acceptUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/agent/invites/accept?token=${token}`;
+    await sendAgentInviteEmail({
+      to: validated.email,
+      landlordName: user.fullName,
+      acceptUrl,
+      message: validated.message,
+    });
+
+    await notifyAgentInviteSent({
+      landlordId: user.id,
+      agentEmail: validated.email,
+      inviteId: invite.id,
     });
 
     return NextResponse.json({ success: true, data: invite }, { status: 201 });

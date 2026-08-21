@@ -152,7 +152,7 @@ export default function AgreementDetailClient() {
           <Button onClick={() => router.push(`/dashboard/${role}/agreements`)}>
             Back to Agreements
           </Button>
-        </div>
+        </Card>
       </div>
     );
   }

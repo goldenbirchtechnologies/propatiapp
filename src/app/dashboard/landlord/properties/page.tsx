@@ -20,29 +20,34 @@ export default async function LandlordPropertiesPage() {
   }
 
   const listings = await prisma.listing.findMany({
-    where: { ownerId: user.id },
-    include: {
-      images: { where: { isCover: true }, take: 1 },
-      verification: true,
-      units: {
-        select: {
-          id: true,
-          unitNumber: true,
-          buildingName: true,
-          type: true,
-          bedrooms: true,
-          bathrooms: true,
-          rent: true,
-          status: true,
-          occupancy: true,
-          organizationId: true,
-          listingType: true,
-          pricePeriod: true,
-          isListed: true,
-        },
+  where: { ownerId: user.id },
+  include: {
+    images: { where: { isCover: true }, take: 1 },
+    verification: true,
+    agent: { select: { id: true, fullName: true, email: true } },
+    agentAssignments: {
+      where: { status: 'active' },
+      include: { agent: { select: { id: true, fullName: true, email: true } } },
+    },
+    units: {
+      select: {
+        id: true,
+        unitNumber: true,
+        buildingName: true,
+        type: true,
+        bedrooms: true,
+        bathrooms: true,
+        rent: true,
+        status: true,
+        occupancy: true,
+        organizationId: true,
+        listingType: true,
+        pricePeriod: true,
+        isListed: true,
       },
     },
-    orderBy: { createdAt: 'desc' },
+  },
+  orderBy: { createdAt: 'desc' },
   });
 
   const normalized = listings
@@ -50,12 +55,17 @@ export default async function LandlordPropertiesPage() {
       const totalUnits = listing.units.length;
       const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
       const listedUnits = listing.units.filter((u) => u.isListed).length;
+      const assignedAgent =
+        listing.agent ??
+        listing.agentAssignments?.[0]?.agent ??
+        null;
       return {
         ...listing,
         price: Number(listing.price),
         unitCount: totalUnits,
         vacantUnitCount: vacantUnits,
         listedUnitCount: listedUnits,
+        assignedAgent,
         units: listing.units.map((unit) => ({
           id: unit.id,
           unitNumber: unit.unitNumber,

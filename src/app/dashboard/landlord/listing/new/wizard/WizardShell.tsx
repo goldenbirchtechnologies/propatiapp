@@ -318,7 +318,7 @@ export default function WizardShell({ onComplete }: Props) {
               value={stepValue}
               onChange={stepOnChange}
             />
-          </div>
+          </Card>
         </main>
 
       {/* Sticky Footer */}

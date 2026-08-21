@@ -99,7 +99,7 @@ export default function SignAgreementPage() {
           <Button onClick={() => router.push(`/dashboard/${role}/agreements`)}>
             Back to Agreements
           </Button>
-        </div>
+        </Card>
       </div>
     );
   }

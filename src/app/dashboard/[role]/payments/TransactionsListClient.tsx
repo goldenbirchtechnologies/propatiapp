@@ -197,7 +197,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

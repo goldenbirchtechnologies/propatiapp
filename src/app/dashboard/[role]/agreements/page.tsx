@@ -101,7 +101,7 @@ export default function AgreementsPage() {
                   <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
                   <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
                   <div className="h-3 bg-muted rounded w-2/3"></div>
-                </div>
+                </Card>
               ))}
             </div>
           ) : filteredAgreements.length === 0 ? (

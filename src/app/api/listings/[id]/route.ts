@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 import { updateListingSchema } from '@/lib/validators';
+import { requireAgentPermission } from '@/lib/api-auth';
 
 // GET /api/listings/[id] - Public access to view single listing
 export async function GET(
@@ -111,7 +112,7 @@ export async function GET(
   }
 }
 
-// PATCH /api/listings/[id] - Update listing (owner only)
+// PATCH /api/listings/[id] - Update listing (owner or authorized agent)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -152,7 +153,16 @@ export async function PATCH(
     const isOwner = user.id === listing.ownerId;
     const isAdmin = user.role === 'admin';
 
-    if (!isOwner && !isAdmin) {
+    let agentAllowed = false;
+    if (!isOwner && !isAdmin && user.role === 'agent') {
+      const permissionResult = await requireAgentPermission(user, id, 'edit_listings');
+      if (permissionResult instanceof NextResponse) {
+        return permissionResult;
+      }
+      agentAllowed = true;
+    }
+
+    if (!isOwner && !isAdmin && !agentAllowed) {
       return NextResponse.json(
         { success: false, error: 'Forbidden: You can only update your own listings' },
         { status: 403 }

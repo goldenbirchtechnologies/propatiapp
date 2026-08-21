@@ -84,6 +84,7 @@ type Listing = {
   unitCount: number;
   vacantUnitCount: number;
   listedUnitCount: number;
+  assignedAgent: { id: string; fullName: string | null; email: string | null } | null;
   units: ListingUnit[];
 };
 
@@ -283,6 +284,11 @@ export default function PropertiesClient({ listings }: Props) {
                       <span className={`tag ${listing.vacantUnitCount > 0 ? 'bg-amber-500/10 text-neutral-300 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
                         {listing.vacantUnitCount > 0 ? `${listing.vacantUnitCount} Vacant` : 'Full'}
                       </span>
+                      {listing.assignedAgent ? (
+                        <span className="tag bg-[#262626] text-white border-primary/20">
+                          Agent: {listing.assignedAgent.fullName || listing.assignedAgent.email}
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-2">

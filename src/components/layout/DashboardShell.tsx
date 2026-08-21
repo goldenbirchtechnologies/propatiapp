@@ -524,6 +524,7 @@ export function DashboardShell({
   userAvatar,
   orgName,
   shellLoading = false,
+  quickAction,
 }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();

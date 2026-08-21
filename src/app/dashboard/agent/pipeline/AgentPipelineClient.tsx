@@ -167,11 +167,11 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Property:</span>
-              <span className="text-white" }}>{deal.property}</span>
+              <span className="text-white">{deal.property}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Client:</span>
-              <span className="text-white" }}>{deal.client}</span>
+              <span className="text-white">{deal.client}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Value:</span>
@@ -179,7 +179,7 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
             </div>
             <div className="flex justify-between">
               <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Last Contact:</span>
-              <span className="text-white" }}>{deal.lastContact}</span>
+              <span className="text-white">{deal.lastContact}</span>
             </div>
           </div>
           <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: 'border-[#262626]' }}>

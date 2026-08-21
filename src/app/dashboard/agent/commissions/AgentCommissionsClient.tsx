@@ -161,8 +161,7 @@ function CommissionRow({ commission }: { commission: Commission }) {
         {/* Date */}
         <div className="hidden lg:block flex-shrink-0" style={{ minWidth: 70 }}>
           <p
-            className="text-xs font-label-md uppercase tracking-wider"
-            className="text-neutral-400" }}
+            className="text-xs font-label-md uppercase tracking-wider text-neutral-400"
           >
             {new Date(commission.date).toLocaleDateString('en-NG', {
               day: '2-digit',

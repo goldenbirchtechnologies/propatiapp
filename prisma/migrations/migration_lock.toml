@@ -1,4 +1,0 @@
-[prisma]
-  Version = "5.22.0"
-  Schema = "prisma/schema.prisma"
-  Provider = "postgresql"

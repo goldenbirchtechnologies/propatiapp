@@ -171,7 +171,7 @@ export default function UnitsPage() {
                 Retry
               </Button>
             </CardContent>
-          </div>
+          </Card>
         </div>
     );
   }
@@ -205,35 +205,35 @@ export default function UnitsPage() {
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Total Units</p>
               </div>
               <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{totalUnits}</p>
-            </div>
+            </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-4 h-4 text-green-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Occupied</p>
               </div>
               <p className="text-2xl font-bold text-green-600">{occupiedUnits}</p>
-            </div>
+            </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Home className="w-4 h-4 text-amber-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Vacant</p>
               </div>
               <p className="text-2xl font-bold text-amber-600">{vacantUnits}</p>
-            </div>
+            </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Wrench className="w-4 h-4 text-red-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Maintenance</p>
               </div>
               <p className="text-2xl font-bold text-red-600">{maintenanceUnits}</p>
-            </div>
+            </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <DollarSign className="w-4 h-4 text-green-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Monthly Rent</p>
               </div>
               <p className="text-2xl font-bold text-green-600">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
-            </div>
+            </Card>
           </div>
         )}
 
@@ -277,7 +277,7 @@ export default function UnitsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
+          </Card>
         )}
 
         {/* Table */}
@@ -371,7 +371,7 @@ export default function UnitsPage() {
               </Table>
             )}
           </div>
-        </div>
+        </Card>
       </div>
   );
 }

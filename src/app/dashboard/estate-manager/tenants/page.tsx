@@ -44,7 +44,7 @@ function StatCardSkeleton() {
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-[#262626]" style={{ animation: \'skel-pulse 1.6s ease-in-out infinite\' }}>
+    <tr className="border-b border-[#262626]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-[#262626]' }} /></td>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-[#262626]' }} /></td>
       <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-[#262626]' }} /></td>
@@ -147,28 +147,28 @@ export default function EstateManagerTenantsPage() {
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Tenants</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{totalTenants}</p>
-              </div>
+              </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-[#00ff66]" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Active</p>
                 </div>
                 <p className="text-2xl font-bold text-[#00ff66]">{activeTenants}</p>
-              </div>
+              </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Pending</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{pendingTenants}</p>
-              </div>
+              </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-warning" />
                   <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Notice Period</p>
                 </div>
                 <p className="text-2xl font-bold text-warning">{noticePeriodTenants}</p>
-              </div>
+              </Card>
             </>
           )}
         </div>
@@ -193,7 +193,7 @@ export default function EstateManagerTenantsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
+          </Card>
         )}
 
         <Card>
@@ -251,7 +251,7 @@ export default function EstateManagerTenantsPage() {
               </Table>
             )}
           </div>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

@@ -167,7 +167,7 @@ export default function UnitDetailPage() {
                 </Button>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -304,7 +304,7 @@ export default function UnitDetailPage() {
                     </div>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
 
               <Card>
                 <CardHeader>
@@ -337,7 +337,7 @@ export default function UnitDetailPage() {
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
             </div>
 
             {unit.currentTenant && (
@@ -380,7 +380,7 @@ export default function UnitDetailPage() {
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
             )}
           </TabsContent>
 
@@ -449,7 +449,7 @@ export default function UnitDetailPage() {
                   </div>
                 )}
               </CardContent>
-            </div>
+            </Card>
           </TabsContent>
 
           {/* Tenant History */}
@@ -511,7 +511,7 @@ export default function UnitDetailPage() {
                   </div>
                 )}
               </CardContent>
-            </div>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

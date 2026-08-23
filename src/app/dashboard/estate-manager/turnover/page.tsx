@@ -46,20 +46,20 @@ export default function EstateManagerTurnoverPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card className="p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Pending Handovers</p>
-            <p className="text-2xl font-bold" className="text-white">{queue.length}</p>
-          </div>
+            <p className="text-2xl font-bold text-white">{queue.length}</p>
+          </Card>
           <Card className="p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Inspections</p>
-            <p className="text-2xl font-bold" className="text-white">{inspections.length}</p>
-          </div>
+            <p className="text-2xl font-bold text-white">{inspections.length}</p>
+          </Card>
           <Card className="p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Avg Score</p>
             <p className="text-2xl font-bold text-[#00ff66]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
-          </div>
+          </Card>
           <Card className="p-4">
             <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Open Issues</p>
             <p className="text-2xl font-bold text-red-500">{queue.filter((t) => t.priority === 'high').length}</p>
-          </div>
+          </Card>
         </div>
 
         <Card>
@@ -83,7 +83,7 @@ export default function EstateManagerTurnoverPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
 
         <Card>
           <CardHeader>
@@ -112,7 +112,7 @@ export default function EstateManagerTurnoverPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

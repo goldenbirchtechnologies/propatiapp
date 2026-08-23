@@ -80,7 +80,7 @@ export default async function CommercialMoveInPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

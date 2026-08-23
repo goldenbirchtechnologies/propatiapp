@@ -88,7 +88,7 @@ export default async function LandlordOverduePaymentsPage() {
               <p className="text-[#00ff66] font-medium">No overdue payments</p>
               <p className="text-sm text-muted-foreground mt-1">All rent schedules and invoices are up to date.</p>
             </CardContent>
-          </div>
+          </Card>
         ) : (
           <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
             <div className="p-5 border-b border-[#262626] flex justify-between items-center">

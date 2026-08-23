@@ -74,14 +74,14 @@ export default async function LandlordFinancialForecastingPage() {
               <p className="text-2xl font-bold mt-2">₦{totalRevenue.toLocaleString()}</p>
               <p className="text-sm text-[#00ff66] mt-1">From collected payments</p>
             </CardContent>
-          </div>
+          </Card>
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">This Month</p>
               <p className="text-2xl font-bold mt-2">₦{currentMonthRevenue.toLocaleString()}</p>
               <p className="text-sm text-muted-foreground mt-1">{currentMonth ? Number(currentMonth.count) : 0} transactions</p>
             </CardContent>
-          </div>
+          </Card>
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground">Transactions YTD</p>
@@ -90,7 +90,7 @@ export default async function LandlordFinancialForecastingPage() {
               </p>
               <p className="text-sm text-muted-foreground mt-1">{monthlyData.length} active months</p>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         <Card>
@@ -123,7 +123,7 @@ export default async function LandlordFinancialForecastingPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

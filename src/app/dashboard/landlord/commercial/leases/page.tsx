@@ -88,7 +88,7 @@ export default async function CommercialLeasesPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

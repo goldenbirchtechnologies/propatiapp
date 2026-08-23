@@ -1,13 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { SignIn } from '@clerk/nextjs';
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
+import { useState } from 'react';
 
-export default async function SignInPage() {
-  const { userId } = await auth();
-  if (userId) {
-    redirect('/dashboard');
-  }
+export default function SignInPage() {
+  const [flowReady, setFlowReady] = useState(false);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 theme-landing">

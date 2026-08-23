@@ -47,7 +47,7 @@ export default async function CommercialAgreementsReviewPage() {
             <CardContent className="p-8 text-center">
               <p className="text-muted-foreground">No agreements currently pending review.</p>
             </CardContent>
-          </div>
+          </Card>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {agreements.map((agr) => (
@@ -85,7 +85,7 @@ export default async function CommercialAgreementsReviewPage() {
                     </Badge>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
             ))}
           </div>
         )}

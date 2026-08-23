@@ -92,7 +92,7 @@ export default async function LandlordAgreementPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

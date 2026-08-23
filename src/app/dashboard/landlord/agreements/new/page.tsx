@@ -209,7 +209,7 @@ export default function NewAgreementPage() {
                 )}
               </div>
             </div>
-          </div>
+          </Card>
         )}
 
         {/* Step 2: Agreement Terms */}
@@ -315,7 +315,7 @@ export default function NewAgreementPage() {
                 />
               </div>
             </div>
-          </div>
+          </Card>
         )}
 
         {/* Step 3: Review & Create */}
@@ -415,7 +415,7 @@ export default function NewAgreementPage() {
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         )}
 
         {/* Navigation Buttons */}

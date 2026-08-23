@@ -291,7 +291,7 @@ export default function LandlordApplicationDetailClient({
               <ExternalLink className="w-3 h-3" /> View Listing
             </Link>
           </CardContent>
-        </div>
+        </Card>
 
         {/* Tenant Card */}
         <Card>
@@ -359,7 +359,7 @@ export default function LandlordApplicationDetailClient({
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Applicant Message */}
@@ -376,7 +376,7 @@ export default function LandlordApplicationDetailClient({
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {/* Tabs */}
@@ -566,7 +566,7 @@ export default function LandlordApplicationDetailClient({
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

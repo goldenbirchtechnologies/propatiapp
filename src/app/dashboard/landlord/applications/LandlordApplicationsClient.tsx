@@ -53,7 +53,7 @@ export function EmptyState() {
           </Button>
         </div>
       </CardContent>
-    </div>
+    </Card>
   );
 }
 
@@ -308,7 +308,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 : 'No applications match the selected filters.'}
             </p>
           </CardContent>
-        </div>
+        </Card>
       ) : (
         <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
           <div className="overflow-x-auto">
@@ -665,6 +665,6 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
           </div>
         </div>
       </CardContent>
-    </div>
+    </Card>
   );
 }

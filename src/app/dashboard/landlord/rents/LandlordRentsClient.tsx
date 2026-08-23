@@ -159,7 +159,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             </div>
           </CardContent>
           <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-obsidian-800/30/10 rounded-full opacity-20" />
-        </div>
+        </Card>
 
         {/* Collected Funds */}
         <Card className="border-t-4" style={{ borderTopColor: 'hsl(var(--tertiary))' }}>
@@ -173,7 +173,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               <p className="text-xs text-muted-foreground mt-2">82% of target reached</p>
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         {/* Pending Arrears */}
         <Card className="border-t-4 border-red-500">
@@ -185,7 +185,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               <AppIcon name="warning" className="lucide" />
             </div>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Recent Rent Payments Table */}
@@ -195,7 +195,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
             <h3 className="font-headline-sm text-headline-sm text-white mb-2">No transactions yet</h3>
             <p className="text-muted-foreground">Rent payments will appear here once tenants start paying.</p>
-          </div>
+          </Card>
         ) : (
           <Card className="overflow-hidden">
             <div className="p-6 border-b border-[#262626] flex items-center justify-between">
@@ -242,7 +242,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 </tbody>
               </table>
             </div>
-          </div>
+          </Card>
         )}
       </DashboardSection>
 
@@ -270,7 +270,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               ))}
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         {/* Quick Verified Action */}
         <Card className="relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
@@ -295,7 +295,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
               Request Instant Payout
             </Button>
           </CardContent>
-        </div>
+        </Card>
       </div>
     </div>
   );

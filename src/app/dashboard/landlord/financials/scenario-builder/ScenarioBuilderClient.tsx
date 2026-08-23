@@ -31,7 +31,7 @@ export default function FinancialScenarioBuilderClient() {
             </div>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
@@ -44,7 +44,7 @@ export default function FinancialScenarioBuilderClient() {
         <CardContent>
           <p className="text-sm text-muted-foreground">Use the Scenario Builder to configure and save custom models.</p>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

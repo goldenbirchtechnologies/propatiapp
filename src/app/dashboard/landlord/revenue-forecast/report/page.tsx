@@ -90,7 +90,7 @@ export default async function LandlordRevenueForecastReportPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

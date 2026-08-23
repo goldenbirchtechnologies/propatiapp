@@ -88,7 +88,7 @@ function Step4InspectionClient(props: Props) {
             {props.inspection.l4Status === 'approved' ? 'Inspection completed and approved' : props.inspection.l4Status === 'pending' ? 'Inspection scheduled' : 'Schedule a physical inspection'}
           </p>
         </CardContent>
-      </div>
+      </Card>
 
       {!canProceed ? (
         <Card>
@@ -98,7 +98,7 @@ function Step4InspectionClient(props: Props) {
               <p>Please complete Layer 3 (Video verification) before proceeding.</p>
             </div>
           </CardContent>
-        </div>
+        </Card>
       ) : props.inspection.l4Status === 'approved' ? (
         <Card>
           <CardContent className="space-y-4">
@@ -117,7 +117,7 @@ function Step4InspectionClient(props: Props) {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       ) : props.inspection.l4Status === 'pending' ? (
         <Card>
           <CardContent className="space-y-4">
@@ -136,7 +136,7 @@ function Step4InspectionClient(props: Props) {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       ) : (
         <Card>
           <CardHeader>
@@ -184,7 +184,7 @@ function Step4InspectionClient(props: Props) {
               Request Inspection
             </Button>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {props.inspection.l4Status === 'approved' && (

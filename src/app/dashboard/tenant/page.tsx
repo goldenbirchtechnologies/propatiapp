@@ -91,25 +91,25 @@ export default async function TenantDashboardPage() {
                     🟢 Up to date
                   </span>
                 </CardContent>
-              </div>
+              </Card>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Active Agreements</p>
                   <p className="text-2xl font-extrabold font-mono">{activeAgreementCount}</p>
                 </CardContent>
-              </div>
+              </Card>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Pending Maintenance</p>
                   <p className="text-2xl font-extrabold font-mono">{openMaintenanceCount}</p>
                 </CardContent>
-              </div>
+              </Card>
               <Card>
                 <CardContent className="p-5">
                   <p className="text-xs text-muted-foreground font-medium mb-2">Saved Properties</p>
                   <p className="text-2xl font-extrabold font-mono">{savedCount}</p>
                 </CardContent>
-              </div>
+              </Card>
             </section>
 
             <section className="flex flex-col sm:flex-row gap-3">
@@ -158,7 +158,7 @@ export default async function TenantDashboardPage() {
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
 
               <Card>
                 <CardHeader className="pb-4">
@@ -187,7 +187,7 @@ export default async function TenantDashboardPage() {
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
             </div>
           </div>
         </div>

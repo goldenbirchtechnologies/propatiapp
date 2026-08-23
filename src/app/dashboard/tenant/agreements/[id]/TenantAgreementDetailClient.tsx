@@ -162,7 +162,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -190,7 +190,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             </div>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -229,7 +229,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             })}
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {agreement.transactions?.length > 0 && (
         <Card>
@@ -255,7 +255,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
               ))}
             </div>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       <div className="flex flex-wrap gap-3">

@@ -85,7 +85,7 @@ export default async function LandlordNotificationsPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

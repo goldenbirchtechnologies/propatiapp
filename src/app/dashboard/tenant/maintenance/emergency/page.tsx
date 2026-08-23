@@ -46,12 +46,12 @@ export default function refinedemergencyhotlinestatepropatimaintenancePage() {
               <li>Fast Response</li>
             </ul>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>refined_emergency_hotline_state_propati_maintenance.html</strong></p>
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

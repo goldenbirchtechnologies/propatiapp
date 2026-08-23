@@ -119,7 +119,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
               Browse Listings
             </Link>
           </CardContent>
-        </div>
+        </Card>
       ) : (
         <div className="space-y-4">
           {applications.map((app) => {
@@ -205,7 +205,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                     </div>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
             );
           })}
         </div>
@@ -228,6 +228,6 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
           </div>
         </div>
       </CardContent>
-    </div>
+    </Card>
   );
 }

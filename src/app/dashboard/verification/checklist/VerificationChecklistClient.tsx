@@ -56,7 +56,7 @@ function VerificationChecklistClient(props: Props) {
         <CardContent>
           <Progress value={progress} className="h-3" />
         </CardContent>
-      </div>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -88,7 +88,7 @@ function VerificationChecklistClient(props: Props) {
             ))}
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {props.adminNotes && (
         <Card>
@@ -101,7 +101,7 @@ function VerificationChecklistClient(props: Props) {
               <p className="text-xs text-muted-foreground mt-2">Reviewed on {new Date(props.reviewedAt).toLocaleString()}</p>
             )}
           </CardContent>
-        </div>
+        </Card>
       )}
 
       <div className="flex justify-end">

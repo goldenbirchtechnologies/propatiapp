@@ -220,22 +220,22 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           <p className="text-xs font-medium uppercase tracking-wider text-neutral-400">Pending Approvals</p>
           <p className="mt-2 text-3xl font-bold text-white">{pendingApprovals}</p>
           <p className="mt-1 text-xs text-neutral-400">Booking requests awaiting host confirmation</p>
-        </div>
+        </Card>
         <Card className="border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs font-medium uppercase tracking-wider text-neutral-400">Upcoming Check-ins</p>
           <p className="mt-2 text-3xl font-bold text-white">{upcomingCheckIns}</p>
           <p className="mt-1 text-xs text-neutral-400">Stays starting within the next 7 days</p>
-        </div>
+        </Card>
         <Card className="border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs font-medium uppercase tracking-wider text-neutral-400">Monthly Revenue</p>
           <p className="mt-2 text-3xl font-bold text-white">{formatCurrency(monthlyRevenue)}</p>
           <p className="mt-1 text-xs text-neutral-400">Confirmed/completed payouts this month</p>
-        </div>
+        </Card>
         <Card className="border-[#262626] bg-obsidian-800/30 p-5 shadow-sm">
           <p className="text-xs font-medium uppercase tracking-wider text-neutral-400">Occupancy Rate</p>
           <p className="mt-2 text-3xl font-bold text-white">{occupancyRate}%</p>
           <p className="mt-1 text-xs text-neutral-400">Available days booked this month</p>
-        </div>
+        </Card>
       </div>
 
       <Card className="space-y-5 p-4">
@@ -386,7 +386,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
             </table>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

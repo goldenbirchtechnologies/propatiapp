@@ -123,7 +123,7 @@ export default async function LandlordMaintenancePage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

@@ -311,7 +311,7 @@ export default function TenantProfileClient({
                 </div>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardContent className="p-6">
@@ -335,7 +335,7 @@ export default function TenantProfileClient({
                 )}
               </div>
             </CardContent>
-          </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="documents" className="space-y-4">
@@ -346,7 +346,7 @@ export default function TenantProfileClient({
                 <p className="text-xs text-muted-foreground mt-2">Reference: {kyc.dojahRef}</p>
               )}
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <div className="p-4">
@@ -378,7 +378,7 @@ export default function TenantProfileClient({
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="payments" className="space-y-4">
@@ -419,7 +419,7 @@ export default function TenantProfileClient({
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="maintenance" className="space-y-4">
@@ -453,7 +453,7 @@ export default function TenantProfileClient({
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

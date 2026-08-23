@@ -132,7 +132,7 @@ export default function PaymentSuccessPage() {
                 </div>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <div className="relative overflow-hidden rounded-xl h-32 border border-[#262626] cursor-pointer group">
             <div
@@ -166,7 +166,7 @@ export default function PaymentSuccessPage() {
                 <p className="text-sm text-muted-foreground">PDF format for your records.</p>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </Link>
         <button className="block w-full">
           <Card className="hover:shadow-lg transition-all cursor-pointer group hover:border-white/50">
@@ -183,7 +183,7 @@ export default function PaymentSuccessPage() {
                 </p>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </button>
       </div>
 

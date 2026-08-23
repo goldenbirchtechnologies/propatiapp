@@ -67,7 +67,7 @@ function VerificationGuideClient(props: Props) {
             Follow the steps below to complete your {props.type} verification. Each layer must be completed before moving to the next.
           </p>
         </CardContent>
-      </div>
+      </Card>
 
       <div className="space-y-4">
         {steps.map((step, idx) => (
@@ -89,7 +89,7 @@ function VerificationGuideClient(props: Props) {
                 </Link>
               </Button>
             </CardContent>
-          </div>
+          </Card>
         ))}
       </div>
 
@@ -104,7 +104,7 @@ function VerificationGuideClient(props: Props) {
             </p>
           </div>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -91,7 +91,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                 <Button variant="outline">Cancel</Button>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <div className="space-y-4">
             <Card>
@@ -107,7 +107,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   className="rounded-lg border border-[#262626]"
                 />
               </CardContent>
-            </div>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle>Saved Methods</CardTitle>
@@ -119,7 +119,7 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                   <li>Expires 12/25</li>
                 </ul>
               </CardContent>
-            </div>
+            </Card>
           </div>
         </div>
       </div>

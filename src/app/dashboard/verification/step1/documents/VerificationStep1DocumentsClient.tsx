@@ -135,7 +135,7 @@ function Step1DocumentsClient(props: Props) {
         <CardContent>
           <Progress value={progress} className="h-3" />
         </CardContent>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {REQUIRED_DOCS.map((type) => {
@@ -171,7 +171,7 @@ function Step1DocumentsClient(props: Props) {
                   </label>
                 )}
               </CardContent>
-            </div>
+            </Card>
           );
         })}
       </div>

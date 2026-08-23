@@ -137,7 +137,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

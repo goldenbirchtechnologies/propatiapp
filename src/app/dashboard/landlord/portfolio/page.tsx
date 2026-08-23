@@ -83,7 +83,7 @@ export default async function LandlordPortfolioPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

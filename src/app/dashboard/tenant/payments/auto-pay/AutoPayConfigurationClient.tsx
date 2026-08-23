@@ -91,7 +91,7 @@ export default function AutoPayConfigurationClient() {
             <Switch checked={globalEnabled} onCheckedChange={setGlobalEnabled} />
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Main Configuration Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -109,7 +109,7 @@ export default function AutoPayConfigurationClient() {
             <CardContent>
               <p className="text-sm text-muted-foreground">Auto-pay method will appear here once configured.</p>
             </CardContent>
-          </div>
+          </Card>
 
           {/* Automation Rules */}
           <Card>
@@ -157,7 +157,7 @@ export default function AutoPayConfigurationClient() {
                 </div>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Right Column: Categories & Summary */}
@@ -180,7 +180,7 @@ export default function AutoPayConfigurationClient() {
                 </div>
               ))}
             </CardContent>
-          </div>
+          </Card>
 
           {/* Summary & Security */}
           <Card className=" text-white border-none shadow-xl relative overflow-hidden">
@@ -205,7 +205,7 @@ export default function AutoPayConfigurationClient() {
                 </p>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           {/* Action Buttons */}
           <div className="space-y-3">

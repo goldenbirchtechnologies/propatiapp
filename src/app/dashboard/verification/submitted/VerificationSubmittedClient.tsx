@@ -54,7 +54,7 @@ function VerificationSubmittedClient(props: Props) {
             </Button>
           </div>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

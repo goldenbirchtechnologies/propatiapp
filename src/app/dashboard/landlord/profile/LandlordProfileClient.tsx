@@ -316,7 +316,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   </div>
                 </div>
               </CardContent>
-            </div>
+            </Card>
 
             <div className="flex justify-end">
               <Button type="submit" disabled={updateProfileMutation.isPending}>
@@ -362,7 +362,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </Button>
               </form>
             </CardContent>
-          </div>
+          </Card>
 
           <Card className="mt-6">
             <CardHeader>
@@ -378,7 +378,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
               </Button>
             </CardContent>
-          </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="notifications" className="mt-6">
@@ -409,7 +409,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 </div>
               ))}
             </CardContent>
-          </div>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
@@ -494,6 +494,6 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
           )}
         </div>
       </CardContent>
-    </div>
+    </Card>
   );
 }

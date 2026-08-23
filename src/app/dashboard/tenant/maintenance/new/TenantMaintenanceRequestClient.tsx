@@ -70,7 +70,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 <StepIndicator currentStep={step} />
               </div>
             </CardContent>
-          </div>
+          </Card>
           <Card className="hidden lg:block">
             <CardContent className="p-6">
               <h3 className="font-heading text-base font-semibold text-white mb-3 flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 <Phone className="w-4 h-4" /> Emergency Hotline
               </Button>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Right Side: Form */}
@@ -188,7 +188,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
 
           {/* Tips bento - shown on step 1 */}
           {step === 1 && (
@@ -204,7 +204,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                     <p className="text-xs font-mono font-bold uppercase tracking-tighter text-white">{tip.title}</p>
                     <p className="text-xs text-neutral-400 mt-1">{tip.desc}</p>
                   </CardContent>
-                </div>
+                </Card>
               ))}
             </div>
           )}

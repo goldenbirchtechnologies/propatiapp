@@ -152,7 +152,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               Retry
             </Button>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {isApproved && (
@@ -168,7 +168,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {!allVerified && (
@@ -204,7 +204,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               </p>
             )}
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {!allVerified && (
@@ -221,7 +221,7 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
               onComplete={handleWidgetComplete}
             />
           </CardContent>
-        </div>
+        </Card>
       )}
 
       <div className="flex justify-end">

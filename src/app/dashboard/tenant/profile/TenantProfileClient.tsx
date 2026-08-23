@@ -168,7 +168,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                 </span>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Right Panel: Active Tab Content */}
@@ -181,7 +181,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
               <CardContent>
                 <ProfileForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
               </CardContent>
-            </div>
+            </Card>
           )}
 
           {activeTab === 'rental' && (
@@ -192,7 +192,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
               <CardContent>
                 <RentalApplicationForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
               </CardContent>
-            </div>
+            </Card>
           )}
 
           {activeTab === 'guarantors' && (
@@ -217,7 +217,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                   </div>
                 )}
               </CardContent>
-            </div>
+            </Card>
           )}
 
           {activeTab === 'kyc' && (

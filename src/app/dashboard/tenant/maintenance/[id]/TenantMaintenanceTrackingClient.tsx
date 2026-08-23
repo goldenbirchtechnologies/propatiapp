@@ -83,7 +83,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
             </div>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Technician & Appointment + Report Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -117,7 +117,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 </Button>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           {/* Appointment Details */}
           <Card>
@@ -148,7 +148,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 Technician will arrive within the first 30 mins of the window.
               </p>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Right: Report Summary */}
@@ -194,7 +194,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 </div>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -209,7 +209,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
             Reschedule Appointment
           </Button>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

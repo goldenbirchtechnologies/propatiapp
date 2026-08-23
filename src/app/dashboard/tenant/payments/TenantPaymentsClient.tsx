@@ -102,7 +102,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">Your invoice statements will appear here.</p>
             </CardContent>
-          </div>
+          </Card>
         );
       case 'receipts':
         return (
@@ -111,7 +111,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               <Receipt className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">Payment receipts will appear here.</p>
             </CardContent>
-          </div>
+          </Card>
         );
       case 'overdue':
         return (
@@ -120,7 +120,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               <AlertCircle className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">No overdue payments.</p>
             </CardContent>
-          </div>
+          </Card>
         );
       default:
         return (
@@ -160,7 +160,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     </Button>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
 
               {/* Card 2 — Wallet Summary */}
               <Card className="border border-slate-800">
@@ -188,7 +188,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                     </Button>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
             </div>
 
             {/* Section C: Quick Payment */}
@@ -284,7 +284,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </Button>
                 </form>
               </CardContent>
-            </div>
+            </Card>
 
             {/* Section D: Transaction History */}
             <div className="flex items-center justify-between">
@@ -317,7 +317,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </select>
                   <Button variant="outline">Apply</Button>
                 </CardContent>
-              </div>
+              </Card>
             )}
 
             <Card className="border border-slate-800">
@@ -375,7 +375,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </Button>
                 </div>
               )}
-            </div>
+            </Card>
           </>
         );
     }

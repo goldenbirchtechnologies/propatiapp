@@ -37,7 +37,7 @@ export default function TenantOverduePaymentNoticePage() {
                 <p className="text-2xl font-bold text-red-500">₦0</p>
                 <p className="text-xs text-muted-foreground mt-1">Pending verification</p>
               </CardContent>
-            </div>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium text-muted-foreground">Due date</CardTitle>
@@ -46,7 +46,7 @@ export default function TenantOverduePaymentNoticePage() {
                 <p className="text-2xl font-bold text-white">--</p>
                 <p className="text-xs text-muted-foreground mt-1">No active overdue item</p>
               </CardContent>
-            </div>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm font-medium text-muted-foreground">Notice reference</CardTitle>
@@ -55,7 +55,7 @@ export default function TenantOverduePaymentNoticePage() {
                 <p className="text-2xl font-bold text-white">--</p>
                 <p className="text-xs text-muted-foreground mt-1">Awaiting issuance</p>
               </CardContent>
-            </div>
+            </Card>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -74,7 +74,7 @@ export default function TenantOverduePaymentNoticePage() {
                 <li>Contact your landlord or agent if you need a payment plan.</li>
               </ul>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </ErrorBoundary>
     </DashboardShell>

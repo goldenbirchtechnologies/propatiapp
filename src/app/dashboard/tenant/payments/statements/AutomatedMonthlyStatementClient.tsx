@@ -279,7 +279,7 @@ export default function AutomatedMonthlyStatementClient() {
             />
           </button>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

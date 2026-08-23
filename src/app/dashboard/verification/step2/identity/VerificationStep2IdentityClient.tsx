@@ -83,7 +83,7 @@ function Step2IdentityClient(props: Props) {
             {props.l2Status === 'approved' ? 'Identity verified successfully' : props.l2Status === 'rejected' ? 'Identity verification failed' : 'Complete identity verification to proceed'}
           </p>
         </CardContent>
-      </div>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -139,7 +139,7 @@ function Step2IdentityClient(props: Props) {
             </>
           )}
         </CardContent>
-      </div>
+      </Card>
 
       <div className="flex justify-end">
         {props.l2Status === 'approved' && (

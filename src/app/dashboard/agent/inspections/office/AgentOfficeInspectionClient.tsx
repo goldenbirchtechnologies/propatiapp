@@ -80,7 +80,7 @@ export default function AgentOfficeInspectionClient() {
               <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#00ff66] to-[#262626]" />
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column */}
@@ -178,7 +178,7 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                 </div>
               </CardContent>
-            </div>
+            </Card>
 
             {/* Preparation Bento */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -199,7 +199,7 @@ export default function AgentOfficeInspectionClient() {
                     ))}
                   </ul>
                 </CardContent>
-              </div>
+              </Card>
 
               <Card className="overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
                 <CardHeader>
@@ -224,7 +224,7 @@ export default function AgentOfficeInspectionClient() {
                     </div>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
             </div>
           </div>
 
@@ -280,7 +280,7 @@ export default function AgentOfficeInspectionClient() {
                   </p>
                 </div>
               </CardContent>
-            </div>
+            </Card>
 
             <Card className="border border-[#00ff66] bg-[#00ff66]/5 bg-[rgba(23,23,23,0.4)] backdrop-blur rounded-xl">
               <CardContent className="p-6 flex items-start gap-3">
@@ -292,7 +292,7 @@ export default function AgentOfficeInspectionClient() {
                   </p>
                 </div>
               </CardContent>
-            </div>
+            </Card>
 
             <Card className="overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
               <div className="h-40 relative">
@@ -302,7 +302,7 @@ export default function AgentOfficeInspectionClient() {
                   <span className="text-xs font-label-md uppercase tracking-wider font-bold text-white">Agent HQ Location</span>
                 </div>
               </div>
-            </div>
+            </Card>
           </aside>
         </div>
       </div>

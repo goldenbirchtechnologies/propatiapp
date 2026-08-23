@@ -256,7 +256,7 @@ export default function TenantApplicationDetailClient({
                     </p>
                   </div>
                 </CardContent>
-              </div>
+              </Card>
 
               <Card>
                 <CardHeader>
@@ -355,7 +355,7 @@ export default function TenantApplicationDetailClient({
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
             </div>
           </DashboardSection>
         </TabsContent>
@@ -399,7 +399,7 @@ export default function TenantApplicationDetailClient({
                     property.
                   </p>
                 </CardContent>
-              </div>
+              </Card>
             ) : (
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -415,7 +415,7 @@ export default function TenantApplicationDetailClient({
                     There are no documents attached to this application.
                   </p>
                 </CardContent>
-              </div>
+              </Card>
             )}
           </DashboardSection>
         </TabsContent>
@@ -548,7 +548,7 @@ export default function TenantApplicationDetailClient({
                   )}
                 </div>
               </CardContent>
-            </div>
+            </Card>
           </DashboardSection>
         </TabsContent>
 
@@ -577,7 +577,7 @@ export default function TenantApplicationDetailClient({
                       {initial.message}
                     </p>
                   </CardContent>
-                </div>
+                </Card>
               )}
               {initial.landlordNotes && (
                 <Card>
@@ -597,7 +597,7 @@ export default function TenantApplicationDetailClient({
                       {initial.landlordNotes}
                     </p>
                   </CardContent>
-                </div>
+                </Card>
               )}
               {!initial.message && !initial.landlordNotes && (
                 <Card>
@@ -614,7 +614,7 @@ export default function TenantApplicationDetailClient({
                       There are no messages or notes on this application.
                     </p>
                   </CardContent>
-                </div>
+                </Card>
               )}
             </div>
           </DashboardSection>

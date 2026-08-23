@@ -286,7 +286,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                 </Link>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Right: Security bento */}
@@ -299,7 +299,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
               <h4 className="font-heading text-base font-semibold text-white mb-2">Trust Shield</h4>
               <p className="text-sm text-neutral-400">Your financial data is secured by 256-bit SSL encryption.</p>
             </CardContent>
-          </div>
+          </Card>
           <Card className="bg-muted border-[#262626] flex items-center gap-4 p-5">
             <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-[#262626]">
               <Shield className="w-5 h-5 text-white" />
@@ -308,7 +308,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
               <p className="text-sm font-bold text-white">PCI-DSS Compliant</p>
               <p className="text-xs text-neutral-400">Routers-Atlas applies for all transfers.</p>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

@@ -112,7 +112,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
               <span className="font-medium">On track</span>
             </div>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">Active Applications</CardTitle>
@@ -121,7 +121,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <div className="font-headline-md text-headline-md text-white">3</div>
             <p className="text-xs text-muted-foreground">1 pending review</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">Saved Properties</CardTitle>
@@ -130,7 +130,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <div className="font-headline-md text-headline-md text-white">12</div>
             <p className="text-xs text-muted-foreground">4 updated this week</p>
           </CardContent>
-        </div>
+        </Card>
       </section>
 
       {/* Current Property */}
@@ -202,7 +202,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
                 <Badge variant="secondary">{item.badge}</Badge>
                 <span className="text-sm font-semibold text-white">{item.price}</span>
               </CardContent>
-            </div>
+            </Card>
           ))}
         </div>
       </section>
@@ -227,7 +227,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
               <div className="mt-2 font-headline-md text-headline-md text-white">4</div>
             </div>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle className="font-headline-sm text-headline-sm">Pending Lease</CardTitle>
@@ -237,7 +237,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
             <p className="text-sm text-muted-foreground">Verification stage: documents uploaded</p>
             <Button className="w-full">Track Application</Button>
           </CardContent>
-        </div>
+        </Card>
       </section>
 
       {/* Help */}

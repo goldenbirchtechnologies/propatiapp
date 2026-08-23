@@ -77,7 +77,7 @@ export default function TenantSupportPage() {
                     {cat.cta} <ChevronRight className="w-4 h-4" />
                   </div>
                 </CardContent>
-              </div>
+              </Card>
             );
           })}
         </div>

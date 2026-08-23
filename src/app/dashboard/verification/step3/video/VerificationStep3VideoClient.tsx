@@ -83,7 +83,7 @@ function Step3VideoClient(props: Props) {
             {props.l3Status === 'approved' ? 'Video verified successfully' : props.l3Status === 'pending' ? 'Waiting for admin review' : 'Record and upload a video walkthrough'}
           </p>
         </CardContent>
-      </div>
+      </Card>
 
       {!canProceed ? (
         <Card>
@@ -93,7 +93,7 @@ function Step3VideoClient(props: Props) {
               <p>Please complete Layer 2 (Identity verification) before proceeding.</p>
             </div>
           </CardContent>
-        </div>
+        </Card>
       ) : props.l3Status === 'approved' ? (
         <Card>
           <CardContent className="p-6">
@@ -105,7 +105,7 @@ function Step3VideoClient(props: Props) {
               <video src={videoUrl} controls className="mt-4 rounded-lg max-h-[400px]" />
             )}
           </CardContent>
-        </div>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -142,7 +142,7 @@ function Step3VideoClient(props: Props) {
                 <video src={videoUrl} controls className="rounded-lg max-h-[300px]" />
               )}
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardHeader>
@@ -168,7 +168,7 @@ function Step3VideoClient(props: Props) {
                 Generate QR Code
               </Button>
             </CardContent>
-          </div>
+          </Card>
         </div>
       )}
 

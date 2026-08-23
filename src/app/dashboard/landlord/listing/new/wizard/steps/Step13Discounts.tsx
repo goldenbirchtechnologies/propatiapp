@@ -84,7 +84,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                   className="w-20"
                 />
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

@@ -135,7 +135,7 @@ export default function MaintenanceDetailPage() {
                   </Button>
                 </div>
               </CardContent>
-            </div>
+            </Card>
           </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -220,7 +220,7 @@ export default function MaintenanceDetailPage() {
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardHeader>
@@ -249,7 +249,7 @@ export default function MaintenanceDetailPage() {
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         <Card>
@@ -297,7 +297,7 @@ export default function MaintenanceDetailPage() {
               })}
             </div>
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

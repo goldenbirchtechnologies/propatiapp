@@ -174,7 +174,7 @@ export default function UnitDetailPage() {
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         {/* Current Tenant */}
         <Card>
@@ -221,7 +221,7 @@ export default function UnitDetailPage() {
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Lease Information */}
@@ -259,7 +259,7 @@ export default function UnitDetailPage() {
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {/* Maintenance History */}
@@ -305,7 +305,7 @@ export default function UnitDetailPage() {
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
 
       {/* Payment History */}
       <Card>
@@ -321,7 +321,7 @@ export default function UnitDetailPage() {
             <p className="text-muted-foreground">No payment history available</p>
           </div>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

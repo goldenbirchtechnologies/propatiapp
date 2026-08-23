@@ -158,7 +158,7 @@ export default function InvitePropertyManagerPage() {
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
-        </div>
+        </Card>
 
         {/* Permissions Grid */}
         <Card className="p-6 border-0 ring-1 ring-foreground/5">
@@ -205,7 +205,7 @@ export default function InvitePropertyManagerPage() {
               })}
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Scope */}
         <Card className="p-6 border-0 ring-1 ring-foreground/5">
@@ -234,7 +234,7 @@ export default function InvitePropertyManagerPage() {
               )}
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">

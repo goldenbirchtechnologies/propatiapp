@@ -224,7 +224,7 @@ export default function MaintenancePage() {
             </div>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Kanban Board */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -261,7 +261,7 @@ export default function MaintenancePage() {
                         <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
                     </CardContent>
-                  </div>
+                  </Card>
                 ))
               ) : (
                 <div className="text-center py-8 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
@@ -269,7 +269,7 @@ export default function MaintenancePage() {
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

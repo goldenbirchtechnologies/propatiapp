@@ -127,7 +127,7 @@ export default function LedgerPage() {
               No ledger entries found.
             </p>
           </CardContent>
-        </div>
+        </Card>
       </div>
     );
   }
@@ -162,7 +162,7 @@ export default function LedgerPage() {
             </TableBody>
           </Table>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

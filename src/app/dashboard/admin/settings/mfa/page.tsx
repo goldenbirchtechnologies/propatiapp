@@ -30,7 +30,7 @@ export default function securitymfasettingspropatiPage() {
           <Card>
             <CardHeader><CardTitle>Security &amp; Privacy</CardTitle></CardHeader>
             <CardContent><p className="text-sm text-muted-foreground">Content from security_mfa_settings_propati.</p></CardContent>
-          </div>
+          </Card>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Enable</Button>
@@ -52,12 +52,12 @@ export default function securitymfasettingspropatiPage() {
               <li>Account Health: Fair</li>
             </ul>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>security_mfa_settings_propati.html</strong></p>
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

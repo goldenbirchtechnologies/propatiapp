@@ -47,7 +47,7 @@ export default function CommissionLedgerPage() {
             ))}
           </div>
         </CardContent>
-      </div>
+      </Card>
     
       </ErrorBoundary>
 </DashboardShell>

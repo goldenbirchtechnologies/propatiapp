@@ -84,7 +84,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
 
         <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
@@ -125,7 +125,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
               </div>
             )}
           </CardContent>
-        </div>
+        </Card>
       </div>
     </div>
   );

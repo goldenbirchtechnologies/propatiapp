@@ -2138,6 +2138,8 @@ model Country {
   agreements     Agreement[]
   invoices       Invoice[]
   legalMatters   LegalMatter[]
+  jurisdictionRules JurisdictionRule[]
+  documentTemplates DocumentTemplate[]
 
   @@map("countries")
 }
@@ -2154,8 +2156,9 @@ model Jurisdiction {
   country      Country       @relation(fields: [countryId], references: [code])
   listings     Listing[]
   agreements   Agreement[]
-  legalMatters LegalMatter[]
-
+  legalMatters      LegalMatter[]
+  jurisdictionRules JurisdictionRule[]
+  documentTemplates DocumentTemplate[]
   @@index([countryId], map: "idx_jurisdictions_country")
   @@map("jurisdictions")
 }
@@ -2179,7 +2182,8 @@ model LegalMatter {
   jurisdiction   Jurisdiction @relation(fields: [jurisdictionId], references: [id])
   country        Country      @relation(fields: [countryId], references: [code])
   listing        Listing?     @relation(fields: [listingId], references: [id])
-  agreement      Agreement?   @relation(fields: [agreementId], references: [id])
+  agreement        Agreement?        @relation(fields: [agreementId], references: [id])
+  complianceEvents ComplianceEvent[]
 
   @@index([jurisdictionId], map: "idx_legal_matters_jurisdiction")
   @@index([countryId], map: "idx_legal_matters_country")

@@ -278,7 +278,7 @@ export function getCountryByCode(code) {
   return COUNTRIES.find(c => c.code === code);
 }
 
-export function isSupportedCountry(code) {
+export function isSupportedCountry(code: string): boolean {
   return SUPPORTED_COUNTRIES.includes(code);
 }
 

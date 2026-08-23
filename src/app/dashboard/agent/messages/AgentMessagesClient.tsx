@@ -121,7 +121,7 @@ export default function AgentMessagesClient({
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

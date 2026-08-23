@@ -21,7 +21,7 @@ export default async function AgentInspectionNewPage({ searchParams }: { searchP
               : 'Select a deal and create a new inspection request from the deal detail page.'}
           </p>
         </CardContent>
-      </div>
+      </Card>
     </DashboardShell>
   );
 }

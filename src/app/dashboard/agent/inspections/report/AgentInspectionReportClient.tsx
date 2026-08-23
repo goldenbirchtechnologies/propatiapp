@@ -174,7 +174,7 @@ export default function AgentInspectionReportClient() {
                       View Original <AppIcon name="open_in_new" className="lucide" />
                     </button>
                   </CardContent>
-                </div>
+                </Card>
               ))}
             </div>
           </section>

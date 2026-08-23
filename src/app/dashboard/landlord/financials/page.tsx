@@ -314,11 +314,11 @@ export default function LandlordFinancialsPage() {
                         <div className="rounded" style={{ height: 12, width: '55%', background: 'var(--border)', animation: 'skel-pulse 1.6s ease-in-out infinite' }} />
                         <div className="rounded" style={{ height: 28, width: '40%', background: 'var(--border)', animation: 'skel-pulse 1.6s ease-in-out infinite' }} />
                       </div>
-                    </div>
+                    </Card>
                   ))}
                 </div>
               ) : error ? (
-                <Card className="p-6 text-sm text-red-500">{error}</div>
+                <Card className="p-6 text-sm text-red-500">{error}</Card>
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -440,7 +440,7 @@ export default function LandlordFinancialsPage() {
                         </div>
                       )}
                     </CardContent>
-                  </div>
+                  </Card>
                 </>
               )}
             </div>

@@ -128,31 +128,31 @@ export default function RevenueSignatureClient({
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Total Revenue</p>
           <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Service Charges</p>
           <p className="text-2xl font-bold text-neutral-300 font-mono">₦{(totalServiceCharges / 1e6).toFixed(2)}M</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Rent Transactions</p>
           <p className="text-2xl font-bold text-white font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Net Signature</p>
           <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#00ff66]' : 'text-red-500'}`}>
             {totalNet >= 0 ? '+' : ''}₦{(totalNet / 1e6).toFixed(2)}M
           </p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Avg Transaction</p>
           <p className="text-2xl font-bold text-white font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
           <p className="text-xs text-neutral-400 mt-1">{transactionCount} transactions</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <p className="text-xs uppercase tracking-wider text-neutral-400">Pending Settlement</p>
           <p className="text-2xl font-bold text-red-500 font-mono">₦{(pendingSettlement / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-neutral-400 mt-1">Awaiting clearance</p>
-        </div>
+        </Card>
       </div>
 
       {/* Table */}
@@ -197,7 +197,7 @@ export default function RevenueSignatureClient({
             </TableBody>
           </Table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

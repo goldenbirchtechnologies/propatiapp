@@ -99,7 +99,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-white font-mono">{totalUnits}</p>
           <p className="text-xs text-neutral-400 mt-1">{occupancyRate.toFixed(1)}% occupancy</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-[#00ff66]" />
@@ -107,7 +107,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-[#00ff66] font-mono">{occupancyRate.toFixed(1)}%</p>
           <p className="text-xs text-neutral-400 mt-1">{Object.values(unitsByStatus).reduce((a, b) => a + b, 0) || totalUnits} total units</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-[#00ff66]" />
@@ -115,7 +115,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{(billedServiceCharges / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-neutral-400 mt-1">{collectionRate}% collected</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-neutral-300" />
@@ -123,7 +123,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-neutral-300 font-mono">₦{(collectedServiceCharges / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-neutral-400 mt-1">of ₦{(billedServiceCharges / 1e6).toFixed(2)}M billed</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-[#00ff66]" />
@@ -131,7 +131,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{Math.round(avgRent / 1000)}K</p>
           <p className="text-xs text-neutral-400 mt-1">Occupied units</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-neutral-300" />
@@ -139,7 +139,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-neutral-300 font-mono">₦{Math.round(avgServiceCharge / 1000)}K</p>
           <p className="text-xs text-neutral-400 mt-1">Per unit avg</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <Wallet className="w-4 h-4 text-neutral-300" />
@@ -147,7 +147,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-neutral-300 font-mono">₦{Math.round(avgCautionDeposit / 1000)}K</p>
           <p className="text-xs text-neutral-400 mt-1">Per unit avg</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="w-4 h-4 text-red-500" />
@@ -155,7 +155,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-red-500 font-mono">{expiredLeases}</p>
           <p className="text-xs text-neutral-400 mt-1">Past end date</p>
-        </div>
+        </Card>
         <Card className="p-4 border-[#262626] bg-obsidian-800/30">
           <div className="flex items-center gap-2 mb-2">
             <LayoutList className="w-4 h-4 text-white" />
@@ -163,7 +163,7 @@ export default function PortfolioAnalyticsClient({
           </div>
           <p className="text-2xl font-bold text-white font-mono">{listingCount}</p>
           <p className="text-xs text-neutral-400 mt-1">Active org listings</p>
-        </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -190,7 +190,7 @@ export default function PortfolioAnalyticsClient({
               ))}
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         {/* Service Charge Collection */}
         <Card className="p-6 border-[#262626] bg-obsidian-800/30">
@@ -216,7 +216,7 @@ export default function PortfolioAnalyticsClient({
               <p className="text-xs text-neutral-400 mt-2">{collectionRate}% collection rate</p>
             </div>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Top Maintenance Issues */}
@@ -269,7 +269,7 @@ export default function PortfolioAnalyticsClient({
             </TableBody>
           </Table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

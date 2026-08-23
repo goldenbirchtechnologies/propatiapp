@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
             </a>
           </Button>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Plan Comparison */}
       <div>
@@ -226,7 +226,7 @@ export default function SubscriptionPage() {
                   </Button>
                 )}
               </CardContent>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
@@ -297,7 +297,7 @@ export default function SubscriptionPage() {
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

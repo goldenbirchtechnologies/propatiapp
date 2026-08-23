@@ -463,7 +463,6 @@ enum KycStatus {
 
 model User {
   id                    String    @id @default(cuid()) @map("id") // 'usr_' + 16 chars
-  countryId             String?   @map("country_id")
   clerkId               String    @unique @map("clerk_id")
   email                 String    @unique
   phone                 String?   @unique
@@ -569,7 +568,6 @@ model User {
   wallet                Wallet?
   paystackAccount       UserPaystackAccount?
   userKyc               UserKyc?
-  country               Country?      @relation(fields: [countryId], references: [code])
 
   @@index([email], map: "idx_users_email")
   @@index([ninHash], map: "idx_users_nin_hash")
@@ -638,8 +636,6 @@ model PhoneOtp {
 
 model Listing {
   id                   String            @id @default(cuid()) @map("id") // 'lst_' + 12 chars
-  countryId             String?           @map("country_id")
-  jurisdictionId        String?           @map("jurisdiction_id")
   ownerId              String            @map("owner_id")
   agentId              String?           @map("agent_id")
   title                String
@@ -711,9 +707,6 @@ model Listing {
   documents           Document[]
   turnoverTasks       TurnoverTask[]
   invoices            Invoice[]
-  country              Country?       @relation(fields: [countryId], references: [code])
-  jurisdiction         Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
-  legalMatters       LegalMatter[]
 
   @@index([ownerId], map: "idx_listings_owner")
   @@index([title], map: "idx_listings_title")
@@ -882,8 +875,6 @@ model Transaction {
 
 model Agreement {
   id                  String           @id @default(cuid()) @map("id") // 'agr_' + 12 chars
-  countryId            String?          @map("country_id")
-  jurisdictionId       String?          @map("jurisdiction_id")
   listingId           String           @map("listing_id")
   landlordId          String           @map("landlord_id")
   tenantId            String           @map("tenant_id")
@@ -925,9 +916,7 @@ model Agreement {
   rentSchedule        RentSchedule[]
   stampDuty           StampDuty?
   invoices            Invoice[]
-  country             Country?      @relation(fields: [countryId], references: [code])
-  jurisdiction        Jurisdiction?  @relation(fields: [jurisdictionId], references: [id])
-  legalMatters      LegalMatter[]
+
   @@map("agreements")
 }
 
@@ -1044,7 +1033,6 @@ model Notification {
 
 model Organisation {
   id                  String          @id @default(cuid()) @map("id") // 'org_' + 12 chars
-  countryId            String?         @map("country_id")
   name                String
   ownerId             String          @map("owner_id")
   billingEmail        String?         @map("billing_email")
@@ -1066,7 +1054,6 @@ model Organisation {
   subscription        OrgSubscription?
   units               Unit[]
   serviceCharges      ServiceCharge[]
-  country             Country?      @relation(fields: [countryId], references: [code])
 
   @@map("organisations")
 }
@@ -2016,7 +2003,6 @@ model AgentAssignment {
 }
 model Invoice {
   id             String        @id @default(cuid()) @map("id") // 'inv_' + 12 chars
-  countryId       String?       @map("country_id")
   invoiceNumber  String        @unique @map("invoice_number")
   landlordId     String        @map("landlord_id")
   tenantId       String?       @map("tenant_id")
@@ -2038,7 +2024,6 @@ model Invoice {
   tenant         User?         @relation("InvoiceTenant", fields: [tenantId], references: [id])
   listing        Listing?      @relation(fields: [listingId], references: [id])
   agreement      Agreement?    @relation(fields: [agreementId], references: [id])
-  country        Country?      @relation(fields: [countryId], references: [code])
 
   @@index([landlordId], map: "idx_invoices_landlord")
   @@index([tenantId], map: "idx_invoices_tenant")
@@ -2117,152 +2102,4 @@ model UserPaystackAccount {
 
   @@index([userId], map: "idx_paystack_account_user")
   @@map("paystack_accounts")
-}
-
-// ===========================================================================
-// MULTI-COUNTRY FOUNDATION
-// ===========================================================================
-
-model Country {
-  code      String   @id @map("code")
-  name      String
-  currency  String   @map("currency")
-  locale    String   @default("en")
-  timezone  String   @default("UTC")
-  active    Boolean  @default(false) @map("active")
-
-  jurisdictions  Jurisdiction[]
-  users          User[]
-  organisations  Organisation[]
-  listings       Listing[]
-  agreements     Agreement[]
-  invoices       Invoice[]
-  legalMatters   LegalMatter[]
-
-  @@map("countries")
-}
-
-model Jurisdiction {
-  id        String   @id @default(cuid()) @map("id")
-  countryId String   @map("country_id")
-  name      String
-  level     String   @default("state")
-  code      String?
-  metadata  Json?
-  active    Boolean  @default(true) @map("active")
-
-  country      Country       @relation(fields: [countryId], references: [code])
-  listings     Listing[]
-  agreements   Agreement[]
-  legalMatters LegalMatter[]
-
-  @@index([countryId], map: "idx_jurisdictions_country")
-  @@map("jurisdictions")
-}
-
-model LegalMatter {
-  id             String   @id @default(cuid()) @map("id")
-  jurisdictionId String   @map("jurisdiction_id")
-  countryId      String   @map("country_id")
-  type           String   @map("type")
-  parties        Json?
-  listingId      String?  @map("listing_id")
-  agreementId    String?  @map("agreement_id")
-  status         Json?
-  deadlines      Json?
-  actions        Json?
-  approvals      Json?
-  evidence       Json?
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
-
-  jurisdiction   Jurisdiction @relation(fields: [jurisdictionId], references: [id])
-  country        Country      @relation(fields: [countryId], references: [code])
-  listing        Listing?     @relation(fields: [listingId], references: [id])
-  agreement      Agreement?   @relation(fields: [agreementId], references: [id])
-
-  @@index([jurisdictionId], map: "idx_legal_matters_jurisdiction")
-  @@index([countryId], map: "idx_legal_matters_country")
-  @@index([listingId], map: "idx_legal_matters_listing")
-  @@index([agreementId], map: "idx_legal_matters_agreement")
-  @@map("legal_matters")
-}
-
-// ===========================================================================
-// RULES ENGINE
-// ===========================================================================
-
-model JurisdictionRule {
-  id            String   @id @default(cuid()) @map("id")
-  jurisdictionId String? @map("jurisdiction_id")
-  countryId     String   @map("country_id")
-  ruleType      String   @map("rule_type")
-  name          String
-  description   String?
-  conditions    Json     @default("{}")
-  actions       Json     @default("{}")
-  priority      Int      @default(0)
-  effectiveDate DateTime? @map("effective_date")
-  expiryDate    DateTime? @map("expiry_date")
-  active        Boolean  @default(true)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-
-  jurisdiction  Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
-  country       Country      @relation(fields: [countryId], references: [code])
-
-  @@index([countryId], map: "idx_jurisdiction_rules_country")
-  @@index([jurisdictionId], map: "idx_jurisdiction_rules_jurisdiction")
-  @@index([ruleType], map: "idx_jurisdiction_rules_type")
-  @@map("jurisdiction_rules")
-}
-
-model ComplianceEvent {
-  id            String   @id @default(cuid()) @map("id")
-  legalMatterId String   @map("legal_matter_id")
-  eventType     String   @map("event_type")
-  title         String
-  description   String?
-  deadline      DateTime
-  status        String   @default("pending")
-  assignedTo    String?  @map("assigned_to")
-  completedAt   DateTime? @map("completed_at")
-  completedBy   String?  @map("completed_by")
-  metadata      Json?    @default("{}")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-
-  legalMatter   LegalMatter @relation(fields: [legalMatterId], references: [id])
-
-  @@index([legalMatterId], map: "idx_compliance_events_matter")
-  @@index([status], map: "idx_compliance_events_status")
-  @@index([deadline], map: "idx_compliance_events_deadline")
-  @@map("compliance_events")
-}
-
-model DocumentTemplate {
-  id              String   @id @default(cuid()) @map("id")
-  countryId       String   @map("country_id")
-  jurisdictionId  String?  @map("jurisdiction_id")
-  propertyType    String?  @map("property_type")
-  tenancyType     String?  @map("tenancy_type")
-  name            String
-  version         Int      @default(1)
-  templateSchema  Json     @map("template_schema")
-  mandatoryClauses Json?   @map("mandatory_clauses")
-  content         String   @db.Text
-  language        String   @default("en")
-  active          Boolean  @default(true)
-  effectiveDate   DateTime? @map("effective_date")
-  expiryDate      DateTime? @map("expiry_date")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  country         Country      @relation(fields: [countryId], references: [code])
-  jurisdiction    Jurisdiction? @relation(fields: [jurisdictionId], references: [id])
-
-  @@index([countryId], map: "idx_doc_templates_country")
-  @@index([jurisdictionId], map: "idx_doc_templates_jurisdiction")
-  @@index([propertyType], map: "idx_doc_templates_property")
-  @@map("document_templates")
 }

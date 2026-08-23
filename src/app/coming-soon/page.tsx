@@ -33,7 +33,7 @@ function ComingSoonContent() {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            {country ?  : "Coming Soon"}
+            {country ? country.name : "Coming Soon"}
           </h1>
           <p className="text-muted-foreground mb-6">
             PROPATI is currently available in Nigeria. We&apos;re working to bring our verified property marketplace to your region.

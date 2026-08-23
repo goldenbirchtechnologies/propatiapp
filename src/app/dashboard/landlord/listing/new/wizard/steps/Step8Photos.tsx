@@ -186,7 +186,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
               Close
             </Button>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   );

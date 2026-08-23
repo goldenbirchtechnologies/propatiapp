@@ -263,7 +263,7 @@ export default function AgreementDetailClient() {
             )}
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Terms Summary */}
       <Card className="p-6 mb-6">
@@ -309,13 +309,13 @@ export default function AgreementDetailClient() {
             </div>
           </>
         )}
-      </div>
+      </Card>
 
       {/* Rent Schedule */}
       {agreement.status === 'fully_signed' && rentSchedule.length > 0 && (
         <Card className="p-6 mb-6">
           <RentScheduleTable entries={rentSchedule} showActions={role === 'tenant'} />
-        </div>
+        </Card>
       )}
 
       {/* Stamp Duty */}

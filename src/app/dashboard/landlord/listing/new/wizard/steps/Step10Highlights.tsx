@@ -66,7 +66,7 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
                 <div className="font-medium text-sm">{opt.label}</div>
                 <div className="text-xs text-muted-foreground">{opt.description}</div>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

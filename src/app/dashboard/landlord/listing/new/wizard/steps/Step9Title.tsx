@@ -54,7 +54,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
             {remaining} characters left
           </Badge>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

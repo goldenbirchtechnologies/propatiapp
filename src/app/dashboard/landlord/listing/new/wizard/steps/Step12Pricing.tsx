@@ -63,7 +63,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
             />
           </div>
         </div>
-      </div>
+      </Card>
 
       <div className="space-y-2">
         <Label htmlFor="weekend_pricing">Weekend adjustment percentage (optional)</Label>

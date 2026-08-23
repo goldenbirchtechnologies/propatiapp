@@ -120,7 +120,7 @@ export default function AgentVerificationLicenseClient() {
             <span className="font-bold">Oct 24, 2023</span>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Form & Upload */}
@@ -177,7 +177,7 @@ export default function AgentVerificationLicenseClient() {
                 </div>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardHeader>
@@ -213,7 +213,7 @@ export default function AgentVerificationLicenseClient() {
                 </Button>
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
 
         {/* Guidance */}
@@ -244,7 +244,7 @@ export default function AgentVerificationLicenseClient() {
                 </p>
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardHeader>
@@ -278,7 +278,7 @@ export default function AgentVerificationLicenseClient() {
                 ))}
               </div>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -333,7 +333,7 @@ export default function AgentVerificationLicenseClient() {
             </tbody>
           </table>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -61,7 +61,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.total}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Value</CardTitle>
@@ -69,7 +69,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           <CardContent>
             <p className="text-2xl font-bold text-white">{fmtCurrency(stats.totalValue)}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">In Progress</CardTitle>
@@ -77,7 +77,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           <CardContent>
             <p className="text-2xl font-bold text-neutral-300">{stats.activeCount}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Closed</CardTitle>
@@ -85,7 +85,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           <CardContent>
             <p className="text-2xl font-bold text-[#00ff66]">{stats.closedCount}</p>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       <Card>
@@ -132,7 +132,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
             </table>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

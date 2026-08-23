@@ -96,7 +96,7 @@ export default function AgentVerificationsClient() {
                 ))}
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {modules.map((mod) => (
@@ -124,7 +124,7 @@ export default function AgentVerificationsClient() {
                     </div>
                   )}
                 </CardContent>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function AgentVerificationsClient() {
               <p className="text-xs font-label-md uppercase tracking-wider opacity-90">Upload your Office Verification documents to schedule your mandatory physical site inspection.</p>
               <Button className="w-full bg-[#262626] text-white font-bold hover:brightness-110">Complete Office Verification</Button>
             </CardContent>
-          </div>
+          </Card>
 
           <Card>
             <CardHeader className="pb-3">
@@ -165,7 +165,7 @@ export default function AgentVerificationsClient() {
               </div>
               <Button variant="outline" className="w-full mt-6">View All Activity</Button>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

@@ -147,7 +147,7 @@ export default function AgentProfileClient({
             <Button variant="outline" className="gap-2"><Phone className="h-4 w-4" /> Change Phone</Button>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       <KycVerificationCard
         status={kyc?.status || 'not_started'}

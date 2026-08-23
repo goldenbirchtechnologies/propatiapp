@@ -30,7 +30,7 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
           <Card>
             <CardHeader><CardTitle>Revenue Forecasting</CardTitle></CardHeader>
             <CardContent><p className="text-sm text-muted-foreground">Content from refined_revenue_forecasting_advanced_scenario_builder_propati_owner_console.</p></CardContent>
-          </div>
+          </Card>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Upgrade to Premium</Button>
@@ -49,12 +49,12 @@ export default function refinedrevenueforecastingadvancedscenariobuilderpropatio
               <li>High demand for short-lets in Victoria Island following corporate relocation trends. Expected yield increase by 1.2% in Q3.</li>
             </ul>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">This page was ported from the reference design: <strong>refined_revenue_forecasting_advanced_scenario_builder_propati_owner_console.html</strong></p>
           </CardContent>
-        </div>
+        </Card>
       </div>
     
       </ErrorBoundary>

@@ -22,7 +22,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm font-bold" className="text-white">Financial Scenario Builder</h1>
+          <h1 className="font-headline-sm font-bold text-white">Financial Scenario Builder</h1>
           <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>
             {hasRealData ? `Projected outcomes for ${orgName || 'your organization'}` : 'Optimistic projections (no organization data available)'}
           </p>
@@ -75,7 +75,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

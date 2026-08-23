@@ -28,7 +28,7 @@ function StatCardSkeleton() {
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-[#262626]" style={{ animation: \'skel-pulse 1.6s ease-in-out infinite\' }}>
+    <tr className="border-b border-[#262626]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <td className="p-5"><div className="rounded" style={{ height: 15, width: '50%', background: 'border-[#262626]' }} /></td>
       <td className="p-5"><div className="rounded" style={{ height: 15, width: '30%', background: 'border-[#262626]' }} /></td>
     </tr>

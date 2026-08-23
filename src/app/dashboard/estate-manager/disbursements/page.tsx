@@ -44,8 +44,8 @@ function DisbursementsForm() {
             <Button type="submit" disabled={loading} className="w-full">{loading ? 'Processing...' : 'Disburse'}</Button>
           </form>
         </CardContent>
-      </div>
-    
+      </Card>
+
       </ErrorBoundary>
 </DashboardShell>
   );

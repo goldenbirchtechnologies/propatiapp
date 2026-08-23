@@ -155,7 +155,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 </SelectContent>
               </Select>
             </CardContent>
-          </div>
+          </Card>
 
           {/* Agreement Selection */}
           <Card>
@@ -192,7 +192,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 </div>
               )}
             </CardContent>
-          </div>
+          </Card>
 
           {/* Amount */}
           <Card>
@@ -225,7 +225,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 />
               </div>
             </CardContent>
-          </div>
+          </Card>
 
           {/* Fee Breakdown */}
           {breakdown && (
@@ -272,7 +272,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
               </CardContent>
-            </div>
+            </Card>
           )}
 
           {/* Submit Button */}
@@ -300,7 +300,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                 You will be redirected to Paystack to complete your payment securely
               </p>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </form>
     </div>

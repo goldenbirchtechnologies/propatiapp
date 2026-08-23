@@ -162,7 +162,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             )}
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Amount Breakdown */}
       <Card>
@@ -200,7 +200,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             )}
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Transaction Information */}
       <Card>
@@ -246,7 +246,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
             </div>
           </div>
         </CardContent>
-      </div>
+      </Card>
 
       {/* Property/Agreement Information */}
       {transaction.listing && (
@@ -272,7 +272,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       )}
 
       {/* Escrow Information */}
@@ -287,7 +287,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
               once the transaction is completed and verified by the admin.
             </p>
           </CardContent>
-        </div>
+        </Card>
       )}
     </div>
   );

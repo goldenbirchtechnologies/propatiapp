@@ -121,7 +121,7 @@ export default function AgreementsPage() {
                   </Button>
                 )}
               </div>
-            </div>
+            </Card>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredAgreements.map((agreement) => (
@@ -216,7 +216,7 @@ export default function AgreementsPage() {
                       )}
                     </div>
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           )}

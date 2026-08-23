@@ -93,13 +93,13 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
             </div>
           );
         })}
-      </div>
+      </Card>
 
       <Card className="p-4 bg-muted/50 border-dashed">
         <p className="text-xs text-muted-foreground">
           You are required to keep this information accurate. Review your local safety regulations before submitting.
         </p>
-      </div>
+      </Card>
     </div>
   );
 }

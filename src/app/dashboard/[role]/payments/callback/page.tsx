@@ -142,7 +142,7 @@ export default function PaymentCallbackPage() {
             </div>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

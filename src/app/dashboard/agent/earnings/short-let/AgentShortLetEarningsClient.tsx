@@ -123,7 +123,7 @@ export default function AgentShortLetEarningsClient() {
             </div>
           </CardContent>
           <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-[#262626] opacity-10 rounded-full blur-3xl" />
-        </div>
+        </Card>
 
         <Card>
           <CardContent className="p-6">
@@ -135,7 +135,7 @@ export default function AgentShortLetEarningsClient() {
             <Progress value={occupancy} className="mt-4 h-2" />
             <p className="text-xs font-label-md uppercase tracking-wider mt-2 text-neutral-400">Average across 14 properties</p>
           </CardContent>
-        </div>
+        </Card>
 
         <Card>
           <CardContent className="p-6">
@@ -151,7 +151,7 @@ export default function AgentShortLetEarningsClient() {
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Calendar + Breakdown */}
@@ -211,7 +211,7 @@ export default function AgentShortLetEarningsClient() {
               ))}
             </div>
           </CardContent>
-        </div>
+        </Card>
 
         <Card className="flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
           <CardHeader>
@@ -246,7 +246,7 @@ export default function AgentShortLetEarningsClient() {
               </div>
             </div>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       {/* Recent Completed Stays */}
@@ -303,7 +303,7 @@ export default function AgentShortLetEarningsClient() {
             </tbody>
           </table>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -72,7 +72,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           <CardContent>
             <p className="text-2xl font-bold text-white">{stats.total}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">In Progress</CardTitle>
@@ -80,7 +80,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           <CardContent>
             <p className="text-2xl font-bold text-neutral-300">{stats.pending}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Active</CardTitle>
@@ -88,7 +88,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           <CardContent>
             <p className="text-2xl font-bold text-[#00ff66]">{stats.active}</p>
           </CardContent>
-        </div>
+        </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Est. Value</CardTitle>
@@ -96,7 +96,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           <CardContent>
             <p className="text-2xl font-bold text-white">{fmtCurrency(stats.totalValue)}</p>
           </CardContent>
-        </div>
+        </Card>
       </div>
 
       <Card>
@@ -146,7 +146,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
             </table>
           )}
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 }

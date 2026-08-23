@@ -98,7 +98,7 @@ export default async function AgentCommissionsPage() {
               Retry
             </button>
           </CardContent>
-        </div>
+        </Card>
       </DashboardShell>
     );
   }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { FileText, Eye, Calendar, Download, ChevronRight, ChevronLeft, User, DollarSign, Home, Clock, Lock, Wallet } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 type Deal = {
   id: string;
@@ -22,11 +23,11 @@ type Deal = {
 };
 
 const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
-  enquiries: { color: 'var(--blue)', bg: 'var(--blue-bg)' },
-  viewings: { color: 'var(--amber)', bg: 'var(--amber-bg)' },
-  offers: { color: 'var(--green)', bg: 'var(--green-bg)' },
-  agreements: { color: 'var(--accent)', bg: 'var(--accent-bg)' },
-  closed: { color: 'var(--green)', bg: 'var(--green-bg)' },
+  enquiries: { color: '#3b82f6', bg: '#1e3a5f' },
+  viewings: { color: '#f59e0b', bg: '#78350f' },
+  offers: { color: '#10b981', bg: '#064e3b' },
+  agreements: { color: '#00ff66', bg: '#064e3b' },
+  closed: { color: '#10b981', bg: '#064e3b' },
 };
 
 export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
@@ -75,7 +76,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <ChevronLeft className="w-4 h-4" /> Pipeline
             </Link>
           </div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
+          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>
             {deal.title}
           </h1>
           <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
@@ -91,7 +92,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       </div>
 
       {showActions && (
-        <div className="rounded-xl border border-[#262626]/60 bg-background p-4">
+        <Card className="rounded-xl border border-[#262626]/60 bg-[#0a0a0a] p-4">
           <h3 className="text-sm font-semibold mb-3">Deal actions</h3>
           <div className="flex flex-wrap items-center gap-3">
             {isInEscrow && (
@@ -109,19 +110,19 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <Button variant="destructive" onClick={() => fetch('/api/transactions/' + deal.id + '/dispute', { method: 'POST' }).then(() => toast.error('Dispute filed'))} disabled={actionLoading}>Dispute</Button>
             </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b" className=\"border-[#262626]\">
+      <div className="flex gap-2 border-b border-[#262626]">
         {(['overview', 'timeline', 'actions', 'documents'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className="px-4 py-2 text-sm font-medium border-b-2 transition-colors capitalize"
             style={{
-              borderColor: activeTab === tab ? 'text-white' : 'transparent',
-              color: activeTab === tab ? 'text-white' : 'text-neutral-400',
+              borderColor: activeTab === tab ? '#ffffff' : 'transparent',
+              color: activeTab === tab ? '#ffffff' : '#a3a3a3',
             }}
           >
             {tab}
@@ -132,7 +133,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
+          <Card className="p-5 border border-[#262626] bg-[#0a0a0a]">
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Deal Details</h3>
             <div className="space-y-3">
               <DetailRow icon={<Home className="w-4 h-4" />} label="Property" value={deal.property} />
@@ -141,8 +142,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <DetailRow icon={<DollarSign className="w-4 h-4" />} label="Value" value={formatCurrency(deal.value)} />
               <DetailRow icon={<Clock className="w-4 h-4" />} label="Last Contact" value={formatDate(deal.lastContact)} />
             </div>
-          </div>
-          <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
+          </Card>
+          <Card className="p-5 border border-[#262626] bg-[#0a0a0a]">
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-white">Status Overview</h3>
             <div className="space-y-3">
               <StatusBar label="Enquiries" active={deal.status === 'enquiries'} />
@@ -151,19 +152,19 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <StatusBar label="Agreements" active={deal.status === 'agreements'} />
               <StatusBar label="Closed" active={deal.status === 'closed'} />
             </div>
-          </div>
+          </Card>
         </div>
       )}
 
       {activeTab === 'timeline' && (
-        <div className="card p-5" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
+        <Card className="p-5 border border-[#262626] bg-[#0a0a0a]">
           <h3 className="font-headline-sm font-bold text-sm mb-6 text-white">Deal Timeline</h3>
           <div className="space-y-0">
             {deal.timeline.map((item, idx) => (
               <div key={item.id} className="flex gap-4">
                 <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 rounded-full" style={{ background: 'text-white' }} />
-                  {idx < deal.timeline.length - 1 && <div className="w-0.5 flex-1 mt-1" style={{ background: 'border-[#262626]' }} />}
+                  <div className="w-3 h-3 rounded-full" style={{ background: '#ffffff' }} />
+                  {idx < deal.timeline.length - 1 && <div className="w-0.5 flex-1 mt-1" style={{ background: '#262626' }} />}
                 </div>
                 <div className="pb-6">
                   <p className="text-sm font-medium text-white">{item.event}</p>
@@ -173,7 +174,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
       )}
 
       {activeTab === 'actions' && (
@@ -206,8 +207,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'documents' && (
-        <div className="card overflow-hidden" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]' }}>
-          <div className="p-4 border-b" className=\"border-[#262626]\">
+        <Card className="overflow-hidden border border-[#262626] bg-[#0a0a0a]">
+          <div className="p-4 border-b border-[#262626]">
             <h3 className="font-headline-sm font-bold text-sm text-white">Documents</h3>
           </div>
           {deal.documents.length === 0 ? (
@@ -218,7 +219,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
-                <tr className="border-b" className=\"border-[#262626]\">
+                <tr className="border-b border-[#262626]">
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Name</th>
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Type</th>
                   <th className="text-left p-4 text-sm font-label-md uppercase tracking-wider text-neutral-400">Size</th>
@@ -228,7 +229,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               </thead>
               <tbody>
                 {deal.documents.map((doc) => (
-                  <tr key={doc.id} className="border-b transition-colors hover:bg-[#171717]/30" className=\"border-[#262626]\">
+                  <tr key={doc.id} className="border-b border-[#262626] transition-colors hover:bg-[#171717]/30">
                     <td className="p-4 font-medium text-sm flex items-center gap-2 text-white">
                       <FileText className="w-4 h-4 text-neutral-400" />
                       {doc.name}
@@ -237,7 +238,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
                     <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{doc.size}</td>
                     <td className="p-4 text-xs font-label-md uppercase tracking-wider text-neutral-400">{formatDate(doc.uploadedAt)}</td>
                     <td className="p-4 text-right">
-                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors" style={{ background: 'bg-obsidian-800/30', color: 'text-white', border: '1px solid border-[#262626]' }}>
+                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors border border-[#262626] bg-[#0a0a0a] text-white">
                         <Download className="w-3 h-3" /> Download
                       </button>
                     </td>
@@ -246,7 +247,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               </tbody>
             </table>
           )}
-        </div>
+        </Card>
       )}
     </div>
   );
@@ -267,18 +268,18 @@ function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: strin
 function StatusBar({ label, active }: { label: string; active: boolean }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex-1 h-2 rounded-full" style={{ background: 'border-[#262626]' }}>
-        <div className="h-2 rounded-full" style={{ width: active ? '100%' : '0%', background: active ? 'text-white' : 'transparent', transition: 'width 0.3s ease' }} />
+      <div className="flex-1 h-2 rounded-full" style={{ background: '#262626' }}>
+        <div className="h-2 rounded-full" style={{ width: active ? '100%' : '0%', background: active ? '#ffffff' : 'transparent', transition: 'width 0.3s ease' }} />
       </div>
-      <span className="text-xs font-label-md uppercase tracking-wider font-medium w-24 text-right" style={{ color: active ? 'text-white' : 'text-neutral-400' }}>{label}</span>
+      <span className="text-xs font-label-md uppercase tracking-wider font-medium w-24 text-right" style={{ color: active ? '#ffffff' : '#a3a3a3' }}>{label}</span>
     </div>
   );
 }
 
 function ActionCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
-    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group" style={{ background: 'bg-obsidian-800/30', border: '1px solid border-[#262626]', textDecoration: 'none' }}>
-      <div className="p-3 rounded-xl" style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}>
+    <Link href={href} className="card p-5 flex items-start gap-4 transition-all hover:shadow-md group border border-[#262626] bg-[#0a0a0a] text-white no-underline">
+      <div className="p-3 rounded-xl bg-[#00ff66]/10 text-white">
         {icon}
       </div>
       <div className="flex-1 min-w-0">

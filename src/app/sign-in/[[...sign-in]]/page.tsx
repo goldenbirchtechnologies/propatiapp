@@ -1,32 +1,12 @@
-'use client';
-
 import Link from 'next/link';
-import { SignIn, useUser } from '@clerk/nextjs';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { SignIn } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-export default function SignInPage() {
-  const { isLoaded, isSignedIn } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace('/dashboard');
-    }
-  }, [isLoaded, isSignedIn, router]);
-
-  if (!isLoaded || isSignedIn) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 theme-landing">
-        <div className="w-full max-w-md text-center">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-muted rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-muted rounded w-3/4 mx-auto"></div>
-            <div className="h-64 bg-muted rounded"></div>
-          </div>
-        </div>
-      </div>
-    );
+export default async function SignInPage() {
+  const { userId } = await auth();
+  if (userId) {
+    redirect('/dashboard');
   }
 
   return (
@@ -86,7 +66,6 @@ export default function SignInPage() {
             }}
             routing="path"
             path="/sign-in"
-            redirectUrl="/dashboard"
             fallbackRedirectUrl="/dashboard"
           />
         </div>

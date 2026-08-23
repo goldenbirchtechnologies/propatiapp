@@ -1,9 +1,7 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { SignUp, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { SignUp } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { Building2, Search, Building, CheckCircle2, Handshake } from 'lucide-react';
 
 type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
@@ -20,69 +18,10 @@ const roles: {
   { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: Building },
 ];
 
-export default function SignUpPage() {
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-  const [showClerk, setShowClerk] = useState(false);
-  const { isLoaded, isSignedIn } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace('/dashboard');
-    }
-  }, [isLoaded, isSignedIn, router]);
-
-  function handleContinue() {
-    if (!selectedRole) return;
-    sessionStorage.setItem('propati_pending_role', selectedRole);
-    setShowClerk(true);
-  }
-
-  if (!isLoaded || isSignedIn) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-        <div className="w-full max-w-md text-center">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-muted rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-muted rounded w-3/4 mx-auto"></div>
-            <div className="h-64 bg-muted rounded"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (showClerk) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 mb-6">
-              <span className="text-3xl font-bold tracking-tight text-primary">PROPATI</span>
-            </Link>
-          </div>
-          <SignUp
-            appearance={{
-              elements: {
-                formButtonPrimary: 'btn-primary',
-                card: 'shadow-lg border border-border rounded-xl p-6',
-                headerTitle: 'font-bold text-xl text-foreground',
-                headerSubtitle: 'text-muted-foreground',
-              },
-            }}
-            routing="path"
-            path="/sign-up"
-            redirectUrl="/onboarding"
-            fallbackRedirectUrl="/onboarding"
-            unsafeMetadata={{ role: selectedRole }}
-          />
-          <p className="text-center text-sm mt-6 text-muted-foreground">
-            Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:underline">Sign in</Link>
-          </p>
-        </div>
-      </div>
-    );
+export default async function SignUpPage() {
+  const { userId } = await auth();
+  if (userId) {
+    redirect('/dashboard');
   }
 
   return (
@@ -97,57 +36,35 @@ export default function SignUpPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {roles.map(({ id, label, subtitle, Icon }) => {
-            const isSelected = selectedRole === id;
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelectedRole(id)}
-                className={[
-                  'relative flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                  isSelected
-                    ? 'border-primary bg-primary/5 shadow-md'
-                    : 'border-border bg-card hover:border-primary/40 hover:shadow-sm',
-                ].join(' ')}
-              >
-                {isSelected && (
-                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-primary" />
-                )}
-                <div
-                  className={[
-                    'flex h-14 w-14 items-center justify-center rounded-xl transition-colors',
-                    isSelected
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground',
-                  ].join(' ')}
-                >
-                  <Icon size={28} />
-                </div>
-                <div>
-                  <p className={['font-semibold text-sm', isSelected ? 'text-primary' : 'text-foreground'].join(' ')}>
-                    {label}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{subtitle}</p>
-                </div>
-              </button>
-            );
-          })}
+          {roles.map(({ id, label, subtitle, Icon }) => (
+            <div
+              key={id}
+              className="relative flex flex-col items-center gap-3 rounded-2xl border-2 border-border bg-card p-5 text-center"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                <Icon size={28} />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-foreground">{label}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{subtitle}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <button
-          type="button"
-          onClick={handleContinue}
-          disabled={!selectedRole}
-          className={[
-            'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200',
-            selectedRole
-              ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
-              : 'bg-muted text-muted-foreground cursor-not-allowed',
-          ].join(' ')}
-        >
-          Continue
-        </button>
+        <SignUp
+          appearance={{
+            elements: {
+              formButtonPrimary: 'btn-primary',
+              card: 'shadow-lg border border-border rounded-xl p-6',
+              headerTitle: 'font-bold text-xl text-foreground',
+              headerSubtitle: 'text-muted-foreground',
+            },
+          }}
+          routing="path"
+          path="/sign-up"
+          fallbackRedirectUrl="/onboarding"
+        />
 
         <p className="text-center text-sm mt-6 text-muted-foreground">
           Already have an account?{' '}

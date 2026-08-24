@@ -1,6 +1,4 @@
-/*! Propati shell cache — network-first, no-store safe.
-   Bump CACHE to invalidate all stored assets when changing strategy. */
-const CACHE = 'propati-shell-v2';
+const CACHE = 'propati-shell-v3';
 const ASSETS = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png', '/favicon.ico'];
 
 self.addEventListener('install', (event) => {
@@ -10,32 +8,35 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
+  // Never intercept Next.js static assets, API routes, or data requests
+  const url = new URL(req.url);
+  if (url.pathname.startsWith('/_next/') ||
+      url.pathname.startsWith('/api/') ||
+      url.pathname.startsWith('/dashboard')) {
+    return;
+  }
+
   event.respondWith(
     caches.match(req).then((cached) => {
-      const networkFetch = fetch(req).then((resp) => {
-        if (!resp || resp.status !== 200) return resp;
-
-        const cacheControl = resp.headers.get('cache-control') || '';
-        if (cacheControl.includes('no-store')) return resp;
-
-        const clone = resp.clone();
-        caches.open(CACHE).then((cache) => {
-          const scheme = req.url ? new URL(req.url).protocol : req.scheme;
-          if (scheme !== 'chrome-extension:') {
-            cache.put(req, clone).catch(() => {});
-          }
-        }).catch(() => {});
+      if (cached) return cached;
+      return fetch(req).then((resp) => {
+        if (resp && resp.status === 200) {
+          const clone = resp.clone();
+          caches.open(CACHE).then((cache) => cache.put(req, clone)).catch(() => {});
+        }
         return resp;
-      }).catch(() => cached || new Response('Offline', { status: 503 }));
-
-      return cached || networkFetch;
+      });
     })
   );
 });

@@ -2,11 +2,8 @@
 
 import Link from 'next/link';
 import { SignIn } from '@clerk/nextjs';
-import { useState } from 'react';
 
 export default function SignInPage() {
-  const [flowReady, setFlowReady] = useState(false);
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 theme-landing">
       <div className="w-full max-w-md">
@@ -64,6 +61,7 @@ export default function SignInPage() {
             }}
             routing="path"
             path="/sign-in"
+            redirectUrl="/dashboard"
             fallbackRedirectUrl="/dashboard"
           />
         </div>

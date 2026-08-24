@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { SignUp } from '@clerk/nextjs';
+import { useState, useEffect } from 'react';
+import { SignUp, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Building2, Search, Building, CheckCircle2, Handshake } from 'lucide-react';
 
 type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
@@ -13,35 +14,23 @@ const roles: {
   subtitle: string;
   Icon: React.ElementType;
 }[] = [
-  {
-    id: 'landlord',
-    label: 'Landlord',
-    subtitle: 'I own properties',
-    Icon: Building2,
-  },
-  {
-    id: 'tenant',
-    label: 'Tenant',
-    subtitle: "I'm looking for a home",
-    Icon: Search,
-  },
-  {
-    id: 'agent',
-    label: 'Agent',
-    subtitle: 'I help people find homes',
-    Icon: Handshake,
-  },
-  {
-    id: 'estate_manager',
-    label: 'Estate Manager',
-    subtitle: 'I manage property portfolios',
-    Icon: Building,
-  },
+  { id: 'landlord', label: 'Landlord', subtitle: 'I own properties', Icon: Building2 },
+  { id: 'tenant', label: 'Tenant', subtitle: "I'm looking for a home", Icon: Search },
+  { id: 'agent', label: 'Agent', subtitle: 'I help people find homes', Icon: Handshake },
+  { id: 'estate_manager', label: 'Estate Manager', subtitle: 'I manage property portfolios', Icon: Building },
 ];
 
 export default function SignUpPage() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [showClerk, setShowClerk] = useState(false);
+  const { isLoaded, isSignedIn } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.replace('/dashboard');
+    }
+  }, [isLoaded, isSignedIn, router]);
 
   function handleContinue() {
     if (!selectedRole) return;
@@ -55,9 +44,7 @@ export default function SignUpPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2 mb-6">
-              <span className="text-3xl font-bold tracking-tight text-primary">
-                PROPATI
-              </span>
+              <span className="text-3xl font-bold tracking-tight text-primary">PROPATI</span>
             </Link>
           </div>
           <SignUp
@@ -71,16 +58,13 @@ export default function SignUpPage() {
             }}
             routing="path"
             path="/sign-up"
+            redirectUrl="/onboarding"
             fallbackRedirectUrl="/onboarding"
-            unsafeMetadata={{
-              role: selectedRole,
-            }}
+            unsafeMetadata={{ role: selectedRole }}
           />
           <p className="text-center text-sm mt-6 text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:underline">
-              Sign in
-            </Link>
+            <Link href="/login" className="font-medium text-primary hover:underline">Sign in</Link>
           </p>
         </div>
       </div>
@@ -92,14 +76,10 @@ export default function SignUpPage() {
       <div className="w-full max-w-2xl">
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="text-3xl font-bold tracking-tight text-primary">
-              PROPATI
-            </span>
+            <span className="text-3xl font-bold tracking-tight text-primary">PROPATI</span>
           </Link>
           <h1 className="text-3xl font-bold text-foreground mb-2">Join as a...</h1>
-          <p className="text-muted-foreground text-base">
-            Select your role to get started
-          </p>
+          <p className="text-muted-foreground text-base">Select your role to get started</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -118,10 +98,7 @@ export default function SignUpPage() {
                 ].join(' ')}
               >
                 {isSelected && (
-                  <CheckCircle2
-                    size={18}
-                    className="absolute top-3 right-3 text-primary"
-                  />
+                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-primary" />
                 )}
                 <div
                   className={[
@@ -134,17 +111,10 @@ export default function SignUpPage() {
                   <Icon size={28} />
                 </div>
                 <div>
-                  <p
-                    className={[
-                      'font-semibold text-sm',
-                      isSelected ? 'text-primary' : 'text-foreground',
-                    ].join(' ')}
-                  >
+                  <p className={['font-semibold text-sm', isSelected ? 'text-primary' : 'text-foreground'].join(' ')}>
                     {label}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
-                    {subtitle}
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{subtitle}</p>
                 </div>
               </button>
             );
@@ -167,9 +137,7 @@ export default function SignUpPage() {
 
         <p className="text-center text-sm mt-6 text-muted-foreground">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-primary hover:underline">
-            Sign in
-          </Link>
+          <Link href="/login" className="font-medium text-primary hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

@@ -157,9 +157,6 @@ export default async function EstateManagerDashboardPage() {
       orderBy: { createdAt: 'desc' },
     });
 
-    const daysSince = (d: Date) => Math.max(0, Math.floor((Date.now() - d.getTime()) / 86400000));
-    const smartManagedThreshold = 14;
-    const nearVoidThreshold = 3;
     const monthlyStats: Record<string, { count: number; amountNaira: number }> = {};
     let totalAmount = 0;
     let totalCollected = 0;

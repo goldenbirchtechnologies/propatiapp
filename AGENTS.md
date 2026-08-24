@@ -21,7 +21,7 @@ src/app/
       agent/         # agent pages
       estate-manager/
       [role]/        # shared: messages, payments, notifications (validates params.role === user.role)
-  admin/             # admin-only
+      admin/         # admin-only pages (admin role redirects HERE, not to a top-level /admin)
   onboarding/        # post-signup wizard
   sign-up/           # role picker → Clerk <SignUp>
   sign-in/
@@ -32,6 +32,10 @@ src/app/
 - **Never commit `.env`** — it is gitignored and contains all secrets
 - Only `NEXT_PUBLIC_` vars reach the browser — everything else is server-only
 - `(dashboard)/layout.tsx` must remain a thin auth-only server component — adding UI there causes double sidebar
+- **Never call `redirect()` inside a `try` block.** `redirect()` signals by throwing `NEXT_REDIRECT`; a `catch` swallows it and re-throwing from the catch surfaces as an opaque "error occurred in the Server Components render". Resolve the target into a variable, then `redirect()` after the try/catch.
+- **`getRoleRedirectPath()` in `src/lib/auth.ts` is the single source of truth for role → path.** Do not add a second copy or an inline role table; every target it returns must be a route that actually exists.
+- **Never derive `role` from Clerk `unsafeMetadata`** — it is writable by the end user from the browser. Read `publicMetadata` only, and never let `admin` be self-assignable. `role` is set at user creation and by the admin route; it is not synced on update.
+- **`withAuth(request)` with one argument authenticates but does NOT authorize.** Pass `withAuth(request, ['admin'])` (or the allowed roles) on any privileged route. A path under `api/admin/` gets no automatic protection from its directory name.
 - Run `npx prisma generate && next build` (not just `next build`) — Vercel needs the generate step
 - `DATABASE_URL` uses pooler port 6543; `DIRECT_URL` uses direct port 5432 for migrations
 - Mock fallbacks are active for all external services when env vars are unset (Remita, Prembly, Termii, Cloudinary)

@@ -90,10 +90,13 @@ export async function renderTemplate(
   if (!template) throw new Error('Template not found');
 
   let content = template.content;
-  for (const [key, value] of Object.entries(context)) {
-    const regex = new RegExp(, 'g');
-    content = content.replace(regex, String(value ?? ''));
-  }
+  // Scan the template for {{key}} placeholders rather than building a regex per
+  // context key. This matches the pattern used by every country module (see
+  // src/lib/countries/*/agreements.ts) and avoids interpolating caller-supplied
+  // key names into a RegExp, which would be a regex-injection vector.
+  content = content.replace(/\{\{(\w+)\}\}/g, (match, key: string) =>
+    Object.prototype.hasOwnProperty.call(context, key) ? String(context[key] ?? '') : match
+  );
 
   return content;
 }

@@ -20,7 +20,7 @@ export function ComingSoonBadge({ feature, note }: { feature: string; note?: str
   return (
     <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
       <Clock className="h-3 w-3" />
-      {feature} coming soon{note ?  : ""}
+      {feature} coming soon{note ? ` — ${note}` : ""}
     </div>
   );
 }

@@ -3,24 +3,37 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { prisma } from './prisma';
 import { UserRole } from '@prisma/client';
 
+// Roles a user may end up with via signup/onboarding. 'admin' is excluded on
+// purpose: it can only be granted through the admin-guarded change-role route.
+const SELF_ASSIGNABLE_ROLES: UserRole[] = ['landlord', 'tenant', 'agent', 'estate_manager'];
+
+
 async function ensurePrismaUserFromClerk() {
   const clerkUser = await currentUser();
   if (!clerkUser) return null;
 
   const email = clerkUser.emailAddresses[0]?.emailAddress ?? '';
-  const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
-               (clerkUser.publicMetadata?.role as UserRole) ??
-               'tenant';
+  // publicMetadata only. unsafeMetadata is writable by the end user from the
+  // browser, so it must never determine authorization state. 'admin' is never
+  // self-assignable; it is granted only through the admin-guarded route.
+  const claimedRole = clerkUser.publicMetadata?.role as UserRole | undefined;
+  const role: UserRole =
+    claimedRole && claimedRole !== 'admin' && SELF_ASSIGNABLE_ROLES.includes(claimedRole)
+      ? claimedRole
+      : 'tenant';
   const fullName = `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || email;
   const phone = clerkUser.phoneNumbers[0]?.phoneNumber ?? null;
 
+  // NOTE: `role` is deliberately absent here. This object is used for UPDATES of
+  // existing users, and re-applying a metadata-derived role on every request
+  // would clobber legitimate role changes and make any escalation sticky.
   const commonData = {
     email,
     fullName,
     avatarUrl: clerkUser.imageUrl,
     phone,
-    role,
   };
+
 
   const byClerkId = await prisma.user.findUnique({ where: { clerkId: clerkUser.id } });
   if (byClerkId) {
@@ -36,6 +49,7 @@ async function ensurePrismaUserFromClerk() {
     data: {
       clerkId: clerkUser.id,
       ...commonData,
+      role,
       isActive: true,
       isBanned: false,
     },
@@ -59,9 +73,6 @@ export async function getCurrentUser() {
     try {
       const clerkUser = await currentUser();
       if (!clerkUser) return null;
-      const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
-                   (clerkUser.publicMetadata?.role as UserRole) ??
-                   'tenant';
       console.error('getCurrentUser fallback: database unavailable, cannot resolve Prisma user id for', clerkUser.id);
       return null;
     } catch {
@@ -126,9 +137,11 @@ export async function syncClerkUser(clerkUser: Awaited<ReturnType<typeof current
     });
   }
 
-  const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
-               (clerkUser.publicMetadata?.role as UserRole) ??
-               'tenant';
+  const claimedRole = clerkUser.publicMetadata?.role as UserRole | undefined;
+  const role: UserRole =
+    claimedRole && claimedRole !== 'admin' && SELF_ASSIGNABLE_ROLES.includes(claimedRole)
+      ? claimedRole
+      : 'tenant';
 
   return prisma.user.create({
     data: {
@@ -149,7 +162,7 @@ export function getRoleRedirectPath(role: UserRole): string {
     landlord: '/dashboard/landlord',
     tenant: '/dashboard/tenant',
     agent: '/dashboard/agent',
-    admin: '/admin',
+    admin: '/dashboard/admin',
     estate_manager: '/dashboard/estate-manager',
   };
   return paths[role] ?? '/dashboard/tenant';
@@ -191,9 +204,6 @@ export async function getCurrentUserWithProfile() {
     try {
       const clerkUser = await currentUser();
       if (!clerkUser) return null;
-      const role = (clerkUser.unsafeMetadata?.role as UserRole) ??
-                   (clerkUser.publicMetadata?.role as UserRole) ??
-                   'tenant';
       console.error('getCurrentUserWithProfile fallback: database unavailable, cannot resolve Prisma user id for', clerkUser.id);
       return null;
     } catch {

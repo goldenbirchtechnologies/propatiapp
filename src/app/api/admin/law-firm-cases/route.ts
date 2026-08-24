@@ -27,13 +27,13 @@ async function postHandler(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const authResult = await withAuth(request);
+  const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
   return getHandler(request);
 }
 
 export async function POST(request: NextRequest) {
-  const authResult = await withAuth(request);
+  const authResult = await withAuth(request, ['admin']);
   if (authResult instanceof NextResponse) return authResult;
   return postHandler(request);
 }

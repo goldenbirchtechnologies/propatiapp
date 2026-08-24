@@ -6,8 +6,8 @@ import { UserRole, EmploymentStatus, EmploymentType } from '@prisma/client';
 export async function PATCH(request: NextRequest) {
   const authResult = await withAuth(request);
   if (authResult instanceof NextResponse) return authResult;
-  // Role and other admin-only fields are gated in lib/api-auth.ts by requiring specific roles.
-  // This route only permits regular profile field updates from the owner.
+  // Owner-only profile updates. Role and other privileged columns are NOT
+  // writable through this route; see the note beside `data` below.
   const { user } = authResult;
 
   try {
@@ -26,17 +26,15 @@ export async function PATCH(request: NextRequest) {
       jobTitle,
       yearlyIncome,
       profileCompleted,
-      role,
     } = body;
 
     const data: Record<string, unknown> = {};
 
-    if (role !== undefined) {
-      const validRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
-      if (validRoles.includes(role as string)) {
-        data.role = role as UserRole;
-      }
-    }
+    // Role is deliberately NOT accepted here. This route authenticates the
+    // caller as the resource owner, not as an admin, so allowing a role write
+    // would let any user self-promote. Self-service role changes go through
+    // POST /api/onboarding/role (which excludes admin); admin promotion is
+    // admin-only via /api/admin/users/[id]/change-role.
 
     if (fullName !== undefined) data.fullName = String(fullName).trim();
     if (phone !== undefined) data.phone = phone ? String(phone).trim() : null;

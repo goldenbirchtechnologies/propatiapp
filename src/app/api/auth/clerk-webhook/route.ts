@@ -88,12 +88,14 @@ async function handleUserCreated(data: Record<string, unknown>) {
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
   const publicMetadata = data.public_metadata as Record<string, unknown> | undefined;
-  const unsafeMetadata = data.unsafe_metadata as Record<string, unknown> | undefined;
-  
-  // Validate role against allowed enum values
-  const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
+
+  // Role is read from publicMetadata ONLY. unsafeMetadata is writable by the end
+  // user from the browser via the Clerk client SDK, so trusting it here would let
+  // any user self-assign a role (including admin). 'admin' is additionally never
+  // grantable through this webhook; admin promotion is an admin-only server path.
+  const allowedRoles = ['landlord', 'tenant', 'agent', 'estate_manager'] as const;
   type AllowedRole = typeof allowedRoles[number];
-  const rawRole = (publicMetadata?.role || unsafeMetadata?.role) as string | undefined;
+  const rawRole = publicMetadata?.role as string | undefined;
   const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
   if (!email) {
@@ -132,15 +134,12 @@ async function handleUserUpdated(data: Record<string, unknown>) {
   const lastName = data.last_name as string;
   const phoneNumber = (data.phone_numbers as Array<{ phone_number: string }>)?.[0]?.phone_number;
   const imageUrl = data.image_url as string;
-  const publicMetadata = data.public_metadata as Record<string, unknown> | undefined;
-  const unsafeMetadata = data.unsafe_metadata as Record<string, unknown> | undefined;
-  
-  // Validate role against allowed enum values
-  const allowedRoles = ['landlord', 'tenant', 'agent', 'admin', 'estate_manager'] as const;
-  type AllowedRole = typeof allowedRoles[number];
-  const rawRole = (publicMetadata?.role || unsafeMetadata?.role) as string | undefined;
-  const role: AllowedRole = (allowedRoles.includes(rawRole as AllowedRole) ? rawRole : 'tenant') as AllowedRole;
 
+  // Role is intentionally NOT synced on update. Clerk metadata is not the source
+  // of truth for authorization; the Prisma `role` column is. Writing role here
+  // would (a) let a user self-assign via client-writable unsafeMetadata and
+  // (b) clobber a legitimate admin promotion whenever the user edits a profile
+  // field. Role changes belong to /api/onboarding/role and the admin route.
   await prisma.user.update({
     where: { clerkId },
     data: {
@@ -148,7 +147,6 @@ async function handleUserUpdated(data: Record<string, unknown>) {
       fullName: `${firstName || ''} ${lastName || ''}`.trim() || undefined,
       avatarUrl: imageUrl,
       phone: phoneNumber || null,
-      role,
     },
   });
 

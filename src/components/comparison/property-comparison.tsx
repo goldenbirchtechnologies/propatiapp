@@ -66,7 +66,7 @@ const verificationTierLabels: Record<ListingData['verificationTier'], string> = 
 
 const verificationTierColors: Record<ListingData['verificationTier'], string> = {
   basic: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
-  verified: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+  verified: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-emerald-400',
   inspected: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
   certified: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
 };
@@ -100,7 +100,7 @@ function PropertyImage({
 
   return (
     <div className="relative">
-      <div className="relative aspect-video overflow-hidden rounded-t-xl bg-muted">
+      <div className="relative aspect-video overflow-hidden rounded-t-xl bg-zinc-900">
         {primaryImage && primaryImage !== '/placeholder-property.jpg' ? (
           <Image
             src={primaryImage}
@@ -110,7 +110,7 @@ function PropertyImage({
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+          <div className="w-full h-full flex items-center justify-center text-zinc-400">
             <Home className="h-12 w-12" />
           </div>
         )}
@@ -131,8 +131,8 @@ function PropertyImage({
           className={cn(
             'text-xs font-semibold',
             isResidential
-              ? 'bg-residential-teal text-white'
-              : 'bg-commercial-gold text-white'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-amber-500 text-white'
           )}
         >
           {listingTypeLabels[property.listingType]}
@@ -155,7 +155,7 @@ function PropertyHeader({ property }: { property: ListingData }) {
       <h3 className="font-heading font-bold text-lg leading-tight line-clamp-2 min-h-[3.5rem]">
         {property.title}
       </h3>
-      <div className="flex items-start gap-2 text-sm text-muted-foreground">
+      <div className="flex items-start gap-2 text-sm text-zinc-400">
         <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
         <span className="line-clamp-2 min-h-[2.5rem]">
           {property.address}, {property.area}, {property.state}
@@ -165,13 +165,13 @@ function PropertyHeader({ property }: { property: ListingData }) {
         <span
           className={cn(
             'font-heading font-bold text-2xl',
-            isResidential ? 'text-residential-teal' : 'text-commercial-gold'
+            isResidential ? 'text-emerald-400' : 'text-amber-400'
           )}
         >
           {displayPrice}
         </span>
         {property.listingType === 'rent' && (
-          <span className="text-sm text-muted-foreground">/month</span>
+          <span className="text-sm text-zinc-400">/month</span>
         )}
       </div>
     </div>
@@ -193,14 +193,14 @@ function ComparisonRow({
     <div
       className={cn(
         'grid gap-4',
-        isHeader && 'bg-muted/50 font-semibold'
+        isHeader && 'bg-zinc-900/50 font-semibold'
       )}
       style={{ gridTemplateColumns: `minmax(150px, 1fr) repeat(${values.length}, 1fr)` }}
     >
       <div
         className={cn(
           'flex items-center gap-2 p-3 text-sm',
-          isHeader ? 'font-semibold' : 'font-medium text-muted-foreground'
+          isHeader ? 'font-semibold' : 'font-medium text-zinc-400'
         )}
       >
         {icon}
@@ -210,7 +210,7 @@ function ComparisonRow({
         <div
           key={index}
           className={cn(
-            'flex items-center justify-center p-3 text-sm text-center border-l border-border',
+            'flex items-center justify-center p-3 text-sm text-center border-l border-zinc-800',
             isHeader && 'font-semibold'
           )}
         >
@@ -240,7 +240,7 @@ function MobileComparisonCard({
       <CardContent className="p-4 space-y-3">
         {features.map((feature, idx) => (
           <div key={idx} className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm font-medium text-zinc-400">
               {feature.icon}
               <AppIcon name={feature.label} className="lucide" />
             </div>
@@ -255,8 +255,8 @@ function MobileComparisonCard({
             className={cn(
               'w-full',
               isResidential
-                ? 'bg-residential-teal hover:bg-residential-teal/90'
-                : 'bg-commercial-gold hover:bg-commercial-gold/90'
+                ? 'bg-emerald-500 hover:bg-emerald-500/90'
+                : 'bg-amber-500 hover:bg-amber-500/90'
             )}
           >
             View Details
@@ -312,8 +312,8 @@ function DesktopComparisonTable({
                     className={cn(
                       'w-full',
                       property.listingType !== 'commercial'
-                        ? 'bg-residential-teal hover:bg-residential-teal/90'
-                        : 'bg-commercial-gold hover:bg-commercial-gold/90'
+                        ? 'bg-emerald-500 hover:bg-emerald-500/90'
+                        : 'bg-amber-500 hover:bg-amber-500/90'
                     )}
                   >
                     View Details
@@ -495,15 +495,15 @@ export function PropertyComparison({
     return (
       <div className={cn('space-y-6', className)}>
         <div className="text-center py-12">
-          <Home className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <Home className="h-12 w-12 text-zinc-400 mx-auto mb-4" />
           <h3 className="font-heading font-semibold text-xl mb-2">
             No Properties to Compare
           </h3>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-zinc-400 mb-6">
             Add properties to start comparing their features and prices.
           </p>
           {onAddProperty && (
-            <Button onClick={onAddProperty} className="bg-residential-teal">
+            <Button onClick={onAddProperty} className="bg-emerald-500">
               Add Properties
             </Button>
           )}
@@ -520,7 +520,7 @@ export function PropertyComparison({
           <h2 className="font-heading font-bold text-2xl md:text-3xl">
             Property Comparison
           </h2>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-400 mt-1">
             Comparing {displayedProperties.length} of {maxProperties} properties
           </p>
         </div>
@@ -537,7 +537,7 @@ export function PropertyComparison({
             <Button
               onClick={onAddProperty}
               size="sm"
-              className="bg-residential-teal hover:bg-residential-teal/90"
+              className="bg-emerald-500 hover:bg-emerald-500/90"
             >
               Add Property
             </Button>
@@ -570,7 +570,7 @@ export function PropertyComparison({
       {displayedProperties.length > 0 && (
         <Card className="p-4">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-zinc-400">
               {displayedProperties.length < maxProperties ? (
                 <span>
                   You can add up to {maxProperties - displayedProperties.length}{' '}
@@ -593,7 +593,7 @@ export function PropertyComparison({
               <Button
                 variant="default"
                 size="sm"
-                className="bg-residential-teal hover:bg-residential-teal/90"
+                className="bg-emerald-500 hover:bg-emerald-500/90"
                 asChild
               >
                 <Link href="/listings">Browse More Properties</Link>
@@ -611,27 +611,27 @@ export function PropertyComparisonSkeleton() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <div className="h-8 w-64 bg-muted rounded animate-pulse mb-2" />
-          <div className="h-4 w-48 bg-muted rounded animate-pulse" />
+          <div className="h-8 w-64 bg-zinc-900 rounded animate-pulse mb-2" />
+          <div className="h-4 w-48 bg-zinc-900 rounded animate-pulse" />
         </div>
         <div className="flex gap-2">
-          <div className="h-9 w-24 bg-muted rounded animate-pulse" />
-          <div className="h-9 w-24 bg-muted rounded animate-pulse" />
+          <div className="h-9 w-24 bg-zinc-900 rounded animate-pulse" />
+          <div className="h-9 w-24 bg-zinc-900 rounded animate-pulse" />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (
           <Card key={i} className="overflow-hidden animate-pulse">
-            <div className="aspect-video bg-muted" />
+            <div className="aspect-video bg-zinc-900" />
             <div className="p-4 space-y-3">
-              <div className="h-6 bg-muted rounded w-3/4" />
-              <div className="h-4 bg-muted rounded w-full" />
-              <div className="h-8 bg-muted rounded w-1/2" />
+              <div className="h-6 bg-zinc-900 rounded w-3/4" />
+              <div className="h-4 bg-zinc-900 rounded w-full" />
+              <div className="h-8 bg-zinc-900 rounded w-1/2" />
               <div className="space-y-2 pt-3">
                 {[1, 2, 3, 4].map((j) => (
                   <div key={j} className="flex justify-between">
-                    <div className="h-4 bg-muted rounded w-1/3" />
-                    <div className="h-4 bg-muted rounded w-1/4" />
+                    <div className="h-4 bg-zinc-900 rounded w-1/3" />
+                    <div className="h-4 bg-zinc-900 rounded w-1/4" />
                   </div>
                 ))}
               </div>

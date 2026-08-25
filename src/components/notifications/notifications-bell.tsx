@@ -185,8 +185,8 @@ export function NotificationsBell({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'relative p-2 rounded-lg transition-all',
-          'bg-surface-elevated hover:bg-muted text-foreground',
-          'border border-border',
+          'bg-zinc-900 hover:bg-zinc-900 text-white',
+          'border border-zinc-800',
           isAnimating && 'animate-bounce'
         )}
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
@@ -217,13 +217,13 @@ export function NotificationsBell({
         <div
           ref={dropdownRef}
           className={cn(
-            'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-surface-elevated rounded-lg shadow-xl border border-outline z-50',
+            'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-zinc-900 rounded-lg shadow-xl border border-zinc-800 z-50',
             position === 'right' ? 'right-0' : 'left-0'
           )}
           role="dialog"
           aria-label="Notifications"
         >
-          <div className="flex items-center justify-between p-3 border-b border-border">
+          <div className="flex items-center justify-between p-3 border-b border-zinc-800">
             {unreadCount > 0 ? (
               <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
                 {unreadCount} new
@@ -232,11 +232,11 @@ export function NotificationsBell({
             <button
               onClick={fetchNotifications}
               disabled={loading || markingAll}
-              className="p-1 hover:bg-muted rounded transition-colors ml-auto"
+              className="p-1 hover:bg-zinc-900 rounded transition-colors ml-auto"
               aria-label="Refresh notifications"
             >
               <svg
-                className={cn('w-4 h-4 text-muted-foreground', loading && 'animate-spin')}
+                className={cn('w-4 h-4 text-zinc-400', loading && 'animate-spin')}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -266,7 +266,7 @@ export function NotificationsBell({
           />
 
           {notifications.length > 0 && (
-            <div className="flex items-center justify-between p-3 border-t border-border bg-muted/30">
+            <div className="flex items-center justify-between p-3 border-t border-zinc-800 bg-zinc-900/30">
               {unreadCount > 0 ? (
                 <button
                   onClick={handleMarkAllRead}

@@ -95,7 +95,7 @@ function VerificationOfficerClient({
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <nav className="flex items-center gap-xs text-muted-foreground mb-2">
+          <nav className="flex items-center gap-xs text-zinc-400 mb-2">
             <a className="hover:text-white transition-colors text-xs" href="/dashboard/admin">
               Admin
             </a>
@@ -105,12 +105,12 @@ function VerificationOfficerClient({
           <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
             Verification Officer Roles
           </h1>
-          <p className="text-muted-foreground font-body-md mt-1">
+          <p className="text-zinc-400 font-body-md mt-1">
             Manage users with verification permissions and review the current queue.
           </p>
         </div>
         <div className="flex items-center gap-sm">
-          <span className="text-xs text-muted-foreground">{users.length} officer(s) configured</span>
+          <span className="text-xs text-zinc-400">{users.length} officer(s) configured</span>
         </div>
       </div>
 
@@ -137,17 +137,17 @@ function VerificationOfficerClient({
       <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
         <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
           <h3 className="font-headline-sm text-white">Assigned Users</h3>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-zinc-400">
             {users.filter((u) => u.isActive && !u.isBanned).length} active
           </span>
         </div>
         {users.length === 0 ? (
-          <p className="p-lg text-sm text-muted-foreground text-center">No verification officers assigned.</p>
+          <p className="p-lg text-sm text-zinc-400 text-center">No verification officers assigned.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-[#262626]">
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
                   <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
@@ -164,7 +164,7 @@ function VerificationOfficerClient({
                         </div>
                         <div>
                           <div className="font-bold text-white text-sm">{u.fullName}</div>
-                          <div className="text-xs text-muted-foreground">{u.email}</div>
+                          <div className="text-xs text-zinc-400">{u.email}</div>
                         </div>
                       </div>
                     </td>
@@ -176,13 +176,13 @@ function VerificationOfficerClient({
                             ? 'bg-error/10 text-error'
                             : u.isActive
                               ? 'bg-on-tertiary-container/10 text-[#00ff66]'
-                              : 'bg-outline-variant/30 text-muted-foreground'
+                              : 'bg-outline-variant/30 text-zinc-400'
                         }`}
                       >
                         {u.isBanned ? 'Banned' : u.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="px-lg py-md text-body-sm text-muted-foreground">
+                    <td className="px-lg py-md text-body-sm text-zinc-400">
                       {u.lastLogin
                         ? u.lastLogin.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })
                         : 'Never'}

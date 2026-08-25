@@ -56,7 +56,7 @@ export default async function VerificationSubmittedPage({
           <h1 className="text-3xl font-bold text-white">
             Verification Submitted
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-400 mt-1">
             Your submission has been received.
           </p>
         </div>

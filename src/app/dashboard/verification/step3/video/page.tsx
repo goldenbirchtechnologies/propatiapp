@@ -86,7 +86,7 @@ export default async function VerificationStep3VideoPage({
           <h1 className="text-3xl font-bold text-white">
             Verification Step 3
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-400 mt-1">
             Video walkthrough for {listing.title}
           </p>
         </div>

@@ -20,7 +20,7 @@ export default function VerificationQueueDetailObsidianClient() {
               <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>stars</span>
               INSPECTED
             </span>
-            <span className="rounded-full bg-surface-container-high px-3 py-1 text-xs font-label-sm text-neutral-400">
+            <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-label-sm text-neutral-400">
               Created 2h ago
             </span>
           </div>
@@ -48,7 +48,7 @@ export default function VerificationQueueDetailObsidianClient() {
                 ? 'bg-on-tertiary-container text-[#00ff66]'
                 : step.state === 'active'
                   ? 'bg-secondary-container text-on-secondary-fixed ring-4 ring-background'
-                  : 'bg-surface-container-high text-neutral-400';
+                  : 'bg-zinc-800 text-neutral-400';
               return (
                 <div key={step.label} className="flex gap-4 relative">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center z-10 ${cls}`}>
@@ -152,7 +152,7 @@ export default function VerificationQueueDetailObsidianClient() {
           </div>
         </div>
 
-        <div className="lg:col-span-7 rounded-lg bg-primary-container p-6 text-on-primary relative overflow-hidden">
+        <div className="lg:col-span-7 rounded-lg bg-primary-container p-6 text-white relative overflow-hidden">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-secondary-container/10 blur-3xl"></div>
           <div className="relative z-10 space-y-4">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full verification-badge-shimmer">
@@ -182,7 +182,7 @@ export default function VerificationQueueDetailObsidianClient() {
           <div className="max-h-[320px] space-y-4 overflow-y-auto pr-2">
             {[['System', 'automatically flagged location discrepancy', 'history', 'MAY 24, 09:12 AM'], ['Admin Sarah', 'manually resolved location issue', 'edit', 'MAY 24, 10:45 AM'], ['Inspector Funke', 'uploaded 12 inspection photos', 'image', 'MAY 24, 02:30 PM'], ['Managing Partner', 'pending final review', 'priority_high', 'JUST NOW']].map(([who, what, icon, time]) => (
               <div key={time} className="flex gap-4 border-b border-[#262626] pb-4 last:border-0">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-surface-container-high">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800">
                   <AppIcon name={icon} className="lucide" />
                 </div>
                 <div className="space-y-1">

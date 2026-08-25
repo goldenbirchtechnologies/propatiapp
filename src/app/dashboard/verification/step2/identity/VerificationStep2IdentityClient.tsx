@@ -79,7 +79,7 @@ function Step2IdentityClient(props: Props) {
         </CardHeader>
         <CardContent>
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-zinc-400 mt-2">
             {props.l2Status === 'approved' ? 'Identity verified successfully' : props.l2Status === 'rejected' ? 'Identity verification failed' : 'Complete identity verification to proceed'}
           </p>
         </CardContent>
@@ -97,7 +97,7 @@ function Step2IdentityClient(props: Props) {
             </div>
           ) : status === 'approved' ? (
             <div className="flex items-center gap-2 p-4 rounded-lg bg-success/10 border border-success/20">
-              <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />
+              <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
               <p className="text-sm font-medium">Identity verified successfully.</p>
             </div>
           ) : status === 'pending' ? (

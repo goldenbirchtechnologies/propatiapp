@@ -88,7 +88,7 @@ export default async function AgentCommissionsPage() {
             <CardTitle>Commissions</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-neutral-400">{commissionsError}</p>
+            <p className="text-zinc-400">{commissionsError}</p>
             <Link
               href="/dashboard/agent/commissions"
               className="mt-4 inline-block underline text-sm"

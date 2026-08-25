@@ -160,18 +160,18 @@ function formatPropertyType(value?: string) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     active: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Active' },
-    draft: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Draft' },
+    draft: { class: 'bg-zinc-900 text-zinc-400 border-[#262626]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
-    deleted: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Deleted' },
+    deleted: { class: 'bg-zinc-900 text-zinc-400 border-[#262626]', label: 'Deleted' },
   };
-  const cfg = config[status] || { class: 'bg-muted text-muted-foreground border-[#262626]', label: status };
+  const cfg = config[status] || { class: 'bg-zinc-900 text-zinc-400 border-[#262626]', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 
 function VerificationBadge({ verification }: { verification: Listing['verification'] | null }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-[#262626]">
         Not Started
       </span>
     );
@@ -180,13 +180,13 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-[#262626]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#262626] px-2.5 py-0.5 text-xs font-bold text-white border border-primary/20 dark:bg-primary/20 dark:text-white dark:border-primary/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#262626] px-2.5 py-0.5 text-xs font-bold text-white border border-primary/20 dark:bg-emerald-500/20 dark:text-white dark:border-primary/30">
           <svg
             width="10"
             height="10"
@@ -212,7 +212,7 @@ function VerificationBadge({ verification }: { verification: Listing['verificati
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-[#262626]">
           {verification.overallStatus}
         </span>
       );
@@ -321,7 +321,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   ];
 
   const statusColors: Record<string, { class: string; label: string }> = {
-    not_started: { class: 'bg-muted text-muted-foreground border-[#262626]', label: 'Not Started' },
+    not_started: { class: 'bg-zinc-900 text-zinc-400 border-[#262626]', label: 'Not Started' },
     in_progress: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Progress' },
     certified: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Verified ✓' },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected' },
@@ -603,9 +603,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
           {listing.units.length === 0 ? (
             <div className="p-12 text-center">
-              <Layers className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+              <Layers className="w-12 h-12 mx-auto mb-3 text-zinc-400" />
               <h3 className="font-headline-sm text-headline-sm font-bold text-white mb-2">No units yet</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-zinc-400 mb-4">
                 Add your first unit to start listing this property.
               </p>
               <Button asChild>
@@ -620,12 +620,12 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-[#262626]">
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Unit</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Type</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Listing Intent</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Price</th>
-                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Occupancy</th>
-                    <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">Actions</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Unit</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Type</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Listing Intent</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Price</th>
+                    <th className="px-4 py-3 text-left text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Occupancy</th>
+                    <th className="px-4 py-3 text-right text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -634,7 +634,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                       <td className="px-4 py-3">
                         <div>
                           <p className="font-medium text-white">Unit {unit.unitNumber}</p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-zinc-400">
                             {unit.bedrooms} Bed • {unit.bathrooms} Bath {unit.sizeSqm ? `• ${unit.sizeSqm} sqm` : ''}
                           </p>
                         </div>
@@ -643,14 +643,14 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         <span className="text-sm text-white">{formatPropertyType(unit.type)}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-white border border-[#262626]">
+                        <span className="inline-flex items-center rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-white border border-[#262626]">
                           {formatListingType(unit.listingType)}
                         </span>
                       </td>
                       <td className="px-4 py-3">
                         <p className="text-sm font-medium text-white">{formatUnitPrice(unit)}</p>
                         {unit.cautionDeposit ? (
-                          <p className="text-xs text-muted-foreground">Caution: {formatCurrency(Number(unit.cautionDeposit))}</p>
+                          <p className="text-xs text-zinc-400">Caution: {formatCurrency(Number(unit.cautionDeposit))}</p>
                         ) : null}
                       </td>
                       <td className="px-4 py-3">
@@ -659,13 +659,13 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                             unit.occupancy === 'VACANT'
                               ? 'bg-success/10 text-[#00ff66] border-success/20'
                               : unit.occupancy === 'OCCUPIED'
-                                ? 'bg-muted text-muted-foreground border-[#262626]'
+                                ? 'bg-zinc-900 text-zinc-400 border-[#262626]'
                                 : 'bg-warning/10 text-warning border-warning/20'
                           }`}>
                             {unit.occupancy}
                           </span>
                           <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
-                            unit.isListed ? 'bg-[#262626] text-white border-primary/20' : 'bg-muted text-muted-foreground border-[#262626]'
+                            unit.isListed ? 'bg-[#262626] text-white border-primary/20' : 'bg-zinc-900 text-zinc-400 border-[#262626]'
                           }`}>
                             {unit.isListed ? 'Listed' : 'Unlisted'}
                           </span>
@@ -699,7 +699,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <h2 className="font-headline-sm text-headline-sm text-white">
                 Verification Status
               </h2>
-              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-surface-container text-neutral-400 border-[#262626]'}`}>
+              <span className={`tag ${statusColors[verificationStatus]?.class || 'bg-zinc-900 text-neutral-400 border-[#262626]'}`}>
                 {statusColors[verificationStatus]?.label || 'Unknown'}
               </span>
             </div>
@@ -828,7 +828,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                     className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                       active
                         ? 'bg-[#262626] border-primary/20 text-white'
-                        : 'bg-background border-[#262626] text-neutral-400 hover:border-white/40'
+                        : 'bg-zinc-900 border-[#262626] text-neutral-400 hover:border-white/40'
                     }`}
                   >
                     {active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -902,9 +902,9 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
 
           {images.length === 0 ? (
             <div className="p-12 text-center">
-              <ImageIcon className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
+              <ImageIcon className="w-12 h-12 mx-auto mb-3 text-zinc-400" />
               <h3 className="font-headline-sm text-headline-sm font-bold text-white mb-2">No media yet</h3>
-              <p className="text-muted-foreground">
+              <p className="text-zinc-400">
                 Exterior shots, compound photos, and entrance images will appear here once uploaded.
               </p>
             </div>

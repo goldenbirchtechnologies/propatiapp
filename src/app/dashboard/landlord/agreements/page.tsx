@@ -171,7 +171,7 @@ export default async function LandlordAgreementsPage() {
                           )}
                         </td>
                         <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-neutral-400 border border-[#262626]">{agreement.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-neutral-400 border border-[#262626]">{agreement.type}</span>
                         </td>
                         <td className="text-white">
                           {agreement.rentAmount ? `₦${Number(agreement.rentAmount).toLocaleString()}` : '—'}
@@ -187,7 +187,7 @@ export default async function LandlordAgreementsPage() {
                               return (
                                 <div
                                   key={role}
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' : 'bg-surface-container text-neutral-400 border-[#262626]'}`}
+                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' : 'bg-zinc-900 text-neutral-400 border-[#262626]'}`}
                                   title={role === 'landlord' ? 'Landlord' : 'Tenant'}
                                 >
                                   {sig ? <CheckIcon className="w-4 h-4" /> : role.charAt(0).toUpperCase()}
@@ -265,9 +265,9 @@ function AgreementStatusBadge({ status }: { status: string }) {
     landlord_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Landlord Signed' },
     fully_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Fully Signed ✓' },
     terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
-    expired: { class: 'bg-muted/30 text-neutral-400 border-muted/50', label: 'Expired' },
+    expired: { class: 'bg-zinc-900/30 text-neutral-400 border-muted/50', label: 'Expired' },
   };
-  const cfg = config[status] || { class: 'bg-muted/30 text-neutral-400 border-muted/50', label: status };
+  const cfg = config[status] || { class: 'bg-zinc-900/30 text-neutral-400 border-muted/50', label: status };
   return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
 }
 

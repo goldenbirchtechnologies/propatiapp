@@ -56,11 +56,11 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-zinc-900 p-lg shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
             <h1 className="text-headline-lg-mobile font-bold text-white">Welcome back, {greeting}</h1>
-            <p className="text-muted-foreground mt-1">Track your search, tenancy, and payments.</p>
+            <p className="text-zinc-400 mt-1">Track your search, tenancy, and payments.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" aria-label="Notifications"><Bell className="h-5 w-5" /></Button>
@@ -70,7 +70,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Search Hub */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-zinc-900 p-lg shadow-sm">
         <Tabs defaultValue="residential" className="w-full">
           <TabsList>
             <TabsTrigger value="residential">Residential</TabsTrigger>
@@ -79,8 +79,8 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           <TabsContent value="residential" className="mt-4">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {searchCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
-                  <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
+                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-zinc-900 p-4 text-center transition hover:border-white">
+                  <Search className="mx-auto mb-2 h-5 w-5 text-zinc-400" />
                   <div className="text-sm font-semibold text-white">{item.label}</div>
                 </Link>
               ))}
@@ -89,8 +89,8 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           <TabsContent value="commercial" className="mt-4">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {commercialCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
-                  <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
+                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-zinc-900 p-4 text-center transition hover:border-white">
+                  <Search className="mx-auto mb-2 h-5 w-5 text-zinc-400" />
                   <div className="text-sm font-semibold text-white">{item.label}</div>
                 </Link>
               ))}
@@ -103,7 +103,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Total Payments Made</CardTitle>
+            <CardTitle className="text-sm text-zinc-400">Total Payments Made</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-headline-md text-headline-md text-white">₦1.85M</div>
@@ -115,33 +115,33 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Active Applications</CardTitle>
+            <CardTitle className="text-sm text-zinc-400">Active Applications</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-headline-md text-headline-md text-white">3</div>
-            <p className="text-xs text-muted-foreground">1 pending review</p>
+            <p className="text-xs text-zinc-400">1 pending review</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Saved Properties</CardTitle>
+            <CardTitle className="text-sm text-zinc-400">Saved Properties</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="font-headline-md text-headline-md text-white">12</div>
-            <p className="text-xs text-muted-foreground">4 updated this week</p>
+            <p className="text-xs text-zinc-400">4 updated this week</p>
           </CardContent>
         </Card>
       </section>
 
       {/* Current Property */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-zinc-900 p-lg shadow-sm">
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="h-40 w-full md:w-64 rounded-xl bg-muted" />
+          <div className="h-40 w-full md:w-64 rounded-xl bg-zinc-900" />
           <div className="flex-1 space-y-2">
             <Badge variant="secondary">Active Lease</Badge>
             <h2 className="font-headline-sm text-headline-sm text-white">2 Bed Flat · Ikoyi</h2>
-            <p className="text-sm text-muted-foreground">Landlord: Adebayo Estates</p>
-            <p className="text-sm text-muted-foreground">Next rent due in 18 days</p>
+            <p className="text-sm text-zinc-400">Landlord: Adebayo Estates</p>
+            <p className="text-sm text-zinc-400">Next rent due in 18 days</p>
             <div className="flex flex-wrap gap-2 pt-2">
               <Button size="sm">View Lease</Button>
               <Button size="sm" variant="outline">Pay Now</Button>
@@ -152,7 +152,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
       </section>
 
       {/* Recent Payments */}
-      <section className="rounded-2xl border border-[#262626] bg-card shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-zinc-900 shadow-sm">
         <div className="section-content">
         <div className="flex items-center justify-between p-lg">
           <h2 className="font-headline-sm text-headline-sm text-white">Recent Payments</h2>
@@ -160,7 +160,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
         </div>
         <Table>
           <TableHeader>
-            <TableRow className="bg-surface-container-high/50">
+            <TableRow className="bg-zinc-800/50">
               <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Date</TableHead>
               <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Reference</TableHead>
               <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Amount</TableHead>
@@ -171,7 +171,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           <TableBody className="divide-y divide-[#262626]/30">
             {[1, 2, 3].map(row => (
               <TableRow key={row} className="hover:bg-obsidian-800/30 transition-colors">
-                <TableCell className="px-lg py-4 text-sm text-muted-foreground">2026-06-{10 + row}</TableCell>
+                <TableCell className="px-lg py-4 text-sm text-zinc-400">2026-06-{10 + row}</TableCell>
                 <TableCell className="px-lg py-4 text-sm">TXN-{1000 + row}</TableCell>
                 <TableCell className="px-lg py-4 text-sm font-semibold">₦450,000</TableCell>
                 <TableCell className="px-lg py-4">
@@ -184,7 +184,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
         </Table>
         </div>
         <div className="section-empty-msg items-center justify-center p-8 text-center">
-          <p className="text-sm text-muted-foreground">No payments yet.</p>
+          <p className="text-sm text-zinc-400">No payments yet.</p>
         </div>
       </section>
 
@@ -194,7 +194,7 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {recommended.map(item => (
             <Card key={item.title} className="transition hover:shadow-lg">
-              <div className="h-36 rounded-t-xl bg-muted" />
+              <div className="h-36 rounded-t-xl bg-zinc-900" />
               <CardHeader>
                 <CardTitle className="text-base">{item.title}</CardTitle>
               </CardHeader>
@@ -215,15 +215,15 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
-              <div className="text-xs text-muted-foreground">Application Timeline</div>
-              <div className="mt-2 h-24 rounded-xl bg-muted" />
+              <div className="text-xs text-zinc-400">Application Timeline</div>
+              <div className="mt-2 h-24 rounded-xl bg-zinc-900" />
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Next Rent Due</div>
+              <div className="text-xs text-zinc-400">Next Rent Due</div>
               <div className="mt-2 font-headline-md text-headline-md text-white">18 days</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Saved Searches</div>
+              <div className="text-xs text-zinc-400">Saved Searches</div>
               <div className="mt-2 font-headline-md text-headline-md text-white">4</div>
             </div>
           </CardContent>
@@ -234,18 +234,18 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
           </CardHeader>
           <CardContent className="space-y-3">
             <Progress value={45} />
-            <p className="text-sm text-muted-foreground">Verification stage: documents uploaded</p>
+            <p className="text-sm text-zinc-400">Verification stage: documents uploaded</p>
             <Button className="w-full">Track Application</Button>
           </CardContent>
         </Card>
       </section>
 
       {/* Help */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
+      <section className="rounded-2xl border border-[#262626] bg-zinc-900 p-lg shadow-sm">
         <h2 className="font-headline-sm text-headline-sm text-white">Help Center</h2>
         <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
-          <Link href="/dashboard/tenant/messages" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Chat with verified agent</Link>
-          <Link href="/dashboard/support" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Tenant Rights & FAQs</Link>
+          <Link href="/dashboard/tenant/messages" className="rounded-xl border border-[#262626] bg-zinc-900 p-4 text-sm font-semibold text-white transition hover:border-white">Chat with verified agent</Link>
+          <Link href="/dashboard/support" className="rounded-xl border border-[#262626] bg-zinc-900 p-4 text-sm font-semibold text-white transition hover:border-white">Tenant Rights & FAQs</Link>
           <Button variant="secondary" className="justify-start">Report maintenance issue</Button>
         </div>
       </section>

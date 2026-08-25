@@ -21,7 +21,7 @@ export default function SettingsDashboardClient() {
             <button className="px-lg py-md rounded-lg border border-primary text-white font-label-md hover:bg-obsidian-800 transition-all">
               Discard
             </button>
-            <button className="px-xl py-md rounded-lg bg-primary text-on-primary font-label-md shadow-sm hover:shadow-md transition-all">
+            <button className="px-xl py-md rounded-lg bg-emerald-500 text-white font-label-md shadow-sm hover:shadow-md transition-all">
               Save Changes
             </button>
           </div>
@@ -79,7 +79,7 @@ export default function SettingsDashboardClient() {
                 </div>
                 <div className="flex justify-between items-center py-sm border-b border-[#262626]">
                   <span className="text-body-sm font-medium">Active Admin Sessions</span>
-                  <span className="bg-surface-container-high px-md py-xs rounded text-label-sm font-label-sm">12 Active</span>
+                  <span className="bg-zinc-800 px-md py-xs rounded text-label-sm font-label-sm">12 Active</span>
                 </div>
                 <div className="flex justify-between items-center py-sm">
                   <span className="text-body-sm font-medium">Last Security Audit</span>
@@ -156,7 +156,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl border border-[#262626] bg-obsidian-800/30">
@@ -166,7 +166,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl border border-[#262626] bg-obsidian-800/30">
@@ -176,7 +176,7 @@ export default function SettingsDashboardClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
               </div>
@@ -192,14 +192,14 @@ export default function SettingsDashboardClient() {
                 <div className="p-4 rounded-xl bg-surface border border-[#262626]">
                   <p className="text-xs text-neutral-400 mb-1">API Latency</p>
                   <p className="text-2xl font-bold text-white">42ms</p>
-                  <div className="w-full bg-surface-container rounded-full h-1.5 mt-2">
+                  <div className="w-full bg-zinc-900 rounded-full h-1.5 mt-2">
                     <div className="h-full bg-success rounded-full" style={{ width: '95%' }}></div>
                   </div>
                 </div>
                 <div className="p-4 rounded-xl bg-surface border border-[#262626]">
                   <p className="text-xs text-neutral-400 mb-1">DB Connection Pool</p>
                   <p className="text-2xl font-bold text-white">68/100</p>
-                  <div className="w-full bg-surface-container rounded-full h-1.5 mt-2">
+                  <div className="w-full bg-zinc-900 rounded-full h-1.5 mt-2">
                     <div className="h-full bg-warning rounded-full" style={{ width: '68%' }}></div>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export default function SettingsDashboardClient() {
             <p className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest mr-4">
               Revision History: V4.1.09
             </p>
-            <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+            <button className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-white rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
               <span className="lucide text-sm" data-icon="cloud_upload">cloud_upload</span>
               Sync to Global Edge
             </button>

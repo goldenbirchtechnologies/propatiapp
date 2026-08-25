@@ -32,24 +32,24 @@ export interface PropertyCardProps {
 }
 
 const categoryChips = {
-  residential: 'bg-residential-teal/90 text-white',
-  commercial: 'bg-commercial-gold/90 text-white',
-  short_let: 'bg-emerald-600/90 text-white',
+  residential: 'bg-emerald-500/90 text-white',
+  commercial: 'bg-amber-500/90 text-white',
+  short_let: 'bg-emerald-500/90 text-white',
 } as const;
 
 const verificationChips = {
-  basic: 'bg-slate-800/90 text-slate-200 border border-white/10',
-  verified: 'bg-emerald-600/90 text-white border border-white/10',
+  basic: 'bg-zinc-900/90 text-zinc-200 border border-white/10',
+  verified: 'bg-emerald-500/90 text-white border border-white/10',
   inspected: 'bg-amber-500/90 text-white border border-white/10',
   certified: 'bg-purple-600/90 text-white border border-white/10',
 } as const;
 
 const listingTypeChips = {
-  rent: 'bg-sky-600/90 text-white border border-white/10',
-  sale: 'bg-emerald-600/90 text-white border border-white/10',
-  short_let: 'bg-teal-600/90 text-white border border-white/10',
-  share: 'bg-green-600/90 text-white border border-white/10',
-  commercial: 'bg-amber-700/90 text-white border border-white/10',
+  rent: 'bg-sky-500/90 text-white border border-white/10',
+  sale: 'bg-emerald-500/90 text-white border border-white/10',
+  short_let: 'bg-teal-500/90 text-white border border-white/10',
+  share: 'bg-emerald-500/90 text-white border border-white/10',
+  commercial: 'bg-amber-600/90 text-white border border-white/10',
 } as const;
 
 const listingTypeLabels = {
@@ -109,7 +109,7 @@ export function PropertyCard({
   const cardContent = (
     <article
       className={cn(
-        'group relative bg-background dark:bg-card rounded-xl overflow-hidden border border-outline-variant',
+        'group relative bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800',
         'transition-all duration-200 card-hover',
         onClick && 'cursor-pointer',
         className
@@ -117,7 +117,7 @@ export function PropertyCard({
       onClick={onClick}
     >
       {/* Image Container */}
-      <div className="pressable relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+      <div className="pressable relative w-full aspect-[4/3] overflow-hidden bg-zinc-950">
         <Image
           src={image}
           alt={title}
@@ -146,8 +146,8 @@ export function PropertyCard({
             onClick={handleSave}
             className={cn(
               'inline-flex items-center justify-center p-2 rounded-full',
-              'bg-slate-900/80 backdrop-blur-md border border-white/10',
-              'transition-colors duration-200 hover:bg-slate-900',
+              'bg-zinc-900/80 backdrop-blur-md border border-white/10',
+              'transition-colors duration-200 hover:bg-zinc-900',
               'shadow-sm hover:shadow-md',
               isSaved && 'text-red-500'
             )}
@@ -166,24 +166,24 @@ export function PropertyCard({
             {formatPrice(price)}
           </span>
           {getPricePeriodText() && (
-            <span className="text-sm text-slate-400">{getPricePeriodText()}</span>
+            <span className="text-sm text-zinc-500">{getPricePeriodText()}</span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-semibold text-on-surface mb-2 line-clamp-2 font-display">
+        <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2 font-display">
           {title}
         </h3>
 
         {/* Location */}
-        <div className="flex items-center gap-1.5 text-on-surface-variant mb-4">
+        <div className="flex items-center gap-1.5 text-zinc-500 mb-4">
           <AppIcon name="location_on" className="lucide text-[20px]" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
         {/* Specs */}
         {specs && (
-          <div className="flex items-center gap-4 text-sm text-on-surface-variant mb-5">
+          <div className="flex items-center gap-4 text-sm text-zinc-500 mb-5">
             {category === 'residential' || category === 'short_let' ? (
               <>
                 {specs.beds !== undefined && (
@@ -236,30 +236,30 @@ export function PropertyCardSkeleton({ count = 1 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="bg-background dark:bg-card rounded-xl overflow-hidden border border-outline-variant animate-pulse"
+          className="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 animate-pulse"
         >
           {/* Image skeleton */}
-          <div className="relative w-full aspect-[4/3] bg-surface-container-low" />
+          <div className="relative w-full aspect-[4/3] bg-zinc-950" />
 
           {/* Content skeleton */}
           <div className="p-4">
             {/* Badge skeleton */}
-            <div className="h-6 w-24 bg-surface-container-low rounded-full mb-3" />
+            <div className="h-6 w-24 bg-zinc-950 rounded-full mb-3" />
 
             {/* Price skeleton */}
-            <div className="h-8 w-32 bg-surface-container-low rounded mb-2" />
+            <div className="h-8 w-32 bg-zinc-950 rounded mb-2" />
 
             {/* Title skeleton */}
-            <div className="h-6 w-full bg-surface-container-low rounded mb-2" />
-            <div className="h-6 w-3/4 bg-surface-container-low rounded mb-2" />
+            <div className="h-6 w-full bg-zinc-950 rounded mb-2" />
+            <div className="h-6 w-3/4 bg-zinc-950 rounded mb-2" />
 
             {/* Location skeleton */}
-            <div className="h-5 w-2/3 bg-surface-container-low rounded mb-4" />
+            <div className="h-5 w-2/3 bg-zinc-950 rounded mb-4" />
 
             {/* Specs skeleton */}
             <div className="flex gap-4">
-              <div className="h-5 w-16 bg-surface-container-low rounded" />
-              <div className="h-5 w-16 bg-surface-container-low rounded" />
+              <div className="h-5 w-16 bg-zinc-950 rounded" />
+              <div className="h-5 w-16 bg-zinc-950 rounded" />
             </div>
           </div>
         </div>

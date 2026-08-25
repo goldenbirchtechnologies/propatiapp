@@ -148,7 +148,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
     const config: Record<VacancyStatus, string> = {
       open: 'bg-success/10 text-[#00ff66] border-success/20',
       filled: 'bg-[#262626] text-white border-primary/20',
-      closed: 'bg-muted/30 text-neutral-400 border-muted/50',
+      closed: 'bg-zinc-900/30 text-neutral-400 border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
     };
     const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -379,7 +379,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-neutral-400 border border-[#262626]">{vacancy.type}</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-neutral-400 border border-[#262626]">{vacancy.type}</span>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={vacancy.status} />

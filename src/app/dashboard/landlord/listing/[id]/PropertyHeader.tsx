@@ -15,7 +15,7 @@ type Props = {
 function VerificationBadge({ verification }: { verification: Props['verification'] }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-zinc-800">
         Not Started
       </span>
     );
@@ -30,7 +30,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#262626] px-2.5 py-0.5 text-xs font-bold text-white border border-primary/20 dark:bg-primary/20 dark:text-white dark:border-primary/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-bold text-white border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-white dark:border-emerald-500/30">
           <svg
             width="10"
             height="10"
@@ -48,7 +48,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     case 'certified':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-0.5 text-xs font-bold text-green-600 border border-green-500/20 dark:bg-green-500/20 dark:text-[#00ff66] dark:border-green-500/40">
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40">
           Certified
         </span>
       );

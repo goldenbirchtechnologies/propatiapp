@@ -118,7 +118,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       failed: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
       refunded: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'bg-muted/30 text-neutral-400 border-muted/50', label: status };
+    const cfg = config[status] || { class: 'bg-zinc-900/30 text-neutral-400 border-muted/50', label: status };
     return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
   }
 
@@ -332,7 +332,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                           </p>
                         </td>
                         <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-neutral-400 border border-[#262626]">{tx.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-neutral-400 border border-[#262626]">{tx.type}</span>
                         </td>
                         <td className="text-white">
                           ₦{Number(tx.amount).toLocaleString()}

@@ -75,11 +75,11 @@ const statusConfig: Record<
   },
   under_review: {
     label: 'Under Review',
-    className: 'bg-[#262626] text-neutral-300 border-[#262626]',
+    className: 'bg-zinc-800 text-zinc-300 border-zinc-800',
   },
   accepted: {
     label: 'Accepted',
-    className: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20',
+    className: 'bg-success/10 text-[#10b981] border-[#10b981]/20',
   },
   rejected: {
     label: 'Not Successful',
@@ -87,7 +87,7 @@ const statusConfig: Record<
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]',
+    className: 'bg-zinc-900/50 text-zinc-400 border-zinc-800',
   },
 };
 
@@ -125,12 +125,12 @@ export default function TenantApplicationDetailClient({
           {breadcrumbs.map((item, index) => (
             <li key={index} className="flex items-center gap-2">
               {index > 0 && (
-                <span  className="text-neutral-400">/</span>
+                <span  className="text-zinc-400">/</span>
               )}
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="transition-colors text-neutral-400"
+                  className="transition-colors text-zinc-400"
                 >
                   {item.label}
                 </Link>
@@ -162,7 +162,7 @@ export default function TenantApplicationDetailClient({
               Application Details
             </h1>
             <p
-              className="flex items-center gap-1 mt-1 text-neutral-400"
+              className="flex items-center gap-1 mt-1 text-zinc-400"
             >
               <MapPin className="h-4 w-4" />
               {initial.listing.address}
@@ -200,7 +200,7 @@ export default function TenantApplicationDetailClient({
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <p className="text-sm text-neutral-400">
+                    <p className="text-sm text-zinc-400">
                       Property
                     </p>
                     <p
@@ -211,7 +211,7 @@ export default function TenantApplicationDetailClient({
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-zinc-400">
                         Area
                       </p>
                       <p
@@ -221,7 +221,7 @@ export default function TenantApplicationDetailClient({
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-zinc-400">
                         State
                       </p>
                       <p
@@ -233,7 +233,7 @@ export default function TenantApplicationDetailClient({
                   </div>
                   <Separator />
                   <div>
-                    <p className="text-sm text-neutral-400">
+                    <p className="text-sm text-zinc-400">
                       Rent
                     </p>
                     <p
@@ -246,7 +246,7 @@ export default function TenantApplicationDetailClient({
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-neutral-400">
+                    <p className="text-sm text-zinc-400">
                       Type
                     </p>
                     <p
@@ -292,7 +292,7 @@ export default function TenantApplicationDetailClient({
                         {initial.landlord.fullName}
                       </p>
                       <p
-                        className="text-sm text-neutral-400"
+                        className="text-sm text-zinc-400"
                       >
                         {initial.landlord.email}
                       </p>
@@ -301,7 +301,7 @@ export default function TenantApplicationDetailClient({
                   <Separator />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-zinc-400">
                         Applied On
                       </p>
                       <p
@@ -318,7 +318,7 @@ export default function TenantApplicationDetailClient({
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-zinc-400">
                         Last Updated
                       </p>
                       <p
@@ -337,7 +337,7 @@ export default function TenantApplicationDetailClient({
                   </div>
                   {initial.reviewedAt && (
                     <div>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-sm text-zinc-400">
                         Reviewed On
                       </p>
                       <p
@@ -382,7 +382,7 @@ export default function TenantApplicationDetailClient({
                     {initial.listing.images.map((img) => (
                       <div
                         key={img.id}
-                        className="rounded-xl overflow-hidden border border-[#262626]"
+                        className="rounded-xl overflow-hidden border border-zinc-800"
                       >
                         <img
                           src={img.url}
@@ -393,7 +393,7 @@ export default function TenantApplicationDetailClient({
                     ))}
                   </div>
                   <p
-                    className="text-sm mt-4 text-neutral-400"
+                    className="text-sm mt-4 text-zinc-400"
                   >
                     These are the listing images associated with the
                     property.
@@ -404,14 +404,14 @@ export default function TenantApplicationDetailClient({
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                   <ImageIcon
-                    className="text-neutral-400" style={{ opacity: 0.4 }}
+                    className="text-zinc-400" style={{ opacity: 0.4 }}
                   />
                   <h3
                     className="font-headline-sm text-headline-sm mb-2 text-white"
                   >
                     No documents yet
                   </h3>
-                  <p  className="text-neutral-400">
+                  <p  className="text-zinc-400">
                     There are no documents attached to this application.
                   </p>
                 </CardContent>
@@ -442,7 +442,7 @@ export default function TenantApplicationDetailClient({
                         style={{ background: 'var(--accent)' }}
                       />
                       <div
-                        className="w-0.5 h-full bg-surface-container"
+                        className="w-0.5 h-full bg-zinc-950"
                       />
                     </div>
                     <div className="space-y-1">
@@ -452,7 +452,7 @@ export default function TenantApplicationDetailClient({
                         Application Submitted
                       </p>
                       <p
-                        className="text-sm text-neutral-400"
+                        className="text-sm text-zinc-400"
                       >
                         {new Date(initial.createdAt).toLocaleString(
                           'en-NG',
@@ -487,7 +487,7 @@ export default function TenantApplicationDetailClient({
                           Application Reviewed
                         </p>
                         <p
-                          className="text-sm text-neutral-400"
+                          className="text-sm text-zinc-400"
                         >
                           {new Date(initial.reviewedAt).toLocaleString(
                             'en-NG',
@@ -518,7 +518,7 @@ export default function TenantApplicationDetailClient({
                           Application Accepted
                         </p>
                         <p
-                          className="text-sm text-neutral-400"
+                          className="text-sm text-zinc-400"
                         >
                           Congratulations! Your application has been
                           accepted.
@@ -538,7 +538,7 @@ export default function TenantApplicationDetailClient({
                           Application Not Successful
                         </p>
                         <p
-                          className="text-sm text-neutral-400"
+                          className="text-sm text-zinc-400"
                         >
                           Unfortunately, your application was not
                           successful.
@@ -603,14 +603,14 @@ export default function TenantApplicationDetailClient({
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                     <MessageSquare
-                      className="text-neutral-400" style={{ opacity: 0.4 }}
+                      className="text-zinc-400" style={{ opacity: 0.4 }}
                     />
                     <h3
                       className="font-headline-sm text-headline-sm mb-2 text-white"
                     >
                       No notes yet
                     </h3>
-                    <p  className="text-neutral-400">
+                    <p  className="text-zinc-400">
                       There are no messages or notes on this application.
                     </p>
                   </CardContent>

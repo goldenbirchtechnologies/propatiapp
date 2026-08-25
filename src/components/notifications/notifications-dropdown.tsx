@@ -41,9 +41,9 @@ export function NotificationsPanel({
   if (notifications.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-3">
+        <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-3">
           <svg
-            className="w-8 h-8 text-muted-foreground"
+            className="w-8 h-8 text-zinc-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -73,7 +73,7 @@ export function NotificationsPanel({
             key={notification.id}
             onClick={() => onNotificationClick(notification)}
             className={cn(
-              'w-full text-left p-4 transition-colors hover:bg-muted/50',
+              'w-full text-left p-4 transition-colors hover:bg-zinc-900/50',
               !notification.read && 'bg-accent/5'
             )}
           >
@@ -82,7 +82,7 @@ export function NotificationsPanel({
                 <div
                   className={cn(
                     'w-8 h-8 rounded-full flex items-center justify-center',
-                    notification.read ? 'bg-muted' : 'bg-surface-elevated'
+                    notification.read ? 'bg-zinc-900' : 'bg-zinc-800'
                   )}
                 >
                   <Icon className={cn('w-4 h-4', iconColor)} />
@@ -236,13 +236,13 @@ export function NotificationsDropdown({
     <div
       ref={dropdownRef}
       className={cn(
-        'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-surface-elevated rounded-lg shadow-xl border border-outline z-50',
+        'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-zinc-900 rounded-lg shadow-xl border border-zinc-800 z-50',
         position === 'right' ? 'right-0' : 'left-0'
       )}
       role="dialog"
       aria-label="Notifications"
     >
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex items-center justify-between p-4 border-b border-zinc-800">
         <div className="flex items-center gap-2">
           <h3 className="font-semibold" style={{ color: 'var(--text)' }}>Notifications</h3>
           {unreadCount > 0 && (
@@ -255,19 +255,19 @@ export function NotificationsDropdown({
           <button
             onClick={fetchNotifications}
             disabled={loading || markingAll}
-            className="p-1 hover:bg-muted rounded transition-colors"
+            className="p-1 hover:bg-zinc-900 rounded transition-colors"
             aria-label="Refresh notifications"
           >
-            <svg className={`w-4 h-4 text-muted-foreground ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-4 h-4 text-zinc-400 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
             </svg>
           </button>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-muted rounded transition-colors"
+            className="p-1 hover:bg-zinc-900 rounded transition-colors"
             aria-label="Close notifications"
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-4 h-4 text-zinc-400" />
           </button>
         </div>
       </div>
@@ -287,7 +287,7 @@ export function NotificationsDropdown({
       />
 
       {notifications.length > 0 && (
-        <div className="flex items-center justify-between p-3 border-t border-border bg-muted/30">
+        <div className="flex items-center justify-between p-3 border-t border-zinc-800 bg-zinc-900/30">
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}

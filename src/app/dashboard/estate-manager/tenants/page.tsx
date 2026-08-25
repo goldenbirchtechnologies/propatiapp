@@ -34,22 +34,22 @@ function StatCardSkeleton() {
       style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="rounded" style={{ height: 14, width: 14, background: 'border-[#262626]' }} />
-        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-[#262626]' }} />
+        <div className="rounded" style={{ height: 14, width: 14, background: 'border-zinc-800' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-800' }} />
       </div>
-      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-[#262626]' }} />
+      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-zinc-800' }} />
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-[#262626]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-[#262626]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-[#262626]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-[#262626]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-[#262626]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-[#262626]' }} /></td>
+    <tr className="border-b border-zinc-800" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-800' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-800' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-zinc-800' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-800' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-800' }} /></td>
     </tr>
   );
 }
@@ -84,11 +84,11 @@ export default function EstateManagerTenantsPage() {
           <div className="space-y-6">
             <div>
               <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
+              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
             </div>
             <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
               <p className="text-red-500 font-medium mb-1">Unable to load tenants</p>
-              <p className="text-sm text-muted-foreground mb-3">{error instanceof Error ? error.message : 'Something went wrong.'}</p>
+              <p className="text-sm text-zinc-400 mb-3">{error instanceof Error ? error.message : 'Something went wrong.'}</p>
               <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
             </div>
           </div>
@@ -111,13 +111,13 @@ export default function EstateManagerTenantsPage() {
   const statusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="default" className="bg-success/10 text-[#00ff66] border border-[#262626]">Active</Badge>;
+        return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-zinc-800">Active</Badge>;
       case 'pending':
-        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-[#262626]">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-zinc-800">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-[#262626]">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-muted text-zinc-400 border border-zinc-800">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-muted text-muted-foreground border border-[#262626]">{status}</Badge>;
+        return <Badge variant="outline" className="bg-muted text-zinc-400 border border-zinc-800">{status}</Badge>;
     }
   };
 
@@ -130,7 +130,7 @@ export default function EstateManagerTenantsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
+            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
           </div>
         </div>
 
@@ -143,29 +143,29 @@ export default function EstateManagerTenantsPage() {
             <>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Tenants</p>
+                  <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Total Tenants</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{totalTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-[#00ff66]" />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Active</p>
+                  <Users className="w-4 h-4 text-[#10b981]" />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Active</p>
                 </div>
-                <p className="text-2xl font-bold text-[#00ff66]">{activeTenants}</p>
+                <p className="text-2xl font-bold text-[#10b981]">{activeTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4" style={{ color: 'text-muted-foreground' }} />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Pending</p>
+                  <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Pending</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{pendingTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-warning" />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Notice Period</p>
+                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Notice Period</p>
                 </div>
                 <p className="text-2xl font-bold text-warning">{noticePeriodTenants}</p>
               </Card>
@@ -177,7 +177,7 @@ export default function EstateManagerTenantsPage() {
           <Card className="p-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-muted-foreground' }} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-zinc-400' }} />
                 <Input placeholder="Search tenants..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -216,15 +216,15 @@ export default function EstateManagerTenantsPage() {
               </div>
             ) : tenants.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
+                <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-400', opacity: 0.5 }} />
                 <p className="font-medium" className="text-white">No tenants found</p>
-                <p className="text-sm mt-1" style={{ color: 'text-muted-foreground' }}>No tenants assigned yet.</p>
+                <p className="text-sm mt-1" style={{ color: 'text-zinc-400' }}>No tenants assigned yet.</p>
               </div>
             ) : filteredTenants.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
+                <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-400', opacity: 0.5 }} />
                 <p className="font-medium" className="text-white">No tenants found</p>
-                <p className="text-sm mt-1" style={{ color: 'text-muted-foreground' }}>Try adjusting your filters.</p>
+                <p className="text-sm mt-1" style={{ color: 'text-zinc-400' }}>Try adjusting your filters.</p>
               </div>
             ) : (
               <Table>

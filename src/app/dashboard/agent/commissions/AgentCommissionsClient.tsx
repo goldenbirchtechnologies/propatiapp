@@ -41,9 +41,9 @@ interface AgentCommissionsClientProps {
 
 // ─── Status config ────────────────────────────────────────────────────────────
 const statusConfig: Record<CommissionStatus, { class: string; label: string }> = {
-  paid: { class: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#262626]', label: 'Paid' },
-  pending: { class: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Pending' },
-  cancelled: { class: 'bg-red-500/10 text-red-500 border border-[#262626]', label: 'Cancelled' },
+  paid: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-800', label: 'Paid' },
+  pending: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-800', label: 'Pending' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-800', label: 'Cancelled' },
 };
 
 // ─── Skeleton helpers ─────────────────────────────────────────────────────────
@@ -83,12 +83,12 @@ function CommissionStatCard({
       <div className="flex items-center gap-3">
         <div
           className="p-2 rounded-full flex-shrink-0"
-          style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}
+          style={{ background: 'bg-[#10b981]/10', color: 'text-white' }}
         >
           {Icon}
         </div>
         <div>
-          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+          <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">
             {label}
           </p>
           <p
@@ -109,11 +109,11 @@ function CommissionStatCard({
 function EmptyState() {
   return (
     <div className="card flex flex-col items-center justify-center p-12 text-center">
-      <DollarSign className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.4 }} />
+      <DollarSign className="w-16 h-16 mx-auto mb-4 text-zinc-400" style={{ opacity: 0.4 }} />
       <h3 className="font-headline-sm font-bold text-lg mb-2 text-white">
         No commissions yet
       </h3>
-      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto text-neutral-400">
+      <p className="text-xs font-label-md uppercase tracking-wider mb-6 max-w-sm mx-auto text-zinc-400">
         Your earnings will appear here when deals are closed and transactions are released for you.
       </p>
       <Button variant="outline" asChild>
@@ -140,7 +140,7 @@ function CommissionRow({ commission }: { commission: Commission }) {
           <p className="text-sm font-medium text-white">
             {commission.deal}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+          <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">
             Client: {commission.client}
           </p>
         </div>
@@ -150,7 +150,7 @@ function CommissionRow({ commission }: { commission: Commission }) {
           <p className="text-sm font-bold text-white">
             {formatCurrency(commission.amount)}
           </p>
-          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+          <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">
             @ {commission.rate}
           </p>
         </div>
@@ -161,7 +161,7 @@ function CommissionRow({ commission }: { commission: Commission }) {
         {/* Date */}
         <div className="hidden lg:block flex-shrink-0" style={{ minWidth: 70 }}>
           <p
-            className="text-xs font-label-md uppercase tracking-wider text-neutral-400"
+            className="text-xs font-label-md uppercase tracking-wider text-zinc-400"
           >
             {new Date(commission.date).toLocaleDateString('en-NG', {
               day: '2-digit',
@@ -188,7 +188,7 @@ function FilterBar({
   return (
     <div className="card p-4 flex items-center justify-between flex-wrap gap-3">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+        <span className="text-xs font-label-md uppercase tracking-wider text-zinc-400">
           <Table2 className="w-3.5 h-3.5 inline mr-1" />
           Filter
         </span>
@@ -204,7 +204,7 @@ function FilterBar({
             className={cn(
               'px-3 py-1.5 rounded-md text-sm font-medium border transition-all',
               filter === f.value
-                ? 'text-white border-[#262626] bg-obsidian-800/30'
+                ? 'text-white border-zinc-800 bg-zinc-900/50'
                 : 'border-transparent hover:bg-[#171717]/50'
             )}
           >
@@ -320,7 +320,7 @@ function PageHeader() {
       >
         Commissions
       </h1>
-      <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
+      <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400 mt-1">
         Track earnings and payouts per deal
       </p>
     </div>

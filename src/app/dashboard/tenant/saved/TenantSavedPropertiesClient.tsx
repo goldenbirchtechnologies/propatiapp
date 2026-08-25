@@ -100,7 +100,7 @@ function SavedPropertyCard({
   return (
     <div
       className={`bg-obsidian-800/30 rounded-lg border transition-all duration-300 hover:shadow-lg group relative ${
-        selected ? 'border-residential-teal ring-2 ring-residential-teal/20' : 'border-[#262626]'
+        selected ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-[#262626]'
       }`}
     >
       {/* Selection Checkbox */}
@@ -109,7 +109,7 @@ function SavedPropertyCard({
           type="checkbox"
           checked={selected}
           onChange={onSelect}
-          className="w-5 h-5 rounded border-2 border-white shadow-lg cursor-pointer accent-residential-teal"
+          className="w-5 h-5 rounded border-2 border-white shadow-lg cursor-pointer accent-emerald-400"
         />
       </div>
 
@@ -149,7 +149,7 @@ function SavedPropertyCard({
           {/* Verification Badge */}
           {property.listing.verified && (
             <div className="absolute bottom-3 left-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-commercial-gold text-white shadow-lg">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white shadow-lg">
                 <AppIcon name="verified" className="lucide" />
                 Verified
               </span>
@@ -224,7 +224,7 @@ function SavedPropertyCard({
               Saved {new Date(property.savedAt).toLocaleDateString()}
             </span>
             {property.notes && (
-              <span className="flex items-center gap-1 text-residential-teal">
+              <span className="flex items-center gap-1 text-emerald-400">
                 <AppIcon name="sticky_note_2" className="lucide" />
                 Has notes
               </span>
@@ -251,7 +251,7 @@ function EmptyState() {
       </p>
       <Link
         href="/dashboard/tenant/search"
-        className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-500/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
       >
         <AppIcon name="search" className="lucide" />
         Browse Properties
@@ -402,7 +402,7 @@ export default function TenantSavedPropertiesClient({
                 type="checkbox"
                 checked={selectedIds.size === filteredProperties.length && filteredProperties.length > 0}
                 onChange={selectAll}
-                className="w-5 h-5 rounded cursor-pointer accent-residential-teal"
+                className="w-5 h-5 rounded cursor-pointer accent-emerald-400"
               />
               <span className="text-sm font-medium text-white">
                 {selectedIds.size > 0 ? `${selectedIds.size} selected` : 'Select all'}
@@ -421,7 +421,7 @@ export default function TenantSavedPropertiesClient({
                 </button>
                 <button
                   onClick={bulkExport}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors"
                 >
                   <AppIcon name="download" className="lucide" />
                   <span className="hidden sm:inline">Export</span>
@@ -432,7 +432,7 @@ export default function TenantSavedPropertiesClient({
             {/* Filters Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors ml-auto"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-lg text-sm font-semibold hover:bg-obsidian-800-high transition-colors ml-auto"
             >
               <AppIcon name="tune" className="lucide" />
               Filters
@@ -454,7 +454,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.listingType}
                   onChange={e => setFilters({ ...filters, listingType: e.target.value })}
-                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 >
                   <option value="all">All Types</option>
                   <option value="rent">For Rent</option>
@@ -473,7 +473,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.propertyType}
                   onChange={e => setFilters({ ...filters, propertyType: e.target.value })}
-                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 >
                   <option value="all">All Properties</option>
                   <option value="apartment">Apartment</option>
@@ -493,7 +493,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.priceRange}
                   onChange={e => setFilters({ ...filters, priceRange: e.target.value })}
-                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 >
                   <option value="all">All Prices</option>
                   <option value="0-1000000">Under ₦1M</option>
@@ -511,7 +511,7 @@ export default function TenantSavedPropertiesClient({
                 <select
                   value={filters.sortBy}
                   onChange={e => setFilters({ ...filters, sortBy: e.target.value })}
-                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal"
+                  className="w-full px-3 py-2 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 >
                   <option value="recent">Recently Saved</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -555,7 +555,7 @@ export default function TenantSavedPropertiesClient({
           <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 md:static md:transform-none md:mt-8">
             <button
               onClick={() => router.push(`/compare?ids=${[...selectedIds].join(',')}`)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-residential-teal text-white rounded-full font-semibold hover:bg-residential-teal/90 transition-all duration-300 hover:scale-105 shadow-elevated"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-500/90 transition-all duration-300 hover:scale-105 shadow-lg"
             >
               <AppIcon name="compare" className="lucide" />
               Compare {selectedIds.size} Properties
@@ -587,20 +587,20 @@ export default function TenantSavedPropertiesClient({
               value={noteText}
               onChange={e => setNoteText(e.target.value)}
               placeholder="Add your thoughts, reminders, or questions about this property..."
-              className="w-full px-4 py-3 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-residential-teal resize-none"
+              className="w-full px-4 py-3 border border-[#262626] rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"
               rows={5}
             />
 
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={saveNote}
-                className="flex-1 px-4 py-3 bg-residential-teal text-white rounded-lg font-semibold hover:bg-residential-teal/90 transition-colors"
+                className="flex-1 px-4 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-500/90 transition-colors"
               >
                 Save Note
               </button>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="px-4 py-3 bg-surface-container text-white rounded-lg font-semibold hover:bg-obsidian-800-high transition-colors"
+                className="px-4 py-3 bg-zinc-900 text-white rounded-lg font-semibold hover:bg-obsidian-800-high transition-colors"
               >
                 Cancel
               </button>

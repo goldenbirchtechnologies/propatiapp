@@ -83,7 +83,7 @@ export default function VerificationDetailClient({
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Verification Details</h1>
-            <p className="text-muted-foreground mt-1">Unable to load page</p>
+            <p className="text-zinc-400 mt-1">Unable to load page</p>
           </div>
           <Button variant="outline" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" /> Back
@@ -217,7 +217,7 @@ export default function VerificationDetailClient({
           <Button variant="outline" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" /> Back
           </Button>
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+          <nav className="flex items-center gap-2 text-sm text-zinc-400">
             <button onClick={() => router.push('/verification')} className="hover:text-foreground">
               Verifications
             </button>
@@ -284,7 +284,7 @@ export default function VerificationDetailClient({
                   <div>
                     <p className="text-sm" style={{ color: 'var(--muted)' }}>Overall</p>
                     <div className="mt-1">{statusBadge(verification.overallStatus)}</div>
-                    <p className="text-xs text-muted-foreground mt-1">{statusMessage}</p>
+                    <p className="text-xs text-zinc-400 mt-1">{statusMessage}</p>
                   </div>
                   <div>
                     <p className="text-sm" style={{ color: 'var(--muted)' }}>Current Layer</p>
@@ -303,12 +303,12 @@ export default function VerificationDetailClient({
             </div>
 
             {verification.overallStatus === 'certified' && (
-              <Card className="border-green-200 bg-green-50">
+              <Card className="border-green-200 bg-emerald-500/10">
                 <CardContent className="pt-6 flex items-center gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
                   <div>
                     <p className="font-medium text-green-800">Fully Certified</p>
-                    <p className="text-sm text-green-600">This property has completed all verification layers.</p>
+                    <p className="text-sm text-emerald-400">This property has completed all verification layers.</p>
                   </div>
                 </CardContent>
               </Card>
@@ -375,7 +375,7 @@ export default function VerificationDetailClient({
                         <div
                           className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${
                             status === 'approved'
-                              ? 'bg-green-100 text-green-700'
+                              ? 'bg-green-100 text-emerald-400'
                               : isCurrent
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'bg-gray-100 text-gray-500'
@@ -385,7 +385,7 @@ export default function VerificationDetailClient({
                         </div>
                         <div className="flex-1">
                           <p className="font-medium">{name}</p>
-                          <p className="text-xs text-muted-foreground">Layer {layer}</p>
+                          <p className="text-xs text-zinc-400">Layer {layer}</p>
                         </div>
                         <div>{layerBadge(status)}</div>
                       </div>
@@ -403,16 +403,16 @@ export default function VerificationDetailClient({
               </CardHeader>
               <CardContent>
                 {verification.documents.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No documents uploaded yet.</p>
+                  <p className="text-sm text-zinc-400">No documents uploaded yet.</p>
                 ) : (
                   <div className="space-y-3">
                     {verification.documents.map((doc) => (
                       <div key={doc.id} className="flex items-center justify-between rounded-lg border p-3">
                         <div className="flex items-center gap-3">
-                          <FileText className="h-4 w-4 text-muted-foreground" />
+                          <FileText className="h-4 w-4 text-zinc-400" />
                           <div>
                             <p className="text-sm font-medium">{doc.documentType}</p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-zinc-400">
                               {doc.fileName || 'No name'} • {formatRelativeTime(doc.uploadedAt)}
                             </p>
                           </div>
@@ -448,7 +448,7 @@ export default function VerificationDetailClient({
                     </div>
                     <div>
                       <p className="text-sm font-medium">Verification Created</p>
-                      <p className="text-xs text-muted-foreground">{formatDateTime(verification.createdAt)}</p>
+                      <p className="text-xs text-zinc-400">{formatDateTime(verification.createdAt)}</p>
                     </div>
                   </div>
                   {verification.reviewedAt && (
@@ -459,7 +459,7 @@ export default function VerificationDetailClient({
                       </div>
                       <div>
                         <p className="text-sm font-medium">Reviewed</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-zinc-400">
                           {formatDateTime(verification.reviewedAt)} • {verification.reviewer?.fullName ?? 'Unknown'}
                         </p>
                       </div>
@@ -472,9 +472,9 @@ export default function VerificationDetailClient({
                       </div>
                       <div>
                         <p className="text-sm font-medium">Frozen</p>
-                        <p className="text-xs text-muted-foreground">{formatDateTime(verification.frozenAt)}</p>
+                        <p className="text-xs text-zinc-400">{formatDateTime(verification.frozenAt)}</p>
                         {verification.frozenReason && (
-                          <p className="text-xs text-muted-foreground">{verification.frozenReason}</p>
+                          <p className="text-xs text-zinc-400">{verification.frozenReason}</p>
                         )}
                       </div>
                     </div>
@@ -482,11 +482,11 @@ export default function VerificationDetailClient({
                   {verification.overallStatus === 'certified' && (
                     <div className="flex gap-4">
                       <div className="flex flex-col items-center">
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-green-700">Certified</p>
-                        <p className="text-xs text-muted-foreground">Property is fully verified and certified.</p>
+                        <p className="text-sm font-medium text-emerald-400">Certified</p>
+                        <p className="text-xs text-zinc-400">Property is fully verified and certified.</p>
                       </div>
                     </div>
                   )}
@@ -497,7 +497,7 @@ export default function VerificationDetailClient({
                       </div>
                       <div>
                         <p className="text-sm font-medium text-red-700">Rejected</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-zinc-400">
                           {verification.adminNotes || 'Verification was rejected.'}
                         </p>
                       </div>

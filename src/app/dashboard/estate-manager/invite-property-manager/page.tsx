@@ -106,7 +106,7 @@ export default function InvitePropertyManagerPage() {
         <div className="space-y-1">
           <Link
             href="/dashboard/estate-manager/team"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors"
           >
             <ArrowLeft className="size-4" />
             Back
@@ -151,7 +151,7 @@ export default function InvitePropertyManagerPage() {
               placeholder="agent@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="max-w-xl dark:bg-slate-800/60 dark:placeholder:text-gray-400"
+              className="max-w-xl dark:bg-zinc-800/60 dark:placeholder:text-gray-400"
               required
             />
             <p className="text-sm text-neutral-400">
@@ -181,7 +181,7 @@ export default function InvitePropertyManagerPage() {
                     className={cn(
                       'text-left rounded-xl border p-4 transition-all',
                       isSelected
-                        ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                        ? 'border-primary bg-emerald-500/5 shadow-lg shadow-emerald-500/10'
                         : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
                     )}
                   >
@@ -195,7 +195,7 @@ export default function InvitePropertyManagerPage() {
                       </div>
                       <div className="space-y-1">
                         <p className="font-medium text-sm text-white">{permission.label}</p>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
+                        <p className="text-xs text-zinc-400 leading-relaxed">
                           {permission.description}
                         </p>
                       </div>
@@ -228,9 +228,9 @@ export default function InvitePropertyManagerPage() {
                   </option>
                 ))}
               </select>
-              {listingsLoading && <p className="text-xs text-muted-foreground mt-1">Loading properties...</p>}
+              {listingsLoading && <p className="text-xs text-zinc-400 mt-1">Loading properties...</p>}
               {!listingsLoading && !(listingsData?.data || []).length && (
-                <p className="text-xs text-muted-foreground mt-1">No properties found.</p>
+                <p className="text-xs text-zinc-400 mt-1">No properties found.</p>
               )}
             </div>
           </div>

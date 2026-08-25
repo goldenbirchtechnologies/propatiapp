@@ -208,10 +208,10 @@ export default function UnitsPage() {
             </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-green-600" />
+                <Users className="w-4 h-4 text-emerald-400" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Occupied</p>
               </div>
-              <p className="text-2xl font-bold text-green-600">{occupiedUnits}</p>
+              <p className="text-2xl font-bold text-emerald-400">{occupiedUnits}</p>
             </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
@@ -229,10 +229,10 @@ export default function UnitsPage() {
             </Card>
             <Card className="p-4">
               <div className="flex items-center gap-2 mb-2">
-                <DollarSign className="w-4 h-4 text-green-600" />
+                <DollarSign className="w-4 h-4 text-emerald-400" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Monthly Rent</p>
               </div>
-              <p className="text-2xl font-bold text-green-600">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
+              <p className="text-2xl font-bold text-emerald-400">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
             </Card>
           </div>
         )}

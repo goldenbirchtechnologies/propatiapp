@@ -149,7 +149,7 @@ function EscrowClient({
           <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
             Escrow Transactions
           </h1>
-          <p className="text-muted-foreground font-body-md mt-1">
+          <p className="text-zinc-400 font-body-md mt-1">
             Monitor platform GTV, escrow security, and financial integrity.
           </p>
         </div>
@@ -189,7 +189,7 @@ function EscrowClient({
             }`}
           >
             <div
-              className={`text-sm font-medium mb-2 ${card.danger ? 'text-error' : 'text-muted-foreground'}`}
+              className={`text-sm font-medium mb-2 ${card.danger ? 'text-error' : 'text-zinc-400'}`}
             >
               {card.label}
             </div>
@@ -198,7 +198,7 @@ function EscrowClient({
             >
               {card.value}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+            <p className="text-xs text-zinc-400 mt-1">{card.sub}</p>
           </div>
         ))}
       </div>
@@ -207,21 +207,21 @@ function EscrowClient({
       <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
         <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
           <h3 className="font-headline-sm text-white">Active Escrow Transactions</h3>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-zinc-400">
             {escrowed.length} records
           </span>
         </div>
         {escrowed.length === 0 ? (
-          <p className="p-lg text-sm text-muted-foreground text-center">No transactions currently in escrow.</p>
+          <p className="p-lg text-sm text-zinc-400 text-center">No transactions currently in escrow.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-container border-b border-[#262626]">
+                <tr className="bg-zinc-900 border-b border-[#262626]">
                   {['ID', 'Type', 'Amount', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
-                      className="px-md py-3 font-label-md text-label-sm text-muted-foreground uppercase tracking-wider"
+                      className="px-md py-3 font-label-md text-label-sm text-zinc-400 uppercase tracking-wider"
                     >
                       {h}
                     </th>
@@ -243,7 +243,7 @@ function EscrowClient({
                         {tx.status.replace(/_/g, ' ')}
                       </span>
                     </td>
-                    <td className="px-md py-4 text-body-sm text-muted-foreground whitespace-nowrap">
+                    <td className="px-md py-4 text-body-sm text-zinc-400 whitespace-nowrap">
                       {tx.createdAt.toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',
@@ -272,7 +272,7 @@ function EscrowClient({
                   {['ID', 'Type', 'Amount', 'Payer', 'Payee', 'Date'].map((h) => (
                     <th
                       key={h}
-                      className="px-md py-3 font-label-md text-label-sm text-muted-foreground uppercase tracking-wider"
+                      className="px-md py-3 font-label-md text-label-sm text-zinc-400 uppercase tracking-wider"
                     >
                       {h}
                     </th>
@@ -289,7 +289,7 @@ function EscrowClient({
                     <td className="px-md py-4 font-bold text-error text-body-sm whitespace-nowrap">{formatKobo(tx.amount)}</td>
                     <td className="px-md py-4 text-body-sm">{tx.payer?.fullName || '—'}</td>
                     <td className="px-md py-4 text-body-sm">{tx.payee?.fullName || '—'}</td>
-                    <td className="px-md py-4 text-body-sm text-muted-foreground whitespace-nowrap">
+                    <td className="px-md py-4 text-body-sm text-zinc-400 whitespace-nowrap">
                       {tx.createdAt.toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',

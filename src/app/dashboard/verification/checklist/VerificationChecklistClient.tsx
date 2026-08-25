@@ -24,17 +24,17 @@ type Props = {
 };
 
 function statusIcon(status: string) {
-  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />;
+  if (status === 'approved') return <CheckCircle2 className="h-5 w-5 text-[#10b981]" />;
   if (status === 'rejected') return <XCircle className="h-5 w-5 text-red-500" />;
   if (status === 'pending') return <Loader2 className="h-5 w-4 animate-spin text-warning" />;
-  return <Loader2 className="h-5 w-5 text-muted-foreground" />;
+  return <Loader2 className="h-5 w-5 text-zinc-400" />;
 }
 
 function statusColor(status: string) {
-  if (status === 'approved') return 'bg-success/10 text-[#00ff66] border-success/20';
+  if (status === 'approved') return 'bg-success/10 text-[#10b981] border-success/20';
   if (status === 'rejected') return 'bg-red-500/10 text-red-500 border-red-500/20';
   if (status === 'pending') return 'bg-warning/10 text-warning border-warning/20';
-  return 'bg-muted text-muted-foreground border-[#262626]';
+  return 'bg-muted text-zinc-400 border-zinc-800';
 }
 
 function VerificationChecklistClient(props: Props) {
@@ -47,7 +47,7 @@ function VerificationChecklistClient(props: Props) {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Overall Progress</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-zinc-400 mt-1">
               {approvedCount} of {props.layers.length} layers completed
             </p>
           </div>
@@ -66,14 +66,14 @@ function VerificationChecklistClient(props: Props) {
           <div className="space-y-4">
             {props.layers.map((layer, idx) => (
               <div key={layer.label}>
-                <div className="flex items-center justify-between p-4 rounded-lg border border-[#262626]">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-zinc-800">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-sm">
                       {idx + 1}
                     </div>
                     <div>
                       <p className="font-medium">{layer.label}</p>
-                      <p className="text-sm text-muted-foreground">{layer.desc}</p>
+                      <p className="text-sm text-zinc-400">{layer.desc}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -96,9 +96,9 @@ function VerificationChecklistClient(props: Props) {
             <CardTitle>Admin Notes</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">{props.adminNotes}</p>
+            <p className="text-sm text-zinc-400">{props.adminNotes}</p>
             {props.reviewedAt && (
-              <p className="text-xs text-muted-foreground mt-2">Reviewed on {new Date(props.reviewedAt).toLocaleString()}</p>
+              <p className="text-xs text-zinc-400 mt-2">Reviewed on {new Date(props.reviewedAt).toLocaleString()}</p>
             )}
           </CardContent>
         </Card>
@@ -106,7 +106,7 @@ function VerificationChecklistClient(props: Props) {
 
       <div className="flex justify-end">
         {props.overallStatus === 'certified' ? (
-          <Badge className="bg-success/10 text-[#00ff66] border-success/20 px-4 py-2 text-sm font-bold">
+          <Badge className="bg-success/10 text-[#10b981] border-success/20 px-4 py-2 text-sm font-bold">
             Fully Certified
           </Badge>
         ) : props.overallStatus === 'rejected' ? (
@@ -114,7 +114,7 @@ function VerificationChecklistClient(props: Props) {
             Verification Rejected
           </Badge>
         ) : (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-zinc-400">
             {progress === 100 ? 'Ready for final review' : 'Complete all layers for final certification'}
           </p>
         )}

@@ -40,31 +40,41 @@ export default function SignUpPage() {
 
   if (showClerk) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 mb-6">
-              <span className="text-3xl font-bold tracking-tight text-primary">PROPATI</span>
+      <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-sm">
+          <div className="flex justify-center mb-8">
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-[#10b981] flex items-center justify-center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              </div>
+              <span className="text-white font-bold text-lg">PROPATI</span>
             </Link>
           </div>
-          <SignUp
-            appearance={{
-              elements: {
-                formButtonPrimary: 'btn-primary',
-                card: 'shadow-lg border border-border rounded-xl p-6',
-                headerTitle: 'font-bold text-xl text-foreground',
-                headerSubtitle: 'text-muted-foreground',
-              },
-            }}
-            routing="path"
-            path="/sign-up"
-            redirectUrl="/onboarding"
-            fallbackRedirectUrl="/onboarding"
-            unsafeMetadata={{ role: selectedRole }}
-          />
-          <p className="text-center text-sm mt-6 text-muted-foreground">
+
+          <div className="bg-zinc-950 border border-white/[0.08] p-8 rounded-2xl">
+            <SignUp
+              appearance={{
+                elements: {
+                  formButtonPrimary: 'bg-[#10b981] hover:bg-[#10b981]/90 text-white font-semibold rounded-lg',
+                  card: 'shadow-none border-0 bg-transparent',
+                  headerTitle: 'font-bold text-xl text-white',
+                  headerSubtitle: 'text-zinc-400',
+                },
+              }}
+              routing="path"
+              path="/sign-up"
+              redirectUrl="/onboarding"
+              fallbackRedirectUrl="/onboarding"
+              unsafeMetadata={{ role: selectedRole }}
+            />
+          </div>
+
+          <p className="text-center text-sm mt-6 text-zinc-500">
             Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:underline">Sign in</Link>
+            <Link href="/login" className="font-medium text-[#10b981] hover:underline">Sign in</Link>
           </p>
         </div>
       </div>
@@ -72,14 +82,23 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-2xl">
-        <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="text-3xl font-bold tracking-tight text-primary">PROPATI</span>
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-[#10b981] flex items-center justify-center">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <span className="text-white font-bold text-lg">PROPATI</span>
           </Link>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Join as a...</h1>
-          <p className="text-muted-foreground text-base">Select your role to get started</p>
+        </div>
+
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-bold text-white mb-2">Join as a...</h1>
+          <p className="text-zinc-500 text-base">Select your role to get started</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -91,30 +110,30 @@ export default function SignUpPage() {
                 type="button"
                 onClick={() => setSelectedRole(id)}
                 className={[
-                  'relative flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  'relative flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981] focus-visible:ring-offset-2 focus-visible:ring-offset-black',
                   isSelected
-                    ? 'border-primary bg-primary/5 shadow-md'
-                    : 'border-border bg-card hover:border-primary/40 hover:shadow-sm',
+                    ? 'border-[#10b981] bg-[#10b981]/10 shadow-md'
+                    : 'border-zinc-800 bg-zinc-950 hover:border-[#10b981]/40 hover:shadow-sm',
                 ].join(' ')}
               >
                 {isSelected && (
-                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-primary" />
+                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-[#10b981]" />
                 )}
                 <div
                   className={[
                     'flex h-14 w-14 items-center justify-center rounded-xl transition-colors',
                     isSelected
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground',
+                      ? 'bg-[#10b981] text-white'
+                      : 'bg-zinc-900 text-zinc-500',
                   ].join(' ')}
                 >
                   <Icon size={28} />
                 </div>
                 <div>
-                  <p className={['font-semibold text-sm', isSelected ? 'text-primary' : 'text-foreground'].join(' ')}>
+                  <p className={['font-semibold text-sm', isSelected ? 'text-[#10b981]' : 'text-white'].join(' ')}>
                     {label}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{subtitle}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5 leading-snug">{subtitle}</p>
                 </div>
               </button>
             );
@@ -128,16 +147,16 @@ export default function SignUpPage() {
           className={[
             'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200',
             selectedRole
-              ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
-              : 'bg-muted text-muted-foreground cursor-not-allowed',
+              ? 'bg-[#10b981] text-white hover:bg-[#10b981]/90 shadow-md hover:shadow-lg'
+              : 'bg-zinc-900 text-zinc-600 cursor-not-allowed',
           ].join(' ')}
         >
           Continue
         </button>
 
-        <p className="text-center text-sm mt-6 text-muted-foreground">
+        <p className="text-center text-sm mt-6 text-zinc-500">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-primary hover:underline">Sign in</Link>
+          <Link href="/login" className="font-medium text-[#10b981] hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

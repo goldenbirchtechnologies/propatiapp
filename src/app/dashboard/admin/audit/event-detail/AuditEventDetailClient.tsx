@@ -8,7 +8,7 @@ export default function AuditEventDetailClient() {
       {/* Ported from audit_event_detail_permission_update_propati_admin.html */}
 
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-sm text-label-sm text-muted-foreground mb-md">
+      <nav className="flex items-center gap-sm text-label-sm text-zinc-400 mb-md">
         <a className="hover:text-white" href="#">Home</a>
         <AppIcon name="chevron_right" className="lucide" />
         <a className="hover:text-white" href="#">Audit Logs</a>
@@ -20,7 +20,7 @@ export default function AuditEventDetailClient() {
       <section className="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
         <div className="space-y-sm">
           <div className="flex items-center gap-sm">
-            <span className="px-sm py-xs bg-surface-container-highest text-white font-label-sm rounded-lg uppercase tracking-wider">RBAC</span>
+            <span className="px-sm py-xs bg-zinc-950 text-white font-label-sm rounded-lg uppercase tracking-wider">RBAC</span>
             <div className="flex items-center gap-xs px-sm py-xs bg-tertiary-container text-tertiary-fixed font-label-sm rounded-full">
               <span className="lucide text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
               <AppIcon name="Verified Immutable" className="lucide" />
@@ -33,7 +33,7 @@ export default function AuditEventDetailClient() {
             <AppIcon name="download" className="lucide" />
             Export JSON
           </button>
-          <button className="flex items-center gap-sm px-lg h-11 bg-primary text-on-primary font-label-md rounded-xl hover:bg-primary/90 shadow-md transition-all active:scale-95">
+          <button className="flex items-center gap-sm px-lg h-11 bg-emerald-500 text-white font-label-md rounded-xl hover:bg-emerald-500/90 shadow-md transition-all active:scale-95">
             <AppIcon name="flag" className="lucide" />
             Flag for Review
           </button>
@@ -84,7 +84,7 @@ export default function AuditEventDetailClient() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         {/* Change Diff Code Container */}
         <section className="lg:col-span-8 flex flex-col h-full bg-obsidian-800/30 border border-[#262626] rounded-xl overflow-hidden shadow-sm">
-          <div className="bg-surface-container p-md border-b border-[#262626] flex justify-between items-center">
+          <div className="bg-zinc-900 p-md border-b border-[#262626] flex justify-between items-center">
             <div className="flex items-center gap-md">
               <AppIcon name="code" className="lucide" />
               <h3 className="font-label-md text-white uppercase tracking-wider font-bold">JSON Payload Diff</h3>
@@ -143,11 +143,11 @@ export default function AuditEventDetailClient() {
               </div>
               {/* Timeline Item 2 (Current) */}
               <div className="relative">
-                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-surface-container-lowest"></div>
                 <div className="flex flex-col gap-1 p-md bg-primary-fixed/30 rounded-lg -mx-2 border border-primary-fixed">
                   <div className="flex justify-between items-start">
                     <span className="text-label-sm font-bold text-white">14:22:10 WAT</span>
-                    <span className="px-xs py-[2px] bg-primary text-on-primary text-[10px] rounded uppercase font-bold">Current</span>
+                    <span className="px-xs py-[2px] bg-emerald-500 text-white text-[10px] rounded uppercase font-bold">Current</span>
                   </div>
                   <p className="text-body-sm text-white">Modified &quot;Verification Officer&quot; Role Permissions</p>
                 </div>

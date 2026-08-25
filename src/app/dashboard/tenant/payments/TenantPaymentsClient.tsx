@@ -99,7 +99,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         return (
           <Card>
             <CardContent className="p-10 text-center">
-              <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
+              <FileText className="mx-auto mb-3 h-10 w-10 text-zinc-400" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">Your invoice statements will appear here.</p>
             </CardContent>
           </Card>
@@ -108,7 +108,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         return (
           <Card>
             <CardContent className="p-10 text-center">
-              <Receipt className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
+              <Receipt className="mx-auto mb-3 h-10 w-10 text-zinc-400" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">Payment receipts will appear here.</p>
             </CardContent>
           </Card>
@@ -117,7 +117,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
         return (
           <Card>
             <CardContent className="p-10 text-center">
-              <AlertCircle className="mx-auto mb-3 h-10 w-10 text-muted-foreground" style={{ opacity: 0.5 }} />
+              <AlertCircle className="mx-auto mb-3 h-10 w-10 text-zinc-400" style={{ opacity: 0.5 }} />
               <p className="font-headline-sm text-white">No overdue payments.</p>
             </CardContent>
           </Card>
@@ -128,18 +128,18 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             {/* Section B: Financial Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Card 1 — Active Rent / Bill Status */}
-              <Card className="border border-slate-800">
+              <Card className="border border-zinc-800">
                 <CardHeader>
-                  <CardTitle className="text-base font-medium text-muted-foreground">Active Rent / Bill Status</CardTitle>
+                  <CardTitle className="text-base font-medium text-zinc-400">Active Rent / Bill Status</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex flex-col gap-2">
-                      <p className="text-sm text-muted-foreground leading-tight">{rentStatus.property}</p>
+                      <p className="text-sm text-zinc-400 leading-tight">{rentStatus.property}</p>
                       <p className="font-headline-sm text-3xl text-emerald-500 font-bold tracking-tight">
                         ₦{rentStatus.amount.toLocaleString()}
                       </p>
-                      <p className="text-sm text-muted-foreground leading-tight">Due: {rentStatus.dueDate}</p>
+                      <p className="text-sm text-zinc-400 leading-tight">Due: {rentStatus.dueDate}</p>
                     </div>
                     {rentStatus.status === 'up_to_date' ? (
                       <span className="inline-flex shrink-0 items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-500">
@@ -163,9 +163,9 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               </Card>
 
               {/* Card 2 — Wallet Summary */}
-              <Card className="border border-slate-800">
+              <Card className="border border-zinc-800">
                 <CardHeader>
-                  <CardTitle className="text-base font-medium text-muted-foreground">Wallet Summary</CardTitle>
+                  <CardTitle className="text-base font-medium text-zinc-400">Wallet Summary</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-4">
@@ -173,7 +173,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                       <Wallet className="h-6 w-6" />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-sm text-muted-foreground">Wallet Balance</p>
+                      <p className="text-sm text-zinc-400">Wallet Balance</p>
                       <p className="font-headline-sm text-3xl text-white font-bold tracking-tight">
                         ₦{((wallet?.balance || 0) / 100).toLocaleString()}
                       </p>
@@ -192,7 +192,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             </div>
 
             {/* Section C: Quick Payment */}
-            <Card id="quick-payment" className="border border-slate-800 scroll-mt-6">
+            <Card id="quick-payment" className="border border-zinc-800 scroll-mt-6">
               <CardHeader>
                 <CardTitle>Quick Payment</CardTitle>
               </CardHeader>
@@ -230,7 +230,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                       <label
                         className={cn(
                           'flex cursor-pointer items-center justify-between rounded-lg border border-input bg-transparent p-4 transition-colors',
-                          method === 'paystack' ? 'border-emerald-500/50 bg-emerald-500/5' : 'hover:bg-muted/50'
+                          method === 'paystack' ? 'border-emerald-500/50 bg-emerald-500/5' : 'hover:bg-zinc-900/50'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -244,12 +244,12 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                           />
                           <span className="text-sm font-medium">Paystack (Card/Bank/USSD)</span>
                         </div>
-                        <CreditCard className="h-4 w-4 text-muted-foreground" />
+                        <CreditCard className="h-4 w-4 text-zinc-400" />
                       </label>
                       <label
                         className={cn(
                           'flex cursor-pointer items-center justify-between rounded-lg border border-input bg-transparent p-4 transition-colors',
-                          method === 'wallet' ? 'border-emerald-500/50 bg-emerald-500/5' : 'hover:bg-muted/50'
+                          method === 'wallet' ? 'border-emerald-500/50 bg-emerald-500/5' : 'hover:bg-zinc-900/50'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -263,7 +263,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                           />
                           <span className="text-sm font-medium">Wallet Balance</span>
                         </div>
-                        <Wallet className="h-4 w-4 text-muted-foreground" />
+                        <Wallet className="h-4 w-4 text-zinc-400" />
                       </label>
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
               </Card>
             )}
 
-            <Card className="border border-slate-800">
+            <Card className="border border-zinc-800">
               <div className="overflow-x-auto">
                 {transactionsLoading && transactions.length === 0 ? (
                   <div className="p-8 space-y-3">
@@ -330,22 +330,22 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                   </div>
                 ) : transactions.length === 0 ? (
                   <div className="p-12 text-center">
-                    <Receipt className="mx-auto mb-3 h-12 w-12 text-muted-foreground" style={{ opacity: 0.5 }} />
+                    <Receipt className="mx-auto mb-3 h-12 w-12 text-zinc-400" style={{ opacity: 0.5 }} />
                     <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No transactions yet</h3>
-                    <p className="text-muted-foreground" style={{ marginBottom: 'var(--space-lg)' }}>
+                    <p className="text-zinc-400" style={{ marginBottom: 'var(--space-lg)' }}>
                       Your completed payment history will appear here.
                     </p>
                   </div>
                 ) : (
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-[#262626]">
-                        <th className="text-left p-4 text-sm font-medium text-muted-foreground">Date</th>
-                        <th className="text-left p-4 text-sm font-medium text-muted-foreground">Type</th>
-                        <th className="text-left p-4 text-sm font-medium text-muted-foreground">Property</th>
-                        <th className="text-right p-4 text-sm font-medium text-muted-foreground">Amount</th>
-                        <th className="text-left p-4 text-sm font-medium text-muted-foreground">Status</th>
-                        <th className="text-left p-4 text-sm font-medium text-muted-foreground">Actions</th>
+                      <tr className="border-b border-zinc-800">
+                        <th className="text-left p-4 text-sm font-medium text-zinc-400">Date</th>
+                        <th className="text-left p-4 text-sm font-medium text-zinc-400">Type</th>
+                        <th className="text-left p-4 text-sm font-medium text-zinc-400">Property</th>
+                        <th className="text-right p-4 text-sm font-medium text-zinc-400">Amount</th>
+                        <th className="text-left p-4 text-sm font-medium text-zinc-400">Status</th>
+                        <th className="text-left p-4 text-sm font-medium text-zinc-400">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -357,7 +357,7 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
                 )}
               </div>
               {(hasNextPage || isFetchingNextPage) && (
-                <div className="p-4 border-t border-[#262626]">
+                <div className="p-4 border-t border-zinc-800">
                   <Button
                     variant="outline"
                     onClick={handleLoadMore}
@@ -386,10 +386,10 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
       {/* Section A: Header & Navigation Tabs (Full Width) */}
       <div>
         <h1 className="font-headline-xl text-white">Rent & Payments</h1>
-        <p className="text-muted-foreground mt-1">Manage your rent, payments, and wallet</p>
+        <p className="text-zinc-400 mt-1">Manage your rent, payments, and wallet</p>
       </div>
 
-      <div className="flex items-center gap-1 sm:gap-2 border-b border-[#262626] overflow-x-auto bg-slate-900/60 rounded-lg p-1">
+      <div className="flex items-center gap-1 sm:gap-2 border-b border-zinc-800 overflow-x-auto bg-zinc-900/60 rounded-lg p-1">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -397,8 +397,8 @@ export default function TenantPaymentsClient({ userId }: { userId: string }) {
             className={cn(
               'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
               activeTab === tab.value
-                ? 'bg-slate-800 text-emerald-400 shadow-sm'
-                : 'text-muted-foreground hover:text-white hover:bg-slate-800/50'
+                ? 'bg-zinc-900 text-emerald-400 shadow-sm'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
             )}
           >
             {tab.label}
@@ -442,8 +442,8 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
   }
 
   return (
-    <tr className="border-b border-[#262626]">
-      <td className="p-4 text-muted-foreground">{format(new Date(transaction.createdAt), 'dd MMM yyyy')}</td>
+    <tr className="border-b border-zinc-800">
+      <td className="p-4 text-zinc-400">{format(new Date(transaction.createdAt), 'dd MMM yyyy')}</td>
       <td className="p-4">
         <Badge variant="outline" className="capitalize">
           {transaction.type}
@@ -451,7 +451,7 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
       </td>
       <td className="p-4">
         <p className="font-medium text-white">{transaction.listing?.title || 'N/A'}</p>
-        <p className="text-xs text-muted-foreground">{transaction.agreement?.id?.slice(-8).toUpperCase()}</p>
+        <p className="text-xs text-zinc-400">{transaction.agreement?.id?.slice(-8).toUpperCase()}</p>
       </td>
       <td className="p-4 text-right font-headline-sm text-white">₦{Number(transaction.amount).toLocaleString()}</td>
       <td className="p-4">
@@ -491,24 +491,24 @@ function TransactionRow({ transaction }: { transaction: Record<string, any> }) {
 
 function TransactionRowSkeleton() {
   return (
-    <tr className="border-b animate-pulse border-[#262626]">
+    <tr className="border-b animate-pulse border-zinc-800">
       <td className="p-4">
-        <div className="h-4 w-24 bg-surface-container" />
+        <div className="h-4 w-24 bg-zinc-950" />
       </td>
       <td className="p-4">
-        <div className="h-6 w-20 rounded bg-surface-container" />
+        <div className="h-6 w-20 rounded bg-zinc-950" />
       </td>
       <td className="p-4">
-        <div className="h-4 w-32 bg-surface-container" />
+        <div className="h-4 w-32 bg-zinc-950" />
       </td>
       <td className="p-4 text-right">
-        <div className="h-4 w-24 bg-surface-container" />
+        <div className="h-4 w-24 bg-zinc-950" />
       </td>
       <td className="p-4">
-        <div className="h-6 w-24 rounded bg-surface-container" />
+        <div className="h-6 w-24 rounded bg-zinc-950" />
       </td>
       <td className="p-4">
-        <div className="h-8 w-16 bg-surface-container" />
+        <div className="h-8 w-16 bg-zinc-950" />
       </td>
     </tr>
   );

@@ -272,7 +272,7 @@ function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-surface-container">
+          <div className="w-full h-full flex items-center justify-center bg-zinc-900">
             <Home className="w-12 h-12 text-neutral-400" />
           </div>
         )}
@@ -338,12 +338,12 @@ function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }
 function ListingCardSkeleton() {
   return (
     <div className="card overflow-hidden animate-pulse">
-      <div className="aspect-video bg-surface-container" />
+      <div className="aspect-video bg-zinc-900" />
       <div className="p-4 space-y-3">
-        <div className="h-4 w-3/4 bg-surface-container" />
-        <div className="h-4 w-1/2 bg-surface-container" />
-        <div className="h-3 w-full bg-surface-container" />
-        <div className="h-3 w-2/3 bg-surface-container" />
+        <div className="h-4 w-3/4 bg-zinc-900" />
+        <div className="h-4 w-1/2 bg-zinc-900" />
+        <div className="h-3 w-full bg-zinc-900" />
+        <div className="h-3 w-2/3 bg-zinc-900" />
       </div>
     </div>
   );

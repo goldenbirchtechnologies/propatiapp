@@ -163,11 +163,11 @@ function AdminOverviewClient({
             className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm hover:shadow-md transition-all"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-muted-foreground font-medium">{card.label}</span>
+              <span className="text-sm text-zinc-400 font-medium">{card.label}</span>
               <AppIcon name={card.icon} className="lucide" size={20} />
             </div>
             <div className="text-headline-md font-bold text-white">{card.value}</div>
-            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+            <p className="text-xs text-zinc-400 mt-1">{card.sub}</p>
           </div>
         ))}
       </div>
@@ -178,15 +178,15 @@ function AdminOverviewClient({
         <div className="lg:col-span-2 rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
           <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
             <h3 className="font-headline-sm text-white">Newest Users</h3>
-            <span className="text-xs text-muted-foreground">Last 5 signups</span>
+            <span className="text-xs text-zinc-400">Last 5 signups</span>
           </div>
           {recentUsers.length === 0 ? (
-            <p className="p-lg text-sm text-muted-foreground text-center">No users registered yet.</p>
+            <p className="p-lg text-sm text-zinc-400 text-center">No users registered yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
+                  <tr className="bg-zinc-900 text-zinc-400 border-b border-[#262626]">
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
                     <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined</th>
@@ -197,17 +197,17 @@ function AdminOverviewClient({
                     <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
                       <td className="px-lg py-md">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">
+                          <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-white text-xs font-bold">
                             {initials(u.fullName || u.email)}
                           </div>
                           <div>
                             <div className="font-bold text-white text-sm">{u.fullName}</div>
-                            <div className="text-xs text-muted-foreground">{u.email}</div>
+                            <div className="text-xs text-zinc-400">{u.email}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-lg py-md text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
-                      <td className="px-lg py-md text-body-sm text-muted-foreground">
+                      <td className="px-lg py-md text-body-sm text-zinc-400">
                         {u.createdAt.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </td>
                     </tr>
@@ -230,7 +230,7 @@ function AdminOverviewClient({
                 { label: 'Total Listings', value: kpi.totalListings.toLocaleString() },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{item.label}</span>
+                  <span className="text-zinc-400">{item.label}</span>
                   <span className="font-bold text-white">{item.value}</span>
                 </div>
               ))}
@@ -238,7 +238,7 @@ function AdminOverviewClient({
           </div>
           <div className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
             <h3 className="font-headline-sm text-white mb-2">Trend Snapshot</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-xs text-zinc-400 leading-relaxed">
               Revenue tracked to date includes{' '}
               <span className="font-bold text-white">released</span> and{' '}
               <span className="font-bold text-secondary">in-escrow</span> transactions.

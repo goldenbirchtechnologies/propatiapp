@@ -31,20 +31,20 @@ export default async function LandlordPortfolioPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-white">Portfolio Analytics</h1>
-          <p className="text-muted-foreground mt-1">Overview of your owned properties and asset performance.</p>
+          <p className="text-zinc-400 mt-1">Overview of your owned properties and asset performance.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-sm text-muted-foreground">Total Portfolio Value</p>
+            <p className="text-sm text-zinc-400">Total Portfolio Value</p>
             <p className="text-2xl font-bold mt-2">₦{(totalValue / 1e6).toFixed(1)}M</p>
           </div>
           <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-sm text-muted-foreground">Active Listings</p>
+            <p className="text-sm text-zinc-400">Active Listings</p>
             <p className="text-2xl font-bold mt-2">{listings.length}</p>
           </div>
           <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-sm text-muted-foreground">Avg. Listing Value</p>
+            <p className="text-sm text-zinc-400">Avg. Listing Value</p>
             <p className="text-2xl font-bold mt-2">
               {listings.length > 0 ? `₦${((totalValue / listings.length) / 1e6).toFixed(1)}M` : '—'}
             </p>
@@ -57,23 +57,23 @@ export default async function LandlordPortfolioPage() {
           </CardHeader>
           <CardContent>
             {listings.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">No active listings yet.</p>
+              <p className="text-sm text-zinc-400 py-6 text-center">No active listings yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="bg-surface-container-high border-b border-[#262626]">
+                  <thead className="bg-zinc-800 border-b border-[#262626]">
                     <tr>
-                      <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Property</th>
-                      <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Type</th>
-                      <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Location</th>
-                      <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Value</th>
+                      <th className="px-5 py-4 text-sm font-medium text-zinc-400">Property</th>
+                      <th className="px-5 py-4 text-sm font-medium text-zinc-400">Type</th>
+                      <th className="px-5 py-4 text-sm font-medium text-zinc-400">Location</th>
+                      <th className="px-5 py-4 text-sm font-medium text-zinc-400">Value</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#262626]">
                     {listings.map((l) => (
                       <tr key={l.id} className="hover:bg-obsidian-800-lowest transition-colors">
                         <td className="px-5 py-4 font-medium">{l.title}</td>
-                        <td className="px-5 py-4 text-sm text-muted-foreground capitalize">{l.listingType.replace('_', ' ')}</td>
+                        <td className="px-5 py-4 text-sm text-zinc-400 capitalize">{l.listingType.replace('_', ' ')}</td>
                         <td className="px-5 py-4 text-sm">{l.area}</td>
                         <td className="px-5 py-4 text-sm font-medium">₦{new Intl.NumberFormat('en-NG').format(Number(l.price))}</td>
                       </tr>

@@ -84,7 +84,7 @@ function Step4InspectionClient(props: Props) {
         </CardHeader>
         <CardContent>
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-zinc-400 mt-2">
             {props.inspection.l4Status === 'approved' ? 'Inspection completed and approved' : props.inspection.l4Status === 'pending' ? 'Inspection scheduled' : 'Schedule a physical inspection'}
           </p>
         </CardContent>
@@ -102,17 +102,17 @@ function Step4InspectionClient(props: Props) {
       ) : props.inspection.l4Status === 'approved' ? (
         <Card>
           <CardContent className="space-y-4">
-            <div className="flex items-center gap-2 text-[#00ff66]">
+            <div className="flex items-center gap-2 text-[#10b981]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Inspection completed successfully</p>
             </div>
             {props.inspection.l4Agent && (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-zinc-400">
                 Inspected by <span className="font-medium text-white">{props.inspection.l4Agent.fullName}</span> ({props.inspection.l4Agent.agentTier})
               </div>
             )}
             {props.inspection.l4CompletedAt && (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-zinc-400">
                 Completed on {new Date(props.inspection.l4CompletedAt).toLocaleDateString()}
               </div>
             )}
@@ -126,12 +126,12 @@ function Step4InspectionClient(props: Props) {
               <p className="font-medium">Inspection scheduled</p>
             </div>
             {props.inspection.l4ScheduledAt && (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-zinc-400">
                 Scheduled for {new Date(props.inspection.l4ScheduledAt).toLocaleDateString()} at {preferredTime}
               </div>
             )}
             {props.inspection.l4Agent && (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-zinc-400">
                 Agent: <span className="font-medium text-white">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
               </div>
             )}

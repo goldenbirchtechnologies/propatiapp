@@ -11,8 +11,8 @@ export default function GlobalError({ error, reset }: { error?: Error & { digest
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-6 py-16">
-      <div className="w-full max-w-lg rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 text-center shadow-sm">
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+      <div className="w-full max-w-lg rounded-3xl border border-zinc-800 bg-zinc-950 p-8 text-center shadow-lg">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
           <svg
             className="h-8 w-8"
             fill="none"
@@ -28,8 +28,8 @@ export default function GlobalError({ error, reset }: { error?: Error & { digest
           </svg>
         </div>
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Something went wrong</h1>
-          <p className="mx-auto max-w-md text-sm leading-6 text-muted-foreground">
+          <h1 className="text-2xl font-semibold tracking-tight text-white">Something went wrong</h1>
+          <p className="mx-auto max-w-md text-sm leading-6 text-zinc-400">
             This page hit an unexpected error. Try again or return to the dashboard to continue safely.
           </p>
         </div>

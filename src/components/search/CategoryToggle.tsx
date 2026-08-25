@@ -46,8 +46,8 @@ export function CategoryToggle({
     <div
       className={cn(
         'inline-flex items-center gap-2 p-1',
-        'bg-surface-container-low rounded-full',
-        'border border-outline-variant',
+        'bg-zinc-900 rounded-full',
+        'border border-zinc-800',
         className
       )}
       role="radiogroup"
@@ -64,11 +64,11 @@ export function CategoryToggle({
           'inline-flex items-center gap-2 px-4 py-2.5 rounded-full',
           'font-sans font-semibold text-sm',
           'transition-all duration-200 ease-out',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-residential-teal focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           value === 'residential'
-            ? 'bg-residential-teal text-white shadow-md'
-            : 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest'
+            ? 'bg-emerald-500 text-white shadow-md'
+            : 'bg-zinc-800 text-white hover:bg-zinc-900'
         )}
       >
         <Home className="h-4 w-4" aria-hidden="true" />
@@ -86,11 +86,11 @@ export function CategoryToggle({
           'inline-flex items-center gap-2 px-4 py-2.5 rounded-full',
           'font-sans font-semibold text-sm',
           'transition-all duration-200 ease-out',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-commercial-gold focus-visible:ring-offset-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           value === 'commercial'
-            ? 'bg-commercial-gold text-white shadow-md'
-            : 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest'
+            ? 'bg-amber-500 text-white shadow-md'
+            : 'bg-zinc-800 text-white hover:bg-zinc-900'
         )}
       >
         <Building2 className="h-4 w-4" aria-hidden="true" />
@@ -111,8 +111,8 @@ export function CategoryToggle({
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           value === 'short_let'
-            ? 'bg-emerald-600 text-white shadow-md'
-            : 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest'
+            ? 'bg-emerald-500 text-white shadow-md'
+            : 'bg-zinc-800 text-white hover:bg-zinc-900'
         )}
       >
         <Waves className="h-4 w-4" aria-hidden="true" />

@@ -6,11 +6,11 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
 
-const shimmerBg = 'bg-outline-variant';
+const shimmerBg = 'bg-zinc-800';
 const shimmerAnimation = 'animate-pulse';
 
 const StatCardSkeleton = () => (
-  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-[#262626] p-4 sm:p-6`}>
+  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-zinc-800 p-4 sm:p-6`}>
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <div className={`${shimmerBg} h-4 rounded w-24 mb-3`} />
@@ -23,7 +23,7 @@ const StatCardSkeleton = () => (
 );
 
 const ActionCardSkeleton = () => (
-  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-[#262626] p-4 sm:p-5`}>
+  <div className={`${shimmerBg} ${shimmerAnimation} rounded-lg border border-zinc-800 p-4 sm:p-5`}>
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg" />
       <div className="flex-1">
@@ -35,7 +35,7 @@ const ActionCardSkeleton = () => (
 );
 
 const TableRowSkeleton = () => (
-  <div className="flex items-center justify-between py-3 border-b border-[#262626]/30">
+  <div className="flex items-center justify-between py-3 border-b border-zinc-800/30">
     <div className="flex items-center gap-3 flex-1">
       <div className="w-10 h-10 rounded-full" />
       <div className="flex-1">
@@ -58,17 +58,17 @@ interface StatCardProps {
 }
 
 const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: StatCardProps) => (
-  <div className={`bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
+  <div className={`bg-zinc-900/50 rounded-lg border border-zinc-800 p-4 sm:p-6 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out`}>
     <div className="flex items-start justify-between">
       <div className="flex-1">
-        <p className="text-neutral-400 text-sm font-medium mb-2">{title}</p>
+        <p className="text-zinc-400 text-sm font-medium mb-2">{title}</p>
         <p className={`text-white font-headline-md mb-1`}>{value}</p>
         {trend && (
           <div className="flex items-center gap-1">
-            <span className={`lucide text-sm ${trendUp ? 'text-[#00ff66]' : 'text-red-500'}`}>
+            <span className={`lucide text-sm ${trendUp ? 'text-[#10b981]' : 'text-red-500'}`}>
               {trendUp ? 'trending_up' : 'trending_down'}
             </span>
-            <span className={`text-xs font-medium ${trendUp ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
+            <span className={`text-xs font-medium ${trendUp ? 'text-[#10b981]' : 'text-red-500'}`}>{trend}</span>
           </div>
         )}
       </div>
@@ -91,14 +91,14 @@ interface ActionCardProps {
 
 const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass }: ActionCardProps) => (
   <a href={href}>
-    <div className={`bg-obsidian-800/30 rounded-lg border border-[#262626] p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
+    <div className={`bg-zinc-900/50 rounded-lg border border-zinc-800 p-4 sm:p-5 hover:shadow-card-hover hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer relative`}>
       <div className="flex items-center gap-3">
         <div className={`${bgClass} p-2 sm:p-3 rounded-lg`}>
           <span className={`lucide text-xl sm:text-2xl ${colorClass}`}>{icon}</span>
         </div>
         <div className="flex-1">
           <h3 className={`font-headline-sm text-white mb-1`}>{title}</h3>
-          <p className="text-neutral-400 text-xs sm:text-sm">{description}</p>
+          <p className="text-zinc-400 text-xs sm:text-sm">{description}</p>
         </div>
       </div>
       {count !== undefined && count > 0 && (
@@ -123,25 +123,25 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
   const statusColors: Record<string, string> = {
     pending: 'bg-warning/10 text-warning',
     verified: 'bg-verification-verified/10 text-verification-verified',
-    active: 'bg-success/10 text-[#00ff66]',
+    active: 'bg-success/10 text-[#10b981]',
   };
 
   const roleColors: Record<string, string> = {
     tenant: 'bg-verification-verified/10 text-verification-verified',
-    landlord: 'bg-commercial-gold/10 text-commercial-gold',
-    agent: 'bg-[#262626] text-white',
-    'estate-manager': 'bg-commercial-gold/10 text-commercial-gold',
+    landlord: 'bg-amber-400/10 text-amber-400',
+    agent: 'bg-zinc-800 text-white',
+    'estate-manager': 'bg-amber-400/10 text-amber-400',
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-[#262626]/30 gap-2 sm:gap-4 hover:bg-obsidian-800/30 transition-colors duration-150">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-zinc-800/30 gap-2 sm:gap-4 hover:bg-zinc-900/50 transition-colors duration-150">
       <div className="flex items-center gap-3 flex-1">
-        <div className="w-10 h-10 rounded-full flex items-center justify-center text-on-primary font-bold bg-gradient-to-br from-primary to-accent">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br from-emerald-500 to-emerald-400">
           {userItem.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-white text-sm sm:text-base truncate">{userItem.name}</p>
-          <p className="text-neutral-400 text-xs sm:text-sm truncate">{userItem.email}</p>
+          <p className="text-zinc-400 text-xs sm:text-sm truncate">{userItem.email}</p>
         </div>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
@@ -151,7 +151,7 @@ const UserActivityRow = ({ user: userItem }: { user: UserActivityProps }) => {
         <span className={`${statusColors[userItem.status]} px-2 py-1 rounded-full text-xs font-medium hidden sm:inline`}>
           {userItem.status}
         </span>
-        <span className="text-neutral-400 text-xs hidden sm:block">{userItem.registeredAt}</span>
+        <span className="text-zinc-400 text-xs hidden sm:block">{userItem.registeredAt}</span>
       </div>
     </div>
   );
@@ -165,9 +165,9 @@ interface AlertBannerProps {
 
 const AlertBanner = ({ type, message, count }: AlertBannerProps) => {
   const styles: Record<string, string> = {
-    warning: 'bg-warning/10 border-[#262626] text-warning',
-    info: 'bg-primary/5 border-[#262626] text-white',
-    success: 'bg-success/10 border-[#262626] text-[#00ff66]',
+    warning: 'bg-warning/10 border-zinc-800 text-warning',
+    info: 'bg-primary/5 border-zinc-800 text-white',
+    success: 'bg-success/10 border-zinc-800 text-[#10b981]',
   };
 
   const iconMap: Record<string, string> = {
@@ -259,8 +259,8 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
                 icon="apartment"
                 trend="+8.3% this month"
                 trendUp={true}
-                colorClass="text-commercial-gold"
-                bgClass="bg-commercial-gold/10"
+                colorClass="text-amber-400"
+                bgClass="bg-amber-400/10"
               />
               <StatCard
                 title="Pending Verifications"
@@ -277,7 +277,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
                 icon="payments"
                 trend="+14.7% this month"
                 trendUp={true}
-                colorClass="text-[#00ff66]"
+                colorClass="text-[#10b981]"
                 bgClass="bg-success/10"
               />
             </div>
@@ -320,15 +320,15 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
               description="Monitor property listings"
               icon="apartment"
               href="/dashboard/admin/properties"
-              colorClass="text-commercial-gold"
-              bgClass="bg-commercial-gold/10"
+              colorClass="text-amber-400"
+              bgClass="bg-amber-400/10"
             />
             <ActionCard
               title="Transactions"
               description="Review escrow and payments"
               icon="payments"
               href="/dashboard/admin/transactions/escrow"
-              colorClass="text-[#00ff66]"
+              colorClass="text-[#10b981]"
               bgClass="bg-success/10"
             />
             <ActionCard
@@ -337,7 +337,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
               icon="insights"
               href="/dashboard/admin/revenue"
               colorClass="text-white"
-              bgClass="bg-[#262626]"
+              bgClass="bg-zinc-800"
             />
           </div>
         </div>
@@ -345,7 +345,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: AdminDash
         {/* Recent User Registrations */}
         <div>
           <h2 className="font-headline-md text-white">Recent User Registrations</h2>
-          <div className="mt-4 bg-obsidian-800/30 rounded-lg border border-[#262626] divide-y divide-[#262626]/30">
+          <div className="mt-4 bg-zinc-900/50 rounded-lg border border-zinc-800 divide-y divide-[#262626]/30">
             {stats.totalUsers === 0 ? (
               <div className="p-4">
                 <TableRowSkeleton />

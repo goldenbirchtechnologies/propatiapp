@@ -55,7 +55,7 @@ export default async function TenantAgreementsPage() {
             <CardTitle>Agreements</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">{agreementsError}</p>
+            <p className="text-zinc-400">{agreementsError}</p>
             <Link
               href="/dashboard/tenant/agreements"
               className="mt-4 inline-block underline text-sm"

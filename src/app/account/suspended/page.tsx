@@ -9,17 +9,17 @@ export const metadata = {
 
 export default function AccountSuspendedPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Card className="border-border shadow-1">
+        <Card className="border-zinc-800 shadow-lg">
           <CardHeader className="items-center text-center">
-            <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-muted">
+            <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900">
               <Snowflake className="h-8 w-8 text-frozen" aria-hidden="true" />
             </div>
-            <CardTitle className="text-2xl font-bold text-foreground">Account Suspended</CardTitle>
+            <CardTitle className="text-2xl font-bold text-white">Account Suspended</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm text-zinc-400">
               Your account has been suspended. Contact our support team for assistance and next steps to restore your access.
             </p>
 

@@ -51,7 +51,7 @@ export default async function LandlordRevenueForecastPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">Revenue Forecasting</h1>
-            <p className="text-muted-foreground mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
+            <p className="text-zinc-400 mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
           </div>
           <div className="flex gap-2">
             <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-[#262626] bg-obsidian-800/30 hover:bg-obsidian-800-lowest transition-colors text-sm font-medium">
@@ -66,28 +66,28 @@ export default async function LandlordRevenueForecastPage() {
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">YTD</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-1">Projected Gross Revenue</p>
+            <p className="text-sm text-zinc-400 mb-1">Projected Gross Revenue</p>
             <p className="text-2xl font-bold text-white">₦{totalRevenue.toLocaleString()}</p>
           </div>
           <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Portfolio</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-1">Active Listings</p>
+            <p className="text-sm text-zinc-400 mb-1">Active Listings</p>
             <p className="text-2xl font-bold text-white">{activeListingCount}</p>
           </div>
           <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Total</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-1">Total Listings</p>
+            <p className="text-sm text-zinc-400 mb-1">Total Listings</p>
             <p className="text-2xl font-bold text-white">{listingCount}</p>
           </div>
           <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Realized</span>
             </div>
-            <p className="text-sm text-muted-foreground mb-1">Transactions YTD</p>
+            <p className="text-sm text-zinc-400 mb-1">Transactions YTD</p>
             <p className="text-2xl font-bold text-white">{transactionCountKobo}</p>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default async function LandlordRevenueForecastPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-surface-container-high text-muted-foreground text-xs uppercase">
+              <thead className="bg-zinc-800 text-zinc-400 text-xs uppercase">
                 <tr>
                   <th className="px-5 py-3">Asset Category</th>
                   <th className="px-5 py-3">Current Revenue</th>
@@ -114,7 +114,7 @@ export default async function LandlordRevenueForecastPage() {
                     <div className="w-2 h-8 rounded-full bg-tertiary" />
                     <span className="font-medium text-white">Residential Portfolio</span>
                   </td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">₦{totalRevenue.toLocaleString()}</td>
+                  <td className="px-5 py-4 text-sm text-zinc-400">₦{totalRevenue.toLocaleString()}</td>
                   <td className="px-5 py-4 text-sm text-white">{activeListingCount}</td>
                   <td className="px-5 py-4">
                     <span className="px-2 py-1 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed">
@@ -127,7 +127,7 @@ export default async function LandlordRevenueForecastPage() {
                     <div className="w-2 h-8 rounded-full bg-secondary" />
                     <span className="font-medium text-white">Commercial Portfolio</span>
                   </td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">₦0</td>
+                  <td className="px-5 py-4 text-sm text-zinc-400">₦0</td>
                   <td className="px-5 py-4 text-sm text-white">0</td>
                   <td className="px-5 py-4">
                     <span className="px-2 py-1 rounded-full text-xs font-bold bg-secondary-fixed text-on-secondary-fixed">

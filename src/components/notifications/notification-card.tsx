@@ -71,7 +71,7 @@ export function NotificationCard({
       className={cn(
         'relative p-4 rounded-lg border transition-all cursor-pointer',
         notification.read
-          ? 'bg-surface-elevated border-border'
+          ? 'bg-surface-elevated border-zinc-800'
           : 'bg-blue-50/50 border-blue-200 hover:border-blue-300',
         compact && 'p-3'
       )}
@@ -134,7 +134,7 @@ export function NotificationCard({
                    {canConfirm && (
                      <button
                        onClick={(e) => { e.stopPropagation(); doConfirm(); }}
-                       className="text-xs font-semibold text-green-700 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full transition"
+                       className="text-xs font-semibold text-emerald-400 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full transition"
                      >
                        Confirm payment
                      </button>

@@ -74,16 +74,16 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-white transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-400 hover:text-white transition-colors">
           PAYMENTS
         </Link>
-        <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
-        <Link href="/dashboard/tenant/payments" className="font-mono text-muted-foreground hover:text-white transition-colors">
+        <Link href="/dashboard/tenant/payments" className="font-mono text-zinc-400 hover:text-white transition-colors">
           SAVED METHODS
         </Link>
-        <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
         <span className="font-mono text-white font-semibold">ADD PAYMENT METHOD</span>
@@ -95,12 +95,12 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
           <Card>
             <CardContent className="p-6 md:p-8">
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center">
                   <CreditCard className="w-5 h-5" />
                 </div>
                 <div>
                   <h1 className="font-heading text-xl font-bold text-white">Add Payment Method</h1>
-                  <p className="text-sm text-muted-foreground">Securely link your card or bank details.</p>
+                  <p className="text-sm text-zinc-400">Securely link your card or bank details.</p>
                 </div>
               </div>
 
@@ -156,7 +156,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                           style={{ filter: 'grayscale(1) opacity(0.5)' }}
                           src={networkIcons.mastercard.src}
                         />
-                        <div className="h-4 px-1 bg-primary text-[8px] font-bold text-white rounded flex items-center justify-center">
+                        <div className="h-4 px-1 bg-emerald-500 text-[8px] font-bold text-white rounded flex items-center justify-center">
                           VERVE
                         </div>
                       </div>
@@ -263,7 +263,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <Label className="font-label-md label-md text-neutral-400">
                       Account Name
                     </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-surface-container rounded-lg border border-[#262626] text-sm">
+                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-900 rounded-lg border border-[#262626] text-sm">
                       <span className={accountName.includes('Fetching') ? 'text-neutral-400' : 'text-white font-semibold'}>
                         {accountName}
                       </span>
@@ -293,15 +293,15 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
         <div className="space-y-5">
           <Card className="bg-surface-variant border-[#262626]">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mb-4">
+              <div className="w-14 h-14 rounded-2xl bg-zinc-900 flex items-center justify-center mb-4">
                 <Lock className="w-7 h-7 text-white" />
               </div>
               <h4 className="font-heading text-base font-semibold text-white mb-2">Trust Shield</h4>
               <p className="text-sm text-neutral-400">Your financial data is secured by 256-bit SSL encryption.</p>
             </CardContent>
           </Card>
-          <Card className="bg-muted border-[#262626] flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden border border-[#262626]">
+          <Card className="bg-zinc-900 border-[#262626] flex items-center gap-4 p-5">
+            <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden border border-[#262626]">
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>

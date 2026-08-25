@@ -20,25 +20,25 @@ export default function SavedListingsPage() {
   const listingItems = Array.isArray(listings) ? listings : [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       {/* Hero Header */}
-      <div className="bg-surface-elevated border-b border-outline-variant">
-        <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-10">
+      <div className="bg-zinc-900 border-b border-zinc-800">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-8 md:py-10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10">
-              <HeartOffIcon className="h-5 w-5 text-primary" />
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-500/10">
+              <HeartOffIcon className="h-5 w-5 text-emerald-400" />
             </div>
-            <h1 className="text-headline-lg font-bold text-on-surface">
+            <h1 className="text-4xl font-bold text-white">
               Saved Listings
             </h1>
           </div>
-          <p className="text-body-md text-on-surface-variant max-w-2xl">
+          <p className="text-base text-zinc-400 max-w-2xl">
             Browse your favourite properties. Revisit them anytime, compare options, and reach out to owners or agents when you&apos;re ready.
           </p>
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-8">
         {isLoading && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <PropertyCardSkeleton count={6} />
@@ -46,12 +46,12 @@ export default function SavedListingsPage() {
         )}
 
         {error && !isLoading && (
-          <div className="text-center py-16 bg-surface border border-outline-variant rounded-xl">
-            <SearchIcon className="mx-auto h-10 w-10 text-on-surface-variant mb-4" />
-            <h2 className="font-heading font-semibold text-xl text-on-surface mb-2">
+          <div className="text-center py-16 bg-zinc-900 border border-zinc-800 rounded-xl">
+            <SearchIcon className="mx-auto h-10 w-10 text-zinc-400 mb-4" />
+            <h2 className="font-heading font-semibold text-xl text-white mb-2">
               Something went wrong
             </h2>
-            <p className="text-on-surface-variant max-w-md mx-auto mb-6">
+            <p className="text-zinc-400 max-w-md mx-auto mb-6">
               We couldn&apos;t load your saved listings. Please try again.
             </p>
             <Button onClick={() => refetch()}>Retry</Button>
@@ -59,12 +59,12 @@ export default function SavedListingsPage() {
         )}
 
         {!isLoading && !error && listingItems.length === 0 && (
-          <div className="text-center py-16 bg-surface border border-outline-variant rounded-xl">
-            <HeartOffIcon className="mx-auto h-10 w-10 text-on-surface-variant mb-4" />
-            <h2 className="font-heading font-semibold text-xl text-on-surface mb-2">
+          <div className="text-center py-16 bg-zinc-900 border border-zinc-800 rounded-xl">
+            <HeartOffIcon className="mx-auto h-10 w-10 text-zinc-400 mb-4" />
+            <h2 className="font-heading font-semibold text-xl text-white mb-2">
               No saved listings yet
             </h2>
-            <p className="text-on-surface-variant max-w-md mx-auto mb-6">
+            <p className="text-zinc-400 max-w-md mx-auto mb-6">
               Start exploring properties and save the ones you love. They&apos;ll appear here for easy access.
             </p>
             <Button asChild>

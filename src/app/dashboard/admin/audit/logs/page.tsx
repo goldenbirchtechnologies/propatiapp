@@ -137,7 +137,7 @@ function AuditLogsClient({
     <div className="space-y-6">
       <div>
         <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">System Audit Logs</h1>
-        <p className="text-muted-foreground font-body-md mt-1">
+        <p className="text-zinc-400 font-body-md mt-1">
           Comprehensive immutable records of all administrative and system-level activities.
         </p>
       </div>
@@ -167,7 +167,7 @@ function AuditLogsClient({
         ].map((m) => (
           <div key={m.label} className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-muted-foreground font-medium">{m.label}</span>
+              <span className="text-sm text-zinc-400 font-medium">{m.label}</span>
               <AppIcon name={m.icon} className="lucide" size={20} />
             </div>
             <div
@@ -175,7 +175,7 @@ function AuditLogsClient({
             >
               {m.value}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">{m.sub}</p>
+            <p className="text-xs text-zinc-400 mt-1">{m.sub}</p>
           </div>
         ))}
       </div>
@@ -208,7 +208,7 @@ function AuditLogsClient({
       {/* Audit Table */}
       <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
         {logs.length === 0 ? (
-          <p className="p-lg text-sm text-muted-foreground text-center">No audit logs recorded yet.</p>
+          <p className="p-lg text-sm text-zinc-400 text-center">No audit logs recorded yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
@@ -218,7 +218,7 @@ function AuditLogsClient({
                     (h) => (
                       <th
                         key={h}
-                        className="px-lg py-md font-label-md text-label-sm text-muted-foreground font-bold uppercase tracking-wider"
+                        className="px-lg py-md font-label-md text-label-sm text-zinc-400 font-bold uppercase tracking-wider"
                       >
                         {h}
                       </th>
@@ -231,7 +231,7 @@ function AuditLogsClient({
                   <tr key={log.id} className="hover:bg-obsidian-800-lowest transition-colors">
                     <td className="px-lg py-md whitespace-nowrap">
                       <p className="font-label-md text-label-md text-white">{formatDate(log.timestamp)}</p>
-                      <p className="font-label-sm text-label-sm text-muted-foreground">{formatTime(log.timestamp)}</p>
+                      <p className="font-label-sm text-label-sm text-zinc-400">{formatTime(log.timestamp)}</p>
                     </td>
                     <td className="px-lg py-md whitespace-nowrap">
                       <div className="flex items-center gap-3">
@@ -244,7 +244,7 @@ function AuditLogsClient({
                       </div>
                     </td>
                     <td className="px-lg py-md whitespace-nowrap">
-                      <span className="inline-block px-2 py-1 rounded bg-surface-container-high text-white text-xs uppercase font-bold">
+                      <span className="inline-block px-2 py-1 rounded bg-zinc-800 text-white text-xs uppercase font-bold">
                         {log.targetType}
                       </span>
                     </td>
@@ -257,13 +257,13 @@ function AuditLogsClient({
                       </div>
                     </td>
                     <td className="px-lg py-md">
-                      <p className="text-body-sm text-muted-foreground max-w-xs truncate">
+                      <p className="text-body-sm text-zinc-400 max-w-xs truncate">
                         {typeof log.details === 'object' && log.details !== null
                           ? JSON.stringify(log.details).slice(0, 120)
                           : String(log.details ?? '')}
                       </p>
                     </td>
-                    <td className="px-lg py-md whitespace-nowrap font-label-sm text-label-sm text-muted-foreground">
+                    <td className="px-lg py-md whitespace-nowrap font-label-sm text-label-sm text-zinc-400">
                       {log.ipAddress || '—'}
                     </td>
                     <td className="px-lg py-md text-center">
@@ -276,10 +276,10 @@ function AuditLogsClient({
           </div>
         )}
         <div className="px-6 py-3 border-t border-[#262626] flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-zinc-400">
             Showing {logs.length > 0 ? '1' : 0} to {logs.length} of {stats.todayCount.toLocaleString()} entries
           </p>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-zinc-400">
             Latest {logs.length} records fetched
           </span>
         </div>

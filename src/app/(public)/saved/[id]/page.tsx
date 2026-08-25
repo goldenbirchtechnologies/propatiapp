@@ -79,8 +79,8 @@ function ImageGallery({ images, title }: { images: unknown[]; title: string }) {
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
-        <Home className="h-16 w-16 text-muted-foreground" />
+      <div className="w-full aspect-video bg-zinc-900 rounded-lg flex items-center justify-center">
+        <Home className="h-16 w-16 text-zinc-400" />
       </div>
     );
   }
@@ -101,7 +101,7 @@ function ImageGallery({ images, title }: { images: unknown[]; title: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="relative w-full aspect-video bg-muted rounded-lg overflow-hidden group">
+      <div className="relative w-full aspect-video bg-zinc-900 rounded-lg overflow-hidden group">
         <Image
           src={currentSrc}
           alt={`${title} - Image ${currentIndex + 1}`}
@@ -199,13 +199,13 @@ function PropertySpecs({
       {specs.map((spec, index) => (
         <div
           key={index}
-          className="flex flex-col items-center p-4 bg-muted/50 rounded-lg"
+          className="flex flex-col items-center p-4 bg-zinc-900/50 rounded-lg"
         >
-          <spec.icon className="h-6 w-6 mb-2 text-muted-foreground" />
+          <spec.icon className="h-6 w-6 mb-2 text-zinc-400" />
           <span className="text-lg font-semibold" style={{ color: 'var(--text)' }}>
             {spec.value}
           </span>
-          <span className="text-xs text-muted-foreground">{spec.label}</span>
+          <span className="text-xs text-zinc-400">{spec.label}</span>
         </div>
       ))}
     </div>
@@ -246,9 +246,9 @@ function ContactInquiryForm({ listingTitle }: { listingTitle: string }) {
     return (
       <Card>
         <CardContent className="pt-6 text-center">
-          <Send className="mx-auto h-10 w-10 text-primary mb-3" />
-          <h3 className="text-lg font-semibold text-on-surface mb-2">Inquiry Sent</h3>
-          <p className="text-sm text-on-surface-variant">
+          <Send className="mx-auto h-10 w-10 text-emerald-400 mb-3" />
+          <h3 className="text-lg font-semibold text-white mb-2">Inquiry Sent</h3>
+          <p className="text-sm text-white-variant">
             Thank you! A representative will get back to you shortly regarding &ldquo;{listingTitle}&rdquo;.
           </p>
           <Button
@@ -341,7 +341,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
       </div>
     );
@@ -352,7 +352,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Listing Not Found</h2>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-zinc-400 mb-6">
             The listing you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
           <Button onClick={() => router.push('/listings')}>Back to Listings</Button>
@@ -393,7 +393,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   <h1 className="text-3xl font-bold font-heading mb-2" style={{ color: 'var(--text)' }}>
                     {listing.title}
                   </h1>
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-zinc-400">
                     <MapPin className="h-5 w-5" />
                     <span>
                       {listing.address && `${listing.address}, `}
@@ -406,7 +406,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                     {listing.priceFormatted || `₦${Number(listing.price).toLocaleString()}`}
                   </div>
                   {listing.listingType === 'rent' && (
-                    <div className="text-sm text-muted-foreground">per month</div>
+                    <div className="text-sm text-zinc-400">per month</div>
                   )}
                 </div>
               </div>
@@ -498,14 +498,14 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <Calendar className="h-4 w-4 text-zinc-400" />
                     <span style={{ color: 'var(--text)' }}>
                       Available from: {new Date(listing.availableFrom).toLocaleDateString()}
                     </span>
                   </div>
                   {(listing as unknown).minimumStay && (
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <Calendar className="h-4 w-4 text-zinc-400" />
                       <span style={{ color: 'var(--text)' }}>
                         Minimum stay: {(listing as unknown).minimumStay} months
                       </span>
@@ -549,7 +549,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   <div className="flex items-center gap-2">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={ownerContact.profileImage || undefined} alt={ownerContact.fullName || ''} />
-                      <AvatarFallback className="bg-gradient-to-br from-accent to-accent2 text-white font-bold">
+                      <AvatarFallback className="bg-gradient-to-br from-accent to-emerald-4002 text-white font-bold">
                         {getInitials(ownerContact.fullName || '')}
                       </AvatarFallback>
                     </Avatar>
@@ -557,17 +557,17 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                       <p className="font-medium" style={{ color: 'var(--text)' }}>
                         {ownerContact.fullName || 'Agent / Owner'}
                       </p>
-                      <p className="text-xs text-muted-foreground">Contact via inquiry form</p>
+                      <p className="text-xs text-zinc-400">Contact via inquiry form</p>
                     </div>
                   </div>
                   {ownerContact.phone && (
-                    <div className="flex items-center gap-2 text-on-surface-variant">
+                    <div className="flex items-center gap-2 text-white-variant">
                       <Phone className="h-4 w-4" />
                       <AppIcon name={ownerContact.phone} className="lucide" />
                     </div>
                   )}
                   {ownerContact.email && (
-                    <div className="flex items-center gap-2 text-on-surface-variant">
+                    <div className="flex items-center gap-2 text-white-variant">
                       <Mail className="h-4 w-4" />
                       <AppIcon name={ownerContact.email} className="lucide" />
                     </div>
@@ -606,7 +606,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground flex items-center gap-2">
+                  <span className="text-zinc-400 flex items-center gap-2">
                     List ID
                   </span>
                   <span className="font-medium" style={{ color: 'var(--text)' }}>
@@ -615,7 +615,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Listed</span>
+                  <span className="text-zinc-400">Listed</span>
                   <span className="font-medium" style={{ color: 'var(--text)' }}>
                     {new Date(listing.createdAt).toLocaleDateString()}
                   </span>
@@ -624,7 +624,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   <>
                     <Separator />
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Updated</span>
+                      <span className="text-zinc-400">Updated</span>
                       <span className="font-medium" style={{ color: 'var(--text)' }}>
                         {new Date(listing.updatedAt).toLocaleDateString()}
                       </span>

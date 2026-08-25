@@ -70,7 +70,7 @@ export default async function VerificationHubPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-white">Verification Center</h1>
-          <p className="text-muted-foreground mt-1">{verificationsError}</p>
+          <p className="text-zinc-400 mt-1">{verificationsError}</p>
         </div>
         <Link
           href="/dashboard/verification"
@@ -91,7 +91,7 @@ export default async function VerificationHubPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-white">Verification Center</h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-zinc-400 mt-1">
           Choose a verification type to begin or continue your application.
         </p>
       </div>
@@ -103,17 +103,17 @@ export default async function VerificationHubPage() {
             <a
               key={item.key}
               href={item.href}
-              className="rounded-lg border border-[#262626] p-5 transition hover:border-foreground"
+              className="rounded-lg border border-zinc-800 p-5 transition hover:border-foreground"
             >
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-xl font-semibold text-white">{item.title}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
+                  <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
                 </div>
                 <span className="text-2xl">{item.icon}</span>
               </div>
               {existing && (
-                <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                <div className="mt-4 flex items-center justify-between text-xs text-zinc-400">
                   <span>Status: {existing.overallStatus.replace(/_/g, ' ')}</span>
                   <span>{new Date(existing.createdAt).toLocaleDateString()}</span>
                 </div>

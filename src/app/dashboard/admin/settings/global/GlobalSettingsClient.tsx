@@ -27,7 +27,7 @@ export default function GlobalSettingsClient() {
               <AppIcon name="undo" className="lucide" />
               Discard
             </button>
-            <button className="flex items-center gap-sm px-lg h-11 bg-primary text-on-primary font-label-md rounded-xl hover:bg-primary/90 shadow-md transition-all">
+            <button className="flex items-center gap-sm px-lg h-11 bg-emerald-500 text-white font-label-md rounded-xl hover:bg-emerald-500/90 shadow-md transition-all">
               <AppIcon name="save" className="lucide" />
               Save Changes
             </button>
@@ -51,7 +51,7 @@ export default function GlobalSettingsClient() {
                 <AppIcon name="verified_user" className="lucide" />
                 Verification
               </a>
-              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-primary bg-primary/5 text-white font-bold rounded-r-lg transition-colors font-label-md" href="#">
+              <a className="flex items-center gap-sm px-md py-sm border-l-4 border-primary bg-emerald-500/5 text-white font-bold rounded-r-lg transition-colors font-label-md" href="#">
                 <AppIcon name="security" className="lucide" />
                 Security
               </a>
@@ -71,7 +71,7 @@ export default function GlobalSettingsClient() {
             {/* SECTION: Platform Parameters */}
             <section className="bg-obsidian-800/30 p-lg rounded-xl border border-[#262626] shadow-sm">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-white">
+                <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-white">
                   <AppIcon name="tune" className="lucide" />
                 </div>
                 <div>
@@ -150,7 +150,7 @@ export default function GlobalSettingsClient() {
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
                     </label>
                   </div>
                   <h4 className="font-label-md text-label-md text-white mb-1">Suspicious Listing Flag</h4>
@@ -175,7 +175,7 @@ export default function GlobalSettingsClient() {
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input checked={true} className="sr-only peer" type="checkbox" />
-                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                      <div className="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
                     </label>
                   </div>
                   <h4 className="font-label-md text-label-md text-white mb-1">Expiry Notifications</h4>
@@ -193,15 +193,15 @@ export default function GlobalSettingsClient() {
                 </div>
 
                 {/* Rule Card - Premium */}
-                <div className="p-4 bg-primary text-on-primary rounded-lg shadow-lg">
+                <div className="p-4 bg-emerald-500 text-white rounded-lg shadow-lg">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="px-2 py-1 bg-obsidian-800/30/20 text-on-primary text-[10px] font-bold rounded uppercase tracking-wider">
+                    <span className="px-2 py-1 bg-obsidian-800/30/20 text-white text-[10px] font-bold rounded uppercase tracking-wider">
                       Premium
                     </span>
                     <span className="lucide text-secondary-container" data-icon="star" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                   </div>
                   <h4 className="font-label-md text-label-md mb-1">AI-Photo Analysis</h4>
-                  <p className="text-xs text-on-primary/70 mb-4">
+                  <p className="text-xs text-white/70 mb-4">
                     Auto-reject listings with stock images or heavy watermarks.
                   </p>
                   <div className="w-full bg-obsidian-800/30/10 h-1.5 rounded-full overflow-hidden">
@@ -240,7 +240,7 @@ export default function GlobalSettingsClient() {
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input checked={true} className="sr-only peer" type="checkbox" />
-                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
                 <div className="grid grid-cols-12 gap-6">
@@ -259,7 +259,7 @@ export default function GlobalSettingsClient() {
                     </p>
                   </div>
                   <div className="col-span-4 flex flex-col justify-end">
-                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-primary text-white font-bold hover:bg-primary/5 transition-all">
+                    <button className="w-full h-[44px] flex items-center justify-center gap-2 rounded-lg border border-primary text-white font-bold hover:bg-emerald-500/5 transition-all">
                       <span className="lucide text-sm" data-icon="add">add</span>
                       Detect Current IP
                     </button>
@@ -285,7 +285,7 @@ export default function GlobalSettingsClient() {
                 <div className="border border-[#262626] rounded-lg p-5">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
                         <span className="lucide text-white text-lg" data-icon="integration_instructions">integration_instructions</span>
                       </div>
                       <p className="font-label-md text-label-md">NIMC Identity API</p>
@@ -316,7 +316,7 @@ export default function GlobalSettingsClient() {
                 <div className="border border-[#262626] rounded-lg p-5">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
                         <span className="lucide text-white text-lg" data-icon="webhook">webhook</span>
                       </div>
                       <p className="font-label-md text-label-md">Webhooks (Global)</p>
@@ -346,7 +346,7 @@ export default function GlobalSettingsClient() {
             <section className="bg-obsidian-800/30 p-8 rounded-lg border border-[#262626]/30 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
                     <span className="lucide text-white" data-icon="map">map</span>
                   </div>
                   <div>
@@ -361,13 +361,13 @@ export default function GlobalSettingsClient() {
                   Coverage Report
                 </button>
               </div>
-              <div className="w-full h-64 bg-surface-container rounded-lg overflow-hidden relative">
+              <div className="w-full h-64 bg-zinc-900 rounded-lg overflow-hidden relative">
                 <img
                   className="w-full h-full object-cover grayscale opacity-60"
                   data-location="Lagos, Nigeria"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJA_bc_EeapztB2A5CPUWfmWaE6vTnSiwVA1wpS4Nvsivsb1U2Kx5qdD861gYTtqo3_euD5j5aZgaTjKNdP7PYWFVmPVw1mUtoK4i_klWeWnXDPGeXf71GkPHWo_8_W3r52HyWNDz0U5qsEfFJrRJnB9GiPOqfZM2w9E4WuK_H72yoaXb4M6KS6Z8AO2bpwsr65yHmsJ6y-wD7GIGYucSpAmuk3sAHfOxX318qqKP4VVtEj_3xQ-NAmClMNhu8OrnRTWQwdl51K2I"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 to-transparent"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                   <div className="w-4 h-4 bg-secondary-container rounded-full animate-ping absolute"></div>
                   <div className="w-4 h-4 bg-secondary-container rounded-full relative shadow-[0_0_10px_rgba(254,174,44,0.8)]"></div>
@@ -396,7 +396,7 @@ export default function GlobalSettingsClient() {
           <p className="text-[10px] text-neutral-400 uppercase font-bold tracking-widest mr-4">
             Revision History: V4.1.09
           </p>
-          <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+          <button className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-white rounded-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
             <span className="lucide text-sm" data-icon="cloud_upload">cloud_upload</span>
             Sync to Global Edge
           </button>

@@ -73,7 +73,7 @@ function VerificationGuideClient(props: Props) {
         {steps.map((step, idx) => (
           <Card key={step.layer} className="hover:shadow-md transition-shadow">
             <CardContent className="p-5 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#262626] text-white flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center shrink-0">
                 <step.icon className="h-5 w-5" />
               </div>
               <div className="flex-1">
@@ -81,7 +81,7 @@ function VerificationGuideClient(props: Props) {
                   <h4 className="font-bold">Layer {step.layer}: {step.label}</h4>
                   <Badge variant="outline" className="text-[10px] font-bold">Required</Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">{step.desc}</p>
+                <p className="text-sm text-zinc-400">{step.desc}</p>
               </div>
               <Button variant="ghost" size="sm" asChild>
                 <Link href={`${step.href}?type=${props.type}${props.listingId ? `&listingId=${props.listingId}` : ''}`}>
@@ -95,10 +95,10 @@ function VerificationGuideClient(props: Props) {
 
       <Card className="border-success/20 bg-success/5">
         <CardContent className="p-5 flex items-start gap-4">
-          <CheckCircle2 className="h-6 w-6 text-[#00ff66] shrink-0 mt-0.5" />
+          <CheckCircle2 className="h-6 w-6 text-[#10b981] shrink-0 mt-0.5" />
           <div>
             <h4 className="font-bold mb-1">Why verify?</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-zinc-400">
               Verified profiles and properties receive priority placement and unlock premium features.
               Unverified accounts are limited in visibility and access.
             </p>

@@ -79,7 +79,7 @@ function Step3VideoClient(props: Props) {
         </CardHeader>
         <CardContent>
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-zinc-400 mt-2">
             {props.l3Status === 'approved' ? 'Video verified successfully' : props.l3Status === 'pending' ? 'Waiting for admin review' : 'Record and upload a video walkthrough'}
           </p>
         </CardContent>
@@ -97,7 +97,7 @@ function Step3VideoClient(props: Props) {
       ) : props.l3Status === 'approved' ? (
         <Card>
           <CardContent className="p-6">
-            <div className="flex items-center gap-2 text-[#00ff66]">
+            <div className="flex items-center gap-2 text-[#10b981]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Video verification complete.</p>
             </div>
@@ -113,7 +113,7 @@ function Step3VideoClient(props: Props) {
               <CardTitle>Upload Video</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-zinc-400">
                 Record a video walking through the property. Show all rooms and display the QR code at the start.
               </p>
               <label className="flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-8 cursor-pointer hover:border-white hover:bg-muted/30 transition-all">
@@ -134,7 +134,7 @@ function Step3VideoClient(props: Props) {
                       <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
                     <p className="font-bold mb-1">Click to upload video</p>
-                    <p className="text-sm text-muted-foreground text-center">MP4, MOV, or WebM. Max 100MB.</p>
+                    <p className="text-sm text-zinc-400 text-center">MP4, MOV, or WebM. Max 100MB.</p>
                   </>
                 )}
               </label>
@@ -152,15 +152,15 @@ function Step3VideoClient(props: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-zinc-400">
                 Show this QR code at the start of your video. It verifies the timestamp and authenticity.
               </p>
-              <div className="flex justify-center p-4 bg-surface rounded-lg">
+              <div className="flex justify-center p-4 bg-zinc-900 rounded-lg">
                 {qrCode ? (
                   <img src={qrCode} alt="Verification QR Code" className="h-48 w-48" />
                 ) : (
                   <div className="h-48 w-48 flex items-center justify-center bg-muted rounded-lg">
-                    <span className="text-sm text-muted-foreground">QR code will appear here after upload</span>
+                    <span className="text-sm text-zinc-400">QR code will appear here after upload</span>
                   </div>
                 )}
               </div>

@@ -25,11 +25,11 @@ function VerificationSubmittedClient(props: Props) {
   return (
     <div className="flex flex-col items-center justify-center py-12 space-y-6">
       <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center">
-        <CheckCircle2 className="h-8 w-8 text-[#00ff66]" />
+        <CheckCircle2 className="h-8 w-8 text-[#10b981]" />
       </div>
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Layer {props.layer} Submitted</h2>
-        <p className="text-muted-foreground max-w-md">
+        <p className="text-zinc-400 max-w-md">
           Your verification documents have been submitted for review. Our team will review and notify you within 24-48 business hours.
         </p>
       </div>
@@ -40,7 +40,7 @@ function VerificationSubmittedClient(props: Props) {
             <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
             <span className="text-sm font-medium">Status: Pending Review</span>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-zinc-400">
             You will receive a notification once the review is complete. You can continue to track progress on the checklist page.
           </p>
           <div className="flex gap-3">

@@ -37,7 +37,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-white">Advanced Scenario Builder</h1>
-        <p className="text-muted-foreground mt-1">Model 'what-if' scenarios for your portfolio.</p>
+        <p className="text-zinc-400 mt-1">Model 'what-if' scenarios for your portfolio.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -50,13 +50,13 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
                   <div className="w-1/2 bg-tertiary/40 rounded-t-sm h-[60%]" />
                   <div className="w-1/2 bg-secondary/40 rounded-t-sm h-[30%]" />
                 </div>
-                <span className="text-xs text-muted-foreground">{['2023', '2024(P)', '2025', '2026'][i]}</span>
+                <span className="text-xs text-zinc-400">{['2023', '2024(P)', '2025', '2026'][i]}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="card p-5 rounded-xl bg-primary-container text-on-primary shadow-xl">
+        <div className="card p-5 rounded-xl bg-emerald-500-container text-white shadow-xl">
           <div className="flex items-center gap-2 mb-4">
             <AppIcon name="dynamic_form" className="lucide" />
             <h3 className="font-heading font-bold text-surface-bright">Scenario Builder</h3>
@@ -106,7 +106,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
               />
             </div>
           </div>
-          <div className="p-4 rounded-lg border border-on-primary-container/20 bg-surface-container/10">
+          <div className="p-4 rounded-lg border border-on-primary-container/20 bg-zinc-900/10">
             <p className="text-xs opacity-60 mb-1">Resulting Forecast</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-surface-bright">₦{calculated}M</span>

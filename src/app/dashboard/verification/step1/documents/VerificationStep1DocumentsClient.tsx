@@ -126,7 +126,7 @@ function Step1DocumentsClient(props: Props) {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Progress</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-zinc-400 mt-1">
               {REQUIRED_DOCS.length} document categories required
             </p>
           </div>
@@ -145,16 +145,16 @@ function Step1DocumentsClient(props: Props) {
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
-                    <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />
+                    <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
                   ) : (
-                    <AlertCircle className="h-5 w-5 text-muted-foreground" />
+                    <AlertCircle className="h-5 w-5 text-zinc-400" />
                   )}
                   <CardTitle className="text-base">{docLabels[type]}</CardTitle>
                 </div>
                 <Badge variant={hasDoc ? 'default' : 'outline'}>{hasDoc ? 'Uploaded' : 'Required'}</Badge>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-sm text-zinc-400 mb-3">
                   {hasDoc ? 'Document uploaded and ready for review' : 'Please upload this document to continue'}
                 </p>
                 {!isReadOnly && (
@@ -177,7 +177,7 @@ function Step1DocumentsClient(props: Props) {
       </div>
 
       <div className="flex justify-between items-center pt-4 border-t">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-zinc-400">
           {currentStatusLabel(props.currentStatus)}
         </p>
         <Button

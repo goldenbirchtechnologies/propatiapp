@@ -119,7 +119,7 @@ const statusConfig: Record<string, { label: string; className: string }> = {
 
 const stageConfig: Record<string, { label: string; className: string }> = {
   submitted: { label: 'Submitted', className: 'bg-[#262626] text-neutral-300 border-[#262626]' },
-  screening: { label: 'Screening', className: 'bg-green-50 text-green-700 border-green-200' },
+  screening: { label: 'Screening', className: 'bg-emerald-500/10 text-emerald-400 border-green-200' },
   guarantor_pending: { label: 'Guarantor Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   approved: { label: 'Approved', className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
   rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
@@ -620,21 +620,21 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   <button
                     type="button"
                     onClick={() => setDetailTab('applicant')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-primary text-white' : 'bg-background'}`}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-emerald-500 text-white' : 'bg-zinc-900'}`}
                   >
                     Applicant
                   </button>
                   <button
                     type="button"
                     onClick={() => setDetailTab('guarantor')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-primary text-white' : 'bg-background'}`}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-emerald-500 text-white' : 'bg-zinc-900'}`}
                   >
                     Guarantor
                   </button>
                   <button
                     type="button"
                     onClick={() => setDetailTab('decision')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-primary text-white' : 'bg-background'}`}
+                    className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-emerald-500 text-white' : 'bg-zinc-900'}`}
                   >
                     Decision
                   </button>

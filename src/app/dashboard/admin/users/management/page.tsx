@@ -154,7 +154,7 @@ function UsersManagementClient({
         </span>
       );
     return (
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-muted-foreground font-label-sm text-label-sm border border-[#262626]">
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-400 font-label-sm text-label-sm border border-[#262626]">
         Lvl 1
       </span>
     );
@@ -179,7 +179,7 @@ function UsersManagementClient({
             </div>
             <div>
               <p
-                className={`text-label-sm ${card.isError ? 'text-error' : 'text-muted-foreground'}`}
+                className={`text-label-sm ${card.isError ? 'text-error' : 'text-zinc-400'}`}
               >
                 {card.label}
               </p>
@@ -198,7 +198,7 @@ function UsersManagementClient({
         <div className="p-lg border-b border-[#262626] bg-obsidian-800/30 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative w-64">
-              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-zinc-400" />
               <input
                 type="text"
                 placeholder="Search name or email…"
@@ -223,7 +223,7 @@ function UsersManagementClient({
               <option value="inactive">Inactive</option>
             </select>
           </div>
-          <span className="text-xs text-muted-foreground whitespace-nowrap">
+          <span className="text-xs text-zinc-400 whitespace-nowrap">
             Showing{' '}
             <span className="font-bold">
               {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
@@ -236,11 +236,11 @@ function UsersManagementClient({
         {/* Table */}
         <div className="overflow-x-auto flex-1">
           {users.length === 0 ? (
-            <p className="p-lg text-sm text-muted-foreground text-center">No users match the current filters.</p>
+            <p className="p-lg text-sm text-zinc-400 text-center">No users match the current filters.</p>
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-surface-container text-muted-foreground border-b border-[#262626] sticky top-0">
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-[#262626] sticky top-0">
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
@@ -261,12 +261,12 @@ function UsersManagementClient({
                         </div>
                         <div>
                           <p className="font-bold text-white">{u.fullName}</p>
-                          <p className="text-body-sm text-muted-foreground">{u.email}</p>
+                          <p className="text-body-sm text-zinc-400">{u.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-lg py-4">
-                      <span className="px-3 py-1 bg-surface-container-high rounded-full text-label-sm text-muted-foreground font-medium capitalize">
+                      <span className="px-3 py-1 bg-zinc-800 rounded-full text-label-sm text-zinc-400 font-medium capitalize">
                         {u.role.replace('_', ' ')}
                       </span>
                     </td>
@@ -282,7 +282,7 @@ function UsersManagementClient({
                           }`}
                         />
                         <span
-                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#00ff66]' : 'text-muted-foreground'}`}
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#00ff66]' : 'text-zinc-400'}`}
                         >
                           {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -291,7 +291,7 @@ function UsersManagementClient({
                     <td className="px-lg py-4">
                       <VerificationBadge user={u} />
                     </td>
-                    <td className="px-lg py-4 text-muted-foreground text-body-sm">
+                    <td className="px-lg py-4 text-zinc-400 text-body-sm">
                       {u.createdAt.toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',
@@ -307,7 +307,7 @@ function UsersManagementClient({
 
         {/* Pagination */}
         <div className="px-lg py-3 border-t border-[#262626] bg-obsidian-800/30 flex items-center justify-between">
-          <p className="text-body-sm text-muted-foreground">
+          <p className="text-body-sm text-zinc-400">
             Showing{' '}
             <span className="font-bold">
               {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
@@ -336,8 +336,8 @@ function UsersManagementClient({
                   href={buildHref(pageNum)}
                   className={`w-10 h-10 flex items-center justify-center rounded-lg font-label-md text-label-md transition-colors ${
                     pageNum === currentPage
-                      ? 'bg-primary text-on-primary shadow-sm font-bold'
-                      : 'border border-[#262626] text-muted-foreground hover:bg-obsidian-800-high'
+                      ? 'bg-emerald-500 text-white shadow-sm font-bold'
+                      : 'border border-[#262626] text-zinc-400 hover:bg-obsidian-800-high'
                   }`}
                 >
                   {pageNum}

@@ -46,8 +46,8 @@ export default function AutomatedMonthlyStatementClient() {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <span className="font-mono text-muted-foreground">PAYMENTS</span>
-        <ChevronRight className="w-4 h-4 text-muted-foreground" />
+        <span className="font-mono text-zinc-400">PAYMENTS</span>
+        <ChevronRight className="w-4 h-4 text-zinc-400" />
         <span className="font-mono text-white font-semibold">STATEMENT DETAILS</span>
       </nav>
 
@@ -100,7 +100,7 @@ export default function AutomatedMonthlyStatementClient() {
 
         {/* Summary Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2 bg-primary text-white p-5 rounded-xl flex flex-col justify-between shadow-lg">
+          <div className="md:col-span-2 bg-emerald-500 text-white p-5 rounded-xl flex flex-col justify-between shadow-lg">
             <div>
               <p className="font-label-sm opacity-70 mb-2">TOTAL AMOUNT DUE</p>
               <h3 className="font-headline-xl headline-xl">₦ 1,450,000.00</h3>
@@ -117,7 +117,7 @@ export default function AutomatedMonthlyStatementClient() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="bg-surface-container-high p-4 rounded-xl border border-[#262626] flex flex-col items-center justify-center text-center">
+            <div className="bg-zinc-800 p-4 rounded-xl border border-[#262626] flex flex-col items-center justify-center text-center">
               <p className="font-label-sm text-neutral-400 mb-2 uppercase">Payment Status</p>
               <div className="px-3 py-1 bg-warning/10 text-warning rounded-full flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
@@ -145,7 +145,7 @@ export default function AutomatedMonthlyStatementClient() {
           </h4>
           <div className="overflow-hidden border border-[#262626] rounded-xl">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-surface-container-highest text-white font-label-md label-md">
+              <thead className="bg-zinc-950 text-white font-label-md label-md">
                 <tr>
                   <th className="p-3">Description</th>
                   <th className="p-3">Category</th>
@@ -174,7 +174,7 @@ export default function AutomatedMonthlyStatementClient() {
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-primary text-white font-bold">
+              <tfoot className="bg-emerald-500 text-white font-bold">
                 <tr>
                   <td className="p-3 text-right font-headline-sm" colspan="2">Total Current Charges</td>
                   <td className="p-3 text-right font-headline-sm">₦ 1,450,000.00</td>
@@ -250,7 +250,7 @@ export default function AutomatedMonthlyStatementClient() {
           <div className="flex items-center gap-4">
             <div
               className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                enrolled ? 'bg-teal-500/10 text-teal-500' : 'bg-muted text-muted-foreground'
+                enrolled ? 'bg-teal-500/10 text-teal-500' : 'bg-zinc-900 text-zinc-400'
               }`}
             >
               <FileText className="w-6 h-6" />
@@ -259,7 +259,7 @@ export default function AutomatedMonthlyStatementClient() {
               <h3 className="text-headline-sm text-white">
                 {enrolled ? 'Auto-Statement is Active' : 'Auto-Statement Disabled'}
               </h3>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="text-sm text-zinc-400 mt-0.5">
                 {enrolled
                   ? 'Your statement is generated automatically every 1st of the month.'
                   : 'Enable the monthly auto-statement today.'}
@@ -269,7 +269,7 @@ export default function AutomatedMonthlyStatementClient() {
           <button
             onClick={() => setEnrolled(!enrolled)}
             className={`w-12 h-6 rounded-full transition-colors ${
-              enrolled ? 'bg-teal-500' : 'bg-muted border border-[#262626]'
+              enrolled ? 'bg-teal-500' : 'bg-zinc-900 border border-[#262626]'
             }`}
           >
             <div

@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { FilterIcon, XIcon, MapPinIcon, SearchIcon } from 'lucide-react';
-import PublicNav from '@/components/navigation/public-nav';
 
 // ============================================================================
 // TYPES
@@ -329,23 +328,23 @@ function ListingsPageInner() {
     <div className="space-y-6">
       {/* Price Range */}
       <div>
-        <label className="block text-sm font-semibold text-on-surface mb-2">
+        <label className="block text-sm font-semibold text-white mb-2">
           Price Range
         </label>
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
-            <span className="absolute left-3 top-2.5 text-xs text-slate-400">₦</span>
+            <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
             <input
               type="number"
               placeholder="Min"
               value={filters.priceMin || ''}
               onChange={(e) => setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
             />
           </div>
-          <span className="text-slate-500">-</span>
+          <span className="text-zinc-600">-</span>
           <div className="relative flex-1">
-            <span className="absolute left-3 top-2.5 text-xs text-slate-400">₦</span>
+            <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
             <input
               type="number"
               placeholder="Max"
@@ -353,7 +352,7 @@ function ListingsPageInner() {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))
               }
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
             />
           </div>
         </div>
@@ -362,7 +361,7 @@ function ListingsPageInner() {
       {/* Bedrooms (Residential Only) */}
       {filters.category === 'residential' && (
         <div>
-          <label className="block text-sm font-semibold text-on-surface mb-2">Bedrooms</label>
+          <label className="block text-sm font-semibold text-white mb-2">Bedrooms</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4].map((num) => (
               <button
@@ -370,10 +369,10 @@ function ListingsPageInner() {
                 onClick={() => handleBedroomSelect(filters.bedrooms === num ? null : num)}
                 className={cn(
                   'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors',
-                  'border border-outline-variant',
+                  'border border-zinc-800',
                   filters.bedrooms === num
-                    ? 'bg-residential-teal text-white border-residential-teal'
-                    : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+                    ? 'bg-emerald-500 text-white border-emerald-500'
+                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
                 )}
               >
                 {num === 4 ? '4+' : num}
@@ -385,7 +384,7 @@ function ListingsPageInner() {
 
       {/* Property Type */}
       <div>
-        <label className="block text-sm font-semibold text-on-surface mb-2">Property Type</label>
+        <label className="block text-sm font-semibold text-white mb-2">Property Type</label>
         <div className="space-y-2">
           {(filters.category === 'residential' || filters.category === 'short_let' ? RESIDENTIAL_TYPES : COMMERCIAL_TYPES).map((type) => (
             <label
@@ -396,7 +395,7 @@ function ListingsPageInner() {
                 checked={filters.propertyTypes.includes(type)}
                 onCheckedChange={() => handlePropertyTypeToggle(type)}
               />
-              <span className="text-sm text-on-surface capitalize group-hover:text-residential-teal transition-colors">
+              <span className="text-sm text-white capitalize group-hover:text-emerald-400 transition-colors">
                 {type}
               </span>
             </label>
@@ -406,7 +405,7 @@ function ListingsPageInner() {
 
       {/* Verification Tier */}
       <div>
-        <label className="block text-sm font-semibold text-on-surface mb-2">
+        <label className="block text-sm font-semibold text-white mb-2">
           Verification Level
         </label>
         <div className="space-y-2">
@@ -419,7 +418,7 @@ function ListingsPageInner() {
                 checked={filters.verificationTier.includes(tier)}
                 onCheckedChange={() => handleVerificationTierToggle(tier)}
               />
-              <span className="text-sm text-on-surface capitalize group-hover:text-residential-teal transition-colors">
+              <span className="text-sm text-white capitalize group-hover:text-emerald-400 transition-colors">
                 {tier}
               </span>
             </label>
@@ -429,7 +428,7 @@ function ListingsPageInner() {
 
       {/* Amenities */}
       <div>
-        <label className="block text-sm font-semibold text-on-surface mb-2">Amenities</label>
+        <label className="block text-sm font-semibold text-white mb-2">Amenities</label>
         <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
           {AMENITIES.map((amenity) => (
             <label
@@ -440,7 +439,7 @@ function ListingsPageInner() {
                 checked={filters.amenities.includes(amenity)}
                 onCheckedChange={() => handleAmenityToggle(amenity)}
               />
-              <span className="text-sm text-on-surface group-hover:text-residential-teal transition-colors">
+              <span className="text-sm text-white group-hover:text-emerald-400 transition-colors">
                 {amenity}
               </span>
             </label>
@@ -468,11 +467,10 @@ function ListingsPageInner() {
 
   return (
     <div>
-      <PublicNav />
-      <div className="min-h-screen bg-surface">
+      <div className="min-h-screen bg-black">
       {/* Sticky Filter Bar - Below nav */}
-      <div className="sticky top-[64px] z-40 bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-4">
+      <div className="sticky top-[64px] z-40 bg-black/90 backdrop-blur-md border-b border-zinc-800 shadow-sm">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-4">
           <div className="flex items-center gap-4 flex-wrap">
             {/* Category Toggle */}
             <CategoryToggle
@@ -482,13 +480,13 @@ function ListingsPageInner() {
 
             {/* Location Quick Filter */}
             <div className="hidden md:flex flex-1 max-w-xs relative">
-              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-on-surface-variant" />
+              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
               <Input
                 type="text"
                 placeholder="Lekki, VI, Ikeja..."
                 value={filters.location}
                 onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
-                className="pl-9 h-10 placeholder:text-slate-400"
+                className="pl-9 h-10 placeholder:text-zinc-600"
               />
             </div>
 
@@ -501,7 +499,7 @@ function ListingsPageInner() {
               <FilterIcon className="h-4 w-4 mr-2" />
               Filters
               {activeFilterCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-residential-teal text-white text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 h-5 w-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
                   {activeFilterCount}
                 </span>
               )}
@@ -524,16 +522,16 @@ function ListingsPageInner() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-8">
         {/* Results Grid */}
         <div className="flex-1">
           {/* Header */}
           <div className="flex items-baseline justify-between mb-6">
             <div>
-              <h1 className="text-headline-lg font-bold text-on-surface">
+              <h1 className="text-2xl font-bold text-white">
                 {filters.category === 'short_let' ? 'Short Let' : filters.category === 'commercial' ? 'Commercial' : 'Residential'} Properties
               </h1>
-              <p className="text-body-sm text-on-surface-variant mt-1">
+              <p className="text-sm text-zinc-500 mt-1">
                 {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
               </p>
             </div>
@@ -545,8 +543,8 @@ function ListingsPageInner() {
                 className={cn(
                   'p-2 rounded-md transition-colors',
                   viewMode === 'grid'
-                    ? 'bg-residential-teal text-white'
-                    : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-900'
                 )}
                 aria-label="Grid view"
               >
@@ -557,8 +555,8 @@ function ListingsPageInner() {
                 className={cn(
                   'p-2 rounded-md transition-colors',
                   viewMode === 'list'
-                    ? 'bg-residential-teal text-white'
-                    : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-900'
                 )}
                 aria-label="List view"
               >
@@ -582,11 +580,11 @@ function ListingsPageInner() {
           {/* Empty State */}
           {!isLoading && filteredProperties.length === 0 && (
             <div className="text-center py-16 fade-in">
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-surface-container-low mb-4">
-                <SearchIcon className="h-12 w-12 text-on-surface-variant" />
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-zinc-900 mb-4">
+                <SearchIcon className="h-12 w-12 text-zinc-500" />
               </div>
-              <h3 className="text-xl font-semibold text-on-surface mb-2">No properties found</h3>
-              <p className="text-body-md text-on-surface-variant mb-6 max-w-md mx-auto">
+              <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
+              <p className="text-sm text-zinc-500 mb-6 max-w-md mx-auto">
                 Try adjusting your filters or search criteria to find what you're looking for.
               </p>
               <Button onClick={handleResetFilters} variant="outline">
@@ -600,7 +598,7 @@ function ListingsPageInner() {
           {!isLoading && filteredProperties.length > 0 && (
             <div className="fade-in-stagger">
               <div className={cn(
-                'grid gap-6 pb-xl',
+                'grid gap-6 pb-24',
                 viewMode === 'grid'
                   ? 'grid-cols-1 md:grid-cols-2'
                   : 'grid-cols-1'
@@ -645,12 +643,12 @@ function ListingsPageInner() {
           />
 
           {/* Drawer */}
-          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl z-50 modal-slide-right">
-            <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-zinc-900 border-l border-zinc-800 shadow-2xl z-50 modal-slide-right">
+            <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
               <h3 className="text-xl font-bold text-white">Filters</h3>
               <button
                 onClick={() => setFiltersDrawerOpen(false)}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-2 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
               >
                 <XIcon className="h-5 w-5" />
               </button>
@@ -660,7 +658,7 @@ function ListingsPageInner() {
               {renderFilters()}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 border-t border-slate-800 bg-slate-900/95 backdrop-blur-sm px-6 py-4">
+            <div className="absolute bottom-0 left-0 right-0 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur-sm px-6 py-4">
               <div className="flex items-center gap-3">
                 <Button
                   variant="outline"

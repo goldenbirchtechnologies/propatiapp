@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
@@ -55,15 +56,12 @@ export default async function TenantAgreementsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">{agreementsError}</p>
-            <button
-              type="button"
-              className="mt-4 underline"
-              onClick={() => {
-                window.location.reload();
-              }}
+            <Link
+              href="/dashboard/tenant/agreements"
+              className="mt-4 inline-block underline text-sm"
             >
               Retry
-            </button>
+            </Link>
           </CardContent>
         </Card>
       </DashboardShell>
@@ -80,10 +78,6 @@ export default async function TenantAgreementsPage() {
       <ErrorBoundary>
         <TenantAgreementsClient
           initialAgreements={agreements}
-          onRetry={() => {
-            // Retry forces a soft re-render (client re-fetches via polling / manual trigger)
-            window.location.reload();
-          }}
         />
       </ErrorBoundary>
     </DashboardShell>

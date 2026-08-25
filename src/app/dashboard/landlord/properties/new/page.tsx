@@ -11,26 +11,25 @@ export const metadata = {
 };
 
 export default async function AddPropertyPage() {
-  try {
-    const user = await getCurrentUserWithProfile();
-    if (!user || user.role !== 'landlord') redirect('/dashboard');
-
-    const orgId = user.ownedOrganisations?.[0]?.id || null;
-
-    return (
-      <DashboardShell
-        navigation={LANDLORD_NAVIGATION}
-        userRole="landlord"
-        userName={user.fullName}
-        userAvatar={user.avatarUrl || undefined}
-      >
-        <ErrorBoundary>
-          <AddPropertyClient orgId={orgId} />
-        </ErrorBoundary>
-      </DashboardShell>
-    );
-  } catch (error) {
-    console.error('AddPropertyPage server render failed', error);
+  // Auth check outside try/catch — redirect() throws NEXT_REDIRECT which must
+  // not be swallowed by a catch block (see AGENTS.md critical rules).
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') {
     redirect('/dashboard');
   }
+
+  const orgId = user.ownedOrganisations?.[0]?.id || null;
+
+  return (
+    <DashboardShell
+      navigation={LANDLORD_NAVIGATION}
+      userRole="landlord"
+      userName={user.fullName}
+      userAvatar={user.avatarUrl || undefined}
+    >
+      <ErrorBoundary>
+        <AddPropertyClient orgId={orgId} />
+      </ErrorBoundary>
+    </DashboardShell>
+  );
 }

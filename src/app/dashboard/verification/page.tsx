@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -71,15 +72,12 @@ export default async function VerificationHubPage() {
           <h1 className="text-3xl font-bold text-white">Verification Center</h1>
           <p className="text-muted-foreground mt-1">{verificationsError}</p>
         </div>
-        <button
-          type="button"
-          className="underline"
-          onClick={() => {
-            window.location.reload();
-          }}
+        <Link
+          href="/dashboard/verification"
+          className="underline inline-block text-sm"
         >
           Retry
-        </button>
+        </Link>
       </div>
     );
   }

@@ -71,41 +71,33 @@ function StepIcon({ index, layerStatus }: { index: number; layerStatus: Verifica
 // ─── Overview content ──────────────────────────────────────────────────────────
 function OverviewTab({
   verification,
-  onRetry,
-  onRequestInspection,
-  onUploadVideo,
-  onConfirmIdentity,
 }: {
-  verification: unknown;
-  onRetry: () => void;
-  onRequestInspection: () => void;
-  onUploadVideo: () => void;
-  onConfirmIdentity: () => void;
+  verification: any;
 }) {
   const { overallStatus, currentLayer, l1Status, l2Status, l3Status, l4Status, l5Status, listing } = verification;
   const layers = [l1Status, l2Status, l3Status, l4Status, l5Status] as (VerificationLayerStatus | null)[];
 
-  // Next-step guidance
-  let nextStep: { label: string; action: () => void; actionLabel: string } | null = null;
+  // Next-step guidance with safe declarative hrefs for RSC
+  let nextStep: { label: string; href: string; actionLabel: string } | null = null;
   if (overallStatus === 'not_started') {
-    nextStep = { label: 'Submit Layer 1 documents to begin.', action: onRetry, actionLabel: 'Start Verification' };
+    nextStep = { label: 'Submit Layer 1 documents to begin.', href: '/dashboard/verification/step1/documents', actionLabel: 'Start Verification' };
   } else if (overallStatus === 'in_progress') {
     if (currentLayer === 1 && l1Status === 'pending')
-      nextStep = { label: 'Upload your ownership documents.', action: onRetry, actionLabel: 'Upload Documents' };
+      nextStep = { label: 'Upload your ownership documents.', href: '/dashboard/verification/step1/documents', actionLabel: 'Upload Documents' };
     else if (currentLayer === 2 && l2Status === 'pending')
-      nextStep = { label: 'Complete identity verification (NIN/BVN).', action: onConfirmIdentity, actionLabel: 'Verify Identity' };
+      nextStep = { label: 'Complete identity verification (NIN/BVN).', href: '/dashboard/verification/dojah-kyc', actionLabel: 'Verify Identity' };
     else if (currentLayer === 3 && l3Status === 'pending')
-      nextStep = { label: 'Record and upload your live video.', action: onUploadVideo, actionLabel: 'Upload Video' };
+      nextStep = { label: 'Record and upload your live video.', href: '/dashboard/verification/step3/video', actionLabel: 'Upload Video' };
     else if (currentLayer === 4 && l4Status === 'pending')
-      nextStep = { label: 'Schedule a physical inspection appointment.', action: onRequestInspection, actionLabel: 'Schedule Inspection' };
+      nextStep = { label: 'Schedule a physical inspection appointment.', href: '/dashboard/verification/step4/inspection', actionLabel: 'Schedule Inspection' };
     else if (currentLayer === 5 && l5Status === 'pending')
-      nextStep = { label: 'Awaiting admin final certification.', action: () => {}, actionLabel: 'Waiting for Admin' };
+      nextStep = { label: 'Awaiting admin final certification.', href: '#', actionLabel: 'Waiting for Admin' };
     else
       nextStep = null;
   } else if (overallStatus === 'rejected') {
-    nextStep = { label: 'Resubmit from Layer 1 with corrected information.', action: onRetry, actionLabel: 'Resubmit' };
+    nextStep = { label: 'Resubmit from Layer 1 with corrected information.', href: '/dashboard/verification/step1/documents', actionLabel: 'Resubmit' };
   } else if (overallStatus === 'certified') {
-    nextStep = { label: 'Your property is fully certified and has priority placement.', action: () => {}, actionLabel: 'View Listing' };
+    nextStep = { label: 'Your property is fully certified and has priority placement.', href: `/listings/${listing?.id || ''}`, actionLabel: 'View Listing' };
   }
 
   return (
@@ -142,12 +134,9 @@ function OverviewTab({
       {nextStep && (
         <div className="rounded-lg border bg-primary/5 p-4">
           <p className="text-sm">{nextStep.label}</p>
-          {nextStep.actionLabel !== 'Waiting for Admin' && nextStep.actionLabel !== 'View Listing' && (
-            <Button className="mt-2" onClick={nextStep.action}>{nextStep.actionLabel}</Button>
-          )}
-          {nextStep.actionLabel === 'View Listing' && (
+          {nextStep.actionLabel !== 'Waiting for Admin' && (
             <Button className="mt-2" asChild>
-              <Link href={`/listings/${listing?.id}`}>View Listing</Link>
+              <Link href={nextStep.href}>{nextStep.actionLabel}</Link>
             </Button>
           )}
         </div>

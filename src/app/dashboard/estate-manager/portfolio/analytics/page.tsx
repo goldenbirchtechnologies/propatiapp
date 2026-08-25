@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -13,21 +13,24 @@ export default async function PortfolioAnalyticsPage() {
   }
 
   if (user.role !== 'estate_manager') {
-    redirect(user.role === 'landlord' ? '/dashboard/landlord'
-      : user.role === 'tenant' ? '/dashboard/tenant'
-      : user.role === 'agent' ? '/dashboard/agent'
-      : user.role === 'admin' ? '/admin'
-      : '/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Estate Manager';
   const activeOrg = user.ownedOrganisations[0] || user.orgMemberships[0]?.org;
 
+  let totalUnits = 0;
+  let occupancyRate = 0;
+  let unitsByStatus: Record<string, number> = {};
+  let billedServiceCharges = 0;
+  let collectedServiceCharges = 0;
+  let topMaintenanceIssues: any[] = [];
   let avgRent = 0;
   let avgServiceCharge = 0;
   let avgCautionDeposit = 0;
   let expiredLeases = 0;
   let listingCount = 0;
+  const now = new Date();
 
   if (activeOrg) {
     const units = await prisma.unit.findMany({

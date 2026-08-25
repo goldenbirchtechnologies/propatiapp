@@ -1,0 +1,10 @@
+{
+  "description": "Organize tasks and goals efficiently with intuitive planning tools designed to boost productivity and keep your projects on track.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

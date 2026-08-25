@@ -19,6 +19,7 @@ export default async function LandlordApplicationDetailPage({
   const { id } = await params;
 
   let application: any = null;
+  let dbError = false;
 
   try {
     application = await prisma.application.findUnique({
@@ -62,10 +63,13 @@ export default async function LandlordApplicationDetailPage({
     });
   } catch (error) {
     console.error('Error loading landlord application:', error);
-    redirect('/dashboard/landlord/applications');
+    dbError = true;
   }
 
-  if (!application || application.landlordId !== user.id) {
+  // redirect() must be called outside any try/catch block — it signals by
+  // throwing NEXT_REDIRECT; a catch swallows it and produces an opaque
+  // Server Components render error in production (see AGENTS.md).
+  if (dbError || !application || application.landlordId !== user.id) {
     redirect('/dashboard/landlord/applications');
   }
 

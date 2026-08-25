@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -13,16 +13,17 @@ export default async function ScenarioBuilderPage() {
   }
 
   if (user.role !== 'estate_manager') {
-    redirect(user.role === 'landlord' ? '/dashboard/landlord'
-      : user.role === 'tenant' ? '/dashboard/tenant'
-      : user.role === 'agent' ? '/dashboard/agent'
-      : user.role === 'admin' ? '/admin'
-      : '/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Estate Manager';
   const activeOrg = user.ownedOrganisations[0] || user.orgMemberships[0]?.org;
 
+  let totalUnits = 0;
+  let occupiedUnits = 0;
+  let vacantUnits = 0;
+  let maintenanceUnits = 0;
+  let monthlyScenarios: any[] = [];
   let avgRent = 0;
   let avgServiceCharge = 0;
   let avgCautionDeposit = 0;
@@ -75,7 +76,7 @@ export default async function ScenarioBuilderPage() {
 
     const txCount = transactions.length;
     const avgTx = txCount ? transactions.reduce((s, t) => s + Number(t.amount), 0) / txCount : 0;
-    const settledTxs = transactions.filter(t => t.status === 'success' || t.status === 'completed');
+    const settledTxs = transactions.filter(t => t.status === 'released' || (t.status as any) === 'success');
     const settledTxAmount = settledTxs.reduce((s, t) => s + Number(t.amount), 0);
 
     const activeTenancies = occupiedUnits;

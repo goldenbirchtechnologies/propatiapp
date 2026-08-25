@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
@@ -88,15 +89,12 @@ export default async function AgentCommissionsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-neutral-400">{commissionsError}</p>
-            <button
-              type="button"
-              className="mt-4 underline"
-              onClick={() => {
-                window.location.reload();
-              }}
+            <Link
+              href="/dashboard/agent/commissions"
+              className="mt-4 inline-block underline text-sm"
             >
               Retry
-            </button>
+            </Link>
           </CardContent>
         </Card>
       </DashboardShell>
@@ -110,20 +108,14 @@ export default async function AgentCommissionsPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <AgentCommissionsClient
-        initialCommissions={commissions as unknown}
-        totalEarned={totalEarned}
-        totalPaid={totalPaid}
-        totalPending={totalPending}
-        onRetry={() => {
-          window.location.reload();
-        }}
-      />
-    
+        <AgentCommissionsClient
+          initialCommissions={commissions as any}
+          totalEarned={totalEarned}
+          totalPaid={totalPaid}
+          totalPending={totalPending}
+        />
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

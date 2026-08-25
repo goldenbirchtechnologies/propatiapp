@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -13,11 +13,7 @@ export default async function RevenueSignaturePage() {
   }
 
   if (user.role !== 'estate_manager') {
-    redirect(user.role === 'landlord' ? '/dashboard/landlord'
-      : user.role === 'tenant' ? '/dashboard/tenant'
-      : user.role === 'agent' ? '/dashboard/agent'
-      : user.role === 'admin' ? '/admin'
-      : '/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Estate Manager';

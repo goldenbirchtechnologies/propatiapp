@@ -12,11 +12,18 @@ export const metadata = {
 };
 
 export default async function LandlordAddListingPage() {
-  try {
-    const user = await getCurrentUserWithProfile();
-    if (!user || user.role !== 'landlord') redirect('/dashboard');
+  // Auth check outside try/catch — redirect() throws NEXT_REDIRECT which must
+  // not be swallowed by a catch block (see AGENTS.md critical rules).
+  const user = await getCurrentUserWithProfile();
+  if (!user || user.role !== 'landlord') {
+    redirect('/dashboard');
+  }
 
-    const listings = await prisma.listing.findMany({
+  let listings: any[] = [];
+  let vacantUnits: any[] = [];
+
+  try {
+    listings = await prisma.listing.findMany({
       where: { ownerId: user.id },
       select: {
         id: true,
@@ -45,7 +52,7 @@ export default async function LandlordAddListingPage() {
       orderBy: { createdAt: 'desc' },
     });
 
-    const vacantUnits = listings.flatMap((listing) =>
+    vacantUnits = listings.flatMap((listing) =>
       listing.units.map((unit) => ({
         id: unit.id,
         listingId: listing.id,
@@ -66,16 +73,16 @@ export default async function LandlordAddListingPage() {
         state: listing.state,
       }))
     );
-
-    return (
-      <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-        <ErrorBoundary>
-          <AddListingClient listings={listings} vacantUnits={vacantUnits} />
-        </ErrorBoundary>
-      </DashboardShell>
-    );
   } catch (error) {
     console.error('LandlordAddListingPage server render failed', error);
-    redirect('/dashboard');
+    // Fall through with empty arrays — the client component handles the empty state
   }
+
+  return (
+    <DashboardShell navigation={LANDLORD_NAVIGATION} userRole="landlord" userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
+      <ErrorBoundary>
+        <AddListingClient listings={listings} vacantUnits={vacantUnits} />
+      </ErrorBoundary>
+    </DashboardShell>
+  );
 }

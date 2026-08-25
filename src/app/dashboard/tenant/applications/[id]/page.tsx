@@ -20,6 +20,7 @@ export default async function TenantApplicationDetailPage({
   const { id } = await params;
 
   let application: any = null;
+  let dbError = false;
 
   try {
     application = await prisma.application.findUnique({
@@ -42,10 +43,13 @@ export default async function TenantApplicationDetailPage({
     });
   } catch (error) {
     console.error('Error loading tenant application:', error);
-    redirect('/dashboard/tenant/applications');
+    dbError = true;
   }
 
-  if (!application || application.tenantId !== user.id) {
+  // redirect() must be called outside any try/catch block — it signals by
+  // throwing NEXT_REDIRECT; a catch swallows it and produces an opaque
+  // Server Components render error in production (see AGENTS.md).
+  if (dbError || !application || application.tenantId !== user.id) {
     redirect('/dashboard/tenant/applications');
   }
 

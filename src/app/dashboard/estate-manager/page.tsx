@@ -1,5 +1,5 @@
 import AppIcon from '@/components/icons/app-icon';
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
@@ -40,16 +40,8 @@ export default async function EstateManagerDashboardPage() {
     redirect('/sign-in');
   }
 
-  const rolePaths: Record<string, string> = {
-    landlord: '/dashboard/landlord',
-    tenant: '/dashboard/tenant',
-    agent: '/dashboard/agent',
-    admin: '/admin',
-    estate_manager: '/dashboard/estate-manager',
-  };
-
   if (user.role !== 'estate_manager') {
-    redirect(rolePaths[user.role] ?? '/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Estate Manager';
@@ -60,8 +52,8 @@ export default async function EstateManagerDashboardPage() {
   let occupiedCount = 0;
   let vacantCount = 0;
   let maintenanceCount = 0;
-  let recentTickets: unknown[] = [];
-  let recentServiceCharges: unknown[] = [];
+  let recentTickets: any[] = [];
+  let recentServiceCharges: any[] = [];
   let totalBilledServiceCharges = 0;
   let totalPaidServiceCharges = 0;
 
@@ -114,13 +106,14 @@ export default async function EstateManagerDashboardPage() {
         confirmationStatus: { not: 'disputed' },
       },
     });
-    pendingManaged = managedCollections.filter(tx => {
+    pendingManaged = managedCollections.filter((tx: any) => {
       try {
-        const md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata;
+        const raw = tx.metadata ?? tx.paystackData;
+        const md = typeof raw === 'string' ? JSON.parse(raw) : raw;
         return md?.collectionType === 'managed';
       } catch { return false; }
     });
-    pendingManagedNaira = pendingManaged.reduce((sum, tx) => sum + Number(tx.payeeAmount || tx.amount || 0), 0);
+    pendingManagedNaira = pendingManaged.reduce((sum, tx: any) => sum + Number(tx.payeeAmount || tx.amount || 0), 0);
 
     unitCount = units.length;
     occupiedCount = units.filter(u => u.occupancy === 'OCCUPIED').length;
@@ -165,8 +158,11 @@ export default async function EstateManagerDashboardPage() {
     const recentSmart: Array<{ id: string; landlord: string; amountNaira: number; createdAt: Date }> = [];
 
     for (const tx of managedTransactions) {
-      let md: unknown = {};
-      try { md = typeof tx.metadata === 'string' ? JSON.parse(tx.metadata) : tx.metadata; } catch { md = {}; }
+      let md: any = {};
+      try {
+        const raw = (tx as any).metadata ?? (tx as any).paystackData;
+        md = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      } catch { md = {}; }
       if (md?.collectionType !== 'managed') continue;
       const amountNaira = Number(tx.payeeAmount || tx.amount || 0) / 100;
       const dt = tx.createdAt instanceof Date ? tx.createdAt : new Date(tx.createdAt);

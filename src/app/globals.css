@@ -5,8 +5,8 @@
 @import "shadcn/tailwind.css";
 :root {
   /* Semantic Colors */
-  --green: #22c55e;
-  --green-bg: rgba(34, 197, 94, 0.1);
+  --green: #10b981;
+  --green-bg: rgba(16, 185, 129, 0.1);
   --amber: #f59e0b;
   --amber-bg: rgba(245, 158, 11, 0.1);
   --red: #ef4444;
@@ -16,145 +16,153 @@
   --success: var(--green);
   --warning: var(--amber);
 
-  /* Tag tokens (global, theme-agnostic) */
-  --tag-gold: #22c55e;
-  --tag-gold-bg: rgba(34, 197, 94, 0.1);
-  --tag-rust: #22c55e;
-  --tag-rust-bg: rgba(34, 197, 94, 0.1);
-  --tag-teal: #22c55e;
-  --tag-teal-bg: rgba(34, 197, 94, 0.1);
-  --tag-cyan: #22c55e;
-  --tag-cyan-bg: rgba(34, 197, 94, 0.1);
+  /* Tag tokens */
+  --tag-gold: #10b981;
+  --tag-gold-bg: rgba(16, 185, 129, 0.1);
+  --tag-rust: #10b981;
+  --tag-rust-bg: rgba(16, 185, 129, 0.1);
+  --tag-teal: #10b981;
+  --tag-teal-bg: rgba(16, 185, 129, 0.1);
+  --tag-cyan: #10b981;
+  --tag-cyan-bg: rgba(16, 185, 129, 0.1);
 
-  /* Role-based Themes */
-  /* Landing/Marketplace */
-  --theme-landing-bg: #f5f3ee;
-  --theme-landing-text: #1a1a1a;
-  --theme-landing-accent: #22c55e;
+  /* Global Vercel Dark Canonical Tokens */
+  --theme-dark-bg: #000000;
+  --theme-dark-surface: #09090b;
+  --theme-dark-surface-elevated: #121215;
+  --theme-dark-border: #27272a;
+  --theme-dark-border-subtle: rgba(255, 255, 255, 0.08);
+  --theme-dark-text: #ededed;
+  --theme-dark-muted: #18181b;
+  --theme-dark-muted-foreground: #a1a1aa;
+  --theme-dark-accent: #10b981;
+  --theme-dark-accent2: #059669;
+
+  /* Role-based Theme overrides map to Vercel Dark */
+  /* Landing / Marketplace */
+  --theme-landing-bg: #000000;
+  --theme-landing-text: #ededed;
+  --theme-landing-accent: #10b981;
 
   /* Landlord */
-  --theme-landlord-bg: #0f0f0f;
-  --theme-landlord-surface: #141414;
-  --theme-landlord-surface-elevated: #1a1a1a;
-  --theme-landlord-border: rgba(255, 255, 255, 0.05);
-  --theme-landlord-text: #f8f6f0;
-  --theme-landlord-muted: #1e293b;
-  --theme-landlord-muted-foreground: #cbd5e1;
-  --theme-landlord-accent: #22c55e;
-  --theme-landlord-accent2: #16a34a;
+  --theme-landlord-bg: #000000;
+  --theme-landlord-surface: #09090b;
+  --theme-landlord-surface-elevated: #121215;
+  --theme-landlord-border: rgba(255, 255, 255, 0.08);
+  --theme-landlord-text: #ededed;
+  --theme-landlord-muted: #18181b;
+  --theme-landlord-muted-foreground: #a1a1aa;
+  --theme-landlord-accent: #10b981;
+  --theme-landlord-accent2: #059669;
 
   /* Tenant */
-  --theme-tenant-bg: #111111;
-  --theme-tenant-surface: #141414;
-  --theme-tenant-border: rgba(255, 255, 255, 0.05);
-  --theme-tenant-text: #f8f6f0;
-  --theme-tenant-muted: #1e293b;
-  --theme-tenant-muted-foreground: #cbd5e1;
-  --theme-tenant-accent: #0e7c6a;
-  --theme-tenant-accent2: #14a88e;
+  --theme-tenant-bg: #000000;
+  --theme-tenant-surface: #09090b;
+  --theme-tenant-border: rgba(255, 255, 255, 0.08);
+  --theme-tenant-text: #ededed;
+  --theme-tenant-muted: #18181b;
+  --theme-tenant-muted-foreground: #a1a1aa;
+  --theme-tenant-accent: #10b981;
+  --theme-tenant-accent2: #059669;
 
   /* Agent */
   --theme-agent-bg: #000000;
-  --theme-agent-surface: #171717;
-  --theme-agent-border: #262626;
-  --theme-agent-text: #ffffff;
-  --theme-agent-muted: #171717;
-  --theme-agent-muted-foreground: #a3a3a3;
-  --theme-agent-accent: #00ff66;
-  --theme-agent-accent2: #00ff66;
-
-  /* Admin */
-  --theme-admin-bg: #0c0e12;
-  --theme-admin-accent: #22c55e;
+  --theme-agent-surface: #09090b;
+  --theme-agent-border: rgba(255, 255, 255, 0.08);
+  --theme-agent-text: #ededed;
+  --theme-agent-muted: #18181b;
+  --theme-agent-muted-foreground: #a1a1aa;
+  --theme-agent-accent: #10b981;
+  --theme-agent-accent2: #059669;
 
   /* Estate Manager */
-  --theme-em-bg: #080e18;
-  --theme-em-sidebar: #080e18;
-  --theme-em-surface: #1a2a3a;
-  --theme-em-surface-elevated: #203044;
-  --theme-em-border: rgba(255, 255, 255, 0.05);
-  --theme-em-text: #c8d8e8;
-  --theme-em-muted: #1e293b;
-  --theme-em-muted-foreground: #cbd5e1;
-  --theme-em-accent: #22c55e;
-  --theme-em-accent2: #16a34a;
-
+  --theme-em-bg: #000000;
+  --theme-em-sidebar: #000000;
+  --theme-em-surface: #09090b;
+  --theme-em-surface-elevated: #121215;
+  --theme-em-border: rgba(255, 255, 255, 0.08);
+  --theme-em-text: #ededed;
+  --theme-em-muted: #18181b;
+  --theme-em-muted-foreground: #a1a1aa;
+  --theme-em-accent: #10b981;
+  --theme-em-accent2: #059669;
 
   /* Admin */
-  --theme-admin-bg: #0c0e12;
-  --theme-admin-surface: #11141a;
-  --theme-admin-surface-elevated: #171c24;
-  --theme-admin-border: rgba(255, 255, 255, 0.05);
-  --theme-admin-text: #e6ebf1;
-  --theme-admin-muted: #1e293b;
-  --theme-admin-muted-foreground: #cbd5e1;
-  --theme-admin-accent: #22c55e;
-  --theme-admin-accent2: #16a34a;
-  --font-serif: 'DM Serif Display', serif;
-  --font-mono: 'DM Mono', monospace;
-  --font-heading: var(--font-inter), sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  --theme-admin-bg: #000000;
+  --theme-admin-surface: #09090b;
+  --theme-admin-surface-elevated: #121215;
+  --theme-admin-border: rgba(255, 255, 255, 0.08);
+  --theme-admin-text: #ededed;
+  --theme-admin-muted: #18181b;
+  --theme-admin-muted-foreground: #a1a1aa;
+  --theme-admin-accent: #10b981;
+  --theme-admin-accent2: #059669;
+
+  --font-serif: var(--font-inter), sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-heading: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body-fallback: var(--font-inter), system-ui, sans-serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
 
   /* Verification tokens */
-  --verification-basic: #737373;
+  --verification-basic: #71717a;
   --verification-verified: #10b981;
-  --verification-inspected: #6366f1;
-  --verification-certified: #0d9488;
+  --verification-inspected: #3b82f6;
+  --verification-certified: #06b6d4;
 
   /* Font Scale */
-  --text-hero: clamp(2rem, 4.5vw, 3.2rem);
-  --text-page-title: 1.1rem;
-  --text-card-title: 0.87rem;
-  --text-body: 0.85rem;
+  --text-hero: clamp(2.2rem, 5vw, 3.8rem);
+  --text-page-title: 1.25rem;
+  --text-card-title: 0.95rem;
+  --text-body: 0.875rem;
   --text-label: 0.75rem;
-  --text-tag: 0.67rem;
-  --text-mono: 0.67rem;
+  --text-tag: 0.7rem;
+  --text-mono: 0.75rem;
 
   /* Spacing Scale */
-  --space-tight: 0.2rem;
-  --space-vs: 0.3rem;
-  --space-sm-gap: 0.4rem;
+  --space-tight: 0.25rem;
+  --space-vs: 0.35rem;
+  --space-sm-gap: 0.5rem;
   --space-sm: 0.5rem;
-  --space-base-sm: 0.6rem;
-  --space-base: 0.7rem;
-  --space-md-sm: 0.8rem;
-  --space-md: 0.9rem;
-  --space-lg: 1rem;
-  --space-md-lg: 1.2rem;
-  --space-xl: 1.5rem;
-  --space-xxl: 1.8rem;
-  --space-section: 2rem;
-  --space-hero: 3rem;
+  --space-base-sm: 0.65rem;
+  --space-base: 0.75rem;
+  --space-md-sm: 0.85rem;
+  --space-md: 1rem;
+  --space-lg: 1.25rem;
+  --space-md-lg: 1.5rem;
+  --space-xl: 1.75rem;
+  --space-xxl: 2rem;
+  --space-section: 2.5rem;
+  --space-hero: 3.5rem;
 
   /* Border Radius Scale */
-  --radius-tag: 4px;
-  --radius-btn-sm: 7px;
-  --radius-btn: 9px;
+  --radius-tag: 6px;
+  --radius-btn-sm: 6px;
+  --radius-btn: 8px;
   --radius-card: 12px;
   --radius-card-lg: 14px;
   --radius-modal: 16px;
   --radius-modal-mobile: 20px;
   --radius-avatar: 50%;
-  --radius-pill: 100px;
+  --radius-pill: 9999px;
 
   /* Animations */
-  --transition-fast: 0.18s;
-  --transition-base: 0.28s;
-  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-standard: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Layout */
-  --sidebar-width: 280px;
-  --sidebar-width-collapsed: 72px;
-  --topbar-height: 64px;
-  --content-padding-desktop: 1.6rem 1.8rem;
+  --sidebar-width: 260px;
+  --sidebar-width-collapsed: 68px;
+  --topbar-height: 60px;
+  --content-padding-desktop: 1.75rem 2rem;
   --content-padding-mobile: 1rem;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
 }
 
 /* Role-based theme classes applied to body */
@@ -797,6 +805,29 @@ a:hover {
 @media (max-width: 768px) {
   .sidebar-overlay.open { z-index: 99; }
   .sidebar.open       { z-index: 100; }
+}
+
+/* ─── Figma Make primitive utilities ────────────────────────────────────────── */
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.dark-input {
+  background: var(--surface-container, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  color: var(--text);
+}
+.dark-input::placeholder {
+  color: var(--muted-foreground);
+}
+.dark-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg, rgba(16, 185, 129, 0.15));
 }
 
 /* Dashboard shell layout */

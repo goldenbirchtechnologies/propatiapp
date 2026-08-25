@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
@@ -9,15 +9,8 @@ import EstateManagerAgreementsClient from './EstateManagerAgreementsClient';
 export default async function EstateManagerAgreementsPage() {
   const user = await getCurrentUserWithProfile();
 
-  const rolePaths: Record<string, string> = {
-    landlord: '/dashboard/landlord',
-    tenant: '/dashboard/tenant',
-    agent: '/dashboard/agent',
-    admin: '/admin',
-    estate_manager: '/dashboard/estate-manager',
-  };
-  if (!user) redirect("/login");
-  if (user.role !== 'estate_manager') redirect(rolePaths[user!.role] ?? '/dashboard/tenant');
+  if (!user) redirect("/sign-in");
+  if (user.role !== 'estate_manager') redirect(getRoleRedirectPath(user.role));
 
   const agreements = await prisma.agreement.findMany({
     include: {

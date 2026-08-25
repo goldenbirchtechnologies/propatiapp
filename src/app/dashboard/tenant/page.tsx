@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -16,7 +16,7 @@ export default async function TenantDashboardPage() {
     redirect('/sign-in');
   }
   if (user.role !== 'tenant') {
-    redirect('/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Tenant';

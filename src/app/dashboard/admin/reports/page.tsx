@@ -36,7 +36,7 @@ function fmt(n: number) {
 function MiniBarChart({ data }: { data: { label: string; amount: number }[] }) {
   const max = Math.max(...data.map((d) => Math.abs(d.amount || 0)), 1);
   const chartData = data.slice(-8);
-  if (!chartData.length) return <div className="h-40 w-full rounded-xl border border-dashed border-[#262626] bg-obsidian-800/30/50" />;
+  if (!chartData.length) return <div className="h-40 w-full rounded-xl border border-dashed border-white/[0.08] bg-zinc-950/50" />;
 
   const counts = [1, 2, 4].map((n) => (chartData.length / n));
   const barWidth = 18;
@@ -45,8 +45,8 @@ function MiniBarChart({ data }: { data: { label: string; amount: number }[] }) {
   const height = 180;
 
   return (
-    <div className="relative ml-2 rounded-xl border border-[#262626] bg-obsidian-800/30 p-4 shadow-card">
-      <p className="mb-3 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Recent trend</p>
+    <div className="relative ml-2 rounded-xl border border-white/[0.08] bg-zinc-950 p-4 ">
+      <p className="mb-3 text-xs text-xs uppercase tracking-wider text-zinc-500">Recent trend</p>
       <svg width={width} height={height} className="overflow-visible">
         <line x1={0} y1={height - 20} x2={width} y2={height - 20} stroke="currentColor" className="text-border" strokeWidth="1" />
         {chartData.map((d, idx) => {
@@ -153,13 +153,13 @@ export default function AdminReportsPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Admin Reports</h1>
-            <p className="text-muted-foreground mt-1">Accounting reports, revenue trends, and exports for the platform.</p>
+            <p className="text-zinc-500 mt-1">Accounting reports, revenue trends, and exports for the platform.</p>
           </div>
           <div className="flex flex-wrap items-end gap-2">
             <select
               value={reportType}
               onChange={(e) => setReportType(e.target.value as ReportType)}
-              className="rounded-lg border border-[#262626] bg-obsidian-800/30 px-3 py-2 text-sm text-white"
+              className="rounded-lg border border-white/[0.08] bg-zinc-950 px-3 py-2 text-sm text-white"
             >
               {REPORT_TYPES.map((item) => (
                 <option key={item.value} value={item.value}>
@@ -170,7 +170,7 @@ export default function AdminReportsPage() {
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value as ReportFormat)}
-              className="rounded-lg border border-[#262626] bg-obsidian-800/30 px-3 py-2 text-sm text-white"
+              className="rounded-lg border border-white/[0.08] bg-zinc-950 px-3 py-2 text-sm text-white"
             >
               <option value="json">JSON</option>
               <option value="csv">CSV</option>
@@ -179,27 +179,27 @@ export default function AdminReportsPage() {
             <button
               onClick={loadReport}
               disabled={loading}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50"
+              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:brightness-110 disabled:opacity-50"
             >
               {loading ? 'Loading...' : 'Refresh'}
             </button>
             <button
               onClick={download}
               disabled={loading}
-              className="rounded-lg border border-[#262626] px-4 py-2 text-sm font-medium hover:bg-obsidian-800-lowest disabled:opacity-50"
+              className="rounded-lg border border-white/[0.08] px-4 py-2 text-sm font-medium hover:bg-zinc-900 disabled:opacity-50"
             >
               Download
             </button>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#262626] bg-obsidian-800/30 p-2">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/[0.08] bg-zinc-950 p-2">
           {RANGES.map((range) => (
             <button
               key={range.days}
               onClick={() => { setDays(range.days); setCustomFrom(''); setCustomTo(''); }}
               className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                days === range.days && !customFrom ? 'bg-primary text-white' : 'text-muted-foreground hover:text-white'
+                days === range.days && !customFrom ? 'bg-emerald-500 text-white' : 'text-zinc-500 hover:text-white'
               }`}
             >
               {range.label}
@@ -211,15 +211,15 @@ export default function AdminReportsPage() {
               value={customFrom}
               onChange={(e) => setCustomFrom(e.target.value)}
               onKeyDown={(e) => e.stopPropagation()}
-              className="rounded-lg border border-[#262626] bg-obsidian-800/30 px-3 py-1.5 text-sm text-white"
+              className="rounded-lg border border-white/[0.08] bg-zinc-950 px-3 py-1.5 text-sm text-white"
             />
-            <span className="text-xs text-muted-foreground">to</span>
+            <span className="text-xs text-zinc-500">to</span>
             <input
               type="date"
               value={customTo}
               onChange={(e) => setCustomTo(e.target.value)}
               onKeyDown={(e) => e.stopPropagation()}
-              className="rounded-lg border border-[#262626] bg-obsidian-800/30 px-3 py-1.5 text-sm text-white"
+              className="rounded-lg border border-white/[0.08] bg-zinc-950 px-3 py-1.5 text-sm text-white"
             />
             {(customFrom || customTo) && (
               <button onClick={() => { setCustomFrom(''); setCustomTo(''); }} className="text-xs text-red-500 hover:text-red-600">
@@ -230,7 +230,7 @@ export default function AdminReportsPage() {
         </div>
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50/60 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200">
+          <div className="rounded-xl border border-red-200 bg-red-50/60 p-4 text-sm text-red-400 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200">
             {error}
           </div>
         )}
@@ -239,8 +239,8 @@ export default function AdminReportsPage() {
           <>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               {Object.entries(totals).slice(0, 4).map(([key, value]) => (
-                <div key={key} className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-4 shadow-card">
-                  <p className="text-xs font-label-md uppercase tracking-wider text-muted-foreground">{key}</p>
+                <div key={key} className="rounded-xl border border-white/[0.08] bg-zinc-950 p-4 ">
+                  <p className="text-xs text-xs uppercase tracking-wider text-zinc-500">{key}</p>
                   <p className="mt-1 text-xl font-semibold text-white">{fmt(Number(value))}</p>
                 </div>
               ))}
@@ -250,8 +250,8 @@ export default function AdminReportsPage() {
               <div className="lg:col-span-2">
                 <MiniBarChart data={recentTrend} />
               </div>
-              <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-4 shadow-card">
-                <p className="text-xs font-label-md uppercase tracking-wider text-muted-foreground">Period summary</p>
+              <div className="rounded-xl border border-white/[0.08] bg-zinc-950 p-4 ">
+                <p className="text-xs text-xs uppercase tracking-wider text-zinc-500">Period summary</p>
                 <div className="mt-2 space-y-1 text-sm text-white">
                   <p>Type: <span className="font-medium capitalize">{report.type.replace('-', ' ')}</span></p>
                   <p>From: <span className="font-medium">{toISODate(new Date(report.periodFrom))}</span></p>
@@ -261,33 +261,33 @@ export default function AdminReportsPage() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-xl border border-[#262626] bg-obsidian-800/30 shadow-card">
+            <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-zinc-950 ">
               <div className="max-h-[520px] overflow-auto">
                 <table className="w-full min-w-[720px] table-auto text-left text-sm">
                   <thead className="sticky top-0 bg-inherit">
                     <tr>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Property</th>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Category</th>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground text-right">Amount</th>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Date</th>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Reference</th>
-                      <th className="px-4 py-2 text-xs font-label-md uppercase tracking-wider text-muted-foreground">Status</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500">Property</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500">Category</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500 text-right">Amount</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500">Date</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500">Reference</th>
+                      <th className="px-4 py-2 text-xs text-xs uppercase tracking-wider text-zinc-500">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {lines.slice(0, 200).map((line, idx) => (
-                      <tr key={idx} className="hover:bg-obsidian-800/60">
+                      <tr key={idx} className="hover:bg-zinc-900/60">
                         <td className="px-4 py-2 text-white">{line.label}</td>
-                        <td className="px-4 py-2 text-muted-foreground">{line.category}</td>
+                        <td className="px-4 py-2 text-zinc-500">{line.category}</td>
                         <td className="px-4 py-2 text-right font-medium text-white">{fmt(line.amount)}</td>
-                        <td className="px-4 py-2 text-muted-foreground">{line.date}</td>
-                        <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{line.reference}</td>
-                        <td className="px-4 py-2 text-muted-foreground">{line.status || '—'}</td>
+                        <td className="px-4 py-2 text-zinc-500">{line.date}</td>
+                        <td className="px-4 py-2 font-mono text-xs text-zinc-500">{line.reference}</td>
+                        <td className="px-4 py-2 text-zinc-500">{line.status || '—'}</td>
                       </tr>
                     ))}
                     {lines.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
+                        <td colSpan={6} className="px-4 py-12 text-center text-zinc-500">
                           No report lines for the selected filters.
                         </td>
                       </tr>
@@ -300,9 +300,9 @@ export default function AdminReportsPage() {
         )}
 
         {!report && !loading && !error && (
-          <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-12 text-center shadow-card">
+          <div className="rounded-xl border border-white/[0.08] bg-zinc-950 p-12 text-center ">
             <p className="text-lg font-medium text-white">No reports yet</p>
-            <p className="mt-2 text-sm text-muted-foreground">Download a report to populate this section.</p>
+            <p className="mt-2 text-sm text-zinc-500">Download a report to populate this section.</p>
           </div>
         )}
       </section>

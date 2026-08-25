@@ -56,14 +56,14 @@ const statusConfig: Record<
   string,
   { label: string; class: string }
 > = {
-  draft: { label: 'Draft', class: 'bg-muted text-muted-foreground border-[#262626]' },
+  draft: { class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]', label: 'Draft' },
   pending_landlord: { label: 'Pending Landlord', class: 'bg-[#262626] text-white border-primary/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
   tenant_signed: { label: 'Tenant Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
   landlord_signed: { label: 'Landlord Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
   fully_signed: { label: 'Fully Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
   terminated: { label: 'Terminated', class: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  expired: { label: 'Expired', class: 'bg-muted text-muted-foreground border-[#262626]' },
+  expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]' },
 };
 
 function fmtCurrency(value: number) {
@@ -125,7 +125,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             )}
             <div className="space-y-3">
               <div>
-                <p className="text-sm text-muted-foreground">Property</p>
+                <p className="text-sm text-zinc-500">Property</p>
                 <p className="font-medium text-white">{agreement.listing?.title}</p>
               </div>
               <div>
@@ -219,7 +219,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                       Signed
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="border-[#262626] text-muted-foreground">
+                    <Badge variant="outline" className="border-white/[0.08] text-zinc-500">
                       <Clock className="h-3 w-3 mr-1" />
                       Pending
                     </Badge>

@@ -219,7 +219,7 @@ export default function EstateManagerReportsPage() {
                 { id: '2', description: 'Unit 204 Rent', ref: 'TX-1045', amount: 350000, date: '2026-06-02' },
                 { id: '3', description: 'Unit 307 Rent', ref: 'TX-1046', amount: 420000, date: '2026-06-03' },
               ].map((r) => (
-                <tr key={r.id} className="border-b transition-colors hover:bg-muted/30" style={{ borderColor: 'var(--border)' }}>
+                <tr key={r.id} className="border-b transition-colors hover:bg-zinc-900/30" style={{ borderColor: 'var(--border)' }}>
                   <td className="p-4 text-sm" style={{ color: 'var(--text)' }}>{r.description}</td>
                   <td className="p-4 text-sm" style={{ color: 'var(--muted)' }}>{r.ref}</td>
                   <td className="p-4 text-sm font-medium text-right" style={{ color: 'var(--text)' }}>₦{r.amount.toLocaleString()}</td>

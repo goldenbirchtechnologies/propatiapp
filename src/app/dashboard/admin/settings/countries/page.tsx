@@ -74,12 +74,12 @@ export default function CountriesAdminPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Countries</h1>
+          <h1 className="text-2xl font-bold text-white">Countries</h1>
           <p className="text-zinc-400">Manage supported countries, jurisdictions, and feature availability</p>
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-primary-foreground"
+          className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground"
         >
           <Plus className="h-4 w-4" /> Add Country
         </button>
@@ -95,7 +95,7 @@ export default function CountriesAdminPage() {
             <input placeholder="Locale (e.g. en-GH)" value={form.locale} onChange={e => setForm({...form, locale: e.target.value})} className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2" />
             <input placeholder="Timezone (e.g. Africa/Accra)" value={form.timezone} onChange={e => setForm({...form, timezone: e.target.value})} className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2" />
             <div className="flex gap-2">
-              <button type="submit" className="rounded-lg bg-emerald-500 px-4 py-2 text-primary-foreground">Save</button>
+              <button type="submit" className="rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">Save</button>
               <button type="button" onClick={() => setShowAdd(false)} className="rounded-lg border border-zinc-800 px-4 py-2">Cancel</button>
             </div>
           </form>
@@ -109,7 +109,7 @@ export default function CountriesAdminPage() {
               <div className="flex items-center gap-3">
                 <Globe className="h-5 w-5 text-zinc-400" />
                 <div>
-                  <h3 className="font-semibold text-foreground">{country.name} ({country.code})</h3>
+                  <h3 className="font-semibold text-white">{country.name} ({country.code})</h3>
                   <p className="text-sm text-zinc-400">
                     {country.currency} · {country.locale} · {country.timezone}
                   </p>
@@ -142,7 +142,7 @@ export default function CountriesAdminPage() {
 
             {country.capabilities.length > 0 && (
               <div className="mt-4 border-t border-zinc-800 pt-4">
-                <p className="text-sm font-medium text-foreground mb-2">Feature Capabilities</p>
+                <p className="text-sm font-medium text-white mb-2">Feature Capabilities</p>
                 <div className="flex flex-wrap gap-2">
                   {country.capabilities.map(cap => (
                     <span key={cap.id} className={`text-xs px-2 py-1 rounded ${cap.enabled ? "bg-green-100 text-emerald-400" : cap.available ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>

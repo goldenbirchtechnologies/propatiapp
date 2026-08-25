@@ -13,7 +13,7 @@ import {
 } from '@/hooks/useOrganizationTickets';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Select,
@@ -75,8 +75,8 @@ export default function MaintenancePage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground">No organization found</p>
+        <Building2 className="h-16 w-16 text-zinc-500 mb-4" />
+        <p className="text-zinc-500">No organization found</p>
       </div>
     );
   }
@@ -136,8 +136,8 @@ export default function MaintenancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Maintenance Tickets</h1>
-          <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Track and manage maintenance requests</p>
+          <h1 className="text-white font-bold" style={{ fontSize: 'text-white', color: 'text-white' }}>Maintenance Tickets</h1>
+          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Track and manage maintenance requests</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
@@ -218,7 +218,7 @@ export default function MaintenancePage() {
                 <SelectItem value="unassigned">Unassigned</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex-1 text-xs font-label-md uppercase tracking-wider flex items-center" style={{ color: 'text-muted-foreground' }}>
+            <div className="flex-1 text-xs text-xs uppercase tracking-wider flex items-center" style={{ color: 'text-zinc-500' }}>
               <Filter className="h-4 w-4 mr-2" />
               {filteredTickets.length} tickets
             </div>
@@ -239,7 +239,7 @@ export default function MaintenancePage() {
             <CardContent className="space-y-3">
               {ticketsByStatus[status].length > 0 ? (
                 ticketsByStatus[status].map((ticket: unknown) => (
-                  <Card key={ticket.id} className="bg-background">
+                  <Card key={ticket.id} className="bg-zinc-900">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex items-start justify-between">
                         <h4 className="font-medium text-sm line-clamp-2">{ticket.title}</h4>
@@ -248,23 +248,23 @@ export default function MaintenancePage() {
                         </Badge>
                       </div>
                       {ticket.listing && (
-                        <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-muted-foreground' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-500' }}>
                           <Building2 className="h-3 w-3" /> {ticket.listing.title}
                         </p>
                       )}
                       {ticket.assignedToUser && (
-                        <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-muted-foreground' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-500' }}>
                           <User className="h-3 w-3" /> {ticket.assignedToUser.fullName}
                         </p>
                       )}
-                      <p className="text-xs font-label-md uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-muted-foreground' }}>
+                      <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-500' }}>
                         <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
                     </CardContent>
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-8 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
+                <div className="text-center py-8 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>
                   No tickets
                 </div>
               )}

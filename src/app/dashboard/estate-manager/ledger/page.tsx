@@ -123,7 +123,7 @@ export default function LedgerPage() {
             <CardTitle className="text-sm font-medium">Ledger Entries</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground py-8 text-center">
+            <p className="text-sm text-zinc-500 py-8 text-center">
               No ledger entries found.
             </p>
           </CardContent>

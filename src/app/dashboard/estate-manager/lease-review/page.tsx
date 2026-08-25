@@ -23,7 +23,7 @@ export default function EstateManagerLeaseReviewPage() {
         <ErrorBoundary>
           <section className="space-y-6">
             <h1 className="text-3xl font-bold text-white">Lease Agreement Review</h1>
-            <p className="text-muted-foreground">Unable to load agreement.</p>
+            <p className="text-zinc-500">Unable to load agreement.</p>
             <div className="bg-red-500/10 rounded-xl border border-red-500/20 p-6">
               <p className="text-red-500 font-medium">Error</p>
               <p className="text-red-500/80 text-sm mt-1">{error}</p>
@@ -44,7 +44,7 @@ export default function EstateManagerLeaseReviewPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">Lease Agreement Review</h1>
-            <p className="text-muted-foreground mt-1">Reference: PROP-2024-88492-L · Platinum Plaza, Suite 402</p>
+            <p className="text-zinc-500 mt-1">Reference: PROP-2024-88492-L · Platinum Plaza, Suite 402</p>
           </div>
           <div className="flex gap-3">
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500/20 text-red-500 hover:bg-red-500/10 transition-colors text-sm font-medium">
@@ -61,11 +61,11 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-[#262626] shadow-sm bg-background p-6">
-            <div className="border-b border-[#262626] pb-4 mb-6 flex justify-between items-start">
+          <div className="lg:col-span-2 rounded-xl border border-white/[0.08] shadow-sm bg-zinc-900 p-6">
+            <div className="border-b border-white/[0.08] pb-4 mb-6 flex justify-between items-start">
               <div>
                 <h2 className="font-heading text-xl font-bold text-white uppercase">Commercial Lease Agreement</h2>
-                <p className="text-sm text-muted-foreground mt-1">Reference: PROP-2024-88492-L</p>
+                <p className="text-sm text-zinc-500 mt-1">Reference: PROP-2024-88492-L</p>
               </div>
               <div className="p-2 bg-secondary-fixed/10 rounded-lg">
                 <FileText className="w-6 h-6 text-secondary" />
@@ -94,11 +94,11 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-[#262626] shadow-sm bg-background p-5">
+          <div className="rounded-xl border border-white/[0.08] shadow-sm bg-zinc-900 p-5">
             <h3 className="font-heading font-bold text-white mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (
-                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-[#262626]">
+                <div key={clause.id} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-white/[0.08]">
                   <span className="text-sm font-medium text-white">{clause.title}</span>
                   <span className="tag tag-amber">Pending</span>
                 </div>

@@ -6,7 +6,7 @@ import { useOrganizations } from '@/hooks/useOrganizations';
 import { useUnits } from '@/hooks/useUnits';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -159,7 +159,7 @@ export default function UnitsPage() {
               <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Unit registry and occupancy overview</p>
             </div>
           </div>
-          <Card className="border-red-500/30 bg-destructive/5">
+          <Card className="border-red-500/30 bg-red-500/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load units</p>
@@ -343,7 +343,7 @@ export default function UnitsPage() {
                   {filteredUnits.map((unit: unknown) => (
                     <TableRow
                       key={unit.id}
-                      className="cursor-pointer hover:bg-muted/30"
+                      className="cursor-pointer hover:bg-zinc-900/30"
                       onClick={() => router.push(`/dashboard/estate-manager/units/${unit.id}`)}
                     >
                       <TableCell className="font-medium">

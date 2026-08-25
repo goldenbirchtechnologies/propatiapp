@@ -12,7 +12,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -147,7 +147,7 @@ export default function UnitDetailPage() {
               </h1>
             </div>
           </div>
-          <Card className="border-red-500/30 bg-destructive/5">
+          <Card className="border-red-500/30 bg-red-500/5">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load unit details</p>

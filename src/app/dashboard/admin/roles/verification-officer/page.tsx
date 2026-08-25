@@ -119,11 +119,11 @@ function VerificationOfficerClient({
         {[
           { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#00ff66]' },
           { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
-          { label: 'Certified', value: counts.certifiedCount, color: 'bg-primary-container text-on-primary-container' },
+          { label: 'Certified', value: counts.certifiedCount, color: 'bg-emerald-500-container text-on-primary-container' },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-sm"
           >
             <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${stat.color}`}>
               {stat.label}
@@ -134,9 +134,9 @@ function VerificationOfficerClient({
       </div>
 
       {/* Assigned Users */}
-      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
-          <h3 className="font-headline-sm text-white">Assigned Users</h3>
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-white/[0.08] flex items-center justify-between bg-zinc-950">
+          <h3 className="text-white text-white">Assigned Users</h3>
           <span className="text-xs text-zinc-400">
             {users.filter((u) => u.isActive && !u.isBanned).length} active
           </span>
@@ -147,16 +147,16 @@ function VerificationOfficerClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-zinc-900 text-zinc-400 border-b border-[#262626]">
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Last Login</th>
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-white/[0.08]">
+                  <th className="px-lg py-md text-xs text-label-sm uppercase tracking-wider">User</th>
+                  <th className="px-lg py-md text-xs text-label-sm uppercase tracking-wider">Role</th>
+                  <th className="px-lg py-md text-xs text-label-sm uppercase tracking-wider">Status</th>
+                  <th className="px-lg py-md text-xs text-label-sm uppercase tracking-wider">Last Login</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                  <tr key={u.id} className="hover:bg-zinc-900 transition-colors">
                     <td className="px-lg py-md">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-white">

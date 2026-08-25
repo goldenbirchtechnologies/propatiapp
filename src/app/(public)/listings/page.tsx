@@ -1,542 +1,237 @@
-'use client'
+'use client';
 
-import AppIcon from '@/components/icons/app-icon';
+import { useState } from 'react';
+import Link from 'next/link';
+import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';
+import { PropertyCard, Btn } from '@/components/ui';
+import { SectionLabel } from '@/components/ui';
 
-import * as React from 'react';
-import { Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { CategoryToggle, type PropertyCategory } from '@/components/search/CategoryToggle';
-import { PropertyCard, PropertyCardSkeleton } from '@/components/listings/PropertyCard';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
+const categories = ['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'];
+const bedroomOptions = ['Any', '1', '2', '3', '4', '5+'];
+const sortOptions = ['Newest First', 'Price: Low to High', 'Price: High to Low', 'Most Verified'];
 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { FilterIcon, XIcon, MapPinIcon, SearchIcon } from 'lucide-react';
-
-// ============================================================================
-// TYPES
-// ============================================================================
-
-type VerificationTier = 'basic' | 'verified' | 'inspected' | 'certified';
-type PropertyType = 'apartment' | 'house' | 'duplex' | 'land' | 'shop' | 'office' | 'warehouse';
-type ListingType = 'rent' | 'sale' | 'short_let' | 'share' | 'commercial';
-type SortOption = 'verification' | 'newest' | 'price_asc' | 'price_desc';
-
-interface Filters {
-  category: PropertyCategory;
-  location: string;
-  priceMin: number;
-  priceMax: number;
-  bedrooms: number | null;
-  propertyTypes: PropertyType[];
-  verificationTier: VerificationTier[];
-  amenities: string[];
-  listingType: ListingType | 'all';
-}
-
-// ============================================================================
-// MOCK DATA (Replace with real API calls)
-// ============================================================================
-
-const MOCK_PROPERTIES = Array.from({ length: 12 }, (_, i) => {
-  const category = (i % 3 === 0 ? 'residential' : i % 3 === 1 ? 'commercial' : 'short_let') as
-    | 'residential'
-    | 'commercial'
-    | 'short_let';
-
-  const titles: Record<string, string[]> = {
-    residential: [
-      '3 Bedroom Luxury Apartment with Pool',
-      '2 Bedroom Duplex in Lekki',
-      'Luxury 4 Bedroom Detached House',
-      'Studio Apartment in VI',
-    ],
-    commercial: [
-      'Open Plan Office Space in VI',
-      'Retail Shop Front on Main Road',
-      'Serviced Office in Lekki',
-      'Co-working Space in Ikeja GRA',
-    ],
-    short_let: [
-      'Short Let Studio Apartment',
-      'Serviced 1 Bedroom Short Let',
-      'Furnished 2 Bedroom Short Stay',
-      'Luxury Short Let Flat in VI',
-    ],
-  };
-
-  return {
-    id: `prop-${i + 1}`,
-    title: titles[category][i % titles[category].length],
-    location: i % 3 === 0 ? 'Lekki Phase 1, Lagos' : i % 3 === 1 ? 'Victoria Island, Lagos' : 'Ikeja GRA, Lagos',
-    price: (i + 1) * 5000000,
-    pricePeriod: category === 'short_let' ? 'night' : 'year',
-    category,
-    verificationTier: (['basic', 'verified', 'inspected', 'certified'][i % 4]) as VerificationTier,
-    listingType: (['rent', 'sale', 'short_let'][i % 3]) as ListingType,
-    image: `https://picsum.photos/seed/${i + 1}/800/600`,
-    specs:
-      category === 'commercial'
-        ? { sqm: 200, parking: 10 }
-        : category === 'short_let'
-          ? { beds: 1, baths: 1, sqm: 45 }
-          : { beds: 3, baths: 2, sqm: 120 },
-    isSaved: false,
-  };
-});
-
-const AMENITIES = [
-  'Swimming Pool',
-  '24/7 Security',
-  'Parking',
-  'Gym',
-  'Generator',
-  'Elevator',
-  'Garden',
-  'Playground',
+const listings = [
+  {
+    id: '1',
+    title: '3 Bedroom Luxury Apartment with Pool',
+    address: 'Lekki Phase 1, Lagos',
+    price: 8500000,
+    type: 'rent',
+    beds: 3,
+    baths: 4,
+    sqm: 180,
+    image: 'https://picsum.photos/seed/1/800/600',
+    verified: true,
+    pricePeriod: 'year' as const,
+  },
+  {
+    id: '2',
+    title: '2 Bedroom Duplex in Lekki',
+    address: 'Victoria Island, Lagos',
+    price: 15000000,
+    type: 'sale',
+    beds: 2,
+    baths: 3,
+    sqm: 140,
+    image: 'https://picsum.photos/seed/2/800/600',
+    verified: true,
+    pricePeriod: 'once' as const,
+  },
+  {
+    id: '3',
+    title: 'Luxury 4 Bedroom Detached House',
+    address: 'Ikeja GRA, Lagos',
+    price: 65000000,
+    type: 'sale',
+    beds: 4,
+    baths: 5,
+    sqm: 350,
+    image: 'https://picsum.photos/seed/3/800/600',
+    verified: true,
+    pricePeriod: 'once' as const,
+  },
+  {
+    id: '4',
+    title: 'Studio Apartment in VI',
+    address: 'Victoria Island, Lagos',
+    price: 1200000,
+    type: 'rent',
+    beds: 1,
+    baths: 1,
+    sqm: 55,
+    image: 'https://picsum.photos/seed/4/800/600',
+    verified: false,
+    pricePeriod: 'year' as const,
+  },
+  {
+    id: '5',
+    title: 'Open Plan Office Space in VI',
+    address: 'Victoria Island, Lagos',
+    price: 25000000,
+    type: 'commercial',
+    sqm: 200,
+    parking: 10,
+    image: 'https://picsum.photos/seed/5/800/600',
+    verified: true,
+    pricePeriod: 'year' as const,
+  },
+  {
+    id: '6',
+    title: 'Serviced Office in Lekki',
+    address: 'Lekki Phase 1, Lagos',
+    price: 18000000,
+    type: 'commercial',
+    sqm: 150,
+    parking: 8,
+    image: 'https://picsum.photos/seed/6/800/600',
+    verified: true,
+    pricePeriod: 'year' as const,
+  },
+  {
+    id: '7',
+    title: 'Short Let Studio Apartment',
+    address: 'Ikeja GRA, Lagos',
+    price: 45000,
+    type: 'short_let',
+    beds: 1,
+    baths: 1,
+    sqm: 45,
+    image: 'https://picsum.photos/seed/7/800/600',
+    verified: false,
+    pricePeriod: 'night' as const,
+  },
+  {
+    id: '8',
+    title: 'Furnished 2 Bedroom Short Stay',
+    address: 'Lekki Phase 1, Lagos',
+    price: 85000,
+    type: 'short_let',
+    beds: 2,
+    baths: 2,
+    sqm: 75,
+    image: 'https://picsum.photos/seed/8/800/600',
+    verified: true,
+    pricePeriod: 'night' as const,
+  },
+  {
+    id: '9',
+    title: 'Retail Shop Front on Main Road',
+    address: 'Ikeja, Lagos',
+    price: 12000000,
+    type: 'commercial',
+    sqm: 80,
+    parking: 0,
+    image: 'https://picsum.photos/seed/9/800/600',
+    verified: true,
+    pricePeriod: 'year' as const,
+  },
 ];
 
-const RESIDENTIAL_TYPES: PropertyType[] = ['apartment', 'house', 'duplex', 'land'];
-const COMMERCIAL_TYPES: PropertyType[] = ['shop', 'office', 'warehouse'];
+export default function ListingsPage() {
+  const [category, setCategory] = useState('All');
+  const [bedrooms, setBedrooms] = useState('Any');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sort, setSort] = useState('Newest First');
+  const [search, setSearch] = useState('');
 
-// ============================================================================
-// MAIN COMPONENT
-// ============================================================================
-
-function ListingsPageInner() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  // ============================================================================
-  // STATE
-  // ============================================================================
-
-  const [filters, setFilters] = React.useState<Filters>({
-    category: 'residential',
-    location: '',
-    priceMin: 0,
-    priceMax: 100000000,
-    bedrooms: null,
-    propertyTypes: [],
-    verificationTier: [],
-    amenities: [],
-    listingType: 'all',
+  const filtered = listings.filter((l) => {
+    const matchesCategory = category === 'All' || l.type === category.toLowerCase();
+    const matchesSearch =
+      !search ||
+      l.title.toLowerCase().includes(search.toLowerCase()) ||
+      l.address.toLowerCase().includes(search.toLowerCase());
+    return matchesCategory && matchesSearch;
   });
 
-  const [sortBy, setSortBy] = React.useState<SortOption>('verification');
-  const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('grid');
-  const [filtersDrawerOpen, setFiltersDrawerOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    if (filtersDrawerOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [filtersDrawerOpen]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [activeFilterCount, setActiveFilterCount] = React.useState(0);
-
-  // ============================================================================
-  // EFFECTS
-  // ============================================================================
-
-  // Count active filters (excluding defaults)
-  React.useEffect(() => {
-    let count = 0;
-    if (filters.location) count++;
-    if (filters.priceMin > 0 || filters.priceMax < 100000000) count++;
-    if (filters.bedrooms !== null) count++;
-    if (filters.propertyTypes.length > 0) count++;
-    if (filters.verificationTier.length > 0) count++;
-    if (filters.amenities.length > 0) count++;
-    if (filters.listingType !== 'all') count++;
-    setActiveFilterCount(count);
-  }, [filters]);
-
-  // Sync with URL params (optional)
-  React.useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    if (categoryParam === 'residential' || categoryParam === 'commercial' || categoryParam === 'short_let') {
-      setFilters((prev) => ({ ...prev, category: categoryParam }));
-    }
-  }, [searchParams]);
-
-  // ============================================================================
-  // HANDLERS
-  // ============================================================================
-
-  const handleCategoryChange = (category: PropertyCategory) => {
-    setFilters((prev) => ({
-      ...prev,
-      category,
-      listingType: category === 'short_let' ? 'short_let' : 'all',
-      propertyTypes: [],
-      bedrooms: category === 'commercial' || category === 'short_let' ? null : prev.bedrooms,
-    }));
-  };
-
-  const handlePriceRangeChange = (values: number[]) => {
-    setFilters((prev) => ({
-      ...prev,
-      priceMin: values[0],
-      priceMax: values[1],
-    }));
-  };
-
-  const handleBedroomSelect = (bedrooms: number | null) => {
-    setFilters((prev) => ({ ...prev, bedrooms }));
-  };
-
-  const handlePropertyTypeToggle = (type: PropertyType) => {
-    setFilters((prev) => ({
-      ...prev,
-      propertyTypes: prev.propertyTypes.includes(type)
-        ? prev.propertyTypes.filter((t) => t !== type)
-        : [...prev.propertyTypes, type],
-    }));
-  };
-
-  const handleVerificationTierToggle = (tier: VerificationTier) => {
-    setFilters((prev) => ({
-      ...prev,
-      verificationTier: prev.verificationTier.includes(tier)
-        ? prev.verificationTier.filter((t) => t !== tier)
-        : [...prev.verificationTier, tier],
-    }));
-  };
-
-  const handleAmenityToggle = (amenity: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      amenities: prev.amenities.includes(amenity)
-        ? prev.amenities.filter((a) => a !== amenity)
-        : [...prev.amenities, amenity],
-    }));
-  };
-
-  const handleResetFilters = () => {
-    setFilters({
-      category: 'residential',
-      location: '',
-      priceMin: 0,
-      priceMax: 100000000,
-      bedrooms: null,
-      propertyTypes: [],
-      verificationTier: [],
-      amenities: [],
-      listingType: 'all',
-    });
-    setSortBy('verification');
-  };
-
-  const handleSaveProperty = (id: string) => {
-    console.log('Save property:', id);
-    // Implement save logic here
-  };
-
-  // ============================================================================
-  // FILTER & SORT LOGIC
-  // ============================================================================
-
-  const filteredProperties = React.useMemo(() => {
-    let results = [...MOCK_PROPERTIES];
-
-    // Category filter
-    results = results.filter((p) => p.category === filters.category);
-
-    // Location filter
-    if (filters.location) {
-      results = results.filter((p) =>
-        p.location.toLowerCase().includes(filters.location.toLowerCase())
-      );
-    }
-
-    // Price filter
-    results = results.filter(
-      (p) => p.price >= filters.priceMin && p.price <= filters.priceMax
-    );
-
-    // Bedrooms filter (residential only)
-    if (filters.bedrooms !== null && filters.category === 'residential') {
-      results = results.filter(
-        (p) => p.specs.beds && p.specs.beds >= filters.bedrooms!
-      );
-    }
-
-    // Property type filter
-    if (filters.propertyTypes.length > 0) {
-      // For demo purposes, we don't have propertyType in mock data
-      // In real implementation, filter by propertyTypes
-    }
-
-    // Verification tier filter
-    if (filters.verificationTier.length > 0) {
-      results = results.filter((p) =>
-        filters.verificationTier.includes(p.verificationTier)
-      );
-    }
-
-    // Listing type filter
-    if (filters.listingType !== 'all') {
-      results = results.filter((p) => p.listingType === filters.listingType);
-    }
-
-    // Sort
-    switch (sortBy) {
-      case 'verification': {
-        const tierOrder: Record<VerificationTier, number> = {
-          certified: 4,
-          inspected: 3,
-          verified: 2,
-          basic: 1,
-        };
-        results.sort((a, b) => tierOrder[b.verificationTier] - tierOrder[a.verificationTier]);
-        break;
-      }
-      case 'newest':
-        // In real app, sort by date
-        break;
-      case 'price_asc':
-        results.sort((a, b) => a.price - b.price);
-        break;
-      case 'price_desc':
-        results.sort((a, b) => b.price - a.price);
-        break;
-    }
-
-    return results;
-  }, [MOCK_PROPERTIES, filters, sortBy]);
-
-  // ============================================================================
-  // RENDER HELPERS
-  // ============================================================================
-
-  const renderFilters = () => (
-    <div className="space-y-6">
-      {/* Price Range */}
-      <div>
-        <label className="block text-sm font-semibold text-white mb-2">
-          Price Range
-        </label>
-        <div className="flex items-center gap-2">
-          <div className="relative flex-1">
-            <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
+  return (
+    <div className="bg-black min-h-screen pt-16">
+      {/* Sticky filter bar */}
+      <div className="sticky top-16 z-30 bg-black/90 backdrop-blur-md border-b border-white/[0.08]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
+          {/* Search */}
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-600" />
             <input
-              type="number"
-              placeholder="Min"
-              value={filters.priceMin || ''}
-              onChange={(e) => setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
+              type="text"
+              placeholder="Search location or property…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-8 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
             />
           </div>
-          <span className="text-zinc-600">-</span>
-          <div className="relative flex-1">
-            <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
-            <input
-              type="number"
-              placeholder="Max"
-              value={filters.priceMax === 100000000 ? '' : filters.priceMax}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))
-              }
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-7 pr-3 py-2 text-sm text-white focus:border-emerald-500"
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Bedrooms (Residential Only) */}
-      {filters.category === 'residential' && (
-        <div>
-          <label className="block text-sm font-semibold text-white mb-2">Bedrooms</label>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4].map((num) => (
+          {/* Category tabs */}
+          <div className="hidden md:flex items-center gap-1 bg-zinc-950 border border-zinc-800 rounded-lg p-1">
+            {categories.map((cat) => (
               <button
-                key={num}
-                onClick={() => handleBedroomSelect(filters.bedrooms === num ? null : num)}
-                className={cn(
-                  'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors',
-                  'border border-zinc-800',
-                  filters.bedrooms === num
-                    ? 'bg-emerald-500 text-white border-emerald-500'
-                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
-                )}
+                key={cat}
+                onClick={() => setCategory(cat)}
+                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                  category === cat
+                    ? 'bg-emerald-500 text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
               >
-                {num === 4 ? '4+' : num}
+                {cat}
               </button>
             ))}
           </div>
-        </div>
-      )}
 
-      {/* Property Type */}
-      <div>
-        <label className="block text-sm font-semibold text-white mb-2">Property Type</label>
-        <div className="space-y-2">
-          {(filters.category === 'residential' || filters.category === 'short_let' ? RESIDENTIAL_TYPES : COMMERCIAL_TYPES).map((type) => (
-            <label
-              key={type}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <Checkbox
-                checked={filters.propertyTypes.includes(type)}
-                onCheckedChange={() => handlePropertyTypeToggle(type)}
-              />
-              <span className="text-sm text-white capitalize group-hover:text-emerald-400 transition-colors">
-                {type}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Verification Tier */}
-      <div>
-        <label className="block text-sm font-semibold text-white mb-2">
-          Verification Level
-        </label>
-        <div className="space-y-2">
-          {(['basic', 'verified', 'inspected', 'certified'] as VerificationTier[]).map((tier) => (
-            <label
-              key={tier}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <Checkbox
-                checked={filters.verificationTier.includes(tier)}
-                onCheckedChange={() => handleVerificationTierToggle(tier)}
-              />
-              <span className="text-sm text-white capitalize group-hover:text-emerald-400 transition-colors">
-                {tier}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Amenities */}
-      <div>
-        <label className="block text-sm font-semibold text-white mb-2">Amenities</label>
-        <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
-          {AMENITIES.map((amenity) => (
-            <label
-              key={amenity}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <Checkbox
-                checked={filters.amenities.includes(amenity)}
-                onCheckedChange={() => handleAmenityToggle(amenity)}
-              />
-              <span className="text-sm text-white group-hover:text-emerald-400 transition-colors">
-                {amenity}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Reset Button */}
-      {activeFilterCount > 0 && (
-        <Button
-          variant="outline"
-          onClick={handleResetFilters}
-          className="w-full"
-        >
-          <XIcon className="h-4 w-4 mr-2" />
-          Reset Filters
-        </Button>
-      )}
-    </div>
-  );
-
-  // ============================================================================
-  // RENDER
-  // ============================================================================
-
-  return (
-    <div>
-      <div className="min-h-screen bg-black">
-      {/* Sticky Filter Bar - Below nav */}
-      <div className="sticky top-[64px] z-40 bg-black/90 backdrop-blur-md border-b border-zinc-800 shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-4">
-          <div className="flex items-center gap-4 flex-wrap">
-            {/* Category Toggle */}
-            <CategoryToggle
-              value={filters.category}
-              onChange={handleCategoryChange}
-            />
-
-            {/* Location Quick Filter */}
-            <div className="hidden md:flex flex-1 max-w-xs relative">
-              <MapPinIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-              <Input
-                type="text"
-                placeholder="Lekki, VI, Ikeja..."
-                value={filters.location}
-                onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
-                className="pl-9 h-10 placeholder:text-zinc-600"
-              />
+          <div className="flex items-center gap-2 ml-auto">
+            {/* Sort */}
+            <div className="relative hidden sm:block">
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="appearance-none pl-3 pr-7 py-2 text-xs bg-zinc-950 border border-zinc-800 rounded-lg text-zinc-300 focus:outline-none cursor-pointer"
+              >
+                {sortOptions.map((o) => <option key={o}>{o}</option>)}
+              </select>
+              <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-600 pointer-events-none" />
             </div>
 
-            {/* All Filters Button */}
-            <Button
-              variant="outline"
-              onClick={() => setFiltersDrawerOpen(true)}
-              className="relative"
-            >
-              <FilterIcon className="h-4 w-4 mr-2" />
-              Filters
-              {activeFilterCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                  {activeFilterCount}
-                </span>
-              )}
-            </Button>
+            {/* View toggle */}
+            <div className="flex items-center bg-zinc-950 border border-zinc-800 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}
+              >
+                <Grid3X3 size={13} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}
+              >
+                <List size={13} />
+              </button>
+            </div>
 
-            {/* Sort Dropdown */}
-            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
-              <SelectTrigger className="w-[180px] h-10">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="verification">Verification Tier</SelectItem>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="price_desc">Price: High to Low</SelectItem>
-                <SelectItem value="price_asc">Price: Low to High</SelectItem>
-              </SelectContent>
-            </Select>
+            {/* Filter drawer toggle */}
+            <button
+              onClick={() => setFilterOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-300 border border-zinc-800 bg-zinc-950 rounded-lg hover:border-zinc-600 transition-colors"
+            >
+              <SlidersHorizontal size={12} />
+              Filters
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex gap-6">
           {/* Sidebar filters — desktop */}
           <aside className="hidden lg:block w-56 flex-shrink-0 space-y-6">
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Type</h3>
               <div className="space-y-1">
-                {['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'].map((cat) => (
+                {categories.map((cat) => (
                   <button
                     key={cat}
-                    onClick={() => setFilters((prev) => ({ ...prev, category: cat.toLowerCase() as PropertyCategory, listingType: cat === 'All' ? 'all' : cat.toLowerCase() as ListingType }))}
+                    onClick={() => setCategory(cat)}
                     className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
-                      filters.category === cat.toLowerCase()
-                        ? 'bg-emerald-500/10 text-emerald-400'
-                        : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
+                      category === cat ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
                     }`}
                   >
                     {cat}
@@ -548,38 +243,28 @@ function ListingsPageInner() {
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Price Range</h3>
               <div className="space-y-2">
-                <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
-                  <input
-                    type="text"
-                    placeholder="Min"
-                    value={filters.priceMin || ''}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))}
-                    className="w-full pl-7 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-                <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
-                  <input
-                    type="text"
-                    placeholder="Max"
-                    value={filters.priceMax === 100000000 ? '' : filters.priceMax}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))}
-                    className="w-full pl-7 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Min (₦)"
+                  className="w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
+                />
+                <input
+                  type="text"
+                  placeholder="Max (₦)"
+                  className="w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
+                />
               </div>
             </div>
 
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Bedrooms</h3>
               <div className="flex flex-wrap gap-1.5">
-                {['Any', '1', '2', '3', '4+'].map((b) => (
+                {bedroomOptions.map((b) => (
                   <button
                     key={b}
-                    onClick={() => setFilters((prev) => ({ ...prev, bedrooms: b === 'Any' ? null : Number(b) }))}
+                    onClick={() => setBedrooms(b)}
                     className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
-                      (b === 'Any' && filters.bedrooms === null) || filters.bedrooms === Number(b)
+                      bedrooms === b
                         ? 'bg-emerald-500 border-emerald-500 text-white'
                         : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600'
                     }`}
@@ -605,7 +290,7 @@ function ListingsPageInner() {
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Amenities</h3>
               <div className="space-y-2">
-                {AMENITIES.map((a) => (
+                {['Swimming Pool', 'Gym', '24/7 Security', 'Generator', 'Car Park', 'Smart Home'].map((a) => (
                   <label key={a} className="flex items-center gap-2.5 cursor-pointer">
                     <div className="w-4 h-4 rounded border border-zinc-700 bg-zinc-950 flex-shrink-0" />
                     <span className="text-sm text-zinc-400 hover:text-zinc-200">{a}</span>
@@ -619,157 +304,98 @@ function ListingsPageInner() {
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-5">
               <p className="text-sm text-zinc-500">
-                Showing <span className="text-white font-medium">{filteredProperties.length}</span> properties
-                {filters.category !== 'all' && ` · ${filters.category}`}
+                Showing <span className="text-white font-medium">{filtered.length}</span> properties
+                {category !== 'All' && ` · ${category}`}
               </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={cn(
-                    'p-1.5 rounded-md transition-colors',
-                    viewMode === 'grid' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'
-                  )}
-                  aria-label="Grid view"
-                >
-                  <Grid3X3 size={13} />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={cn(
-                    'p-1.5 rounded-md transition-colors',
-                    viewMode === 'list' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'
-                  )}
-                  aria-label="List view"
-                >
-                  <List size={13} />
-                </button>
-              </div>
             </div>
 
-            {/* Loading State */}
-            {isLoading && (
-              <div className={cn(
-                'grid gap-6',
-                viewMode === 'grid'
-                  ? 'grid-cols-1 md:grid-cols-2'
-                  : 'grid-cols-1'
-              )}>
-                <PropertyCardSkeleton count={6} />
-              </div>
-            )}
-
-            {/* Empty State */}
-            {!isLoading && filteredProperties.length === 0 && (
-              <div className="text-center py-16">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-zinc-900 mb-4">
-                  <SearchIcon className="h-12 w-12 text-zinc-500" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
-                <p className="text-sm text-zinc-500 mb-6 max-w-md mx-auto">
-                  Try adjusting your filters or search criteria to find what you're looking for.
-                </p>
-                <Button onClick={handleResetFilters} variant="outline">
-                  <XIcon className="h-4 w-4 mr-2" />
-                  Reset All Filters
-                </Button>
-              </div>
-            )}
-
-            {/* Property Grid */}
-            {!isLoading && filteredProperties.length > 0 && (
-              <div className={cn(
-                'grid gap-6 pb-24',
-                viewMode === 'grid'
-                  ? 'grid-cols-1 md:grid-cols-2'
-                  : 'grid-cols-1'
-              )}>
-                {filteredProperties.map((property) => (
+            <div className={viewMode === 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
+              {filtered.map((listing) => (
+                <Link key={listing.id} href={`/listings/${listing.id}`}>
                   <PropertyCard
-                    key={property.id}
-                    {...property}
-                    onSave={handleSaveProperty}
-                    onClick={() => router.push(`/listings/${property.id}`)}
+                    id={listing.id}
+                    title={listing.title}
+                    location={listing.address}
+                    price={listing.price}
+                    pricePeriod={listing.pricePeriod}
+                    category={listing.type as 'residential' | 'commercial' | 'short_let'}
+                    verificationTier={listing.verified ? 'verified' : 'basic'}
+                    listingType={listing.type as 'rent' | 'sale' | 'short_let' | 'share' | 'commercial'}
+                    image={listing.image}
+                    specs={{ beds: listing.beds, baths: listing.baths, sqm: listing.sqm, parking: listing.parking }}
                   />
-                ))}
-              </div>
-
-              {/* Load More Button */}
-              {filteredProperties.length >= 12 && (
-                <div className="mt-8 flex justify-center">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      // Load more logic
-                      console.log('Load more');
-                    }}
-                  >
-                    Load More Properties
-                  </Button>
+                </Link>
+              ))}
+              {filtered.length === 0 && (
+                <div className="col-span-3 py-20 text-center text-zinc-600">
+                  No properties match your filters. Try adjusting your search.
                 </div>
               )}
-            )}
+            </div>
+
+            {/* Load more */}
+            <div className="text-center mt-10">
+              <Btn variant="secondary" size="lg">
+                Load more listings
+              </Btn>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Filters Drawer */}
-      {filtersDrawerOpen && (
-        <div className="fixed inset-0 z-50">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-            onClick={() => setFiltersDrawerOpen(false)}
-          />
-
-          {/* Drawer */}
-          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-zinc-900 border-l border-zinc-800 shadow-2xl z-50 modal-slide-right">
-            <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
-              <h3 className="text-xl font-bold text-white">Filters</h3>
-              <button
-                onClick={() => setFiltersDrawerOpen(false)}
-                className="p-2 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
-              >
-                <XIcon className="h-5 w-5" />
+      {/* Mobile filter drawer */}
+      {filterOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setFilterOpen(false)} />
+          <div className="relative ml-auto w-[320px] h-full bg-zinc-950 border-l border-white/[0.08] flex flex-col">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
+              <span className="text-white font-semibold">Filters</span>
+              <button onClick={() => setFilterOpen(false)} className="text-zinc-500 hover:text-white">
+                <X size={18} />
               </button>
             </div>
-
-            <div className="px-6 py-6 overflow-y-auto h-full pb-32">
-              {renderFilters()}
-            </div>
-
-            <div className="absolute bottom-0 left-0 right-0 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur-sm px-6 py-4">
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  size="lg"
-                  onClick={handleResetFilters}
-                >
-                  <XIcon className="h-4 w-4 mr-2" />
-                  Clear All
-                </Button>
-                <Button
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white"
-                  size="lg"
-                  onClick={() => setFiltersDrawerOpen(false)}
-                >
-                  Apply Filters
-                </Button>
+            <div className="flex-1 overflow-y-auto p-5 space-y-6">
+              <div>
+                <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Bedrooms</h3>
+                <div className="flex flex-wrap gap-2">
+                  {bedroomOptions.map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => setBedrooms(b)}
+                      className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                        bedrooms === b ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                      }`}
+                    >
+                      {b}
+                    </button>
+                  ))}
+                </div>
               </div>
+              <div>
+                <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Price Range</h3>
+                <div className="space-y-2">
+                  <input type="text" placeholder="Min (₦)" className="w-full px-3 py-2 text-sm bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none" />
+                  <input type="text" placeholder="Max (₦)" className="w-full px-3 py-2 text-sm bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none" />
+                </div>
+              </div>
+            </div>
+            <div className="p-5 border-t border-white/[0.08] flex gap-2">
+              <button
+                onClick={() => setFilterOpen(false)}
+                className="flex-1 py-2.5 text-sm text-zinc-400 border border-zinc-800 rounded-lg hover:text-white transition-colors"
+              >
+                Reset
+              </button>
+              <button
+                onClick={() => setFilterOpen(false)}
+                className="flex-1 py-2.5 text-sm font-medium bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
+              >
+                Apply Filters
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
-    </div>
-  );
-}
-
-export default function ListingsPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading listings...</div>}>
-      <ListingsPageInner />
-    </Suspense>
   );
 }

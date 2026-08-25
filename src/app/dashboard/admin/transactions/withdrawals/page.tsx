@@ -184,7 +184,7 @@ function WithdrawalsClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-sm"
           >
             <div className="text-sm text-zinc-400 font-medium mb-2">{card.label}</div>
             <div className="font-headline-md text-headline-md text-white leading-tight">{card.value}</div>
@@ -194,9 +194,9 @@ function WithdrawalsClient({
       </div>
 
       {/* Transaction Feed */}
-      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-[#262626] flex flex-col md:flex-row md:items-center justify-between gap-md bg-obsidian-800/30">
-          <h3 className="font-headline-sm text-white">Recent Transactions</h3>
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden">
+        <div className="p-md border-b border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-md bg-zinc-950">
+          <h3 className="text-white text-white">Recent Transactions</h3>
           <span className="text-xs text-zinc-400">
             Showing {transactions.length} most recent
           </span>
@@ -207,11 +207,11 @@ function WithdrawalsClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-zinc-900 border-b border-[#262626]">
+                <tr className="bg-zinc-900 border-b border-white/[0.08]">
                   {['ID', 'Type', 'Amount', 'Fee', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
-                      className="px-md py-3 font-label-md text-label-sm text-zinc-400 uppercase tracking-wider"
+                      className="px-md py-3 text-xs text-label-sm text-zinc-400 uppercase tracking-wider"
                     >
                       {h}
                     </th>
@@ -220,7 +220,7 @@ function WithdrawalsClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                  <tr key={tx.id} className="hover:bg-zinc-900 transition-colors">
                     <td className="px-md py-4 font-label-sm text-label-sm text-white whitespace-nowrap">
                       {tx.reference || tx.id.slice(0, 12)}
                     </td>
@@ -267,7 +267,7 @@ function WithdrawalsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-[#262626] flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-white/[0.08] flex items-center justify-between">
           <p className="text-xs text-zinc-400">
             {transactions.length} records shown
           </p>

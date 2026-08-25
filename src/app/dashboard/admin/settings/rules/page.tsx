@@ -73,7 +73,7 @@ export default function RulesEnginePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Rules Engine</h1>
+        <h1 className="text-2xl font-bold text-white">Rules Engine</h1>
         <p className="text-zinc-400">Manage jurisdiction rules, compliance events, and document templates</p>
       </div>
 
@@ -96,7 +96,7 @@ export default function RulesEnginePage() {
           {tab === "rules" && (
             <div className="space-y-4">
               <div className="flex justify-end">
-                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-primary-foreground">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">
                   <Plus className="h-4 w-4" /> Add Rule
                 </button>
               </div>
@@ -109,7 +109,7 @@ export default function RulesEnginePage() {
                   <div key={rule.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-foreground">{rule.name}</h3>
+                        <h3 className="font-semibold text-white">{rule.name}</h3>
                         <p className="text-sm text-zinc-400">{rule.ruleType} · Priority: {rule.priority}</p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function RulesEnginePage() {
                   <div key={event.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-foreground">{event.title}</h3>
+                        <h3 className="font-semibold text-white">{event.title}</h3>
                         <p className="text-sm text-zinc-400">{event.eventType} · Due: {new Date(event.deadline).toLocaleDateString()}</p>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded ${event.status === "completed" ? "bg-green-100 text-emerald-400" : event.status === "overdue" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>
@@ -152,7 +152,7 @@ export default function RulesEnginePage() {
           {tab === "templates" && (
             <div className="space-y-4">
               <div className="flex justify-end">
-                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-primary-foreground">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-emerald-400-foreground">
                   <Plus className="h-4 w-4" /> Add Template
                 </button>
               </div>
@@ -163,7 +163,7 @@ export default function RulesEnginePage() {
                   <div key={tpl.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-foreground">{tpl.name}</h3>
+                        <h3 className="font-semibold text-white">{tpl.name}</h3>
                         <p className="text-sm text-zinc-400">v{tpl.version} · {tpl.language}</p>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded ${tpl.active ? "bg-green-100 text-emerald-400" : "bg-gray-100 text-gray-600"}`}>

@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
 import { Users, Search, Filter } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -83,10 +83,10 @@ export default function EstateManagerTenantsPage() {
         <ErrorBoundary>
           <div className="space-y-6">
             <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
+              <h1 className="text-white font-bold" style={{ fontSize: 'text-white', color: 'text-white' }}>Tenants</h1>
+              <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
             </div>
-            <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
+            <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-6 text-center" role="alert">
               <p className="text-red-500 font-medium mb-1">Unable to load tenants</p>
               <p className="text-sm text-zinc-400 mb-3">{error instanceof Error ? error.message : 'Something went wrong.'}</p>
               <button onClick={retry} className="btn btn-secondary text-sm" style={{ padding: 'p-4 p-6' }}>Retry</button>
@@ -111,13 +111,13 @@ export default function EstateManagerTenantsPage() {
   const statusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-zinc-800">Active</Badge>;
+        return <Badge variant="default" className="bg-emerald-500/10 text-[#10b981] border border-zinc-800">Active</Badge>;
       case 'pending':
-        return <Badge variant="secondary" className="bg-warning/10 text-warning border border-zinc-800">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-zinc-800">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-muted text-zinc-400 border border-zinc-800">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-zinc-800">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-muted text-zinc-400 border border-zinc-800">{status}</Badge>;
+        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-zinc-800">{status}</Badge>;
     }
   };
 
@@ -129,8 +129,8 @@ export default function EstateManagerTenantsPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Tenants</h1>
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
+            <h1 className="text-white font-bold" style={{ fontSize: 'text-white', color: 'text-white' }}>Tenants</h1>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400', marginTop: 'mt-1' }}>Manage tenant operations and occupancy</p>
           </div>
         </div>
 
@@ -144,30 +144,30 @@ export default function EstateManagerTenantsPage() {
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Total Tenants</p>
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Total Tenants</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{totalTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-[#10b981]" />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Active</p>
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Active</p>
                 </div>
                 <p className="text-2xl font-bold text-[#10b981]">{activeTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Pending</p>
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Pending</p>
                 </div>
                 <p className="text-2xl font-bold" className="text-white">{pendingTenants}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Users className="w-4 h-4 text-warning" />
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Notice Period</p>
+                  <Users className="w-4 h-4 text-amber-400" />
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Notice Period</p>
                 </div>
-                <p className="text-2xl font-bold text-warning">{noticePeriodTenants}</p>
+                <p className="text-2xl font-bold text-amber-400">{noticePeriodTenants}</p>
               </Card>
             </>
           )}

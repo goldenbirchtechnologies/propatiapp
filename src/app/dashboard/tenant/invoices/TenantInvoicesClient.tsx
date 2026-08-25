@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]', label: 'Draft' },
-  sent: { class: 'bg-[#262626] text-neutral-300 border-[#262626]', label: 'Sent' },
+  draft: { class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-zinc-900 text-zinc-300 border-white/[0.08]', label: 'Sent' },
   paid: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -54,17 +54,17 @@ export default function TenantInvoicesClient() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-obsidian-800/30">
-                  <th className="px-4 py-3 font-label-sm text-neutral-400 uppercase">Invoice</th>
-                  <th className="px-4 py-3 font-label-sm text-neutral-400 uppercase">Status</th>
-                  <th className="px-4 py-3 font-label-sm text-neutral-400 uppercase">Amount</th>
-                  <th className="px-4 py-3 font-label-sm text-neutral-400 uppercase">Due</th>
-                  <th className="px-4 py-3 font-label-sm text-neutral-400 uppercase">Actions</th>
+                <tr className="bg-zinc-950">
+                  <th className="px-4 py-3 font-label-sm text-zinc-500 uppercase">Invoice</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-500 uppercase">Status</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-500 uppercase">Amount</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-500 uppercase">Due</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-500 uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#262626]">
-                {invoices.map((invoice: unknown) => (
-                  <tr key={invoice.id} className="hover:bg-obsidian-800-lowest/60">
+              <tbody className="divide-y divide-white/[0.08]">
+                {invoices.map((invoice: any) => (
+                  <tr key={invoice.id} className="hover:bg-zinc-900/60">
                     <td className="px-4 py-3 text-sm">{invoice.invoiceNumber}</td>
                     <td className="px-4 py-3 text-sm">
                       <Badge variant={invoice.status === 'paid' ? 'default' : invoice.status === 'overdue' ? 'destructive' : 'secondary'}>

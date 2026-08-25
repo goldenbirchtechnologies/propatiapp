@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Select,
@@ -35,9 +35,9 @@ interface ServiceChargeItem {
 }
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-surface text-muted-foreground border-[#262626]', label: 'Draft' },
+  draft: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Draft' },
   sent: { class: 'bg-[#262626] text-white border-primary/20', label: 'Sent' },
-  paid: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Paid' },
+  paid: { class: 'bg-emerald-500/10 text-[#00ff66] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
@@ -117,7 +117,7 @@ export default function ServiceChargesPage() {
           >
             Service Charges
           </h1>
-          <p className="text-muted-foreground" style={{ marginTop: 'var(--space-vs)' }}>
+          <p className="text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
             View and manage service charges for your portfolio
           </p>
         </div>
@@ -177,8 +177,8 @@ export default function ServiceChargesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-background rounded-xl border border-[#262626] shadow-sm p-4 flex flex-wrap items-center gap-4">
-        <Filter className="h-4 w-4 text-muted-foreground" />
+      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-sm p-4 flex flex-wrap items-center gap-4">
+        <Filter className="h-4 w-4 text-zinc-500" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Status" />
@@ -194,7 +194,7 @@ export default function ServiceChargesPage() {
         </Select>
       </div>
 
-      <div className="bg-background rounded-xl border border-[#262626] shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -203,26 +203,26 @@ export default function ServiceChargesPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-12">
-            <Receipt className="mx-auto h-12 w-12 text-muted-foreground opacity-50" />
-            <p className="mt-2 text-muted-foreground">No service charges found</p>
+            <Receipt className="mx-auto h-12 w-12 text-zinc-500 opacity-50" />
+            <p className="mt-2 text-zinc-500">No service charges found</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#262626]">
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
+              <tr className="border-b border-white/[0.08]">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
                   Period
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
                   Listing
                 </th>
-                <th className="text-right p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
+                <th className="text-right p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
                   Amount
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
                   Due Date
                 </th>
-                <th className="text-left p-4 text-[10px] font-label-md uppercase tracking-wider text-muted-foreground">
+                <th className="text-left p-4 text-[10px] text-xs uppercase tracking-wider text-zinc-500">
                   Status
                 </th>
               </tr>
@@ -236,14 +236,14 @@ export default function ServiceChargesPage() {
                 return (
                   <tr
                     key={charge.id}
-                    className="border-b border-[#262626] transition-colors hover:bg-muted/30"
+                    className="border-b border-white/[0.08] transition-colors hover:bg-zinc-900/30"
                   >
                     <td className="p-4 text-sm font-medium text-white">
                       {charge.period}
                     </td>
                     <td className="p-4 text-sm text-white">
                       {charge.listing?.title}
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-zinc-500">
                         {charge.listing?.address}
                       </p>
                     </td>

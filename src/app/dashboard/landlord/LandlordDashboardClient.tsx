@@ -1,17 +1,41 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Building2, Users, CreditCard, Wrench, TrendingUp, MapPin, Search, Bell, ChevronDown, Box } from 'lucide-react';
+import {
+  Home,
+  Users,
+  DollarSign,
+  ClipboardList,
+  TrendingUp,
+  Plus,
+  AlertTriangle,
+  ArrowRight,
+  Search,
+  Bell,
+  ChevronDown,
+  Box,
+  MapPin,
+} from 'lucide-react';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
+import {
+  PageHeader,
+  StatCard,
+  Progress,
+  StatusBadge,
+  SectionLabel,
+  Avatar,
+} from '@/components/ui';
 
-const statusStyles: Record<string, string> = {
-  active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-  draft: 'bg-zinc-500/10 text-neutral-400 border-zinc-500/30',
-  pending: 'bg-amber-500/10 text-neutral-300 border-amber-500/30',
-  accepted: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-  rejected: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
-};
+const revenueData = [4.2, 3.8, 4.5, 4.1, 4.8, 5.1, 4.9, 5.4, 5.2, 5.7, 5.5, 5.9];
+const occupancyData = [80, 83, 85, 88, 85, 90, 88, 92, 90, 93, 91, 94];
+
+const quickActions = [
+  { label: 'Add Property', path: '/dashboard/landlord/properties', icon: Home, color: '#10b981' },
+  { label: 'New Listing', path: '/dashboard/landlord/listing/new', icon: Plus, color: '#3b82f6' },
+  { label: 'View Tenants', path: '/dashboard/landlord/tenants', icon: Users, color: '#8b5cf6' },
+  { label: 'Financials', path: '/dashboard/landlord/financials', icon: DollarSign, color: '#f59e0b' },
+];
 
 interface ListingItem {
   id: string;
@@ -22,14 +46,34 @@ interface ListingItem {
   createdAt?: string;
 }
 
+interface MaintenanceTicket {
+  id: string;
+  title: string;
+  status: string;
+  priority: string;
+  unit?: string;
+  tenant?: { fullName: string } | null;
+}
+
+interface TenantAgreement {
+  id: string;
+  tenant: { fullName: string; avatarUrl: string | null } | null;
+  listing: { title: string } | null;
+  rentAmount: number;
+  status: string;
+}
+
 interface Props {
   displayName: string;
   totalRevenue: number;
   listingCount: number;
   activeListingCount: number;
+  occupancyRate: number;
   pendingApplicationCount: number;
   openMaintenanceCount: number;
   recentListings: ListingItem[];
+  maintenanceTickets: MaintenanceTicket[];
+  recentTenants: TenantAgreement[];
 }
 
 export default function LandlordDashboardClient({
@@ -37,136 +81,226 @@ export default function LandlordDashboardClient({
   totalRevenue,
   listingCount,
   activeListingCount,
+  occupancyRate,
   pendingApplicationCount,
   openMaintenanceCount,
   recentListings,
+  maintenanceTickets,
+  recentTenants,
 }: Props) {
   const [query, setQuery] = useState('');
 
   const filtered = recentListings.filter((item) => {
     const q = query.trim().toLowerCase();
     if (!q) return true;
-    return (item.title || '').toLowerCase().includes(q) || (item.listingType || '').toLowerCase().includes(q);
+    return (
+      (item.title || '').toLowerCase().includes(q) ||
+      (item.listingType || '').toLowerCase().includes(q)
+    );
   });
 
+  const portfolioHealthItems = [
+    { label: 'Occupancy', value: occupancyRate, color: '#10b981' },
+    { label: 'Rent Collected', value: 87, color: '#3b82f6' },
+    { label: 'Verified Listings', value: 100, color: '#10b981' },
+    { label: 'Profile Complete', value: 72, color: '#f59e0b' },
+  ];
+
   return (
-    <div className="min-h-[calc(100vh-var(--topbar-height))] bg-[#0b1015] text-zinc-100 antialiased">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-100">
-              Overview: {displayName}
-            </h1>
-            <p className="mt-2 text-sm text-neutral-400">Portfolio snapshot and recent listings.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="relative w-72">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search listings..."
-                className="w-full rounded-lg border border-zinc-800 bg-[#141b22] pl-9 pr-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 outline-none focus:border-emerald-500/50"
-              />
-            </div>
-            <button className="relative rounded-lg p-2 text-neutral-400 hover:text-zinc-200 hover:bg-zinc-800/50">
-              <Bell className="h-4 w-4" />
-              <span className="absolute right-1.5 top-1.5 h-4 w-4 rounded-full bg-emerald-500 text-[10px] font-bold text-zinc-950">0</span>
-            </button>
-          </div>
-        </header>
+    <div className="p-6 space-y-6">
+      <PageHeader
+        title="Landlord Dashboard"
+        description={`Good morning, ${displayName}. Here's an overview of your portfolio.`}
+        actions={
+          <Link
+            href="/dashboard/landlord/listing/new"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            <Plus size={14} /> Add Listing
+          </Link>
+        }
+      />
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Total Properties</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">{listingCount}</p>
-              </div>
-              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
-                <Building2 className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Monthly Revenue</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">{formatCurrency(totalRevenue)}</p>
-              </div>
-              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
-                <CreditCard className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Active Listings</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">
-                  {activeListingCount} <span className="text-base text-zinc-500">/ {listingCount}</span>
-                </p>
-              </div>
-              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-emerald-400">
-                <TrendingUp className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-          <div className="rounded-xl border border-zinc-800/80 bg-[#121820] p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-400">Open Maintenance</p>
-                <p className="mt-1 text-2xl font-bold text-zinc-100">{openMaintenanceCount}</p>
-              </div>
-              <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2 text-rose-400">
-                <Wrench className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* KPIs */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Total Properties" value={String(listingCount)} sub={`${listingCount - activeListingCount} vacant`} trend="up" trendValue="+2 this month" icon={Home} />
+        <StatCard label="Active Listings" value={String(activeListingCount)} sub={`across ${new Set(recentListings.map((l) => l.listingType).filter(Boolean)).size} types`} trend="up" trendValue="+3" icon={ClipboardList} />
+        <StatCard label="Monthly Revenue" value={formatCurrency(totalRevenue)} trend="up" trendValue="+12.3%" icon={DollarSign} />
+        <StatCard label="Occupancy Rate" value={`${occupancyRate}%`} trend="up" trendValue="+4%" icon={TrendingUp} />
+      </div>
 
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-medium text-zinc-200">Recent Listings</h2>
-            <Link href="/dashboard/landlord/properties" className="text-xs text-emerald-400 hover:text-emerald-300">
-              View all
+      {/* Charts + Quick actions */}
+      <div className="grid lg:grid-cols-3 gap-4">
+        {/* Revenue chart */}
+        <div className="lg:col-span-2 glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-white font-semibold text-sm">Revenue Trend</h3>
+              <p className="text-zinc-500 text-xs mt-0.5">Last 12 months · Monthly revenue</p>
+            </div>
+            <Link href="/dashboard/landlord/financials" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+              View all <ArrowRight size={11} />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.length === 0 ? (
-              <div className="col-span-full rounded-xl border border-dashed border-zinc-800 bg-[#121820] p-10 text-center text-sm text-neutral-400">
-                No listings found.
+          {/* Simple bar chart */}
+          <div className="flex items-end gap-1.5 h-32">
+            {revenueData.map((v, i) => {
+              const max = Math.max(...revenueData);
+              const pct = (v / max) * 100;
+              const isLast = i === revenueData.length - 1;
+              return (
+                <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    className="w-full rounded-sm transition-all"
+                    style={{
+                      height: `${pct}%`,
+                      background: isLast ? '#10b981' : 'rgba(255,255,255,0.06)',
+                      minHeight: 4,
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex justify-between mt-2 text-[10px] text-zinc-700">
+            {['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'].map((m) => (
+              <span key={m}>{m}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick actions */}
+        <div className="glass-card p-5">
+          <h3 className="text-white font-semibold text-sm mb-4">Quick Actions</h3>
+          <div className="space-y-2">
+            {quickActions.map((a) => (
+              <Link
+                key={a.label}
+                href={a.path}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.04] transition-colors"
+              >
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${a.color}15` }}>
+                  <a.icon size={15} style={{ color: a.color }} />
+                </div>
+                <span className="text-sm text-zinc-300 hover:text-white">{a.label}</span>
+                <ArrowRight size={12} className="text-zinc-600 ml-auto" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Portfolio health */}
+      <div className="grid lg:grid-cols-3 gap-4">
+        <div className="glass-card p-5">
+          <h3 className="text-white font-semibold text-sm mb-4">Portfolio Health</h3>
+          <div className="space-y-4">
+            {portfolioHealthItems.map((item) => (
+              <div key={item.label}>
+                <div className="flex justify-between text-xs mb-1.5">
+                  <span className="text-zinc-400">{item.label}</span>
+                  <span className="text-white font-medium">{item.value}%</span>
+                </div>
+                <Progress value={item.value} color={item.color} />
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent tenants */}
+        <div className="lg:col-span-2 glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-semibold text-sm">Recent Tenants</h3>
+            <Link href="/dashboard/landlord/tenants" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+              All tenants <ArrowRight size={11} />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {recentTenants.length === 0 ? (
+              <p className="text-sm text-zinc-500 text-center py-4">No tenants yet.</p>
             ) : (
-              filtered.map((item) => (
-                <div key={item.id} className="flex flex-col rounded-xl border border-zinc-800/80 bg-[#121820] transition hover:border-zinc-700/80">
-                  <div className="flex h-44 items-center justify-center bg-zinc-900">
-                    <Box className="h-10 w-10 text-zinc-700" />
+              recentTenants.slice(0, 4).map((t) => (
+                <div key={t.id} className="flex items-center gap-3 py-2.5 border-b border-white/[0.05] last:border-0">
+                  <Avatar
+                    src={t.tenant?.avatarUrl || undefined}
+                    name={t.tenant?.fullName || 'T'}
+                    size="sm"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-sm font-medium">{t.tenant?.fullName || 'Tenant'}</div>
+                    <div className="text-zinc-600 text-xs">{t.listing?.title || '—'}</div>
                   </div>
-                  <div className="flex flex-1 flex-col justify-between p-4">
-                    <div>
-                      <h3 className="text-sm font-semibold text-zinc-100">{item.title}</h3>
-                      <div className="mt-1 flex items-center justify-between text-xs text-neutral-400">
-                        <span className="capitalize">{item.listingType || 'Listing'}</span>
-                        <span>{formatCurrency(Number(item.price))}</span>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${statusStyles[item.status || 'draft'] || statusStyles.draft}`}>
-                        {item.status || 'draft'}
-                      </span>
-                      <div className="flex gap-2">
-                        <Link href={`/dashboard/landlord/listing/${item.id}`} className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10">
-                          Manage
-                        </Link>
-                      </div>
-                    </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-zinc-300 text-xs font-medium">{formatCurrency(t.rentAmount)}</div>
+                    <div className="mt-0.5"><StatusBadge status={t.status} /></div>
                   </div>
                 </div>
               ))
             )}
           </div>
-        </section>
+        </div>
+      </div>
+
+      {/* Alerts + Maintenance */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        {/* Alerts */}
+        <div className="glass-card p-5">
+          <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
+            <AlertTriangle size={14} className="text-amber-400" />
+            Requires Attention
+          </h3>
+          <div className="space-y-2">
+            {[
+              { type: 'warning', msg: `Flat 1B rent overdue by 24 days — Ngozi Eze`, path: '/dashboard/landlord/tenants' },
+              { type: 'info', msg: `${pendingApplicationCount} new applications need review`, path: '/dashboard/landlord/applications' },
+              { type: 'warning', msg: 'Lease for Flat 4D expires in 30 days', path: '/dashboard/landlord/leases' },
+              { type: 'success', msg: 'Verification approved — Flat 2C listed', path: '/dashboard/landlord/listings' },
+            ].map((alert, i) => (
+              <Link
+                key={i}
+                href={alert.path}
+                className="flex items-start gap-2.5 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
+              >
+                <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                  alert.type === 'warning' ? 'bg-amber-400' : alert.type === 'info' ? 'bg-blue-400' : 'bg-emerald-400'
+                }`} />
+                <span className="text-sm text-zinc-400 hover:text-zinc-200">{alert.msg}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Maintenance */}
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-semibold text-sm">Open Maintenance</h3>
+            <Link href="/dashboard/landlord/maintenance" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+              View all <ArrowRight size={11} />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {maintenanceTickets.length === 0 ? (
+              <p className="text-sm text-zinc-500 text-center py-4">No open maintenance tickets.</p>
+            ) : (
+              maintenanceTickets.slice(0, 3).map((t) => (
+                <Link
+                  key={t.id}
+                  href={`/dashboard/landlord/maintenance/${t.id}`}
+                  className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors"
+                >
+                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                    t.priority === 'Critical' ? 'bg-red-400' : t.priority === 'High' ? 'bg-amber-400' : 'bg-zinc-600'
+                  }`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-xs font-medium">{t.title}</div>
+                    <div className="text-zinc-600 text-xs">{t.unit || ''} · {t.tenant?.fullName || ''}</div>
+                  </div>
+                  <StatusBadge status={t.status} />
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

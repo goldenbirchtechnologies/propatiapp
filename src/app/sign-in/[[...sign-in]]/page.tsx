@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { SignIn } from '@clerk/nextjs';
+import { SectionLabel } from '@/components/ui/section-label';
+import { CheckCircle } from 'lucide-react';
 
 export default function SignInPage() {
   return (
@@ -19,10 +21,14 @@ export default function SignInPage() {
           </Link>
         </div>
 
-        <div className="bg-zinc-950 border border-white/[0.08] p-8 rounded-2xl">
+        <div className="glass-card p-8">
           <div className="text-center mb-8">
-            <h1 className="text-xl font-bold text-white mb-1">Welcome back</h1>
-            <p className="text-sm text-zinc-500">Sign in to your PROPATI account</p>
+            <SectionLabel>
+              <CheckCircle size={11} className="text-emerald-400" />
+              Welcome back
+            </SectionLabel>
+            <h1 className="text-xl font-bold text-white mt-4 mb-1">Sign in to your account</h1>
+            <p className="text-sm text-zinc-500">Access your PROPATI dashboard</p>
           </div>
 
           <SignIn

@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export default function GlobalError({ error, reset }: { error?: Error & { digest?: string }; reset?: () => void }) {
   useEffect(() => {
@@ -11,7 +12,7 @@ export default function GlobalError({ error, reset }: { error?: Error & { digest
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-6 py-16">
-      <div className="w-full max-w-lg rounded-3xl border border-zinc-800 bg-zinc-950 p-8 text-center shadow-lg">
+      <div className="w-full max-w-lg rounded-3xl glass-card p-8 text-center shadow-lg">
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
           <svg
             className="h-8 w-8"

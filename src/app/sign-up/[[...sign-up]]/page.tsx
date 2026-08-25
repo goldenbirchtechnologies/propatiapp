@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { SignUp, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Building2, Search, Building, CheckCircle2, Handshake } from 'lucide-react';
+import { Building2, Search, Building, Handshake, CheckCircle2 } from 'lucide-react';
+import { SectionLabel } from '@/components/ui/section-label';
 
 type Role = 'landlord' | 'tenant' | 'agent' | 'estate_manager';
 
@@ -54,7 +55,7 @@ export default function SignUpPage() {
             </Link>
           </div>
 
-          <div className="bg-zinc-950 border border-white/[0.08] p-8 rounded-2xl">
+          <div className="glass-card p-8">
             <SignUp
               appearance={{
                 elements: {
@@ -97,7 +98,11 @@ export default function SignUpPage() {
         </div>
 
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-white mb-2">Join as a...</h1>
+          <SectionLabel>
+            <Building2 size={11} className="text-emerald-400" />
+            Join PROPATI
+          </SectionLabel>
+          <h1 className="text-3xl font-bold text-white mt-4 mb-2">Join as a...</h1>
           <p className="text-zinc-500 text-base">Select your role to get started</p>
         </div>
 
@@ -110,27 +115,27 @@ export default function SignUpPage() {
                 type="button"
                 onClick={() => setSelectedRole(id)}
                 className={[
-                  'relative flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981] focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+                  'relative flex flex-col items-center gap-3 rounded-2xl border p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
                   isSelected
-                    ? 'border-[#10b981] bg-[#10b981]/10 shadow-md'
-                    : 'border-zinc-800 bg-zinc-950 hover:border-[#10b981]/40 hover:shadow-sm',
+                    ? 'border-emerald-500 bg-emerald-500/10 shadow-md'
+                    : 'border-white/[0.08] bg-zinc-950 hover:border-emerald-500/40',
                 ].join(' ')}
               >
                 {isSelected && (
-                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-[#10b981]" />
+                  <CheckCircle2 size={18} className="absolute top-3 right-3 text-emerald-400" />
                 )}
                 <div
                   className={[
                     'flex h-14 w-14 items-center justify-center rounded-xl transition-colors',
                     isSelected
-                      ? 'bg-[#10b981] text-white'
+                      ? 'bg-emerald-500 text-white'
                       : 'bg-zinc-900 text-zinc-500',
                   ].join(' ')}
                 >
                   <Icon size={28} />
                 </div>
                 <div>
-                  <p className={['font-semibold text-sm', isSelected ? 'text-[#10b981]' : 'text-white'].join(' ')}>
+                  <p className={['font-semibold text-sm', isSelected ? 'text-emerald-400' : 'text-white'].join(' ')}>
                     {label}
                   </p>
                   <p className="text-xs text-zinc-500 mt-0.5 leading-snug">{subtitle}</p>
@@ -147,7 +152,7 @@ export default function SignUpPage() {
           className={[
             'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200',
             selectedRole
-              ? 'bg-[#10b981] text-white hover:bg-[#10b981]/90 shadow-md hover:shadow-lg'
+              ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md hover:shadow-lg'
               : 'bg-zinc-900 text-zinc-600 cursor-not-allowed',
           ].join(' ')}
         >
@@ -156,7 +161,7 @@ export default function SignUpPage() {
 
         <p className="text-center text-sm mt-6 text-zinc-500">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-[#10b981] hover:underline">Sign in</Link>
+          <Link href="/login" className="font-medium text-emerald-400 hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

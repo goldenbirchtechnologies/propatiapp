@@ -11,6 +11,7 @@ import {
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import VerificationSubmittedClient from './VerificationSubmittedClient';
+import { PageHeader } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,22 +49,16 @@ export default async function VerificationSubmittedPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            Verification Submitted
-          </h1>
-          <p className="text-zinc-400 mt-1">
-            Your submission has been received.
-          </p>
+        <div className="p-6 space-y-6">
+          <PageHeader
+            title="Verification Submitted"
+            description="Your submission has been received."
+            breadcrumb={['Verification']}
+          />
+          <VerificationSubmittedClient listingId={listingId || null} layer={layer || '1'} />
         </div>
-        <VerificationSubmittedClient listingId={listingId || null} layer={layer || '1'} />
-      </div>
-    
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

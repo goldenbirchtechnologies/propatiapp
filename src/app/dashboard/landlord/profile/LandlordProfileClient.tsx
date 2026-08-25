@@ -11,10 +11,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
+import { PageHeader, SectionLabel } from '@/components/ui';
 import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 interface LandlordProfileClientProps {
@@ -141,7 +143,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       setOtpCooldown(true);
       setOtpCountdown(60);
     } catch {
-      toast({ title: 'Error', description: 'Failed to send OTP. Please try again.', variant: 'destructive' });
+      toast({ title: 'Error', description: 'Failed to send OTP. Please try again.' });
     }
   };
 
@@ -157,25 +159,28 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       setPhoneOTP('');
       setOtpRevealed(false);
     } catch {
-      toast({ title: 'Error', description: 'Invalid OTP. Please try again.', variant: 'destructive' });
+      toast({ title: 'Error', description: 'Invalid OTP. Please try again.' });
     }
   };
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div className="rounded-3xl border border-[#262626] bg-obsidian-800/30 p-6 shadow-sm md:p-8">
+      <PageHeader
+        title="My Profile"
+        description="Manage your account settings and preferences"
+      />
+
+      {/* Profile overview card */}
+      <div className="glass-card rounded-xl p-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
-              <div className="h-24 w-24 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/20 to-primary/5 ring-2 ring-border">
-                <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white md:text-3xl">
-                  {user?.avatarUrl ? (
-                    <img src={user.avatarUrl} alt={user?.fullName || 'User'} className="h-full w-full object-cover" />
-                  ) : (
-                    initials
-                  )}
-                </div>
-              </div>
+              <Avatar
+                src={user?.avatarUrl || undefined}
+                name={user?.fullName || 'User'}
+                size="xl"
+                className="ring-2 ring-emerald-500/30"
+              />
               <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg">
                 <Camera className="h-3.5 w-3.5" />
                 <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
@@ -183,14 +188,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
             </div>
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant={verificationComplete ? 'default' : 'secondary'} className="capitalize">
-                  {verificationComplete ? 'Profile complete' : 'Profile incomplete'}
-                </Badge>
+                <StatusBadge status={verificationComplete ? 'Verified' : 'Pending'} />
                 {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
               </div>
-              <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">{user?.fullName || 'My profile'}</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-white">{user?.fullName || 'My profile'}</h1>
               <p className="text-sm text-zinc-400">{user?.email}</p>
-              <p className="max-w-2xl text-sm leading-6 text-zinc-400">Keep your identity, security, and notification settings up to date so the rest of the dashboard stays trusted and easy to use.</p>
+              <p className="max-w-2xl text-sm leading-6 text-zinc-400">Keep your identity, security, and notification settings up to date.</p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {missingActions.map((action) => (
                   <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-green-500/30 text-green-500 hover:bg-emerald-500/10">
@@ -216,11 +219,11 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-[#262626]">
-          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Personal Info</TabsTrigger>
-          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Verification</TabsTrigger>
-          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Security</TabsTrigger>
-          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-green-500 rounded-none">Notifications</TabsTrigger>
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-800">
+          <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Personal Info</TabsTrigger>
+          <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Verification</TabsTrigger>
+          <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Security</TabsTrigger>
+          <TabsTrigger value="notifications" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Notifications</TabsTrigger>
         </TabsList>
 
         <TabsContent value="personal" className="mt-6">
@@ -418,9 +421,9 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-primary bg-[#262626]' : 'border-[#262626] bg-zinc-900')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-800 bg-zinc-950')}>
       <div className="flex items-center gap-3">
-        <div className="bg-[#262626] text-white">
+        <div className="bg-zinc-900 text-zinc-400">
           <Monitor className="h-5 w-5" />
         </div>
         <div>
@@ -447,17 +450,17 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
   const isVerified = resolved === 'approved';
 
   return (
-    <Card className="rounded-3xl border border-[#262626] bg-obsidian-800/30">
+    <Card className="glass-card rounded-xl">
       <CardHeader className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="text-lg">Identity Verification</CardTitle>
           {isVerified && (
-            <Badge className="border-emerald-500/30 bg-emerald-500/10 text-emerald-600">
+            <StatusBadge status="Verified">
               <CheckCircle className="mr-1 h-4 w-4" /> Account Verified
-            </Badge>
+            </StatusBadge>
           )}
           {!isVerified && !isReview && (
-            <Badge variant="destructive" className="border-green-500/30 text-green-500">Action Required</Badge>
+            <Badge variant="destructive" className="border-red-500/30 text-red-500">Action Required</Badge>
           )}
           {isReview && (
             <Badge variant="secondary" className="gap-1.5">
@@ -471,7 +474,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#262626] text-white">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-900 text-white">
             <ShieldCheck className="h-8 w-8" />
           </div>
           <div className="space-y-1">

@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { PageHeader, StatusBadge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,17 +68,14 @@ export default async function VerificationHubPage() {
 
   if (verificationsError) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Verification Center</h1>
-          <p className="text-zinc-400 mt-1">{verificationsError}</p>
+      <div className="p-6 space-y-6">
+        <PageHeader title="Verification Center" />
+        <div className="glass-card p-6 text-center">
+          <p className="text-zinc-400">{verificationsError}</p>
+          <Link href="/dashboard/verification" className="mt-4 inline-block text-sm text-emerald-400 underline">
+            Retry
+          </Link>
         </div>
-        <Link
-          href="/dashboard/verification"
-          className="underline inline-block text-sm"
-        >
-          Retry
-        </Link>
       </div>
     );
   }
@@ -88,37 +86,32 @@ export default async function VerificationHubPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white">Verification Center</h1>
-        <p className="text-zinc-400 mt-1">
-          Choose a verification type to begin or continue your application.
-        </p>
-      </div>
+    <div className="p-6 space-y-6">
+      <PageHeader title="Verification Center" description="Choose a verification type to begin or continue your application." />
 
       <div className="grid gap-4 md:grid-cols-2">
         {visibleTypes.map((item) => {
           const existing = latestByType.get(item.key);
           return (
-            <a
+            <Link
               key={item.key}
               href={item.href}
-              className="rounded-lg border border-zinc-800 p-5 transition hover:border-foreground"
+              className="glass-card p-5 hover:border-white/15 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xl font-semibold text-white">{item.title}</p>
-                  <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
+                  <p className="text-lg font-semibold text-white">{item.title}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{item.description}</p>
                 </div>
                 <span className="text-2xl">{item.icon}</span>
               </div>
               {existing && (
-                <div className="mt-4 flex items-center justify-between text-xs text-zinc-400">
+                <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
                   <span>Status: {existing.overallStatus.replace(/_/g, ' ')}</span>
                   <span>{new Date(existing.createdAt).toLocaleDateString()}</span>
                 </div>
               )}
-            </a>
+            </Link>
           );
         })}
       </div>

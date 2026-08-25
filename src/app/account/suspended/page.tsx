@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { Snowflake } from 'lucide-react';
+import { Shield, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata = {
   title: 'Account Suspended — PROPATI',
@@ -9,30 +8,46 @@ export const metadata = {
 
 export default function AccountSuspendedPage() {
   return (
-    <div className="min-h-screen bg-black">
-      <div className="mx-auto max-w-2xl px-4 py-16">
-        <Card className="border-zinc-800 shadow-lg">
-          <CardHeader className="items-center text-center">
-            <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900">
-              <Snowflake className="h-8 w-8 text-frozen" aria-hidden="true" />
-            </div>
-            <CardTitle className="text-2xl font-bold text-white">Account Suspended</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <p className="text-center text-sm text-zinc-400">
-              Your account has been suspended. Contact our support team for assistance and next steps to restore your access.
-            </p>
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md text-center">
+        <div className="flex justify-center mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+            <Shield size={28} className="text-amber-400" />
+          </div>
+        </div>
 
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-center">
-              <Button asChild variant="outline">
-                <Link href="/">Go to home</Link>
-              </Button>
-              <Button asChild variant="secondary">
-                <Link href="mailto:support@propati.ng">Contact support</Link>
-              </Button>
+        <h1 className="text-3xl font-bold text-white mb-2">Account Suspended</h1>
+        <p className="text-zinc-500 mb-6 max-w-sm mx-auto">
+          Your account has been temporarily suspended. This may be due to a policy violation or pending verification.
+        </p>
+
+        <div className="glass-card p-5 text-left mb-6">
+          <p className="text-xs text-zinc-500 mb-3 uppercase tracking-wider font-semibold">What to do next</p>
+          {[
+            'Check your email for details',
+            'Contact support at support@propati.ng',
+            'Complete identity verification if requested',
+          ].map((step) => (
+            <div key={step} className="flex items-center gap-2.5 text-sm text-zinc-400 py-1.5">
+              <div className="w-4 h-4 rounded-full border border-zinc-700 flex-shrink-0" />
+              {step}
             </div>
-          </CardContent>
-        </Card>
+          ))}
+        </div>
+
+        <a
+          href="mailto:support@propati.ng"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-white text-sm rounded-xl hover:bg-white/10 transition-colors"
+        >
+          Contact Support
+        </a>
+
+        <div className="mt-6">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white transition-colors">
+            <ArrowRight size={13} className="rotate-180" />
+            Back to home
+          </Link>
+        </div>
       </div>
     </div>
   );

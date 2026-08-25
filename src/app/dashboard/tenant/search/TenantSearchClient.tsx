@@ -1,350 +1,224 @@
 'use client';
 
-import { useState } from 'react';
-import { useListings } from '@/hooks/useListings';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Building,
-  MapPin,
-  Home,
-  Waves,
-  Users,
-  Search,
-  Filter,
-  Heart,
-  Tag,
-  Loader2,
-} from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Heart, MapPin, BedDouble, Bath, Maximize, Search, Filter, X, Grid, LayoutList } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { PageHeader, StatCard, Avatar, StatusBadge, Progress } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
-interface TenantSearchClientProps {
-  initialPurpose?: string;
+type PropertyStatus = 'available' | 'under_offer' | 'sold';
+
+interface Property {
+  id: string;
+  title: string;
+  address: string;
+  city: string;
+  price: number;
+  currency: string;
+  pricePeriod?: string;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  propertyType: string;
+  listingType: string;
+  status: PropertyStatus;
+  description?: string;
+  amenities: string[];
+  images: { url: string }[];
+  landlord: { fullName: string; avatarUrl?: string };
+  createdAt: string;
 }
 
-const purposes = [
-  { value: 'rent', label: 'Rent', icon: <Home className="w-5 h-5" />, description: 'Long-term rentals' },
-  { value: 'sale', label: 'Buy', icon: <Building className="w-5 h-5" />, description: 'Properties for sale' },
-  { value: 'short_let', label: 'Short Let', icon: <Waves className="w-5 h-5" />, description: 'Short stays & vacation' },
-  { value: 'share', label: 'Share', icon: <Users className="w-5 h-5" />, description: 'Shared accommodation' },
-];
+interface Filters {
+  propertyType: string;
+  listingType: string;
+  minPrice: string;
+  maxPrice: string;
+  bedrooms: string;
+  bathrooms: string;
+  minArea: string;
+  maxArea: string;
+  amenities: string[];
+}
 
-export default function TenantSearchClient({ initialPurpose = 'rent' }: TenantSearchClientProps) {
-  const [activePurpose, setActivePurpose] = useState(initialPurpose);
+export default function TenantSearchClient({ initialProperties, filters: initialFilters, cities, totalCount }: {
+  initialProperties: Property[];
+  filters: Filters;
+  cities: string[];
+  totalCount: number;
+}) {
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [saved, setSaved] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({
-    state: '',
-    area: '',
-    minPrice: '',
-    maxPrice: '',
-    bedrooms: '',
-    propertyType: '',
-  });
-  const [showFilters, setShowFilters] = useState(false);
-  const [savedIds, setSavedIds] = useState<string[]>([]);
 
-  const handleSave = (id: string) => {
-    setSavedIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+  const toggleSave = (id: string) => {
+    setSaved((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useListings({
-    listingType: activePurpose as unknown,
-    state: filters.state || undefined,
-    area: filters.area || undefined,
-    minPrice: filters.minPrice ? Number(filters.minPrice) : undefined,
-    maxPrice: filters.maxPrice ? Number(filters.maxPrice) : undefined,
-    minBedrooms: filters.bedrooms ? Number(filters.bedrooms) : undefined,
-    propertyType: filters.propertyType as unknown,
-    status: 'active',
-  });
-
-  const listings = (data?.pages || []).flatMap(page => page.data || []) || [];
-
-  const purposeConfig = purposes.find(p => p.value === activePurpose) || purposes[0];
-
-  const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  };
+  const formatPrice = (p: number) =>
+    new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(p);
 
   return (
     <div className="space-y-6">
-      {/* Purpose Switcher */}
-      <div className="card p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-headline-sm text-white">What are you looking for?</h2>
-          <div className="flex items-center gap-2">
-            <Tabs value={activePurpose} onValueChange={setActivePurpose} className="flex gap-2">
-              <TabsList className="grid grid-cols-4 bg-transparent p-1">
-                {purposes.map(purpose => (
-                  <TabsTrigger
-                    key={purpose.value}
-                    value={purpose.value}
-                    className={cn(
-                      'flex flex-col items-center gap-1 p-3 text-sm',
-                      activePurpose === purpose.value && 'bg-obsidian-800/30 shadow-sm'
-                    )}
-                  >
-                    <span className="flex items-center justify-center">{purpose.icon}</span>
-                    <span className="font-medium">{purpose.label}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          </div>
-        </div>
-        <p className="text-sm text-neutral-400">{purposeConfig.description}</p>
-      </div>
+      <PageHeader
+        title="Find a Property"
+        description="Browse available properties and find your perfect home."
+      />
 
-      {/* Search Bar */}
-      <div className="card p-4">
-        <div className="flex gap-3 mb-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+      {/* Search + Filters */}
+      <div className="glass-card rounded-xl p-4">
+        <div className="flex flex-wrap gap-3">
+          <div className="relative flex-1 min-w-[220px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <Input
-              type="text"
-              placeholder={`Search ${purposeConfig.label.toLowerCase()} properties...`}
+              placeholder="Search by area, city, or address..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="pl-10"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-zinc-950 border-zinc-800 text-white"
             />
           </div>
-          <Button
-            variant="outline"
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2"
-          >
-            <Filter className="w-4 h-4" />
-            Filters
-          </Button>
-        </div>
-
-        {/* Filters */}
-        {showFilters && (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 pb-4 border-b border-[#262626]">
-            <Input
-              placeholder="State"
-              value={filters.state}
-              onChange={e => setFilters({ ...filters, state: e.target.value })}
-            />
-            <Input
-              placeholder="Area"
-              value={filters.area}
-              onChange={e => setFilters({ ...filters, area: e.target.value })}
-            />
-            <Input
-              type="number"
-              placeholder="Min Price"
-              value={filters.minPrice}
-              onChange={e => setFilters({ ...filters, minPrice: e.target.value })}
-            />
-            <Input
-              type="number"
-              placeholder="Max Price"
-              value={filters.maxPrice}
-              onChange={e => setFilters({ ...filters, maxPrice: e.target.value })}
-            />
-            <select
-              className="inp-field"
-              value={filters.bedrooms}
-              onChange={e => setFilters({ ...filters, bedrooms: e.target.value })}
+          <div className="flex items-center gap-1">
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'outline'}
+              size="icon"
+              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+              onClick={() => setViewMode('grid')}
             >
-              <option value="">Any Beds</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-              <option value="5">5+</option>
-            </select>
-            <select
-              className="inp-field"
-              value={filters.propertyType}
-              onChange={e => setFilters({ ...filters, propertyType: e.target.value })}
+              <Grid className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'outline'}
+              size="icon"
+              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+              onClick={() => setViewMode('list')}
             >
-              <option value="">Any Type</option>
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="duplex">Duplex</option>
-              <option value="land">Land</option>
-              <option value="office">Office</option>
-              <option value="shop">Shop</option>
-            </select>
+              <LayoutList className="h-4 w-4" />
+            </Button>
           </div>
-        )}
-      </div>
-
-      {/* Results */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-400">
-          {listings.length} {purposeConfig.label.toLowerCase()} propert{listings.length === 1 ? 'y' : 'ies'} found
-        </p>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-neutral-400">Sort by:</span>
-          <select className="inp-field py-1.5" style={{ width: 'auto' }}>
-            <option value="newest">Newest First</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="popularity">Most Popular</option>
-          </select>
         </div>
-      </div>
 
-      {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {[...Array(8)].map((_, i) => (
-            <ListingCardSkeleton key={i} />
+        <div className="mt-4 flex flex-wrap gap-2">
+          {cities.slice(0, 12).map((city) => (
+            <Badge
+              key={city}
+              variant={searchQuery.toLowerCase() === city.toLowerCase() ? 'secondary' : 'outline'}
+              className={cn(
+                'cursor-pointer',
+                searchQuery.toLowerCase() === city.toLowerCase()
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  : 'border-zinc-800 text-zinc-400 hover:text-white'
+              )}
+              onClick={() => setSearchQuery(city)}
+            >
+              <MapPin className="h-3 w-3 mr-1" />
+              {city}
+            </Badge>
           ))}
         </div>
-      ) : listings.length === 0 ? (
-        <div className="card p-12 text-center">
-          <Home className="w-12 h-12 text-neutral-400" style={{ opacity: 0.5 }} />
-          <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No properties found</h3>
-          <p className="text-neutral-400" style={{ marginBottom: 'var(--space-lg)' }}>
-            Try adjusting your search or filters.
-          </p>
-          <Button
-            variant="ghost"
-            onClick={() =>
-              setFilters({
-                state: '',
-                area: '',
-                minPrice: '',
-                maxPrice: '',
-                bedrooms: '',
-                propertyType: '',
-              })
-            }
-          >
-            Clear All Filters
-          </Button>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {['Apartment', 'Duplex', 'Townhouse', 'Detached', 'Semi-Detached', 'Studio', 'Shared'].map((type) => (
+            <Badge
+              key={type}
+              variant="outline"
+              className="cursor-pointer border-zinc-800 text-zinc-400 hover:text-white"
+            >
+              {type}
+            </Badge>
+          ))}
         </div>
-      ) : (
-        <>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {listings.map(listing => (
-              <ListingCard key={listing.id} listing={listing} purpose={activePurpose} />
-            ))}
-          </div>
-          {(hasNextPage || isFetchingNextPage) && (
-            <div className="text-center pt-8">
-              <Button
-                variant="outline"
-                onClick={handleLoadMore}
-                disabled={isFetchingNextPage}
-                className="w-full max-w-xs"
-              >
-                {isFetchingNextPage ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Loading more...
-                  </>
-                ) : (
-                  'Load More Properties'
-                )}
-              </Button>
-            </div>
-          )}
-        </>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="text-sm text-zinc-500">{totalCount} properties found</div>
+        <Button variant="outline" size="sm" className="border-zinc-800 text-zinc-400">
+          <Filter className="h-4 w-4 mr-2" /> More Filters
+        </Button>
+      </div>
+
+      {/* Property Grid/List */}
+      <div className={cn(
+        viewMode === 'grid'
+          ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+          : 'flex flex-col gap-4'
+      )}>
+        {initialProperties.map((property) => {
+          const isSaved = saved.has(property.id);
+          const image = property.images[0]?.url || '/placeholder-property.png';
+
+          return (
+            <Card key={property.id} className="glass-card overflow-hidden">
+              <div className="relative">
+                <img
+                  src={image}
+                  alt={property.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-2 left-2">
+                  <StatusBadge status={property.status} className="bg-black/40 backdrop-blur-sm" />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-2 right-2 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white"
+                  onClick={() => toggleSave(property.id)}
+                >
+                  <Heart className={cn('h-4 w-4', isSaved && 'fill-red-500 text-red-500')} />
+                </Button>
+              </div>
+              <CardContent className="p-4 space-y-3">
+                <div>
+                  <h3 className="font-medium text-white line-clamp-1">{property.title}</h3>
+                  <p className="text-sm text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-bold text-white">{formatPrice(property.price)}</span>
+                  {property.pricePeriod && (
+                    <span className="text-xs text-zinc-400">/{property.pricePeriod}</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-4 text-xs text-zinc-400">
+                  <span className="flex items-center gap-1">
+                    <BedDouble className="h-3.5 w-3.5" /> {property.bedrooms}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Bath className="h-3.5 w-3.5" /> {property.bathrooms}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
+                  </span>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+                  <Avatar
+                    src={property.landlord?.avatarUrl || undefined}
+                    name={property.landlord?.fullName || 'L'}
+                    size="sm"
+                  />
+                  <Button asChild variant="ghost" size="sm" className="text-emerald-400 hover:text-emerald-300">
+                    <Link href={`/listings/${property.id}`}>View Details</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      {initialProperties.length === 0 && (
+        <div className="text-center py-16">
+          <Search className="h-16 w-16 mx-auto mb-4 text-zinc-700" />
+          <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
+          <p className="text-zinc-400">Try adjusting your filters or search query.</p>
+        </div>
       )}
-    </div>
-  );
-}
-
-function ListingCard({ listing, purpose }: { listing: unknown; purpose: string }) {
-  const coverImage =
-    (listing as { images?: { url: string; isCover?: boolean }[] }).images?.find(
-      (img: { isCover?: boolean }) => img.isCover
-    ) || (listing as { images?: { url: string }[] }).images?.[0];
-  const verificationTier = (listing as { verificationTier?: string }).verificationTier || 'basic';
-  const isVerified = verificationTier !== 'basic';
-
-  return (
-    <Link href={`/listings/${(listing as { id: string }).id}`} className="card overflow-hidden hover:border-[var(--accent)] transition-colors h-full flex flex-col">
-      <div className="relative aspect-video overflow-hidden">
-        {coverImage ? (
-          <img
-            src={(coverImage as { url: string }).url}
-            alt={(listing as { title: string }).title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-zinc-900">
-            <Home className="w-12 h-12 text-neutral-400" />
-          </div>
-        )}
-        <div className="absolute top-2 left-2 right-2 flex justify-between">
-          <span
-            className={`tag ${isVerified ? 'bg-success/10 text-[#00ff66] border-success/20' : 'bg-warning/10 text-warning border-warning/20'}`}
-          >
-            {verificationTier.charAt(0).toUpperCase() + verificationTier.slice(1)}
-          </span>
-          <Button variant="ghost" size="icon" className="bg-obsidian-800/30/90 hover:bg-obsidian-800-lowestest">
-            <Heart
-              className="w-4 h-4"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleSave((listing as { id: string }).id);
-              }}
-            />
-          </Button>
-        </div>
-        <div className="absolute bottom-2 left-2 right-2 flex justify-end gap-2">
-          <Badge variant="secondary" className="capitalize">
-            {(listing as { propertyType?: string }).propertyType}
-          </Badge>
-          <Badge variant="outline">{(listing as { listingType?: string }).listingType}</Badge>
-        </div>
-      </div>
-      <div className="p-4 flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-2">
-          <Badge variant="outline" className="text-xs">
-            {(listing as { area?: string }).area}, {(listing as { state?: string }).state}
-          </Badge>
-          <p className="text-headline-sm text-white">
-            {purpose === 'sale'
-              ? '₦' + Number((listing as { price?: number }).price).toLocaleString()
-              : '₦' + Number((listing as { price?: number }).price).toLocaleString() + '/yr'}
-          </p>
-        </div>
-        <h3 className="text-headline-sm mb-1 line-clamp-1 text-white">
-          {(listing as { title?: string }).title}
-        </h3>
-        <p className="text-sm mb-3 flex-1 text-neutral-400">
-          {(listing as { bedrooms?: number }).bedrooms} bed •{' '}
-          {(listing as { bathrooms?: number }).bathrooms} bath •{' '}
-          {(listing as { sizeSqm?: number }).sizeSqm
-            ? (listing as { sizeSqm: number }).sizeSqm + ' sqm'
-            : 'Size not specified'}
-        </p>
-        <div className="flex items-center justify-between text-xs text-neutral-400">
-          <span className="flex items-center gap-1">
-            <MapPin className="w-3 h-3" />
-            {(listing as { area?: string }).area}
-          </span>
-          <span className="flex items-center gap-1">
-            <Tag className="w-3 h-3" />{(listing as { viewsCount?: number }).viewsCount ?? 0} views
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function ListingCardSkeleton() {
-  return (
-    <div className="card overflow-hidden animate-pulse">
-      <div className="aspect-video bg-zinc-900" />
-      <div className="p-4 space-y-3">
-        <div className="h-4 w-3/4 bg-zinc-900" />
-        <div className="h-4 w-1/2 bg-zinc-900" />
-        <div className="h-3 w-full bg-zinc-900" />
-        <div className="h-3 w-2/3 bg-zinc-900" />
-      </div>
     </div>
   );
 }

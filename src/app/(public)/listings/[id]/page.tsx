@@ -1,28 +1,47 @@
-'use client'
+'use client';
 
-import AppIcon from '@/components/icons/app-icon'
+import AppIcon from '@/components/icons/app-icon';
+import Link from 'next/link';
+import { useState } from 'react';
+import { PageHeader } from '@/components/ui/page-header';
+import { SectionLabel } from '@/components/ui/section-label';
+import { StarRating } from '@/components/ui/star-rating';
+import { Avatar } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { CheckCircle, MapPin, BedDouble, Bath, Square, Heart, Share2, Phone, MessageSquare, ArrowLeft, ArrowRight, Wifi, Car, Dumbbell, Shield, Star, Zap, Wind, TreePine } from 'lucide-react';
 
-import Link from 'next/link'
-import { useState } from 'react'
+const galleryImages = [
+  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=500&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=400&h=300&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&auto=format",
+];
+
+const amenities = [
+  { icon: Wifi, label: "High-Speed WiFi" },
+  { icon: Car, label: "Covered Parking" },
+  { icon: Dumbbell, label: "Fitness Center" },
+  { icon: Zap, label: "24hr Generator" },
+  { icon: Wind, label: "Central AC" },
+  { icon: TreePine, label: "Garden & Pool" },
+  { icon: Shield, label: "24hr Security" },
+  { icon: Star, label: "Concierge Service" },
+];
 
 export default function ListingDetailClient({ listing }: { listing: unknown }) {
-  const [activeImage, setActiveImage] = useState(0)
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [activeImage, setActiveImage] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const images = [
-    listing.image,
-    listing.image,
-    listing.image,
-    listing.image,
-  ]
+  const tabs = ["Overview", "Amenities", "Location", "Agent"];
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="bg-black min-h-screen pt-16">
-      {/* Back */}
       <div className="border-b border-white/[0.06] bg-black/80 backdrop-blur sticky top-16 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
           <Link href="/listings" className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white transition-colors">
-            <AppIcon name="arrow_back" className="lucide text-[16px]" />
+            <ChevronLeft size={16} />
             Back to listings
           </Link>
           <span className="text-zinc-700">/</span>
@@ -37,37 +56,55 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             {/* Gallery */}
             <div className="mb-6">
               <div className="relative rounded-2xl overflow-hidden bg-zinc-900 h-80 sm:h-[440px] border border-white/[0.08]">
-                <div className="w-full h-full bg-zinc-900" />
+                <img
+                  src={galleryImages[activeImage]}
+                  alt={listing.title}
+                  className="w-full h-full object-cover"
+                />
+                {/* Prev/Next */}
+                <button
+                  onClick={() => setActiveImage((p) => (p - 1 + galleryImages.length) % galleryImages.length)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center text-white hover:bg-black/90 transition-colors"
+                >
+                  <ArrowLeft size={16} />
+                </button>
+                <button
+                  onClick={() => setActiveImage((p) => (p + 1) % galleryImages.length)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center text-white hover:bg-black/90 transition-colors"
+                >
+                  <ArrowRight size={16} />
+                </button>
+
+                {/* Actions */}
                 <div className="absolute top-4 right-4 flex gap-2">
                   <button
                     onClick={() => setIsFavorite(!isFavorite)}
-                    className={`w-9 h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center transition-colors ${isFavorite ? 'text-red-400' : 'text-white hover:text-red-400'}`}
-                    aria-label="Favorite"
+                    className={`w-9 h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center transition-colors ${isFavorite ? "text-red-400" : "text-white hover:text-red-400"}`}
                   >
-                    <AppIcon name="favorite" className="lucide text-[16px]" />
+                    <Heart size={16} fill={isFavorite ? "currentColor" : "none"} />
+                  </button>
+                  <button className="w-9 h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center text-white hover:text-emerald-400 transition-colors">
+                    <Share2 size={16} />
                   </button>
                 </div>
-                <div className="absolute bottom-4 left-4 flex gap-2">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${listing.tierColor || 'bg-[#10b981] text-white'}`}>
-                    {listing.tier || 'Verified'}
-                  </span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${listing.listingColor || 'bg-[#10b981] text-white'}`}>
-                    {listing.listingType || 'FOR SALE'}
-                  </span>
+
+                {/* Counter */}
+                <div className="absolute bottom-4 right-4 px-2 py-1 rounded-md bg-black/70 backdrop-blur text-white text-xs">
+                  {activeImage + 1} / {galleryImages.length}
                 </div>
               </div>
 
               {/* Thumbnails */}
               <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
-                {images.map((_, i) => (
+                {galleryImages.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImage(i)}
                     className={`flex-shrink-0 w-16 h-14 rounded-lg overflow-hidden border-2 transition-colors ${
-                      activeImage === i ? 'border-[#10b981]' : 'border-zinc-800 hover:border-zinc-600'
+                      activeImage === i ? "border-emerald-500" : "border-zinc-800 hover:border-zinc-600"
                     }`}
                   >
-                    <div className="w-full h-full bg-zinc-900" />
+                    <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -76,121 +113,180 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             {/* Header */}
             <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
               <div>
-                <h1 className="text-2xl font-bold text-white mb-2">{listing.title}</h1>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <Badge variant={listing.type as "rent" | "sale" | "lease" | "shortlet"}>
+                    {listing.type}
+                  </Badge>
+                  {listing.verified && (
+                    <Badge variant="success">
+                      <CheckCircle size={10} /> Verified
+                    </Badge>
+                  )}
+                  <Badge variant="obsidian">{listing.tier}</Badge>
+                </div>
+                <h1 className="text-2xl font-bold text-white">{listing.title}</h1>
                 <div className="flex items-center gap-1.5 text-zinc-500 text-sm mt-1">
-                  <AppIcon name="location_on" className="lucide text-[16px]" />
-                  <span>{listing.location}</span>
+                  <MapPin size={13} />
+                  {listing.address}
                 </div>
               </div>
             </div>
 
             {/* Specs */}
             <div className="flex gap-6 py-4 border-y border-white/[0.07] mb-6">
-              <div className="flex items-center gap-2">
-                <AppIcon name="bed" className="lucide text-[24px] text-[#10b981]" />
-                <div>
-                  <div className="text-white font-semibold">{listing.beds}</div>
-                  <div className="text-zinc-600 text-xs">Bedrooms</div>
+              {listing.beds > 0 && (
+                <div className="flex items-center gap-2">
+                  <BedDouble size={16} className="text-emerald-500" />
+                  <div>
+                    <div className="text-white font-semibold">{listing.beds}</div>
+                    <div className="text-zinc-600 text-xs">Bedrooms</div>
+                  </div>
                 </div>
-              </div>
-              <div className="w-px h-10 bg-white/[0.07]" />
+              )}
               <div className="flex items-center gap-2">
-                <AppIcon name="bathtub" className="lucide text-[24px] text-[#10b981]" />
+                <Bath size={16} className="text-emerald-500" />
                 <div>
                   <div className="text-white font-semibold">{listing.baths}</div>
                   <div className="text-zinc-600 text-xs">Bathrooms</div>
                 </div>
               </div>
-              <div className="w-px h-10 bg-white/[0.07]" />
               <div className="flex items-center gap-2">
-                <AppIcon name="square_foot" className="lucide text-[24px] text-[#10b981]" />
+                <Square size={16} className="text-emerald-500" />
                 <div>
-                  <div className="text-white font-semibold">{listing.area}</div>
-                  <div className="text-zinc-600 text-xs">sq.m</div>
+                  <div className="text-white font-semibold">{listing.sqft.toLocaleString()}</div>
+                  <div className="text-zinc-600 text-xs">Sq. Ft.</div>
                 </div>
               </div>
             </div>
 
-            {/* Description */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-white">Description</h2>
-              <p className="text-zinc-400 leading-relaxed">
-                Experience premium living at {listing.title}. This outstanding property in {listing.location}
-                offers {listing.beds} bedrooms and {listing.baths} bathrooms across {listing.area} square meters.
-                Professionally managed and verified by PROPATI standards.
-              </p>
+            {/* Tabs */}
+            <div className="flex gap-0 border-b border-white/[0.07] mb-6">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab.toLowerCase())}
+                  className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+                    activeTab === tab.toLowerCase()
+                      ? "border-white text-white"
+                      : "border-transparent text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
 
-            {/* Amenities */}
-            <div className="space-y-4 mt-8">
-              <h2 className="text-xl font-bold text-white">Amenities</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {['Parking', 'Security', 'Power Supply', 'Water Supply', 'WiFi', 'Swimming Pool', 'Gym', 'Garden', 'Elevator'].map((amenity) => (
-                  <div key={amenity} className="flex items-center gap-2 p-3 bg-zinc-950 border border-white/[0.06] rounded-lg">
-                    <AppIcon name="check_circle" className="lucide text-[18px] text-[#10b981]" />
-                    <span className="text-sm text-zinc-300">{amenity}</span>
+            {/* Tab content */}
+            {activeTab === "overview" && (
+              <div>
+                <h2 className="text-white font-semibold mb-3">About this property</h2>
+                <p className="text-zinc-400 text-sm leading-relaxed">
+                  This stunning {listing.beds > 0 ? `${listing.beds}-bedroom` : "commercial"} property is situated in the heart of {listing.address.split(",")[1]?.trim() ?? "Lagos"}, offering world-class finishes and premium amenities. The property features a modern open-plan living area, designer kitchen with high-end appliances, and floor-to-ceiling windows that flood each room with natural light.
+                </p>
+                <p className="text-zinc-400 text-sm leading-relaxed mt-3">
+                  Located in one of Lagos&apos;s most desirable neighborhoods, residents enjoy easy access to top schools, hospitals, restaurants, and major business districts. 24-hour security, backup power, and a professional management team ensure a seamless living experience.
+                </p>
+              </div>
+            )}
+
+            {activeTab === "amenities" && (
+              <div className="grid sm:grid-cols-2 gap-2">
+                {amenities.map((a) => (
+                  <div key={a.label} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                      <a.icon size={14} className="text-emerald-400" />
+                    </div>
+                    <span className="text-sm text-zinc-300">{a.label}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            )}
+
+            {activeTab === "location" && (
+              <div className="rounded-2xl overflow-hidden border border-white/[0.08] h-64 bg-zinc-900 flex items-center justify-center">
+                <div className="text-center">
+                  <MapPin size={32} className="text-zinc-700 mx-auto mb-2" />
+                  <p className="text-zinc-600 text-sm">Map view — {listing.address}</p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "agent" && (
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-zinc-950 border border-white/[0.08]">
+                <Avatar
+                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&auto=format"
+                  name="Yetunde Afolabi"
+                  size="lg"
+                />
+                <div className="flex-1">
+                  <div className="text-white font-semibold">Yetunde Afolabi</div>
+                  <div className="text-zinc-500 text-sm">Licensed Agent · Lekki</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <StarRating count={5} />
+                    <span className="text-xs text-zinc-600">4.9 (128 reviews)</span>
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <Badge variant="success"><CheckCircle size={10} /> Verified</Badge>
+                    <Badge variant="info">23 Active Listings</Badge>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right — Contact card */}
           <div className="mt-6 lg:mt-0">
             <div className="sticky top-28 space-y-4">
-              <div className="bg-zinc-950 border border-white/[0.08] p-6 rounded-2xl">
-                <div className="text-[#10b981] font-black text-3xl mb-1">{listing.price}</div>
-                <p className="text-sm text-zinc-500 mb-6">Asking price</p>
-
-                <div className="space-y-3 mb-6">
-                  <Link
-                    href={`tel:+234****0000`}
-                    className="w-full bg-[#10b981] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95"
-                  >
-                    <AppIcon name="call" className="lucide" />
-                    Contact Agent
-                  </Link>
-                  <Link
-                    href={`mailto:agent@propati.com?subject=Inquiry about ${listing.title}`}
-                    className="w-full bg-zinc-900 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-zinc-800 transition-all"
-                  >
-                    <AppIcon name="mail" className="lucide" />
-                    Send Email
-                  </Link>
-                  <Link
-                    href={`https://wa.me/2348000000000?text=I'm interested in ${listing.title}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-[#25d366]/10 border border-[#25d366]/30 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#25d366]/20 transition-all"
-                  >
-                    <AppIcon name="chat" className="lucide" />
-                    WhatsApp
-                  </Link>
+              <div className="glass-card p-6">
+                <div className="mb-4">
+                  <div className="text-emerald-400 font-black text-3xl">{formatPrice(listing.price, listing.type)}</div>
+                  <div className="text-zinc-500 text-sm">{listing.priceUnit}</div>
                 </div>
 
-                <div className="pt-6 border-t border-white/[0.07]">
-                  <h3 className="font-bold text-white mb-4">Listed by</h3>
+                <div className="space-y-2">
+                  <Button variant="primary" size="lg" className="w-full justify-center">
+                    <Phone size={15} />
+                    Call Agent
+                  </Button>
+                  <Button variant="secondary" size="lg" className="w-full justify-center">
+                    <MessageSquare size={15} />
+                    Send Message
+                  </Button>
+                  <button className="w-full h-11 px-4 text-sm font-medium rounded-lg text-white border border-[#25d366]/30 bg-[#25d366]/10 hover:bg-[#25d366]/20 transition-colors flex items-center justify-center gap-2">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="#25d366">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    WhatsApp Agent
+                  </button>
+                </div>
+
+                <div className="mt-4 pt-4 border-t border-white/[0.07]">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800">
-                      <div className="w-full h-full bg-zinc-900" />
-                    </div>
+                    <Avatar
+                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&h=60&fit=crop&auto=format"
+                      name="Yetunde Afolabi"
+                      size="md"
+                    />
                     <div>
-                      <p className="font-bold text-sm text-white">PROPATI Verified Agent</p>
-                      <p className="text-xs text-zinc-500">Licensed Real Estate Professional</p>
+                      <div className="text-white text-sm font-medium">Yetunde Afolabi</div>
+                      <div className="text-zinc-500 text-xs flex items-center gap-1">
+                        <CheckCircle size={10} className="text-emerald-400" />
+                        Verified Agent
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Trust badges */}
-              <div className="bg-zinc-950 border border-white/[0.08] p-4 space-y-3">
+              <div className="glass-card p-4 space-y-3">
                 {[
-                  { text: 'Property documents verified by PROPATI' },
-                  { text: 'Landlord identity confirmed' },
-                  { text: 'Secure payment via escrow' },
+                  { icon: Shield, text: "Property documents verified by PROPATI" },
+                  { icon: CheckCircle, text: "Landlord identity confirmed" },
+                  { icon: Star, text: "Secure payment via escrow" },
                 ].map((item) => (
                   <div key={item.text} className="flex items-center gap-2.5 text-xs text-zinc-500">
-                    <AppIcon name="verified" className="lucide text-[14px] text-[#10b981] flex-shrink-0" />
+                    <item.icon size={13} className="text-emerald-400 flex-shrink-0" />
                     {item.text}
                   </div>
                 ))}
@@ -198,7 +294,54 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
             </div>
           </div>
         </div>
+
+        {/* Similar listings */}
+        <div className="mt-16">
+          <SectionLabel>Similar Properties</SectionLabel>
+          <h2 className="text-2xl font-bold text-white mt-3 mb-6">You may also like</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[1, 2, 3].map((i) => (
+              <Link key={i} href={`/listings/${listing.id}-similar-${i}`}>
+                <div className="glass-card overflow-hidden group hover:border-white/20 transition-all cursor-pointer">
+                  <div className="relative h-48 bg-zinc-900 overflow-hidden">
+                    <img
+                      src={`https://picsum.photos/seed/${listing.id}-${i}/800/600`}
+                      alt="Similar listing"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute bottom-3 left-3">
+                      <div className="text-white font-bold text-lg leading-none">₦{(listing.price * (0.8 + i * 0.1)).toLocaleString()}</div>
+                      <div className="text-white/70 text-xs">/year</div>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-white font-semibold text-sm leading-snug mb-1">Similar Property {i}</h3>
+                    <div className="flex items-center gap-1 text-zinc-500 text-xs">
+                      <MapPin size={10} />
+                      <span className="line-clamp-1">{listing.address}</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
+}
+
+function ChevronLeft(props: React.SVGProps<SVGSVGElement>) {
+  return <AppIcon name="arrow_back" className="lucide" {...props} />;
+}
+
+function formatPrice(price: unknown, type: unknown): string {
+  const p = typeof price === 'number' ? price : 0;
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(p);
 }

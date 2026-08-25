@@ -12,6 +12,7 @@ import {
   Eye as EyeIcon,
   FileText as FileIcon,
 } from 'lucide-react';
+import { PageHeader, StatCard, StatusBadge } from '@/components/ui';
 
 type Transaction = {
   id: string;
@@ -70,112 +71,37 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       ? ((thisMonthRevenue / (totalRevenue - thisMonthRevenue)) * 100).toFixed(0)
       : '0';
 
-  function StatCard({
-    label,
-    value,
-    icon: Icon,
-    trend,
-    trendPositive = true,
-  }: {
-    label: string;
-    value: string;
-    icon: React.ReactNode;
-    trend: string;
-    trendPositive?: boolean;
-  }) {
-    return (
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-neutral-400">
-              {label}
-            </p>
-            <p className="text-white">
-              {value}
-            </p>
-          </div>
-          <div className="bg-[#262626] text-white">
-            {Icon}
-          </div>
-        </div>
-        <div className="mt-4 flex items-center gap-1">
-          <span className="text-xs font-medium" className={trendPositive ? 'text-[#00ff66]' : 'text-red-500'}>
-            {trendPositive ? '↑' : '↓'}
-          </span>
-          <span className="text-xs" className={trendPositive ? 'text-[#00ff66]' : 'text-red-500'}>
-            {trend}
-          </span>
-        </div>
-      </div>
-    );
-  }
-
   function TransactionStatusBadge({ status }: { status: string }) {
     const config: Record<string, { class: string; label: string }> = {
-      released: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Released' },
-      in_escrow: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Escrow' },
-      pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
-      failed: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
-      refunded: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Refunded' },
+      released: { class: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: 'Released' },
+      in_escrow: { class: 'bg-zinc-800 text-zinc-300 border-zinc-700', label: 'In Escrow' },
+      pending: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Pending' },
+      failed: { class: 'bg-red-500/10 text-red-400 border-red-500/20', label: 'Failed' },
+      refunded: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'bg-zinc-900/30 text-neutral-400 border-muted/50', label: status };
-    return <span className={`tag ${cfg.class}`}>{cfg.label}</span>;
+    const cfg = config[status] || { class: 'bg-zinc-900 text-neutral-400 border-zinc-800', label: status };
+    return <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${cfg.class}`}>{cfg.label}</span>;
   }
 
   function RentTableSkeleton() {
     return (
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
+      <div className="glass-card rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-[#262626]">
-              <th className="text-neutral-400">
-                Date
-              </th>
-              <th className="text-neutral-400">
-                Property
-              </th>
-              <th className="text-neutral-400">
-                Tenant
-              </th>
-              <th className="text-neutral-400">
-                Type
-              </th>
-              <th className="text-neutral-400">
-                Amount
-              </th>
-              <th className="text-neutral-400">
-                Status
-              </th>
-              <th className="text-neutral-400">
-                Actions
-              </th>
+            <tr className="border-b border-zinc-800">
+              {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
+                <th key={h} className="text-left p-4 text-xs text-zinc-500 font-medium">{h}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-[#262626]">
-                <td className="p-4">
-                  <Skeleton className="h-4 w-24" />
-                </td>
-                <td className="p-4">
-                  <Skeleton className="h-4 w-32 mb-1" />
-                  <Skeleton className="h-3 w-20" />
-                </td>
-                <td className="p-4">
-                  <Skeleton className="h-4 w-28" />
-                </td>
-                <td className="p-4">
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                </td>
-                <td className="p-4 text-right">
-                  <Skeleton className="h-4 w-24 ml-auto" />
-                </td>
-                <td className="p-4">
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                </td>
-                <td className="p-4">
-                  <Skeleton className="h-8 w-20 rounded-md" />
-                </td>
+              <tr key={i} className="border-b border-zinc-800">
+                {[0, 1, 2, 3, 4, 5, 6].map((j) => (
+                  <td key={j} className="p-4">
+                    <Skeleton className="h-4 w-full" />
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -186,19 +112,10 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1
-            className="font-heading font-bold"
-          >
-            Rent Collection
-          </h1>
-          <p className="text-neutral-400">
-            Track rent payments, escrow releases, and revenue
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Rent Collection"
+        description="Track rent payments, escrow releases, and revenue"
+      />
 
       {/* Stats Summary */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -233,9 +150,9 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+      <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
-          <select className="inp-field flex-1 min-w-[180px]" style={{ maxWidth: '200px' }}>
+          <select className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '200px' }}>
             <option value="all">All Status</option>
             <option value="released">Released</option>
             <option value="in_escrow">In Escrow</option>
@@ -243,7 +160,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
             <option value="failed">Failed</option>
             <option value="refunded">Refunded</option>
           </select>
-          <select className="inp-field" style={{ maxWidth: '180px' }}>
+          <select className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }}>
             <option value="all">All Types</option>
             <option value="rent">Rent</option>
             <option value="caution">Caution Deposit</option>
@@ -251,18 +168,8 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
             <option value="short_let">Short Let</option>
             <option value="subscription">Subscription</option>
           </select>
-          <input
-            type="date"
-            className="inp-field"
-            style={{ maxWidth: '180px' }}
-            placeholder="From date"
-          />
-          <input
-            type="date"
-            className="inp-field"
-            style={{ maxWidth: '180px' }}
-            placeholder="To date"
-          />
+          <input type="date" className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
+          <input type="date" className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
         </div>
       </div>
 
@@ -270,71 +177,39 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <section>
         <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
           {transactions.length === 0 ? (
-            <div className="bg-obsidian-800/30 rounded-xl border border-[#262626]-body text-center py-16">
-              <CurrencyIcon className="w-5 h-5" />
-              <h3 className="text-white">
-                No transactions yet
-              </h3>
-              <p className="text-neutral-400">
-                Rent payments will appear here once tenants start paying.
-              </p>
+            <div className="glass-card rounded-xl border border-zinc-800 text-center py-16">
+              <CurrencyIcon className="w-5 h-5 mx-auto text-zinc-500 mb-2" />
+              <h3 className="text-white">No transactions yet</h3>
+              <p className="text-zinc-400">Rent payments will appear here once tenants start paying.</p>
             </div>
           ) : (
-            <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
+            <div className="glass-card rounded-xl border border-zinc-800 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-[#262626]">
-                      <th className="text-neutral-400">
-                        Date
-                      </th>
-                      <th className="text-neutral-400">
-                        Property
-                      </th>
-                      <th className="text-neutral-400">
-                        Tenant
-                      </th>
-                      <th className="text-neutral-400">
-                        Type
-                      </th>
-                      <th className="text-neutral-400">
-                        Amount
-                      </th>
-                      <th className="text-neutral-400">
-                        Status
-                      </th>
-                      <th className="text-neutral-400">
-                        Actions
-                      </th>
+                    <tr className="border-b border-zinc-800">
+                      {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
+                        <th key={h} className="text-left p-4 text-xs text-zinc-500 font-medium">{h}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => (
-                      <tr key={tx.id} className="border-[#262626]">
-                        <td className="text-neutral-400">
-                          {new Date(tx.createdAt).toLocaleDateString('en-NG', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                          })}
+                      <tr key={tx.id} className="border-b border-zinc-800 hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 text-sm text-zinc-400">
+                          {new Date(tx.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
                         <td className="p-4">
-                          <p className="text-white">
-                            {tx.listing?.title || 'N/A'}
-                          </p>
-                          <p className="text-neutral-400">
-                            {tx.listing?.area}
-                          </p>
+                          <p className="text-white text-sm">{tx.listing?.title || 'N/A'}</p>
+                          <p className="text-xs text-zinc-500">{tx.listing?.area}</p>
+                        </td>
+                        <td className="p-4 text-sm text-white">
+                          {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                         </td>
                         <td className="p-4">
-                          <p className="text-white">
-                            {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
-                          </p>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800 capitalize">{tx.type}</span>
                         </td>
-                        <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-neutral-400 border border-[#262626]">{tx.type}</span>
-                        </td>
-                        <td className="text-white">
+                        <td className="p-4 text-sm text-white font-medium">
                           ₦{Number(tx.amount).toLocaleString()}
                         </td>
                         <td className="p-4">
@@ -343,21 +218,13 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                         <td className="p-4">
                           <div className="flex items-center gap-2">
                             {tx.status === 'in_escrow' && (
-                              <button className="btn btn-primary btn-sm">Release</button>
+                              <button className="px-3 py-1.5 text-xs font-medium bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors">Release</button>
                             )}
-                            <Link
-                              href={`/dashboard/landlord/rent/${tx.id}`}
-                              className="btn btn-ghost btn-sm"
-                              title="View Details"
-                            >
-                              <EyeIcon className="w-4 h-4" />
+                            <Link href={`/dashboard/landlord/rent/${tx.id}`} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors" title="View Details">
+                              <EyeIcon className="w-4 h-4 text-zinc-400" />
                             </Link>
-                            <Link
-                              href={`/dashboard/landlord/receipts/${tx.id}`}
-                              className="btn btn-ghost btn-sm"
-                              title="Receipt"
-                            >
-                              <FileIcon className="w-4 h-4" />
+                            <Link href={`/dashboard/landlord/receipts/${tx.id}`} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors" title="Receipt">
+                              <FileIcon className="w-4 h-4 text-zinc-400" />
                             </Link>
                           </div>
                         </td>
@@ -373,28 +240,14 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
       {/* Upcoming Rent Schedule */}
       <section>
-        <h2 className="text-white">
-          Upcoming Rent Schedule
-        </h2>
-        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
+        <h2 className="text-white font-semibold text-sm mb-4">Upcoming Rent Schedule</h2>
+        <div className="glass-card rounded-xl border border-zinc-800 overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-[#262626]">
-                <th className="text-neutral-400">
-                  Property
-                </th>
-                <th className="text-neutral-400">
-                  Tenant
-                </th>
-                <th className="text-neutral-400">
-                  Amount
-                </th>
-                <th className="text-neutral-400">
-                  Due Date
-                </th>
-                <th className="text-neutral-400">
-                  Status
-                </th>
+              <tr className="border-b border-zinc-800">
+                {['Property', 'Tenant', 'Amount', 'Due Date', 'Status'].map((h) => (
+                  <th key={h} className="text-left p-4 text-xs text-zinc-500 font-medium">{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -403,25 +256,17 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                 { property: 'Greenview Estate Unit 3', tenant: 'Jane Smith', amount: 2200000, dueDate: '2026-07-05', status: 'upcoming' },
                 { property: 'Lekki Heights Penthouse', tenant: 'Mike Johnson', amount: 5000000, dueDate: '2026-06-30', status: 'overdue' },
               ].map((item, i) => (
-                <tr key={i} className="border-[#262626]">
-                  <td className="text-white">
-                    {item.property}
-                  </td>
-                  <td className="text-white">
-                    {item.tenant}
-                  </td>
-                  <td className="text-white">
-                    ₦{item.amount.toLocaleString()}
-                  </td>
-                  <td className="text-neutral-400">
-                    {new Date(item.dueDate).toLocaleDateString('en-NG', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
+                <tr key={i} className="border-b border-zinc-800">
+                  <td className="p-4 text-sm text-white">{item.property}</td>
+                  <td className="p-4 text-sm text-white">{item.tenant}</td>
+                  <td className="p-4 text-sm text-white">₦{item.amount.toLocaleString()}</td>
+                  <td className="p-4 text-sm text-zinc-400">
+                    {new Date(item.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </td>
                   <td className="p-4">
-                    <span className={`tag ${item.status === 'overdue' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-warning/10 text-warning border-warning/20'}`}>
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                      item.status === 'overdue' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                    }`}>
                       {item.status === 'overdue' ? 'Overdue' : 'Due Soon'}
                     </span>
                   </td>

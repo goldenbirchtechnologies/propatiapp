@@ -523,80 +523,160 @@ function ListingsPageInner() {
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-16 py-8">
-        {/* Results Grid */}
-        <div className="flex-1">
-          {/* Header */}
-          <div className="flex items-baseline justify-between mb-6">
+        <div className="flex gap-6">
+          {/* Sidebar filters — desktop */}
+          <aside className="hidden lg:block w-56 flex-shrink-0 space-y-6">
             <div>
-              <h1 className="text-2xl font-bold text-white">
-                {filters.category === 'short_let' ? 'Short Let' : filters.category === 'commercial' ? 'Commercial' : 'Residential'} Properties
-              </h1>
-              <p className="text-sm text-zinc-500 mt-1">
-                {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
-              </p>
-            </div>
-
-            {/* View Toggle */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={cn(
-                  'p-2 rounded-md transition-colors',
-                  viewMode === 'grid'
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-900'
-                )}
-                aria-label="Grid view"
-              >
-                <AppIcon name="grid_view" className="lucide" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={cn(
-                  'p-2 rounded-md transition-colors',
-                  viewMode === 'list'
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-900'
-                )}
-                aria-label="List view"
-              >
-                <AppIcon name="format_list_bulleted" className="lucide" />
-              </button>
-            </div>
-          </div>
-
-          {/* Loading State */}
-          {isLoading && (
-            <div className={cn(
-              'grid gap-6',
-              viewMode === 'grid'
-                ? 'grid-cols-1 md:grid-cols-2'
-                : 'grid-cols-1'
-            )}>
-              <PropertyCardSkeleton count={6} />
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!isLoading && filteredProperties.length === 0 && (
-            <div className="text-center py-16 fade-in">
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-zinc-900 mb-4">
-                <SearchIcon className="h-12 w-12 text-zinc-500" />
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Type</h3>
+              <div className="space-y-1">
+                {['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'].map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilters((prev) => ({ ...prev, category: cat.toLowerCase() as PropertyCategory, listingType: cat === 'All' ? 'all' : cat.toLowerCase() as ListingType }))}
+                    className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
+                      filters.category === cat.toLowerCase()
+                        ? 'bg-emerald-500/10 text-emerald-400'
+                        : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
-              <p className="text-sm text-zinc-500 mb-6 max-w-md mx-auto">
-                Try adjusting your filters or search criteria to find what you're looking for.
-              </p>
-              <Button onClick={handleResetFilters} variant="outline">
-                <XIcon className="h-4 w-4 mr-2" />
-                Reset All Filters
-              </Button>
             </div>
-          )}
 
-          {/* Property Grid */}
-          {!isLoading && filteredProperties.length > 0 && (
-            <div className="fade-in-stagger">
+            <div>
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Price Range</h3>
+              <div className="space-y-2">
+                <div className="relative">
+                  <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
+                  <input
+                    type="text"
+                    placeholder="Min"
+                    value={filters.priceMin || ''}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, priceMin: Number(e.target.value) || 0 }))}
+                    className="w-full pl-7 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <div className="relative">
+                  <span className="absolute left-3 top-2.5 text-xs text-zinc-500">₦</span>
+                  <input
+                    type="text"
+                    placeholder="Max"
+                    value={filters.priceMax === 100000000 ? '' : filters.priceMax}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, priceMax: Number(e.target.value) || 100000000 }))}
+                    className="w-full pl-7 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Bedrooms</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {['Any', '1', '2', '3', '4+'].map((b) => (
+                  <button
+                    key={b}
+                    onClick={() => setFilters((prev) => ({ ...prev, bedrooms: b === 'Any' ? null : Number(b) }))}
+                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+                      (b === 'Any' && filters.bedrooms === null) || filters.bedrooms === Number(b)
+                        ? 'bg-emerald-500 border-emerald-500 text-white'
+                        : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600'
+                    }`}
+                  >
+                    {b}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Verification</h3>
+              <label className="flex items-center gap-2.5 cursor-pointer">
+                <div className="w-4 h-4 rounded border-2 border-emerald-500 bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <span className="text-sm text-zinc-300">Verified only</span>
+              </label>
+            </div>
+
+            <div>
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Amenities</h3>
+              <div className="space-y-2">
+                {AMENITIES.map((a) => (
+                  <label key={a} className="flex items-center gap-2.5 cursor-pointer">
+                    <div className="w-4 h-4 rounded border border-zinc-700 bg-zinc-950 flex-shrink-0" />
+                    <span className="text-sm text-zinc-400 hover:text-zinc-200">{a}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-sm text-zinc-500">
+                Showing <span className="text-white font-medium">{filteredProperties.length}</span> properties
+                {filters.category !== 'all' && ` · ${filters.category}`}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={cn(
+                    'p-1.5 rounded-md transition-colors',
+                    viewMode === 'grid' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'
+                  )}
+                  aria-label="Grid view"
+                >
+                  <Grid3X3 size={13} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={cn(
+                    'p-1.5 rounded-md transition-colors',
+                    viewMode === 'list' ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'
+                  )}
+                  aria-label="List view"
+                >
+                  <List size={13} />
+                </button>
+              </div>
+            </div>
+
+            {/* Loading State */}
+            {isLoading && (
+              <div className={cn(
+                'grid gap-6',
+                viewMode === 'grid'
+                  ? 'grid-cols-1 md:grid-cols-2'
+                  : 'grid-cols-1'
+              )}>
+                <PropertyCardSkeleton count={6} />
+              </div>
+            )}
+
+            {/* Empty State */}
+            {!isLoading && filteredProperties.length === 0 && (
+              <div className="text-center py-16">
+                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-zinc-900 mb-4">
+                  <SearchIcon className="h-12 w-12 text-zinc-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">No properties found</h3>
+                <p className="text-sm text-zinc-500 mb-6 max-w-md mx-auto">
+                  Try adjusting your filters or search criteria to find what you're looking for.
+                </p>
+                <Button onClick={handleResetFilters} variant="outline">
+                  <XIcon className="h-4 w-4 mr-2" />
+                  Reset All Filters
+                </Button>
+              </div>
+            )}
+
+            {/* Property Grid */}
+            {!isLoading && filteredProperties.length > 0 && (
               <div className={cn(
                 'grid gap-6 pb-24',
                 viewMode === 'grid'
@@ -628,8 +708,8 @@ function ListingsPageInner() {
                   </Button>
                 </div>
               )}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 

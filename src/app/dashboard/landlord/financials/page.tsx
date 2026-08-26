@@ -245,10 +245,10 @@ export default function LandlordFinancialsPage() {
 
   const statusBadge = (variant: TransactionRow['statusBadgeVariant'], label: string) => {
     const map: Record<string, string> = {
-      default: 'bg-[#262626] text-white border-primary/20',
-      secondary: 'bg-secondary text-secondary-foreground border-[#262626]',
+      default: 'bg-zinc-900 text-white border-white/[0.08]/20',
+      secondary: 'bg-secondary text-secondary-foreground border-white/[0.08]',
       destructive: 'bg-red-500/10 text-red-500 border-red-500/20',
-      outline: 'bg-background text-white border-[#262626]',
+      outline: 'bg-background text-white border-white/[0.08]',
     };
     return <Badge variant={variant} className={`capitalize border ${map[variant] || map.outline}`}>{label}</Badge>;
   };
@@ -264,7 +264,7 @@ export default function LandlordFinancialsPage() {
                   <h1 className="font-headline-sm font-bold text-white" style={{ fontSize: 'var(--font-size-headline-sm)', color: 'var(--color-primary)', marginBottom: 'var(--space-vs)' }}>
                     Financials Overview
                   </h1>
-                  <p className="text-base text-muted-foreground" style={{ marginTop: 'var(--space-vs)' }}>
+                  <p className="text-base text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
                     Wallet, payouts, and transaction history
                   </p>
                 </div>
@@ -276,7 +276,7 @@ export default function LandlordFinancialsPage() {
                       onChange={(e) => setFilters((s) => ({ ...s, from: e.target.value }))}
                       className="h-9 text-xs"
                     />
-                    <span className="text-xs text-muted-foreground">-</span>
+                    <span className="text-xs text-zinc-500">-</span>
                     <Input
                       type="date"
                       value={filters.to}
@@ -309,54 +309,54 @@ export default function LandlordFinancialsPage() {
               {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {[0, 1, 2, 3].map((i) => (
-                    <Card key={i} className="p-6">
+                    <div className="glass-card" key={i} className="p-6">
                       <div className="space-y-3">
                         <div className="rounded" style={{ height: 12, width: '55%', background: 'var(--border)', animation: 'skel-pulse 1.6s ease-in-out infinite' }} />
                         <div className="rounded" style={{ height: 28, width: '40%', background: 'var(--border)', animation: 'skel-pulse 1.6s ease-in-out infinite' }} />
                       </div>
-                    </Card>
+                    </div>
                   ))}
                 </div>
               ) : error ? (
-                <Card className="p-6 text-sm text-red-500">{error}</Card>
+                <div className="glass-card p-6 text-sm text-red-500">{error}</div>
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <div className="glass-card rounded-xl p-6">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Total Income</CardTitle>
-                      </CardHeader>
-                      <CardContent>
+                      <div className="px-6 py-5 border-b border-white/[0.08] pb-3">
+                        <h3 className="text-lg font-semibold text-white text-sm font-medium text-zinc-500">Total Income</h3>
+                      </div>
+                      <div className="p-6">
                         <div className="text-3xl font-bold">{formatNairaFull(metrics.totalIncome)}</div>
-                        <p className="text-xs text-muted-foreground mt-2">Released transactions</p>
-                      </CardContent>
+                        <p className="text-xs text-zinc-500 mt-2">Released transactions</p>
+                      </div>
                     </div>
                     <div className="glass-card rounded-xl p-6">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Pending / In Escrow</CardTitle>
-                      </CardHeader>
-                      <CardContent>
+                      <div className="px-6 py-5 border-b border-white/[0.08] pb-3">
+                        <h3 className="text-lg font-semibold text-white text-sm font-medium text-zinc-500">Pending / In Escrow</h3>
+                      </div>
+                      <div className="p-6">
                         <div className="text-3xl font-bold">{metrics.pendingCount}</div>
-                        <p className="text-xs text-muted-foreground mt-2">Awaiting confirmation</p>
-                      </CardContent>
+                        <p className="text-xs text-zinc-500 mt-2">Awaiting confirmation</p>
+                      </div>
                     </div>
                     <div className="glass-card rounded-xl p-6">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Transactions</CardTitle>
-                      </CardHeader>
-                      <CardContent>
+                      <div className="px-6 py-5 border-b border-white/[0.08] pb-3">
+                        <h3 className="text-lg font-semibold text-white text-sm font-medium text-zinc-500">Transactions</h3>
+                      </div>
+                      <div className="p-6">
                         <div className="text-3xl font-bold">{metrics.transactionCount}</div>
-                        <p className="text-xs text-muted-foreground mt-2">Recent total</p>
-                      </CardContent>
+                        <p className="text-xs text-zinc-500 mt-2">Recent total</p>
+                      </div>
                     </div>
                     <div className="glass-card rounded-xl p-6">
-                      <CardHeader className="pb-3 flex items-center justify-between gap-3">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">Available Balance</CardTitle>
-                        <Wallet className="w-4 h-4 text-muted-foreground" />
-                      </CardHeader>
-                      <CardContent>
+                      <div className="px-6 py-5 border-b border-white/[0.08] pb-3 flex items-center justify-between gap-3">
+                        <h3 className="text-lg font-semibold text-white text-sm font-medium text-zinc-500">Available Balance</h3>
+                        <Wallet className="w-4 h-4 text-zinc-500" />
+                      </div>
+                      <div className="p-6">
                         <div className="text-3xl font-bold">{formatNairaFull(wallet.availableBalance)}</div>
-                        <p className="text-xs text-muted-foreground mt-2">
+                        <p className="text-xs text-zinc-500 mt-2">
                           Pending clearing: {formatNairaFull(wallet.pendingClearing)}
                         </p>
                         <div className="mt-3 flex flex-wrap gap-2">
@@ -373,20 +373,20 @@ export default function LandlordFinancialsPage() {
                             <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
                           </Button>
                         </div>
-                      </CardContent>
+                      </div>
                     </div>
                   </div>
 
-                  <Card>
-                    <CardHeader className="pb-4">
-                      <CardTitle className="text-lg">Payout History</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                  <div className="glass-card">
+                    <div className="px-6 py-5 border-b border-white/[0.08] pb-4">
+                      <h3 className="text-lg font-semibold text-white text-lg">Payout History</h3>
+                    </div>
+                    <div className="p-6">
                       {transactions.length === 0 && wallet.recentTransactions.length === 0 ? (
-                        <div className="rounded-lg border border-[#262626] bg-muted/5 p-8 text-center">
-                          <Banknote className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
+                        <div className="rounded-lg border border-white/[0.08] bg-muted/5 p-8 text-center">
+                          <Banknote className="w-10 h-10 mx-auto mb-3 text-zinc-500" />
                           <p className="text-sm font-medium text-white">No payouts yet</p>
-                          <p className="text-xs text-muted-foreground mt-1">Withdrawals and wallet transactions will show here.</p>
+                          <p className="text-xs text-zinc-500 mt-1">Withdrawals and wallet transactions will show here.</p>
                           <div className="mt-4 flex items-center justify-center gap-2">
                             <Button size="sm" variant="outline" className="gap-2" onClick={() => (window.location.href = '/dashboard/landlord/invoices/new')}>
                               <FileText className="w-3.5 h-3.5" /> Create Invoice
@@ -399,7 +399,7 @@ export default function LandlordFinancialsPage() {
                       ) : (
                         <div className="overflow-x-auto">
                           <table className="w-full text-left text-sm">
-                            <thead className="text-muted-foreground border-b">
+                            <thead className="text-zinc-500 border-b">
                               <tr>
                                 <th className="py-3 font-medium">Date</th>
                                 <th className="py-3 font-medium">Reference</th>
@@ -412,7 +412,7 @@ export default function LandlordFinancialsPage() {
                             <tbody>
                               {transactions.map((tx) => (
                                 <tr key={tx.id} className="border-b last:border-0">
-                                  <td className="py-3 text-muted-foreground">{tx.date}</td>
+                                  <td className="py-3 text-zinc-500">{tx.date}</td>
                                   <td className="py-3 font-mono text-xs">{tx.reference}</td>
                                   <td className="py-3">{tx.listing || tx.reference}</td>
                                   <td className="py-3 capitalize">{tx.type}</td>
@@ -423,7 +423,7 @@ export default function LandlordFinancialsPage() {
                               {transactions.length === 0 &&
                                 wallet.recentTransactions.map((tx) => (
                                   <tr key={`wt-${tx.id}`} className="border-b last:border-0">
-                                    <td className="py-3 text-muted-foreground">{tx.date}</td>
+                                    <td className="py-3 text-zinc-500">{tx.date}</td>
                                     <td className="py-3 font-mono text-xs">{tx.providerRef || tx.id}</td>
                                     <td className="py-3">{tx.description || tx.type}</td>
                                     <td className="py-3 capitalize">{tx.type.replace(/_/g, ' ')}</td>
@@ -439,8 +439,8 @@ export default function LandlordFinancialsPage() {
                           </table>
                         </div>
                       )}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </>
               )}
             </div>
@@ -499,7 +499,7 @@ export default function LandlordFinancialsPage() {
             <DialogDescription>Request a payout to your saved bank account via Paystack Transfers.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border border-[#262626] bg-muted/5 p-3 text-xs text-muted-foreground">
+            <div className="rounded-lg border border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-500">
               Available: <span className="font-semibold text-white">{formatNairaFull(wallet.availableBalance)}</span> · Min withdrawal: ₦{MIN_WITHDRAWAL.toLocaleString()}
             </div>
             <div className="space-y-2">
@@ -511,7 +511,7 @@ export default function LandlordFinancialsPage() {
               <Input value={withdrawReason} onChange={(e) => setWithdrawReason(e.target.value)} />
             </div>
             {wallet.bankAccount && (
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-zinc-500">
                 Payout to: <span className="font-semibold text-white">{wallet.bankAccount.accountName || 'Saved account'} - {wallet.bankAccount.bankName || ''} ****{wallet.bankAccount.accountNumber?.slice(-4)}</span>
               </div>
             )}
@@ -532,11 +532,11 @@ export default function LandlordFinancialsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-lg border border-[#262626] p-6 text-center">
+    <div className="rounded-lg border border-white/[0.08] p-6 text-center">
       <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
         {title}
       </p>
-      <p className="text-sm text-muted-foreground mt-1">{description}</p>
+      <p className="text-sm text-zinc-500 mt-1">{description}</p>
     </div>
   );
 }

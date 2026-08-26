@@ -41,21 +41,21 @@ export default async function TenantMessagesPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-6">
+        <div className="space-y-6">
           {assignedAgents.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {assignedAgents.map((agent) => (
-                <Card key={agent.id} className="border-[#262626] bg-obsidian-800/30">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-label-md uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+                <div className="glass-card" key={agent.id} className="border-white/[0.08] bg-zinc-950/50">
+                  <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
+                    <h3 className="text-lg font-semibold text-white text-sm font-label-sm uppercase tracking-wider text-zinc-500 flex items-center gap-2">
                       <UserCheck className="w-4 h-4 text-[#00ff66]" />
                       Assigned Agent
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
+                    </h3>
+                  </div>
+                  <div className="p-6">
                     <p className="text-white font-medium">{agent.fullName}</p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           )}

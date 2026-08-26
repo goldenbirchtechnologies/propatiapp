@@ -7,9 +7,9 @@ import { Building2, Plus, Eye, Edit, Trash2, ShieldCheck, Shield } from 'lucide-
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   active: { class: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
-  draft: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-800', label: 'Draft' },
+  draft: { class: 'bg-zinc-800 text-zinc-300 border border-white/[0.08]', label: 'Draft' },
   suspended: { class: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
-  deleted: { class: 'bg-zinc-900/50 text-zinc-400 border border-zinc-800', label: 'Deleted' },
+  deleted: { class: 'bg-zinc-900/50 text-zinc-400 border border-white/[0.08]', label: 'Deleted' },
 };
 
 type Listing = {
@@ -45,26 +45,26 @@ export default function AgentListingsClient({ initialListings }: { initialListin
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-4  hover:shadow-md transition-shadow">
-          <p className="text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Total</p>
+        <div className="bg-zinc-900/50 rounded-xl border border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-400">Total</p>
           <p className="font-headline-md text-headline-md text-white">{initialListings.length}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-4  hover:shadow-md transition-shadow">
-          <p className="text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Active</p>
+        <div className="bg-zinc-900/50 rounded-xl border border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-400">Active</p>
           <p className="font-headline-md text-headline-md text-[#10b981]">{activeCount}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-4  hover:shadow-md transition-shadow">
-          <p className="text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Verified</p>
+        <div className="bg-zinc-900/50 rounded-xl border border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-400">Verified</p>
           <p className="font-headline-md text-headline-md text-[#10b981]">{verifiedCount}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 p-4  hover:shadow-md transition-shadow">
-          <p className="text-[10px] font-label-md uppercase tracking-wider text-zinc-400">Views</p>
+        <div className="bg-zinc-900/50 rounded-xl border border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-400">Views</p>
           <p className="font-headline-md text-headline-md text-white">{totalViews.toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden  hover:shadow-md transition-shadow">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-800">
+      <div className="bg-zinc-900/50 rounded-xl border border-white/[0.08] overflow-hidden  hover:shadow-none transition-shadow">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-white/[0.08]">
           {['all', 'active', 'draft', 'suspended'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-[#10b981]/10 text-white border-[#10b981]/20' : 'border-transparent hover:bg-zinc-800')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
           ))}
@@ -72,7 +72,7 @@ export default function AgentListingsClient({ initialListings }: { initialListin
         {filtered.length === 0 ? (
           <div className="p-6 text-center py-16">
             <Building2 className="w-16 h-16 mx-auto mb-4 text-zinc-400 opacity-50" />
-            <h3 className="font-headline-sm text-headline-sm text-white mb-2">No listings</h3>
+            <h3 className="font-headline-sm text-white text-white mb-2">No listings</h3>
             <p className="text-zinc-400">Add your first managed listing.</p>
           </div>
         ) : (
@@ -92,7 +92,7 @@ export default function AgentListingsClient({ initialListings }: { initialListin
               {filtered.map((l) => {
                 const sc = statusConfig[l.status] || statusConfig.draft;
                 return (
-                <tr key={l.id} className="border-b border-zinc-800 transition-colors hover:bg-[#0a0a0a]/30">
+                <tr key={l.id} className="border-b border-white/[0.08] transition-colors hover:bg-zinc-950/30">
                   <td className="p-4 font-medium text-sm text-white">{l.title}</td>
                   <td className="p-4 text-sm text-zinc-400">{l.landlord}</td>
                   <td className="p-4 text-sm text-white">{l.type}</td>

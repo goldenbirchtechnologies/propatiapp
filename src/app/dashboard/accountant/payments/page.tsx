@@ -31,37 +31,37 @@ export default async function AccountantPaymentsPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
               <div>
                 <h1 className="text-4xl font-bold text-white tracking-tight">Rent & Payments</h1>
-                <p className="text-muted-foreground mt-3 text-base">Monitor payments, disbursements, and platform financial activity.</p>
+                <p className="text-zinc-500 mt-3 text-base">Monitor payments, disbursements, and platform financial activity.</p>
               </div>
 
               <div className="grid gap-5 md:grid-cols-3">
-                <div className="rounded-xl border border-[#262626] p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Processed Volume</p>
+                <div className="rounded-xl border border-white/[0.08] p-6">
+                  <p className="text-xs text-zinc-500 font-medium">Processed Volume</p>
                   <p className="text-3xl font-bold text-white">₦{Number(totalVolume._sum?.amount ?? 0).toLocaleString()}</p>
                 </div>
-                <div className="rounded-xl border border-[#262626] p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Pending Transactions</p>
+                <div className="rounded-xl border border-white/[0.08] p-6">
+                  <p className="text-xs text-zinc-500 font-medium">Pending Transactions</p>
                   <p className="text-3xl font-bold text-white">{pendingCount}</p>
                 </div>
-                <div className="rounded-xl border border-[#262626] p-6">
-                  <p className="text-xs text-muted-foreground font-medium">Recent Transactions</p>
+                <div className="rounded-xl border border-white/[0.08] p-6">
+                  <p className="text-xs text-zinc-500 font-medium">Recent Transactions</p>
                   <p className="text-3xl font-bold text-white">{recent.length}</p>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-[#262626]">
-                <div className="p-5 border-b border-[#262626]">
+              <div className="rounded-xl border border-white/[0.08]">
+                <div className="p-5 border-b border-white/[0.08]">
                   <h2 className="text-xl font-semibold text-white">Recent Transactions</h2>
                 </div>
                 <div className="divide-y divide-border">
-                  {recent.length === 0 && <p className="p-6 text-sm text-muted-foreground">No transactions yet.</p>}
+                  {recent.length === 0 && <p className="p-6 text-sm text-zinc-500">No transactions yet.</p>}
                   {recent.map((tx) => (
                     <div key={tx.id} className="flex items-center justify-between p-5">
                       <div>
                         <p className="text-sm font-medium text-white">{tx.description || tx.type}</p>
-                        <p className="text-xs text-muted-foreground">{new Date(tx.createdAt).toLocaleString()}</p>
+                        <p className="text-xs text-zinc-500">{new Date(tx.createdAt).toLocaleString()}</p>
                       </div>
-                      <p className={`text-sm font-semibold ${tx.status === 'success' ? 'text-[#00ff66]' : 'text-neutral-300'}`}>
+                      <p className={`text-sm font-semibold ${tx.status === 'success' ? 'text-[#00ff66]' : 'text-zinc-300'}`}>
                         ₦{Number(tx.amount).toLocaleString()} <span className="text-xs">{tx.status}</span>
                       </p>
                     </div>
@@ -84,9 +84,9 @@ export default async function AccountantPaymentsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-[#262626] p-10 text-center">
+    <div className="rounded-xl border border-white/[0.08] p-10 text-center">
       <p className="text-base font-semibold" style={{ color: 'var(--text)' }}>{title}</p>
-      <p className="text-base text-muted-foreground mt-2">{description}</p>
+      <p className="text-base text-zinc-500 mt-2">{description}</p>
     </div>
   );
 }

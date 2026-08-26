@@ -112,7 +112,7 @@ export default function InvitePropertyManagerPage() {
             Back
           </Link>
           <h1 className="font-heading text-headline-lg text-white">Invite property manager</h1>
-          <p className="text-neutral-400">They'll get an email to accept the invite</p>
+          <p className="text-zinc-500">They'll get an email to accept the invite</p>
         </div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -140,7 +140,7 @@ export default function InvitePropertyManagerPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email Input */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
               Email
@@ -154,18 +154,18 @@ export default function InvitePropertyManagerPage() {
               className="max-w-xl dark:bg-zinc-800/60 dark:placeholder:text-gray-400"
               required
             />
-            <p className="text-sm text-neutral-400">
+            <p className="text-sm text-zinc-500">
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
-        </Card>
+        </div>
 
         {/* Permissions Grid */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className="font-label-sm uppercase tracking-wide text-white">Permissions</h2>
-              <p className="text-sm text-neutral-400">
+              <p className="text-sm text-zinc-500">
                 Pick what this property manager can do. You can change this later.
               </p>
             </div>
@@ -181,7 +181,7 @@ export default function InvitePropertyManagerPage() {
                     className={cn(
                       'text-left rounded-xl border p-4 transition-all',
                       isSelected
-                        ? 'border-primary bg-emerald-500/5 shadow-lg shadow-emerald-500/10'
+                        ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
                         : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
                     )}
                   >
@@ -205,13 +205,13 @@ export default function InvitePropertyManagerPage() {
               })}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Scope */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <h2 className="font-label-sm uppercase tracking-wide text-white">Scope</h2>
-            <p className="text-sm text-neutral-400">
+            <p className="text-sm text-zinc-500">
               Leave empty to apply to all current and future properties. Add a property first to scope the property manager.
             </p>
             <div className="max-w-xl">
@@ -234,7 +234,7 @@ export default function InvitePropertyManagerPage() {
               )}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">

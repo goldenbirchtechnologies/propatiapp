@@ -82,14 +82,14 @@ export default function TenantSearchClient({ initialProperties, filters: initial
               placeholder="Search by area, city, or address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-zinc-950 border-zinc-800 text-white"
+              className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
             />
           </div>
           <div className="flex items-center gap-1">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+              className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
               onClick={() => setViewMode('grid')}
             >
               <Grid className="h-4 w-4" />
@@ -97,7 +97,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}
               size="icon"
-              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+              className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
               onClick={() => setViewMode('list')}
             >
               <LayoutList className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
                 'cursor-pointer',
                 searchQuery.toLowerCase() === city.toLowerCase()
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'border-zinc-800 text-zinc-400 hover:text-white'
+                  : 'border-white/[0.08] text-zinc-400 hover:text-white'
               )}
               onClick={() => setSearchQuery(city)}
             >
@@ -129,7 +129,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
             <Badge
               key={type}
               variant="outline"
-              className="cursor-pointer border-zinc-800 text-zinc-400 hover:text-white"
+              className="cursor-pointer border-white/[0.08] text-zinc-400 hover:text-white"
             >
               {type}
             </Badge>
@@ -139,7 +139,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
 
       <div className="flex items-center justify-between">
         <div className="text-sm text-zinc-500">{totalCount} properties found</div>
-        <Button variant="outline" size="sm" className="border-zinc-800 text-zinc-400">
+        <Button variant="outline" size="sm" className="border-white/[0.08] text-zinc-400">
           <Filter className="h-4 w-4 mr-2" /> More Filters
         </Button>
       </div>
@@ -155,7 +155,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
           const image = property.images[0]?.url || '/placeholder-property.png';
 
           return (
-            <Card key={property.id} className="glass-card overflow-hidden">
+            <div className="glass-card" key={property.id} className="glass-card overflow-hidden">
               <div className="relative">
                 <img
                   src={image}
@@ -174,7 +174,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
                   <Heart className={cn('h-4 w-4', isSaved && 'fill-red-500 text-red-500')} />
                 </Button>
               </div>
-              <CardContent className="p-4 space-y-3">
+              <div className="p-6 p-4 space-y-3">
                 <div>
                   <h3 className="font-medium text-white line-clamp-1">{property.title}</h3>
                   <p className="text-sm text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
@@ -196,7 +196,7 @@ export default function TenantSearchClient({ initialProperties, filters: initial
                     <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+                <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
                   <Avatar
                     src={property.landlord?.avatarUrl || undefined}
                     name={property.landlord?.fullName || 'L'}
@@ -206,8 +206,8 @@ export default function TenantSearchClient({ initialProperties, filters: initial
                     <Link href={`/listings/${property.id}`}>View Details</Link>
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>

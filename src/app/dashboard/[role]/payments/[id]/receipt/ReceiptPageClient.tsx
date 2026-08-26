@@ -17,7 +17,7 @@ export default function ReceiptPageClient({ transactionId }: ReceiptPageClientPr
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
       </div>
     );
   }
@@ -27,7 +27,7 @@ export default function ReceiptPageClient({ transactionId }: ReceiptPageClientPr
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Transaction Not Found</h2>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-zinc-500 mb-4">
             Unable to load receipt for this transaction
           </p>
           <Button onClick={() => router.push('/dashboard/payments')}>

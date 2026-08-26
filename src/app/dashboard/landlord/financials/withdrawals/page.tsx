@@ -34,13 +34,13 @@ export default async function LandlordWithdrawalsPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
-          <div className="p-5 border-b border-[#262626]">
+        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
+          <div className="p-5 border-b border-white/[0.08]">
             <h3 className="font-heading font-bold">Recent Withdrawals</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-zinc-800 border-b border-[#262626]">
+              <thead className="bg-zinc-800 border-b border-white/[0.08]">
                 <tr>
                   <th className="px-5 py-4 text-sm font-medium text-zinc-400">Reference</th>
                   <th className="px-5 py-4 text-sm font-medium text-zinc-400">Date</th>
@@ -58,7 +58,7 @@ export default async function LandlordWithdrawalsPage() {
                   </tr>
                 ) : (
                   payouts.map((w) => (
-                    <tr key={w.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                    <tr key={w.id} className="hover:bg-zinc-900 transition-colors">
                       <td className="px-5 py-4 text-sm font-mono text-zinc-400">{w.reference || w.id}</td>
                       <td className="px-5 py-4 text-sm">{new Date(w.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-5 py-4 text-sm"><span className="capitalize">{w.type.replace('_', ' ')}</span></td>

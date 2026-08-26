@@ -41,7 +41,7 @@ function layerBadge(status: VerificationLayerStatus | null) {
   if (!status) return <span className="text-zinc-400">—</span>;
   const colors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
-    approved: 'bg-green-100 text-green-800',
+    approved: 'bg-green-100 text-emerald-800',
     rejected: 'bg-red-100 text-red-800',
   };
   return (
@@ -306,10 +306,10 @@ export default async function VerificationDetailPage({ params }: { params: Promi
             {statusBadge(verification.overallStatus)}
           </div>
           <div className="rounded-lg border border-green-200 bg-emerald-500/10 p-6 text-center dark:border-green-800 dark:bg-green-950">
-            <h2 className="text-xl font-semibold text-green-800 dark:text-green-200">
+            <h2 className="text-xl font-semibold text-emerald-800 dark:text-emerald-200">
               🎉 Fully Certified
             </h2>
-            <p className="mt-2 text-sm text-emerald-400 dark:text-green-300">
+            <p className="mt-2 text-sm text-emerald-400 dark:text-emerald-300">
               {verification.listing?.title ?? 'This property'} has completed all 5 layers and
               received admin certification. It will display the Certified badge and receive
               priority placement in search results.

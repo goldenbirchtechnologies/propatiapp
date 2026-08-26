@@ -59,14 +59,14 @@ export default function PropertyDetailClient({ listing }: { listing: ListingData
             propertyType={listing.propertyType}
             attributes={attributes}
           />
-          <hr className="border-[#262626]" />
+          <hr className="border-white/[0.08]" />
           <div>
             <h2 className="text-xl font-semibold mb-3 text-white">About this space</h2>
-            <p className="text-neutral-400 leading-relaxed whitespace-pre-wrap">
+            <p className="text-zinc-500 leading-relaxed whitespace-pre-wrap">
               {listing.description || 'No description provided.'}
             </p>
           </div>
-          <hr className="border-[#262626]" />
+          <hr className="border-white/[0.08]" />
           <Amenities amenities={listing.amenities} />
         </section>
         <aside className="lg:col-span-5 lg:sticky lg:top-24">

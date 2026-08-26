@@ -4,7 +4,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -117,10 +116,10 @@ export default function MaintenanceDetailPage() {
                 </h1>
               </div>
             </div>
-            <Card className="border-red-500/30 bg-red-500/5">
-              <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="glass-card border-red-500/30 bg-red-500/5">
+              <div className="p-6 flex flex-col items-center justify-center py-12 text-center">
                 <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-zinc-500' }} />
-                <p className="font-medium" className="text-white">Unable to load maintenance request</p>
+                <p className="font-medium text-white">Unable to load maintenance request</p>
                 <p className="text-sm mt-1 mb-4" style={{ color: 'text-zinc-500' }}>
                   {error instanceof Error ? error.message : 'Request not found or access denied.'}
                 </p>
@@ -134,8 +133,8 @@ export default function MaintenanceDetailPage() {
                     </Link>
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -161,7 +160,7 @@ export default function MaintenanceDetailPage() {
               <Link href="/dashboard/estate-manager/maintenance" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Maintenance</Link>
             </li>
             <li className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>/</li>
-            <li className="font-medium text-xs text-xs uppercase tracking-wider" className="text-white">{ticket.title}</li>
+            <li className="font-medium text-xs text-xs uppercase tracking-wider text-white">{ticket.title}</li>
           </ol>
         </nav>
 
@@ -185,27 +184,27 @@ export default function MaintenanceDetailPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2" className="text-white">
-                <MessageSquare className="h-5 w-5" className="text-white" /> Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+                <MessageSquare className="h-5 w-5 text-white" /> Details
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
               <div>
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Category</p>
-                <p className="font-medium capitalize text-sm" className="text-white">{ticket.category || '—'}</p>
+                <p className="font-medium capitalize text-sm text-white">{ticket.category || '—'}</p>
               </div>
               <div>
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Description</p>
-                <p className="font-medium text-sm" className="text-white">
+                <p className="font-medium text-sm text-white">
                   {ticket.description || 'No description provided.'}
                 </p>
               </div>
               <Separator />
               <div>
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Created</p>
-                <p className="font-medium flex items-center gap-2 text-sm" className="text-white">
+                <p className="font-medium flex items-center gap-2 text-sm text-white">
                   <Calendar className="h-4 w-4" />
                   {new Date(ticket.createdAt).toLocaleString()}
                 </p>
@@ -213,22 +212,22 @@ export default function MaintenanceDetailPage() {
               {ticket.resolvedAt && (
                 <div>
                   <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Resolved</p>
-                  <p className="font-medium flex items-center gap-2 text-sm" className="text-white">
+                  <p className="font-medium flex items-center gap-2 text-sm text-white">
                     <CheckCircle2 className="h-4 w-4" />
                     {new Date(ticket.resolvedAt).toLocaleString()}
                   </p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2" className="text-white">
-                <User className="h-5 w-5" className="text-white" /> Assignee
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+                <User className="h-5 w-5 text-white" /> Assignee
+              </h3>
+            </div>
+            <div className="p-6">
               {ticket.assignedToUser ? (
                 <div className="flex items-center gap-4">
                   <div
@@ -238,7 +237,7 @@ export default function MaintenanceDetailPage() {
                     {ticket.assignedToUser.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-medium" className="text-white">{ticket.assignedToUser.fullName}</p>
+                    <p className="font-medium text-white">{ticket.assignedToUser.fullName}</p>
                     <p className="text-sm" style={{ color: 'text-zinc-500' }}>{ticket.assignedToUser.email}</p>
                   </div>
                 </div>
@@ -248,17 +247,17 @@ export default function MaintenanceDetailPage() {
                   <p className="text-sm" style={{ color: 'text-zinc-500' }}>Unassigned</p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2" className="text-white">
-              <Clock className="h-5 w-5" className="text-white" /> Progress Timeline
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+              <Clock className="h-5 w-5 text-white" /> Progress Timeline
+            </h3>
+          </div>
+          <div className="p-6">
             <div className="space-y-0">
               {statusTimeline.map((step, index) => {
                 const isCompleted = currentStatusIndex >= index;
@@ -269,7 +268,7 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'bg-[#262626]' : 'border-white/[0.08]',
+                          background: isCompleted ? 'bg-zinc-900' : 'border-white/[0.08]',
                           color: isCompleted ? 'text-white' : 'text-zinc-500',
                         }}
                       >
@@ -296,8 +295,8 @@ export default function MaintenanceDetailPage() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

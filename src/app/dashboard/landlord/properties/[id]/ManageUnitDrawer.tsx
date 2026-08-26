@@ -167,25 +167,25 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between border-b border-[#262626] p-4">
+        <div className="flex items-center justify-between border-b border-white/[0.08] p-4">
           <div>
-            <h2 className="font-headline-sm text-headline-sm font-bold text-white">
+            <h2 className="font-headline-sm text-white font-bold text-white">
               Manage Unit {unit.unitNumber}
             </h2>
-            <p className="text-xs text-neutral-400">{formatPropertyType(listing.title)}</p>
+            <p className="text-xs text-zinc-500">{formatPropertyType(listing.title)}</p>
           </div>
           <Button variant="ghost" size="icon-sm" onClick={() => onOpenChange(false)}>
             <X className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex gap-2 border-b border-[#262626] px-4 overflow-x-auto">
+        <div className="flex gap-2 border-b border-white/[0.08] px-4 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.id ? "border-white text-white" : "border-transparent text-neutral-400"
+                activeTab === tab.id ? "border-white text-white" : "border-transparent text-zinc-500"
               }`}
             >
               {tab.icon}
@@ -221,12 +221,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Unit Number
                   </label>
                   {editingSpecs ? (
                     <input
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       value={unit.unitNumber}
                       onChange={(e) => {
                             // In a real implementation, update unit state here
@@ -237,12 +237,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Type
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.type}
                     >
                       <option value="apartment">Apartment</option>
@@ -255,13 +255,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Bedrooms
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.bedrooms}
                     />
                   ) : (
@@ -269,13 +269,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Bathrooms
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.bathrooms}
                     />
                   ) : (
@@ -283,13 +283,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Size
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.sizeSqm ?? ""}
                     />
                   ) : (
@@ -297,12 +297,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Listing Intent
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.listingType}
                     >
                       <option value="rent">For Rent</option>
@@ -311,7 +311,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       <option value="unlisted">Unlisted</option>
                     </select>
                   ) : (
-                    <span className="tag bg-muted text-white border-[#262626]">
+                    <span className="tag bg-muted text-white border-white/[0.08]">
                       {formatListingType(unit.listingType)}
                     </span>
                   )}
@@ -320,13 +320,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     {priceLabel}
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.rent}
                     />
                   ) : (
@@ -334,12 +334,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Price Period
                   </label>
                   {editingSpecs ? (
                     <select
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.pricePeriod || "month"}
                     >
                       <option value="month">Per Month</option>
@@ -353,13 +353,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Caution Deposit
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.cautionDeposit ?? ""}
                     />
                   ) : (
@@ -367,13 +367,13 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   )}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Service Charge
                   </label>
                   {editingSpecs ? (
                     <input
                       type="number"
-                      className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                       defaultValue={unit.serviceCharge ?? ""}
                     />
                   ) : (
@@ -383,7 +383,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                   Unit Photos
                 </label>
                 <div className="mt-2">
@@ -408,14 +408,14 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                     unit.occupancy === "VACANT"
                       ? "bg-success/10 text-[#00ff66] border-success/20"
                       : unit.occupancy === "OCCUPIED"
-                        ? "bg-muted text-muted-foreground border-[#262626]"
+                        ? "bg-muted text-zinc-500 border-white/[0.08]"
                         : "bg-warning/10 text-warning border-warning/20"
                   }`}
                 >
                   {unit.occupancy}
                 </span>
                 {isShortLet && unit.occupancy === "VACANT" && (
-                  <span className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                  <span className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                     Short-Let
                   </span>
                 )}
@@ -423,7 +423,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
 
               {isShortLet ? (
                 <div className="space-y-3">
-                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                  <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-4">
                     <p className="text-sm font-medium text-white mb-2">Quick Actions</p>
                     <div className="flex flex-wrap gap-2">
                       <Button asChild size="sm">
@@ -444,18 +444,18 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                     </div>
                   </div>
 
-                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                  <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-4">
                     <p className="text-sm font-medium text-white mb-2">Current / Next Stay</p>
-                    <p className="text-xs text-muted-foreground">No guest currently checked in. Next check-in: Aug 12</p>
+                    <p className="text-xs text-zinc-500">No guest currently checked in. Next check-in: Aug 12</p>
                   </div>
 
-                  <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                  <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-4">
                     <p className="text-sm font-medium text-white mb-2">Occupancy History</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-xs text-zinc-500">
                       <BarChart3 className="h-4 w-4" />
                       <span>85% occupied this month</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Last stay ended Aug 2, 2026</p>
+                    <p className="text-xs text-zinc-500 mt-1">Last stay ended Aug 2, 2026</p>
                   </div>
                 </div>
               ) : (
@@ -468,35 +468,35 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                           Move In Tenant
                         </Link>
                       </Button>
-                      <p className="text-xs text-muted-foreground">Create a new lease for this unit.</p>
+                      <p className="text-xs text-zinc-500">Create a new lease for this unit.</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+                      <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-4">
                         <p className="text-sm font-medium text-white">Current Tenant</p>
-                        <p className="text-xs text-muted-foreground">Tenant details will appear here.</p>
+                        <p className="text-xs text-zinc-500">Tenant details will appear here.</p>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                             Lease Start
                           </p>
                           <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                             Lease End
                           </p>
                           <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                             Days Remaining
                           </p>
                           <p className="text-sm text-white">--</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                             Outstanding Rent
                           </p>
                           <p className="text-sm text-white">--</p>
@@ -525,11 +525,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-white">Marketplace Status</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-zinc-500">
                     {unit.isListed ? "This unit is visible on the marketplace." : "This unit is not listed."}
                   </p>
                 </div>
-                <span className={`tag ${unit.isListed ? "bg-success/10 text-[#00ff66] border-success/20" : "bg-muted text-muted-foreground border-[#262626]"}`}>
+                <span className={`tag ${unit.isListed ? "bg-success/10 text-[#00ff66] border-success/20" : "bg-muted text-zinc-500 border-white/[0.08]"}`}>
                   {unit.isListed ? "Listed" : "Unlisted"}
                 </span>
               </div>
@@ -551,22 +551,22 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                   Listing Headline
                 </label>
                 <input
-                  className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                   defaultValue={marketplaceTitle}
                   onChange={(e) => setMarketplaceTitle(e.target.value)}
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                   Marketing Description
                 </label>
                 <textarea
-                  className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                   rows={4}
                   placeholder="Describe the unit features, furnishings, nearby landmarks, and what makes this stay special."
                   defaultValue={marketingDescription}
@@ -575,17 +575,17 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               </div>
 
               {isShortLet && (
-                <div className="space-y-3 rounded-xl border border-[#262626] p-4">
-                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+                <div className="space-y-3 rounded-xl border border-white/[0.08] p-4">
+                  <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">
                     Short-Let Listing Controls
                   </p>
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                      <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                         Minimum Stay
                       </label>
                       <select
-                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                         value={minimumStay}
                         onChange={(e) => setMinimumStay(e.target.value)}
                       >
@@ -596,33 +596,33 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                      <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                         Check-in
                       </label>
                       <input
                         type="time"
-                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                         value={checkInTime}
                         onChange={(e) => setCheckInTime(e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                      <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                         Check-out
                       </label>
                       <input
                         type="time"
-                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                         value={checkOutTime}
                         onChange={(e) => setCheckOutTime(e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                      <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                         Instant Booking
                       </label>
                       <select
-                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                         value={instantBooking ? "instant" : "approval"}
                         onChange={(e) => setInstantBooking(e.target.value === "instant")}
                       >
@@ -631,12 +631,12 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-label-md uppercase tracking-wider text-neutral-400">
+                      <label className="block text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">
                         Caution Deposit
                       </label>
                       <input
                         type="number"
-                        className="mt-1 w-full rounded-lg border border-[#262626] bg-background p-2 text-sm"
+                        className="mt-1 w-full rounded-lg border border-white/[0.08] bg-background p-2 text-sm"
                         value={cautionDeposit}
                         onChange={(e) => setCautionDeposit(e.target.value)}
                       />
@@ -646,11 +646,11 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               )}
 
               <div className="space-y-2">
-                <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">
+                <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">
                   Listing Media Preview
                 </p>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="rounded-lg border border-dashed border-[#262626] p-4 text-center text-xs text-muted-foreground">
+                  <div className="rounded-lg border border-dashed border-white/[0.08] p-4 text-center text-xs text-zinc-500">
                     Unit photos will appear here.
                   </div>
                 </div>
@@ -676,7 +676,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                   Log Ticket
                 </Button>
               </div>
-              <div className="rounded-lg border border-[#262626] p-6 text-center text-sm text-muted-foreground">
+              <div className="rounded-lg border border-white/[0.08] p-6 text-center text-sm text-zinc-500">
                 No maintenance tickets yet.
               </div>
             </div>

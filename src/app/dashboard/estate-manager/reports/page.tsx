@@ -159,27 +159,27 @@ export default function EstateManagerReportsPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="card p-4">
+          <div className="glass-card p-4">
             <p className="text-xs" style={{ color: 'var(--muted)' }}>Portfolio Value</p>
             <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>₦1.2B</p>
           </div>
-          <div className="card p-4">
-            <p className="text-xs text-green-600">Collections</p>
-            <p className="text-2xl font-bold text-green-600">₦42M</p>
+          <div className="glass-card p-4">
+            <p className="text-xs text-emerald-500">Collections</p>
+            <p className="text-2xl font-bold text-emerald-500">₦42M</p>
           </div>
-          <div className="card p-4">
+          <div className="glass-card p-4">
             <p className="text-xs" style={{ color: 'var(--muted)' }}>Occupancy</p>
             <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>87%</p>
           </div>
-          <div className="card p-4">
-            <p className="text-xs text-green-600">Growth</p>
-            <p className="text-2xl font-bold text-green-600">+12%</p>
+          <div className="glass-card p-4">
+            <p className="text-xs text-emerald-500">Growth</p>
+            <p className="text-2xl font-bold text-emerald-500">+12%</p>
           </div>
         </div>
 
         {/* Charts placeholder */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="card p-6">
+          <div className="glass-card p-6">
             <h2 className="font-heading font-bold mb-4" style={{ color: 'var(--text)' }}>Rent Collection</h2>
             <div className="h-64 flex items-center justify-center border border-dashed rounded-lg" style={{ borderColor: 'var(--border)' }}>
               <div className="text-center">
@@ -188,7 +188,7 @@ export default function EstateManagerReportsPage() {
               </div>
             </div>
           </div>
-          <div className="card p-6">
+          <div className="glass-card p-6">
             <h2 className="font-heading font-bold mb-4" style={{ color: 'var(--text)' }}>Occupancy Rate</h2>
             <div className="h-64 flex items-center justify-center border border-dashed rounded-lg" style={{ borderColor: 'var(--border)' }}>
               <div className="text-center">
@@ -200,7 +200,7 @@ export default function EstateManagerReportsPage() {
         </div>
 
         {/* Recent data table */}
-        <div className="card overflow-hidden">
+        <div className="glass-card overflow-hidden">
           <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
             <h3 className="font-heading font-bold" style={{ color: 'var(--text)' }}>Recent Transactions</h3>
           </div>

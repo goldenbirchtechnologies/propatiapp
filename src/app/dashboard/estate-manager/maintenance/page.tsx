@@ -11,7 +11,6 @@ import {
   useTicketStatusConfig,
   useTicketPriorityConfig,
 } from '@/hooks/useOrganizationTickets';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -194,8 +193,8 @@ export default function MaintenancePage() {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
+      <div className="glass-card">
+        <div className="p-6 pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <Select value={priorityFilter} onValueChange={setPriorityFilter}>
               <SelectTrigger className="w-full md:w-[180px]">
@@ -223,24 +222,24 @@ export default function MaintenancePage() {
               {filteredTickets.length} tickets
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Kanban Board */}
       <div className="grid gap-4 md:grid-cols-4">
         {columns.map(({ status, label }) => (
-          <Card key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-semibold flex items-center justify-between">
+          <div className="glass-card" key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
+            <div className="px-6 py-5 border-b border-white/[0.08] pb-3">
+              <h3 className="text-lg font-semibold text-white text-sm font-semibold flex items-center justify-between">
                 <AppIcon name={label} className="lucide" />
                 <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+              </h3>
+            </div>
+            <div className="p-6 space-y-3">
               {ticketsByStatus[status].length > 0 ? (
                 ticketsByStatus[status].map((ticket: unknown) => (
-                  <Card key={ticket.id} className="bg-zinc-900">
-                    <CardContent className="p-4 space-y-2">
+                  <div className="glass-card" key={ticket.id} className="bg-zinc-900">
+                    <div className="p-6 p-4 space-y-2">
                       <div className="flex items-start justify-between">
                         <h4 className="font-medium text-sm line-clamp-2">{ticket.title}</h4>
                         <Badge variant={priorityConfig[ticket.priority as keyof typeof priorityConfig]?.variant || 'default'} className="ml-2 shrink-0">
@@ -260,16 +259,16 @@ export default function MaintenancePage() {
                       <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-500' }}>
                         <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 ))
               ) : (
                 <div className="text-center py-8 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>
                   No tickets
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
     </div>

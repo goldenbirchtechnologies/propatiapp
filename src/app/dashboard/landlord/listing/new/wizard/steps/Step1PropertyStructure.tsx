@@ -35,14 +35,14 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
         {OPTIONS.map((opt) => {
           const isActive = selected === opt.value;
           return (
-            <Card
+            <div className="glass-card"
               key={opt.value}
               size="sm"
               onClick={() => handleSelect(opt.value)}
               className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-primary bg-[#262626]'
-                  : 'border-[#262626] hover:border-white/40'
+                  ? 'border-white/[0.08] bg-zinc-900'
+                  : 'border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (
@@ -51,12 +51,12 @@ export default function Step1PropertyStructure({ value, onChange }: Step1Props) 
                 </div>
               )}
               <div className="p-4 flex flex-col items-center gap-2 text-center">
-                <div className={isActive ? 'text-white' : 'text-muted-foreground'}>
+                <div className={isActive ? 'text-white' : 'text-zinc-500'}>
                   {opt.icon}
                 </div>
                 <span className="text-sm font-medium">{opt.label}</span>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

@@ -53,7 +53,7 @@ export default function EstateManagerLeaseReviewPage() {
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-secondary bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors text-sm font-medium">
               <AlertTriangle className="w-4 h-4" /> Request Changes
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#00ff66]-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-md">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#00ff66]-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-none">
               <CheckCircle2 className="w-4 h-4" /> Approve Agreement
             </button>
           </div>
@@ -61,7 +61,7 @@ export default function EstateManagerLeaseReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Document Viewer */}
-          <div className="lg:col-span-2 rounded-xl border border-white/[0.08] shadow-sm bg-zinc-900 p-6">
+          <div className="lg:col-span-2 rounded-xl border border-white/[0.08] shadow-none bg-zinc-900 p-6">
             <div className="border-b border-white/[0.08] pb-4 mb-6 flex justify-between items-start">
               <div>
                 <h2 className="font-heading text-xl font-bold text-white uppercase">Commercial Lease Agreement</h2>
@@ -94,7 +94,7 @@ export default function EstateManagerLeaseReviewPage() {
           </div>
 
           {/* Clause Checklist */}
-          <div className="rounded-xl border border-white/[0.08] shadow-sm bg-zinc-900 p-5">
+          <div className="rounded-xl border border-white/[0.08] shadow-none bg-zinc-900 p-5">
             <h3 className="font-heading font-bold text-white mb-4">Clause Checklist</h3>
             <div className="space-y-3">
               {clauses.map((clause) => (

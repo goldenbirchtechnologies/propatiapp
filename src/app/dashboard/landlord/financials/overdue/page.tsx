@@ -83,21 +83,21 @@ export default async function LandlordOverduePaymentsPage() {
         </div>
 
         {rows.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center">
+          <div className="glass-card">
+            <div className="p-6 p-8 text-center">
               <p className="text-[#00ff66] font-medium">No overdue payments</p>
               <p className="text-sm text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ) : (
-          <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
-            <div className="p-5 border-b border-[#262626] flex justify-between items-center">
+          <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
+            <div className="p-5 border-b border-white/[0.08] flex justify-between items-center">
               <h3 className="font-heading font-bold">Overdue Accounts</h3>
               <span className="text-sm text-zinc-400">{rows.length} Accounts</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-zinc-800 border-b border-[#262626]">
+                <thead className="bg-zinc-800 border-b border-white/[0.08]">
                   <tr>
                     <th className="px-5 py-4 text-sm font-medium text-zinc-400">Reference</th>
                     <th className="px-5 py-4 text-sm font-medium text-zinc-400">Type</th>
@@ -110,7 +110,7 @@ export default async function LandlordOverduePaymentsPage() {
                 </thead>
                 <tbody className="divide-y divide-[#262626]">
                   {rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-obsidian-800-lowest transition-colors">
+                    <tr key={row.id} className="hover:bg-zinc-900 transition-colors">
                       <td className="px-5 py-4 text-sm font-mono text-zinc-400">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>

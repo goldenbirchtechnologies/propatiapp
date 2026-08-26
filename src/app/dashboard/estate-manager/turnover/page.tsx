@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Progress } from '@/components/ui/progress';
@@ -44,37 +43,37 @@ export default function EstateManagerTurnoverPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="p-4">
+          <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Pending Handovers</p>
             <p className="text-2xl font-bold text-white">{queue.length}</p>
-          </Card>
-          <Card className="p-4">
+          </div>
+          <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Inspections</p>
             <p className="text-2xl font-bold text-white">{inspections.length}</p>
-          </Card>
-          <Card className="p-4">
+          </div>
+          <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Avg Score</p>
             <p className="text-2xl font-bold text-[#00ff66]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
-          </Card>
-          <Card className="p-4">
+          </div>
+          <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Open Issues</p>
             <p className="text-2xl font-bold text-red-500">{queue.filter((t) => t.priority === 'high').length}</p>
-          </Card>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-white font-bold" className="text-white">Inspection Queue</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white text-white font-bold" className="text-white">Inspection Queue</h3>
+          </div>
+          <div className="p-6">
             {queue.length === 0 ? (
               <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>No inspections in queue.</p>
             ) : (
               <div className="space-y-3">
                 {queue.map((t) => (
-                  <div key={t.id} className="card p-4 flex items-center justify-between">
+                  <div key={t.id} className="glass-card p-4 flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-sm" className="text-white">{t.title}</p>
+                      <p className="font-medium text-sm text-white">{t.title}</p>
                       <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{t.unit} · {t.category}</p>
                     </div>
                     <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', t.priority === 'high' ? 'bg-red-500/10 text-red-500 border border-white/[0.08]' : t.priority === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-white/[0.08]' : 'bg-zinc-900 text-zinc-500 border border-white/[0.08]')}>{t.priority}</span>
@@ -82,23 +81,23 @@ export default function EstateManagerTurnoverPage() {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-white font-bold" className="text-white">Recent Inspections</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white text-white font-bold" className="text-white">Recent Inspections</h3>
+          </div>
+          <div className="p-6">
             {inspections.length === 0 ? (
               <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>No inspections yet.</p>
             ) : (
               <div className="space-y-3">
                 {inspections.map((ins) => (
-                  <div key={ins.id} className="card p-4">
+                  <div key={ins.id} className="glass-card p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium text-sm" className="text-white">Unit {ins.unit}</p>
+                        <p className="font-medium text-sm text-white">Unit {ins.unit}</p>
                         <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                       </div>
                       <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#00ff66] border border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-white/[0.08]')}>{ins.result}</span>
@@ -111,8 +110,8 @@ export default function EstateManagerTurnoverPage() {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

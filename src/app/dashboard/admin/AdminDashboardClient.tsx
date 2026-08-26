@@ -195,7 +195,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         description="Platform overview · August 24, 2026"
         actions={
           <div className="flex gap-2">
-            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-800 text-zinc-300 rounded-lg hover:text-white hover:border-zinc-600 transition-colors">
+            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-white/[0.08] text-zinc-300 rounded-lg hover:text-white hover:border-zinc-600 transition-colors">
               Export Report
             </a>
             <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">

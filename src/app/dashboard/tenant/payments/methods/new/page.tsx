@@ -24,11 +24,11 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-[#262626] bg-card p-6 shadow-sm">
+        <section className="rounded-2xl border border-white/[0.08] bg-zinc-900 p-6 shadow-none">
           <div className="flex items-center gap-3">
             <div>
               <h1 className="text-2xl font-bold text-white">Add Payment Method</h1>
-              <p className="text-muted-foreground mt-1">
+              <p className="text-zinc-500 mt-1">
                 Add a verified payment method to your tenant portal for secure transactions.
               </p>
             </div>
@@ -37,11 +37,11 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
         </section>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Payment Method</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="glass-card lg:col-span-2">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white">Payment Method</h3>
+            </div>
+            <div className="p-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-white">Cardholder Name</label>
@@ -90,36 +90,36 @@ export default function addpaymentmethodmodalpropatitenantportalPage() {
                 <Button variant="default">Add Payment Method</Button>
                 <Button variant="outline">Cancel</Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           <div className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Design Reference</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="glass-card">
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white">Design Reference</h3>
+              </div>
+              <div className="p-6">
                 <Image
                   src="/modals/add_payment_method_modal.png"
                   alt="Add Payment Method Modal Reference"
                   width={480}
                   height={360}
-                  className="rounded-lg border border-[#262626]"
+                  className="rounded-lg border border-white/[0.08]"
                 />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Saved Methods</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+              </div>
+            </div>
+            <div className="glass-card">
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white">Saved Methods</h3>
+              </div>
+              <div className="p-6">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-500">
                   <li>Secure Access</li>
                   <li>Visa **** 4242</li>
                   <li>Expires 12/25</li>
                 </ul>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>

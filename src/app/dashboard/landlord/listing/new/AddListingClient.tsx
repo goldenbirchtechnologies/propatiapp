@@ -253,16 +253,16 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-white">List to Marketplace</h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-zinc-500 mt-2">
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-        <div className="rounded-xl border border-[#262626] bg-obsidian-800/30 p-12 text-center">
+        <div className="rounded-xl border border-white/[0.08] bg-zinc-950/50 p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
-            <Building2 className="w-8 h-8 text-muted-foreground" />
+            <Building2 className="w-8 h-8 text-zinc-500" />
           </div>
           <h3 className="text-lg font-bold text-white mb-2">No Vacant Units Available</h3>
-          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+          <p className="text-sm text-zinc-500 mb-6 max-w-md mx-auto">
             To publish a listing to the marketplace, you need at least one vacant unit in your property portfolio.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -279,7 +279,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               </Link>
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground mt-3">
+          <p className="text-xs text-zinc-500 mt-3">
             You can also add a unit to an existing property from your properties list.
           </p>
         </div>
@@ -305,7 +305,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-white">List to Marketplace</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-zinc-500 mt-2">
           Create a live marketplace listing from a vacant unit in your properties.
         </p>
       </div>
@@ -321,11 +321,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         </div>
       )}
 
-      <div className="rounded-xl border border-[#262626] bg-obsidian-800/30">
-        <div className="p-6 border-b border-[#262626]">
+      <div className="rounded-xl border border-white/[0.08] bg-zinc-950/50">
+        <div className="p-6 border-b border-white/[0.08]">
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-bold text-white">Marketplace Listing Details</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-zinc-500">
               {selectedUnitId
                 ? 'Review and adjust the auto-filled details from your property data.'
                 : 'Select a vacant unit to prefill the listing from your existing property data.'}
@@ -370,7 +370,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                         if (!units.length) return null;
                         return (
                           <div key={listing.id}>
-                            <p className="px-2 py-1 text-xs text-muted-foreground uppercase tracking-wide">{listing.title}</p>
+                            <p className="px-2 py-1 text-xs text-zinc-500 uppercase tracking-wide">{listing.title}</p>
                             {units.map((unit) => (
                               <SelectItem key={unit.id} value={unit.id}>
                                 Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''}
@@ -381,15 +381,15 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                       })}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-zinc-500 mt-1">
                     Choose a unit to populate listing details from your property data.
                   </p>
                 </div>
 
                 {autoFilledSource && (
-                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-[#262626] bg-background p-3">
+                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-white/[0.08] bg-background p-3">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                    <span className="text-xs text-muted-foreground">Auto-filled from</span>
+                    <span className="text-xs text-zinc-500">Auto-filled from</span>
                     <Badge variant="secondary" className="text-xs">{autoFilledSource}</Badge>
                     <Button
                       type="button"
@@ -494,7 +494,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div className="relative sm:col-span-2">
-                      <span className="absolute inset-y-0 left-3 flex items-center text-muted-foreground text-sm">₦</span>
+                      <span className="absolute inset-y-0 left-3 flex items-center text-zinc-500 text-sm">₦</span>
                       <Input
                         type="number"
                         placeholder={form.watch('listingType') === 'short_let' ? 'e.g., 25,000' : '500,000'}
@@ -524,7 +524,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     </Select>
                   </div>
                   {form.watch('listingType') === 'short_let' && (
-                    <p className="text-xs text-muted-foreground mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
+                    <p className="text-xs text-zinc-500 mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
                   )}
                 </div>
 
@@ -559,7 +559,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 </Button>
               </div>
               {(!selectedUnitId || safeVacantUnits.length === 0) && (
-                <p className="text-xs text-muted-foreground text-right">
+                <p className="text-xs text-zinc-500 text-right">
                   {safeVacantUnits.length === 0 ? 'Add a vacant unit to enable publishing.' : 'Select a vacant unit to continue.'}
                 </p>
               )}

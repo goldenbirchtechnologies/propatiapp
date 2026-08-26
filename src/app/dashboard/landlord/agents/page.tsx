@@ -54,7 +54,7 @@ export default async function LandlordAgentsPage() {
           <div className="flex items-end justify-between">
             <div>
               <h3 className="font-heading text-headline-lg text-white">Agent Management</h3>
-              <p className="text-sm text-muted-foreground">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
+              <p className="text-sm text-zinc-500">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
             </div>
           </div>
           <AgentInviteManagementClient properties={listings} initialInvites={invites} initialAssignments={assignments} />

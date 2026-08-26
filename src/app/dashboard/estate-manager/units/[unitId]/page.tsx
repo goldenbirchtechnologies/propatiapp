@@ -10,7 +10,6 @@ import { useToast } from '@/hooks/use-toast';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -147,8 +146,8 @@ export default function UnitDetailPage() {
               </h1>
             </div>
           </div>
-          <Card className="border-red-500/30 bg-red-500/5">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="glass-card border-red-500/30 bg-red-500/5">
+            <div className="p-6 flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load unit details</p>
               <p className="text-sm mt-1 mb-4" style={{ color: 'var(--muted)' }}>
@@ -166,8 +165,8 @@ export default function UnitDetailPage() {
                   </Link>
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -257,14 +256,14 @@ export default function UnitDetailPage() {
           {/* Overview */}
           <TabsContent value="overview" className="space-y-6 mt-6">
             <div className="grid gap-6 md:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Building2 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Unit Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  </h3>
+                </div>
+                <div className="p-6 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm" style={{ color: 'var(--muted)' }}>Building</p>
@@ -303,17 +302,17 @@ export default function UnitDetailPage() {
                       <span className="text-lg font-bold" style={{ color: 'var(--text)' }}>{unit.sizeSqm ? Number(unit.sizeSqm).toLocaleString() : '—'}</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <DollarSign className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Financial Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  </h3>
+                </div>
+                <div className="p-6 space-y-4">
                   <div>
                     <p className="text-sm" style={{ color: 'var(--muted)' }}>Monthly Rent</p>
                     <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>
@@ -336,19 +335,19 @@ export default function UnitDetailPage() {
                       </p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
 
             {unit.currentTenant && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Current Tenant
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+                  </h3>
+                </div>
+                <div className="p-6">
                   <div className="grid gap-4 md:grid-cols-3">
                     <div>
                       <p className="text-sm" style={{ color: 'var(--muted)' }}>Name</p>
@@ -379,24 +378,24 @@ export default function UnitDetailPage() {
                       </div>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
           </TabsContent>
 
           {/* Maintenance History */}
           <TabsContent value="maintenance" className="mt-6">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
+            <div className="glass-card">
+              <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Wrench className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                   Maintenance History
-                </CardTitle>
+                </h3>
                 <Button size="sm" asChild>
                   <Link href="/dashboard/estate-manager/maintenance">Create Ticket</Link>
                 </Button>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div className="p-6">
                 {ticketsLoading ? (
                   <div className="space-y-3">
                     {[...Array(3)].map((_, i) => (
@@ -416,7 +415,7 @@ export default function UnitDetailPage() {
                     {tickets.map((ticket: unknown) => (
                       <div
                         key={ticket.id}
-                        className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-sm"
+                        className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-none"
                         style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
                       >
                         <div className="flex-1 min-w-0">
@@ -448,20 +447,20 @@ export default function UnitDetailPage() {
                     <p style={{ color: 'var(--muted)' }}>No maintenance history</p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
 
           {/* Tenant History */}
           <TabsContent value="tenants" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <div className="glass-card">
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                   Tenant History
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                </h3>
+              </div>
+              <div className="p-6">
                 {agreementsLoading ? (
                   <div className="space-y-3">
                     {[...Array(3)].map((_, i) => (
@@ -481,7 +480,7 @@ export default function UnitDetailPage() {
                     {agreements.map((agreement: unknown) => (
                       <div
                         key={agreement.id}
-                        className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-sm"
+                        className="flex items-center justify-between p-4 rounded-lg border transition hover:shadow-none"
                         style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
                       >
                         <div className="flex-1 min-w-0">
@@ -510,8 +509,8 @@ export default function UnitDetailPage() {
                     <p style={{ color: 'var(--muted)' }}>No tenant history</p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

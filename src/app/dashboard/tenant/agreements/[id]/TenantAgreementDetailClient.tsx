@@ -57,7 +57,7 @@ const statusConfig: Record<
   { label: string; class: string }
 > = {
   draft: { class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { label: 'Pending Landlord', class: 'bg-[#262626] text-white border-primary/30' },
+  pending_landlord: { label: 'Pending Landlord', class: 'bg-zinc-900 text-white border-white/[0.08]/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
   tenant_signed: { label: 'Tenant Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
   landlord_signed: { label: 'Landlord Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
@@ -109,17 +109,17 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
         <Badge className={status.class}>{status.label}</Badge>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Home className="h-5 w-5" />
             {agreement.listing?.title || 'Agreement'}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="grid md:grid-cols-2 gap-4">
             {coverImage && (
-              <div className="rounded-xl overflow-hidden border border-[#262626]">
+              <div className="rounded-xl overflow-hidden border border-white/[0.08]">
                 <img src={coverImage.url} alt={agreement.listing?.title || ''} className="w-full h-48 object-cover" />
               </div>
             )}
@@ -129,24 +129,24 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                 <p className="font-medium text-white">{agreement.listing?.title}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Location</p>
+                <p className="text-sm text-zinc-500">Location</p>
                 <p className="font-medium text-white">
                   {agreement.listing?.area}
                   {agreement.listing?.state ? `, ${agreement.listing.state}` : ''}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Rent</p>
+                <p className="text-sm text-zinc-500">Rent</p>
                 <p className="font-medium text-white">{fmtCurrency(agreement.rentAmount)} {agreement.rentPeriod ? `/ ${agreement.rentPeriod}` : ''}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Period</p>
+                <p className="text-sm text-zinc-500">Period</p>
                 <p className="font-medium text-white">
                   {agreement.startDate ? new Date(agreement.startDate).toLocaleDateString('en-NG') : '—'} – {agreement.endDate ? new Date(agreement.endDate).toLocaleDateString('en-NG') : '—'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Jurisdiction</p>
+                <p className="text-sm text-zinc-500">Jurisdiction</p>
                 <p className="font-medium text-white">
                   {agreement.jurisdictionState ? `${agreement.jurisdictionState}` : '—'}
                   {agreement.governingStatute ? ` • ${agreement.governingStatute}` : ''}
@@ -157,58 +157,58 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
 
           {agreement.specialClauses && (
             <div className="mt-4">
-              <p className="text-sm text-muted-foreground">Special Clauses</p>
+              <p className="text-sm text-zinc-500">Special Clauses</p>
               <p className="text-sm whitespace-pre-wrap text-white">{agreement.specialClauses}</p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <User className="h-5 w-5" />
             Parties
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">Landlord</p>
+              <p className="text-sm text-zinc-500">Landlord</p>
               <p className="font-medium text-white">{agreement.landlord?.fullName || 'Unknown'}</p>
-              <p className="text-xs text-muted-foreground">{agreement.landlord?.email}</p>
+              <p className="text-xs text-zinc-500">{agreement.landlord?.email}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Tenant</p>
+              <p className="text-sm text-zinc-500">Tenant</p>
               <p className="font-medium text-white">{agreement.tenant?.fullName || 'Unknown'}</p>
-              <p className="text-xs text-muted-foreground">{agreement.tenant?.email}</p>
+              <p className="text-xs text-zinc-500">{agreement.tenant?.email}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Agent</p>
+              <p className="text-sm text-zinc-500">Agent</p>
               <p className="font-medium text-white">{agreement.agent?.fullName || '—'}</p>
-              <p className="text-xs text-muted-foreground">{agreement.agent?.email}</p>
+              <p className="text-xs text-zinc-500">{agreement.agent?.email}</p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Signatures
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="space-y-3">
             {['landlord', 'tenant', 'agent'].map((role) => {
               const sig = agreement.signatures.find((s) => s.role === role);
               return (
-                <div key={role} className="flex items-center justify-between border border-[#262626] rounded-lg p-3">
+                <div key={role} className="flex items-center justify-between border border-white/[0.08] rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium capitalize text-white">{role}</p>
                     {sig && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-zinc-500">
                         Signed on {new Date(sig.signedAt).toLocaleString('en-NG')}
                       </p>
                     )}
@@ -228,34 +228,34 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
               );
             })}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {agreement.transactions?.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <DollarSign className="h-5 w-5" />
               Transactions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             <div className="space-y-2">
               {agreement.transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between border border-[#262626] rounded-lg p-3">
+                <div key={tx.id} className="flex items-center justify-between border border-white/[0.08] rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium text-white capitalize">{tx.type}</p>
-                    <p className="text-xs text-muted-foreground">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>
+                    <p className="text-xs text-zinc-500">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-medium text-white">{fmtCurrency(tx.amount)}</p>
-                    <p className="text-xs text-muted-foreground capitalize">{tx.status.replace(/_/g, ' ')}</p>
+                    <p className="text-xs text-zinc-500 capitalize">{tx.status.replace(/_/g, ' ')}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       <div className="flex flex-wrap gap-3">

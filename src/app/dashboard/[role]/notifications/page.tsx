@@ -141,7 +141,7 @@ export default function NotificationsPage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white mb-2">Notifications</h1>
-        <p className="text-neutral-400">Stay updated with your property activities</p>
+        <p className="text-zinc-500">Stay updated with your property activities</p>
       </div>
 
       {/* Filters and Actions */}
@@ -153,7 +153,7 @@ export default function NotificationsPage() {
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               filter === 'all'
                 ? 'bg-primary text-white'
-                : 'bg-obsidian-800/30 text-neutral-400 hover:bg-obsidian-800-high'
+                : 'bg-zinc-950/50 text-zinc-500 hover:bg-zinc-900'
             }`}
           >
             All
@@ -163,12 +163,12 @@ export default function NotificationsPage() {
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               filter === 'unread'
                 ? 'bg-primary text-white'
-                : 'bg-obsidian-800/30 text-neutral-400 hover:bg-obsidian-800-high'
+                : 'bg-zinc-950/50 text-zinc-500 hover:bg-zinc-900'
             }`}
           >
             Unread
             {unreadCount > 0 && (
-              <span className="ml-2 px-2 py-0.5 text-xs bg-obsidian-800/30 text-white rounded-full">
+              <span className="ml-2 px-2 py-0.5 text-xs bg-zinc-950/50 text-white rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -180,7 +180,7 @@ export default function NotificationsPage() {
           <button
             onClick={handleMarkAllRead}
             disabled={markingAll}
-            className="px-4 py-2 text-sm font-medium text-white hover:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm font-medium text-white hover:text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {markingAll ? 'Marking...' : 'Mark all as read'}
           </button>
@@ -195,9 +195,9 @@ export default function NotificationsPage() {
       ) : notifications.length === 0 ? (
         /* Empty State */
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-          <div className="w-20 h-20 bg-obsidian-800/30 rounded-full flex items-center justify-center mb-4">
+          <div className="w-20 h-20 bg-zinc-950/50 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="w-10 h-10 text-neutral-400"
+              className="w-10 h-10 text-zinc-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -213,7 +213,7 @@ export default function NotificationsPage() {
           <h3 className="text-lg font-semibold text-white mb-2">
             {filter === 'unread' ? 'No unread notifications' : 'No notifications'}
           </h3>
-          <p className="text-neutral-400">
+          <p className="text-zinc-500">
             {filter === 'unread'
               ? "You're all caught up!"
               : 'Notifications will appear here when you have activity'}
@@ -239,7 +239,7 @@ export default function NotificationsPage() {
               <button
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="px-6 py-2 bg-obsidian-800/30 hover:bg-obsidian-800-high text-neutral-400 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2 bg-zinc-950/50 hover:bg-zinc-900 text-zinc-500 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loadingMore ? (
                   <>

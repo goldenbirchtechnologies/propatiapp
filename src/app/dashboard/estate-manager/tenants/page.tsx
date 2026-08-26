@@ -30,26 +30,26 @@ import { useTenants } from '@/hooks/useTenants';
 function StatCardSkeleton() {
   return (
     <div
-      className="card p-4"
+      className="glass-card p-4"
       style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="rounded" style={{ height: 14, width: 14, background: 'border-zinc-800' }} />
-        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-800' }} />
+        <div className="rounded" style={{ height: 14, width: 14, background: 'border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-white/[0.08]' }} />
       </div>
-      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-zinc-800' }} />
+      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-white/[0.08]' }} />
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-zinc-800" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-800' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-800' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-zinc-800' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-800' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-800' }} /></td>
+    <tr className="border-b border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-white/[0.08]' }} /></td>
     </tr>
   );
 }
@@ -111,13 +111,13 @@ export default function EstateManagerTenantsPage() {
   const statusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="default" className="bg-emerald-500/10 text-[#10b981] border border-zinc-800">Active</Badge>;
+        return <Badge variant="default" className="bg-emerald-500/10 text-[#10b981] border border-white/[0.08]">Active</Badge>;
       case 'pending':
-        return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-zinc-800">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-white/[0.08]">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-zinc-800">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-white/[0.08]">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-zinc-800">{status}</Badge>;
+        return <Badge variant="outline" className="bg-zinc-900 text-zinc-400 border border-white/[0.08]">{status}</Badge>;
     }
   };
 
@@ -141,40 +141,40 @@ export default function EstateManagerTenantsPage() {
             </>
           ) : (
             <>
-              <Card className="p-4">
+              <div className="glass-card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
                   <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Total Tenants</p>
                 </div>
-                <p className="text-2xl font-bold" className="text-white">{totalTenants}</p>
-              </Card>
-              <Card className="p-4">
+                <p className="text-2xl font-bold text-white">{totalTenants}</p>
+              </div>
+              <div className="glass-card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-[#10b981]" />
                   <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Active</p>
                 </div>
                 <p className="text-2xl font-bold text-[#10b981]">{activeTenants}</p>
-              </Card>
-              <Card className="p-4">
+              </div>
+              <div className="glass-card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4" style={{ color: 'text-zinc-400' }} />
                   <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Pending</p>
                 </div>
-                <p className="text-2xl font-bold" className="text-white">{pendingTenants}</p>
-              </Card>
-              <Card className="p-4">
+                <p className="text-2xl font-bold text-white">{pendingTenants}</p>
+              </div>
+              <div className="glass-card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="w-4 h-4 text-amber-400" />
                   <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Notice Period</p>
                 </div>
                 <p className="text-2xl font-bold text-amber-400">{noticePeriodTenants}</p>
-              </Card>
+              </div>
             </>
           )}
         </div>
 
         {!isLoading && (
-          <Card className="p-4">
+          <div className="glass-card p-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'text-zinc-400' }} />
@@ -193,11 +193,11 @@ export default function EstateManagerTenantsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </Card>
+          </div>
         )}
 
-        <Card>
-          <div className="p-4">
+        <div className="glass-card">
+          <div className="p-6">
             {isLoading ? (
               <div>
                 <Skeleton className="h-8 w-48 mb-4" />
@@ -217,13 +217,13 @@ export default function EstateManagerTenantsPage() {
             ) : tenants.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-400', opacity: 0.5 }} />
-                <p className="font-medium" className="text-white">No tenants found</p>
+                <p className="font-medium text-white">No tenants found</p>
                 <p className="text-sm mt-1" style={{ color: 'text-zinc-400' }}>No tenants assigned yet.</p>
               </div>
             ) : filteredTenants.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-400', opacity: 0.5 }} />
-                <p className="font-medium" className="text-white">No tenants found</p>
+                <p className="font-medium text-white">No tenants found</p>
                 <p className="text-sm mt-1" style={{ color: 'text-zinc-400' }}>Try adjusting your filters.</p>
               </div>
             ) : (
@@ -251,7 +251,7 @@ export default function EstateManagerTenantsPage() {
               </Table>
             )}
           </div>
-        </Card>
+        </div>
       </div>
     
       </ErrorBoundary>

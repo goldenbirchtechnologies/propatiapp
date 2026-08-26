@@ -107,11 +107,11 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
               placeholder="Search agreements..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-zinc-950 border-zinc-800 text-white"
+              className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-zinc-950 border-zinc-800 text-white">
+            <SelectTrigger className="w-[180px] bg-zinc-950 border-white/[0.08] text-white">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -127,13 +127,13 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
       </div>
 
       {filtered.length === 0 ? (
-        <Card className="glass-card">
-          <CardContent className="py-16 text-center">
+        <div className="glass-card glass-card">
+          <div className="p-6 py-16 text-center">
             <FileText className="w-16 h-16 mx-auto mb-4 text-zinc-700" />
             <h3 className="text-xl font-semibold text-white mb-2">No agreements found</h3>
             <p className="text-zinc-400">You don&apos;t have any lease agreements yet.</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {filtered.map((agreement) => {
@@ -142,22 +142,22 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
             const image = agreement.property.images[0]?.url || '/placeholder-property.png';
 
             return (
-              <Card key={agreement.id} className="glass-card">
-                <CardHeader className="pb-4">
+              <div className="glass-card" key={agreement.id} className="glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08] pb-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
                       <div className="h-10 w-10 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                         <FileText className="h-5 w-5 text-emerald-400" />
                       </div>
                       <div>
-                        <CardTitle className="text-base font-semibold text-white">{agreement.title}</CardTitle>
+                        <h3 className="text-lg font-semibold text-white text-base font-semibold text-white">{agreement.title}</h3>
                         <p className="text-sm text-zinc-500">{agreement.property.address}, {agreement.property.area}</p>
                       </div>
                     </div>
                     <StatusBadge status={agreement.status} />
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                </div>
+                <div className="p-6 space-y-4">
                   <div className="aspect-video rounded-lg overflow-hidden bg-zinc-900">
                     <img src={image} alt={agreement.property.title} className="w-full h-full object-cover" />
                   </div>
@@ -191,7 +191,7 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
                       <p className="text-xs text-zinc-500 mt-1">{lease.daysLeft} days remaining</p>
                     </div>
                   )}
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+                  <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
                     <Avatar
                       src={agreement.landlord?.avatarUrl || undefined}
                       name={agreement.landlord?.fullName || 'L'}
@@ -208,8 +208,8 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
                       </Button>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>

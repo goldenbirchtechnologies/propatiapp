@@ -215,7 +215,7 @@ export default function AgentInviteManagementClient({
 
       <form onSubmit={sendInvite} className="space-y-6">
         {/* Email Input */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
               Email
@@ -233,10 +233,10 @@ export default function AgentInviteManagementClient({
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
-        </Card>
+        </div>
 
         {/* Permissions Grid */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className="font-label-sm uppercase tracking-wide text-white">Permissions</h2>
@@ -254,8 +254,8 @@ export default function AgentInviteManagementClient({
                     className={cn(
                       'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                       isSelected
-                        ? 'border-primary bg-emerald-500/5 shadow-lg shadow-primary/10'
-                        : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                        ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                        : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
                     )}
                   >
                     <Checkbox
@@ -277,10 +277,10 @@ export default function AgentInviteManagementClient({
               })}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Scope */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5 space-y-4">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5 space-y-4">
           <div className="space-y-1">
             <h2 className="font-label-sm uppercase tracking-wide text-white">Property Scope</h2>
             <p className="text-sm text-zinc-400">
@@ -294,8 +294,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'all'
-                  ? 'border-primary bg-emerald-500/5 shadow-lg shadow-primary/10'
-                  : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                  ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -318,8 +318,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'specific'
-                  ? 'border-primary bg-emerald-500/5 shadow-lg shadow-primary/10'
-                  : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                  ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -359,8 +359,8 @@ export default function AgentInviteManagementClient({
                         className={cn(
                           'flex items-start gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none',
                           isSelected
-                            ? 'border-primary bg-emerald-500/5'
-                            : 'border-[#262626] hover:border-white/40'
+                            ? 'border-white/[0.08] bg-emerald-500/5'
+                            : 'border-white/[0.08] hover:border-white/40'
                         )}
                       >
                         <Checkbox
@@ -381,7 +381,7 @@ export default function AgentInviteManagementClient({
               )}
             </div>
           )}
-        </Card>
+        </div>
 
         {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">
@@ -405,7 +405,7 @@ export default function AgentInviteManagementClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-obsidian-800/30">
+                <tr className="bg-zinc-950/50">
                   <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Email</th>
                   <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Recipient</th>
                   <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Status</th>
@@ -416,7 +416,7 @@ export default function AgentInviteManagementClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {invites.map((invite) => (
-                  <tr key={invite.id} className="hover:bg-obsidian-800-lowest/60">
+                  <tr key={invite.id} className="hover:bg-zinc-950/60">
                     <td className="px-4 py-3 text-sm">{invite.email}</td>
                     <td className="px-4 py-3 text-sm">{invite.recipient?.fullName || '—'}</td>
                     <td className="px-4 py-3 text-sm">
@@ -471,12 +471,12 @@ export default function AgentInviteManagementClient({
       </div>
       {/* Reassign Dialog */}
       <Dialog open={reassignOpen} onOpenChange={setReassignOpen}>
-        <DialogContent className="bg-obsidian-800 border-[#262626] text-white">
+        <DialogContent className="bg-zinc-900 border-white/[0.08] text-white">
           <DialogHeader>
             <DialogTitle className="text-white">Reassign Listings</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-            <p className="text-sm text-neutral-400">Select which listings this agent should manage.</p>
+            <p className="text-sm text-zinc-500">Select which listings this agent should manage.</p>
             {properties.length === 0 ? (
               <p className="text-sm text-zinc-400">No properties available.</p>
             ) : (
@@ -488,7 +488,7 @@ export default function AgentInviteManagementClient({
                       key={prop.id}
                       className={cn(
                         'flex items-start gap-3 rounded-lg border p-3 cursor-pointer select-none transition-all',
-                        checked ? 'border-[#00ff66]/40 bg-[#00ff66]/5' : 'border-[#262626] hover:border-[#00ff66]/20'
+                        checked ? 'border-[#00ff66]/40 bg-[#00ff66]/5' : 'border-white/[0.08] hover:border-[#00ff66]/20'
                       )}
                     >
                       <Checkbox
@@ -502,7 +502,7 @@ export default function AgentInviteManagementClient({
                       />
                       <div>
                         <p className="text-sm font-medium text-white">{prop.title}</p>
-                        <p className="text-xs text-neutral-400">
+                        <p className="text-xs text-zinc-500">
                           {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
                         </p>
                       </div>

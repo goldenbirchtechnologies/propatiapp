@@ -77,14 +77,14 @@ export default function RulesEnginePage() {
         <p className="text-zinc-400">Manage jurisdiction rules, compliance events, and document templates</p>
       </div>
 
-      <div className="flex gap-2 border-b border-zinc-800">
-        <button onClick={() => setTab("rules")} className={`px-4 py-2 font-medium ${tab === "rules" ? "border-b-2 border-primary text-emerald-400" : "text-zinc-400"}`}>
+      <div className="flex gap-2 border-b border-white/[0.08]">
+        <button onClick={() => setTab("rules")} className={`px-4 py-2 font-medium ${tab === "rules" ? "border-b-2 border-white/[0.08] text-emerald-400" : "text-zinc-400"}`}>
           <Shield className="inline-block mr-2 h-4 w-4" /> Rules
         </button>
-        <button onClick={() => setTab("compliance")} className={`px-4 py-2 font-medium ${tab === "compliance" ? "border-b-2 border-primary text-emerald-400" : "text-zinc-400"}`}>
+        <button onClick={() => setTab("compliance")} className={`px-4 py-2 font-medium ${tab === "compliance" ? "border-b-2 border-white/[0.08] text-emerald-400" : "text-zinc-400"}`}>
           <Clock className="inline-block mr-2 h-4 w-4" /> Compliance
         </button>
-        <button onClick={() => setTab("templates")} className={`px-4 py-2 font-medium ${tab === "templates" ? "border-b-2 border-primary text-emerald-400" : "text-zinc-400"}`}>
+        <button onClick={() => setTab("templates")} className={`px-4 py-2 font-medium ${tab === "templates" ? "border-b-2 border-white/[0.08] text-emerald-400" : "text-zinc-400"}`}>
           <FileText className="inline-block mr-2 h-4 w-4" /> Templates
         </button>
       </div>
@@ -101,12 +101,12 @@ export default function RulesEnginePage() {
                 </button>
               </div>
               {rules.length === 0 ? (
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-8 text-center text-zinc-400">
+                <div className="rounded-lg border border-white/[0.08] bg-zinc-900 p-8 text-center text-zinc-400">
                   No rules configured. Add your first jurisdiction rule.
                 </div>
               ) : (
                 rules.map(rule => (
-                  <div key={rule.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+                  <div key={rule.id} className="rounded-lg border border-white/[0.08] bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-white">{rule.name}</h3>
@@ -130,10 +130,10 @@ export default function RulesEnginePage() {
           {tab === "compliance" && (
             <div className="space-y-4">
               {events.length === 0 ? (
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-8 text-center text-zinc-400">No compliance events.</div>
+                <div className="rounded-lg border border-white/[0.08] bg-zinc-900 p-8 text-center text-zinc-400">No compliance events.</div>
               ) : (
                 events.map(event => (
-                  <div key={event.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+                  <div key={event.id} className="rounded-lg border border-white/[0.08] bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-white">{event.title}</h3>
@@ -157,10 +157,10 @@ export default function RulesEnginePage() {
                 </button>
               </div>
               {templates.length === 0 ? (
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-8 text-center text-zinc-400">No document templates configured.</div>
+                <div className="rounded-lg border border-white/[0.08] bg-zinc-900 p-8 text-center text-zinc-400">No document templates configured.</div>
               ) : (
                 templates.map(tpl => (
-                  <div key={tpl.id} className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+                  <div key={tpl.id} className="rounded-lg border border-white/[0.08] bg-zinc-900 p-4">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-white">{tpl.name}</h3>

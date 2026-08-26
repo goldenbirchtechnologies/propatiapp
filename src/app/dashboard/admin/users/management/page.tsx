@@ -172,7 +172,7 @@ function UsersManagementClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-white/[0.08] bg-surface p-md shadow-sm flex items-center gap-4"
+            className="rounded-xl border border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
           >
             <div className="p-3 rounded-lg bg-emerald-500-container/5 text-white shrink-0">
               <AppIcon name={card.icon} className="lucide" size={28} />
@@ -194,7 +194,7 @@ function UsersManagementClient({
       </div>
 
       {/* Filters */}
-      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden flex flex-col">
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
         <div className="p-lg border-b border-white/[0.08] bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative w-64">
@@ -244,7 +244,7 @@ function UsersManagementClient({
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
-                      className="px-lg py-md text-xs text-label-sm uppercase tracking-wider"
+                      className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider"
                     >
                       {h}
                     </th>
@@ -254,9 +254,9 @@ function UsersManagementClient({
               <tbody className="divide-y divide-[#262626]/50">
                 {users.map((u) => (
                   <tr key={u.id} className="hover:bg-zinc-900 transition-all duration-200">
-                    <td className="px-lg py-4">
+                    <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center text-white-container font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center text-white font-bold text-sm">
                           {initials(u.fullName)}
                         </div>
                         <div>
@@ -265,12 +265,12 @@ function UsersManagementClient({
                         </div>
                       </div>
                     </td>
-                    <td className="px-lg py-4">
+                    <td className="px-6 py-4">
                       <span className="px-3 py-1 bg-zinc-800 rounded-full text-label-sm text-zinc-400 font-medium capitalize">
                         {u.role.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-lg py-4">
+                    <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <span
                           className={`w-2 h-2 rounded-full ${
@@ -288,10 +288,10 @@ function UsersManagementClient({
                         </span>
                       </div>
                     </td>
-                    <td className="px-lg py-4">
+                    <td className="px-6 py-4">
                       <VerificationBadge user={u} />
                     </td>
-                    <td className="px-lg py-4 text-zinc-400 text-body-sm">
+                    <td className="px-6 py-4 text-zinc-400 text-body-sm">
                       {u.createdAt.toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',
@@ -306,7 +306,7 @@ function UsersManagementClient({
         </div>
 
         {/* Pagination */}
-        <div className="px-lg py-3 border-t border-white/[0.08] bg-zinc-950 flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-white/[0.08] bg-zinc-950 flex items-center justify-between">
           <p className="text-body-sm text-zinc-400">
             Showing{' '}
             <span className="font-bold">
@@ -319,7 +319,7 @@ function UsersManagementClient({
             <a
               href={buildHref(currentPage - 1)}
               className={`w-10 h-10 flex items-center justify-center rounded-lg border border-white/[0.08] transition-colors ${
-                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-obsidian-800-high text-white'
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-white'
               }`}
             >
               <ChevronLeft className="!w-5 !h-5" />
@@ -336,8 +336,8 @@ function UsersManagementClient({
                   href={buildHref(pageNum)}
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
                     pageNum === currentPage
-                      ? 'bg-emerald-500 text-white shadow-sm font-bold'
-                      : 'border border-white/[0.08] text-zinc-400 hover:bg-obsidian-800-high'
+                      ? 'bg-emerald-500 text-white shadow-none font-bold'
+                      : 'border border-white/[0.08] text-zinc-400 hover:bg-zinc-900'
                   }`}
                 >
                   {pageNum}
@@ -347,7 +347,7 @@ function UsersManagementClient({
             <a
               href={buildHref(currentPage + 1)}
               className={`w-10 h-10 flex items-center justify-center rounded-lg border border-white/[0.08] transition-colors ${
-                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-obsidian-800-high text-white'
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-white'
               }`}
             >
               <ChevronRight className="!w-5 !h-5" />

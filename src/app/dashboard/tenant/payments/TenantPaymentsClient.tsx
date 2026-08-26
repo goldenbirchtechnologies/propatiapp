@@ -181,23 +181,23 @@ export default function TenantPaymentsClient({ userId }: Props) {
             <Download className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <Input
               placeholder="Search payments..."
-              className="pl-10 bg-zinc-950 border-zinc-800 text-white"
+              className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
               disabled
             />
           </div>
-          <Button variant="outline" size="sm" className="border-zinc-800 text-zinc-400">
+          <Button variant="outline" size="sm" className="border-white/[0.08] text-zinc-400">
             <CreditCard className="h-4 w-4 mr-2" /> All Methods
           </Button>
         </div>
       </div>
 
       {/* Payments Table */}
-      <Card className="glass-card border-zinc-800">
-        <CardContent className="p-0">
+      <div className="glass-card glass-card border-white/[0.08]">
+        <div className="p-6 p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-zinc-800">
+                <tr className="border-b border-white/[0.08]">
                   <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Property</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Amount</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Status</th>
@@ -223,7 +223,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
                   </tr>
                 ) : (
                   filtered.map((payment) => (
-                    <tr key={payment.id} className="border-b border-zinc-800 hover:bg-white/[0.02] transition-colors">
+                    <tr key={payment.id} className="border-b border-white/[0.08] hover:bg-white/[0.02] transition-colors">
                       <td className="px-4 py-3">
                         <p className="text-sm font-medium text-white">{payment.listing.title}</p>
                         <p className="text-xs text-zinc-500">{payment.listing.area}</p>
@@ -255,8 +255,8 @@ export default function TenantPaymentsClient({ userId }: Props) {
               </tbody>
             </table>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
@@ -269,7 +269,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
               variant="outline"
               size="sm"
               disabled={!hasPrevious}
-              className="border-zinc-800 text-zinc-400 disabled:opacity-50"
+              className="border-white/[0.08] text-zinc-400 disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -277,7 +277,7 @@ export default function TenantPaymentsClient({ userId }: Props) {
               variant="outline"
               size="sm"
               disabled={!hasNext}
-              className="border-zinc-800 text-zinc-400 disabled:opacity-50"
+              className="border-white/[0.08] text-zinc-400 disabled:opacity-50"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>

@@ -34,7 +34,7 @@ function statusColor(status: string) {
   if (status === 'approved') return 'bg-success/10 text-[#10b981] border-success/20';
   if (status === 'rejected') return 'bg-red-500/10 text-red-500 border-red-500/20';
   if (status === 'pending') return 'bg-warning/10 text-warning border-warning/20';
-  return 'bg-muted text-zinc-400 border-zinc-800';
+  return 'bg-muted text-zinc-400 border-white/[0.08]';
 }
 
 function VerificationChecklistClient(props: Props) {
@@ -43,30 +43,30 @@ function VerificationChecklistClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Overall Progress</CardTitle>
+            <h3 className="text-lg font-semibold text-white">Overall Progress</h3>
             <p className="text-sm text-zinc-400 mt-1">
               {approvedCount} of {props.layers.length} layers completed
             </p>
           </div>
           <span className="text-2xl font-bold">{progress}%</span>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="p-6">
           <Progress value={progress} className="h-3" />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Layer Status</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Layer Status</h3>
+        </div>
+        <div className="p-6">
           <div className="space-y-4">
             {props.layers.map((layer, idx) => (
               <div key={layer.label}>
-                <div className="flex items-center justify-between p-4 rounded-lg border border-zinc-800">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-white/[0.08]">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-sm">
                       {idx + 1}
@@ -87,21 +87,21 @@ function VerificationChecklistClient(props: Props) {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {props.adminNotes && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Admin Notes</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Admin Notes</h3>
+          </div>
+          <div className="p-6">
             <p className="text-sm text-zinc-400">{props.adminNotes}</p>
             {props.reviewedAt && (
               <p className="text-xs text-zinc-400 mt-2">Reviewed on {new Date(props.reviewedAt).toLocaleString()}</p>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       <div className="flex justify-end">

@@ -68,7 +68,7 @@ export default async function LandlordMaintenancePage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Maintenance Requests</h1>
-            <p className="text-muted-foreground mt-1">Track and manage maintenance requests across your properties.</p>
+            <p className="text-zinc-500 mt-1">Track and manage maintenance requests across your properties.</p>
           </div>
         </div>
 
@@ -78,16 +78,16 @@ export default async function LandlordMaintenancePage() {
           <StatCard label="Completed" value={String(completedCount)} icon="done" trend="+ this month" trendPositive />
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Tickets</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Recent Tickets</h3>
+          </div>
+          <div className="p-6">
             {tickets.length === 0 ? (
-              <div className="rounded-lg border border-dashed border-[#262626] bg-muted/40 p-8 text-center">
-                <Wrench className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
+              <div className="rounded-lg border border-dashed border-white/[0.08] bg-muted/40 p-8 text-center">
+                <Wrench className="w-8 h-8 mx-auto mb-3 text-zinc-500" />
                 <p className="font-medium text-white mb-1">No maintenance requests yet</p>
-                <p className="text-sm text-muted-foreground mb-4">Requests from tenants and on-site managers will appear here.</p>
+                <p className="text-sm text-zinc-500 mb-4">Requests from tenants and on-site managers will appear here.</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <Button asChild variant="outline" size="sm" className="gap-2">
                     <Link href="/dashboard/landlord/properties">View properties</Link>
@@ -97,7 +97,7 @@ export default async function LandlordMaintenancePage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-muted-foreground border-b">
+                  <thead className="text-zinc-500 border-b">
                     <tr>
                       <th className="px-4 py-3 font-medium">Property</th>
                       <th className="px-4 py-3 font-medium">Issue</th>
@@ -113,7 +113,7 @@ export default async function LandlordMaintenancePage() {
                         <td className="px-4 py-3">{ticket.title}</td>
                         <td className="px-4 py-3">{priorityBadge(ticket.priority)}</td>
                         <td className="px-4 py-3">{statusBadge(ticket.status)}</td>
-                        <td className="px-4 py-3 text-muted-foreground">
+                        <td className="px-4 py-3 text-zinc-500">
                           {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                         </td>
                       </tr>
@@ -122,8 +122,8 @@ export default async function LandlordMaintenancePage() {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>
@@ -133,8 +133,8 @@ export default async function LandlordMaintenancePage() {
 
 function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; icon: string; trend: string; trendPositive?: boolean }) {
   return (
-    <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-      <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{label}</p>
+    <div className="rounded-xl border border-white/[0.08] p-5 shadow-none">
+      <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{label}</p>
       <p className="text-2xl font-bold mt-1">{value}</p>
       <div className="mt-2 flex items-center gap-1">
         <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>

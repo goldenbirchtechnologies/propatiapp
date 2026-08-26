@@ -5,7 +5,6 @@ import { useListings } from '@/hooks/useListings';
 import { useOrganizationTickets } from '@/hooks/useOrganizationTickets';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useUnits } from '@/hooks/useUnits';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -122,11 +121,11 @@ export default function UnitDetailPage() {
 
       {/* Unit Information */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Unit Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Unit Information</h3>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-zinc-500">Property Type</span>
               <Badge variant="secondary">{listing.propertyType || 'N/A'}</Badge>
@@ -173,18 +172,18 @@ export default function UnitDetailPage() {
                 <p className="text-lg font-semibold">{listing.parkingSpaces || 0}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Current Tenant */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Users className="h-5 w-5" />
               Current Tenant
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             {currentTenant ? (
               <div className="space-y-3">
                 <div>
@@ -220,20 +219,20 @@ export default function UnitDetailPage() {
                 </Button>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Lease Information */}
       {lease && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <FileText className="h-5 w-5" />
               Lease Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             <div className="grid gap-4 md:grid-cols-4">
               <div>
                 <p className="text-sm text-zinc-500">Start Date</p>
@@ -258,24 +257,24 @@ export default function UnitDetailPage() {
                 <Badge variant="default">{lease.status}</Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* Maintenance History */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Wrench className="h-5 w-5" />
             Maintenance History
-          </CardTitle>
+          </h3>
           <Button size="sm" asChild>
             <Link href={`/dashboard/estate-manager/maintenance`}>
               Create Ticket
             </Link>
           </Button>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="p-6">
           {tickets.length > 0 ? (
             <div className="space-y-3">
               {tickets.map((ticket: unknown) => (
@@ -304,24 +303,24 @@ export default function UnitDetailPage() {
               <p className="text-zinc-500">No maintenance history</p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Payment History */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
             Payment History
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="text-center py-8">
             <DollarSign className="h-12 w-12 mx-auto mb-2 text-zinc-500 opacity-50" />
             <p className="text-zinc-500">No payment history available</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

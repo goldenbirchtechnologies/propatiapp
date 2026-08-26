@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useOrganizations, useOrganizationMembers, useInviteMember, useRemoveMember, useUpdateMemberRole } from '@/hooks/useOrganizations';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -242,50 +241,50 @@ export default function TeamManagementPage() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Members</CardTitle>
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Total Members</h3>
             <Users className="h-4 w-4 text-zinc-500" />
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="p-6">
             <div className="text-2xl font-bold">{members.length}</div>
             <p className="text-xs text-zinc-500">
               {org.maxSeats} seats available
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active</CardTitle>
-            <Users className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Active</h3>
+            <Users className="h-4 w-4 text-emerald-500" />
+          </div>
+          <div className="p-6">
+            <div className="text-2xl font-bold text-emerald-500">
               {activeMembers.length}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle>
-            <Mail className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-500">
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Pending</h3>
+            <Mail className="h-4 w-4 text-emerald-500" />
+          </div>
+          <div className="p-6">
+            <div className="text-2xl font-bold text-emerald-500">
               {pendingMembers.length}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Members Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Team Members</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Team Members</h3>
+        </div>
+        <div className="p-6">
           {members.length > 0 ? (
             <Table>
               <TableHeader>
@@ -379,8 +378,8 @@ export default function TeamManagementPage() {
               </Button>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Remove Confirmation Dialog */}
       <AlertDialog

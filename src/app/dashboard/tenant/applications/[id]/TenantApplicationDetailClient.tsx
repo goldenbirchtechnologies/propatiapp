@@ -89,7 +89,7 @@ const statusConfig: Record<
   },
   withdrawn: {
     label: 'Withdrawn',
-    className: 'bg-zinc-900/50 text-zinc-400 border-zinc-800',
+    className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]',
   },
 };
 
@@ -167,14 +167,14 @@ export default function TenantApplicationDetailClient({
         <TabsContent value="overview" className="space-y-6 mt-6">
           <DashboardSection>
             <div className="grid gap-6 md:grid-cols-2">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Building2 className="h-5 w-5 text-emerald-400" />
                     Property Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  </h3>
+                </div>
+                <div className="p-6 space-y-4">
                   <div>
                     <p className="text-sm text-zinc-500">Property</p>
                     <p className="font-medium text-white">{initial.listing.title}</p>
@@ -201,17 +201,17 @@ export default function TenantApplicationDetailClient({
                     <p className="text-sm text-zinc-500">Type</p>
                     <p className="font-medium text-white">{initial.listing.listingType}</p>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <User className="h-5 w-5 text-emerald-400" />
                     Landlord Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                  </h3>
+                </div>
+                <div className="p-6 space-y-4">
                   <div className="flex items-center gap-3">
                     <Avatar
                       src={initial.landlord.avatarUrl || undefined}
@@ -246,8 +246,8 @@ export default function TenantApplicationDetailClient({
                       </p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </DashboardSection>
         </TabsContent>
@@ -256,32 +256,32 @@ export default function TenantApplicationDetailClient({
         <TabsContent value="documents" className="mt-6">
           <DashboardSection emptyMessage="No documents attached to this application." onRetry={handleRetry}>
             {initial.listing.images.length > 0 ? (
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <div className="glass-card glass-card">
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <FileText className="h-5 w-5 text-emerald-400" />
                     Listing Media
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+                  </h3>
+                </div>
+                <div className="p-6">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {initial.listing.images.map((img) => (
-                      <div key={img.id} className="rounded-xl overflow-hidden border border-zinc-800">
+                      <div key={img.id} className="rounded-xl overflow-hidden border border-white/[0.08]">
                         <img src={img.url} alt={initial.listing.title} className="w-full h-32 object-cover" />
                       </div>
                     ))}
                   </div>
                   <p className="text-sm mt-4 text-zinc-500">These are the listing images associated with the property.</p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ) : (
-              <Card className="glass-card">
-                <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+              <div className="glass-card glass-card">
+                <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
                   <ImageIcon className="text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
-                  <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No documents yet</h3>
+                  <h3 className="font-headline-sm text-white mb-2 text-white">No documents yet</h3>
                   <p className="text-zinc-500">There are no documents attached to this application.</p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
           </DashboardSection>
         </TabsContent>
@@ -289,14 +289,14 @@ export default function TenantApplicationDetailClient({
         {/* Timeline */}
         <TabsContent value="timeline" className="mt-6">
           <DashboardSection>
-            <Card className="glass-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <div className="glass-card glass-card">
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Clock className="h-5 w-5 text-emerald-400" />
                   Application Timeline
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                </h3>
+              </div>
+              <div className="p-6">
                 <div className="space-y-6">
                   <div className="flex gap-4">
                     <div className="flex flex-col items-center">
@@ -349,8 +349,8 @@ export default function TenantApplicationDetailClient({
                     </div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </DashboardSection>
         </TabsContent>
 
@@ -359,39 +359,39 @@ export default function TenantApplicationDetailClient({
           <DashboardSection emptyMessage="No notes on this application." onRetry={handleRetry}>
             <div className="space-y-6">
               {initial.message && (
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                <div className="glass-card glass-card">
+                  <div className="px-6 py-5 border-b border-white/[0.08]">
+                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                       <MessageSquare className="h-5 w-5 text-emerald-400" />
                       Your Message
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
+                    </h3>
+                  </div>
+                  <div className="p-6">
                     <p className="whitespace-pre-line text-white">{initial.message}</p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )}
               {initial.landlordNotes && (
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                <div className="glass-card glass-card">
+                  <div className="px-6 py-5 border-b border-white/[0.08]">
+                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                       <User className="h-5 w-5 text-emerald-400" />
                       Landlord Notes
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
+                    </h3>
+                  </div>
+                  <div className="p-6">
                     <p className="whitespace-pre-line text-white">{initial.landlordNotes}</p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )}
               {!initial.message && !initial.landlordNotes && (
-                <Card className="glass-card">
-                  <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="glass-card glass-card">
+                  <div className="p-6 flex flex-col items-center justify-center py-16 text-center">
                     <MessageSquare className="text-zinc-500 mb-2" style={{ opacity: 0.4 }} />
-                    <h3 className="font-headline-sm text-headline-sm mb-2 text-white">No notes yet</h3>
+                    <h3 className="font-headline-sm text-white mb-2 text-white">No notes yet</h3>
                     <p className="text-zinc-500">There are no messages or notes on this application.</p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )}
             </div>
           </DashboardSection>

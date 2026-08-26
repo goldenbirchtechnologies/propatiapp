@@ -110,7 +110,7 @@ export default function NewAgreementPage() {
     <div className="container max-w-4xl mx-auto py-8 px-4">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Create New Agreement</h1>
-        <p className="text-muted-foreground">
+        <p className="text-zinc-500">
           Create a rental agreement and invite your tenant to sign.
         </p>
       </div>
@@ -123,7 +123,7 @@ export default function NewAgreementPage() {
               <div
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   currentStep >= step
-                    ? 'bg-primary text-white border-primary'
+                    ? 'bg-primary text-white border-white/[0.08]'
                     : 'bg-background border-muted'
                 }`}
               >
@@ -140,16 +140,16 @@ export default function NewAgreementPage() {
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          <span className="text-sm text-muted-foreground">Select Tenant</span>
-          <span className="text-sm text-muted-foreground">Agreement Terms</span>
-          <span className="text-sm text-muted-foreground">Review</span>
+          <span className="text-sm text-zinc-500">Select Tenant</span>
+          <span className="text-sm text-zinc-500">Agreement Terms</span>
+          <span className="text-sm text-zinc-500">Review</span>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step 1: Select Tenant & Listing */}
         {currentStep === 1 && (
-          <Card className="p-6 space-y-6">
+          <div className="glass-card p-6 space-y-6">
             <h2 className="text-xl font-semibold">Select Tenant & Listing</h2>
 
             <div className="space-y-4">
@@ -183,7 +183,7 @@ export default function NewAgreementPage() {
                 {errors.tenantId && (
                   <p className="text-sm text-red-500 mt-1">{errors.tenantId.message}</p>
                 )}
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-zinc-500 mt-1">
                   The tenant will receive an invitation to review and sign the agreement.
                 </p>
               </div>
@@ -209,12 +209,12 @@ export default function NewAgreementPage() {
                 )}
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Step 2: Agreement Terms */}
         {currentStep === 2 && (
-          <Card className="p-6 space-y-6">
+          <div className="glass-card p-6 space-y-6">
             <h2 className="text-xl font-semibold">Agreement Terms</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -315,37 +315,37 @@ export default function NewAgreementPage() {
                 />
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Step 3: Review & Create */}
         {currentStep === 3 && (
-          <Card className="p-6 space-y-6">
+          <div className="glass-card p-6 space-y-6">
             <h2 className="text-xl font-semibold">Review Agreement</h2>
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                 <div>
-                  <p className="text-sm text-muted-foreground">Listing</p>
+                  <p className="text-sm text-zinc-500">Listing</p>
                   <p className="font-medium">{watchedValues.listingId || 'Not selected'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Tenant</p>
+                  <p className="text-sm text-zinc-500">Tenant</p>
                   <p className="font-medium">{watchedValues.tenantId || 'Not specified'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Agreement Type</p>
+                  <p className="text-sm text-zinc-500">Agreement Type</p>
                   <p className="font-medium capitalize">{watchedValues.type?.replace('_', ' ')}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Payment Schedule</p>
+                  <p className="text-sm text-zinc-500">Payment Schedule</p>
                   <p className="font-medium capitalize">{watchedValues.rentPeriod}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                 <div>
-                  <p className="text-sm text-muted-foreground">Start Date</p>
+                  <p className="text-sm text-zinc-500">Start Date</p>
                   <p className="font-medium">
                     {watchedValues.startDate
                       ? format(new Date(watchedValues.startDate), 'MMM dd, yyyy')
@@ -353,7 +353,7 @@ export default function NewAgreementPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">End Date</p>
+                  <p className="text-sm text-zinc-500">End Date</p>
                   <p className="font-medium">
                     {watchedValues.endDate
                       ? format(new Date(watchedValues.endDate), 'MMM dd, yyyy')
@@ -361,13 +361,13 @@ export default function NewAgreementPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Rent Amount</p>
+                  <p className="text-sm text-zinc-500">Rent Amount</p>
                   <p className="font-medium">
                     {watchedValues.rentAmount ? formatCurrency(watchedValues.rentAmount) : 'Not set'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Duration</p>
+                  <p className="text-sm text-zinc-500">Duration</p>
                   <p className="font-medium">{calculateLeaseDuration()} months</p>
                 </div>
               </div>
@@ -376,13 +376,13 @@ export default function NewAgreementPage() {
                 <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                   {watchedValues.cautionDeposit && (
                     <div>
-                      <p className="text-sm text-muted-foreground">Caution Deposit</p>
+                      <p className="text-sm text-zinc-500">Caution Deposit</p>
                       <p className="font-medium">{formatCurrency(watchedValues.cautionDeposit)}</p>
                     </div>
                   )}
                   {watchedValues.serviceCharge && (
                     <div>
-                      <p className="text-sm text-muted-foreground">Service Charge</p>
+                      <p className="text-sm text-zinc-500">Service Charge</p>
                       <p className="font-medium">{formatCurrency(watchedValues.serviceCharge)}</p>
                     </div>
                   )}
@@ -397,7 +397,7 @@ export default function NewAgreementPage() {
                     <div className="space-y-2">
                       {calculateRentSchedule().map((entry, index) => (
                         <div key={index} className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">{entry.date}</span>
+                          <span className="text-zinc-500">{entry.date}</span>
                           <span className="font-medium">{formatCurrency(entry.amount)}</span>
                         </div>
                       ))}
@@ -408,14 +408,14 @@ export default function NewAgreementPage() {
 
               {watchedValues && (watchedValues as unknown).terms && (
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2">Additional Terms</p>
+                  <p className="text-sm text-zinc-500 mb-2">Additional Terms</p>
                   <div className="bg-muted/30 rounded-lg p-4">
                     <p className="text-sm whitespace-pre-wrap">{(watchedValues as unknown).terms}</p>
                   </div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Navigation Buttons */}

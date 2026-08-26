@@ -58,7 +58,7 @@ export default async function AdminVerificationsPage() {
           </div>
           <div className="rounded-lg border border-white/[0.08] bg-zinc-950 p-6 ">
             <p className="text-zinc-500 text-sm">Certified</p>
-            <p className="text-2xl font-bold text-green-600 mt-2">{certifiedCount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-emerald-500 mt-2">{certifiedCount.toLocaleString()}</p>
           </div>
         </div>
 

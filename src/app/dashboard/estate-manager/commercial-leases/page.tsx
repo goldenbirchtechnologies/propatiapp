@@ -16,9 +16,9 @@ const leases = [
 ];
 
 const statusStyles: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-[#00ff66] border border-[#262626]', label: 'PAID' },
-  overdue: { class: 'bg-red-500/10 text-red-500 border border-[#262626]', label: 'OVERDUE' },
-  partial: { class: 'bg-warning/10 text-warning border border-[#262626]', label: 'PARTIAL' },
+  paid: { class: 'bg-success/10 text-[#00ff66] border border-white/[0.08]', label: 'PAID' },
+  overdue: { class: 'bg-red-500/10 text-red-500 border border-white/[0.08]', label: 'OVERDUE' },
+  partial: { class: 'bg-warning/10 text-warning border border-white/[0.08]', label: 'PARTIAL' },
 };
 
 export default function EstateManagerCommercialLeasesPage() {
@@ -31,10 +31,10 @@ export default function EstateManagerCommercialLeasesPage() {
         <ErrorBoundary>
           <div className="space-y-6">
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Commercial Leases</h1>
-            <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unable to load commercial lease data.</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Unable to load commercial lease data.</p>
             <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6">
               <p className="text-red-500 font-medium mb-1">Error</p>
-              <p className="text-sm text-muted-foreground mb-3">{error}</p>
+              <p className="text-sm text-zinc-500 mb-3">{error}</p>
               <button onClick={() => setError(null)} className="px-4 py-2 bg-destructive text-on-error rounded-lg hover:bg-destructive/90">Retry</button>
             </div>
           </div>
@@ -52,71 +52,71 @@ export default function EstateManagerCommercialLeasesPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Commercial Lease Collection</h1>
-            <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>
               Managing revenue for The Platinum Plaza &amp; Business District. Automated billing for rent, service charges, and utility recoveries.
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#262626] bg-background hover:bg-surface transition-colors text-sm font-medium">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/[0.08] bg-background hover:bg-surface transition-colors text-sm font-medium">
               <Download className="w-4 h-4" /> Export Report
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-sm font-medium shadow-md">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-sm font-medium shadow-none">
               <Receipt className="w-4 h-4" /> Bulk Invoice
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Collection Rate</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Collection Rate</span>
               <TrendingUp className="w-5 h-5 text-[#00ff66]" />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold" className="text-white">94.2%</p>
+              <p className="text-2xl font-bold text-white">94.2%</p>
               <p className="text-xs text-[#00ff66] mt-1">+2.4% from last month</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Total Arrears</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Total Arrears</span>
               <Wrench className="w-5 h-5 text-red-500" />
             </div>
             <div className="mt-3">
               <p className="text-2xl font-bold text-red-500">₦14.2M</p>
-              <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>12 Pending notices</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>12 Pending notices</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Service Charges</span>
-              <Receipt className="w-5 h-5" style={{ color: 'text-muted-foreground' }} />
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Service Charges</span>
+              <Receipt className="w-5 h-5" style={{ color: 'text-zinc-500' }} />
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-bold" className="text-white">₦8.5M</p>
-              <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>88% Recovery achieved</p>
+              <p className="text-2xl font-bold text-white">₦8.5M</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>88% Recovery achieved</p>
             </div>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow bg-primary text-on-primary relative overflow-hidden">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow bg-primary text-on-primary relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-5 h-5" />
-                <span className="text-xs font-label-md uppercase tracking-wider font-bold">Expiring Leases</span>
+                <span className="text-xs font-label-sm uppercase tracking-wider font-bold">Expiring Leases</span>
               </div>
               <div className="mt-3">
                 <p className="text-3xl font-bold">08 Units</p>
-                <p className="text-xs font-label-md uppercase tracking-wider opacity-80 mt-1">Renewal notices required</p>
+                <p className="text-xs font-label-sm uppercase tracking-wider opacity-80 mt-1">Renewal notices required</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden bg-background">
-          <div className="p-5 border-b border-[#262626] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
-            <h3 className="font-headline-sm font-bold" className="text-white">Unit Collections</h3>
+        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden bg-background">
+          <div className="p-5 border-b border-white/[0.08] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface">
+            <h3 className="font-headline-sm font-bold text-white">Unit Collections</h3>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Filter by:</span>
-              <select className="border border-[#262626] rounded-lg text-sm px-3 py-1.5 bg-background">
+              <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Filter by:</span>
+              <select className="border border-white/[0.08] rounded-lg text-sm px-3 py-1.5 bg-background">
                 <option>All Units</option>
                 <option>Premium Plaza A</option>
                 <option>Commercial Wing B</option>
@@ -125,15 +125,15 @@ export default function EstateManagerCommercialLeasesPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-muted border-b border-[#262626]">
+              <thead className="bg-muted border-b border-white/[0.08]">
                 <tr>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Unit / Tenant</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Base Rent</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Service Charge</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Utilities</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Status</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Lease Expiry</th>
-                  <th className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Actions</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Unit / Tenant</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Base Rent</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Service Charge</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Utilities</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Status</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Lease Expiry</th>
+                  <th className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
@@ -143,18 +143,18 @@ export default function EstateManagerCommercialLeasesPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-accent-container flex items-center justify-center text-white font-bold">{row.unit}</div>
                         <div>
-                          <div className="font-headline-sm font-bold" className="text-white">{row.tenant}</div>
-                          <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{row.location}</div>
+                          <div className="font-headline-sm font-bold text-white">{row.tenant}</div>
+                          <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{row.location}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-sm font-medium" className="text-white">₦{row.baseRent.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>₦{row.serviceCharge.toLocaleString()}</td>
-                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>₦{row.utilities.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-sm font-medium text-white">₦{row.baseRent.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>₦{row.serviceCharge.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>₦{row.utilities.toLocaleString()}</td>
                     <td className="px-5 py-4">
                       <span className={cn('inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border', statusStyles[row.status]?.class)}>{statusStyles[row.status]?.label}</span>
                     </td>
-                    <td className="px-5 py-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>{row.expiry}</td>
+                    <td className="px-5 py-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{row.expiry}</td>
                     <td className="px-5 py-4">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon"><Eye className="w-4 h-4" /></Button>
@@ -166,13 +166,13 @@ export default function EstateManagerCommercialLeasesPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 border-t border-[#262626] flex justify-between items-center">
-            <div className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Showing {leases.length} of 42 active commercial leases</div>
+          <div className="p-4 border-t border-white/[0.08] flex justify-between items-center">
+            <div className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Showing {leases.length} of 42 active commercial leases</div>
             <div className="flex gap-1">
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">←</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.08] hover:bg-background">←</button>
               <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary">1</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">2</button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#262626] hover:bg-background">→</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.08] hover:bg-background">2</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/[0.08] hover:bg-background">→</button>
             </div>
           </div>
         </div>

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationListings } from '@/hooks/useOrganizations';
 import { useUnits, usePortfolioOverview } from '@/hooks/useUnits';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { StatusBadge } from '@/components/ui';
@@ -114,40 +113,40 @@ export default function PortfolioPage() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3 animate-fadeIn">
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Units</CardTitle>
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Total Units</h3>
             <Home className="h-4 w-4 text-zinc-500" />
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="p-6">
             <div className="text-2xl font-bold">{totalUnits}</div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Occupied</CardTitle>
-            <Building2 className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{occupiedUnits}</div>
-          </CardContent>
-        </Card>
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Occupied</h3>
+            <Building2 className="h-4 w-4 text-emerald-500" />
+          </div>
+          <div className="p-6">
+            <div className="text-2xl font-bold text-emerald-500">{occupiedUnits}</div>
+          </div>
+        </div>
 
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vacant</CardTitle>
-            <Building2 className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-500">{vacantUnits}</div>
-          </CardContent>
-        </Card>
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Vacant</h3>
+            <Building2 className="h-4 w-4 text-emerald-500" />
+          </div>
+          <div className="p-6">
+            <div className="text-2xl font-bold text-emerald-500">{vacantUnits}</div>
+          </div>
+        </div>
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
+      <div className="glass-card">
+        <div className="p-6 pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
@@ -180,15 +179,15 @@ export default function PortfolioPage() {
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Units Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Units ({filteredListings.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Units ({filteredListings.length})</h3>
+        </div>
+        <div className="p-6">
           {filteredListings.length > 0 ? (
             <Table>
               <TableHeader>
@@ -283,8 +282,8 @@ export default function PortfolioPage() {
               </Button>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

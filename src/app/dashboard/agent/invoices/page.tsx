@@ -11,11 +11,11 @@ export default async function AgentInvoicesPage() {
   return (
     <DashboardShell navigation={AGENT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
 
-      <ErrorBoundary><div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <ErrorBoundary>
 
       <TenantInvoicesClient />
     
-      </div></ErrorBoundary>
+      </ErrorBoundary>
 </DashboardShell>
   );
 }

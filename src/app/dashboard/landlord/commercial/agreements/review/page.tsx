@@ -37,46 +37,46 @@ export default async function CommercialAgreementsReviewPage() {
       <div className="space-y-6">
         <section>
           <h1 className="text-2xl font-bold text-white">Commercial Lease Agreement Review</h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-500 mt-1">
             Gold Verified Agent workspace — review proposed commercial terms.
           </p>
         </section>
 
         {agreements.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center">
-              <p className="text-muted-foreground">No agreements currently pending review.</p>
-            </CardContent>
-          </Card>
+          <div className="glass-card">
+            <div className="p-6 p-8 text-center">
+              <p className="text-zinc-500">No agreements currently pending review.</p>
+            </div>
+          </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {agreements.map((agr) => (
-              <Card key={agr.id}>
-                <CardHeader>
-                  <CardTitle className="text-base font-semibold">
+              <div className="glass-card" key={agr.id}>
+                <div className="px-6 py-5 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-white text-base font-semibold">
                     {agr.listing.title} — {agr.listing.address}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
+                  </h3>
+                </div>
+                <div className="p-6 space-y-2 text-sm">
                   <p>
-                    <span className="text-muted-foreground">Tenant:</span> {agr.tenant.fullName}
+                    <span className="text-zinc-500">Tenant:</span> {agr.tenant.fullName}
                   </p>
                   <p>
-                    <span className="text-muted-foreground">Rent:</span>{' '}
+                    <span className="text-zinc-500">Rent:</span>{' '}
                     {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : 'Negotiable'}
                     {agr.rentPeriod ? `/${agr.rentPeriod}` : ''}
                   </p>
                   <p>
-                    <span className="text-muted-foreground">Term:</span>{' '}
+                    <span className="text-zinc-500">Term:</span>{' '}
                     {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} →{' '}
                     {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
                   </p>
                   <p>
-                    <span className="text-muted-foreground">Deposit:</span>{' '}
+                    <span className="text-zinc-500">Deposit:</span>{' '}
                     {agr.cautionDeposit ? `₦${Number(agr.cautionDeposit).toLocaleString()}` : '—'}
                   </p>
                   <p>
-                    <span className="text-muted-foreground">Service Charge:</span>{' '}
+                    <span className="text-zinc-500">Service Charge:</span>{' '}
                     {agr.serviceCharge ? `₦${Number(agr.serviceCharge).toLocaleString()}/yr` : '—'}
                   </p>
                   <div>
@@ -84,8 +84,8 @@ export default async function CommercialAgreementsReviewPage() {
                       {agr.status.replace('_', ' ')}
                     </Badge>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         )}

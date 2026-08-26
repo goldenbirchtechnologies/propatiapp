@@ -54,7 +54,7 @@ export default async function LandlordRevenueForecastPage() {
             <p className="text-zinc-400 mt-1">Predictive financial analysis for {now.getFullYear()}-{String(now.getFullYear() + 1).slice(2)}</p>
           </div>
           <div className="flex gap-2">
-            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-[#262626] bg-obsidian-800/30 hover:bg-obsidian-800-lowest transition-colors text-sm font-medium">
+            <Link href="/dashboard/landlord/revenue-forecast/report" className="px-4 py-2 rounded-lg border border-white/[0.08] bg-zinc-950/50 hover:bg-zinc-900 transition-colors text-sm font-medium">
               View Full Forecast →
             </Link>
           </div>
@@ -62,28 +62,28 @@ export default async function LandlordRevenueForecastPage() {
 
         {/* KPI Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">YTD</span>
             </div>
             <p className="text-sm text-zinc-400 mb-1">Projected Gross Revenue</p>
             <p className="text-2xl font-bold text-white">₦{totalRevenue.toLocaleString()}</p>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Portfolio</span>
             </div>
             <p className="text-sm text-zinc-400 mb-1">Active Listings</p>
             <p className="text-2xl font-bold text-white">{activeListingCount}</p>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Total</span>
             </div>
             <p className="text-sm text-zinc-400 mb-1">Total Listings</p>
             <p className="text-2xl font-bold text-white">{listingCount}</p>
           </div>
-          <div className="card p-5 rounded-xl border border-[#262626] shadow-sm hover:shadow-md transition-shadow">
+          <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">Realized</span>
             </div>
@@ -93,8 +93,8 @@ export default async function LandlordRevenueForecastPage() {
         </div>
 
         {/* Asset Class Table */}
-        <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
-          <div className="p-5 border-b border-[#262626] flex justify-between items-center">
+        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
+          <div className="p-5 border-b border-white/[0.08] flex justify-between items-center">
             <h3 className="font-heading font-bold text-white">Portfolio Summary</h3>
             <Link href="/dashboard/landlord/revenue-forecast/report" className="text-sm text-secondary hover:underline font-medium">View Detailed Forecast →</Link>
           </div>

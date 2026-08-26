@@ -122,38 +122,38 @@ function Step1DocumentsClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Progress</CardTitle>
+            <h3 className="text-lg font-semibold text-white">Progress</h3>
             <p className="text-sm text-zinc-400 mt-1">
               {REQUIRED_DOCS.length} document categories required
             </p>
           </div>
           <span className="text-2xl font-bold">{progress}%</span>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="p-6">
           <Progress value={progress} className="h-3" />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {REQUIRED_DOCS.map((type) => {
           const hasDoc = (counts[type] || 0) > 0;
           return (
-            <Card key={type} className={hasDoc ? 'border-success/30' : 'border-dashed'}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="glass-card" key={type} className={hasDoc ? 'border-success/30' : 'border-dashed'}>
+              <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
                     <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
                   ) : (
                     <AlertCircle className="h-5 w-5 text-zinc-400" />
                   )}
-                  <CardTitle className="text-base">{docLabels[type]}</CardTitle>
+                  <h3 className="text-lg font-semibold text-white text-base">{docLabels[type]}</h3>
                 </div>
                 <Badge variant={hasDoc ? 'default' : 'outline'}>{hasDoc ? 'Uploaded' : 'Required'}</Badge>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div className="p-6">
                 <p className="text-sm text-zinc-400 mb-3">
                   {hasDoc ? 'Document uploaded and ready for review' : 'Please upload this document to continue'}
                 </p>
@@ -170,8 +170,8 @@ function Step1DocumentsClient(props: Props) {
                     />
                   </label>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>

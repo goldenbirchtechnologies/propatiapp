@@ -73,30 +73,30 @@ function Step3VideoClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Verification Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Verification Progress</h3>
+        </div>
+        <div className="p-6">
           <Progress value={progress} className="h-3" />
           <p className="text-sm text-zinc-400 mt-2">
             {props.l3Status === 'approved' ? 'Video verified successfully' : props.l3Status === 'pending' ? 'Waiting for admin review' : 'Record and upload a video walkthrough'}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {!canProceed ? (
-        <Card>
-          <CardContent className="p-6">
+        <div className="glass-card">
+          <div className="p-6 p-6">
             <div className="flex items-center gap-2 text-warning">
               <AlertCircle className="h-5 w-5" />
               <p>Please complete Layer 2 (Identity verification) before proceeding.</p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : props.l3Status === 'approved' ? (
-        <Card>
-          <CardContent className="p-6">
+        <div className="glass-card">
+          <div className="p-6 p-6">
             <div className="flex items-center gap-2 text-[#10b981]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Video verification complete.</p>
@@ -104,15 +104,15 @@ function Step3VideoClient(props: Props) {
             {videoUrl && (
               <video src={videoUrl} controls className="mt-4 rounded-lg max-h-[400px]" />
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Upload Video</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white">Upload Video</h3>
+            </div>
+            <div className="p-6 space-y-4">
               <p className="text-sm text-zinc-400">
                 Record a video walking through the property. Show all rooms and display the QR code at the start.
               </p>
@@ -141,17 +141,17 @@ function Step3VideoClient(props: Props) {
               {videoUrl && (
                 <video src={videoUrl} controls className="rounded-lg max-h-[300px]" />
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                 <QrCode className="h-5 w-5" />
                 QR Code
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
               <p className="text-sm text-zinc-400">
                 Show this QR code at the start of your video. It verifies the timestamp and authenticity.
               </p>
@@ -167,8 +167,8 @@ function Step3VideoClient(props: Props) {
               <Button variant="outline" onClick={handleQrCode} className="w-full">
                 Generate QR Code
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
 

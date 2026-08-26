@@ -60,11 +60,11 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
       </div>
 
       {/* Lifecycle Tracker */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-heading text-lg">Request Lifecycle</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white font-heading text-lg">Request Lifecycle</h3>
+        </div>
+        <div className="p-6">
           <div className="relative">
             <div className="absolute top-5 left-0 w-full h-[2px] bg-border -z-10" />
             <div className="absolute top-5 left-0 w-[55%] h-[2px] bg-emerald-500 -z-10" />
@@ -72,7 +72,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
               {steps.map((step, i) => (
                 <div key={step.label} className="flex flex-col items-center text-center max-w-[120px]">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                    step.done ? 'bg-emerald-500 text-white shadow-md' : step.active ? 'bg-emerald-500 text-white ring-4 ring-primary/20 shadow-md' : 'bg-zinc-900 text-zinc-400'
+                    step.done ? 'bg-emerald-500 text-white shadow-none' : step.active ? 'bg-emerald-500 text-white ring-4 ring-primary/20 shadow-none' : 'bg-zinc-900 text-zinc-400'
                   }`}>
                     {step.done ? <CheckCircle2 className="w-5 h-5" /> : step.active ? <CalendarDays className="w-5 h-5" /> : <span className="w-5 h-5" />}
                   </div>
@@ -82,16 +82,16 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Technician & Appointment + Report Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column */}
         <div className="lg:col-span-5 space-y-5">
           {/* Technician Card */}
-          <Card>
-            <CardContent className="p-6">
+          <div className="glass-card">
+            <div className="p-6 p-6">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-heading text-lg font-semibold text-white">Technician</h3>
                 <span className="px-3 py-1 bg-teal-500 text-white text-xs font-semibold rounded-full flex items-center gap-1">
@@ -103,7 +103,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <svg className="w-full h-full text-zinc-400 p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                 </div>
                 <div>
-                  <h4 className="text-headline-sm text-white">{technician.name}</h4>
+                  <h4 className="text-white text-white">{technician.name}</h4>
                   <p className="text-sm text-zinc-400">{technician.specialty} • {technician.rating}</p>
                 </div>
               </div>
@@ -116,12 +116,12 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <Phone className="w-4 h-4 text-white" />
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Appointment Details */}
-          <Card>
-            <CardContent className="p-6">
+          <div className="glass-card">
+            <div className="p-6 p-6">
               <h3 className="font-heading text-lg font-semibold text-white mb-4">Appointment</h3>
               <div className="bg-zinc-900 rounded-xl p-4 space-y-4">
                 <div className="flex items-center gap-3">
@@ -147,14 +147,14 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 <Eye className="w-4 h-4 mt-0.5" />
                 Technician will arrive within the first 30 mins of the window.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Right: Report Summary */}
         <div className="lg:col-span-7 space-y-5">
-          <Card className="h-full">
-            <CardContent className="p-6">
+          <div className="glass-card h-full">
+            <div className="p-6 p-6">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-heading text-lg font-semibold text-white">Report Summary</h3>
                 <button className="text-sm text-white underline">Edit Details</button>
@@ -181,35 +181,35 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <h5 className="text-xs text-zinc-400 font-mono uppercase mb-2">Attached Photos</h5>
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
-                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-[#262626] hover:border-green-500 transition-all cursor-zoom-in group">
+                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
                         { }
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}
-                    <div className="aspect-square rounded-xl bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-[#262626] hover:bg-zinc-900/80 transition-all cursor-pointer">
+                    <div className="aspect-square rounded-xl bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
                       <Camera className="w-5 h-5 text-white mb-1" />
                       <span className="text-xs font-mono text-zinc-400">Add more</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Reschedule CTA */}
-      <Card className="text-center">
-        <CardContent className="p-8">
+      <div className="glass-card text-center">
+        <div className="p-6 p-8">
           <p className="text-white font-heading font-semibold mb-1">Need to reschedule this visit?</p>
           <p className="text-sm text-zinc-400 max-w-md mx-auto mb-5">
             You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
-          <Button variant="outline" className="border-2 border-primary font-bold hover:bg-emerald-500 hover:text-white transition-all">
+          <Button variant="outline" className="border-2 border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
             Reschedule Appointment
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

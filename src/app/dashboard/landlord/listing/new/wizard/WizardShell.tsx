@@ -283,7 +283,7 @@ export default function WizardShell({ onComplete }: Props) {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={handleSaveExit} className="gap-1">
-              {saved ? <><CheckCircle2 className="size-4 text-green-500" /> Saved</> : <><Save className="size-4" /> Save & exit</>}
+              {saved ? <><CheckCircle2 className="size-4 text-emerald-500" /> Saved</> : <><Save className="size-4" /> Save & exit</>}
             </Button>
             <Button variant="ghost" size="icon" onClick={handleSaveExit}>
               <X className="size-4" />
@@ -294,9 +294,9 @@ export default function WizardShell({ onComplete }: Props) {
 
       {/* Main Form Area */}
         <main className="flex-1 overflow-y-auto px-6 pt-4 pb-28">
-          <Card className="p-6 sm:p-8 max-w-3xl mx-auto">
+          <div className="glass-card p-6 sm:p-8 max-w-3xl mx-auto">
             <div className="mb-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+              <div className="flex items-center gap-2 text-sm text-zinc-500 mb-2">
                 Step {currentStep + 1} of {STEPS.length}
                 <Separator orientation="vertical" className="h-3" />
                 {STEPS[currentStep].title}
@@ -318,7 +318,7 @@ export default function WizardShell({ onComplete }: Props) {
               value={stepValue}
               onChange={stepOnChange}
             />
-          </Card>
+          </div>
         </main>
 
       {/* Sticky Footer */}

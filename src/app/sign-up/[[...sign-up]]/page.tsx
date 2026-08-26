@@ -117,7 +117,7 @@ export default function SignUpPage() {
                 className={[
                   'relative flex flex-col items-center gap-3 rounded-2xl border p-5 text-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
                   isSelected
-                    ? 'border-emerald-500 bg-emerald-500/10 shadow-md'
+                    ? 'border-emerald-500 bg-emerald-500/10 shadow-none'
                     : 'border-white/[0.08] bg-zinc-950 hover:border-emerald-500/40',
                 ].join(' ')}
               >
@@ -152,7 +152,7 @@ export default function SignUpPage() {
           className={[
             'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200',
             selectedRole
-              ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md hover:shadow-lg'
+              ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-none hover:shadow-none'
               : 'bg-zinc-900 text-zinc-600 cursor-not-allowed',
           ].join(' ')}
         >

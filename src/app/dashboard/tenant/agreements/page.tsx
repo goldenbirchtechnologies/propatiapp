@@ -50,11 +50,11 @@ export default async function TenantAgreementsPage() {
         userName={user.fullName}
         userAvatar={user.avatarUrl || undefined}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Agreements</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Agreements</h3>
+          </div>
+          <div className="p-6">
             <p className="text-zinc-400">{agreementsError}</p>
             <Link
               href="/dashboard/tenant/agreements"
@@ -62,8 +62,8 @@ export default async function TenantAgreementsPage() {
             >
               Retry
             </Link>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </DashboardShell>
     );
   }

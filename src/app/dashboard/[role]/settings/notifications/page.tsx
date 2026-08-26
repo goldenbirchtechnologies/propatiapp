@@ -113,27 +113,27 @@ export default function NotificationSettingsPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-2">Notification Settings</h1>
-        <p className="text-neutral-400">Manage how you receive notifications</p>
+        <p className="text-zinc-500">Manage how you receive notifications</p>
       </div>
 
       <div className="space-y-6">
         {/* Notification Channels */}
-        <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] p-6">
+        <div className="bg-zinc-950/50 rounded-lg border border-white/[0.08] p-6">
           <h2 className="text-lg font-semibold text-white mb-4">Notification Channels</h2>
-          <p className="text-sm text-neutral-400 mb-6">
+          <p className="text-sm text-zinc-500 mb-6">
             Choose how you want to receive notifications
           </p>
 
           <div className="space-y-4">
             {/* In-App Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-[#262626]">
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#262626] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
                   <Bell className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <p className="font-medium text-white">In-App Notifications</p>
-                  <p className="text-sm text-neutral-400">Receive notifications in the app</p>
+                  <p className="text-sm text-zinc-500">Receive notifications in the app</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -143,19 +143,19 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('inapp')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-[#262626] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
             </div>
 
             {/* Email Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-[#262626]">
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
                   <Mail className="w-5 h-5 text-[#00ff66]" />
                 </div>
                 <div>
                   <p className="font-medium text-white">Email Notifications</p>
-                  <p className="text-sm text-neutral-400">Receive notifications via email</p>
+                  <p className="text-sm text-zinc-500">Receive notifications via email</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -165,19 +165,19 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('email')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-[#262626] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
             </div>
 
             {/* SMS Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-[#262626]">
+            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#262626] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <p className="font-medium text-white">SMS Notifications</p>
-                  <p className="text-sm text-neutral-400">Receive notifications via text message</p>
+                  <p className="text-sm text-zinc-500">Receive notifications via text message</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -187,7 +187,7 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('sms')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-[#262626] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
             </div>
 
@@ -199,7 +199,7 @@ export default function NotificationSettingsPage() {
                 </div>
                 <div>
                   <p className="font-medium text-white">WhatsApp Notifications</p>
-                  <p className="text-sm text-neutral-400">Receive notifications via WhatsApp</p>
+                  <p className="text-sm text-zinc-500">Receive notifications via WhatsApp</p>
                 </div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
@@ -209,16 +209,16 @@ export default function NotificationSettingsPage() {
                   onChange={() => toggleChannel('whatsapp')}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-[#262626] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
             </div>
           </div>
         </div>
 
         {/* Notification Types */}
-        <div className="bg-obsidian-800/30 rounded-lg border border-[#262626] p-6">
+        <div className="bg-zinc-950/50 rounded-lg border border-white/[0.08] p-6">
           <h2 className="text-lg font-semibold text-white mb-4">Notification Types</h2>
-          <p className="text-sm text-neutral-400 mb-6">
+          <p className="text-sm text-zinc-500 mb-6">
             Choose which types of notifications you want to receive
           </p>
 
@@ -234,7 +234,7 @@ export default function NotificationSettingsPage() {
               system: 'System Announcements',
             }).map(([key, label]) => (
               <div key={key} className="flex items-center justify-between py-2">
-                <span className="text-sm font-medium text-neutral-400">{label}</span>
+                <span className="text-sm font-medium text-zinc-500">{label}</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -242,7 +242,7 @@ export default function NotificationSettingsPage() {
                     onChange={() => toggleType(key as keyof NotificationPreferences['types'])}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-obsidian-800/30 after:border-[#262626] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                  <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                 </label>
               </div>
             ))}

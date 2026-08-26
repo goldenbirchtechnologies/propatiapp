@@ -132,9 +132,9 @@ export default function AgreementDetailClient() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-obsidian-800/30 rounded w-1/3"></div>
-          <div className="h-64 bg-obsidian-800/30 rounded"></div>
-          <div className="h-48 bg-obsidian-800/30 rounded"></div>
+          <div className="h-8 bg-zinc-950/50 rounded w-1/3"></div>
+          <div className="h-64 bg-zinc-950/50 rounded"></div>
+          <div className="h-48 bg-zinc-950/50 rounded"></div>
         </div>
       </div>
     );
@@ -143,16 +143,16 @@ export default function AgreementDetailClient() {
   if (!agreement) {
     return (
       <div className="container mx-auto py-8 px-4">
-        <Card className="p-12 text-center">
+        <div className="glass-card p-12 text-center">
           <XCircle className="h-12 w-12 mx-auto text-red-500 mb-4" />
           <h2 className="text-xl font-semibold mb-2">Agreement Not Found</h2>
-          <p className="text-neutral-400 mb-6">
+          <p className="text-zinc-500 mb-6">
             The agreement you're looking for doesn't exist or you don't have permission to view it.
           </p>
           <Button onClick={() => router.push(`/dashboard/${role}/agreements`)}>
             Back to Agreements
           </Button>
-        </Card>
+        </div>
       </div>
     );
   }
@@ -164,7 +164,7 @@ export default function AgreementDetailClient() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h1 className="text-3xl font-bold mb-2">Agreement Details</h1>
-            <p className="text-neutral-400">
+            <p className="text-zinc-500">
               Agreement ID: <span className="font-mono">{agreement.id}</span>
             </p>
           </div>
@@ -203,7 +203,7 @@ export default function AgreementDetailClient() {
       </div>
 
       {/* Property Information */}
-      <Card className="p-6 mb-6">
+      <div className="glass-card p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Property Information</h2>
         <div className="flex gap-4">
           {agreement.listing?.photos?.[0] && (
@@ -215,31 +215,31 @@ export default function AgreementDetailClient() {
           )}
           <div className="flex-1 space-y-2">
             <h3 className="text-lg font-semibold">{agreement.listing?.title}</h3>
-            <p className="text-neutral-400">{agreement.listing?.address}</p>
+            <p className="text-zinc-500">{agreement.listing?.address}</p>
             <div className="flex gap-4 text-sm">
               {agreement.listing?.bedrooms && (
-                <span className="flex items-center gap-1 text-neutral-400">
+                <span className="flex items-center gap-1 text-zinc-500">
                   <FileText className="h-4 w-4" /> {agreement.listing.bedrooms} Bedrooms
                 </span>
               )}
               {agreement.listing?.bathrooms && (
-                <span className="flex items-center gap-1 text-neutral-400">
+                <span className="flex items-center gap-1 text-zinc-500">
                   <FileText className="h-4 w-4" /> {agreement.listing.bathrooms} Bathrooms
                 </span>
               )}
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Parties Information */}
-      <Card className="p-6 mb-6">
+      <div className="glass-card p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Parties</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <h3 className="font-semibold mb-2">Landlord</h3>
             <p className="text-lg">{agreement.landlord?.fullName || 'Unknown'}</p>
-            <p className="text-sm text-neutral-400">{agreement.landlord?.email}</p>
+            <p className="text-sm text-zinc-500">{agreement.landlord?.email}</p>
             {agreement.landlordSignedAt && (
               <div className="mt-2 flex items-center gap-2 text-[#00ff66]">
                 <CheckCircle2 className="h-4 w-4" />
@@ -252,7 +252,7 @@ export default function AgreementDetailClient() {
           <div>
             <h3 className="font-semibold mb-2">Tenant</h3>
             <p className="text-lg">{agreement.tenant?.fullName || 'Unknown'}</p>
-            <p className="text-sm text-neutral-400">{agreement.tenant?.email}</p>
+            <p className="text-sm text-zinc-500">{agreement.tenant?.email}</p>
             {agreement.tenantSignedAt && (
               <div className="mt-2 flex items-center gap-2 text-[#00ff66]">
                 <CheckCircle2 className="h-4 w-4" />
@@ -263,38 +263,38 @@ export default function AgreementDetailClient() {
             )}
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Terms Summary */}
-      <Card className="p-6 mb-6">
+      <div className="glass-card p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Agreement Terms</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-neutral-400">Lease Period</p>
+            <p className="text-sm text-zinc-500">Lease Period</p>
             <p className="font-medium">
               {agreement.startDate && format(new Date(agreement.startDate), 'MMM dd, yyyy')} -{' '}
               {agreement.endDate && format(new Date(agreement.endDate), 'MMM dd, yyyy')}
             </p>
           </div>
           <div>
-            <p className="text-sm text-neutral-400">Payment Schedule</p>
+            <p className="text-sm text-zinc-500">Payment Schedule</p>
             <p className="font-medium capitalize">{agreement.rentPeriod || 'Monthly'}</p>
           </div>
           <div>
-            <p className="text-sm text-neutral-400">Rent Amount</p>
+            <p className="text-sm text-zinc-500">Rent Amount</p>
             <p className="text-xl font-bold text-white">
               {formatCurrency(agreement.rentAmount || 0)}
             </p>
           </div>
           {agreement.cautionDeposit && (
             <div>
-              <p className="text-sm text-neutral-400">Caution Deposit</p>
+              <p className="text-sm text-zinc-500">Caution Deposit</p>
               <p className="text-xl font-bold">{formatCurrency(agreement.cautionDeposit)}</p>
             </div>
           )}
           {agreement.serviceCharge && (
             <div>
-              <p className="text-sm text-neutral-400">Service Charge</p>
+              <p className="text-sm text-zinc-500">Service Charge</p>
               <p className="text-xl font-bold">{formatCurrency(agreement.serviceCharge)}</p>
             </div>
           )}
@@ -304,18 +304,18 @@ export default function AgreementDetailClient() {
           <>
             <Separator className="my-4" />
             <div>
-              <p className="text-sm text-neutral-400 mb-2">Additional Terms</p>
+              <p className="text-sm text-zinc-500 mb-2">Additional Terms</p>
               <p className="text-sm whitespace-pre-wrap">{agreement.terms}</p>
             </div>
           </>
         )}
-      </Card>
+      </div>
 
       {/* Rent Schedule */}
       {agreement.status === 'fully_signed' && rentSchedule.length > 0 && (
-        <Card className="p-6 mb-6">
+        <div className="glass-card p-6 mb-6">
           <RentScheduleTable entries={rentSchedule} showActions={role === 'tenant'} />
-        </Card>
+        </div>
       )}
 
       {/* Stamp Duty */}
@@ -338,11 +338,11 @@ export default function AgreementDetailClient() {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <CheckCircle2 className="h-4 w-4 text-white" />
               </div>
-              <div className="w-0.5 h-full bg-obsidian-800/30"></div>
+              <div className="w-0.5 h-full bg-zinc-950/50"></div>
             </div>
             <div className="flex-1 pb-8">
               <p className="font-medium">Agreement Created</p>
-              <p className="text-sm text-neutral-400">
+              <p className="text-sm text-zinc-500">
                 {agreement.createdAt && format(new Date(agreement.createdAt), 'MMM dd, yyyy HH:mm')}
               </p>
             </div>
@@ -354,11 +354,11 @@ export default function AgreementDetailClient() {
                 <div className="w-8 h-8 rounded-full bg-success flex items-center justify-center">
                   <CheckCircle2 className="h-4 w-4 text-white" />
                 </div>
-                <div className="w-0.5 h-full bg-obsidian-800/30"></div>
+                <div className="w-0.5 h-full bg-zinc-950/50"></div>
               </div>
               <div className="flex-1 pb-8">
                 <p className="font-medium">Signed by Landlord</p>
-                <p className="text-sm text-neutral-400">
+                <p className="text-sm text-zinc-500">
                   {format(new Date(agreement.landlordSignedAt), 'MMM dd, yyyy HH:mm')}
                 </p>
               </div>
@@ -374,7 +374,7 @@ export default function AgreementDetailClient() {
               </div>
               <div className="flex-1">
                 <p className="font-medium">Signed by Tenant</p>
-                <p className="text-sm text-neutral-400">
+                <p className="text-sm text-zinc-500">
                   {format(new Date(agreement.tenantSignedAt), 'MMM dd, yyyy HH:mm')}
                 </p>
               </div>

@@ -56,13 +56,13 @@ export default function EstateManagerLeaseNegotiationPage() {
           </div>
           <div className="flex gap-3">
             <button className="btn btn-outline inline-flex items-center gap-2"><FileText className="w-4 h-4" /> Request Docs</button>
-            <button className="btn btn-primary inline-flex items-center gap-2 shadow-md"><Gavel className="w-4 h-4" /> Sign Document</button>
+            <button className="btn btn-primary inline-flex items-center gap-2 shadow-none"><Gavel className="w-4 h-4" /> Sign Document</button>
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] shadow-sm overflow-hidden bg-zinc-900">
+        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden bg-zinc-900">
           <div className="p-5 border-b border-white/[0.08] bg-surface">
-            <h3 className="text-white font-bold" className="text-white">Term Sheet Comparison</h3>
+            <h3 className="text-white font-bold text-white">Term Sheet Comparison</h3>
             <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>Original listing vs proposed counter-offer</p>
           </div>
           <div className="overflow-x-auto">
@@ -77,7 +77,7 @@ export default function EstateManagerLeaseNegotiationPage() {
               <tbody className="divide-y divide-[#262626]">
                 {terms.map((item) => (
                   <tr key={item.term} className="hover:bg-surface transition-colors">
-                    <td className="px-5 py-4 font-medium text-sm" className="text-white">{item.term}</td>
+                    <td className="px-5 py-4 font-medium text-sm text-white">{item.term}</td>
                     <td className="px-5 py-4 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{item.original}</td>
                     <td className="px-5 py-4 text-sm font-medium text-white">{item.proposed}</td>
                   </tr>
@@ -87,8 +87,8 @@ export default function EstateManagerLeaseNegotiationPage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] shadow-sm p-5">
-          <h3 className="text-white font-bold mb-4" className="text-white">Negotiation Documents</h3>
+        <div className="rounded-xl border border-white/[0.08] shadow-none p-5">
+          <h3 className="text-white font-bold mb-4 text-white">Negotiation Documents</h3>
           <div className="space-y-3">
             {[
               { name: 'Original_Offer_Letter_PR-1092-VI.pdf', date: '2 days ago', size: '245 KB' },
@@ -97,11 +97,11 @@ export default function EstateManagerLeaseNegotiationPage() {
             ].map((doc, idx) => (
               <div key={idx} className="flex items-center justify-between p-3 bg-surface rounded-lg border border-white/[0.08]">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#262626] rounded-lg text-white">
+                  <div className="p-2 bg-zinc-900 rounded-lg text-white">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium" className="text-white">{doc.name}</p>
+                    <p className="text-sm font-medium text-white">{doc.name}</p>
                     <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{doc.date} · {doc.size}</p>
                   </div>
                 </div>

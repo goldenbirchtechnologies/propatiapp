@@ -15,7 +15,7 @@ type Props = {
 function VerificationBadge({ verification }: { verification: Props['verification'] }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-zinc-800">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-400 border border-white/[0.08]">
         Not Started
       </span>
     );
@@ -24,7 +24,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-500 border border-white/[0.08]">
           Not Started
         </span>
       );
@@ -60,7 +60,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground border border-[#262626]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-500 border border-white/[0.08]">
           {verification.overallStatus}
         </span>
       );
@@ -81,7 +81,7 @@ export default function PropertyHeader({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">{title}</h1>
-          <p className="flex items-center gap-1 mt-1 text-neutral-400">
+          <p className="flex items-center gap-1 mt-1 text-zinc-500">
             <MapPin className="h-4 w-4" />
             {location}
           </p>

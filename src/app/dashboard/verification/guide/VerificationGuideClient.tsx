@@ -58,21 +58,21 @@ function VerificationGuideClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-primary text-white">
-        <CardHeader>
-          <CardTitle className="capitalize">{props.type} Verification</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card bg-primary text-white">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white capitalize">{props.type} Verification</h3>
+        </div>
+        <div className="p-6">
           <p className="opacity-90">
             Follow the steps below to complete your {props.type} verification. Each layer must be completed before moving to the next.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="space-y-4">
         {steps.map((step, idx) => (
-          <Card key={step.layer} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-5 flex items-start gap-4">
+          <div className="glass-card" key={step.layer} className="hover:shadow-none transition-shadow">
+            <div className="p-6 p-5 flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center shrink-0">
                 <step.icon className="h-5 w-5" />
               </div>
@@ -88,13 +88,13 @@ function VerificationGuideClient(props: Props) {
                   {idx < steps.length - 1 ? 'Start' : 'Review'} <ArrowIcon />
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
 
-      <Card className="border-success/20 bg-success/5">
-        <CardContent className="p-5 flex items-start gap-4">
+      <div className="glass-card border-success/20 bg-success/5">
+        <div className="p-6 p-5 flex items-start gap-4">
           <CheckCircle2 className="h-6 w-6 text-[#10b981] shrink-0 mt-0.5" />
           <div>
             <h4 className="font-bold mb-1">Why verify?</h4>
@@ -103,8 +103,8 @@ function VerificationGuideClient(props: Props) {
               Unverified accounts are limited in visibility and access.
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

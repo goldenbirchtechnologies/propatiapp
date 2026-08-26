@@ -92,8 +92,8 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Form */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardContent className="p-6 md:p-8">
+          <div className="glass-card">
+            <div className="p-6 p-6 md:p-8">
               <div className="flex items-center gap-3 mb-7">
                 <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center">
                   <CreditCard className="w-5 h-5" />
@@ -120,7 +120,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                 <TabsContent value="card" className="space-y-5">
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-neutral-400">
+                    <Label className="font-label-sm label-md text-zinc-500">
                       Cardholder Name
                     </Label>
                     <Input
@@ -132,7 +132,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-neutral-400">
+                    <Label className="font-label-sm label-md text-zinc-500">
                       Card Number
                     </Label>
                     <div className="relative">
@@ -165,11 +165,11 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="font-label-md label-md text-neutral-400">
+                      <Label className="font-label-sm label-md text-zinc-500">
                         Expiry Date
                       </Label>
                       <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-white/[0.08] bg-zinc-950/50 appearance-none text-sm">
                           <option value="">MM</option>
                           {months.map((m) => (
                             <option key={m} value={m}>
@@ -177,7 +177,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                             </option>
                           ))}
                         </select>
-                        <select className="h-11 px-3 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-white/[0.08] bg-zinc-950/50 appearance-none text-sm">
                           <option value="">YY</option>
                           {years.map((y) => (
                             <option key={y} value={y}>
@@ -188,9 +188,9 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label className="font-label-md label-md text-neutral-400 flex items-center gap-xs">
+                      <Label className="font-label-sm label-md text-zinc-500 flex items-center gap-xs">
                         CVV
-                        <HelpCircle className="text-[16px] text-neutral-400 cursor-help" title="3-digit security code on the back of your card" />
+                        <HelpCircle className="text-[16px] text-zinc-500 cursor-help" title="3-digit security code on the back of your card" />
                       </Label>
                       <div className="relative">
                         <Input
@@ -202,7 +202,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         <button
                           type="button"
                           onClick={() => setShowSecurity(!showSecurity)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500"
                         >
                           {showSecurity ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -224,13 +224,13 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
                 <TabsContent value="bank" className="space-y-5">
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-neutral-400">
+                    <Label className="font-label-sm label-md text-zinc-500">
                       Select Bank
                     </Label>
                     <select
                       value={selectedBank}
                       onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-[#262626] bg-obsidian-800/30 appearance-none text-sm"
+                      className="w-full h-11 px-4 rounded-lg border border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
                     >
                       <option value="">Choose your bank</option>
                       {banks.map((b) => (
@@ -242,7 +242,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-neutral-400">
+                    <Label className="font-label-sm label-md text-zinc-500">
                       Account Number
                     </Label>
                     <div className="relative">
@@ -254,17 +254,17 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         className="pr-10"
                       />
                       <div className={`absolute right-3 top-1/2 -translate-y-1/2 ${loadingAccount ? '' : 'hidden'}`}>
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/[0.08] border-t-transparent"></div>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-label-md label-md text-neutral-400">
+                    <Label className="font-label-sm label-md text-zinc-500">
                       Account Name
                     </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-900 rounded-lg border border-[#262626] text-sm">
-                      <span className={accountName.includes('Fetching') ? 'text-neutral-400' : 'text-white font-semibold'}>
+                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-900 rounded-lg border border-white/[0.08] text-sm">
+                      <span className={accountName.includes('Fetching') ? 'text-zinc-500' : 'text-white font-semibold'}>
                         {accountName}
                       </span>
                       {accountName === 'ADEWALE SULEIMAN BOLAJI' && (
@@ -285,30 +285,30 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                   </Button>
                 </Link>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Right: Security bento */}
         <div className="space-y-5">
-          <Card className="bg-surface-variant border-[#262626]">
-            <CardContent className="p-6 flex flex-col items-center text-center">
+          <div className="glass-card bg-surface-variant border-white/[0.08]">
+            <div className="p-6 p-6 flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-zinc-900 flex items-center justify-center mb-4">
                 <Lock className="w-7 h-7 text-white" />
               </div>
               <h4 className="font-heading text-base font-semibold text-white mb-2">Trust Shield</h4>
-              <p className="text-sm text-neutral-400">Your financial data is secured by 256-bit SSL encryption.</p>
-            </CardContent>
-          </Card>
-          <Card className="bg-zinc-900 border-[#262626] flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden border border-[#262626]">
+              <p className="text-sm text-zinc-500">Your financial data is secured by 256-bit SSL encryption.</p>
+            </div>
+          </div>
+          <div className="glass-card bg-zinc-900 border-white/[0.08] flex items-center gap-4 p-5">
+            <div className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden border border-white/[0.08]">
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="text-sm font-bold text-white">PCI-DSS Compliant</p>
-              <p className="text-xs text-neutral-400">Routers-Atlas applies for all transfers.</p>
+              <p className="text-xs text-zinc-500">Routers-Atlas applies for all transfers.</p>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </div>

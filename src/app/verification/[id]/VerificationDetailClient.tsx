@@ -307,7 +307,7 @@ export default function VerificationDetailClient({
                 <CardContent className="pt-6 flex items-center gap-3">
                   <CheckCircle2 className="h-6 w-6 text-emerald-400" />
                   <div>
-                    <p className="font-medium text-green-800">Fully Certified</p>
+                    <p className="font-medium text-emerald-800">Fully Certified</p>
                     <p className="text-sm text-emerald-400">This property has completed all verification layers.</p>
                   </div>
                 </CardContent>

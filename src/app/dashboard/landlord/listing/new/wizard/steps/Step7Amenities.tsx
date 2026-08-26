@@ -60,15 +60,15 @@ export default function Step7Amenities({ amenities = [], onChange }: Step7Props)
       <h2 className="text-lg font-semibold">What amenities does your place offer?</h2>
       {Object.entries(CATEGORIES).map(([category, items]) => (
         <div key={category} className="space-y-2">
-          <h3 className="text-sm font-medium text-muted-foreground">{category}</h3>
+          <h3 className="text-sm font-medium text-zinc-500">{category}</h3>
           <div className="grid grid-cols-3 gap-2">
             {items.map((item) => (
               <label
                 key={item.value}
                 className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
                   selected.includes(item.value)
-                    ? 'border-primary bg-primary/5'
-                    : 'border-[#262626] hover:border-white/40'
+                    ? 'border-white/[0.08] bg-primary/5'
+                    : 'border-white/[0.08] hover:border-white/40'
                 }`}
               >
                 <Checkbox

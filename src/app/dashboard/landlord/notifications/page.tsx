@@ -34,48 +34,48 @@ export default async function LandlordNotificationsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Notifications</h1>
-            <p className="text-muted-foreground mt-1">Stay updated on payments, maintenance, and listing activity.</p>
+            <p className="text-zinc-500 mt-1">Stay updated on payments, maintenance, and listing activity.</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Unread</p>
+          <div className="rounded-xl border border-white/[0.08] p-5 shadow-none">
+            <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">Unread</p>
             <p className="text-2xl font-bold mt-1">{unreadCount}</p>
             <p className="text-xs text-warning mt-1">Needs attention</p>
           </div>
-          <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Requires Action</p>
+          <div className="rounded-xl border border-white/[0.08] p-5 shadow-none">
+            <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">Requires Action</p>
             <p className="text-2xl font-bold mt-1">{actionCount}</p>
             <p className="text-xs text-red-500 mt-1">Open tickets</p>
           </div>
-          <div className="rounded-xl border border-[#262626] p-5 shadow-sm">
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Total</p>
+          <div className="rounded-xl border border-white/[0.08] p-5 shadow-none">
+            <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">Total</p>
             <p className="text-2xl font-bold mt-1">{notifications.length}</p>
-            <p className="text-xs text-muted-foreground mt-1">All time</p>
+            <p className="text-xs text-zinc-500 mt-1">All time</p>
           </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>All Notifications</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">All Notifications</h3>
+          </div>
+          <div className="p-6">
             {notifications.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">No notifications yet.</p>
+              <p className="text-sm text-zinc-500 py-6 text-center">No notifications yet.</p>
             ) : (
               <div className="space-y-3 divide-y divide-[#262626]">
                 {notifications.map((n) => (
                   <div
                     key={n.id}
-                    className={`p-4 rounded-xl border ${n.read ? 'bg-obsidian-800/30 border-[#262626]' : 'bg-[#262626] border-[#262626]'}`}
+                    className={`p-4 rounded-xl border ${n.read ? 'bg-zinc-950/50 border-white/[0.08]' : 'bg-zinc-900 border-white/[0.08]'}`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className={`font-medium ${n.read ? 'text-muted-foreground' : 'text-white'}`}>{n.title}</p>
-                        <p className="text-sm text-muted-foreground mt-1">{n.body}</p>
+                        <p className={`font-medium ${n.read ? 'text-zinc-500' : 'text-white'}`}>{n.title}</p>
+                        <p className="text-sm text-zinc-500 mt-1">{n.body}</p>
                       </div>
-                      <span className="text-xs text-muted-foreground whitespace-nowrap ml-4">
+                      <span className="text-xs text-zinc-500 whitespace-nowrap ml-4">
                         {new Date(n.createdAt).toLocaleDateString('en-NG')}
                       </span>
                     </div>
@@ -84,8 +84,8 @@ export default async function LandlordNotificationsPage() {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

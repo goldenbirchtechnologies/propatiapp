@@ -17,10 +17,10 @@ const tabs: TabItem[] = [
 
 function StatCardSkeleton() {
   return (
-    <div className="card p-5" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+    <div className="glass-card p-5" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <div className="space-y-3">
-        <div className="rounded" style={{ height: 12, width: '55%', background: 'border-zinc-800' }} />
-        <div className="rounded" style={{ height: 30, width: '45%', background: 'border-zinc-800' }} />
+        <div className="rounded" style={{ height: 12, width: '55%', background: 'border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 30, width: '45%', background: 'border-white/[0.08]' }} />
       </div>
     </div>
   );
@@ -28,9 +28,9 @@ function StatCardSkeleton() {
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-zinc-800" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-5"><div className="rounded" style={{ height: 15, width: '50%', background: 'border-zinc-800' }} /></td>
-      <td className="p-5"><div className="rounded" style={{ height: 15, width: '30%', background: 'border-zinc-800' }} /></td>
+    <tr className="border-b border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-5"><div className="rounded" style={{ height: 15, width: '50%', background: 'border-white/[0.08]' }} /></td>
+      <td className="p-5"><div className="rounded" style={{ height: 15, width: '30%', background: 'border-white/[0.08]' }} /></td>
     </tr>
   );
 }
@@ -120,63 +120,63 @@ export default function EstateManagerFinancialsPage() {
                     <StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="card p-6 space-y-4">
-                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-zinc-800' }} />
+                    <div className="glass-card p-6 space-y-4">
+                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-white/[0.08]' }} />
                       {[1, 2, 3].map((i) => <RowSkeleton key={i} />)}
                     </div>
-                    <div className="card p-6 space-y-4">
-                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-zinc-800' }} />
+                    <div className="glass-card p-6 space-y-4">
+                      <div className="rounded" style={{ height: 18, width: 120, background: 'border-white/[0.08]' }} />
                       {[1, 2, 3, 4, 5].map((i) => <RowSkeleton key={i} />)}
                     </div>
                   </div>
-                  <div className="card p-8">
-                    <div className="rounded mb-6" style={{ height: 18, width: 140, background: 'border-zinc-800' }} />
-                    <div className="rounded-lg" style={{ height: 300, background: 'border-zinc-800', opacity: 0.4 }} />
+                  <div className="glass-card p-8">
+                    <div className="rounded mb-6" style={{ height: 18, width: 140, background: 'border-white/[0.08]' }} />
+                    <div className="rounded-lg" style={{ height: 300, background: 'border-white/[0.08]', opacity: 0.4 }} />
                   </div>
                 </>
               ) : noOrg ? (
-                <div className="rounded-lg border border-zinc-800 bg-muted/5 p-8 text-center">
+                <div className="rounded-lg border border-white/[0.08] bg-muted/5 p-8 text-center">
                   <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-400" />
-                  <p className="text-sm font-medium" className="text-white">No organisation linked</p>
+                  <p className="text-sm font-medium text-white">No organisation linked</p>
                   <p className="text-xs text-zinc-400 mt-1">Create or join an organisation to see financial summaries.</p>
                 </div>
               ) : pl?.hasData === false ? (
-                <div className="rounded-lg border border-zinc-800 bg-muted/5 p-8 text-center">
+                <div className="rounded-lg border border-white/[0.08] bg-muted/5 p-8 text-center">
                   <Wallet className="w-10 h-10 mx-auto mb-3 text-zinc-400" />
-                  <p className="text-sm font-medium" className="text-white">No financial data yet</p>
+                  <p className="text-sm font-medium text-white">No financial data yet</p>
                   <p className="text-xs text-zinc-400 mt-1">Add units, generate service charges, and record allocations to see your P&L.</p>
                 </div>
               ) : pl ? (
                 <>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                    <div className="card p-6">
+                    <div className="glass-card p-6">
                       <div className="flex items-center gap-2 mb-3">
                         <Wallet className="w-4 h-4 text-[#10b981]" />
-                        <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">Total Revenue</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-400">Total Revenue</p>
                       </div>
                       <p className="text-3xl font-bold text-[#10b981]">{formatNaira(pl.totalRevenue)}</p>
                       <p className="text-xs text-zinc-400 mt-2">{pl.pendingPayments > 0 ? `${pl.pendingPayments} pending · ${formatNaira(pl.pendingPaymentsAmount)}` : 'All collections settled'}</p>
                     </div>
-                    <div className="card p-6">
+                    <div className="glass-card p-6">
                       <div className="flex items-center gap-2 mb-3">
                         <TrendingDown className="w-4 h-4 text-red-500" />
-                        <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">Total Expenses</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-400">Total Expenses</p>
                       </div>
                       <p className="text-3xl font-bold text-red-500">{formatNaira(pl.totalExpenses)}</p>
                       <p className="text-xs text-zinc-400 mt-2">{pl.unitCount > 0 ? `${pl.unitCount} units managed` : 'Based on allocations'}</p>
                     </div>
-                    <div className="card p-6">
+                    <div className="glass-card p-6">
                       <div className="flex items-center gap-2 mb-3">
                         <TrendingUp className="w-4 h-4 text-info" />
-                        <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">Net Profit</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-400">Net Profit</p>
                       </div>
                       <p className="text-3xl font-bold text-white">{formatNaira(pl.netProfit)}</p>
                       <p className="text-xs text-zinc-400 mt-2">{pl.occupiedUnits} occupied units</p>
                     </div>
-                    <div className="card p-6">
+                    <div className="glass-card p-6">
                       <div className="flex items-center gap-2 mb-3">
                         <Filter className="w-4 h-4 text-zinc-400" />
-                        <p className="text-xs font-label-md uppercase tracking-wider text-zinc-400">Profit Margin</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-400">Profit Margin</p>
                       </div>
                       <p className="text-3xl font-bold text-white">{pl.margin}%</p>
                       <p className="text-xs text-zinc-400 mt-2">Based on billed revenue</p>
@@ -184,16 +184,16 @@ export default function EstateManagerFinancialsPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="card overflow-hidden">
-                      <div className="p-5 border-b border-zinc-800">
+                    <div className="glass-card overflow-hidden">
+                      <div className="p-5 border-b border-white/[0.08]">
                         <h3 className="font-headline-sm font-bold text-white">Revenue Breakdown</h3>
                       </div>
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-zinc-800">
-                            <th className="text-left p-4 text-xs font-label-md uppercase tracking-wider text-zinc-400">Source</th>
-                            <th className="text-right p-4 text-xs font-label-md uppercase tracking-wider text-zinc-400">Amount</th>
-                            <th className="text-right p-4 text-xs font-label-md uppercase tracking-wider hidden sm:table-cell text-zinc-400">Share</th>
+                          <tr className="border-b border-white/[0.08]">
+                            <th className="text-left p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-400">Source</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-400">Amount</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider hidden sm:table-cell text-zinc-400">Share</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -201,14 +201,14 @@ export default function EstateManagerFinancialsPage() {
                             const total = pl.totalRevenue || 1;
                             const share = ((row.amount / total) * 100).toFixed(1);
                             return (
-                              <tr key={i} className="border-b transition-colors hover:bg-muted/30 border-zinc-800">
+                              <tr key={i} className="border-b transition-colors hover:bg-muted/30 border-white/[0.08]">
                                 <td className="p-4 text-sm text-white">{row.label}</td>
                                 <td className="p-4 text-sm font-medium text-right text-[#10b981]">{formatNairaFull(row.amount)}</td>
                                 <td className="p-4 text-sm text-right hidden sm:table-cell text-zinc-400">{share}%</td>
                               </tr>
                             );
                           })}
-                          <tr className="border-b border-zinc-800">
+                          <tr className="border-b border-white/[0.08]">
                             <td className="p-4 text-sm font-bold text-white">Total Revenue</td>
                             <td className="p-4 text-sm font-bold text-right text-[#10b981]">{formatNairaFull(pl.totalRevenue)}</td>
                             <td className="p-4 text-sm font-bold text-right hidden sm:table-cell text-zinc-400">100%</td>
@@ -217,16 +217,16 @@ export default function EstateManagerFinancialsPage() {
                       </table>
                     </div>
 
-                    <div className="card overflow-hidden">
-                      <div className="p-5 border-b border-zinc-800">
+                    <div className="glass-card overflow-hidden">
+                      <div className="p-5 border-b border-white/[0.08]">
                         <h3 className="font-headline-sm font-bold text-white">Expense Breakdown</h3>
                       </div>
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-zinc-800">
-                            <th className="text-left p-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Category</th>
-                            <th className="text-right p-4 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Amount</th>
-                            <th className="text-right p-4 text-xs font-label-md uppercase tracking-wider hidden sm:table-cell" style={{ color: 'text-zinc-400' }}>Share</th>
+                          <tr className="border-b border-white/[0.08]">
+                            <th className="text-left p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Category</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-400' }}>Amount</th>
+                            <th className="text-right p-4 text-xs font-label-sm uppercase tracking-wider hidden sm:table-cell" style={{ color: 'text-zinc-400' }}>Share</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -234,15 +234,15 @@ export default function EstateManagerFinancialsPage() {
                             const total = pl.totalExpenses || 1;
                             const share = ((row.amount / total) * 100).toFixed(1);
                             return (
-                              <tr key={i} className="border-b transition-colors hover:bg-muted/30 border-zinc-800">
-                                <td className="p-4 text-sm" className="text-white">{row.label}</td>
+                              <tr key={i} className="border-b transition-colors hover:bg-muted/30 border-white/[0.08]">
+                                <td className="p-4 text-sm text-white">{row.label}</td>
                                 <td className="p-4 text-sm font-medium text-right text-red-500">{formatNairaFull(row.amount)}</td>
                                 <td className="p-4 text-sm text-right hidden sm:table-cell" style={{ color: 'text-zinc-400' }}>{share}%</td>
                               </tr>
                             );
                           })}
-                          <tr className="border-b border-zinc-800">
-                            <td className="p-4 text-sm font-bold" className="text-white">Total Expenses</td>
+                          <tr className="border-b border-white/[0.08]">
+                            <td className="p-4 text-sm font-bold text-white">Total Expenses</td>
                             <td className="p-4 text-sm font-bold text-right text-red-500">{formatNairaFull(pl.totalExpenses)}</td>
                             <td className="p-4 text-sm font-bold text-right hidden sm:table-cell" style={{ color: 'text-zinc-400' }}>100%</td>
                           </tr>
@@ -251,9 +251,9 @@ export default function EstateManagerFinancialsPage() {
                     </div>
                   </div>
 
-                  <div className="card p-8">
+                  <div className="glass-card p-8">
                     <h3 className="font-headline-sm font-bold mb-5 text-white">Profit Trend</h3>
-                    <div className="h-64 flex items-end justify-between gap-3 border border-zinc-800 rounded-xl p-6">
+                    <div className="h-64 flex items-end justify-between gap-3 border border-white/[0.08] rounded-xl p-6">
                       {pl.monthlyTrend.map((m) => {
                         const maxVal = Math.max(...pl.monthlyTrend.map(t => Math.max(t.revenue, t.expenses, 1)), 1);
                         const revenueHeight = Math.max(8, (m.revenue / maxVal) * 100);
@@ -272,7 +272,7 @@ export default function EstateManagerFinancialsPage() {
                                 title={`Expenses: ${formatNaira(m.expenses)}`}
                               />
                             </div>
-                            <span className="text-[10px] font-label-md uppercase tracking-wider text-zinc-400">{m.month}</span>
+                            <span className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-400">{m.month}</span>
                           </div>
                         );
                       })}
@@ -317,7 +317,7 @@ export default function EstateManagerFinancialsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-zinc-800 p-10 text-center">
+    <div className="rounded-xl border border-white/[0.08] p-10 text-center">
       <p className="text-base font-semibold" style={{ color: 'var(--text)' }}>{title}</p>
       <p className="text-base text-zinc-400 mt-2">{description}</p>
     </div>

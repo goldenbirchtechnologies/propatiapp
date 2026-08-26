@@ -53,7 +53,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   }) => (
     <div className="flex items-center justify-between py-3 border-b last:border-b-0">
       <div className="flex items-center gap-3">
-        <div className="text-muted-foreground">{icon}</div>
+        <div className="text-zinc-500">{icon}</div>
         <Label className="text-sm font-medium">{label}</Label>
       </div>
       <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">How many guests can your place accommodate?</h2>
-      <Card className="p-4">
+      <div className="glass-card p-4">
         <Stepper
           label="Guests"
           value={guests}
@@ -123,7 +123,7 @@ export default function Step4Capacity({ value, onChange }: Step4Props) {
           step={0.5}
           icon={<Bath className="size-5" />}
         />
-      </Card>
+      </div>
     </div>
   );
 }

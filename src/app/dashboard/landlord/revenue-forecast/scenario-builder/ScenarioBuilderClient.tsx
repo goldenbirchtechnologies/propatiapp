@@ -41,9 +41,9 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card p-5 rounded-xl border border-[#262626] shadow-sm">
+        <div className="lg:col-span-2 card p-5 rounded-xl border border-white/[0.08] shadow-none">
           <h3 className="font-heading font-bold text-white mb-4">Growth Trajectory (FY 24-26)</h3>
-          <div className="h-64 flex items-end gap-2 border-b border-[#262626] relative">
+          <div className="h-64 flex items-end gap-2 border-b border-white/[0.08] relative">
             {[40, 65, 80, 95].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1 items-center">
                 <div className="w-full flex items-end gap-1">
@@ -56,7 +56,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
           </div>
         </div>
 
-        <div className="card p-5 rounded-xl bg-emerald-500-container text-white shadow-xl">
+        <div className="glass-card p-5 rounded-xl bg-emerald-500-container text-white shadow-xl">
           <div className="flex items-center gap-2 mb-4">
             <AppIcon name="dynamic_form" className="lucide" />
             <h3 className="font-heading font-bold text-surface-bright">Scenario Builder</h3>

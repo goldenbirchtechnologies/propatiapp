@@ -182,7 +182,7 @@ function EscrowClient({
         ].map((card) => (
           <div
             key={card.label}
-            className={`rounded-xl border shadow-sm p-lg ${
+            className={`rounded-xl border shadow-none p-lg ${
               card.danger
                 ? 'border-error/20 bg-error/5'
                 : 'border-white/[0.08] bg-surface'
@@ -204,7 +204,7 @@ function EscrowClient({
       </div>
 
       {/* Escrowed Transactions */}
-      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden">
         <div className="p-md border-b border-white/[0.08] flex items-center justify-between bg-zinc-950">
           <h3 className="text-white text-white">Active Escrow Transactions</h3>
           <span className="text-xs text-zinc-400">
@@ -260,7 +260,7 @@ function EscrowClient({
 
       {/* Disputed / Flagged */}
       {disputed.length > 0 && (
-        <div className="rounded-xl border-2 border-error/20 bg-error/5 shadow-sm overflow-hidden">
+        <div className="rounded-xl border-2 border-error/20 bg-error/5 shadow-none overflow-hidden">
           <div className="p-md border-b border-error/20 flex items-center gap-2">
             <AlertTriangle className="text-error" />
             <h3 className="text-white text-error">Disputed Transactions</h3>

@@ -42,14 +42,14 @@ export default function TenantInvoicesClient() {
     <div className="space-y-6">
       <div>
         <h4 className="font-heading text-white">Invoices</h4>
-        <p className="text-sm text-neutral-400">Your rent invoices and receipts.</p>
+        <p className="text-sm text-zinc-500">Your rent invoices and receipts.</p>
       </div>
 
       <div className="glass-card rounded-xl p-6">
         {loading ? (
-          <p className="text-sm text-neutral-400">Loading invoices...</p>
+          <p className="text-sm text-zinc-500">Loading invoices...</p>
         ) : invoices.length === 0 ? (
-          <p className="text-sm text-neutral-400">No invoices yet.</p>
+          <p className="text-sm text-zinc-500">No invoices yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -72,7 +72,7 @@ export default function TenantInvoicesClient() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">₦{Number(invoice.amount).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-sm text-neutral-400">{new Date(invoice.dueDate).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-sm text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString()}</td>
                     <td className="px-4 py-3 text-sm">
                       <Button variant="ghost" size="sm" onClick={() => downloadReceipt(invoice.id)}>Receipt</Button>
                     </td>

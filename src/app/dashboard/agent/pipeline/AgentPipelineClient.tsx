@@ -62,13 +62,13 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
           <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>
             Deal Pipeline
           </h1>
-          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400 mt-1">
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500 mt-1">
             Track deals across enquiries, viewings, offers, agreements, and closed
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
             <input
               type="text"
               placeholder="Search deals..."
@@ -108,25 +108,25 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
 function PipelineColumn({ stage, deals, color }: { stage: Stage; deals: Deal[]; color: string }) {
   return (
     <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '320px' }}>
-      <Card className="h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
-        <CardHeader className="pb-3" style={{ background: `${color}15` }}>
+      <div className="glass-card h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-white/[0.08] rounded-xl">
+        <div className="px-6 py-5 border-b border-white/[0.08] pb-3" style={{ background: `${color}15` }}>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base" style={{ color }}>{stage.title}</CardTitle>
+            <h3 className="text-lg font-semibold text-white text-base" style={{ color }}>{stage.title}</h3>
             <Badge variant="secondary" className="text-xs font-bold" style={{ background: color, color: 'white' }}>{deals.length}</Badge>
           </div>
-        </CardHeader>
-        <CardContent className="flex-1 p-0">
+        </div>
+        <div className="p-6 flex-1 p-0">
           <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'rgba(10,10,10,0.3)' }}>
             {deals.length === 0 ? (
               <div className="h-32 flex items-center justify-center" style={{ border: '2px dashed #262626', borderRadius: '0.75rem' }}>
-                <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">No deals in this stage</span>
+                <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">No deals in this stage</span>
               </div>
             ) : (
               deals.map((deal) => <DealCard key={deal.id} deal={deal} color={color} />)
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
@@ -138,8 +138,8 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
     <div
       className="p-3 rounded-xl cursor-pointer transition-all"
       style={{
-        background: 'bg-obsidian-800/30',
-        border: '1px solid border-[#262626]',
+        background: 'bg-zinc-950/50',
+        border: '1px solid border-white/[0.08]',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}
       onClick={() => setExpanded(!expanded)}
@@ -150,14 +150,14 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
             <span className="text-sm font-medium truncate text-white">{deal.title}</span>
             <Badge variant="outline" className="text-xs">{deal.property}</Badge>
           </div>
-          <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Client: {deal.client}</p>
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Client: {deal.client}</p>
         </div>
         <div className="flex items-center gap-1">
-          <GripVertical className="w-4 h-4 text-neutral-400" style={{ cursor: 'grab' }} />
+          <GripVertical className="w-4 h-4 text-zinc-500" style={{ cursor: 'grab' }} />
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-md uppercase tracking-wider" className="border-[#262626] text-neutral-400">
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-white/[0.08] text-zinc-500">
         <AppIcon name="₦{deal.value.toLocaleString()}" className="lucide" />
         <AppIcon name={deal.lastContact} className="lucide" />
       </div>
@@ -166,23 +166,23 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
         <div className="mt-3 p-3 rounded-xl" style={{ background: 'rgba(10,10,10,0.3)', border: '1px solid #262626' }}>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Property:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Property:</span>
               <span className="text-white">{deal.property}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Client:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Client:</span>
               <span className="text-white">{deal.client}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Value:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Value:</span>
               <span className="text-sm font-medium text-white">₦{deal.value.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Last Contact:</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Last Contact:</span>
               <span className="text-white">{deal.lastContact}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t" className="border-[#262626]">
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/[0.08]">
             <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
             <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
             <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>
@@ -196,24 +196,24 @@ function DealCard({ deal, color }: { deal: Deal; color: string }) {
 
 function StatCard({ label, value, icon: Icon, trend, trendPositive = true }: { label: string; value: string; icon: React.ReactNode; trend?: string; trendPositive?: boolean }) {
   return (
-    <Card>
-      <CardContent className="p-6">
+    <div className="glass-card">
+      <div className="p-6 p-6">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">{label}</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">{label}</p>
             <p className="text-2xl font-headline-sm font-bold text-white">{value}</p>
           </div>
           <div className="p-3 rounded-xl" style={{ background: 'rgba(0,255,102,0.1)', color: '#ffffff' }}>{Icon}</div>
         </div>
         {trend && (
           <div className="mt-4 flex items-center gap-1">
-            <span className="text-xs font-label-md uppercase tracking-wider" style={{ color: trendPositive ? '#00ff66' : '#ef4444' }}>
+            <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: trendPositive ? '#00ff66' : '#ef4444' }}>
               {trendPositive ? '↑' : '↓'}
             </span>
             <span className="text-xs" style={{ color: trendPositive ? '#00ff66' : '#ef4444' }}>{trend}</span>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

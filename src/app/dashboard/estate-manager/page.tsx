@@ -298,24 +298,24 @@ export default async function EstateManagerDashboardPage() {
 
   // Custom styling mappings
   const priorityColors: Record<string, string> = {
-    low: 'bg-zinc-800 text-zinc-300 border-zinc-800',
-    medium: 'bg-zinc-800 text-zinc-300 border-zinc-800',
+    low: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
+    medium: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
     high: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
     urgent: 'bg-red-500/10 text-red-500 border-red-500/20',
   };
 
   const statusColors: Record<string, string> = {
-    open: 'bg-zinc-800 text-zinc-300 border-zinc-800',
-    assigned: 'bg-zinc-800 text-zinc-300 border-zinc-800',
-    in_progress: 'bg-zinc-800 text-zinc-300 border-zinc-800',
+    open: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
+    assigned: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
+    in_progress: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
     resolved: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
-    closed: 'bg-zinc-800 text-zinc-300 border-zinc-800',
+    closed: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
   };
 
   const invoiceColors: Record<string, string> = {
     paid: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
     outstanding: 'bg-red-500/10 text-red-500 border-red-500/20',
-    draft: 'bg-zinc-800 text-zinc-300 border-zinc-800',
+    draft: 'bg-zinc-800 text-zinc-300 border-white/[0.08]',
     unpaid: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
   };
 
@@ -336,10 +336,10 @@ export default async function EstateManagerDashboardPage() {
         <div className="absolute bottom-1/3 left-0 w-[350px] h-[350px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
         {/* Welcome Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-zinc-800">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/[0.08]">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <Badge className="bg-zinc-800 text-zinc-300 border-zinc-800 px-3 py-1 font-mono tracking-wider uppercase text-[10px]">
+              <Badge className="bg-zinc-800 text-zinc-300 border-white/[0.08] px-3 py-1 font-mono tracking-wider uppercase text-[10px]">
                 {activeOrg ? activeOrg.name : 'No Organization'}
               </Badge>
               {!hasData && (
@@ -359,7 +359,7 @@ export default async function EstateManagerDashboardPage() {
           {/* Quick Actions Double-Bezel Button */}
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/dashboard/estate-manager/units">
-              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-5 py-2.5 transition-all flex items-center gap-2 group shadow-lg shadow-blue-500/10">
+              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-5 py-2.5 transition-all flex items-center gap-2 group shadow-none shadow-blue-500/10">
                 <AppIcon name="View Portfolio" className="lucide" />
                 <span className="w-5 h-5 rounded-full bg-zinc-800/10 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
                   <ArrowRight className="w-3 h-3" />
@@ -367,7 +367,7 @@ export default async function EstateManagerDashboardPage() {
               </Button>
             </Link>
             <Link href="/dashboard/estate-manager/bulk-import">
-              <Button variant="outline" className="rounded-full border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 font-medium text-xs px-5 py-2.5 flex items-center gap-2">
+              <Button variant="outline" className="rounded-full border-white/[0.08] bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 font-medium text-xs px-5 py-2.5 flex items-center gap-2">
                 <Plus className="w-4 h-4" />
                 <AppIcon name="Bulk Import" className="lucide" />
               </Button>
@@ -377,7 +377,7 @@ export default async function EstateManagerDashboardPage() {
 
         {/* Getting Started / Onboarding Section */}
         {!hasData && (
-          <section className="relative group p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/5 to-purple-500/15 rounded-[2rem] border border-zinc-800 shadow-2xl">
+          <section className="relative group p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/5 to-purple-500/15 rounded-[2rem] border border-white/[0.08] shadow-2xl">
             <div className="bg-zinc-900/50 rounded-[calc(2rem-0.25rem)] p-8 space-y-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="space-y-1">
@@ -397,7 +397,7 @@ export default async function EstateManagerDashboardPage() {
               {/* Steps Checklist */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
                 {/* Step 1: Done */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4">
+                <div className="bg-zinc-900/50 border border-white/[0.08] rounded-2xl p-4 flex flex-col justify-between space-y-4">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <Badge className="bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20 px-2 py-0.5 text-[9px] font-mono">Step 1</Badge>
@@ -410,10 +410,10 @@ export default async function EstateManagerDashboardPage() {
                 </div>
 
                 {/* Step 2: Pending */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
+                <div className="bg-zinc-900/50 border border-white/[0.08] rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <Badge className="bg-zinc-800 text-zinc-300 border-zinc-800 px-2 py-0.5 text-[9px] font-mono">Step 2</Badge>
+                      <Badge className="bg-zinc-800 text-zinc-300 border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 2</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-white">Add Properties & Units</h4>
@@ -425,10 +425,10 @@ export default async function EstateManagerDashboardPage() {
                 </div>
 
                 {/* Step 3: Pending */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
+                <div className="bg-zinc-900/50 border border-white/[0.08] rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <Badge className="bg-zinc-800 text-zinc-300 border-zinc-800 px-2 py-0.5 text-[9px] font-mono">Step 3</Badge>
+                      <Badge className="bg-zinc-800 text-zinc-300 border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 3</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-white">Setup Service Charges</h4>
@@ -440,10 +440,10 @@ export default async function EstateManagerDashboardPage() {
                 </div>
 
                 {/* Step 4: Pending */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
+                <div className="bg-zinc-900/50 border border-white/[0.08] rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-white transition-all group">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <Badge className="bg-zinc-800 text-zinc-300 border-zinc-800 px-2 py-0.5 text-[9px] font-mono">Step 4</Badge>
+                      <Badge className="bg-zinc-800 text-zinc-300 border-white/[0.08] px-2 py-0.5 text-[9px] font-mono">Step 4</Badge>
                       <Clock className="w-4 h-4 text-zinc-500" />
                     </div>
                     <h4 className="font-semibold text-sm text-white">Invite Team Members</h4>
@@ -461,11 +461,11 @@ export default async function EstateManagerDashboardPage() {
         {/* 4-Column KPI Grid */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: Occupancy Rate */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Occupancy Rate</span>
-                <div className="w-8 h-8 rounded-lg bg-neutral-600/10 flex items-center justify-center text-zinc-300 border border-zinc-800">
+                <div className="w-8 h-8 rounded-lg bg-neutral-600/10 flex items-center justify-center text-zinc-300 border border-white/[0.08]">
                   <Building2 className="w-4 h-4" />
                 </div>
               </div>
@@ -478,7 +478,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 2: Service Charge Collection */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Service Charge Collection</span>
@@ -495,7 +495,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 3: Active Maintenance */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Maintenance Queue</span>
@@ -525,7 +525,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 5: Pending Managed Collections */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Pending Managed Collections</span>
@@ -544,7 +544,7 @@ export default async function EstateManagerDashboardPage() {
           </div>
 
           {/* Card 4: Utility Allocation */}
-          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+          <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
             <div className="p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-400 font-medium">Billed Utilities</span>
@@ -572,7 +572,7 @@ export default async function EstateManagerDashboardPage() {
                 </h3>
                 <p className="text-xs text-zinc-400">Trends, smart collection breakdown, and near-void alerts.</p>
               </div>
-              <Badge variant="outline" className="text-[10px] border-zinc-800 text-zinc-300 bg-zinc-900/50">
+              <Badge variant="outline" className="text-[10px] border-white/[0.08] text-zinc-300 bg-zinc-900/50">
                 Rolling 6 months
               </Badge>
             </div>
@@ -583,7 +583,7 @@ export default async function EstateManagerDashboardPage() {
               <KpiCard label="Near-Void Alerts" value={`${managedAnalytics.nearVoidCount}`} hint={`₦${(managedAnalytics.nearVoidAmount / 100).toLocaleString()} at risk`} />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-4 border border-zinc-800 bg-zinc-950 rounded-2xl p-5 space-y-4">
+              <div className="lg:col-span-4 border border-white/[0.08] bg-zinc-950 rounded-2xl p-5 space-y-4">
                 <h4 className="font-heading text-sm font-bold text-white">Monthly Trend</h4>
                 {managedAnalytics.monthlyTrend.length === 0 ? (
                   <p className="text-xs text-zinc-400">No managed collections yet.</p>
@@ -603,8 +603,8 @@ export default async function EstateManagerDashboardPage() {
                   </div>
                 )}
               </div>
-              <div className="lg:col-span-8 border border-zinc-800 bg-zinc-950 rounded-2xl overflow-hidden">
-                <div className="p-5 flex items-center justify-between border-b border-zinc-800">
+              <div className="lg:col-span-8 border border-white/[0.08] bg-zinc-950 rounded-2xl overflow-hidden">
+                <div className="p-5 flex items-center justify-between border-b border-white/[0.08]">
                   <h4 className="font-heading text-sm font-bold text-white">Smart Collections</h4>
                   <span className="text-[10px] text-zinc-400">{managedAnalytics.smartCount} unverified past 14d</span>
                 </div>
@@ -613,7 +613,7 @@ export default async function EstateManagerDashboardPage() {
                     <p className="text-xs text-zinc-400">No smart collections to review.</p>
                   ) : (
                     <Table>
-                      <TableHeader className="border-b border-zinc-800">
+                      <TableHeader className="border-b border-white/[0.08]">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Transaction</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Amount</TableHead>
@@ -623,7 +623,7 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {managedAnalytics.recentSmart.map((item) => (
-                          <TableRow key={item.id} className="border-b border-zinc-800 hover:bg-zinc-800-lowestest">
+                          <TableRow key={item.id} className="border-b border-white/[0.08] hover:bg-zinc-800-lowestest">
                             <TableCell className="text-white text-xs font-medium font-mono">{item.id.slice(0, 8)}...</TableCell>
                             <TableCell className="text-white text-xs font-semibold">₦{item.amountNaira.toLocaleString()}</TableCell>
                             <TableCell className="text-zinc-400 text-xs">{daysSince(item.createdAt)} days</TableCell>
@@ -646,8 +646,8 @@ export default async function EstateManagerDashboardPage() {
           {/* Main Column: Tickets & Charges */}
           <div className="lg:col-span-8 space-y-8">
             {/* Maintenance Tickets */}
-            <div className="border border-zinc-800 bg-zinc-950 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 flex items-center justify-between border-b border-zinc-800">
+            <div className="border border-white/[0.08] bg-zinc-950 rounded-2xl overflow-hidden shadow-xl">
+              <div className="p-6 flex items-center justify-between border-b border-white/[0.08]">
                 <div className="space-y-0.5">
                   <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
                     <Wrench className="w-4 h-4 text-zinc-400" /> Active Maintenance Requests
@@ -670,7 +670,7 @@ export default async function EstateManagerDashboardPage() {
                 ) : (
                   <div className="overflow-x-auto">
                     <Table>
-                      <TableHeader className="border-b border-zinc-800">
+                      <TableHeader className="border-b border-white/[0.08]">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Unit</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Issue Details</TableHead>
@@ -681,7 +681,7 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {displayTickets.map((t: unknown, idx: number) => (
-                          <TableRow key={t.id || idx} className="border-b border-zinc-800 hover:bg-zinc-800-lowestest">
+                          <TableRow key={t.id || idx} className="border-b border-white/[0.08] hover:bg-zinc-800-lowestest">
                             <TableCell className="text-white text-xs font-semibold">
                               {t.unitRef || (t.listing ? `${t.listing.title}` : 'Unit Registry')}
                             </TableCell>
@@ -690,12 +690,12 @@ export default async function EstateManagerDashboardPage() {
                               <span className="block text-[10px] text-zinc-500 capitalize">{t.category}</span>
                             </TableCell>
                             <TableCell>
-                              <Badge className={`text-[10px] border px-2 py-0.5 ${priorityColors[t.priority] || 'bg-zinc-800 text-zinc-300 border-zinc-800'}`}>
+                              <Badge className={`text-[10px] border px-2 py-0.5 ${priorityColors[t.priority] || 'bg-zinc-800 text-zinc-300 border-white/[0.08]'}`}>
                                 {t.priority}
                               </Badge>
                             </TableCell>
                             <TableCell>
-                              <Badge className={`text-[10px] border px-2 py-0.5 ${statusColors[t.status] || 'bg-zinc-800 text-zinc-300 border-zinc-800'}`}>
+                              <Badge className={`text-[10px] border px-2 py-0.5 ${statusColors[t.status] || 'bg-zinc-800 text-zinc-300 border-white/[0.08]'}`}>
                                 {t.status.replace('_', ' ')}
                               </Badge>
                             </TableCell>
@@ -712,8 +712,8 @@ export default async function EstateManagerDashboardPage() {
             </div>
 
             {/* Service Charge Billing */}
-            <div className="border border-zinc-800 bg-zinc-950 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 flex items-center justify-between border-b border-zinc-800">
+            <div className="border border-white/[0.08] bg-zinc-950 rounded-2xl overflow-hidden shadow-xl">
+              <div className="p-6 flex items-center justify-between border-b border-white/[0.08]">
                 <div className="space-y-0.5">
                   <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
                     <Receipt className="w-4 h-4 text-zinc-400" /> Recent Service Charge Cycles
@@ -736,7 +736,7 @@ export default async function EstateManagerDashboardPage() {
                 ) : (
                   <div className="overflow-x-auto">
                     <Table>
-                      <TableHeader className="border-b border-zinc-800">
+                      <TableHeader className="border-b border-white/[0.08]">
                         <TableRow>
                           <TableHead className="text-zinc-400 font-medium text-xs">Cycle Period</TableHead>
                           <TableHead className="text-zinc-400 font-medium text-xs">Unit/Property</TableHead>
@@ -747,7 +747,7 @@ export default async function EstateManagerDashboardPage() {
                       </TableHeader>
                       <TableBody>
                         {displayCharges.map((sc: unknown, idx: number) => (
-                          <TableRow key={sc.id || idx} className="border-b border-zinc-800 hover:bg-zinc-800-lowestest">
+                          <TableRow key={sc.id || idx} className="border-b border-white/[0.08] hover:bg-zinc-800-lowestest">
                             <TableCell className="text-white text-xs font-mono font-semibold">
                               {sc.period}
                             </TableCell>
@@ -758,7 +758,7 @@ export default async function EstateManagerDashboardPage() {
                               ₦{Number(sc.amount).toLocaleString()}
                             </TableCell>
                             <TableCell>
-                              <Badge className={`text-[10px] border px-2 py-0.5 ${invoiceColors[sc.status] || 'bg-zinc-800 text-zinc-300 border-zinc-800'}`}>
+                              <Badge className={`text-[10px] border px-2 py-0.5 ${invoiceColors[sc.status] || 'bg-zinc-800 text-zinc-300 border-white/[0.08]'}`}>
                                 {sc.status}
                               </Badge>
                             </TableCell>
@@ -778,13 +778,13 @@ export default async function EstateManagerDashboardPage() {
           {/* Right Column: Actions & Activity */}
           <div className="lg:col-span-4 space-y-8">
             {/* Quick Command Center */}
-            <div className="border border-zinc-800 bg-zinc-950 rounded-2xl p-6 shadow-xl space-y-4">
+            <div className="border border-white/[0.08] bg-zinc-950 rounded-2xl p-6 shadow-xl space-y-4">
               <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
                 <Layers className="w-4 h-4 text-zinc-400" /> Command Center
               </h3>
               <div className="grid grid-cols-1 gap-2.5">
                 <Link href="/dashboard/estate-manager/units">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/[0.08] bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
                     <Building2 className="w-4 h-4 text-zinc-300" />
                     <div className="text-left">
                       <span className="block font-semibold">Register New Unit</span>
@@ -794,7 +794,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/utilities">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/[0.08] bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
                     <Zap className="w-4 h-4 text-purple-400" />
                     <div className="text-left">
                       <span className="block font-semibold">Allocate Utilities</span>
@@ -804,7 +804,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/bulk-import">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/[0.08] bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
                     <ClipboardList className="w-4 h-4 text-[#10b981]" />
                     <div className="text-left">
                       <span className="block font-semibold">Import CSV Data</span>
@@ -814,7 +814,7 @@ export default async function EstateManagerDashboardPage() {
                 </Link>
 
                 <Link href="/dashboard/estate-manager/maintenance">
-                  <Button variant="outline" className="w-full justify-start rounded-xl border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
+                  <Button variant="outline" className="w-full justify-start rounded-xl border-white/[0.08] bg-zinc-900/50 hover:bg-zinc-800-lowest text-zinc-300 hover:text-white p-3.5 text-xs flex items-center gap-3">
                     <Wrench className="w-4 h-4 text-zinc-300" />
                     <div className="text-left">
                       <span className="block font-semibold">Log Maintenance Ticket</span>
@@ -826,16 +826,16 @@ export default async function EstateManagerDashboardPage() {
             </div>
 
             {/* Recent Activity Timeline */}
-            <div className="border border-zinc-800 bg-zinc-950 rounded-2xl p-6 shadow-xl space-y-6">
+            <div className="border border-white/[0.08] bg-zinc-950 rounded-2xl p-6 shadow-xl space-y-6">
               <h3 className="font-heading text-lg font-bold text-white flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-zinc-400" /> Recent Operations
               </h3>
 
-              <div className="relative pl-4 border-l border-zinc-800 space-y-6">
+              <div className="relative pl-4 border-l border-white/[0.08] space-y-6">
                 {(hasData ? recentActivityStub(recentTickets, recentServiceCharges) : mockStats.recentActivity).map((act: unknown) => (
                   <div key={act.id} className="relative space-y-1">
                     {/* Bullet Indicator */}
-                    <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-zinc-800-container ${
+                    <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-white/[0.08]-container ${
                       act.type === 'payment' ? 'bg-emerald-500/100' :
                       act.type === 'maintenance' ? 'bg-amber-500' :
                       act.type === 'utility' ? 'bg-neutral-600' : 'bg-neutral-600'
@@ -858,7 +858,7 @@ export default async function EstateManagerDashboardPage() {
 
 function KpiCard({ label, value, hint }: { label: string; value: string; hint: string }) {
   return (
-    <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-zinc-800 shadow-lg bg-zinc-900/50">
+    <div className="p-[1px] bg-gradient-to-br from-white/5 to-transparent rounded-2xl border border-white/[0.08] shadow-none bg-zinc-900/50">
       <div className="p-5 space-y-2">
         <span className="text-[11px] text-zinc-400 font-medium">{label}</span>
         <h3 className="text-2xl font-extrabold text-white font-mono tracking-tight">{value}</h3>

@@ -116,7 +116,7 @@ export default function TenantDashboardClient({
         actions={
           <Link
             href="/listings"
-            className="inline-flex items-center gap-1.5 px-4 py-2 border border-zinc-800 text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"
           >
             <Home size={14} /> Browse Listings
           </Link>
@@ -242,7 +242,7 @@ export default function TenantDashboardClient({
           </div>
           <Link
             href="/dashboard/tenant/maintenance/new"
-            className="mt-3 w-full py-2 text-xs font-medium text-zinc-400 border border-dashed border-zinc-800 rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
+            className="mt-3 w-full py-2 text-xs font-medium text-zinc-400 border border-dashed border-white/[0.08] rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
           >
             + New maintenance request
           </Link>

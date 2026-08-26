@@ -18,7 +18,7 @@ export default async function AdminDisputeDetailPage({ params }: { params: Promi
         <ErrorBoundary>
           <div className="space-y-6">
             <h1 className="text-2xl font-bold">Dispute not found</h1>
-            <Link href="/dashboard/admin/disputes" className="text-neutral-300 underline">Back to disputes</Link>
+            <Link href="/dashboard/admin/disputes" className="text-zinc-300 underline">Back to disputes</Link>
           </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -32,26 +32,26 @@ export default async function AdminDisputeDetailPage({ params }: { params: Promi
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-2xl font-bold">Dispute Review</h1>
-              <p className="text-muted-foreground">{tx.listing?.title || 'Transaction'}</p>
+              <p className="text-zinc-500">{tx.listing?.title || 'Transaction'}</p>
             </div>
             <Link href="/dashboard/admin/disputes" className="ml-auto text-sm underline">Back</Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="card p-4">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Buyer</p>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-500">Buyer</p>
               <p className="text-sm font-medium mt-1">{tx.payer?.fullName ?? '—'}</p>
-              <p className="text-xs text-muted-foreground">{tx.payer?.email ?? ''}</p>
+              <p className="text-xs text-zinc-500">{tx.payer?.email ?? ''}</p>
             </div>
-            <div className="card p-4">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Seller</p>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-500">Seller</p>
               <p className="text-sm font-medium mt-1">{tx.payee?.fullName ?? '—'}</p>
-              <p className="text-xs text-muted-foreground">{tx.payee?.email ?? ''}</p>
+              <p className="text-xs text-zinc-500">{tx.payee?.email ?? ''}</p>
             </div>
-            <div className="card p-4">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Agent</p>
+            <div className="glass-card p-4">
+              <p className="text-xs uppercase tracking-wider text-zinc-500">Agent</p>
               <p className="text-sm font-medium mt-1">{tx.agent?.fullName ?? '—'}</p>
-              <p className="text-xs text-muted-foreground">{tx.agent?.email ?? ''}</p>
+              <p className="text-xs text-zinc-500">{tx.agent?.email ?? ''}</p>
             </div>
           </div>
 

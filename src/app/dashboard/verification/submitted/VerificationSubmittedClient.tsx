@@ -34,8 +34,8 @@ function VerificationSubmittedClient(props: Props) {
         </p>
       </div>
 
-      <Card className="max-w-md w-full">
-        <CardContent className="p-6 space-y-4">
+      <div className="glass-card max-w-md w-full">
+        <div className="p-6 p-6 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
             <span className="text-sm font-medium">Status: Pending Review</span>
@@ -53,8 +53,8 @@ function VerificationSubmittedClient(props: Props) {
               Back to Properties
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

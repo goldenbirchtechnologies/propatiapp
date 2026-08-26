@@ -78,30 +78,30 @@ function Step4InspectionClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Inspection Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Inspection Progress</h3>
+        </div>
+        <div className="p-6">
           <Progress value={progress} className="h-3" />
           <p className="text-sm text-zinc-400 mt-2">
             {props.inspection.l4Status === 'approved' ? 'Inspection completed and approved' : props.inspection.l4Status === 'pending' ? 'Inspection scheduled' : 'Schedule a physical inspection'}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {!canProceed ? (
-        <Card>
-          <CardContent className="p-6">
+        <div className="glass-card">
+          <div className="p-6 p-6">
             <div className="flex items-center gap-2 text-warning">
               <AlertCircle className="h-5 w-5" />
               <p>Please complete Layer 3 (Video verification) before proceeding.</p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : props.inspection.l4Status === 'approved' ? (
-        <Card>
-          <CardContent className="space-y-4">
+        <div className="glass-card">
+          <div className="p-6 space-y-4">
             <div className="flex items-center gap-2 text-[#10b981]">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-medium">Inspection completed successfully</p>
@@ -116,11 +116,11 @@ function Step4InspectionClient(props: Props) {
                 Completed on {new Date(props.inspection.l4CompletedAt).toLocaleDateString()}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : props.inspection.l4Status === 'pending' ? (
-        <Card>
-          <CardContent className="space-y-4">
+        <div className="glass-card">
+          <div className="p-6 space-y-4">
             <div className="flex items-center gap-2 text-warning">
               <Loader2 className="h-4 w-4 animate-spin" />
               <p className="font-medium">Inspection scheduled</p>
@@ -135,17 +135,17 @@ function Step4InspectionClient(props: Props) {
                 Agent: <span className="font-medium text-white">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Calendar className="h-5 w-5" />
               Schedule Inspection
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </h3>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="space-y-2">
               <Label>Preferred Date</Label>
               <Input
@@ -161,7 +161,7 @@ function Step4InspectionClient(props: Props) {
               <select
                 value={preferredTime}
                 onChange={(e) => setPreferredTime(e.target.value as 'morning' | 'afternoon' | 'evening')}
-                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                 disabled={isReadOnly}
               >
                 <option value="morning">Morning</option>
@@ -175,7 +175,7 @@ function Step4InspectionClient(props: Props) {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Any special instructions for the agent..."
-                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-primary text-sm min-h-[80px]"
+                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm min-h-[80px]"
                 disabled={isReadOnly}
               />
             </div>
@@ -183,8 +183,8 @@ function Step4InspectionClient(props: Props) {
               {requesting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
               Request Inspection
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {props.inspection.l4Status === 'approved' && (

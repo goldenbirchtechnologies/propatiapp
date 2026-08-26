@@ -181,7 +181,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 size="xl"
                 className="ring-2 ring-emerald-500/30"
               />
-              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg">
+              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-white shadow-none">
                 <Camera className="h-3.5 w-3.5" />
                 <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
               </label>
@@ -196,7 +196,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <p className="max-w-2xl text-sm leading-6 text-zinc-400">Keep your identity, security, and notification settings up to date.</p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {missingActions.map((action) => (
-                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-green-500/30 text-green-500 hover:bg-emerald-500/10">
+                  <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
                     <AlertCircle className="h-3.5 w-3.5" />
                     {action}
                   </Button>
@@ -219,7 +219,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-800">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-white/[0.08]">
           <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Verification</TabsTrigger>
           <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Security</TabsTrigger>
@@ -228,11 +228,11 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="personal" className="mt-6">
           <form onSubmit={handleProfileUpdate} className="space-y-6">
-            <Card className="outline-none">
-              <CardHeader>
-                <CardTitle className="text-lg">Personal Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
+            <div className="glass-card outline-none">
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white text-lg">Personal Information</h3>
+              </div>
+              <div className="p-6 space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="relative flex-shrink-0">
                     <Avatar className="h-16 w-16">
@@ -281,7 +281,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                       />
                       {user?.phoneVerified ? (
                         <Button type="button" variant="outline" className="h-10 items-center gap-1" disabled>
-                          <CheckCircle className="h-4 w-4 text-green-500" /> Verified
+                          <CheckCircle className="h-4 w-4 text-emerald-500" /> Verified
                         </Button>
                       ) : (
                         <Button type="button" variant="secondary" className="h-10" onClick={handleRequestPhoneOTP} disabled={!profileData.phone || otpCooldown || requestPhoneOTPMutation.isPending}>
@@ -318,8 +318,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             <div className="flex justify-end">
               <Button type="submit" disabled={updateProfileMutation.isPending}>
@@ -342,11 +342,11 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
         </TabsContent>
 
         <TabsContent value="security" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Change Password</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white text-lg">Change Password</h3>
+            </div>
+            <div className="p-6 space-y-4">
               <form className="space-y-4 max-w-md">
                 <div className="space-y-1.5">
                   <Label htmlFor="currentPassword">Current Password</Label>
@@ -364,14 +364,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <Lock className="h-4 w-4 mr-2" /> Update Password
                 </Button>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle className="text-lg">Active Sessions</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="glass-card mt-6">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white text-lg">Active Sessions</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-3">
                 <SessionItem current browser="Chrome on Windows" location="Lagos, Nigeria" />
                 <SessionItem device="Mobile" browser="Safari on iOS" location="Abuja, Nigeria" />
@@ -380,16 +380,16 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               <Button variant="ghost" className="mt-3 text-red-500">
                 <AlertCircle className="h-4 w-4 mr-2" /> Log out of all other sessions
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="notifications" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Notification Preferences</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white text-lg">Notification Preferences</h3>
+            </div>
+            <div className="p-6 space-y-6">
               {([
                 { id: 'rent_due', label: 'Rent Due Reminders', desc: 'Get notified 7, 3, and 1 days before rent is due' },
                 { id: 'payment', label: 'Payment Notifications', desc: 'Receive alerts for rent payments received and refunds' },
@@ -411,8 +411,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   />
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
@@ -421,7 +421,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-800 bg-zinc-950')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/[0.08] bg-zinc-950')}>
       <div className="flex items-center gap-3">
         <div className="bg-zinc-900 text-zinc-400">
           <Monitor className="h-5 w-5" />
@@ -450,10 +450,10 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
   const isVerified = resolved === 'approved';
 
   return (
-    <Card className="glass-card rounded-xl">
-      <CardHeader className="space-y-3">
+    <div className="glass-card glass-card rounded-xl">
+      <div className="px-6 py-5 border-b border-white/[0.08] space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <CardTitle className="text-lg">Identity Verification</CardTitle>
+          <h3 className="text-lg font-semibold text-white text-lg">Identity Verification</h3>
           {isVerified && (
             <StatusBadge status="Verified">
               <CheckCircle className="mr-1 h-4 w-4" /> Account Verified
@@ -471,8 +471,8 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
         <p className="text-sm text-zinc-400">
           Complete a 1-minute automated verification check to verify your account securely.
         </p>
-      </CardHeader>
-      <CardContent>
+      </div>
+      <div className="p-6">
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-900 text-white">
             <ShieldCheck className="h-8 w-8" />
@@ -496,7 +496,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
             </p>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

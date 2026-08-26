@@ -481,7 +481,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                         className="flex items-center gap-2 text-sm"
                         style={{ color: 'var(--text)' }}
                       >
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                         <span className="capitalize">{amenity.replace(/_/g, ' ')}</span>
                       </div>
                     ))}

@@ -165,7 +165,7 @@ function AuditLogsClient({
             icon: 'admin_panel_settings',
           },
         ].map((m) => (
-          <div key={m.label} className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-sm">
+          <div key={m.label} className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-none">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-zinc-400 font-medium">{m.label}</span>
               <AppIcon name={m.icon} className="lucide" size={20} />
@@ -206,7 +206,7 @@ function AuditLogsClient({
       </div>
 
       {/* Audit Table */}
-      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden">
         {logs.length === 0 ? (
           <p className="p-lg text-sm text-zinc-400 text-center">No audit logs recorded yet.</p>
         ) : (
@@ -218,7 +218,7 @@ function AuditLogsClient({
                     (h) => (
                       <th
                         key={h}
-                        className="px-lg py-md text-xs text-label-sm text-zinc-400 font-bold uppercase tracking-wider"
+                        className="px-6 py-3 text-xs text-label-sm text-zinc-400 font-bold uppercase tracking-wider"
                       >
                         {h}
                       </th>
@@ -229,11 +229,11 @@ function AuditLogsClient({
               <tbody className="divide-y divide-[#262626]">
                 {logs.map((log) => (
                   <tr key={log.id} className="hover:bg-zinc-900 transition-colors">
-                    <td className="px-lg py-md whitespace-nowrap">
+                    <td className="px-6 py-3 whitespace-nowrap">
                       <p className="text-xs text-label-md text-white">{formatDate(log.timestamp)}</p>
                       <p className="font-label-sm text-label-sm text-zinc-400">{formatTime(log.timestamp)}</p>
                     </td>
-                    <td className="px-lg py-md whitespace-nowrap">
+                    <td className="px-6 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-500-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
                           {initials(log.admin?.fullName || 'System')}
@@ -243,12 +243,12 @@ function AuditLogsClient({
                         </span>
                       </div>
                     </td>
-                    <td className="px-lg py-md whitespace-nowrap">
+                    <td className="px-6 py-3 whitespace-nowrap">
                       <span className="inline-block px-2 py-1 rounded bg-zinc-800 text-white text-xs uppercase font-bold">
                         {log.targetType}
                       </span>
                     </td>
-                    <td className="px-lg py-md whitespace-nowrap">
+                    <td className="px-6 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <span className={`w-2 h-2 rounded-full shrink-0 ${dotColor(log.action)}`} />
                         <span className={`text-xs text-label-md ${severityColor(log.action)}`}>
@@ -256,17 +256,17 @@ function AuditLogsClient({
                         </span>
                       </div>
                     </td>
-                    <td className="px-lg py-md">
+                    <td className="px-6 py-3">
                       <p className="text-body-sm text-zinc-400 max-w-xs truncate">
                         {typeof log.details === 'object' && log.details !== null
                           ? JSON.stringify(log.details).slice(0, 120)
                           : String(log.details ?? '')}
                       </p>
                     </td>
-                    <td className="px-lg py-md whitespace-nowrap font-label-sm text-label-sm text-zinc-400">
+                    <td className="px-6 py-3 whitespace-nowrap font-label-sm text-label-sm text-zinc-400">
                       {log.ipAddress || '—'}
                     </td>
-                    <td className="px-lg py-md text-center">
+                    <td className="px-6 py-3 text-center">
                       <AppIcon name="visibility" className="lucide" size={18} />
                     </td>
                   </tr>

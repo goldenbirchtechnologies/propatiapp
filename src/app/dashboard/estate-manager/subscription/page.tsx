@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -115,14 +114,14 @@ export default function SubscriptionPage() {
       </div>
 
       {/* Current Plan */}
-      <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-        <CardHeader>
-          <CardTitle>Current Plan</CardTitle>
-          <CardDescription>
+      <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Current Plan</h3>
+          <p className="text-sm text-zinc-500">
             You are currently on the {org.planTier.toUpperCase()} plan
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+          </p>
+        </div>
+        <div className="p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-2xl font-bold capitalize">
@@ -173,38 +172,38 @@ export default function SubscriptionPage() {
               <ExternalLink className="ml-2 h-4 w-4" />
             </a>
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Plan Comparison */}
       <div>
         <h2 className="text-2xl font-bold mb-4">Available Plans</h2>
         <div className="grid gap-6 md:grid-cols-3">
           {plans.map((plan) => (
-            <Card
+            <div className="glass-card"
               key={plan.name}
-              className={plan.popular ? 'border-primary border-2' : ''}
+              className={plan.popular ? 'border-white/[0.08] border-2' : ''}
             >
-              <CardHeader>
+              <div className="px-6 py-5 border-b border-white/[0.08]">
                 {plan.popular && (
                   <Badge className="w-fit mb-2" variant="default">
                     <Crown className="h-3 w-3 mr-1" />
                     Most Popular
                   </Badge>
                 )}
-                <CardTitle>{plan.name}</CardTitle>
-                <CardDescription>
+                <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
+                <div>
                   <span className="text-3xl font-bold text-white">
                     ₦{plan.price.toLocaleString()}
                   </span>
                   <span className="text-zinc-500">/{plan.period}</span>
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
                 <div className="space-y-2">
                   {plan.features.map((feature) => (
                     <div key={feature} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-green-600 shrink-0" />
+                      <Check className="h-4 w-4 text-emerald-500 shrink-0" />
                       <span className="text-sm">{feature}</span>
                     </div>
                   ))}
@@ -225,19 +224,19 @@ export default function SubscriptionPage() {
                       : 'Downgrade'}
                   </Button>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Billing History */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Billing History</CardTitle>
-          <CardDescription>View your past invoices and payments</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Billing History</h3>
+          <p className="text-sm text-zinc-500">View your past invoices and payments</p>
+        </div>
+        <div className="p-6">
           {billingHistory.length > 0 ? (
             <Table>
               <TableHeader>
@@ -296,8 +295,8 @@ export default function SubscriptionPage() {
               </p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

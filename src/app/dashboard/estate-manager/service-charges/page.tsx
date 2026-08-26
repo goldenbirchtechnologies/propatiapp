@@ -36,7 +36,7 @@ interface ServiceChargeItem {
 
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-[#262626] text-white border-primary/20', label: 'Sent' },
+  sent: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Sent' },
   paid: { class: 'bg-emerald-500/10 text-[#00ff66] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -112,7 +112,7 @@ export default function ServiceChargesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1
-            className="text-headline-sm"
+            className="text-white"
             style={{ color: 'var(--primary)' }}
           >
             Service Charges
@@ -177,7 +177,7 @@ export default function ServiceChargesPage() {
         </Dialog>
       </div>
 
-      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-sm p-4 flex flex-wrap items-center gap-4">
+      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-none p-4 flex flex-wrap items-center gap-4">
         <Filter className="h-4 w-4 text-zinc-500" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-full sm:w-[180px]">
@@ -194,7 +194,7 @@ export default function ServiceChargesPage() {
         </Select>
       </div>
 
-      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div className="bg-zinc-900 rounded-xl border border-white/[0.08] shadow-none overflow-hidden hover:shadow-none transition-shadow">
         {loading ? (
           <div className="p-4 space-y-4">
             {[...Array(5)].map((_, i) => (

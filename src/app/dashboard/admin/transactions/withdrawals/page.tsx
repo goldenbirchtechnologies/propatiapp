@@ -184,7 +184,7 @@ function WithdrawalsClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-none"
           >
             <div className="text-sm text-zinc-400 font-medium mb-2">{card.label}</div>
             <div className="font-headline-md text-headline-md text-white leading-tight">{card.value}</div>
@@ -194,7 +194,7 @@ function WithdrawalsClient({
       </div>
 
       {/* Transaction Feed */}
-      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-sm overflow-hidden">
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden">
         <div className="p-md border-b border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-md bg-zinc-950">
           <h3 className="text-white text-white">Recent Transactions</h3>
           <span className="text-xs text-zinc-400">

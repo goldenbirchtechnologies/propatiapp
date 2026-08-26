@@ -64,7 +64,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+            className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
             onClick={() => setViewMode('grid')}
           >
             <Home className="h-4 w-4" />
@@ -72,7 +72,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-800 text-zinc-400'}
+            className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-white/[0.08] text-zinc-400'}
             onClick={() => setViewMode('list')}
           >
             <Search className="h-4 w-4" />
@@ -87,7 +87,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
             placeholder="Search saved properties..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-zinc-950 border-zinc-800 text-white"
+            className="pl-10 bg-zinc-950 border-white/[0.08] text-white"
           />
         </div>
       </div>
@@ -112,7 +112,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
             const image = property.images[0]?.url || '/placeholder-property.png';
 
             return (
-              <Card key={property.id} className="glass-card overflow-hidden">
+              <div className="glass-card" key={property.id} className="glass-card overflow-hidden">
                 <div className="relative">
                   <img
                     src={image}
@@ -133,7 +133,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                     </Button>
                   </div>
                 </div>
-                <CardContent className="p-4 space-y-3">
+                <div className="p-6 p-4 space-y-3">
                   <div>
                     <h3 className="font-medium text-white line-clamp-1">{property.title}</h3>
                     <p className="text-sm text-zinc-500 line-clamp-1">{property.address}, {property.city}</p>
@@ -155,7 +155,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                       <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
                     </span>
                   </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+                  <div className="flex items-center justify-between pt-2 border-t border-white/[0.08]">
                     <Avatar
                       src={property.landlord?.avatarUrl || undefined}
                       name={property.landlord?.fullName || 'L'}
@@ -172,8 +172,8 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                       </Button>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>

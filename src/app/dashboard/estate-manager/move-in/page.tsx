@@ -67,7 +67,7 @@ export default function EstateManagerMoveInPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Payment Status */}
-          <div className="lg:col-span-4 card p-5 rounded-xl border border-white/[0.08] shadow-sm flex flex-col justify-between">
+          <div className="lg:col-span-4 card p-5 rounded-xl border border-white/[0.08] shadow-none flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <h3 className="font-heading font-bold text-white">Payment Status</h3>
@@ -99,7 +99,7 @@ export default function EstateManagerMoveInPage() {
           </div>
 
           {/* Key Handover Schedule */}
-          <div className="lg:col-span-8 card p-5 rounded-xl border border-white/[0.08] shadow-sm">
+          <div className="lg:col-span-8 card p-5 rounded-xl border border-white/[0.08] shadow-none">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-heading font-bold text-white">Key Handover Schedule</h3>
               <span className="text-xs font-bold text-secondary bg-secondary-fixed/30 px-3 py-1 rounded-full">
@@ -150,7 +150,7 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Utility & HVAC Onboarding */}
-        <div className="rounded-xl border border-white/[0.08] shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
           <div className="p-5 border-b border-white/[0.08]">
             <h3 className="font-heading font-bold text-white">Utility &amp; HVAC Onboarding</h3>
           </div>
@@ -179,7 +179,7 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Facility Contacts */}
-        <div className="rounded-xl bg-emerald-500-container text-text-white shadow-sm overflow-hidden">
+        <div className="rounded-xl bg-emerald-500-container text-text-white shadow-none overflow-hidden">
           <div className="p-5 border-b border-white/10">
             <h3 className="font-heading font-bold text-bg-secondary">Facility Contacts</h3>
           </div>

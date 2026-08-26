@@ -27,15 +27,15 @@ export default function KycGate({ status = 'not_started', forbiddenAction, child
   const actionLabel = forbiddenAction ? REQUIRED_ACTION_BLOCKS[forbiddenAction] || forbiddenAction : 'this feature';
 
   return (
-    <Card className="border border-slate-800 bg-slate-900">
+    <Card className="border border-zinc-800 bg-zinc-900">
       <CardContent className="p-6">
         <div className="flex items-center gap-4">
-          <div className="rounded-full p-2 bg-slate-900 border border-slate-800">
+          <div className="rounded-full p-2 bg-zinc-900 border border-zinc-800">
             <ShieldQuestion className="h-5 w-5 text-emerald-400" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-100">Identity verification required</p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               Complete Dojah KYC to access {actionLabel}.
             </p>
           </div>

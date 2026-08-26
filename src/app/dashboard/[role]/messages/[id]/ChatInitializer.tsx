@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
 
 type Props = {
@@ -9,13 +9,18 @@ type Props = {
 };
 
 export default function ChatInitializer({ conversationId }: Props) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!searchParams.get('conversationId') || searchParams.get('conversationId') !== conversationId) {
-      setSearchParams({ conversationId }, { scroll: false });
+    const currentConversationId = searchParams.get('conversationId');
+    if (currentConversationId !== conversationId) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('conversationId', conversationId);
+      router.replace(`${pathname}?${params.toString()}`);
     }
-  }, [conversationId, searchParams, setSearchParams]);
+  }, [conversationId, pathname, router, searchParams]);
 
   return <UnifiedMessagesClient userId="" userName="" userRole="" />;
 }

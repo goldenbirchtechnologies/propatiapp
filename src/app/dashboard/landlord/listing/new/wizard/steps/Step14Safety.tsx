@@ -52,9 +52,9 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
         <h2 className="text-lg font-semibold">Safety details and legal disclosures</h2>
         <Shield className="size-5 text-white" />
       </div>
-      <p className="text-sm text-muted-foreground">Please disclose any safety features or hazards on your property.</p>
+      <p className="text-sm text-zinc-500">Please disclose any safety features or hazards on your property.</p>
 
-      <Card className="p-4 space-y-4">
+      <div className="glass-card p-4 space-y-4">
         {ITEMS.map((item) => {
           const checked = item.key === 'exterior_security_camera_present' ? exteriorCamera
             : item.key === 'noise_decibel_monitor_present' ? noiseMonitor
@@ -88,18 +88,18 @@ export default function Step14Safety({ value, onChange }: Step14Props) {
                     </a>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">{item.description}</p>
+                <p className="text-xs text-zinc-500">{item.description}</p>
               </div>
             </div>
           );
         })}
-      </Card>
+      </div>
 
-      <Card className="p-4 bg-muted/50 border-dashed">
-        <p className="text-xs text-muted-foreground">
+      <div className="glass-card p-4 bg-muted/50 border-dashed">
+        <p className="text-xs text-zinc-500">
           You are required to keep this information accurate. Review your local safety regulations before submitting.
         </p>
-      </Card>
+      </div>
     </div>
   );
 }

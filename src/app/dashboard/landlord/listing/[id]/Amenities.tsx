@@ -45,7 +45,7 @@ export default function Amenities({ amenities }: Props) {
     return (
       <div>
         <h2 className="text-xl font-semibold mb-3 text-white">Amenities</h2>
-        <p className="text-neutral-400 text-sm">No amenities listed.</p>
+        <p className="text-zinc-500 text-sm">No amenities listed.</p>
       </div>
     );
   }
@@ -57,7 +57,7 @@ export default function Amenities({ amenities }: Props) {
         {amenities.map((amenity) => (
           <div
             key={amenity}
-            className="flex items-center gap-2 rounded-xl border border-[#262626] bg-obsidian-800/30 p-3 text-sm text-white shadow-sm"
+            className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-zinc-950/50 p-3 text-sm text-white shadow-none"
           >
             <span className="text-white">{AMENITY_ICON_MAP[amenity]}</span>
             <span className="font-medium truncate">{amenity}</span>

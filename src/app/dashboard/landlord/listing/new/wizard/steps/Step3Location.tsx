@@ -115,7 +115,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Where is your place located?</h2>
-      <Card className="p-0 overflow-hidden">
+      <div className="glass-card p-0 overflow-hidden">
         <div className="relative h-80">
           <MapContainer
             center={center}
@@ -146,7 +146,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
         <div className="p-4 space-y-4 border-t">
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -228,7 +228,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

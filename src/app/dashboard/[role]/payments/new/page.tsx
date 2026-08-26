@@ -2,6 +2,10 @@ import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import PaymentInitiationClient from './PaymentInitiationClient';
 
+interface PageProps {
+  params: Promise<{ role: string }>;
+}
+
 export default async function PaymentInitiationPage({ params }: PageProps) {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/dashboard');

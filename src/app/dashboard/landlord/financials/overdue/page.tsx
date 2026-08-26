@@ -79,42 +79,42 @@ export default async function LandlordOverduePaymentsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-white">Overdue Payment Notices</h1>
-          <p className="text-muted-foreground mt-1">Track and manage overdue rent and service charge payments.</p>
+          <p className="text-zinc-400 mt-1">Track and manage overdue rent and service charge payments.</p>
         </div>
 
         {rows.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center">
+          <div className="glass-card">
+            <div className="p-6 p-8 text-center">
               <p className="text-[#00ff66] font-medium">No overdue payments</p>
-              <p className="text-sm text-muted-foreground mt-1">All rent schedules and invoices are up to date.</p>
-            </CardContent>
-          </Card>
+              <p className="text-sm text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
+            </div>
+          </div>
         ) : (
-          <div className="rounded-xl border border-[#262626] shadow-sm overflow-hidden">
-            <div className="p-5 border-b border-[#262626] flex justify-between items-center">
+          <div className="rounded-xl border border-white/[0.08] shadow-none overflow-hidden">
+            <div className="p-5 border-b border-white/[0.08] flex justify-between items-center">
               <h3 className="font-heading font-bold">Overdue Accounts</h3>
-              <span className="text-sm text-muted-foreground">{rows.length} Accounts</span>
+              <span className="text-sm text-zinc-400">{rows.length} Accounts</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-surface-container-high border-b border-[#262626]">
+                <thead className="bg-zinc-800 border-b border-white/[0.08]">
                   <tr>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Reference</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Type</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Tenant</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Unit</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Overdue Amount</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Days Overdue</th>
-                    <th className="px-5 py-4 text-sm font-medium text-muted-foreground">Notice Sent</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Reference</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Type</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Tenant</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Unit</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Overdue Amount</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Days Overdue</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-400">Notice Sent</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#262626]">
                   {rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-obsidian-800-lowest transition-colors">
-                      <td className="px-5 py-4 text-sm font-mono text-muted-foreground">{row.id}</td>
+                    <tr key={row.id} className="hover:bg-zinc-900 transition-colors">
+                      <td className="px-5 py-4 text-sm font-mono text-zinc-400">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>
-                      <td className="px-5 py-4 text-sm text-muted-foreground">{row.unit}</td>
+                      <td className="px-5 py-4 text-sm text-zinc-400">{row.unit}</td>
                       <td className="px-5 py-4 text-sm font-medium text-red-500">₦{row.amount.toLocaleString()}</td>
                       <td className="px-5 py-4 text-sm text-red-500 font-bold">{row.days} days</td>
                       <td className="px-5 py-4">

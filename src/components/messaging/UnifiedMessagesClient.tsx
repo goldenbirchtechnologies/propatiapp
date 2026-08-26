@@ -306,7 +306,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
       <Card className="overflow-hidden" style={elevationStyle(ELEVATION_TOKENS.elevation_1)}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-1 sm:gap-2 border-b border-border overflow-x-auto">
+            <div className="flex items-center gap-1 sm:gap-2 border-b border-zinc-800 overflow-x-auto">
               {tabs.map((tab) => (
                 <button
                   key={tab.value}
@@ -318,7 +318,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                     'inline-flex items-center justify-center whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors',
                     activeTab === tab.value
                       ? 'border-emerald-500 text-emerald-400'
-                      : 'border-transparent text-muted-foreground hover:text-foreground'
+                      : 'border-transparent text-zinc-400 hover:text-white'
                   )}
                 >
                   {tab.label}
@@ -374,9 +374,9 @@ function ScreeningStatusBadge({ status }: { status: string }) {
     scheduled: { label: 'Scheduled', className: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
     completed: { label: 'Completed', className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
     cancelled: { label: 'Cancelled', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-    missed: { label: 'Missed', className: 'bg-green-500/10 text-green-500 border-green-500/20' },
+    missed: { label: 'Missed', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
   };
-  const item = map[status] || { label: status, className: 'bg-muted' };
+  const item = map[status] || { label: status, className: 'bg-zinc-900' };
   return <Badge className={item.className}>{item.label}</Badge>;
 }
 
@@ -472,7 +472,7 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
           <button
             key={conv.id}
             onClick={() => onSelect(conv.id)}
-            className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left hover:bg-muted/30"
+            className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left hover:bg-zinc-900/30"
             style={{ borderColor: 'var(--border)' }}
           >
             <Avatar>

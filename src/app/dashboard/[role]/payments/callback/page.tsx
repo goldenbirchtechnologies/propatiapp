@@ -69,13 +69,13 @@ export default function PaymentCallbackPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="max-w-md w-full">
-        <CardContent className="pt-6">
+      <div className="glass-card max-w-md w-full">
+        <div className="p-6 pt-6">
           {status === 'verifying' && (
             <div className="text-center py-8">
               <Loader2 className="h-16 w-16 animate-spin text-white mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-2">Verifying Payment</h2>
-              <p className="text-neutral-400">
+              <p className="text-zinc-500">
                 Please wait while we verify your payment with Paystack...
               </p>
             </div>
@@ -87,7 +87,7 @@ export default function PaymentCallbackPage() {
                 <CheckCircle className="h-12 w-12 text-[#00ff66]" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
-              <p className="text-neutral-400 mb-6">
+              <p className="text-zinc-500 mb-6">
                 Your payment has been received and verified. The funds are now held securely in escrow.
               </p>
 
@@ -119,7 +119,7 @@ export default function PaymentCallbackPage() {
                 <XCircle className="h-12 w-12 text-red-500" />
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Failed</h2>
-              <p className="text-neutral-400 mb-6">
+              <p className="text-zinc-500 mb-6">
                 We couldn't verify your payment. If you were charged, please contact support with your payment reference.
               </p>
 
@@ -141,8 +141,8 @@ export default function PaymentCallbackPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

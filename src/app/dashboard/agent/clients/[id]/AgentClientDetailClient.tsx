@@ -28,7 +28,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
       <div className="flex items-center gap-3">
         <Link
           href="/dashboard/agent/clients"
-          className="p-2 rounded-xl hover:bg-obsidian-800 text-neutral-400"
+          className="p-2 rounded-xl hover:bg-zinc-900 text-zinc-500"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
@@ -42,10 +42,10 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
             {client.fullName.charAt(0)}
           </div>
           <div>
-            <h1 className="font-headline-sm text-headline-sm font-bold text-white">
+            <h1 className="font-headline-sm text-white font-bold text-white">
               {client.fullName}
             </h1>
-            <p className="text-sm text-neutral-400">
+            <p className="text-sm text-zinc-500">
               {client.role === 'landlord' ? 'Seller' : 'Buyer'} · Client since{' '}
               {new Date(client.createdAt).toLocaleDateString('en-NG', {
                 month: 'short',
@@ -57,45 +57,45 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <User className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Contact Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </h3>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="flex items-center gap-2 text-sm">
-              <Mail className="w-4 h-4 text-neutral-400" />
+              <Mail className="w-4 h-4 text-zinc-500" />
               <span className="text-white">{client.email}</span>
             </div>
             {client.phone && (
               <div className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-neutral-400" />
+                <Phone className="w-4 h-4 text-zinc-500" />
                 <span className="text-white">{client.phone}</span>
               </div>
             )}
             {client.profileBio && (
-              <div className="pt-2 border-t border-[#262626]">
-                <p className="text-xs font-medium mb-1 text-neutral-400">
+              <div className="pt-2 border-t border-white/[0.08]">
+                <p className="text-xs font-medium mb-1 text-zinc-500">
                   Notes
                 </p>
                 <p className="text-sm text-white">{client.profileBio}</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Home className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Related Deals
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             {client.deals.length === 0 ? (
-              <p className="text-sm text-neutral-400 text-center py-6">
+              <p className="text-sm text-zinc-500 text-center py-6">
                 No deals yet
               </p>
             ) : (
@@ -103,17 +103,17 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
                 {client.deals.map((deal) => (
                   <div
                     key={deal.id}
-                    className="flex items-center justify-between p-3 rounded-xl border border-[#262626]"
+                    className="flex items-center justify-between p-3 rounded-xl border border-white/[0.08]"
                   >
                     <div>
                       <p className="text-sm font-medium text-white">
                         {deal.property}
                       </p>
-                      <p className="text-xs text-neutral-400 capitalize">
+                      <p className="text-xs text-zinc-500 capitalize">
                         {deal.status.replace(/_/g, ' ')}
                       </p>
                     </div>
-                    <p className="text-xs text-neutral-400">
+                    <p className="text-xs text-zinc-500">
                       {new Date(deal.createdAt).toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',
@@ -124,8 +124,8 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

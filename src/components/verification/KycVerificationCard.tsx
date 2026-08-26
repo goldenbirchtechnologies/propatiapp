@@ -20,35 +20,35 @@ const statusConfig: Record<KycStatus, { title: string; description: string; icon
     title: 'Identity verification not started',
     description: 'Complete verification to unlock payments, agreements, and full platform access.',
     icon: <ShieldQuestion className="h-5 w-5" />,
-    accent: 'bg-slate-900 border-slate-800',
+    accent: 'bg-zinc-900 border-zinc-800',
     iconColor: 'text-slate-300',
   },
   in_progress: {
     title: 'Verification in progress',
     description: 'Your verification is being reviewed. Most checks complete within a few minutes.',
     icon: <Clock className="h-5 w-5" />,
-    accent: 'bg-slate-900 border-slate-800',
+    accent: 'bg-zinc-900 border-zinc-800',
     iconColor: 'text-amber-300',
   },
   approved: {
     title: 'Identity verified',
     description: 'You have completed identity verification.',
     icon: <ShieldCheck className="h-5 w-5" />,
-    accent: 'bg-slate-900 border-slate-800',
+    accent: 'bg-zinc-900 border-zinc-800',
     iconColor: 'text-emerald-400',
   },
   rejected: {
     title: 'Verification not approved',
     description: 'Your verification could not be approved. Please retry with clearer details.',
     icon: <XCircle className="h-5 w-5" />,
-    accent: 'bg-slate-900 border-slate-800',
+    accent: 'bg-zinc-900 border-zinc-800',
     iconColor: 'text-rose-400',
   },
   requires_review: {
     title: 'Verification needs review',
     description: 'Our team is reviewing your verification. We’ll update you shortly.',
     icon: <Clock className="h-5 w-5" />,
-    accent: 'bg-slate-900 border-slate-800',
+    accent: 'bg-zinc-900 border-zinc-800',
     iconColor: 'text-amber-300',
   },
 };
@@ -62,7 +62,7 @@ export default function KycVerificationCard({
   const config = statusConfig[resolvedStatus] || statusConfig.not_started;
 
   return (
-    <Card className="border border-slate-800 bg-slate-900">
+    <Card className="border border-zinc-800 bg-zinc-900">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-slate-100">
           {config.icon}
@@ -72,18 +72,18 @@ export default function KycVerificationCard({
       <CardContent className="space-y-4 text-sm text-slate-300">
         <p>{description || config.description}</p>
 
-        <div className="rounded-lg border border-slate-800 bg-slate-900/80 flex items-center gap-4 p-4">
-          <div className="rounded-full p-2 bg-slate-900 border border-slate-800">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/80 flex items-center gap-4 p-4">
+          <div className="rounded-full p-2 bg-zinc-900 border border-zinc-800">
             <div className={cn('h-5 w-5', config.iconColor)}>{config.icon}</div>
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-100">{config.title}</p>
-            <p className="text-xs text-slate-400">{resolvedStatus.replace(/_/g, ' ')}</p>
+            <p className="text-xs text-zinc-400">{resolvedStatus.replace(/_/g, ' ')}</p>
           </div>
         </div>
 
         {resolvedStatus !== 'approved' && (
-          <div className="rounded-lg border border-slate-800 bg-slate-900 p-4">
+          <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
             <DojahWidgetClient
               type="custom"
               onComplete={(result) => {

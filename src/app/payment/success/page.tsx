@@ -33,7 +33,7 @@ export default function PaymentSuccessPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <Card className="border-border shadow-1">
+        <Card className="border-white/[0.08] shadow-1">
           <CardHeader className="items-center text-center">
             <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-success/10">
               <CheckCircle2 className="h-8 w-8 text-success" aria-hidden="true" />
@@ -41,20 +41,20 @@ export default function PaymentSuccessPage() {
             <CardTitle className="text-2xl font-bold text-foreground">Payment Successful</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm text-zinc-500">
               Your payment has been received. A receipt is available from the link below.
             </p>
 
-            <div className="rounded-lg border border-border bg-muted/50 divide-y divide-border-subtle">
+            <div className="rounded-lg border border-white/[0.08] bg-muted/50 divide-y divide-border-subtle">
               {ORDER_SUMMARY.map(({ label, value, highlight }) => (
                 <div key={label} className="flex items-center justify-between px-4 py-3 text-sm">
-                  <span className="text-muted-foreground">{label}</span>
+                  <span className="text-zinc-500">{label}</span>
                   <span className={`font-medium ${highlight ? 'text-success' : 'text-foreground'}`}>{value}</span>
                 </div>
               ))}
             </div>
 
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="space-y-2 text-sm text-zinc-500">
               {NEXT_STEPS.map((step) => (
                 <li key={step} className="flex items-start gap-2">
                   <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />

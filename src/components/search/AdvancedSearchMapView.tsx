@@ -68,18 +68,18 @@ interface AdvancedSearchMapViewProps {
 // Utility Functions
 const getCategoryColor = (listingType: string): string => {
   const colors: Record<string, { marker: string; cluster: string }> = {
-    rent: { marker: 'bg-residential-teal', cluster: 'bg-residential-teal/90' },
-    sale: { marker: 'bg-residential-teal', cluster: 'bg-residential-teal/90' },
-    short_let: { marker: 'bg-residential-teal', cluster: 'bg-residential-teal/90' },
-    share: { marker: 'bg-residential-teal', cluster: 'bg-residential-teal/90' },
-    commercial: { marker: 'bg-commercial-gold', cluster: 'bg-commercial-gold/90' },
+    rent: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
+    sale: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
+    short_let: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
+    share: { marker: 'bg-emerald-500', cluster: 'bg-emerald-500/90' },
+    commercial: { marker: 'bg-amber-500', cluster: 'bg-amber-500/90' },
   };
-  return colors[listingType]?.marker || 'bg-residential-teal';
+  return colors[listingType]?.marker || 'bg-emerald-500';
 };
 
 const getClusterColor = (properties: PropertyMarker[]): string => {
   const hasCommercial = properties.some(p => p.listingType === 'commercial');
-  return hasCommercial ? 'bg-commercial-gold/90' : 'bg-residential-teal/90';
+  return hasCommercial ? 'bg-amber-500/90' : 'bg-emerald-500/90';
 };
 
 // Create clusters from markers based on zoom level
@@ -264,8 +264,8 @@ function PropertyHoverCard({ property, onClose }: { property: PropertyMarker; on
               className="w-full h-48 object-cover rounded-t-xl"
             />
           ) : (
-            <div className="w-full h-48 bg-muted flex items-center justify-center rounded-t-xl">
-              <MapPin className="h-12 w-12 text-muted-foreground" />
+            <div className="w-full h-48 bg-zinc-900 flex items-center justify-center rounded-t-xl">
+              <MapPin className="h-12 w-12 text-zinc-400" />
             </div>
           )}
           <button
@@ -283,20 +283,20 @@ function PropertyHoverCard({ property, onClose }: { property: PropertyMarker; on
         </div>
         <div className="p-4">
           <h3 className="font-semibold text-lg mb-1 line-clamp-1">{property.title}</h3>
-          <p className="text-sm text-muted-foreground mb-2 line-clamp-1 flex items-center gap-1">
+          <p className="text-sm text-zinc-400 mb-2 line-clamp-1 flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5 inline flex-shrink-0" />
             {property.address}, {property.area}
           </p>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-residential-teal">
+              <p className="text-xl font-bold text-emerald-400">
                 {property.priceFormatted || `₦${(property.price / 100).toLocaleString()}`}
               </p>
               {property.listingType === 'rent' && (
-                <p className="text-xs text-muted-foreground">per month</p>
+                <p className="text-xs text-zinc-400">per month</p>
               )}
             </div>
-            <div className="flex gap-3 text-sm text-muted-foreground">
+            <div className="flex gap-3 text-sm text-zinc-400">
               {property.bedrooms != null && (
                 <span className="flex items-center gap-1">
                   <span className="font-semibold">{property.bedrooms}</span> bed
@@ -388,7 +388,7 @@ function FilterOverlay({
                 <Label className="text-sm font-semibold">Price Range</Label>
                 <div className="flex items-center gap-2 text-sm">
                   <AppIcon name="₦{localFilters.priceRange[0].toLocaleString()}" className="lucide" />
-                  <span className="text-muted-foreground">-</span>
+                  <span className="text-zinc-400">-</span>
                   <AppIcon name="₦{localFilters.priceRange[1].toLocaleString()}" className="lucide" />
                 </div>
                 <Slider
@@ -545,7 +545,7 @@ function FilterOverlay({
 
           {/* Footer */}
           <div className="border-t p-4 space-y-2">
-            <div className="text-sm text-muted-foreground text-center mb-2">
+            <div className="text-sm text-zinc-400 text-center mb-2">
               {propertyCount} properties found
             </div>
             <div className="flex gap-2">
@@ -794,7 +794,7 @@ export function AdvancedSearchMapView({
         <Card className="shadow-lg">
           <CardContent className="p-3">
             <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-residential-teal" />
+              <MapPin className="h-4 w-4 text-emerald-400" />
               <span className="font-semibold text-sm">
                 {filteredMarkers.length} {filteredMarkers.length === 1 ? 'Property' : 'Properties'}
               </span>
@@ -808,11 +808,11 @@ export function AdvancedSearchMapView({
         <Card className="shadow-lg">
           <CardContent className="p-3 space-y-2">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-residential-teal" />
+              <div className="w-3 h-3 rounded-full bg-emerald-500" />
               <span className="text-xs font-medium">Residential</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-commercial-gold" />
+              <div className="w-3 h-3 rounded-full bg-amber-500" />
               <span className="text-xs font-medium">Commercial</span>
             </div>
           </CardContent>

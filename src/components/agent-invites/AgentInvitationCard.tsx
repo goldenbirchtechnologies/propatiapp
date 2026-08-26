@@ -54,13 +54,13 @@ export default function AgentInvitationCard({ email }: Props) {
   const pending = invites.filter((invite) => invite.status === 'pending' && invite.email.toLowerCase() === email.toLowerCase());
 
   if (loading) {
-    return <p className="text-sm text-on-surface-variant">Loading invitations...</p>;
+    return <p className="text-sm text-zinc-400">Loading invitations...</p>;
   }
 
   if (pending.length === 0) {
     return (
       <Card className="p-6">
-        <p className="text-sm text-on-surface-variant">
+        <p className="text-sm text-zinc-400">
           You don&apos;t have unknown pending invites. You can still use all agent features and be assigned directly by landlords.
         </p>
       </Card>
@@ -73,11 +73,11 @@ export default function AgentInvitationCard({ email }: Props) {
         <Card key={invite.id} className="p-6 border-primary/20">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="font-semibold text-primary">Invitation from {invite.sender?.fullName || 'a landlord'}</p>
-              <p className="text-sm text-on-surface-variant mt-1">
+              <p className="font-semibold text-emerald-400">Invitation from {invite.sender?.fullName || 'a landlord'}</p>
+              <p className="text-sm text-zinc-400 mt-1">
                 {invite.sender?.fullName || 'A landlord'} invited you to manage their listings. Accepting this will add you as their agent.
               </p>
-              <p className="text-xs text-on-surface-variant mt-2">
+              <p className="text-xs text-zinc-400 mt-2">
                 Sent {new Date(invite.createdAt).toLocaleDateString()}
               </p>
             </div>

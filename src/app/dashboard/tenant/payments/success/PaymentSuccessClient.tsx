@@ -34,10 +34,10 @@ export default function PaymentSuccessPage() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <span className="font-mono text-muted-foreground">PAYMENTS</span>
-        <ChevronRight className="w-4 h-4 text-muted-foreground" />
-        <span className="font-mono text-muted-foreground">PROPERTY 1</span>
-        <ChevronRight className="w-4 h-4 text-muted-foreground" />
+        <span className="font-mono text-zinc-500">PAYMENTS</span>
+        <ChevronRight className="w-4 h-4 text-zinc-500" />
+        <span className="font-mono text-zinc-500">PROPERTY 1</span>
+        <ChevronRight className="w-4 h-4 text-zinc-500" />
         <span className="font-mono text-white font-semibold">{paymentStatus.toUpperCase()}</span>
       </nav>
 
@@ -54,7 +54,7 @@ export default function PaymentSuccessPage() {
         <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-white mb-2">
           Payment Successful
         </h1>
-        <p className="text-body-lg text-neutral-400 max-w-lg mx-auto">
+        <p className="text-body-lg text-zinc-500 max-w-lg mx-auto">
           Your transaction has been processed securely. A confirmation email and receipt have been
           sent to your registered address.
         </p>
@@ -63,11 +63,11 @@ export default function PaymentSuccessPage() {
       {/* Transaction Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Main Summary Card */}
-        <div className="md:col-span-7 bg-obsidian-800/30 p-6 rounded-xl shadow-sm border border-[#262626] flex flex-col justify-between">
+        <div className="md:col-span-7 bg-zinc-950/50 p-6 rounded-xl shadow-none border border-white/[0.08] flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-5">
               <div>
-                <p className="text-label-sm text-neutral-400 uppercase tracking-widest mb-1">
+                <p className="text-label-sm text-zinc-500 uppercase tracking-widest mb-1">
                   Total Amount Paid
                 </p>
                 <h3 className="font-headline-lg headline-lg text-white">₦1,450,000.00</h3>
@@ -77,20 +77,20 @@ export default function PaymentSuccessPage() {
                 Verified
               </div>
             </div>
-            <div className="space-y-3 border-t border-[#262626] pt-5">
+            <div className="space-y-3 border-t border-white/[0.08] pt-5">
               <div className="flex justify-between">
-                <span className="text-neutral-400">Payment Method</span>
+                <span className="text-zinc-500">Payment Method</span>
                 <div className="flex items-center gap-2 font-semibold">
                   <AppIcon name="credit_card" className="lucide" />
                   <AppIcon name="Visa ending in 4242" className="lucide" />
                 </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">Transaction ID</span>
-                <span className="font-label-md label-md text-white">PRP-TXN-882910442X</span>
+                <span className="text-zinc-500">Transaction ID</span>
+                <span className="font-label-sm label-md text-white">PRP-TXN-882910442X</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">Date &amp; Time</span>
+                <span className="text-zinc-500">Date &amp; Time</span>
                 <span className="text-body-sm font-medium">Oct 24, 2023 • 14:32 WAT</span>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function PaymentSuccessPage() {
               <Download className="w-4 h-4" /> Download Receipt
             </Button>
             <Link href="/dashboard/tenant" className="flex-1">
-              <Button variant="outline" className="w-full border-primary-container text-white-container hover:bg-obsidian-800-lowest transition-all">
+              <Button variant="outline" className="w-full border-white/[0.08] text-white hover:bg-zinc-900 transition-all">
                 Return to Dashboard
               </Button>
             </Link>
@@ -109,32 +109,32 @@ export default function PaymentSuccessPage() {
 
         {/* Breakdown & Property Card */}
         <div className="md:col-span-5 space-y-6">
-          <Card>
-            <CardContent className="p-5">
-              <h4 className="font-headline text-headline-sm text-white mb-3">
+          <div className="glass-card">
+            <div className="p-6 p-5">
+              <h4 className="font-headline text-white text-white mb-3">
                 Payment Breakdown
               </h4>
               <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-[#262626]/30">
+                <div className="flex justify-between items-center py-2 border-b border-white/[0.08]/30">
                   <div className="flex flex-col">
                     <span className="font-semibold text-white">Q4 Rent (Oct - Dec)</span>
-                    <span className="text-body-sm text-neutral-400">Prime Apartments, Unit 4B</span>
+                    <span className="text-body-sm text-zinc-500">Prime Apartments, Unit 4B</span>
                   </div>
                   <span className="font-medium">₦1,200,000.00</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[#262626]/30">
-                  <span className="text-neutral-400">Service Charge</span>
+                <div className="flex justify-between items-center py-2 border-b border-white/[0.08]/30">
+                  <span className="text-zinc-500">Service Charge</span>
                   <span className="font-medium">₦200,000.00</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-neutral-400">Utilities &amp; Internet</span>
+                  <span className="text-zinc-500">Utilities &amp; Internet</span>
                   <span className="font-medium">₦50,000.00</span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <div className="relative overflow-hidden rounded-xl h-32 border border-[#262626] cursor-pointer group">
+          <div className="relative overflow-hidden rounded-xl h-32 border border-white/[0.08] cursor-pointer group">
             <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
               style={{
@@ -154,8 +154,8 @@ export default function PaymentSuccessPage() {
       {/* Actions Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <Link href="/dashboard/tenant/receipts" className="block">
-          <Card className="hover:shadow-lg transition-all cursor-pointer group hover:border-white/50">
-            <CardContent className="p-5 flex items-center gap-4">
+          <div className="glass-card hover:shadow-none transition-all cursor-pointer group hover:border-white/50">
+            <div className="p-6 p-5 flex items-center gap-4">
               <div className="w-12 h-12 bg-primary/5 text-white rounded-xl flex items-center justify-center">
                 <FileText className="w-6 h-6" />
               </div>
@@ -163,14 +163,14 @@ export default function PaymentSuccessPage() {
                 <p className="font-headline text-base font-bold text-white group-hover:underline">
                   Download Official Receipt
                 </p>
-                <p className="text-sm text-muted-foreground">PDF format for your records.</p>
+                <p className="text-sm text-zinc-500">PDF format for your records.</p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </Link>
         <button className="block w-full">
-          <Card className="hover:shadow-lg transition-all cursor-pointer group hover:border-white/50">
-            <CardContent className="p-5 flex items-center gap-4">
+          <div className="glass-card hover:shadow-none transition-all cursor-pointer group hover:border-white/50">
+            <div className="p-6 p-5 flex items-center gap-4">
               <div className="w-12 h-12 bg-primary/5 text-white rounded-xl flex items-center justify-center">
                 <Printer className="w-6 h-6" />
               </div>
@@ -178,18 +178,18 @@ export default function PaymentSuccessPage() {
                 <p className="font-heading text-base font-bold text-white group-hover:underline">
                   Print Receipt
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-zinc-500">
                   Use this option if you have no PDF viewer available.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </button>
       </div>
 
       {/* Footer */}
-      <div className="text-center p-6 border-t border-[#262626]">
-        <p className="text-sm text-muted-foreground">
+      <div className="text-center p-6 border-t border-white/[0.08]">
+        <p className="text-sm text-zinc-500">
           You will be redirected to your Property Dashboard in{' '}
           <span className="font-bold text-white">{countdown}s</span>
         </p>
@@ -199,7 +199,7 @@ export default function PaymentSuccessPage() {
       </div>
 
       {/* Trust Footer */}
-      <footer className="pt-5 border-t border-[#262626] flex flex-col items-center gap-4">
+      <footer className="pt-5 border-t border-white/[0.08] flex flex-col items-center gap-4">
         <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
           <div className="flex items-center gap-1">
             <AppIcon name="security" className="lucide" />
@@ -214,7 +214,7 @@ export default function PaymentSuccessPage() {
             <span className="text-label-sm">Central Bank Regulated</span>
           </div>
         </div>
-        <p className="text-center text-body-sm text-neutral-400 max-w-md">
+        <p className="text-center text-body-sm text-zinc-500 max-w-md">
           PROPATI uses industry-leading security protocols to ensure your financial data is always
           protected. Need help?{' '}
           <a className="text-white font-bold underline decoration-accent underline-offset-4" href="#">

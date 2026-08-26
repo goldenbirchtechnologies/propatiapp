@@ -5,9 +5,8 @@ import { useListings } from '@/hooks/useListings';
 import { useOrganizationTickets } from '@/hooks/useOrganizationTickets';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useUnits } from '@/hooks/useUnits';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -60,8 +59,8 @@ export default function UnitDetailPage() {
   if (!listing) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Home className="h-16 w-16 text-muted-foreground mb-4" />
-        <p className="text-muted-foreground">Unit not found</p>
+        <Home className="h-16 w-16 text-zinc-500 mb-4" />
+        <p className="text-zinc-500">Unit not found</p>
         <Button asChild className="mt-4" variant="outline">
           <Link href="/dashboard/estate-manager/portfolio">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -101,7 +100,7 @@ export default function UnitDetailPage() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{listing.title}</h1>
-            <p className="text-muted-foreground flex items-center gap-1">
+            <p className="text-zinc-500 flex items-center gap-1">
               <MapPin className="h-4 w-4" />
               {listing.address}
             </p>
@@ -122,23 +121,23 @@ export default function UnitDetailPage() {
 
       {/* Unit Information */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Unit Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Unit Information</h3>
+          </div>
+          <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Property Type</span>
+              <span className="text-sm text-zinc-500">Property Type</span>
               <Badge variant="secondary">{listing.propertyType || 'N/A'}</Badge>
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Listing Type</span>
+              <span className="text-sm text-zinc-500">Listing Type</span>
               <Badge>{listing.listingType}</Badge>
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Status</span>
+              <span className="text-sm text-zinc-500">Status</span>
               <Badge
                 variant={
                   listing.status === 'active'
@@ -153,7 +152,7 @@ export default function UnitDetailPage() {
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Occupancy</span>
+              <span className="text-sm text-zinc-500">Occupancy</span>
               <Badge variant={isOccupied ? 'success' : 'secondary'}>
                 {isOccupied ? 'Occupied' : 'Vacant'}
               </Badge>
@@ -161,47 +160,47 @@ export default function UnitDetailPage() {
             <Separator />
             <div className="grid grid-cols-3 gap-4 pt-2">
               <div>
-                <p className="text-sm text-muted-foreground">Bedrooms</p>
+                <p className="text-sm text-zinc-500">Bedrooms</p>
                 <p className="text-lg font-semibold">{listing.bedrooms || 0}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Bathrooms</p>
+                <p className="text-sm text-zinc-500">Bathrooms</p>
                 <p className="text-lg font-semibold">{listing.bathrooms || 0}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Parking</p>
+                <p className="text-sm text-zinc-500">Parking</p>
                 <p className="text-lg font-semibold">{listing.parkingSpaces || 0}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Current Tenant */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Users className="h-5 w-5" />
               Current Tenant
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             {currentTenant ? (
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm text-muted-foreground">Name</p>
+                  <p className="text-sm text-zinc-500">Name</p>
                   <p className="font-medium">{currentTenant.fullName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="text-sm text-zinc-500">Email</p>
                   <p className="font-medium">{currentTenant.email}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
+                  <p className="text-sm text-zinc-500">Phone</p>
                   <p className="font-medium">{currentTenant.phone || '—'}</p>
                 </div>
                 {unit.leaseStartDate && (
                 <div>
-                  <p className="text-sm text-muted-foreground">Move-in Date</p>
+                  <p className="text-sm text-zinc-500">Move-in Date</p>
                   <p className="font-medium">
                     {new Date(unit.leaseStartDate).toLocaleDateString()}
                   </p>
@@ -213,69 +212,69 @@ export default function UnitDetailPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <Users className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
-                <p className="text-muted-foreground">No tenant assigned</p>
+                <Users className="h-12 w-12 mx-auto mb-2 text-zinc-500 opacity-50" />
+                <p className="text-zinc-500">No tenant assigned</p>
                 <Button variant="outline" className="mt-4">
                   Assign Tenant
                 </Button>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Lease Information */}
       {lease && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <FileText className="h-5 w-5" />
               Lease Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+            </h3>
+          </div>
+          <div className="p-6">
             <div className="grid gap-4 md:grid-cols-4">
               <div>
-                <p className="text-sm text-muted-foreground">Start Date</p>
+                <p className="text-sm text-zinc-500">Start Date</p>
                 <p className="font-medium">
                   {new Date(lease.startDate).toLocaleDateString()}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">End Date</p>
+                <p className="text-sm text-zinc-500">End Date</p>
                 <p className="font-medium">
                   {new Date(lease.endDate).toLocaleDateString()}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Rent Amount</p>
+                <p className="text-sm text-zinc-500">Rent Amount</p>
                 <p className="font-medium">
                   ₦{Number(lease.rentAmount || 0).toLocaleString()}/month
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Status</p>
+                <p className="text-sm text-zinc-500">Status</p>
                 <Badge variant="default">{lease.status}</Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* Maintenance History */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Wrench className="h-5 w-5" />
             Maintenance History
-          </CardTitle>
+          </h3>
           <Button size="sm" asChild>
             <Link href={`/dashboard/estate-manager/maintenance`}>
               Create Ticket
             </Link>
           </Button>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="p-6">
           {tickets.length > 0 ? (
             <div className="space-y-3">
               {tickets.map((ticket: unknown) => (
@@ -285,7 +284,7 @@ export default function UnitDetailPage() {
                 >
                   <div>
                     <p className="font-medium">{ticket.title}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-zinc-500">
                       {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -300,28 +299,28 @@ export default function UnitDetailPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Wrench className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
-              <p className="text-muted-foreground">No maintenance history</p>
+              <Wrench className="h-12 w-12 mx-auto mb-2 text-zinc-500 opacity-50" />
+              <p className="text-zinc-500">No maintenance history</p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Payment History */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
             Payment History
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="text-center py-8">
-            <DollarSign className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
-            <p className="text-muted-foreground">No payment history available</p>
+            <DollarSign className="h-12 w-12 mx-auto mb-2 text-zinc-500 opacity-50" />
+            <p className="text-zinc-500">No payment history available</p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

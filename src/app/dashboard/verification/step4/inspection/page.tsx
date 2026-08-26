@@ -12,6 +12,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationStep4InspectionClient from './VerificationStep4InspectionClient';
+import { PageHeader } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,11 +48,6 @@ export default async function VerificationStep4InspectionPage({
 
   const verification = await prisma.verification.findUnique({
     where: { listingId },
-    include: {
-      l4Agent: {
-        select: { id: true, fullName: true, email: true, phone: true, agentTier: true },
-      },
-    },
     select: {
       id: true,
       l4Status: true,
@@ -61,6 +57,9 @@ export default async function VerificationStep4InspectionPage({
       currentLayer: true,
       overallStatus: true,
       l3Status: true,
+      l4Agent: {
+        select: { id: true, fullName: true, email: true, phone: true, agentTier: true },
+      },
     },
   });
 
@@ -84,36 +83,30 @@ export default async function VerificationStep4InspectionPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            Verification Step 4
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Physical inspection for {listing.title}
-          </p>
+        <div className="p-6 space-y-6">
+          <PageHeader
+            title="Step 4: Inspection"
+            description={`Physical inspection for ${listing.title}`}
+            breadcrumb={['Verification', 'Step 4']}
+          />
+          <VerificationStep4InspectionClient
+            listingId={listingId}
+            verificationId={verification?.id || null}
+            listing={{ title: listing.title, address: listing.address, area: listing.area, state: listing.state }}
+            inspection={{
+              l4Status: verification?.l4Status || null,
+              l4ScheduledAt: verification?.l4ScheduledAt || null,
+              l4CompletedAt: verification?.l4CompletedAt || null,
+              l4ReportUrl: verification?.l4ReportUrl || null,
+              l4Agent: verification?.l4Agent || null,
+            }}
+            currentLayer={verification?.currentLayer || 1}
+            overallStatus={verification?.overallStatus || null}
+            l3Status={verification?.l3Status || null}
+          />
         </div>
-        <VerificationStep4InspectionClient
-          listingId={listingId}
-          verificationId={verification?.id || null}
-          listing={{ title: listing.title, address: listing.address, area: listing.area, state: listing.state }}
-          inspection={{
-            l4Status: verification?.l4Status || null,
-            l4ScheduledAt: verification?.l4ScheduledAt || null,
-            l4CompletedAt: verification?.l4CompletedAt || null,
-            l4ReportUrl: verification?.l4ReportUrl || null,
-            l4Agent: verification?.l4Agent || null,
-          }}
-          currentLayer={verification?.currentLayer || 1}
-          overallStatus={verification?.overallStatus || null}
-          l3Status={verification?.l3Status || null}
-        />
-      </div>
-    
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

@@ -26,18 +26,18 @@ export default function CommissionLedgerPage() {
 
       <ErrorBoundary>
 
-      <Card>
-        <CardHeader><CardTitle>Commission ledger</CardTitle></CardHeader>
-        <CardContent>
-          {loading && <p className="text-sm text-neutral-400">Loading...</p>}
-          {!loading && items.length === 0 && <p className="text-sm text-neutral-400">No commissions yet.</p>}
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]"><h3 className="text-lg font-semibold text-white">Commission ledger</h3></div>
+        <div className="p-6">
+          {loading && <p className="text-sm text-zinc-500">Loading...</p>}
+          {!loading && items.length === 0 && <p className="text-sm text-zinc-500">No commissions yet.</p>}
           <div className="space-y-4">
             {items.map((tx) => (
-              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-[#262626]/60 bg-background p-3">
+              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-white/[0.08]/60 bg-background p-3">
                 <div>
                   <p className="text-sm font-semibold">{String(tx.type ?? 'adjustment').toUpperCase()}</p>
-                  <p className="text-xs text-neutral-400">{String(tx.description ?? '')}</p>
-                  <p className="text-[11px] text-neutral-400">{new Date(String(tx.createdAt)).toLocaleString()}</p>
+                  <p className="text-xs text-zinc-500">{String(tx.description ?? '')}</p>
+                  <p className="text-[11px] text-zinc-500">{new Date(String(tx.createdAt)).toLocaleString()}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold">{formatAmount(tx.amount)}</p>
@@ -46,8 +46,8 @@ export default function CommissionLedgerPage() {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     
       </ErrorBoundary>
 </DashboardShell>

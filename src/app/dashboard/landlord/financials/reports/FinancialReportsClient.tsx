@@ -91,20 +91,20 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Financial Reports</h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-500 mt-1">
             Export accountant-ready P&amp;L, balance sheet, and cash-flow reports.
           </p>
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Generate Report
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
+        </div>
+        <div className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium mb-1 block">Report Type</label>
@@ -141,8 +141,8 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
             </div>
           </div>
           {error && <p className="text-sm text-red-500 mt-3">{error}</p>}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

@@ -95,7 +95,7 @@ function VerificationOfficerClient({
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <nav className="flex items-center gap-xs text-muted-foreground mb-2">
+          <nav className="flex items-center gap-xs text-zinc-400 mb-2">
             <a className="hover:text-white transition-colors text-xs" href="/dashboard/admin">
               Admin
             </a>
@@ -105,12 +105,12 @@ function VerificationOfficerClient({
           <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
             Verification Officer Roles
           </h1>
-          <p className="text-muted-foreground font-body-md mt-1">
+          <p className="text-zinc-400 font-body-md mt-1">
             Manage users with verification permissions and review the current queue.
           </p>
         </div>
         <div className="flex items-center gap-sm">
-          <span className="text-xs text-muted-foreground">{users.length} officer(s) configured</span>
+          <span className="text-xs text-zinc-400">{users.length} officer(s) configured</span>
         </div>
       </div>
 
@@ -119,11 +119,11 @@ function VerificationOfficerClient({
         {[
           { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#00ff66]' },
           { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
-          { label: 'Certified', value: counts.certifiedCount, color: 'bg-primary-container text-on-primary-container' },
+          { label: 'Certified', value: counts.certifiedCount, color: 'bg-emerald-500-container text-on-primary-container' },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm"
+            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-none"
           >
             <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${stat.color}`}>
               {stat.label}
@@ -134,55 +134,55 @@ function VerificationOfficerClient({
       </div>
 
       {/* Assigned Users */}
-      <div className="rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
-        <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
-          <h3 className="font-headline-sm text-white">Assigned Users</h3>
-          <span className="text-xs text-muted-foreground">
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden">
+        <div className="p-md border-b border-white/[0.08] flex items-center justify-between bg-zinc-950">
+          <h3 className="text-white text-white">Assigned Users</h3>
+          <span className="text-xs text-zinc-400">
             {users.filter((u) => u.isActive && !u.isBanned).length} active
           </span>
         </div>
         {users.length === 0 ? (
-          <p className="p-lg text-sm text-muted-foreground text-center">No verification officers assigned.</p>
+          <p className="p-lg text-sm text-zinc-400 text-center">No verification officers assigned.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Status</th>
-                  <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Last Login</th>
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-white/[0.08]">
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">User</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Role</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Last Login</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
-                    <td className="px-lg py-md">
+                  <tr key={u.id} className="hover:bg-zinc-900 transition-colors">
+                    <td className="px-6 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-white">
                           {initials(u.fullName)}
                         </div>
                         <div>
                           <div className="font-bold text-white text-sm">{u.fullName}</div>
-                          <div className="text-xs text-muted-foreground">{u.email}</div>
+                          <div className="text-xs text-zinc-400">{u.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-lg py-md text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
-                    <td className="px-lg py-md">
+                    <td className="px-6 py-3 text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
+                    <td className="px-6 py-3">
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
                           u.isBanned
                             ? 'bg-error/10 text-error'
                             : u.isActive
                               ? 'bg-on-tertiary-container/10 text-[#00ff66]'
-                              : 'bg-outline-variant/30 text-muted-foreground'
+                              : 'bg-outline-variant/30 text-zinc-400'
                         }`}
                       >
                         {u.isBanned ? 'Banned' : u.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="px-lg py-md text-body-sm text-muted-foreground">
+                    <td className="px-6 py-3 text-body-sm text-zinc-400">
                       {u.lastLogin
                         ? u.lastLogin.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })
                         : 'Never'}

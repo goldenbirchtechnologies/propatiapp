@@ -45,26 +45,26 @@ export default async function LandlordRevenueForecastReportPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">Revenue Forecast Reports</h1>
-            <p className="text-muted-foreground mt-1">Archived financial projections derived from transaction history.</p>
+            <p className="text-zinc-500 mt-1">Archived financial projections derived from transaction history.</p>
           </div>
           <div className="flex gap-3">
-            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#262626] bg-obsidian-800/30 text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-white/[0.08] bg-zinc-950/50 text-sm font-medium">
               Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
             </span>
           </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Monthly Forecast Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Monthly Forecast Summary</h3>
+          </div>
+          <div className="p-6">
             {monthlyData.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">No revenue reports available yet.</p>
+              <p className="text-sm text-zinc-500 py-6 text-center">No revenue reports available yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-muted-foreground border-b">
+                  <thead className="text-zinc-500 border-b">
                     <tr>
                       <th className="py-3 font-medium">Month</th>
                       <th className="py-3 font-medium">Transactions</th>
@@ -89,8 +89,8 @@ export default async function LandlordRevenueForecastReportPage() {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

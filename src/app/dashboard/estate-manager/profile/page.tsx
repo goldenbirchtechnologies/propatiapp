@@ -41,7 +41,7 @@ export default function EstateManagerProfilePage() {
       <div className="space-y-6">
         <div>
           <h1 className="font-display font-bold text-2xl text-[var(--text-white)]">My Profile</h1>
-          <p className="text-sm text-[var(--text-muted)] mt-1">Manage estate management account settings</p>
+          <p className="text-sm text-[var(--text-zinc-500)] mt-1">Manage estate management account settings</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

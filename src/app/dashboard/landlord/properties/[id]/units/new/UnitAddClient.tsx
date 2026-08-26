@@ -154,7 +154,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
         <h1 className="text-3xl font-bold text-white">
           Add Unit to {capitalizeWords(listingTitle || 'this property')}
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-zinc-500 mt-1">
           Create a new unit under <span className="font-medium">{capitalizeWords(listingTitle || 'this property')}</span>.
         </p>
       </div>
@@ -201,7 +201,7 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">This controls how this unit is listed and priced.</p>
+            <p className="text-xs text-zinc-500">This controls how this unit is listed and priced.</p>
           </div>
 
           <div className="space-y-2">
@@ -265,8 +265,8 @@ export default function UnitAddClient({ listingId, orgId, listingTitle, existing
               onRemoveFile={(index) => setPhotos((prev) => prev.filter((_, i) => i !== index))}
               showFileList
             >
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-[#262626] p-6 text-center">
-                <p className="text-sm text-muted-foreground">Drag and drop unit photos here, or click to browse</p>
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/[0.08] p-6 text-center">
+                <p className="text-sm text-zinc-500">Drag and drop unit photos here, or click to browse</p>
               </div>
             </DroppableArea>
           </div>

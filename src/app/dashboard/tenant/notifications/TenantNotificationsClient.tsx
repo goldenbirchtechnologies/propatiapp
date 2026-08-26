@@ -56,13 +56,13 @@ const colorMap: Record<string, string> = {
   green: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20',
   amber: 'bg-warning/10 text-warning border-warning/20',
   red: 'bg-red-500/10 text-red-500 border-red-500/20',
-  blue: 'bg-[#262626] text-neutral-300 border-[#262626]',
+  blue: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
   slate: 'bg-slate-500/10 text-slate-700 border-slate-200',
 };
 
 // ─── Skeleton helpers ────────────────────────────────────────────────────────
 const SkeletonStatCard = () => (
-  <div className="card p-5">
+  <div className="glass-card p-5">
     <div className="flex items-center gap-3">
       <Skeleton className="h-9 w-9 rounded-full" />
       <div className="space-y-2">
@@ -101,16 +101,16 @@ function StatCard({
   color: 'green' | 'amber' | 'red' | 'blue' | 'slate';
 }) {
   return (
-    <div className="card p-5">
+    <div className="glass-card p-5">
       <div className="flex items-center gap-3">
         <div className={`p-2 rounded-full ${colorMap[color]}`}>
           <Icon className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-xs font-medium text-neutral-400">
+          <p className="text-xs font-medium text-zinc-500">
             {label}
           </p>
-          <p className="text-2xl text-headline-sm text-white">
+          <p className="text-2xl text-white text-white">
             {value}
           </p>
         </div>
@@ -122,12 +122,12 @@ function StatCard({
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyState({ filter }: { filter: string }) {
   return (
-    <div className="card p-12 text-center">
-      <Bell className="w-12 h-12 text-neutral-400" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm text-headline-sm mb-2 text-white">
+    <div className="glass-card p-12 text-center">
+      <Bell className="w-12 h-12 text-zinc-500" style={{ opacity: 0.4 }} />
+      <h3 className="font-headline-sm text-white mb-2 text-white">
         {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
       </h3>
-      <p  className="text-neutral-400">
+      <p  className="text-zinc-500">
         {filter === 'unread' ? "You're all caught up!" : 'You will see alerts here when there is activity on your account.'}
       </p>
     </div>
@@ -177,11 +177,11 @@ function NotificationRow({
             <p className="font-medium text-sm text-white">
               {notification.title}
             </p>
-            <span className="text-xs flex-shrink-0 text-neutral-400">
+            <span className="text-xs flex-shrink-0 text-zinc-500">
               {timeStr}
             </span>
           </div>
-          <p className="text-sm line-clamp-2 text-neutral-400">
+          <p className="text-sm line-clamp-2 text-zinc-500">
             {notification.body}
           </p>
 
@@ -300,7 +300,7 @@ export default function TenantNotificationsClient() {
         readCount={readCount}
       />
 
-      <div className="card p-4 flex items-center justify-between">
+      <div className="glass-card p-4 flex items-center justify-between">
         <div className="flex items-center gap-2 flex-wrap">
           {(['all', 'unread'] as const).map((f) => (
             <button
@@ -320,7 +320,7 @@ export default function TenantNotificationsClient() {
             </button>
           ))}
         </div>
-        <span className="text-xs text-neutral-400">
+        <span className="text-xs text-zinc-500">
           {total} notification{total !== 1 ? 's' : ''} total
         </span>
       </div>
@@ -357,7 +357,7 @@ function PageHeader() {
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           Notifications
         </h1>
-        <p className="text-neutral-400" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
           Stay updated with your rental activity
         </p>
       </div>

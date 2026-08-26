@@ -55,55 +55,55 @@ export default async function LandlordFinancialForecastingPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Financial Forecast</h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-zinc-500 mt-1">
               Revenue projections and payout forecasting for {now.getFullYear()}.
             </p>
           </div>
           <Link
             href="/dashboard/landlord/revenue-forecast/report"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#262626] hover:bg-obsidian-800-lowest transition-colors text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/[0.08] hover:bg-zinc-900 transition-colors text-sm font-medium"
           >
             View Full Forecast →
           </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Card>
-            <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Projected Annual Revenue</p>
+          <div className="glass-card">
+            <div className="p-6 p-6">
+              <p className="text-sm text-zinc-500">Projected Annual Revenue</p>
               <p className="text-2xl font-bold mt-2">₦{totalRevenue.toLocaleString()}</p>
               <p className="text-sm text-[#00ff66] mt-1">From collected payments</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">This Month</p>
+            </div>
+          </div>
+          <div className="glass-card">
+            <div className="p-6 p-6">
+              <p className="text-sm text-zinc-500">This Month</p>
               <p className="text-2xl font-bold mt-2">₦{currentMonthRevenue.toLocaleString()}</p>
-              <p className="text-sm text-muted-foreground mt-1">{currentMonth ? Number(currentMonth.count) : 0} transactions</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Transactions YTD</p>
+              <p className="text-sm text-zinc-500 mt-1">{currentMonth ? Number(currentMonth.count) : 0} transactions</p>
+            </div>
+          </div>
+          <div className="glass-card">
+            <div className="p-6 p-6">
+              <p className="text-sm text-zinc-500">Transactions YTD</p>
               <p className="text-2xl font-bold mt-2">
                 {monthlyData.reduce((sum, m) => sum + Number(m.count), 0)}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">{monthlyData.length} active months</p>
-            </CardContent>
-          </Card>
+              <p className="text-sm text-zinc-500 mt-1">{monthlyData.length} active months</p>
+            </div>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Monthly Revenue Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Monthly Revenue Breakdown</h3>
+          </div>
+          <div className="p-6">
             {monthlyData.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">No revenue data available yet.</p>
+              <p className="text-sm text-zinc-500 py-6 text-center">No revenue data available yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-muted-foreground border-b">
+                  <thead className="text-zinc-500 border-b">
                     <tr>
                       <th className="py-3 font-medium">Month</th>
                       <th className="py-3 font-medium">Transactions</th>
@@ -122,8 +122,8 @@ export default async function LandlordFinancialForecastingPage() {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

@@ -29,7 +29,7 @@ export function Drawer({ open, onOpenChange, children }: DrawerProps) {
       />
       <div
         className={cn(
-          "absolute inset-y-0 right-0 h-full w-full max-w-xl border-l border-outline-variant bg-background shadow-xl transition-transform duration-100",
+          "absolute inset-y-0 right-0 h-full w-full max-w-xl border-l border-zinc-800 bg-zinc-900 shadow-xl transition-transform duration-100",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >

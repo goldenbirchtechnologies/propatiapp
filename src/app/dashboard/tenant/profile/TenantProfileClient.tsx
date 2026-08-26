@@ -135,8 +135,8 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel: Profile Card */}
         <div className="lg:col-span-1">
-          <Card style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-            <CardContent className="p-6 text-center">
+          <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+            <div className="p-6 p-6 text-center">
               <div className="relative mx-auto h-20 w-20">
                 {initialUser.avatarUrl ? (
                   <img src={initialUser.avatarUrl} alt={initialUser.fullName} className="h-20 w-20 rounded-full object-cover" />
@@ -167,40 +167,40 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                   🟢 Guarantor Added
                 </span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Right Panel: Active Tab Content */}
         <div className="lg:col-span-2 space-y-6">
           {activeTab === 'personal' && (
-            <Card style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <CardHeader>
-                <CardTitle style={{ color: 'var(--text)' }}>Personal Details</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white" style={{ color: 'var(--text)' }}>Personal Details</h3>
+              </div>
+              <div className="p-6">
                 <ProfileForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {activeTab === 'rental' && (
-            <Card style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <CardHeader>
-                <CardTitle style={{ color: 'var(--text)' }}>Rental Application Profile</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white" style={{ color: 'var(--text)' }}>Rental Application Profile</h3>
+              </div>
+              <div className="p-6">
                 <RentalApplicationForm form={form} setForm={setForm} saving={saving} onSave={handleSave} message={message} />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {activeTab === 'guarantors' && (
-            <Card style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <CardHeader>
-                <CardTitle style={{ color: 'var(--text)' }}>Guarantors</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="px-6 py-5 border-b border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-white" style={{ color: 'var(--text)' }}>Guarantors</h3>
+              </div>
+              <div className="p-6">
                 {initialUser.guarantorName || initialUser.guarantorPhone ? (
                   <div className="space-y-2 text-sm" style={{ color: 'var(--text)' }}>
                     <p><span className="font-medium">Name:</span> {initialUser.guarantorName}</p>
@@ -216,8 +216,8 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
                     </p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {activeTab === 'kyc' && (

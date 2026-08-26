@@ -12,6 +12,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FrozenState } from '@/components/feedback/FrozenState';
+import { PageHeader } from '@/components/ui/page-header';
+import { StatusBadge as StatusBadgeUI } from '@/components/ui/status-badge';
+import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -35,10 +38,10 @@ function statusBadge(status: VerificationOverallStatus) {
 
 // ─── Layer badge helper ────────────────────────────────────────────────────────
 function layerBadge(status: VerificationLayerStatus | null) {
-  if (!status) return <span className="text-muted-foreground">—</span>;
+  if (!status) return <span className="text-zinc-400">—</span>;
   const colors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
-    approved: 'bg-green-100 text-green-800',
+    approved: 'bg-green-100 text-emerald-800',
     rejected: 'bg-red-100 text-red-800',
   };
   return (
@@ -55,12 +58,12 @@ function StepIcon({ index, layerStatus }: { index: number; layerStatus: Verifica
   const num = index + 1;
   const bg =
     layerStatus === 'approved'
-      ? 'bg-green-500 text-white'
+      ? 'bg-emerald-500/100 text-white'
       : layerStatus === 'rejected'
       ? 'bg-red-500 text-white'
       : layerStatus === 'pending'
       ? 'bg-yellow-500 text-white'
-      : 'bg-muted text-muted-foreground';
+      : 'bg-zinc-900 text-zinc-400';
   return (
     <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${bg}`}>
       {num}
@@ -103,37 +106,40 @@ function OverviewTab({
   return (
     <div className="space-y-6">
       {/* Status summary card */}
-      <div className="rounded-lg border bg-card p-5">
+      <div className="glass-card p-5">
         <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-lg font-semibold">{listing?.title ?? 'Verification'}</h3>
-          {statusBadge(overallStatus)}
+          <h3 className="text-lg font-semibold text-white">{listing?.title ?? 'Verification'}</h3>
+          <StatusBadgeUI status={overallStatus as string} />
           <Badge variant="outline" className="capitalize">{listing?.verificationTier ?? '—'} tier</Badge>
         </div>
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-          <div><dt className="text-muted-foreground">Listing ID</dt><dd className="font-mono">{listing?.id}</dd></div>
-          <div><dt className="text-muted-foreground">Current Layer</dt><dd>{currentLayer} / 5</dd></div>
-          <div><dt className="text-muted-foreground">Submitted</dt><dd>{verification.createdAt ? new Date(verification.createdAt).toLocaleDateString() : '—'}</dd></div>
-          <div><dt className="text-muted-foreground">Last Updated</dt><dd>{verification.updatedAt ? new Date(verification.updatedAt).toLocaleDateString() : '—'}</dd></div>
+          <div><dt className="text-zinc-500">Listing ID</dt><dd className="font-mono text-zinc-300">{listing?.id}</dd></div>
+          <div><dt className="text-zinc-500">Current Layer</dt><dd className="text-zinc-300">{currentLayer} / 5</dd></div>
+          <div><dt className="text-zinc-500">Submitted</dt><dd className="text-zinc-300">{verification.createdAt ? new Date(verification.createdAt).toLocaleDateString() : '—'}</dd></div>
+          <div><dt className="text-zinc-500">Last Updated</dt><dd className="text-zinc-300">{verification.updatedAt ? new Date(verification.updatedAt).toLocaleDateString() : '—'}</dd></div>
         </dl>
       </div>
 
       {/* Progress steps */}
-      <div className="rounded-lg border bg-card p-5">
-        <h4 className="mb-4 font-medium">Layer Progress</h4>
+      <div className="glass-card p-5">
+        <h4 className="mb-4 font-medium text-white">Layer Progress</h4>
         <div className="flex items-start justify-between gap-2">
           {layers.map((ls, i) => (
             <div key={i} className="flex flex-col items-center gap-1 text-xs">
               <StepIcon index={i} layerStatus={ls} />
-              <span className="max-w-[70px] text-center leading-tight">{STEP_LABELS[i]}</span>
+              <span className="max-w-[70px] text-center leading-tight text-zinc-500">{STEP_LABELS[i]}</span>
             </div>
           ))}
+        </div>
+        <div className="mt-4">
+          <Progress value={(layers.filter(l => l === 'approved').length / 5) * 100} />
         </div>
       </div>
 
       {/* Next step guidance */}
       {nextStep && (
-        <div className="rounded-lg border bg-primary/5 p-4">
-          <p className="text-sm">{nextStep.label}</p>
+        <div className="glass-card p-4">
+          <p className="text-sm text-zinc-300">{nextStep.label}</p>
           {nextStep.actionLabel !== 'Waiting for Admin' && (
             <Button className="mt-2" asChild>
               <Link href={nextStep.href}>{nextStep.actionLabel}</Link>
@@ -144,8 +150,8 @@ function OverviewTab({
 
       {/* Admin notes */}
       {verification.adminNotes && (
-        <div className="rounded-lg border bg-muted/40 p-4 text-sm">
-          <strong>Admin Notes:</strong> {verification.adminNotes}
+        <div className="glass-card p-4 text-sm">
+          <strong className="text-white">Admin Notes:</strong> <span className="text-zinc-300">{verification.adminNotes}</span>
         </div>
       )}
     </div>
@@ -166,17 +172,17 @@ function LayersTab({ verification }: { verification: unknown }) {
   return (
     <div className="space-y-3">
       {ALL.map((l, idx) => (
-        <div key={idx} className="flex items-center justify-between rounded-md border p-3">
+        <div key={idx} className="glass-card flex items-center justify-between p-3">
           <div>
-            <p className="font-medium">{l.label}</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="font-medium text-white">{l.label}</p>
+            <p className="text-xs text-zinc-500">
               {l.approvedAt ? `Reviewed: ${new Date(l.approvedAt).toLocaleString()}` : 'Not yet reviewed'}
             </p>
           </div>
           {layerBadge(l.status)}
         </div>
       ))}
-      <p className="text-xs text-muted-foreground">Active layer: <strong>{currentLayer}</strong></p>
+      <p className="text-xs text-zinc-500">Active layer: <strong className="text-zinc-300">{currentLayer}</strong></p>
     </div>
   );
 }
@@ -185,15 +191,15 @@ function LayersTab({ verification }: { verification: unknown }) {
 function DocumentsTab({ verification }: { verification: unknown }) {
   const docs = verification.verificationDocuments ?? [];
   if (docs.length === 0) {
-    return <p className="text-sm text-muted-foreground">No documents uploaded yet.</p>;
+    return <p className="text-sm text-zinc-400">No documents uploaded yet.</p>;
   }
   return (
     <div className="space-y-3">
       {docs.map((d: unknown) => (
-        <a key={d.id} href={d.url} target="_blank" rel="noopener" className="flex items-center justify-between rounded-md border p-3 hover:bg-muted">
+        <a key={(d as any).id} href={(d as any).url} target="_blank" rel="noopener" className="glass-card flex items-center justify-between p-3 hover:bg-white/[0.025] transition-colors">
           <div>
-            <p className="font-medium">{d.documentType}</p>
-            <p className="text-xs text-muted-foreground">{d.fileName ?? 'No file name'} · {(d.fileSize ?? 0 / 1024).toFixed(1)} KB</p>
+            <p className="font-medium text-white">{(d as any).documentType}</p>
+            <p className="text-xs text-zinc-500">{(d as any).fileName ?? 'No file name'} · {((d as any).fileSize ?? 0 / 1024).toFixed(1)} KB</p>
           </div>
           <Badge variant="secondary">View</Badge>
         </a>
@@ -214,18 +220,18 @@ function TimelineTab({ verification }: { verification: unknown }) {
   return (
     <div className="space-y-0">
       {events.map((e, idx) => (
-        <div key={idx} className="flex gap-3 pb-3">
+        <div className="flex items-center gap-2 pb-3">
           <div className="mt-1.5 hidden flex-col items-center sm:flex">
-            <div className="h-2 w-2 rounded-full bg-primary" />
-            {idx < events.length - 1 && <div className="mt-1 h-full w-px bg-border" />}
+            <div className="h-2 w-2 rounded-full bg-emerald-400" />
+            {idx < events.length - 1 && <div className="mt-1 h-full w-px bg-zinc-800" />}
           </div>
           <div>
-            <p className="text-sm font-medium">{e.label}</p>
-            <p className="text-xs text-muted-foreground">{new Date(e.date).toLocaleString()}</p>
+            <p className="text-sm font-medium text-white">{e.label}</p>
+            <p className="text-xs text-zinc-500">{new Date(e.date).toLocaleString()}</p>
           </div>
         </div>
       ))}
-      {events.length === 0 && <p className="text-sm text-muted-foreground">No timeline events yet.</p>}
+      {events.length === 0 && <p className="text-sm text-zinc-500">No timeline events yet.</p>}
     </div>
   );
 }
@@ -262,24 +268,24 @@ export default async function VerificationDetailPage({ params }: { params: Promi
   // ─── Frozen state ──────────────────────────────────────────────────────────
   if (VerificationService.isFrozen(verification.overallStatus)) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-3xl px-4 py-10">
-          <div className="mb-4 flex items-center gap-2">
-            <Button variant="ghost" asChild>
-              <Link href="/dashboard/verification">← Back</Link>
-            </Button>
-            {statusBadge(verification.overallStatus)}
-          </div>
-          <FrozenState
+      <div className="min-h-screen bg-black">
+        <div className="mx-auto max-w-3xl px-4 py-10 space-y-6">
+          <PageHeader
             title={`${verification.listing?.title ?? 'Verification'} — Frozen`}
-            description={verification.frozenReason ?? 'This verification has been temporarily frozen.'}
-            ticketHref="/support"
-            ticketLabel="Open a ticket"
-            appealHref="/appeal"
-            appealLabel="Submit an appeal"
+            description={(verification.frozenReason ?? 'This verification has been temporarily frozen.') as string}
           />
+          <div className="glass-card p-6">
+            <FrozenState
+              title={`${verification.listing?.title ?? 'Verification'} — Frozen`}
+              description={verification.frozenReason ?? 'This verification has been temporarily frozen.'}
+              ticketHref="/support"
+              ticketLabel="Open a ticket"
+              appealHref="/appeal"
+              appealLabel="Submit an appeal"
+            />
+          </div>
           {verification.frozenAt && (
-            <p className="mt-4 text-xs text-muted-foreground">
+            <p className="mt-4 text-xs text-zinc-500">
               Frozen on {new Date(verification.frozenAt).toLocaleString()}
             </p>
           )}
@@ -291,7 +297,7 @@ export default async function VerificationDetailPage({ params }: { params: Promi
   // ─── Certified state ───────────────────────────────────────────────────────
   if (verification.overallStatus === 'certified') {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-black">
         <div className="mx-auto max-w-3xl px-4 py-10">
           <div className="mb-4 flex items-center gap-2">
             <Button variant="ghost" asChild>
@@ -299,11 +305,11 @@ export default async function VerificationDetailPage({ params }: { params: Promi
             </Button>
             {statusBadge(verification.overallStatus)}
           </div>
-          <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-center dark:border-green-800 dark:bg-green-950">
-            <h2 className="text-xl font-semibold text-green-800 dark:text-green-200">
+          <div className="rounded-lg border border-green-200 bg-emerald-500/10 p-6 text-center dark:border-green-800 dark:bg-green-950">
+            <h2 className="text-xl font-semibold text-emerald-800 dark:text-emerald-200">
               🎉 Fully Certified
             </h2>
-            <p className="mt-2 text-sm text-green-700 dark:text-green-300">
+            <p className="mt-2 text-sm text-emerald-400 dark:text-emerald-300">
               {verification.listing?.title ?? 'This property'} has completed all 5 layers and
               received admin certification. It will display the Certified badge and receive
               priority placement in search results.
@@ -320,7 +326,7 @@ export default async function VerificationDetailPage({ params }: { params: Promi
   // ─── Rejected state ────────────────────────────────────────────────────────
   if (verification.overallStatus === 'rejected') {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-black">
         <div className="mx-auto max-w-3xl px-4 py-10">
           <div className="mb-4 flex items-center gap-2">
             <Button variant="ghost" asChild>
@@ -348,7 +354,7 @@ export default async function VerificationDetailPage({ params }: { params: Promi
   // ─── Not-started empty state ───────────────────────────────────────────────
   if (verification.overallStatus === 'not_started') {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-black">
         <div className="mx-auto max-w-3xl px-4 py-10">
           <div className="mb-4 flex items-center gap-2">
             <Button variant="ghost" asChild>
@@ -358,7 +364,7 @@ export default async function VerificationDetailPage({ params }: { params: Promi
           </div>
           <div className="rounded-lg border p-8 text-center">
             <h2 className="text-xl font-semibold">Verification Not Started</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-2 text-sm text-zinc-400">
               You haven&apos;t started the verification process for this listing. Begin by
               submitting your documents.
             </p>
@@ -375,7 +381,7 @@ export default async function VerificationDetailPage({ params }: { params: Promi
 
   // ─── In-progress tabbed view ───────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       <div className="mx-auto max-w-3xl px-4 py-10">
         {/* Header */}
         <div className="mb-4 flex flex-wrap items-center gap-3">

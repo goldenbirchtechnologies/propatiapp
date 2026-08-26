@@ -31,7 +31,7 @@ const listingTypeConfig: Record<
   },
   commercial: {
     label: 'Commercial',
-    colorClass: 'bg-commercial-gold/10 text-commercial-gold dark:bg-commercial-gold/20 dark:text-commercial-gold',
+    colorClass: 'bg-amber-500/10 text-amber-400 dark:bg-amber-500/20 dark:text-amber-400',
   },
 };
 
@@ -69,7 +69,7 @@ const verificationTierConfig: Record<
 > = {
   basic: {
     label: 'Basic',
-    colorClass: 'inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground dark:text-muted-foreground border border-border',
+    colorClass: 'inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-400 dark:text-zinc-400 border border-zinc-800',
   },
   verified: {
     label: 'VERIFIED',

@@ -161,7 +161,7 @@ export default function DojahWidgetClient({
 
   return (
     <div className="space-y-3">
-      <div className="text-xs text-muted-foreground">
+      <div className="text-xs text-zinc-400">
         Status: <span className="font-mono">{statusState}</span>
       </div>
 
@@ -178,7 +178,7 @@ export default function DojahWidgetClient({
       )}
 
       {statusState === 'open' && (
-        <p className="text-xs text-slate-400">Complete verification in the Dojah widget popup.</p>
+        <p className="text-xs text-zinc-400">Complete verification in the Dojah widget popup.</p>
       )}
 
       {statusState === 'completed' && (

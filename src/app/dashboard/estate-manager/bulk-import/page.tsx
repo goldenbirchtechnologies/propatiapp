@@ -16,32 +16,32 @@ export default function EstateManagerBulkImportPage() {
       <div className="space-y-6">
       <div>
         <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>Bulk Import</h1>
-        <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground', marginTop: 'mt-1' }}>Upload thousands of properties via CSV or Excel</p>
+        <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500', marginTop: 'mt-1' }}>Upload thousands of properties via CSV or Excel</p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="card p-6">
-            <h2 className="font-headline-sm font-bold mb-4" className="text-white">Upload File</h2>
-            <div className="border-2 border-dashed rounded-xl p-10 text-center border-[#262626]">
-              <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: 'text-muted-foreground' }} />
-              <p className="text-sm font-medium" className="text-white">Click to upload or drag and drop</p>
-              <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>CSV, XLSX or XLS (max. 50MB)</p>
+          <div className="glass-card p-6">
+            <h2 className="font-headline-sm font-bold mb-4 text-white">Upload File</h2>
+            <div className="border-2 border-dashed rounded-xl p-10 text-center border-white/[0.08]">
+              <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-500' }} />
+              <p className="text-sm font-medium text-white">Click to upload or drag and drop</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>CSV, XLSX or XLS (max. 50MB)</p>
             </div>
           </div>
 
-          <div className="card p-6">
-            <h2 className="font-headline-sm font-bold mb-4" className="text-white">Import Status</h2>
+          <div className="glass-card p-6">
+            <h2 className="font-headline-sm font-bold mb-4 text-white">Import Status</h2>
             {status === 'idle' ? (
-              <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>No active import. Upload a file to begin.</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>No active import. Upload a file to begin.</p>
             ) : status === 'processing' ? (
               <div className="space-y-3">
                 <div className="h-2 rounded-full bg-muted/30 overflow-hidden"><div className="h-2 rounded-full animate-pulse" style={{ width: '60%', background: 'text-white' }} /></div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Processing 3,240 of 5,412 rows...</p>
+                <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Processing 3,240 of 5,412 rows...</p>
               </div>
             ) : status === 'done' ? (
               <div className="space-y-2">
                 <div className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#00ff66]" /> <span className="text-sm font-medium">Import completed</span></div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>5,412 properties loaded. 0 errors.</p>
+                <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>5,412 properties loaded. 0 errors.</p>
               </div>
             ) : (
               <div className="flex items-center gap-2"><AlertCircle className="w-5 h-5 text-warning" /> <span className="text-sm font-medium">Ready to process</span></div>
@@ -50,14 +50,14 @@ export default function EstateManagerBulkImportPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-3" className="text-white">Template</h3>
-            <p className="text-xs font-label-md uppercase tracking-wider mb-4" style={{ color: 'text-muted-foreground' }}>Use the official template to avoid column mapping errors.</p>
+          <div className="glass-card p-6">
+            <h3 className="font-headline-sm font-bold mb-3 text-white">Template</h3>
+            <p className="text-xs font-label-sm uppercase tracking-wider mb-4" style={{ color: 'text-zinc-500' }}>Use the official template to avoid column mapping errors.</p>
             <button className="btn btn-outline w-full inline-flex items-center justify-center gap-2"><Download className="w-4 h-4" /> Download Template</button>
           </div>
-          <div className="card p-6">
-            <h3 className="font-headline-sm font-bold mb-3" className="text-white">Rules</h3>
-            <ul className="space-y-3 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
+          <div className="glass-card p-6">
+            <h3 className="font-headline-sm font-bold mb-3 text-white">Rules</h3>
+            <ul className="space-y-3 text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>
               <li>• Max file size: 50MB</li>
               <li>• Headers must match template</li>
               <li>• Date format: DD/MM/YYYY</li>

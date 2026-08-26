@@ -21,15 +21,15 @@ export default function Step9Title({ title, onChange }: Step9Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Name your listing</h2>
-      <p className="text-sm text-muted-foreground">Create a catchy title that describes your place. Keep it short and sweet.</p>
-      <Card className="p-4 space-y-2">
+      <p className="text-sm text-zinc-500">Create a catchy title that describes your place. Keep it short and sweet.</p>
+      <div className="glass-card p-4 space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="title" className="text-sm font-medium flex items-center gap-2">
             <FileText className="size-4" /> Title
           </Label>
           <span
             className={`text-xs font-medium ${
-              remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-yellow-600' : 'text-muted-foreground'
+              remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-yellow-600' : 'text-zinc-500'
             }`}
           >
             {value.length} / 50
@@ -49,12 +49,12 @@ export default function Step9Title({ title, onChange }: Step9Props) {
           className="resize-none"
         />
         <div className="flex justify-between">
-          <span className="text-xs text-muted-foreground">Catchy names get more views</span>
+          <span className="text-xs text-zinc-500">Catchy names get more views</span>
           <Badge variant={remaining < 10 ? 'outline' : 'secondary'} className="text-xs">
             {remaining} characters left
           </Badge>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

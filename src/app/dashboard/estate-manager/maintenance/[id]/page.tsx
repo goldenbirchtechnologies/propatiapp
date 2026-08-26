@@ -4,9 +4,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -28,18 +27,18 @@ import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  low: { label: 'Low', className: 'bg-muted text-muted-foreground border border-[#262626]' },
-  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-[#262626]' },
-  high: { label: 'High', className: 'bg-warning/10 text-warning border border-[#262626]' },
-  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-[#262626]' },
+  low: { label: 'Low', className: 'bg-zinc-900 text-zinc-500 border border-white/[0.08]' },
+  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-white/[0.08]' },
+  high: { label: 'High', className: 'bg-amber-500/10 text-amber-400 border border-white/[0.08]' },
+  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-white/[0.08]' },
 };
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-[#262626]' },
-  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-[#262626]' },
-  in_progress: { label: 'In Progress', className: 'bg-warning/10 text-warning border border-[#262626]' },
-  resolved: { label: 'Resolved', className: 'bg-success/10 text-[#00ff66] border border-[#262626]' },
-  closed: { label: 'Closed', className: 'bg-muted text-muted-foreground border border-[#262626]' },
+  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-white/[0.08]' },
+  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-white/[0.08]' },
+  in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-white/[0.08]' },
+  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#00ff66] border border-white/[0.08]' },
+  closed: { label: 'Closed', className: 'bg-zinc-900 text-zinc-500 border border-white/[0.08]' },
 };
 
 const statusTimeline = [
@@ -112,16 +111,16 @@ export default function MaintenanceDetailPage() {
                 <ArrowLeft className="h-4 w-4 mr-2" /> Back
               </Button>
               <div>
-                <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
+                <h1 className="text-white font-bold" style={{ fontSize: 'text-white', color: 'text-white' }}>
                   Maintenance Request
                 </h1>
               </div>
             </div>
-            <Card className="border-red-500/30 bg-destructive/5">
-              <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-muted-foreground' }} />
-                <p className="font-medium" className="text-white">Unable to load maintenance request</p>
-                <p className="text-sm mt-1 mb-4" style={{ color: 'text-muted-foreground' }}>
+            <div className="glass-card border-red-500/30 bg-red-500/5">
+              <div className="p-6 flex flex-col items-center justify-center py-12 text-center">
+                <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-zinc-500' }} />
+                <p className="font-medium text-white">Unable to load maintenance request</p>
+                <p className="text-sm mt-1 mb-4" style={{ color: 'text-zinc-500' }}>
                   {error instanceof Error ? error.message : 'Request not found or access denied.'}
                 </p>
                 <div className="flex gap-3">
@@ -134,8 +133,8 @@ export default function MaintenanceDetailPage() {
                     </Link>
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </ErrorBoundary>
       </DashboardShell>
@@ -154,14 +153,14 @@ export default function MaintenanceDetailPage() {
         <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
           <ol className="flex items-center gap-2">
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Home</Link>
+              <Link href="/dashboard/estate-manager" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Home</Link>
             </li>
-            <li className="flex items-center gap-2 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>/</li>
+            <li className="flex items-center gap-2 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>/</li>
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager/maintenance" className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Maintenance</Link>
+              <Link href="/dashboard/estate-manager/maintenance" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Maintenance</Link>
             </li>
-            <li className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>/</li>
-            <li className="font-medium text-xs font-label-md uppercase tracking-wider" className="text-white">{ticket.title}</li>
+            <li className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>/</li>
+            <li className="font-medium text-xs text-xs uppercase tracking-wider text-white">{ticket.title}</li>
           </ol>
         </nav>
 
@@ -169,10 +168,10 @@ export default function MaintenanceDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: 'text-white' }}>
+              <h1 className="text-white font-bold" style={{ fontSize: 'text-white', color: 'text-white' }}>
                 {ticket.title}
               </h1>
-              <p className="flex items-center gap-1 mt-1 text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>
+              <p className="flex items-center gap-1 mt-1 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>
                 <MapPin className="h-4 w-4" />
                 {ticket.listing?.title || ticket.listing?.address || 'No location linked'}
               </p>
@@ -185,50 +184,50 @@ export default function MaintenanceDetailPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2" className="text-white">
-                <MessageSquare className="h-5 w-5" className="text-white" /> Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+                <MessageSquare className="h-5 w-5 text-white" /> Details
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Category</p>
-                <p className="font-medium capitalize text-sm" className="text-white">{ticket.category || '—'}</p>
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Category</p>
+                <p className="font-medium capitalize text-sm text-white">{ticket.category || '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Description</p>
-                <p className="font-medium text-sm" className="text-white">
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Description</p>
+                <p className="font-medium text-sm text-white">
                   {ticket.description || 'No description provided.'}
                 </p>
               </div>
               <Separator />
               <div>
-                <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Created</p>
-                <p className="font-medium flex items-center gap-2 text-sm" className="text-white">
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Created</p>
+                <p className="font-medium flex items-center gap-2 text-sm text-white">
                   <Calendar className="h-4 w-4" />
                   {new Date(ticket.createdAt).toLocaleString()}
                 </p>
               </div>
               {ticket.resolvedAt && (
                 <div>
-                  <p className="text-xs font-label-md uppercase tracking-wider" style={{ color: 'text-muted-foreground' }}>Resolved</p>
-                  <p className="font-medium flex items-center gap-2 text-sm" className="text-white">
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Resolved</p>
+                  <p className="font-medium flex items-center gap-2 text-sm text-white">
                     <CheckCircle2 className="h-4 w-4" />
                     {new Date(ticket.resolvedAt).toLocaleString()}
                   </p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2" className="text-white">
-                <User className="h-5 w-5" className="text-white" /> Assignee
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+                <User className="h-5 w-5 text-white" /> Assignee
+              </h3>
+            </div>
+            <div className="p-6">
               {ticket.assignedToUser ? (
                 <div className="flex items-center gap-4">
                   <div
@@ -238,27 +237,27 @@ export default function MaintenanceDetailPage() {
                     {ticket.assignedToUser.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-medium" className="text-white">{ticket.assignedToUser.fullName}</p>
-                    <p className="text-sm" style={{ color: 'text-muted-foreground' }}>{ticket.assignedToUser.email}</p>
+                    <p className="font-medium text-white">{ticket.assignedToUser.fullName}</p>
+                    <p className="text-sm" style={{ color: 'text-zinc-500' }}>{ticket.assignedToUser.email}</p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-muted-foreground', opacity: 0.5 }} />
-                  <p className="text-sm" style={{ color: 'text-muted-foreground' }}>Unassigned</p>
+                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-zinc-500', opacity: 0.5 }} />
+                  <p className="text-sm" style={{ color: 'text-zinc-500' }}>Unassigned</p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2" className="text-white">
-              <Clock className="h-5 w-5" className="text-white" /> Progress Timeline
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2" className="text-white">
+              <Clock className="h-5 w-5 text-white" /> Progress Timeline
+            </h3>
+          </div>
+          <div className="p-6">
             <div className="space-y-0">
               {statusTimeline.map((step, index) => {
                 const isCompleted = currentStatusIndex >= index;
@@ -269,25 +268,25 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'bg-[#262626]' : 'border-[#262626]',
-                          color: isCompleted ? 'text-white' : 'text-muted-foreground',
+                          background: isCompleted ? 'bg-zinc-900' : 'border-white/[0.08]',
+                          color: isCompleted ? 'text-white' : 'text-zinc-500',
                         }}
                       >
                         {step.icon}
                       </div>
                       {index < statusTimeline.length - 1 && (
-                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-white' : 'border-[#262626]' }} />
+                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-white' : 'border-white/[0.08]' }} />
                       )}
                     </div>
                     <div className="pb-8">
-                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-white' : 'text-muted-foreground' }}>{step.label}</p>
+                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-white' : 'text-zinc-500' }}>{step.label}</p>
                       {isCurrent && ticket.status === step.status && (
-                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>
                           Current step — {new Date(ticket.createdAt).toLocaleString()}
                         </p>
                       )}
                       {isCompleted && !isCurrent && (
-                        <p className="text-xs font-label-md uppercase tracking-wider mt-1" style={{ color: 'text-muted-foreground' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-500' }}>
                           {new Date(ticket.updatedAt || ticket.createdAt).toLocaleString()}
                         </p>
                       )}
@@ -296,8 +295,8 @@ export default function MaintenanceDetailPage() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

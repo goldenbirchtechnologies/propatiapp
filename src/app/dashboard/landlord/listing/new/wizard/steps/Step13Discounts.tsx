@@ -45,13 +45,13 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Promotions and discounts</h2>
-      <p className="text-sm text-muted-foreground">Offer discounts to attract more bookings.</p>
+      <p className="text-sm text-zinc-500">Offer discounts to attract more bookings.</p>
       <div className="space-y-3">
         {DISCOUNT_OPTIONS.map((option) => {
           const checked = flags[option.key];
           return (
-            <Card key={option.key} className={`relative p-4 flex items-center justify-between gap-4 border-2 transition ${
-              checked ? 'border-primary bg-[#262626]' : 'border-[#262626]'
+            <div className="glass-card" key={option.key} className={`relative p-4 flex items-center justify-between gap-4 border-2 transition ${
+              checked ? 'border-white/[0.08] bg-zinc-900' : 'border-white/[0.08]'
             }`}>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -67,10 +67,10 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                     {option.label}
                   </Label>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">{option.description}</p>
+                <p className="text-xs text-zinc-500 mt-1">{option.description}</p>
               </div>
               <div className="flex items-center gap-2">
-                <Percent className="size-4 text-muted-foreground" />
+                <Percent className="size-4 text-zinc-500" />
                 <Input
                   type="number"
                   min={0}
@@ -84,7 +84,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
                   className="w-20"
                 />
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

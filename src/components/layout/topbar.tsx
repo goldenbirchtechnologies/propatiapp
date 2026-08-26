@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import GlobalSearch from './GlobalSearch';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuCheckboxItem, DropdownMenuRadioItem } from '@/components/ui/dropdown-menu';
 import { Bell, BellRing, Building, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CreditCard, FileText, HelpCircle, Home, LayoutDashboard, LogOut, Mail, MapPin, Monitor, Moon, Search, Settings, Shield, Sun, User, Users } from 'lucide-react';
 import { NotificationsBell } from '@/components/notifications/notifications-bell';
 
@@ -145,8 +145,6 @@ function ThemeToggle() {
     </DropdownMenu>
   );
 }
-
-import { DropdownMenuRadioItem } from '@/components/ui/dropdown-menu';
 
 function UserMenu({ userRole }: { userRole?: string }) {
   return (

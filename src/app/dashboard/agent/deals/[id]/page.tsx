@@ -52,11 +52,11 @@ export default async function DealDetailPage({
       userAvatar={user.avatarUrl || undefined}
     >
 
-      <ErrorBoundary><div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <ErrorBoundary>
 
       <AgentDealDetailClient deal={serialized} />
     
-      </div></ErrorBoundary>
+      </ErrorBoundary>
 </DashboardShell>
   );
 }

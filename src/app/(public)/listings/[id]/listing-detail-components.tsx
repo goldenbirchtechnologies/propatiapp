@@ -88,7 +88,7 @@ export function ImageGallery({ images, title }: { images: unknown[]; title: stri
   if (!images || images.length === 0) {
     return (
       <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
-        <Home className="h-16 w-16 text-muted-foreground" />
+        <Home className="h-16 w-16 text-zinc-500" />
       </div>
     );
   }
@@ -202,11 +202,11 @@ export function PropertySpecs({
           key={index}
           className="flex flex-col items-center p-4 bg-muted/50 rounded-lg"
         >
-          <spec.icon className="h-6 w-6 mb-2 text-muted-foreground" />
+          <spec.icon className="h-6 w-6 mb-2 text-zinc-500" />
           <span className="text-lg font-semibold" style={{ color: 'var(--text)' }}>
             {spec.value}
           </span>
-          <span className="text-xs text-muted-foreground">{spec.label}</span>
+          <span className="text-xs text-zinc-500">{spec.label}</span>
         </div>
       ))}
     </div>
@@ -261,11 +261,11 @@ export function OwnerCard({
             <p className="font-semibold truncate" style={{ color: 'var(--text)' }}>
               {name}
             </p>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1 text-xs text-zinc-500">
               {isAgent && <AppIcon name="Verified Agent" className="lucide" />}
               {!isAgent && <AppIcon name="Property Owner" className="lucide" />}
               {isVerified && (
-                <CheckCircle className="h-3 w-3 text-green-500 ml-1" />
+                <CheckCircle className="h-3 w-3 text-emerald-500 ml-1" />
               )}
             </div>
           </div>
@@ -312,7 +312,7 @@ export function OwnerCard({
         )}
 
         {isOwnerView && (
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-zinc-500">
             This is your listing
           </div>
         )}
@@ -355,7 +355,7 @@ export function ListingDetailContent({ id }: { id: string }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Listing Not Found</h2>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-zinc-500 mb-6">
             The listing you're looking for doesn't exist or has been removed.
           </p>
           <Button onClick={() => router.push('/listings')}>
@@ -394,7 +394,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                   <h1 className="text-3xl font-bold font-heading mb-2" style={{ color: 'var(--text)' }}>
                     {listing.title}
                   </h1>
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-zinc-500">
                     <MapPin className="h-5 w-5" />
                     <span>
                       {listing.address && `${listing.address}, `}
@@ -407,7 +407,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                     {listing.priceFormatted || `₦${Number(listing.price).toLocaleString()}`}
                   </div>
                   {listing.listingType === 'rent' && (
-                    <div className="text-sm text-muted-foreground">per month</div>
+                    <div className="text-sm text-zinc-500">per month</div>
                   )}
                 </div>
               </div>
@@ -482,7 +482,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                         className="flex items-center gap-2 text-sm"
                         style={{ color: 'var(--text)' }}
                       >
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                         <span className="capitalize">{amenity.replace(/_/g, ' ')}</span>
                       </div>
                     ))}
@@ -499,14 +499,14 @@ export function ListingDetailContent({ id }: { id: string }) {
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <Calendar className="h-4 w-4 text-zinc-500" />
                     <span style={{ color: 'var(--text)' }}>
                       Available from: {new Date(listing.availableFrom).toLocaleDateString()}
                     </span>
                   </div>
                   {listing.minimumStay && (
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <Clock className="h-4 w-4 text-zinc-500" />
                       <span style={{ color: 'var(--text)' }}>
                         Minimum stay: {listing.minimumStay} months
                       </span>
@@ -593,7 +593,7 @@ export function ListingDetailContent({ id }: { id: string }) {
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground flex items-center gap-2">
+                  <span className="text-zinc-500 flex items-center gap-2">
                     <Eye className="h-4 w-4" />
                     Views
                   </span>
@@ -603,7 +603,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Listed</span>
+                  <span className="text-zinc-500">Listed</span>
                   <span className="font-medium" style={{ color: 'var(--text)' }}>
                     {new Date(listing.createdAt).toLocaleDateString()}
                   </span>
@@ -612,7 +612,7 @@ export function ListingDetailContent({ id }: { id: string }) {
                   <>
                     <Separator />
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Updated</span>
+                      <span className="text-zinc-500">Updated</span>
                       <span className="font-medium" style={{ color: 'var(--text)' }}>
                         {new Date(listing.updatedAt).toLocaleDateString()}
                       </span>

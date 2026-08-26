@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Home, Menu, X, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
 
@@ -15,15 +14,10 @@ const publicNavLinks = [
   { href: '/compare', label: 'Compare' },
 ];
 
-const legalLinks = [
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/terms-of-service', label: 'Terms of Service' },
-  { href: '/terms-of-agreement', label: 'Terms of Agreement' },
-];
-
 export default function PublicNav() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const { userId, isLoaded } = useAuth();
   const { user } = useUser();
@@ -39,147 +33,138 @@ export default function PublicNav() {
     );
   }
 
+  const isHome = pathname === '/';
   const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
   const isListingsPage = pathname === LISTINGS_PATH;
   const navLinks = isListingsPage
     ? publicNavLinks.filter((link) => link.href !== LISTINGS_PATH)
     : publicNavLinks;
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
     <>
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
-              <Home className="h-6 w-6" />
-              PROPATI
-            </Link>
-
-            <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-                      isActive
-                        ? 'bg-primary text-primary-foreground'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <div className="flex items-center gap-3">
-              {!isAuthPage && !isListingsPage && (
-                <Link href="/listings" className="hidden md:inline-flex">
-                  <Button variant="ghost" size="sm">
-                    <Search className="h-4 w-4 mr-1" />
-                    Search
-                  </Button>
-                </Link>
-              )}
-
-              {userId ? (
-                <div className="hidden md:flex items-center gap-3">
-                  <Link href="/dashboard">
-                    <Button variant="ghost" size="sm">Dashboard</Button>
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => clerk.signOut({ redirectUrl: '/sign-in' })}
-                  >
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <div className="hidden md:flex items-center gap-2">
-                  <Link href="/login">
-                    <Button variant="ghost" size="sm">Sign In</Button>
-                  </Link>
-                  <Link href="/signup">
-                    <Button size="sm">Get Started</Button>
-                  </Link>
-                </div>
-              )}
-
-              <button
-                className="md:hidden p-2 rounded-md text-muted-foreground hover:bg-accent"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Open menu"
+      <nav
+        className={cn(
+          'fixed top-0 inset-x-0 z-50 transition-all duration-300',
+          scrolled || !isHome
+            ? 'bg-black/90 backdrop-blur-xl border-b border-white/[0.08]'
+            : 'bg-transparent'
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"
               >
-                <Menu className="h-6 w-6" />
-              </button>
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
             </div>
-          </div>
-        </div>
-      </header>
+            <span className="text-white font-bold text-lg tracking-tight">PROPATI</span>
+          </Link>
 
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-y-0 right-0 z-50 w-72 bg-background border-l shadow-xl p-4">
-          <div className="flex items-center justify-between mb-6">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
-              <Home className="h-6 w-6" />
-              PROPATI
-            </Link>
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-3 py-1.5 text-sm text-zinc-300 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {!isAuthPage && !isListingsPage && (
+              <Link href="/listings" className="hidden sm:inline-flex">
+                <Button variant="ghost" size="sm">
+                  Search
+                </Button>
+              </Link>
+            )}
+
+            {userId ? (
+              <div className="hidden md:flex items-center gap-3">
+                <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => clerk.signOut({ redirectUrl: '/sign-in' })}
+                  className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-2">
+                <Link href="/sign-in" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium bg-white text-black rounded-lg hover:bg-zinc-100 transition-colors"
+                >
+                  Get Started
+                </Link>
+              </div>
+            )}
+
             <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-md text-muted-foreground hover:bg-accent"
-              aria-label="Close menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-zinc-400 hover:text-white"
+              aria-label="Toggle menu"
             >
-              <X className="h-5 w-5" />
+              {mobileMenuOpen ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg> : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>}
             </button>
           </div>
-          <nav className="space-y-1">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    'block px-3 py-2 rounded-lg text-sm font-medium',
-                    isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            <div className="mt-4 pt-4 border-t space-y-1">
-              <p className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-                Legal
-              </p>
-              {legalLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </nav>
         </div>
-      )}
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-zinc-950 border-t border-white/[0.08] px-4 py-3 space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block px-3 py-2 text-sm text-zinc-300 hover:text-white rounded-lg hover:bg-white/5"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="border-t border-white/[0.08] mt-2 pt-2 flex gap-2">
+              <Link to="/sign-in" className="flex-1 text-center py-2 text-sm text-zinc-400 border border-zinc-800 rounded-lg">
+                Sign in
+              </Link>
+              <Link to="/signup" className="flex-1 text-center py-2 text-sm font-medium bg-white text-black rounded-lg">
+                Get Started
+              </Link>
+            </div>
+          </div>
+        )}
+      </nav>
     </>
   );
 }

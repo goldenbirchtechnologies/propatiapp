@@ -11,6 +11,7 @@ import {
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import VerificationDojahPadClient from './VerificationDojahPadClient';
+import { PageHeader } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,13 +41,12 @@ export default async function VerificationDojahKycPage() {
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Identity Verification</h1>
-          <p className="text-muted-foreground mt-1">
-            Complete one quick identity check to unlock payments, agreements, and full marketplace access.
-          </p>
-        </div>
+      <div className="p-6 space-y-6">
+        <PageHeader
+          title="KYC Verification"
+          description="Complete your KYC verification with Dojah to access all platform features."
+          breadcrumb={['Verification', 'Dojah KYC']}
+        />
         <ErrorBoundary>
           <VerificationDojahPadClient _userId={user.id} />
         </ErrorBoundary>

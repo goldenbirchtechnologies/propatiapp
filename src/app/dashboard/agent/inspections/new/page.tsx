@@ -10,18 +10,18 @@ export default async function AgentInspectionNewPage({ searchParams }: { searchP
 
   return (
     <DashboardShell navigation={AGENT_NAVIGATION} userRole={user.role} userName={user.fullName || 'Agent'} userAvatar={user.avatarUrl || undefined}>
-      <Card>
-        <CardHeader>
-          <CardTitle>New Inspection</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-neutral-400">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">New Inspection</h3>
+        </div>
+        <div className="p-6">
+          <p className="text-zinc-500">
             {searchParams?.dealId
               ? `Create an inspection request for deal ${searchParams.dealId}.`
               : 'Select a deal and create a new inspection request from the deal detail page.'}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </DashboardShell>
   );
 }

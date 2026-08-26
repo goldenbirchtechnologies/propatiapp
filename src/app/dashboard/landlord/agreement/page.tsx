@@ -43,22 +43,22 @@ export default async function LandlordAgreementPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-white tracking-tight">Lease Agreements</h1>
-          <p className="text-muted-foreground mt-1">View and manage lease agreements for your properties.</p>
+          <p className="text-zinc-500 mt-1">View and manage lease agreements for your properties.</p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>All Agreements</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">All Agreements</h3>
+          </div>
+          <div className="p-6">
             {agreements.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-6 text-center">
+              <p className="text-sm text-zinc-500 py-6 text-center">
                 No agreements yet. Agreements will appear here once tenants accept applications.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-muted-foreground border-b">
+                  <thead className="text-zinc-500 border-b">
                     <tr>
                       <th className="py-3 font-medium">Property</th>
                       <th className="py-3 font-medium">Tenant</th>
@@ -77,11 +77,11 @@ export default async function LandlordAgreementPage() {
                         <td className="py-3 font-mono">
                           {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : '—'}
                         </td>
-                        <td className="py-3 text-muted-foreground">
+                        <td className="py-3 text-zinc-500">
                           {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} → {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
                         </td>
                         <td className="py-3">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeVariant[agr.status] || 'bg-muted text-muted-foreground'}`}>
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeVariant[agr.status] || 'bg-muted text-zinc-500'}`}>
                             {agr.status.replace('_', ' ')}
                           </span>
                         </td>
@@ -91,8 +91,8 @@ export default async function LandlordAgreementPage() {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

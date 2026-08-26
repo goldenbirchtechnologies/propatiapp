@@ -12,6 +12,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationStep3VideoClient from './VerificationStep3VideoClient';
+import { PageHeader } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,29 +79,23 @@ export default async function VerificationStep3VideoPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            Verification Step 3
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Video walkthrough for {listing.title}
-          </p>
+        <div className="p-6 space-y-6">
+          <PageHeader
+            title="Step 3: Video"
+            description={`Video walkthrough for ${listing.title}`}
+            breadcrumb={['Verification', 'Step 3']}
+          />
+          <VerificationStep3VideoClient
+            listingId={listingId}
+            verificationId={verification?.id || null}
+            l3Status={verification?.l3Status || null}
+            currentLayer={verification?.currentLayer || 1}
+            overallStatus={verification?.overallStatus || null}
+            l2Status={verification?.l2Status || null}
+          />
         </div>
-        <VerificationStep3VideoClient
-          listingId={listingId}
-          verificationId={verification?.id || null}
-          l3Status={verification?.l3Status || null}
-          currentLayer={verification?.currentLayer || 1}
-          overallStatus={verification?.overallStatus || null}
-          l2Status={verification?.l2Status || null}
-        />
-      </div>
-    
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

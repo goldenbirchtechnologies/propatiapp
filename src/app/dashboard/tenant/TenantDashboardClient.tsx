@@ -1,20 +1,80 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { LayoutDashboard, Home, FileText, MessageSquare, Bell, Settings, Search, Receipt, Heart, FileCheck, HelpCircle, TrendingUp } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { CreditCard, Wrench, Home, Calendar, ArrowRight, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { StatCard, StatusBadge, PageHeader, Progress } from '@/components/ui';
+import { formatCurrency } from '@/lib/utils';
 
+interface Agreement {
+  id: string;
+  listing?: { title?: string; address?: string; price?: number; pricePeriod?: string };
+  status: string;
+}
 
-export default function TenantDashboardClient({ userName }: { userName?: string }) {
+interface Transaction {
+  id: string;
+  type: string;
+  status: string;
+  amount: number;
+  createdAt: string;
+}
+
+interface MaintenanceTicket {
+  id: string;
+  title: string;
+  status: string;
+  priority: string;
+  createdAt: string;
+}
+
+interface ActiveAgreement {
+  id: string;
+  listing: {
+    title: string;
+    address: string;
+    price?: number;
+    pricePeriod?: string;
+    images?: { url: string }[];
+  };
+  status: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+interface Props {
+  displayName: string;
+  savedCount: number;
+  activeAgreementCount: number;
+  openMaintenanceCount: number;
+  recentAgreements: Agreement[];
+  recentTransactions: Transaction[];
+  activeAgreement: ActiveAgreement | null;
+}
+
+export default function TenantDashboardClient({
+  displayName,
+  savedCount,
+  activeAgreementCount,
+  openMaintenanceCount,
+  recentAgreements,
+  recentTransactions,
+  activeAgreement,
+}: Props) {
   const [loading, setLoading] = useState(true);
-  const greeting = userName || 'Tenant';
+  const greeting = displayName;
+
+  // Calculate lease progress if we have an active agreement
+  let leaseProgress = 0;
+  let daysUntilRent = 8;
+  if (activeAgreement?.startDate && activeAgreement?.endDate) {
+    const start = new Date(activeAgreement.startDate);
+    const end = new Date(activeAgreement.endDate);
+    const now = new Date();
+    const total = end.getTime() - start.getTime();
+    const elapsed = now.getTime() - start.getTime();
+    leaseProgress = total > 0 ? Math.max(0, Math.min(100, Math.round((elapsed / total) * 100))) : 0;
+  }
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 0);
@@ -24,231 +84,170 @@ export default function TenantDashboardClient({ userName }: { userName?: string 
   if (loading) {
     return (
       <div className="space-y-6">
-        <Skeleton className="h-10 w-64" />
-        <Skeleton className="h-40 w-full" />
+        <div className="h-10 w-64 bg-zinc-900 rounded animate-pulse" />
+        <div className="h-40 w-full bg-zinc-900 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="h-24 w-full" />
+            <div key={i} className="h-24 w-full bg-zinc-900 rounded animate-pulse" />
           ))}
         </div>
       </div>
     );
   }
 
-  const searchCategories = [
-    { label: 'Rent', href: '/dashboard/tenant/search?type=rent' },
-    { label: 'Buy', href: '/dashboard/tenant/search?type=buy' },
-    { label: 'Short-let', href: '/dashboard/tenant/search?type=shortlet' },
-  ];
+  const paymentHistory = recentTransactions.slice(0, 4).map((tx) => ({
+    month: new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    amount: formatCurrency(Number(tx.amount)),
+    date: new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+    status: tx.status,
+  }));
 
-  const commercialCategories = [
-    { label: 'Lease', href: '/dashboard/tenant/search?type=lease' },
-    { label: 'Buy', href: '/dashboard/tenant/search?type=buy' },
-    { label: 'Short-let', href: '/dashboard/tenant/search?type=shortlet' },
-  ];
-
-  const recommended = [
-    { title: '2 Bed Flat · Ikoyi', badge: 'Verified', price: '₦4.2M/yr' },
-    { title: 'Office Suite · VI', badge: 'Verified', price: '₦18M/yr' },
-    { title: 'Short-let · Lekki', badge: 'Featured', price: '₦180k/night' },
+  const maintenanceRequests = [
+    { title: 'AC Not Cooling', status: 'In Progress', date: 'Aug 22', priority: 'High' },
+    { title: 'Leaking Tap — Kitchen', status: 'Resolved', date: 'Aug 10', priority: 'Medium' },
+    { title: 'Light Bulb — Bedroom', status: 'Resolved', date: 'Jul 28', priority: 'Low' },
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Welcome */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <div>
-            <h1 className="text-headline-lg-mobile font-bold text-white">Welcome back, {greeting}</h1>
-            <p className="text-muted-foreground mt-1">Track your search, tenancy, and payments.</p>
+    <div className="p-6 space-y-6">
+      <PageHeader
+        title="My Home"
+        description={`Welcome back, ${greeting}. Here's what's happening with your tenancy.`}
+        actions={
+          <Link
+            href="/listings"
+            className="inline-flex items-center gap-1.5 px-4 py-2 border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"
+          >
+            <Home size={14} /> Browse Listings
+          </Link>
+        }
+      />
+
+      {/* KPIs */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Days Until Rent" value={`${daysUntilRent}d`} sub="Sep 1, 2026" icon={Calendar} />
+        <StatCard label="Lease Remaining" value="4 months" sub="Expires Dec 2026" icon={Home} />
+        <StatCard label="Open Tickets" value={String(openMaintenanceCount)} sub="Maintenance" trend="flat" icon={Wrench} />
+        <StatCard label="Saved Properties" value={String(savedCount)} sub="Browse more" icon={Home} />
+      </div>
+
+      {/* Current lease */}
+      <div className="grid lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 glass-card p-6">
+          <div className="flex items-start justify-between mb-5">
+            <div>
+              <h3 className="text-white font-semibold">Current Lease</h3>
+              <p className="text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
+            </div>
+            <span className="px-2.5 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg">
+              Active
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" aria-label="Notifications"><Bell className="h-5 w-5" /></Button>
-            <Button variant="ghost" size="icon" aria-label="Settings"><Settings className="h-5 w-5" /></Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Search Hub */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
-        <Tabs defaultValue="residential" className="w-full">
-          <TabsList>
-            <TabsTrigger value="residential">Residential</TabsTrigger>
-            <TabsTrigger value="commercial">Commercial</TabsTrigger>
-          </TabsList>
-          <TabsContent value="residential" className="mt-4">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {searchCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
-                  <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
-                  <div className="text-sm font-semibold text-white">{item.label}</div>
-                </Link>
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="commercial" className="mt-4">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {commercialCategories.map(item => (
-                <Link key={item.label} href={item.href} className="rounded-xl border border-[#262626] bg-background p-4 text-center transition hover:border-white">
-                  <Search className="mx-auto mb-2 h-5 w-5 text-muted-foreground" />
-                  <div className="text-sm font-semibold text-white">{item.label}</div>
-                </Link>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </section>
-
-      {/* Quick Stats */}
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Total Payments Made</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="font-headline-md text-headline-md text-white">₦1.85M</div>
-            <div className="mt-2 flex items-center gap-2 text-xs text-[#00ff66]">
-              <TrendingUp className="h-4 w-4" />
-              <span className="font-medium">On track</span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Active Applications</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="font-headline-md text-headline-md text-white">3</div>
-            <p className="text-xs text-muted-foreground">1 pending review</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Saved Properties</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="font-headline-md text-headline-md text-white">12</div>
-            <p className="text-xs text-muted-foreground">4 updated this week</p>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Current Property */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="h-40 w-full md:w-64 rounded-xl bg-muted" />
-          <div className="flex-1 space-y-2">
-            <Badge variant="secondary">Active Lease</Badge>
-            <h2 className="font-headline-sm text-headline-sm text-white">2 Bed Flat · Ikoyi</h2>
-            <p className="text-sm text-muted-foreground">Landlord: Adebayo Estates</p>
-            <p className="text-sm text-muted-foreground">Next rent due in 18 days</p>
-            <div className="flex flex-wrap gap-2 pt-2">
-              <Button size="sm">View Lease</Button>
-              <Button size="sm" variant="outline">Pay Now</Button>
-              <Button size="sm" variant="ghost">Message Landlord</Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Payments */}
-      <section className="rounded-2xl border border-[#262626] bg-card shadow-sm">
-        <div className="section-content">
-        <div className="flex items-center justify-between p-lg">
-          <h2 className="font-headline-sm text-headline-sm text-white">Recent Payments</h2>
-          <Link href="/dashboard/tenant/payments" className="text-sm font-semibold text-white">View All</Link>
-        </div>
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-surface-container-high/50">
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Date</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Reference</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Amount</TableHead>
-              <TableHead className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Status</TableHead>
-              <TableHead className="text-right text-[10px] font-medium uppercase tracking-wider text-neutral-400">Receipt</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className="divide-y divide-[#262626]/30">
-            {[1, 2, 3].map(row => (
-              <TableRow key={row} className="hover:bg-obsidian-800/30 transition-colors">
-                <TableCell className="px-lg py-4 text-sm text-muted-foreground">2026-06-{10 + row}</TableCell>
-                <TableCell className="px-lg py-4 text-sm">TXN-{1000 + row}</TableCell>
-                <TableCell className="px-lg py-4 text-sm font-semibold">₦450,000</TableCell>
-                <TableCell className="px-lg py-4">
-                  <Badge variant="secondary" className="bg-success/10 text-[#00ff66]">Paid</Badge>
-                </TableCell>
-                <TableCell className="px-lg py-4 text-right text-sm text-white">Download</TableCell>
-              </TableRow>
+          <div className="grid grid-cols-3 gap-4 mb-5">
+            {[
+              { label: 'Monthly Rent', value: activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0' },
+              { label: 'Lease Start', value: activeAgreement?.startDate ? new Date(activeAgreement.startDate).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' }) : '—' },
+              { label: 'Lease End', value: activeAgreement?.endDate ? new Date(activeAgreement.endDate).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' }) : '—' },
+            ].map((item) => (
+              <div key={item.label}>
+                <div className="text-xs text-zinc-600 mb-1">{item.label}</div>
+                <div className="text-white text-sm font-semibold">{item.value}</div>
+              </div>
             ))}
-          </TableBody>
-        </Table>
-        </div>
-        <div className="section-empty-msg items-center justify-center p-8 text-center">
-          <p className="text-sm text-muted-foreground">No payments yet.</p>
-        </div>
-      </section>
-
-      {/* Recommended */}
-      <section className="space-y-3">
-        <h2 className="font-headline-sm text-headline-sm text-white">Recommended for You</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {recommended.map(item => (
-            <Card key={item.title} className="transition hover:shadow-lg">
-              <div className="h-36 rounded-t-xl bg-muted" />
-              <CardHeader>
-                <CardTitle className="text-base">{item.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center justify-between">
-                <Badge variant="secondary">{item.badge}</Badge>
-                <span className="text-sm font-semibold text-white">{item.price}</span>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Activity + Pending Lease */}
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="font-headline-sm text-headline-sm">Recent Activity Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <div className="text-xs text-muted-foreground">Application Timeline</div>
-              <div className="mt-2 h-24 rounded-xl bg-muted" />
+          </div>
+          <div>
+            <div className="flex justify-between text-xs mb-2">
+              <span className="text-zinc-500">Lease Progress</span>
+              <span className="text-white">{leaseProgress}% complete</span>
             </div>
-            <div>
-              <div className="text-xs text-muted-foreground">Next Rent Due</div>
-              <div className="mt-2 font-headline-md text-headline-md text-white">18 days</div>
-            </div>
-            <div>
-              <div className="text-xs text-muted-foreground">Saved Searches</div>
-              <div className="mt-2 font-headline-md text-headline-md text-white">4</div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline-sm text-headline-sm">Pending Lease</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Progress value={45} />
-            <p className="text-sm text-muted-foreground">Verification stage: documents uploaded</p>
-            <Button className="w-full">Track Application</Button>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Help */}
-      <section className="rounded-2xl border border-[#262626] bg-card p-lg shadow-sm">
-        <h2 className="font-headline-sm text-headline-sm text-white">Help Center</h2>
-        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
-          <Link href="/dashboard/tenant/messages" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Chat with verified agent</Link>
-          <Link href="/dashboard/support" className="rounded-xl border border-[#262626] bg-background p-4 text-sm font-semibold text-white transition hover:border-white">Tenant Rights & FAQs</Link>
-          <Button variant="secondary" className="justify-start">Report maintenance issue</Button>
+            <Progress value={leaseProgress} color="#10b981" />
+          </div>
         </div>
-      </section>
+
+        {/* Next payment */}
+        <div className="glass-card p-5 flex flex-col">
+          <h3 className="text-white font-semibold text-sm mb-4">Next Payment</h3>
+          <div className="flex-1">
+            <div className="text-3xl font-black text-white mb-1">
+              {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
+            </div>
+            <div className="text-zinc-500 text-xs mb-1">Due September 1, 2026</div>
+            <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-500'}`}>
+              <Clock size={11} />
+              {daysUntilRent} days remaining
+            </div>
+          </div>
+          <Link
+            href="/dashboard/tenant/payments"
+            className="mt-5 w-full py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+          >
+            <CreditCard size={14} />
+            Pay Rent
+          </Link>
+        </div>
+      </div>
+
+      {/* Payment history + maintenance */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-semibold text-sm">Payment History</h3>
+            <Link href="/dashboard/tenant/payments" className="text-xs text-emerald-400 flex items-center gap-1">
+              All <ArrowRight size={11} />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {paymentHistory.length === 0 ? (
+              <p className="text-sm text-zinc-500 text-center py-4">No payment history yet.</p>
+            ) : (
+              paymentHistory.map((p, i) => (
+                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.05] last:border-0">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle size={14} className="text-emerald-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-white text-sm">{p.month}</div>
+                    <div className="text-zinc-600 text-xs">Paid on {p.date}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-zinc-200 text-sm font-medium">{p.amount}</div>
+                    <StatusBadge status={p.status} />
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-semibold text-sm">Maintenance Requests</h3>
+            <Link href="/dashboard/tenant/maintenance" className="text-xs text-emerald-400 flex items-center gap-1">
+              All <ArrowRight size={11} />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {maintenanceRequests.map((m, i) => (
+              <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-zinc-950/60">
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                  m.priority === 'High' ? 'bg-amber-400' : m.priority === 'Medium' ? 'bg-blue-400' : 'bg-zinc-600'
+                }`} />
+                <div className="flex-1 min-w-0">
+                  <div className="text-white text-xs font-medium">{m.title}</div>
+                  <div className="text-zinc-600 text-xs">{m.date}</div>
+                </div>
+                <StatusBadge status={m.status} />
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/dashboard/tenant/maintenance/new"
+            className="mt-3 w-full py-2 text-xs font-medium text-zinc-400 border border-dashed border-white/[0.08] rounded-lg hover:border-zinc-600 hover:text-zinc-200 transition-colors text-center block"
+          >
+            + New maintenance request
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

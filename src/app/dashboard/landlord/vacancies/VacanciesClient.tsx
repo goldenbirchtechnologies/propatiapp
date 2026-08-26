@@ -147,8 +147,8 @@ export default function VacanciesClient({ userId }: { userId: string }) {
   function StatusBadge({ status }: { status: VacancyStatus }) {
     const config: Record<VacancyStatus, string> = {
       open: 'bg-success/10 text-[#00ff66] border-success/20',
-      filled: 'bg-[#262626] text-white border-primary/20',
-      closed: 'bg-muted/30 text-neutral-400 border-muted/50',
+      filled: 'bg-zinc-900 text-white border-white/[0.08]/20',
+      closed: 'bg-zinc-900/30 text-zinc-500 border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
     };
     const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -157,36 +157,36 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function VacancyTableSkeleton() {
     return (
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
+      <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-[#262626]">
-              <th className="text-neutral-400">
+            <tr className="border-white/[0.08]">
+              <th className="text-zinc-500">
                 Property
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Type
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Status
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Rent
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Applicants
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Listed
               </th>
-              <th className="text-neutral-400">
+              <th className="text-zinc-500">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-[#262626]">
+              <tr key={i} className="border-white/[0.08]">
                 <td className="p-4">
                   <Skeleton className="h-5 w-48 mb-1" />
                   <Skeleton className="h-3 w-32" />
@@ -221,10 +221,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-white">
+          <h1 className="font-heading font-bold font-headline-sm text-white text-white">
             Vacancies
           </h1>
-          <p className="text-neutral-400">
+          <p className="text-zinc-500">
             Track active vacancies, applicants count, and listing performance
           </p>
         </div>
@@ -267,10 +267,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4">
+      <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="text-neutral-400" />
+            <Search className="text-zinc-500" />
             <input
               type="text"
               placeholder="Search property or location..."
@@ -280,7 +280,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="text-neutral-400" />
+            <Filter className="text-zinc-500" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
@@ -309,12 +309,12 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         skeleton={<VacancyTableSkeleton />}
       >
         {filteredVacancies.length === 0 ? (
-          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626]-body text-center py-16">
-            <Search className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
+          <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08]-body text-center py-16">
+            <Search className="w-16 h-16 mx-auto mb-4 text-zinc-500" style={{ opacity: 0.5 }} />
             <h3 className="text-white">
               No vacancies found
             </h3>
-            <p className="text-neutral-400">
+            <p className="text-zinc-500">
               {searchQuery || filterStatus !== 'all'
                 ? 'Try adjusting your filters to see more results.'
                 : 'Vacancies will appear here once you list your properties.'}
@@ -327,41 +327,41 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             )}
           </div>
         ) : (
-          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden">
+          <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-[#262626]">
-                    <th className="text-neutral-400">
+                  <tr className="border-white/[0.08]">
+                    <th className="text-zinc-500">
                       Property
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Type
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Status
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Rent
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Applicants
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Days Listed
                     </th>
-                    <th className="text-neutral-400">
+                    <th className="text-zinc-500">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredVacancies.map((vacancy) => (
-                    <tr key={vacancy.id} className="border-[#262626]">
+                    <tr key={vacancy.id} className="border-white/[0.08]">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div
-                            className="bg-[#262626] text-white"
+                            className="bg-zinc-900 text-white"
                           >
                             <HomeIcon className="w-5 h-5" />
                           </div>
@@ -372,14 +372,14 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                             >
                               {vacancy.property}
                             </Link>
-                            <p className="text-neutral-400">
+                            <p className="text-zinc-500">
                               {vacancy.location}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-surface-container text-neutral-400 border border-[#262626]">{vacancy.type}</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-zinc-500 border border-white/[0.08]">{vacancy.type}</span>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={vacancy.status} />
@@ -389,7 +389,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-1">
-                          <Users className="text-neutral-400" />
+                          <Users className="text-zinc-500" />
                           <span className="text-white">{vacancy.applicants}</span>
                         </div>
                       </td>
@@ -445,17 +445,17 @@ function StatCard({
   trendPositive?: boolean;
 }) {
   return (
-    <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
+    <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-6">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-neutral-400">
+          <p className="text-zinc-500">
             {label}
           </p>
           <p className="text-white">
             {value}
           </p>
         </div>
-        <div className="bg-[#262626] text-white">
+        <div className="bg-zinc-900 text-white">
           {icon}
         </div>
       </div>

@@ -152,10 +152,10 @@ export function StampDutyWidget({
 
   if (currentStatus === 'certificate_issued' || currentStatus === 'paid') {
     return (
-      <Card className="p-6 border-green-200 bg-green-50">
+      <Card className="p-6 border-green-200 bg-emerald-500/10">
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-            <CheckCircle2 className="h-5 w-5 text-green-600" />
+            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
@@ -164,7 +164,7 @@ export function StampDutyWidget({
                 {currentStatus === 'certificate_issued' ? 'Certificate Issued' : 'Paid'}
               </Badge>
             </div>
-            <p className="text-sm text-green-700 mb-3">
+            <p className="text-sm text-emerald-400 mb-3">
               Required by Nigerian Stamp Duties Act
             </p>
             {certificateNumber && (
@@ -178,7 +178,7 @@ export function StampDutyWidget({
                     href={certificateUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm text-green-700 underline hover:text-green-900"
+                    className="inline-flex items-center gap-1 text-sm text-emerald-400 underline hover:text-green-900"
                   >
                     <Download className="h-3 w-3" />
                     Download e-Certificate

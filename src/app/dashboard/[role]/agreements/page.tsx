@@ -70,7 +70,7 @@ export default function AgreementsPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">Agreements</h1>
-          <p className="text-muted-foreground">
+          <p className="text-zinc-500">
             {role === 'landlord'
               ? 'Manage your rental agreements and track signatures'
               : 'View and sign your rental agreements'}
@@ -97,19 +97,19 @@ export default function AgreementsPage() {
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3].map((i) => (
-                <Card key={i} className="p-6 animate-pulse">
+                <div className="glass-card p-6 animate-pulse" key={i}>
                   <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
                   <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
                   <div className="h-3 bg-muted rounded w-2/3"></div>
-                </Card>
+                </div>
               ))}
             </div>
           ) : filteredAgreements.length === 0 ? (
-            <Card className="p-12">
+            <div className="glass-card p-12">
               <div className="text-center">
-                <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <FileText className="h-12 w-12 mx-auto text-zinc-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">No agreements found</h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-zinc-500 mb-6">
                   {role === 'landlord'
                     ? 'Create your first agreement to get started'
                     : 'No agreements available at this time'}
@@ -121,11 +121,11 @@ export default function AgreementsPage() {
                   </Button>
                 )}
               </div>
-            </Card>
+            </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredAgreements.map((agreement) => (
-                <Card key={agreement.id} className="p-6 hover:shadow-lg transition-shadow">
+                <div className="glass-card p-6 hover:shadow-none transition-shadow" key={agreement.id}>
                   <div className="space-y-4">
                     {/* Property Image & Title */}
                     <div className="flex items-start gap-3">
@@ -140,7 +140,7 @@ export default function AgreementsPage() {
                         <h3 className="font-semibold truncate">
                           {agreement.listing?.title || 'Property'}
                         </h3>
-                        <p className="text-sm text-muted-foreground truncate">
+                        <p className="text-sm text-zinc-500 truncate">
                           {agreement.listing?.address}
                         </p>
                       </div>
@@ -153,7 +153,7 @@ export default function AgreementsPage() {
 
                     {/* Other Party */}
                     <div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-zinc-500">
                         {role === 'landlord' ? 'Tenant' : 'Landlord'}
                       </p>
                       <p className="font-medium">
@@ -165,17 +165,17 @@ export default function AgreementsPage() {
 
                     {/* Rent Amount */}
                     <div>
-                      <p className="text-xs text-muted-foreground">Rent Amount</p>
+                      <p className="text-xs text-zinc-500">Rent Amount</p>
                       <p className="text-lg font-bold text-white">
                         {formatCurrency(agreement.rentAmount || 0)}
-                        <span className="text-sm font-normal text-muted-foreground">
+                        <span className="text-sm font-normal text-zinc-500">
                           /{agreement.rentPeriod || 'month'}
                         </span>
                       </p>
                     </div>
 
                     {/* Dates */}
-                    <div className="flex justify-between text-xs text-muted-foreground">
+                    <div className="flex justify-between text-xs text-zinc-500">
                       <div>
                         <p>Start</p>
                         <p className="font-medium text-white">
@@ -216,7 +216,7 @@ export default function AgreementsPage() {
                       )}
                     </div>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           )}

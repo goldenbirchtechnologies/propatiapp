@@ -73,23 +73,23 @@ function Step2IdentityClient(props: Props) {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Verification Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Verification Progress</h3>
+        </div>
+        <div className="p-6">
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-zinc-400 mt-2">
             {props.l2Status === 'approved' ? 'Identity verified successfully' : props.l2Status === 'rejected' ? 'Identity verification failed' : 'Complete identity verification to proceed'}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Identity Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-white">Identity Details</h3>
+        </div>
+        <div className="p-6 space-y-4">
           {!canProceed ? (
             <div className="flex items-center gap-2 p-4 rounded-lg bg-warning/10 border border-warning/20">
               <AlertCircle className="h-5 w-5 text-warning" />
@@ -97,7 +97,7 @@ function Step2IdentityClient(props: Props) {
             </div>
           ) : status === 'approved' ? (
             <div className="flex items-center gap-2 p-4 rounded-lg bg-success/10 border border-success/20">
-              <CheckCircle2 className="h-5 w-5 text-[#00ff66]" />
+              <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
               <p className="text-sm font-medium">Identity verified successfully.</p>
             </div>
           ) : status === 'pending' ? (
@@ -112,7 +112,7 @@ function Step2IdentityClient(props: Props) {
                 <select
                   value={idType}
                   onChange={(e) => setIdType(e.target.value)}
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                   disabled={isReadOnly}
                 >
                   <option value="">Select ID type</option>
@@ -128,7 +128,7 @@ function Step2IdentityClient(props: Props) {
                   value={idNumber}
                   onChange={(e) => setIdNumber(e.target.value)}
                   placeholder="Enter ID number"
-                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                  className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                   disabled={isReadOnly}
                 />
               </div>
@@ -138,8 +138,8 @@ function Step2IdentityClient(props: Props) {
               </Button>
             </>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="flex justify-end">
         {props.l2Status === 'approved' && (

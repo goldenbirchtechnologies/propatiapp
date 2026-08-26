@@ -121,64 +121,64 @@ export default async function LandlordScenarioBuilderPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Advanced Scenario Builder</h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-zinc-500 mt-1">
             Model rent, occupancy, and revenue outcomes under different assumptions.
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Assumptions</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Assumptions</h3>
+          </div>
+          <div className="p-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
-                <p className="text-sm text-muted-foreground">Average Rent</p>
+                <p className="text-sm text-zinc-500">Average Rent</p>
                 <p className="text-xl font-semibold">₦{avgRent.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Occupancy Target</p>
+                <p className="text-sm text-zinc-500">Occupancy Target</p>
                 <p className="text-xl font-semibold">{occupancyRate}%</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Lease Cycle</p>
+                <p className="text-sm text-zinc-500">Lease Cycle</p>
                 <p className="text-xl font-semibold">{leaseCycle} Months</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Scenarios</CardTitle>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between">
+            <h3 className="text-lg font-semibold text-white">Scenarios</h3>
             <Button variant="outline" className="gap-2">
               <Sliders className="h-4 w-4" />
               New Scenario
             </Button>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="p-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {scenarios.map((s) => (
-                <Card key={s.name}>
-                  <CardContent className="p-6 space-y-3">
+                <div className="glass-card" key={s.name}>
+                  <div className="p-6 p-6 space-y-3">
                     <div className="flex items-center justify-between">
                       <p className="text-lg font-semibold">{s.name}</p>
                       <Badge variant="secondary">{s.occupancyRate}%</Badge>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Monthly Revenue</p>
+                      <p className="text-sm text-zinc-500">Monthly Revenue</p>
                       <p className="text-2xl font-bold">₦{(s.monthlyIncome || 0).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Vacancy</p>
+                      <p className="text-sm text-zinc-500">Vacancy</p>
                       <p className="text-sm">{s.vacancy}</p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     
       </ErrorBoundary>

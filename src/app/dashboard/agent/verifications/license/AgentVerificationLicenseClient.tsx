@@ -77,7 +77,7 @@ export default function AgentVerificationLicenseClient() {
         );
       case 'under-review':
         return (
-          <span className="px-3 py-1 rounded-full bg-[#262626] text-neutral-300 border border-[#262626] text-xs font-bold">
+          <span className="px-3 py-1 rounded-full bg-zinc-900 text-zinc-300 border border-white/[0.08] text-xs font-bold">
             Under Review
           </span>
           );
@@ -94,17 +94,17 @@ export default function AgentVerificationLicenseClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl md:text-4xl font-bold">Professional License</h1>
-        <p className="mt-2 text-neutral-400 max-w-2xl">
+        <p className="mt-2 text-zinc-500 max-w-2xl">
           To ensure the integrity of our marketplace, all agents must provide valid regulatory documentation.
           Verified agents receive a &apos;Certified&apos; badge on all listings.
         </p>
       </div>
 
       {/* Header Status */}
-      <Card className="bg-[#171717]/50 border border-[#262626]">
-        <CardContent className="p-4 flex flex-wrap items-center gap-6">
+      <div className="glass-card bg-[#171717]/50 border border-white/[0.08]">
+        <div className="p-6 p-4 flex flex-wrap items-center gap-6">
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-neutral-400">
+            <span className="text-xs uppercase tracking-wider text-zinc-500">
               Current Status
             </span>
             <span className="flex items-center gap-2 font-bold">
@@ -114,34 +114,34 @@ export default function AgentVerificationLicenseClient() {
           </div>
           <div className="h-10 w-[1px] bg-border" />
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-neutral-400">
+            <span className="text-xs uppercase tracking-wider text-zinc-500">
               Last Update
             </span>
             <span className="font-bold">Oct 24, 2023</span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Form & Upload */}
         <div className="lg:col-span-8 space-y-6">
-          <Card>
-            <CardHeader>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white flex items-center justify-center font-bold text-sm">
                   1
                 </span>
-                <CardTitle>License Details</CardTitle>
+                <h3 className="text-lg font-semibold text-white">License Details</h3>
               </div>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">License Type</label>
                   <select
                     value={licenseType}
                     onChange={(e) => setLicenseType(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                   >
                     {licenseTypes.map((lt) => (
                       <option key={lt}>{lt}</option>
@@ -153,7 +153,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={licenseNumber}
                     onChange={(e) => setLicenseNumber(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR/2023/8892"
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={issuingAuthority}
                     onChange={(e) => setIssuingAuthority(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR Council of Nigeria"
                   />
                 </div>
@@ -172,23 +172,23 @@ export default function AgentVerificationLicenseClient() {
                     type="date"
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-white/[0.08] text-sm"
                   />
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
               <div className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-[#00ff66] text-white flex items-center justify-center font-bold text-sm">
                   2
                 </span>
-                <CardTitle>File Upload</CardTitle>
+                <h3 className="text-lg font-semibold text-white">File Upload</h3>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
+            </div>
+            <div className="p-6 space-y-4">
               <label
                 htmlFor="license-upload"
                 className="relative flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-10 cursor-pointer hover:border-white hover:bg-[#171717]/30 transition-all"
@@ -198,7 +198,7 @@ export default function AgentVerificationLicenseClient() {
                   <FileUp className="h-8 w-8 text-white" />
                 </div>
                 <p className="font-bold text-lg mb-1">Drag & drop your certificate</p>
-                <p className="text-sm text-neutral-400 text-center">
+                <p className="text-sm text-zinc-500 text-center">
                   Support for PDF, PNG, or JPEG. Maximum file size 5MB.
                 </p>
                 <Button variant="outline" className="mt-4">
@@ -208,24 +208,24 @@ export default function AgentVerificationLicenseClient() {
 
               <div className="flex justify-end gap-4">
                 <Button variant="outline">Save Draft</Button>
-                <Button className="shadow-lg hover:-translate-y-1 transition-transform">
+                <Button className="shadow-none hover:-translate-y-1 transition-transform">
                   Submit for Verification
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Guidance */}
         <div className="lg:col-span-4 space-y-6">
-          <Card className="bg-[#00ff66] text-white">
-            <CardHeader>
+          <div className="glass-card bg-[#00ff66] text-white">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#00ff66]" />
-                <CardTitle className="text-[#00ff66]">Verification Tips</CardTitle>
+                <h3 className="text-lg font-semibold text-white text-[#00ff66]">Verification Tips</h3>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
+            </div>
+            <div className="p-6 space-y-4">
               <ul className="space-y-4">
                 {[
                   'Clear Legibility: Ensure all text, seal stamps, and signatures are clearly visible without glare.',
@@ -233,24 +233,24 @@ export default function AgentVerificationLicenseClient() {
                   'Full Document: Upload the full page. Cropped photos of just the badge/logo will be rejected.',
                 ].map((tip, idx) => (
                   <li key={idx} className="flex gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-300 mt-0.5 shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-emerald-400 mt-0.5 shrink-0" />
                     <p className="text-sm opacity-90" dangerouslySetInnerHTML={{ __html: tip }} />
                   </li>
                 ))}
               </ul>
-              <div className="p-3 bg-obsidian-800/30/10 rounded-xl border border-white/10">
+              <div className="p-3 bg-zinc-950/50/10 rounded-xl border border-white/10">
                 <p className="text-xs italic opacity-70">
                   Verification typically takes 24-48 business hours. You&apos;ll receive a push notification once approved.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Process Journey</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white text-lg">Process Journey</h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-6 relative">
                 <div className="absolute left-[15px] top-2 bottom-2 w-[2px] bg-[#171717]" />
                 {[
@@ -265,35 +265,35 @@ export default function AgentVerificationLicenseClient() {
                           ? 'bg-green-600 text-white'
                           : step.status === 'pending'
                             ? 'bg-[#00ff66] text-white animate-pulse'
-                            : 'bg-[#171717] text-neutral-400'
+                            : 'bg-[#171717] text-zinc-500'
                       }`}
                     >
                       <AppIcon name={step.status} className="lucide" />
                     </div>
                     <div>
                       <p className="text-sm font-bold">{step.label}</p>
-                      <p className="text-xs text-neutral-400">{step.sub}</p>
+                      <p className="text-xs text-zinc-500">{step.sub}</p>
                     </div>
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Submission History */}
-      <Card>
-        <CardHeader className="pb-4 flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">Submission History</CardTitle>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-white text-lg">Submission History</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Export Log
           </Button>
-        </CardHeader>
-        <CardContent className="overflow-x-auto">
+        </div>
+        <div className="p-6 overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-[#171717]/50 text-neutral-400">
+              <tr className="bg-[#171717]/50 text-zinc-500">
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">License Type</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Submitted</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Reference ID</th>
@@ -312,7 +312,7 @@ export default function AgentVerificationLicenseClient() {
                       <span className="font-medium text-sm">{s.licenseType}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-neutral-400">{s.submittedAt}</td>
+                  <td className="px-4 py-4 text-sm text-zinc-500">{s.submittedAt}</td>
                   <td className="px-4 py-4 text-sm font-mono">{s.refId}</td>
                   <td className="px-4 py-4">{statusBadge(s.status)}</td>
                   <td className="px-4 py-4">
@@ -332,8 +332,8 @@ export default function AgentVerificationLicenseClient() {
               ))}
             </tbody>
           </table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

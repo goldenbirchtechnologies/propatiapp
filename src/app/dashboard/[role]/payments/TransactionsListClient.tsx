@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/table';
 import { CreditCard, Receipt, Eye, Loader2, Plus, Filter } from 'lucide-react';
 import { useTransactions } from '@/hooks/usePayments';
-import { TransactionStatusBadge } from '@/components/payments/transaction-status-badge';
+import { TransactionStatusBadge, type TransactionStatus } from '@/components/payments/transaction-status-badge';
 import { formatAmountFromKobo } from '@/lib/payment-utils';
 
 interface User {
@@ -33,12 +33,11 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('all');
 
-  const { data: transactionsData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as unknown;
+  const { data: transactionsDataRaw, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 });
+  const transactionsData = transactionsDataRaw as any;
+  const transactions = transactionsData?.pages?.flatMap((page: any) => page.data || []) || [];
 
-  const transactions = transactionsData?.pages?.flatMap((page: unknown) => page.data || []) || [];
-
-  // Filter transactions based on active tab
-  const filteredTransactions = transactions.filter((tx: unknown) => {
+  const filteredTransactions = transactions.filter((tx: any) => {
     if (activeTab === 'all') return true;
     if (activeTab === 'pending') return tx.status === 'pending';
     if (activeTab === 'in_escrow') return tx.status === 'in_escrow';
@@ -61,7 +60,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Transactions</h1>
-          <p className="text-muted-foreground">View and manage your payment history</p>
+          <p className="text-zinc-500">View and manage your payment history</p>
         </div>
         <Button onClick={() => router.push('/dashboard/payments/new')}>
           <Plus className="mr-2 h-4 w-4" />
@@ -80,21 +79,21 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
         </TabsList>
 
         <TabsContent value={activeTab} className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="glass-card">
+            <div className="px-6 py-5 border-b border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-white">Transaction History</h3>
+            </div>
+            <div className="p-6">
               {isLoading ? (
                 <div className="py-12 text-center">
-                  <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-muted-foreground">Loading transactions...</p>
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-zinc-500" />
+                  <p className="text-zinc-500">Loading transactions...</p>
                 </div>
               ) : filteredTransactions.length === 0 ? (
                 <div className="py-12 text-center">
-                  <CreditCard className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                  <CreditCard className="h-12 w-12 mx-auto mb-4 text-zinc-500 opacity-50" />
                   <h3 className="text-lg font-semibold mb-2">No transactions found</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-zinc-500 mb-4">
                     {activeTab === 'all'
                       ? 'You haven\'t made unknown payments yet'
                       : `No ${activeTab} transactions`}
@@ -120,7 +119,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredTransactions.map((tx: unknown) => (
+                      {filteredTransactions.map((tx: any) => (
                         <TableRow key={tx.id}>
                           <TableCell>
                             {format(new Date(tx.createdAt), 'MMM dd, yyyy')}
@@ -136,7 +135,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                                 {tx.listing?.title || 'N/A'}
                               </p>
                               {tx.agreements?.[0] && (
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-zinc-500">
                                   Agreement: {tx.agreements[0].id.slice(-8).toUpperCase()}
                                 </p>
                               )}
@@ -146,7 +145,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                             {formatAmountFromKobo(tx.amount)}
                           </TableCell>
                           <TableCell>
-                            <TransactionStatusBadge status={tx.status} />
+                            <TransactionStatusBadge status={tx.status as TransactionStatus} />
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex items-center justify-end gap-2">
@@ -196,8 +195,8 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                   )}
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

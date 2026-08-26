@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { useUnits } from '@/hooks/useUnits';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -159,8 +158,8 @@ export default function UnitsPage() {
               <p style={{ color: 'var(--muted)', marginTop: 'var(--space-vs)' }}>Unit registry and occupancy overview</p>
             </div>
           </div>
-          <Card className="border-red-500/30 bg-destructive/5">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="glass-card border-red-500/30 bg-red-500/5">
+            <div className="p-6 flex flex-col items-center justify-center py-12 text-center">
               <Building2 className="h-12 w-12 mb-4" style={{ color: 'var(--muted)' }} />
               <p className="font-medium" style={{ color: 'var(--text)' }}>Unable to load units</p>
               <p className="text-sm mt-1 mb-4" style={{ color: 'var(--muted)' }}>
@@ -170,8 +169,8 @@ export default function UnitsPage() {
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Retry
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
     );
   }
@@ -199,47 +198,47 @@ export default function UnitsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <Card className="p-4">
+            <div className="glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Building2 className="w-4 h-4" style={{ color: 'var(--muted)' }} />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Total Units</p>
               </div>
               <p className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{totalUnits}</p>
-            </Card>
-            <Card className="p-4">
+            </div>
+            <div className="glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-green-600" />
+                <Users className="w-4 h-4 text-emerald-400" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Occupied</p>
               </div>
-              <p className="text-2xl font-bold text-green-600">{occupiedUnits}</p>
-            </Card>
-            <Card className="p-4">
+              <p className="text-2xl font-bold text-emerald-400">{occupiedUnits}</p>
+            </div>
+            <div className="glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Home className="w-4 h-4 text-amber-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Vacant</p>
               </div>
               <p className="text-2xl font-bold text-amber-600">{vacantUnits}</p>
-            </Card>
-            <Card className="p-4">
+            </div>
+            <div className="glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Wrench className="w-4 h-4 text-red-600" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Maintenance</p>
               </div>
               <p className="text-2xl font-bold text-red-600">{maintenanceUnits}</p>
-            </Card>
-            <Card className="p-4">
+            </div>
+            <div className="glass-card p-4">
               <div className="flex items-center gap-2 mb-2">
-                <DollarSign className="w-4 h-4 text-green-600" />
+                <DollarSign className="w-4 h-4 text-emerald-400" />
                 <p className="text-xs" style={{ color: 'var(--muted)' }}>Monthly Rent</p>
               </div>
-              <p className="text-2xl font-bold text-green-600">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
-            </Card>
+              <p className="text-2xl font-bold text-emerald-400">₦{(totalMonthlyRent / 1e6).toFixed(1)}M</p>
+            </div>
           </div>
         )}
 
         {/* Filters */}
         {!isLoading && (
-          <Card className="p-4">
+          <div className="glass-card p-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
@@ -277,11 +276,11 @@ export default function UnitsPage() {
                 </SelectContent>
               </Select>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Table */}
-        <Card>
+        <div className="glass-card">
           <div className="p-4">
             {isLoading ? (
               <Table>
@@ -343,7 +342,7 @@ export default function UnitsPage() {
                   {filteredUnits.map((unit: unknown) => (
                     <TableRow
                       key={unit.id}
-                      className="cursor-pointer hover:bg-muted/30"
+                      className="cursor-pointer hover:bg-zinc-900/30"
                       onClick={() => router.push(`/dashboard/estate-manager/units/${unit.id}`)}
                     >
                       <TableCell className="font-medium">
@@ -371,7 +370,7 @@ export default function UnitsPage() {
               </Table>
             )}
           </div>
-        </Card>
+        </div>
       </div>
   );
 }

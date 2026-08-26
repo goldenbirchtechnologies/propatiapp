@@ -5,6 +5,8 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AppIcon from '@/components/icons/app-icon';
+import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/components/ui';
+import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 function formatCurrency(value: number, currency = 'NGN') {
@@ -14,6 +16,15 @@ function formatCurrency(value: number, currency = 'NGN') {
     currency,
     maximumFractionDigits: 0,
   }).format(value);
+}
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 export default async function AdminOverviewPage() {
@@ -68,187 +79,82 @@ export default async function AdminOverviewPage() {
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
+        <div className="p-6 space-y-6">
+          <PageHeader
+            title="Platform Overview"
+            description="Monitor platform health, user growth, and key metrics"
+          />
 
-      <AdminOverviewClient
-        kpi={{
-          totalUsers,
-          activeUsers,
-          newToday,
-          pendingVerifications,
-          totalListings,
-          activeListings,
-          totalTransactions,
-          escrowedTransactions,
-          disputeCount,
-          gtv,
-        }}
-        recentUsers={recentUsers}
-      />
-    
-      </ErrorBoundary>
-</DashboardShell>
-  );
-}
-
-function AdminOverviewClient({
-  kpi,
-  recentUsers,
-}: {
-  kpi: {
-    totalUsers: number;
-    activeUsers: number;
-    newToday: number;
-    pendingVerifications: number;
-    totalListings: number;
-    activeListings: number;
-    totalTransactions: number;
-    escrowedTransactions: number;
-    disputeCount: number;
-    gtv: number;
-  };
-  recentUsers: {
-    id: string;
-    fullName: string;
-    email: string;
-    role: string;
-    createdAt: Date;
-  }[];
-}) {
-  'use client';
-
-  const initials = (name: string) =>
-    name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase();
-
-  return (
-    <div className="space-y-6">
-      {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          {
-            label: 'Total Users',
-            value: kpi.totalUsers.toLocaleString(),
-            sub: `${kpi.activeUsers.toLocaleString()} active · ${kpi.newToday} new today`,
-            icon: 'groups',
-          },
-          {
-            label: 'Pending Verifications',
-            value: String(kpi.pendingVerifications),
-            sub: 'Awaiting review',
-            icon: 'pending_actions',
-            accent: 'warning',
-          },
-          {
-            label: 'Platform Revenue (GTV)',
-            value: formatCurrency(kpi.gtv / 100),
-            sub: `${kpi.totalTransactions.toLocaleString()} transactions`,
-            icon: 'payments',
-          },
-          {
-            label: 'Active Disputes',
-            value: String(kpi.disputeCount),
-            sub: `${kpi.escrowedTransactions} in escrow`,
-            icon: 'report',
-            accent: kpi.disputeCount > 0 ? 'error' : undefined,
-          },
-        ].map((card) => (
-          <div
-            key={card.label}
-            className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm hover:shadow-md transition-all"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-muted-foreground font-medium">{card.label}</span>
-              <AppIcon name={card.icon} className="lucide" size={20} />
-            </div>
-            <div className="text-headline-md font-bold text-white">{card.value}</div>
-            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+          {/* KPI Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatCard label="Total Users" value={totalUsers.toLocaleString()} sub={`${activeUsers.toLocaleString()} active · ${newToday} new today`} icon={Users} />
+            <StatCard label="Pending Verifications" value={String(pendingVerifications)} sub="Awaiting review" icon={'pending_actions'} />
+            <StatCard label="Platform Revenue (GTV)" value={formatCurrency(gtv / 100)} sub={`${totalTransactions.toLocaleString()} transactions`} icon={'payments'} />
+            <StatCard label="Active Disputes" value={String(disputeCount)} sub={`${escrowedTransactions} in escrow`} icon={'report'} />
           </div>
-        ))}
-      </div>
 
-      {/* Recent Users + Quick Stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Users Table */}
-        <div className="lg:col-span-2 rounded-xl border border-[#262626] bg-surface shadow-sm overflow-hidden">
-          <div className="p-md border-b border-[#262626] flex items-center justify-between bg-obsidian-800/30">
-            <h3 className="font-headline-sm text-white">Newest Users</h3>
-            <span className="text-xs text-muted-foreground">Last 5 signups</span>
-          </div>
-          {recentUsers.length === 0 ? (
-            <p className="p-lg text-sm text-muted-foreground text-center">No users registered yet.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-surface-container text-muted-foreground border-b border-[#262626]">
-                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">User</th>
-                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Role</th>
-                    <th className="px-lg py-md font-label-md text-label-sm uppercase tracking-wider">Joined</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#262626]">
-                  {recentUsers.map((u) => (
-                    <tr key={u.id} className="hover:bg-obsidian-800-lowest transition-colors">
-                      <td className="px-lg py-md">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold">
-                            {initials(u.fullName || u.email)}
-                          </div>
-                          <div>
-                            <div className="font-bold text-white text-sm">{u.fullName}</div>
-                            <div className="text-xs text-muted-foreground">{u.email}</div>
-                          </div>
+          {/* Recent Users + Quick Stats */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Recent Users Table */}
+            <div className="lg:col-span-2 glass-card overflow-hidden">
+              <div className="p-5 border-b border-white/[0.08] flex items-center justify-between">
+                <h3 className="text-white font-semibold text-sm">Newest Users</h3>
+                <span className="text-xs text-zinc-500">Last 5 signups</span>
+              </div>
+              {recentUsers.length === 0 ? (
+                <p className="p-6 text-sm text-zinc-500 text-center">No users registered yet.</p>
+              ) : (
+                <DataTable
+                  columns={[
+                    { key: 'fullName', label: 'User', render: (row) => (
+                      <div className="flex items-center gap-3">
+                        <Avatar name={String(row.fullName || '')} size="sm" />
+                        <div>
+                          <div className="text-white text-sm font-medium">{String(row.fullName)}</div>
+                          <div className="text-zinc-600 text-xs">{String(row.email)}</div>
                         </div>
-                      </td>
-                      <td className="px-lg py-md text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
-                      <td className="px-lg py-md text-body-sm text-muted-foreground">
-                        {u.createdAt.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-
-        {/* Platform Health Sidebar */}
-        <div className="space-y-4">
-          <div className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
-            <h3 className="font-headline-sm text-white mb-3">Platform Health</h3>
-            <div className="space-y-3">
-              {[
-                { label: 'Active Listings', value: `${kpi.activeListings.toLocaleString()} / ${kpi.totalListings.toLocaleString()}` },
-                { label: 'Transactions in Escrow', value: kpi.escrowedTransactions.toLocaleString() },
-                { label: 'Pending Verifications', value: kpi.pendingVerifications.toLocaleString() },
-                { label: 'Total Listings', value: kpi.totalListings.toLocaleString() },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{item.label}</span>
-                  <span className="font-bold text-white">{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-xl border border-[#262626] bg-surface p-lg shadow-sm">
-            <h3 className="font-headline-sm text-white mb-2">Trend Snapshot</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Revenue tracked to date includes{' '}
-              <span className="font-bold text-white">released</span> and{' '}
-              <span className="font-bold text-secondary">in-escrow</span> transactions.
-              {kpi.disputeCount > 0 && (
-                <> <span className="text-error font-bold">{kpi.disputeCount}</span> open disputes require attention.</>
+                      </div>
+                    )},
+                    { key: 'role', label: 'Role', render: (row) => <span className="capitalize text-zinc-300">{String(row.role).replace('_', ' ')}</span> },
+                    { key: 'createdAt', label: 'Joined', render: (row) => <span className="text-zinc-500">{new Date(String(row.createdAt)).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}</span> },
+                  ]}
+                  data={recentUsers as unknown as Record<string, unknown>[]}
+                />
               )}
-            </p>
+            </div>
+
+            {/* Platform Health Sidebar */}
+            <div className="space-y-4">
+              <div className="glass-card p-5">
+                <h3 className="text-white font-semibold text-sm mb-3">Platform Health</h3>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Active Listings', value: `${activeListings.toLocaleString()} / ${totalListings.toLocaleString()}` },
+                    { label: 'Transactions in Escrow', value: escrowedTransactions.toLocaleString() },
+                    { label: 'Pending Verifications', value: pendingVerifications.toLocaleString() },
+                    { label: 'Total Listings', value: totalListings.toLocaleString() },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center justify-between text-sm">
+                      <span className="text-zinc-500">{item.label}</span>
+                      <span className="font-semibold text-white">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="glass-card p-5">
+                <h3 className="text-white font-semibold text-sm mb-2">Trend Snapshot</h3>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Revenue tracked to date includes{' '}
+                  <span className="font-semibold text-white">released</span> and{' '}
+                  <span className="font-semibold text-emerald-400">in-escrow</span> transactions.
+                  {disputeCount > 0 && <> <span className="text-red-400 font-bold">{disputeCount}</span> open disputes require attention.</>}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </ErrorBoundary>
+    </DashboardShell>
   );
 }

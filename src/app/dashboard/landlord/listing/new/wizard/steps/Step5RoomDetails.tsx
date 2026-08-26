@@ -98,15 +98,15 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
             Tips
           </Button>
         </div>
-        <p className="text-sm text-muted-foreground">Select all furnishings available in the bedrooms.</p>
+        <p className="text-sm text-zinc-500">Select all furnishings available in the bedrooms.</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {FURNISHING_OPTIONS.map((opt) => (
             <label
               key={opt}
               className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
                 selected.includes(opt)
-                  ? 'border-primary bg-primary/5'
-                  : 'border-[#262626] hover:border-white/40'
+                  ? 'border-white/[0.08] bg-primary/5'
+                  : 'border-white/[0.08] hover:border-white/40'
               }`}
             >
               <Checkbox
@@ -121,7 +121,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
 
       <div className="space-y-2">
         <h2 className="text-lg font-semibold">Space photos</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-zinc-500">
           Upload photos of your property (you will need at least 5 in the next step).
         </p>
         <div
@@ -129,13 +129,13 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
           onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
           className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition ${
-            dragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
+            dragOver ? 'border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
           }`}
         >
           {images.length === 0 ? (
             <>
-              <ImageIcon className="size-8 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Drag and drop photos here, or click to browse</p>
+              <ImageIcon className="size-8 text-zinc-500" />
+              <p className="text-sm text-zinc-500">Drag and drop photos here, or click to browse</p>
             </>
           ) : (
             <div className="flex flex-wrap gap-2">

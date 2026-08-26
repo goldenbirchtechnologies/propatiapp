@@ -83,20 +83,20 @@ export default async function AgentCommissionsPage() {
         userName={user.fullName}
         userAvatar={user.avatarUrl || undefined}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Commissions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-neutral-400">{commissionsError}</p>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white">Commissions</h3>
+          </div>
+          <div className="p-6">
+            <p className="text-zinc-400">{commissionsError}</p>
             <Link
               href="/dashboard/agent/commissions"
               className="mt-4 inline-block underline text-sm"
             >
               Retry
             </Link>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </DashboardShell>
     );
   }

@@ -137,7 +137,7 @@ function StepIndicator({
             ? 'bg-accent border-accent text-white'
             : isActive
             ? 'bg-accent/10 border-accent text-accent'
-            : 'bg-surface border-border text-muted-foreground'
+            : 'bg-surface border-zinc-800 text-zinc-400'
         )}
         style={{ minWidth: '40px' }}
       >
@@ -154,7 +154,7 @@ function StepIndicator({
       <div className="text-center w-24">
         <p className={cn(
           'font-medium text-xs transition-colors',
-          isActive || isCompleted ? 'text-text' : 'text-muted-foreground'
+          isActive || isCompleted ? 'text-text' : 'text-zinc-400'
         )}>
           {step.title}
         </p>
@@ -217,7 +217,7 @@ function RequirementItem({
   };
 
   return (
-    <div className="p-4 bg-muted/30 rounded-lg border border-border">
+    <div className="p-4 bg-zinc-900/30 rounded-lg border border-zinc-800">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -226,7 +226,7 @@ function RequirementItem({
               {config.label}
             </Badge>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-zinc-400">
             {requirement.type === 'document' && 'Upload a PDF, JPG, or PNG file (max 10MB)'}
             {requirement.type === 'video' && 'Record a 30-60 second video showing the property'}
             {requirement.type === 'confirmation' && 'Confirm your identity details match the records'}
@@ -284,7 +284,7 @@ function RequirementItem({
           )}
 
           {requirement.fileName && (
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <span className="text-xs text-zinc-400 flex items-center gap-1">
               <FileText className="h-3 w-3" />
               {requirement.fileName}
             </span>
@@ -374,7 +374,7 @@ function StepContent({
         {step.icon}
         <div>
           <h3 className="font-heading font-semibold text-foreground">{step.title}</h3>
-          <p className="text-sm text-muted-foreground">{step.description}</p>
+          <p className="text-sm text-zinc-400">{step.description}</p>
         </div>
       </div>
 
@@ -404,8 +404,8 @@ function StepContent({
       )}
 
       {step.status === 'approved' && (
-        <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-          <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
+        <div className="p-4 bg-emerald-500/10 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+          <div className="flex items-center gap-2 text-emerald-400 dark:text-green-300">
             <CheckCircle className="h-5 w-5" />
             <span className="font-medium">Approved</span>
             {step.completedAt && <span className="text-xs ml-auto">Completed {formatRelativeTime(step.completedAt)}</span>}
@@ -429,7 +429,7 @@ function StepContent({
       </div>
 
       {step.actions && step.actions.length > 0 && (
-        <div className="pt-4 border-t border-border flex flex-wrap gap-3">
+        <div className="pt-4 border-t border-zinc-800 flex flex-wrap gap-3">
           {step.actions.map((action, index) => (
             <Button
               key={index}
@@ -483,7 +483,7 @@ export function VerificationWizard({
             <h2 className="font-heading text-xl font-semibold text-foreground">
               Property Verification
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-zinc-400">
               Complete all 5 layers to get your property certified
             </p>
           </div>
@@ -495,7 +495,7 @@ export function VerificationWizard({
         {/* Progress Bar */}
         <div className="relative">
           <Progress value={overallProgress} className="h-2" />
-          <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+          <div className="flex justify-between mt-2 text-xs text-zinc-400">
             <AppIcon name="0%" className="lucide" />
             <AppIcon name="{overallProgress}%" className="lucide" />
             <AppIcon name="100%" className="lucide" />
@@ -519,15 +519,15 @@ export function VerificationWizard({
       </div>
 
       {/* Step Content */}
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
         <Tabs defaultValue={String(currentLayer)} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-muted/50 border-b border-border p-1" role="tablist">
+          <TabsList className="grid w-full grid-cols-5 bg-zinc-900/50 border-b border-zinc-800 p-1" role="tablist">
             {sortedSteps.map((step) => (
               <TabsTrigger
                 key={step.layer}
                 value={String(step.layer)}
                 className={cn(
-                  'data-[state=active]:bg-background data-[state=active]:shadow-sm',
+                  'data-[state=active]:bg-zinc-900 data-[state=active]:shadow-sm',
                   'text-xs py-2 px-1',
                   completedLayers.includes(step.layer) && 'text-accent',
                   step.status === 'rejected' && 'text-destructive'
@@ -567,7 +567,7 @@ export function VerificationWizard({
       </div>
 
       {/* Navigation Actions */}
-      <div className="flex items-center justify-between pt-4 border-t border-border">
+      <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
         <Button
           variant="outline"
           onClick={() => {}}

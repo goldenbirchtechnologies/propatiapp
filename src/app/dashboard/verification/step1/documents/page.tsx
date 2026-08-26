@@ -12,6 +12,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { prisma } from '@/lib/prisma';
 import VerificationStep1DocumentsClient from './VerificationStep1DocumentsClient';
+import { PageHeader } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,28 +76,22 @@ export default async function VerificationStep1DocumentsPage({
       userName={user.fullName || 'User'}
       userAvatar={user.avatarUrl || undefined}
     >
-
       <ErrorBoundary>
-
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            Verification Step 1
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Upload required documents for {listing.title}
-          </p>
+        <div className="p-6 space-y-6">
+          <PageHeader
+            title="Step 1: Documents"
+            description={`Upload required documents for ${listing.title}`}
+            breadcrumb={['Verification', 'Step 1']}
+          />
+          <VerificationStep1DocumentsClient
+            listingId={listingId}
+            verificationId={verification?.id || null}
+            documents={verification?.documents || []}
+            currentStatus={verification?.l1Status || null}
+            overallStatus={verification?.overallStatus || null}
+          />
         </div>
-        <VerificationStep1DocumentsClient
-          listingId={listingId}
-          verificationId={verification?.id || null}
-          documents={verification?.documents || []}
-          currentStatus={verification?.l1Status || null}
-          overallStatus={verification?.overallStatus || null}
-        />
-      </div>
-    
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

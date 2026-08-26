@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import DashboardShell from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -34,17 +33,17 @@ function DisbursementsForm() {
 
       <ErrorBoundary>
 
-      <Card className="max-w-xl">
-        <CardHeader><CardTitle>Disburse to landlord</CardTitle></CardHeader>
-        <CardContent>
+      <div className="glass-card max-w-xl">
+        <div className="px-6 py-5 border-b border-white/[0.08]"><h3 className="text-lg font-semibold text-white">Disburse to landlord</h3></div>
+        <div className="p-6">
           <form onSubmit={submit} className="space-y-4">
             <Field><FieldLabel>Listing reference / Agreement ID</FieldLabel><Input value={listingRef} onChange={e=>setListingRef(e.target.value)} required /></Field>
             <Field><FieldLabel>Landlord user ID</FieldLabel><Input value={landlordId} onChange={e=>setLandlordId(e.target.value)} required /></Field>
             <Field><FieldLabel>Amount (₦)</FieldLabel><Input type="number" min={100} value={amount} onChange={e=>setAmount(e.target.value)} required /></Field>
             <Button type="submit" disabled={loading} className="w-full">{loading ? 'Processing...' : 'Disburse'}</Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       </ErrorBoundary>
 </DashboardShell>
@@ -53,7 +52,7 @@ function DisbursementsForm() {
 
 export default function DisbursementsPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-sm text-muted-foreground">Loading…</div>}>
+    <Suspense fallback={<div className="p-6 text-sm text-zinc-500">Loading…</div>}>
       <DisbursementsForm />
     </Suspense>
   );

@@ -145,7 +145,7 @@ function ListingImage({
   const isVerified = verification?.overallStatus === 'certified' || (verification?.currentLayer != null && verification.currentLayer >= 3);
 
   return (
-    <div className={cn('relative overflow-hidden bg-muted', aspectRatio)}>
+    <div className={cn('relative overflow-hidden bg-zinc-900', aspectRatio)}>
       {primaryImage && primaryImage !== '/placeholder-property.jpg' ? (
         <Image
           src={primaryImage}
@@ -155,7 +155,7 @@ function ListingImage({
           sizes={variant === 'list' ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 100vw, 33vw'}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+        <div className="w-full h-full flex items-center justify-center text-zinc-400">
           <Home className="h-8 w-8" />
         </div>
       )}
@@ -172,7 +172,7 @@ function ListingImage({
             size="icon"
             onClick={onSaveClick}
             className={cn(
-              'bg-surface-elevated/90 backdrop-blur-sm hover:bg-surface',
+              'bg-zinc-900/90 backdrop-blur-sm hover:bg-zinc-900',
               isSaved && 'text-red-500'
             )}
             aria-label={isSaved ? 'Remove from saved' : 'Save listing'}
@@ -313,7 +313,7 @@ function AgentInfo({
   const isVerified = owner?.phoneVerified || false;
 
   return (
-    <div className="flex items-center gap-3 pt-3 border-t border-border">
+    <div className="flex items-center gap-3 pt-3 border-t border-zinc-800">
       <div className="relative">
         {avatar ? (
           <Image src={avatar} alt={name} width={40} height={40} className="rounded-full" />
@@ -324,7 +324,7 @@ function AgentInfo({
           </div>
         )}
         {isVerified && (
-          <span className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+          <span className="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
             <CheckCircle className="h-3 w-3 text-white" />
           </span>
         )}
@@ -423,7 +423,7 @@ export function ListingCard({
   );
 
   const baseClasses = cn(
-    'relative bg-card border border-border rounded-xl overflow-hidden transition-all duration-200',
+    'relative bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden transition-all duration-200',
     'hover:shadow-lg hover:border-accent/50',
     variant === 'grid' && 'flex flex-col h-full',
     variant === 'list' && 'flex flex-row items-start gap-4',
@@ -447,25 +447,25 @@ export function ListingSkeleton({ variant = 'grid', count = 3 }: { variant?: 'gr
     <div className={cn('grid gap-4', variant === 'grid' && 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3')}>
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className={cn(
-          'bg-card border border-border rounded-xl overflow-hidden animate-pulse',
+          'bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden animate-pulse',
           variant === 'grid' && 'flex flex-col h-full',
           variant === 'list' && 'flex flex-row items-start gap-4',
           variant === 'compact' && 'flex items-center gap-3 p-3'
         )}>
-          <div className={cn('bg-muted', variant === 'list' ? 'w-64 h-48 flex-shrink-0' : variant === 'compact' ? 'w-24 h-24 flex-shrink-0' : 'aspect-video')} />
+          <div className={cn('bg-zinc-900', variant === 'list' ? 'w-64 h-48 flex-shrink-0' : variant === 'compact' ? 'w-24 h-24 flex-shrink-0' : 'aspect-video')} />
           <div className={cn('p-4', variant === 'list' && 'flex-1', variant === 'compact' && 'flex-1')}>
-            <div className="h-4 w-3/4 bg-muted rounded mb-2" />
-            <div className="h-3 w-1/2 bg-muted rounded mb-3" />
+            <div className="h-4 w-3/4 bg-zinc-900 rounded mb-2" />
+            <div className="h-3 w-1/2 bg-zinc-900 rounded mb-3" />
             <div className="flex gap-2">
-              <div className="h-6 w-16 bg-muted rounded-full" />
-              <div className="h-6 w-16 bg-muted rounded-full" />
-              <div className="h-6 w-16 bg-muted rounded-full" />
+              <div className="h-6 w-16 bg-zinc-900 rounded-full" />
+              <div className="h-6 w-16 bg-zinc-900 rounded-full" />
+              <div className="h-6 w-16 bg-zinc-900 rounded-full" />
             </div>
             <div className="mt-3 flex gap-2">
-              <div className="h-5 w-20 bg-muted rounded-full" />
-              <div className="h-5 w-20 bg-muted rounded-full" />
+              <div className="h-5 w-20 bg-zinc-900 rounded-full" />
+              <div className="h-5 w-20 bg-zinc-900 rounded-full" />
             </div>
-            <div className="mt-3 h-8 bg-muted rounded w-1/3" />
+            <div className="mt-3 h-8 bg-zinc-900 rounded w-1/3" />
           </div>
         </div>
       ))}

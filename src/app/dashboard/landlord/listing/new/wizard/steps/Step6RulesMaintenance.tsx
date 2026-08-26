@@ -56,9 +56,9 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-semibold">House rules</h2>
-          <Info className="size-4 text-muted-foreground" />
+          <Info className="size-4 text-zinc-500" />
         </div>
-        <p className="text-sm text-muted-foreground">Select the rules you want to set for your guests.</p>
+        <p className="text-sm text-zinc-500">Select the rules you want to set for your guests.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {HOUSE_RULES.map((rule) => {
             const checked = selected.includes(rule.value);
@@ -67,8 +67,8 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
                 key={rule.value}
                 className={`flex items-center justify-between gap-2 rounded-md border p-3 cursor-pointer transition ${
                   checked
-                    ? 'border-primary bg-primary/5'
-                    : 'border-[#262626] hover:border-white/40'
+                    ? 'border-white/[0.08] bg-primary/5'
+                    : 'border-white/[0.08] hover:border-white/40'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Label htmlFor="description" className="text-sm font-medium">Property description</Label>
-          <Info className="size-4 text-muted-foreground" />
+          <Info className="size-4 text-zinc-500" />
         </div>
         <Textarea
           id="description"

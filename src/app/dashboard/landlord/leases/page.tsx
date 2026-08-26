@@ -54,7 +54,7 @@ export default async function LandlordLeasesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Leases</h1>
-            <p className="text-muted-foreground mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
+            <p className="text-zinc-500 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
           </div>
           <Link
             href="/dashboard/landlord/agreements/new"
@@ -70,29 +70,29 @@ export default async function LandlordLeasesPage() {
           <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" trendPositive={false} />
         </div>
 
-        <div className="rounded-lg border border-[#262626] bg-obsidian-800/30 shadow-sm">
+        <div className="rounded-lg border border-white/[0.08] bg-zinc-950/50 shadow-none">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#262626]">
-                  <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Property</th>
-                  <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Tenant</th>
-                  <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Start Date</th>
-                  <th className="px-4 py-3 text-sm font-medium text-muted-foreground">End Date</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">Rent</th>
+                <tr className="border-b border-white/[0.08]">
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-500">Property</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-500">Tenant</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-500">Status</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-500">Start Date</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-500">End Date</th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-500">Rent</th>
                 </tr>
               </thead>
               <tbody>
                 {leases.map((lease) => (
-                  <tr key={lease.id} className="border-b border-[#262626]">
+                  <tr key={lease.id} className="border-b border-white/[0.08]">
                     <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
                     <td className="px-4 py-3">{lease.tenant.fullName}</td>
                     <td className="px-4 py-3">{statusBadge(lease.status)}</td>
-                    <td className="px-4 py-3 text-sm text-muted-foreground">
+                    <td className="px-4 py-3 text-sm text-zinc-500">
                       {lease.startDate ? new Date(lease.startDate).toLocaleDateString('en-NG') : '—'}
                     </td>
-                    <td className="px-4 py-3 text-sm text-muted-foreground">
+                    <td className="px-4 py-3 text-sm text-zinc-500">
                       {lease.endDate ? new Date(lease.endDate).toLocaleDateString('en-NG') : '—'}
                     </td>
                     <td className="px-4 py-3 text-right font-mono">
@@ -104,7 +104,7 @@ export default async function LandlordLeasesPage() {
             </table>
             {leases.length === 0 && (
               <div className="p-12 text-center">
-                <p className="text-muted-foreground">No lease agreements yet.</p>
+                <p className="text-zinc-500">No lease agreements yet.</p>
                 <Link href="/dashboard/landlord/agreements/new" className="text-sm text-white mt-2 inline-block hover:underline">
                   Create your first agreement
                 </Link>
@@ -121,10 +121,10 @@ export default async function LandlordLeasesPage() {
 
 function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; trend: string; trendPositive?: boolean }) {
   return (
-    <div className="rounded-xl border border-[#262626] p-6 shadow-sm">
+    <div className="rounded-xl border border-white/[0.08] p-6 shadow-none">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{label}</p>
+          <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{label}</p>
           <p className="text-2xl font-bold mt-1">{value}</p>
         </div>
       </div>

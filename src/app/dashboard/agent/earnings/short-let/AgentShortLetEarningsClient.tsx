@@ -103,64 +103,64 @@ export default function AgentShortLetEarningsClient() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-headline-sm font-bold">Short-let Revenue</h1>
-        <p className="mt-2 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Track earnings, occupancy, and payouts.</p>
+        <h1 className="text-white font-bold">Short-let Revenue</h1>
+        <p className="mt-2 text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">Track earnings, occupancy, and payouts.</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="md:col-span-2 bg-[#00ff66] text-white relative overflow-hidden">
-          <CardContent className="p-6 relative z-10">
-            <p className="text-xs font-label-md uppercase tracking-wider opacity-80">Available Revenue</p>
-            <h2 className="text-headline-sm font-bold mt-2">₦12,450,000.00</h2>
+        <div className="glass-card md:col-span-2 bg-[#00ff66] text-white relative overflow-hidden">
+          <div className="p-6 p-6 relative z-10">
+            <p className="text-xs font-label-sm uppercase tracking-wider opacity-80">Available Revenue</p>
+            <h2 className="text-white font-bold mt-2">₦12,450,000.00</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Button className="bg-[#262626] text-white hover:brightness-110">
+              <Button className="bg-zinc-900 text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-obsidian-800-lowestest/10">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-zinc-900est/10">
                 History
               </Button>
             </div>
-          </CardContent>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-[#262626] opacity-10 rounded-full blur-3xl" />
-        </Card>
+          </div>
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-zinc-900 opacity-10 rounded-full blur-3xl" />
+        </div>
 
-        <Card>
-          <CardContent className="p-6">
+        <div className="glass-card">
+          <div className="p-6 p-6">
             <div className="flex justify-between items-start">
-              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Occupancy Rate</p>
-              <span className="bg-[#00ff66]/10 text-[#00ff66] px-2 py-1 rounded text-xs font-bold border border-[#262626]">+12%</span>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Occupancy Rate</p>
+              <span className="bg-[#00ff66]/10 text-[#00ff66] px-2 py-1 rounded text-xs font-bold border border-white/[0.08]">+12%</span>
             </div>
-            <h3 className="text-headline-sm font-bold mt-2">{occupancy}%</h3>
+            <h3 className="text-white font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs font-label-md uppercase tracking-wider mt-2 text-neutral-400">Average across 14 properties</p>
-          </CardContent>
-        </Card>
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-2 text-zinc-500">Average across 14 properties</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Next Payout</p>
-            <h3 className="text-headline-sm font-bold mt-2">{nextPayout}</h3>
+        <div className="glass-card">
+          <div className="p-6 p-6">
+            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Next Payout</p>
+            <h3 className="text-white font-bold mt-2">{nextPayout}</h3>
             <div className="flex items-center gap-3 mt-4">
-              <div className="p-2 bg-[#262626] rounded-xl">
-                <TrendingUp className="h-4 w-4 text-neutral-300" />
+              <div className="p-2 bg-zinc-900 rounded-xl">
+                <TrendingUp className="h-4 w-4 text-zinc-300" />
               </div>
               <div>
                 <p className="text-sm font-bold">₦{nextPayoutAmount.toLocaleString()}</p>
-                <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Estimated amount</p>
+                <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Estimated amount</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Calendar + Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
-          <CardHeader className="pb-4 flex flex-row items-center justify-between">
+        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-white/[0.08] pb-4 flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-headline-sm">Revenue Forecast</CardTitle>
-              <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">May 2024 Bookings</p>
+              <h3 className="text-lg font-semibold text-white text-white">Revenue Forecast</h3>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">May 2024 Bookings</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -170,61 +170,61 @@ export default function AgentShortLetEarningsClient() {
                 <AppIcon name="chevron_right" className="lucide" />
               </Button>
             </div>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div className="p-6">
             <div className="min-w-[600px] grid grid-cols-7 gap-2">
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">MON</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">TUE</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">WED</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">THU</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">FRI</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">SAT</div>
-              <div className="text-center text-xs font-label-md uppercase tracking-wider py-2 text-neutral-400">SUN</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">MON</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">TUE</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">WED</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">THU</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">FRI</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">SAT</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-500">SUN</div>
               {calendarDays.map((d) => (
                 <div
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-[#171717] border-[#262626] opacity-40' : 'bg-obsidian-800/30 border-[#262626] hover:border-white cursor-pointer',
-                    d.active ? 'bg-[#00ff66] text-white border-primary' : '',
-                    d.peak ? 'bg-[#262626] text-white border-[#262626]' : ''
+                    d.disabled ? 'bg-[#171717] border-white/[0.08] opacity-40' : 'bg-zinc-950/50 border-white/[0.08] hover:border-white cursor-pointer',
+                    d.active ? 'bg-[#00ff66] text-white border-white/[0.08]' : '',
+                    d.peak ? 'bg-zinc-900 text-white border-white/[0.08]' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
                   {d.revenue && (
                     <div>
-                      <span className={cn('text-[10px] font-label-md uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-[#00ff66]')}>
+                      <span className={cn('text-[10px] font-label-sm uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-[#00ff66]')}>
                         ₦{(d.revenue / 1000).toFixed(0)}k
                       </span>
                       {(d.active || d.peak) && (
-                        <div className="h-1 w-full bg-[#262626]/60 rounded-full mt-1" />
+                        <div className="h-1 w-full bg-zinc-900/60 rounded-full mt-1" />
                       )}
                     </div>
                   )}
                   {d.blocked && (
-                    <div className="flex items-center gap-1 text-neutral-400">
+                    <div className="flex items-center gap-1 text-zinc-500">
                       <Wrench className="h-3 w-3" />
-                      <span className="text-[10px] font-label-md uppercase tracking-wider">Blocked</span>
+                      <span className="text-[10px] font-label-sm uppercase tracking-wider">Blocked</span>
                     </div>
                   )}
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-[#262626] rounded-xl">
-          <CardHeader>
-            <CardTitle className="text-headline-sm">Revenue Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6 flex-1">
+        <div className="glass-card flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-white text-white">Revenue Breakdown</h3>
+          </div>
+          <div className="p-6 space-y-6 flex-1">
             {breakdown.map((item) => (
               <div key={item.label} className="space-y-2">
                 <div className="flex justify-between text-sm font-mono">
-                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-neutral-400' : '')}>
+                  <span className={cn('text-xs font-label-sm uppercase tracking-wider', item.value.startsWith('-') ? 'text-zinc-500' : '')}>
                     {item.label}
                   </span>
-                  <span className={cn('text-xs font-label-md uppercase tracking-wider', item.value.startsWith('-') ? 'text-red-500' : '')}>{item.value}</span>
+                  <span className={cn('text-xs font-label-sm uppercase tracking-wider', item.value.startsWith('-') ? 'text-red-500' : '')}>{item.value}</span>
                 </div>
                 <div className="w-full bg-[#171717] rounded-full h-3">
                   <div
@@ -234,39 +234,39 @@ export default function AgentShortLetEarningsClient() {
                 </div>
               </div>
             ))}
-            <div className="pt-6 mt-6 border-t border-[#262626]">
+            <div className="pt-6 mt-6 border-t border-white/[0.08]">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Net Revenue</p>
-                  <p className="text-headline-sm font-bold text-[#00ff66]">₦12,450,000</p>
+                  <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Net Revenue</p>
+                  <p className="text-white font-bold text-[#00ff66]">₦12,450,000</p>
                 </div>
-                <div className="bg-[#00ff66]/10 text-[#00ff66] px-3 py-1 rounded-full text-xs font-bold border border-[#262626]">
+                <div className="bg-[#00ff66]/10 text-[#00ff66] px-3 py-1 rounded-full text-xs font-bold border border-white/[0.08]">
                   VERIFIED
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Recent Completed Stays */}
-      <Card>
-        <CardHeader className="pb-4 flex flex-row items-center justify-between">
-          <CardTitle className="text-headline-sm">Recent Completed Stays</CardTitle>
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-white text-white">Recent Completed Stays</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Download Report
           </Button>
-        </CardHeader>
-        <CardContent className="overflow-x-auto">
+        </div>
+        <div className="p-6 overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#171717]/50 text-neutral-400">
+            <thead className="bg-[#171717]/50 text-zinc-500">
               <tr>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Property & Guest</th>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Stay Dates</th>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Gross Amount</th>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Service Fee</th>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Net Payout</th>
-                <th className="px-4 py-3 text-xs font-label-md uppercase tracking-wider">Status</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Property & Guest</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Stay Dates</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Gross Amount</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Service Fee</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Net Payout</th>
+                <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#262626]">
@@ -275,20 +275,20 @@ export default function AgentShortLetEarningsClient() {
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[#171717] flex items-center justify-center shrink-0">
-                        <CalendarDays className="h-5 w-5 text-neutral-400" />
+                        <CalendarDays className="h-5 w-5 text-zinc-500" />
                       </div>
                       <div>
                         <p className="text-sm font-bold">{stay.property}</p>
-                        <p className="text-xs font-label-md uppercase tracking-wider text-neutral-400">Guest: {stay.guest}</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Guest: {stay.guest}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-xs font-label-md uppercase tracking-wider">
+                  <td className="px-4 py-4 text-xs font-label-sm uppercase tracking-wider">
                     {stay.dates}
-                    <span className="text-xs font-label-md uppercase tracking-wider block text-neutral-400">({stay.nights} nights)</span>
+                    <span className="text-xs font-label-sm uppercase tracking-wider block text-zinc-500">({stay.nights} nights)</span>
                   </td>
                   <td className="px-4 py-4 text-sm font-mono">₦{stay.gross.toLocaleString()}</td>
-                  <td className="px-4 py-4 text-sm font-label-md uppercase tracking-wider text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>
+                  <td className="px-4 py-4 text-sm font-label-sm uppercase tracking-wider text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>
                   <td className="px-4 py-4 text-sm font-bold">₦{stay.net.toLocaleString()}</td>
                   <td className="px-4 py-4">
                     <Badge
@@ -302,8 +302,8 @@ export default function AgentShortLetEarningsClient() {
               ))}
             </tbody>
           </table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

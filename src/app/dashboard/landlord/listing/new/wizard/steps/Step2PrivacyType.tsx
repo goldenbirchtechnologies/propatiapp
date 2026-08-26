@@ -47,14 +47,14 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
         {OPTIONS.map((opt) => {
           const isActive = selected === opt.value;
           return (
-            <Card
+            <div className="glass-card"
               key={opt.value}
               size="sm"
               onClick={() => handleSelect(opt.value)}
               className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-primary bg-[#262626]'
-                  : 'border-[#262626] hover:border-white/40'
+                  ? 'border-white/[0.08] bg-zinc-900'
+                  : 'border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (
@@ -63,15 +63,15 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
                 </div>
               )}
               <div className="p-4 flex items-center gap-4">
-                <div className={isActive ? 'text-white' : 'text-muted-foreground'}>
+                <div className={isActive ? 'text-white' : 'text-zinc-500'}>
                   {opt.icon}
                 </div>
                 <div className="flex-1">
                   <div className="font-medium">{opt.label}</div>
-                  <div className="text-sm text-muted-foreground">{opt.description}</div>
+                  <div className="text-sm text-zinc-500">{opt.description}</div>
                 </div>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

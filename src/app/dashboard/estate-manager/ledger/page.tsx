@@ -4,7 +4,6 @@ import React from 'react';
 import { useOrganizations } from '@/hooks';
 import { useRentLedger } from '@/hooks/useUnits';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { LoadingState } from '@/components/feedback/LoadingState';
 import { FailureState } from '@/components/feedback/FailureState';
@@ -118,27 +117,27 @@ export default function LedgerPage() {
   if (entries.length === 0) {
     return (
       <div className="space-y-6">
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Ledger Entries</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground py-8 text-center">
+        <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+          <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-white text-sm font-medium">Ledger Entries</h3>
+          </div>
+          <div className="p-6">
+            <p className="text-sm text-zinc-500 py-8 text-center">
               No ledger entries found.
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <Card className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Ledger Entries</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
+        <div className="px-6 py-5 border-b border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+          <h3 className="text-lg font-semibold text-white text-sm font-medium">Ledger Entries</h3>
+        </div>
+        <div className="p-6">
           <Table>
             <TableHeader>
               <TableRow>
@@ -161,8 +160,8 @@ export default function LedgerPage() {
               ))}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

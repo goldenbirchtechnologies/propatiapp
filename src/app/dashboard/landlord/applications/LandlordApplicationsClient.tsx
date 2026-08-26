@@ -27,20 +27,21 @@ import {
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { PageHeader, SectionLabel, StatusBadge, StatCard, Avatar } from '@/components/ui';
 
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
 type ApplicationStage = 'submitted' | 'screening' | 'guarantor_pending' | 'approved' | 'rejected';
 
 export function EmptyState() {
   return (
-    <Card className="border-dashed border-[#262626] bg-obsidian-800/30/70 p-8 text-center shadow-sm">
-      <CardContent className="flex flex-col items-center gap-4 py-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#262626] text-white">
+    <div className="glass-card glass-card border-dashed border-zinc-700 p-8 text-center">
+      <div className="p-6 flex flex-col items-center gap-4 py-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 text-white">
           <ClipboardList className="h-6 w-6" />
         </div>
         <div className="space-y-2">
           <h3 className="text-xl font-semibold tracking-tight text-white">No applications yet</h3>
-          <p className="mx-auto max-w-md text-sm leading-6 text-neutral-400">
+          <p className="mx-auto max-w-md text-sm leading-6 text-zinc-400">
             Tenant applications will appear here once people start applying to your listings.
           </p>
         </div>
@@ -52,8 +53,8 @@ export function EmptyState() {
             <Link href="/dashboard/landlord/properties">View properties</Link>
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -106,32 +107,32 @@ interface Application {
 }
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
-  under_review: { label: 'Under Review', className: 'bg-info/10 text-info border-info/20' },
-  accepted: { label: 'Accepted', className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
-  approved: { label: 'Approved', className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
-  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]' },
-  cancelled: { label: 'Cancelled', className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]' },
-  canceled: { label: 'Canceled', className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]' },
-  submitted: { label: 'Submitted', className: 'bg-info/10 text-info border-info/20' },
+  pending: { label: 'Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
+  under_review: { label: 'Under Review', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+  accepted: { label: 'Accepted', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]' },
+  cancelled: { label: 'Cancelled', className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]' },
+  canceled: { label: 'Canceled', className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]' },
+  submitted: { label: 'Submitted', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
 };
 
 const stageConfig: Record<string, { label: string; className: string }> = {
-  submitted: { label: 'Submitted', className: 'bg-[#262626] text-neutral-300 border-[#262626]' },
-  screening: { label: 'Screening', className: 'bg-green-50 text-green-700 border-green-200' },
-  guarantor_pending: { label: 'Guarantor Pending', className: 'bg-warning/10 text-warning border-warning/20' },
-  approved: { label: 'Approved', className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
-  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
+  submitted: { label: 'Submitted', className: 'bg-zinc-800 text-zinc-300 border-zinc-700' },
+  screening: { label: 'Screening', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  guarantor_pending: { label: 'Guarantor Pending', className: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
+  approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
 };
 
 function screeningPill(value: string) {
   const normalized = String(value || '').toLowerCase();
   if (!normalized || normalized === 'not_started' || normalized === 'none' || normalized === 'false')
-    return <span className="text-xs text-red-500 border border-red-500/20 rounded-full px-2 py-0.5">Not Verified</span>;
+    return <span className="text-xs text-red-400 border border-red-500/20 rounded-full px-2 py-0.5">Not Verified</span>;
   if (normalized === 'approved' || normalized === 'verified' || normalized === 'true')
-    return <span className="text-xs text-[#00ff66] border border-success/20 rounded-full px-2 py-0.5">Verified</span>;
-  return <span className="text-xs text-warning border border-warning/20 rounded-full px-2 py-0.5">Pending</span>;
+    return <span className="text-xs text-emerald-400 border border-emerald-500/20 rounded-full px-2 py-0.5">Verified</span>;
+  return <span className="text-xs text-amber-400 border border-amber-500/20 rounded-full px-2 py-0.5">Pending</span>;
 }
 
 export default function LandlordApplicationsClient({ applications: initial }: { applications: Application[] }) {
@@ -232,29 +233,24 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-400">Leasing workflow</p>
-        <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
-          Tenant Applications
-        </h1>
-        <p className="max-w-2xl text-sm leading-6 text-neutral-400">
-          Review, screen, and manage tenancy applications end to end.
-        </p>
-      </div>
+      <PageHeader
+        title="Tenant Applications"
+        description="Review, screen, and manage tenancy applications end to end"
+      />
 
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-        <StatCard label="Total" value={applications.length} icon={<Users className="w-5 h-5" />} />
-        <StatCard label="Pending" value={pending} icon={<Clock className="w-5 h-5" />} />
-        <StatCard label="Under Review" value={underReview} icon={<Clock className="w-5 h-5" />} />
-        <StatCard label="Accepted" value={accepted} icon={<CheckCircle className="w-5 h-5" />} />
-        <StatCard label="Screening" value={stageStats.screening} icon={<ShieldCheck className="w-5 h-5" />} />
-        <StatCard label="Guarantor Pending" value={stageStats.guarantor_pending} icon={<UserCheck className="w-5 h-5" />} />
+        <StatCard label="Total" value={String(applications.length)} icon={<Users className="w-5 h-5" />} />
+        <StatCard label="Pending" value={String(pending)} icon={<Clock className="w-5 h-5" />} />
+        <StatCard label="Under Review" value={String(underReview)} icon={<Clock className="w-5 h-5" />} />
+        <StatCard label="Accepted" value={String(accepted)} icon={<CheckCircle className="w-5 h-5" />} />
+        <StatCard label="Screening" value={String(stageStats.screening)} icon={<ShieldCheck className="w-5 h-5" />} />
+        <StatCard label="Guarantor Pending" value={String(stageStats.guarantor_pending)} icon={<UserCheck className="w-5 h-5" />} />
       </div>
 
-      <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-4 shadow-sm hover:shadow-md transition-shadow">
+      <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <select
-            className="inp-field"
+            className="bg-zinc-950 border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 200 }}
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as ApplicationStatus | 'all')}
@@ -267,7 +263,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <option value="withdrawn">Withdrawn</option>
           </select>
           <select
-            className="inp-field"
+            className="bg-zinc-950 border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 200 }}
             value={stageFilter}
             onChange={(e) => setStageFilter(e.target.value as ApplicationStage | 'all')}
@@ -280,7 +276,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <option value="rejected">Rejected</option>
           </select>
           <select
-            className="inp-field"
+            className="bg-zinc-950 border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 260 }}
             value={listingFilter}
             onChange={(e) => setListingFilter(e.target.value)}
@@ -296,43 +292,38 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       </div>
 
       {filtered.length === 0 ? (
-        <Card>
-          <CardContent className="py-16 text-center">
-            <Users className="w-16 h-16 mx-auto mb-4 text-neutral-400" />
-            <h3 className="font-headline-sm text-headline-sm text-white mb-2">
-              No applications found
-            </h3>
-            <p className="text-neutral-400">
+        <div className="glass-card glass-card">
+          <div className="p-6 py-16 text-center">
+            <Users className="w-16 h-16 mx-auto mb-4 text-zinc-500" />
+            <h3 className="font-headline-sm text-white text-white mb-2">No applications found</h3>
+            <p className="text-zinc-400">
               {applications.length === 0
                 ? 'You have not received any applications yet.'
                 : 'No applications match the selected filters.'}
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
-        <div className="bg-obsidian-800/30 rounded-xl border border-[#262626] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div className="glass-card rounded-xl border border-white/[0.08] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#262626]">
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Tenant</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Listing</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Stage</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Status</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Date</th>
-                  <th className="px-4 py-3 text-[10px] font-label-md uppercase tracking-wider text-neutral-400">Actions</th>
+                <tr className="border-b border-white/[0.08]">
+                  {['Tenant', 'Listing', 'Stage', 'Status', 'Date', 'Actions'].map((h) => (
+                    <th key={h} className="px-4 py-3 text-xs text-zinc-500 font-medium uppercase tracking-wider">{h}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((app) => {
                   const cfg = statusConfig[app.status] || {
                     label: app.status ? String(app.status).replace('_', ' ') : 'Unknown',
-                    className: 'bg-obsidian-800/30 text-neutral-400 border-[#262626]',
+                    className: 'bg-zinc-900/50 text-zinc-400 border-white/[0.08]',
                   };
                   const stage = app.stage || 'submitted';
                   const stageCfg = stageConfig[stage] || {
                     label: stage ? String(stage).replace('_', ' ') : 'Submitted',
-                    className: 'bg-[#262626] text-neutral-300 border-[#262626]',
+                    className: 'bg-zinc-800 text-zinc-300 border-zinc-700',
                   };
                   const isActionable = ['pending', 'under_review'].includes(app.status);
                   const tenantName = app.tenant?.fullName || 'Tenant';
@@ -340,38 +331,36 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   const listingLocation = [app.listing?.area, app.listing?.state].filter(Boolean).join(', ');
 
                   return (
-                    <tr key={app.id} className="border-b border-[#262626]">
+                    <tr key={app.id} className="border-b border-white/[0.08] hover:bg-white/[0.02] transition-colors">
                       <td className="p-4">
                         <div className="flex items-center gap-2">
-                          <div
-                            className="flex items-center justify-center h-8 w-8 rounded-full bg-[#262626] text-white text-xs font-semibold"
-                          >
-                            {tenantName.charAt(0).toUpperCase()}
-                          </div>
+                          <Avatar
+                            src={app.tenant?.avatarUrl || undefined}
+                            name={tenantName}
+                            size="sm"
+                          />
                           <div>
-                            <p className="font-medium text-sm text-white">
-                              {tenantName}
-                            </p>
-                            <p className="text-xs text-neutral-400">{app.tenant?.email || ''}</p>
+                            <p className="font-medium text-sm text-white">{tenantName}</p>
+                            <p className="text-xs text-zinc-500">{app.tenant?.email || ''}</p>
                           </div>
                         </div>
                       </td>
                       <td className="p-4">
                         <p className="text-sm font-medium text-white">{listingTitle}</p>
-                        <p className="text-xs text-neutral-400">{listingLocation}</p>
+                        <p className="text-xs text-zinc-500">{listingLocation}</p>
                       </td>
                       <td className="p-4">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${stageCfg.className}`}>
+                        <StatusBadge status={stageCfg.label} className={stageCfg.className}>
                           {stageCfg.label}
-                        </span>
+                        </StatusBadge>
                       </td>
                       <td className="p-4">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.className}`}>
+                        <StatusBadge status={cfg.label} className={cfg.className}>
                           {cfg.label}
-                        </span>
+                        </StatusBadge>
                       </td>
                       <td className="p-4">
-                        <p className="text-sm text-neutral-400">
+                        <p className="text-sm text-zinc-400">
                           {new Date(app.createdAt).toLocaleDateString('en-NG', {
                             day: '2-digit',
                             month: 'short',
@@ -380,13 +369,13 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         </p>
                       </td>
                       <td className="p-4">
-        <Button
-          variant={isActionable ? 'default' : 'secondary'}
-          size="sm"
-          onClick={() => openReview(app)}
-        >
-          {isActionable ? 'Review' : 'View'}
-        </Button>
+                        <Button
+                          variant={isActionable ? 'default' : 'secondary'}
+                          size="sm"
+                          onClick={() => openReview(app)}
+                        >
+                          {isActionable ? 'Review' : 'View'}
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -411,52 +400,52 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
               {detailTab === 'applicant' && (
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-[#262626] text-white text-sm font-bold">
-                      {(selectedApp.tenant?.fullName || 'T').charAt(0).toUpperCase()}
-                    </div>
+                    <Avatar
+                      src={selectedApp.tenant?.avatarUrl || undefined}
+                      name={selectedApp.tenant?.fullName || 'T'}
+                      size="md"
+                    />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-white">
-                          {selectedApp.tenant?.fullName || 'Tenant'}
-                        </p>
+                        <p className="font-semibold text-white">{selectedApp.tenant?.fullName || 'Tenant'}</p>
                         {selectedApp.tenant?.idVerified && (
-                          <span className="inline-flex items-center gap-1 text-xs text-[#00ff66] bg-[#00ff66]/10 border border-[#00ff66]/20 rounded-full px-2 py-0.5">
+                          <span className="inline-flex items-center gap-1 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2 py-0.5">
                             <BadgeCheck className="w-3 h-3" /> ID Verified
                           </span>
                         )}
                         {selectedApp.tenant?.ninVerified && (
-                          <span className="inline-flex items-center gap-1 text-xs text-info bg-info/10 border border-info/20 rounded-full px-2 py-0.5">
+                          <span className="inline-flex items-center gap-1 text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-2 py-0.5">
                             <ShieldCheck className="w-3 h-3" /> NIN Verified
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-neutral-400">{selectedApp.tenant?.email || ''}</p>
+                      <p className="text-sm text-zinc-400">{selectedApp.tenant?.email || ''}</p>
                       {selectedApp.tenant?.phone && (
-                        <p className="text-sm text-neutral-400">{selectedApp.tenant.phone}</p>
+                        <p className="text-sm text-zinc-400">{selectedApp.tenant.phone}</p>
                       )}
                     </div>
                   </div>
 
                   {(selectedApp.tenant?.employmentStatus || selectedApp.tenant?.employerName || selectedApp.tenant?.yearlyIncome) && (
-                    <div className="p-3 rounded-lg space-y-1 text-sm border border-[#262626]">
+                    <div className="p-3 rounded-lg space-y-1 text-sm border border-white/[0.08]">
                       <p className="font-medium mb-2 text-white">Employment</p>
                       {selectedApp.tenant?.employmentStatus && (
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-400">
                           Status: <span className="font-medium">{String(selectedApp.tenant.employmentStatus).replace('_', ' ')}</span>
                         </p>
                       )}
                       {selectedApp.tenant?.employerName && (
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-400">
                           Employer: <span className="text-white">{selectedApp.tenant.employerName}</span>
                         </p>
                       )}
                       {selectedApp.tenant?.jobTitle && (
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-400">
                           Role: <span className="text-white">{selectedApp.tenant.jobTitle}</span>
                         </p>
                       )}
                       {selectedApp.tenant?.yearlyIncome && (
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-400">
                           Income: <span className="text-white">₦{Number(selectedApp.tenant.yearlyIncome).toLocaleString()}/yr</span>
                         </p>
                       )}
@@ -465,8 +454,8 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
 
                   {selectedApp.tenant?.profileBio && (
                     <div>
-                      <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400 text-white">About</p>
-                      <p className="text-sm text-neutral-400">{selectedApp.tenant.profileBio}</p>
+                      <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-1">About</p>
+                      <p className="text-sm text-zinc-400">{selectedApp.tenant.profileBio}</p>
                     </div>
                   )}
 
@@ -474,10 +463,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                     <p className="text-xs font-medium text-white">Screening</p>
                     <div className="flex flex-wrap gap-2">
                       {Object.keys(selectedApp.screeningStatus || {}).length === 0 && (
-                        <span className="text-xs text-neutral-400">No screening checks yet.</span>
+                        <span className="text-xs text-zinc-500">No screening checks yet.</span>
                       )}
                       {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
-                        <div key={key} className="flex items-center gap-2 border border-[#262626] rounded-full px-2 py-1 text-xs">
+                        <div key={key} className="flex items-center gap-2 border border-white/[0.08] rounded-full px-2 py-1 text-xs">
                           <span className="capitalize text-white">{key.replace('_', ' ')}</span>
                           {screeningPill(value)}
                         </div>
@@ -488,7 +477,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   <div className="space-y-2">
                     <p className="text-xs font-medium text-white">Documents</p>
                     {(selectedApp.applicantDocuments || []).length === 0 && (
-                      <p className="text-xs text-neutral-400">No documents uploaded.</p>
+                      <p className="text-xs text-zinc-500">No documents uploaded.</p>
                     )}
                     {(selectedApp.applicantDocuments || []).map((doc, idx) => (
                       <a key={idx} href={String(doc.url)} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm underline text-white">
@@ -498,173 +487,10 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   </div>
                 </div>
               )}
-
-              {detailTab === 'guarantor' && (
-                <div className="space-y-4">
-                  <div className="space-y-3">
-                    <p className="text-xs font-medium text-white">Guarantor Information</p>
-                    {(!selectedApp.guarantorData || Object.keys(selectedApp.guarantorData).length === 0) && (
-                      <p className="text-sm text-neutral-400">No guarantor information provided yet.</p>
-                    )}
-                    {Object.entries(selectedApp.guarantorData || {}).map(([key, value]) => (
-                      <div key={key} className="flex items-start justify-between gap-4 text-sm">
-                        <span className="text-neutral-400 capitalize">{key.replace('_', ' ')}</span>
-                        <span className="text-white font-medium text-right">{String(value)}</span>
-                      </div>
-                    ))}
-
-                    <div className="pt-2">
-                      <p className="text-xs font-medium text-white mb-2">Guarantor Verification</p>
-                      {(selectedApp.guarantorData as any)?.verified ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-[#00ff66] bg-[#00ff66]/10 border border-[#00ff66]/20 rounded-full px-2 py-0.5">
-                          <BadgeCheck className="w-3 h-3" /> Verified
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-xs text-red-500 bg-red-500/10 border border-red-500/20 rounded-full px-2 py-0.5">
-                          <UserX className="w-3 h-3" /> Unverified
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {detailTab === 'decision' && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium block mb-1.5 text-white">
-                      Notes (visible to the tenant)
-                    </label>
-                    <Textarea
-                      className="inp-field w-full resize-none"
-                      rows={3}
-                      placeholder="Add a note visible to the tenant..."
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                    />
-                  </div>
-
-                  {selectedApp.status === 'rejected' && selectedApp.rejectionReason && (
-                    <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/10 text-sm text-red-500">
-                      Rejection reason: {selectedApp.rejectionReason}
-                    </div>
-                  )}
-
-                  {selectedApp.requestedInfoAt && (
-                    <div className="p-3 rounded-lg border border-warning/20 bg-warning/10 text-sm text-warning">
-                      Additional info requested on {new Date(selectedApp.requestedInfoAt).toLocaleString('en-NG')}.
-                    </div>
-                  )}
-
-                  <div className="flex flex-wrap gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleAction('request_info')}
-                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
-                    >
-                      {actionType === 'request_info' && isLoading ? (
-                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                      ) : (
-                        <ClipboardList className="w-3 h-3 mr-1" />
-                      )}
-                      Request Additional Info
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleAction('reject')}
-                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
-                    >
-                      {actionType === 'reject' && isLoading ? (
-                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                      ) : (
-                        <UserX className="w-3 h-3 mr-1" />
-                      )}
-                      Reject Application
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => handleAction('accept')}
-                      disabled={isLoading || !['pending', 'under_review'].includes(selectedApp.status)}
-                      className="bg-success hover:bg-success/90 text-white"
-                    >
-                      {actionType === 'accept' && isLoading ? (
-                        <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                      ) : (
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                      )}
-                      Approve & Generate Lease
-                    </Button>
-                  </div>
-
-                  {(actionType === 'reject' || selectedApp.rejectionReason) && (
-                    <div>
-                      <label className="text-sm font-medium block mb-1.5 text-white">
-                        Rejection reason
-                      </label>
-                      <Textarea
-                        className="inp-field w-full resize-none"
-                        rows={2}
-                        placeholder="Reason for rejection..."
-                        value={rejectionReason}
-                        onChange={(e) => setRejectionReason(e.target.value)}
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <DialogFooter className="flex flex-wrap gap-2 sm:justify-between">
-                <div className="flex rounded-lg border border-[#262626] overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => setDetailTab('applicant')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'applicant' ? 'bg-primary text-white' : 'bg-background'}`}
-                  >
-                    Applicant
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setDetailTab('guarantor')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'guarantor' ? 'bg-primary text-white' : 'bg-background'}`}
-                  >
-                    Guarantor
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setDetailTab('decision')}
-                    className={`px-3 py-1.5 text-sm ${detailTab === 'decision' ? 'bg-primary text-white' : 'bg-background'}`}
-                  >
-                    Decision
-                  </button>
-                </div>
-                <Button variant="outline" size="sm" onClick={() => setSelectedApp(null)}>
-                  Close
-                </Button>
-              </DialogFooter>
             </>
           )}
         </DialogContent>
       </Dialog>
     </div>
-  );
-}
-
-function StatCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-[10px] font-label-md uppercase tracking-wider text-neutral-400">{label}</p>
-            <p className="text-2xl font-headline-sm text-headline-sm font-bold text-white">{value}</p>
-          </div>
-          <div className="flex items-center justify-center">
-            {icon}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
   );
 }

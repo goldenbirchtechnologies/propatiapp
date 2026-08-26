@@ -195,13 +195,13 @@ export default function AgentInviteManagementClient({
         <div className="space-y-1">
           <Link
             href="/dashboard/landlord/agents"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors"
           >
             <ArrowLeft className="size-4" />
             Back
           </Link>
           <h1 className="font-heading text-headline-lg text-white">Invite agent</h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-zinc-400">
             They'll get an email to accept the invite
           </p>
         </div>
@@ -215,7 +215,7 @@ export default function AgentInviteManagementClient({
 
       <form onSubmit={sendInvite} className="space-y-6">
         {/* Email Input */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
             <Label htmlFor="email" className="font-label-sm uppercase tracking-wide">
               Email
@@ -226,21 +226,21 @@ export default function AgentInviteManagementClient({
               placeholder="agent@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="max-w-xl dark:bg-slate-800/60 dark:placeholder:text-gray-400"
+              className="max-w-xl dark:bg-zinc-800/60 dark:placeholder:text-gray-400"
               required
             />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-zinc-400">
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
-        </Card>
+        </div>
 
         {/* Permissions Grid */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
               <h2 className="font-label-sm uppercase tracking-wide text-white">Permissions</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-zinc-400">
                 Pick what this agent can do. You can change this later.
               </p>
             </div>
@@ -254,8 +254,8 @@ export default function AgentInviteManagementClient({
                     className={cn(
                       'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                       isSelected
-                        ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                        : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                        ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                        : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
                     )}
                   >
                     <Checkbox
@@ -263,12 +263,12 @@ export default function AgentInviteManagementClient({
                       onCheckedChange={() => togglePermission(permission.id)}
                       className={cn(
                         "mt-0.5 dark:border-white/50 dark:bg-transparent",
-                        isSelected && "dark:bg-primary"
+                        isSelected && "dark:bg-emerald-500"
                       )}
                     />
                     <div className="space-y-1">
                       <p className="font-medium text-sm text-white">{permission.label}</p>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-xs text-zinc-400 leading-relaxed">
                         {permission.description}
                       </p>
                     </div>
@@ -277,13 +277,13 @@ export default function AgentInviteManagementClient({
               })}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Scope */}
-        <Card className="p-6 border-0 ring-1 ring-foreground/5 space-y-4">
+        <div className="glass-card p-6 border-0 ring-1 ring-foreground/5 space-y-4">
           <div className="space-y-1">
             <h2 className="font-label-sm uppercase tracking-wide text-white">Property Scope</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-zinc-400">
               Choose which properties this agent can manage.
             </p>
           </div>
@@ -294,8 +294,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'all'
-                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                  : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                  ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -307,7 +307,7 @@ export default function AgentInviteManagementClient({
               />
               <div className="space-y-1">
                 <p className="font-medium text-sm text-white">All Current &amp; Future Properties</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   Agent automatically gets access to all your present properties and any properties created in the future.
                 </p>
               </div>
@@ -318,8 +318,8 @@ export default function AgentInviteManagementClient({
               className={cn(
                 'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                 scopeType === 'specific'
-                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                  : 'border-[#262626] hover:border-white/40 hover:bg-obsidian-800-lowestest'
+                  ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
+                  : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
               )}
             >
               <input
@@ -331,7 +331,7 @@ export default function AgentInviteManagementClient({
               />
               <div className="space-y-1">
                 <p className="font-medium text-sm text-white">Specific Properties Only</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-xs text-zinc-400 leading-relaxed">
                   Restrict agent access strictly to selected properties.
                 </p>
               </div>
@@ -341,10 +341,10 @@ export default function AgentInviteManagementClient({
           {/* Specific Property Selection Grid */}
           {scopeType === 'specific' && (
             <div className="pt-2 space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select Properties ({selectedListingIds.length} selected)</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Select Properties ({selectedListingIds.length} selected)</p>
               {properties.length === 0 ? (
-                <div className="p-4 rounded-xl border border-dashed text-center space-y-2 bg-muted/20">
-                  <p className="text-sm text-muted-foreground">No properties added yet.</p>
+                <div className="p-4 rounded-xl border border-dashed text-center space-y-2 bg-zinc-900/20">
+                  <p className="text-sm text-zinc-400">No properties added yet.</p>
                   <Button asChild variant="outline" size="sm">
                     <Link href="/dashboard/landlord/properties/new">+ Add property</Link>
                   </Button>
@@ -359,8 +359,8 @@ export default function AgentInviteManagementClient({
                         className={cn(
                           'flex items-start gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none',
                           isSelected
-                            ? 'border-primary bg-primary/5'
-                            : 'border-[#262626] hover:border-white/40'
+                            ? 'border-white/[0.08] bg-emerald-500/5'
+                            : 'border-white/[0.08] hover:border-white/40'
                         )}
                       >
                         <Checkbox
@@ -370,7 +370,7 @@ export default function AgentInviteManagementClient({
                         />
                         <div className="space-y-0.5">
                           <p className="font-medium text-sm text-white line-clamp-1">{prop.title}</p>
-                          <p className="text-xs text-muted-foreground line-clamp-1">
+                          <p className="text-xs text-zinc-400 line-clamp-1">
                             {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
                           </p>
                         </div>
@@ -381,7 +381,7 @@ export default function AgentInviteManagementClient({
               )}
             </div>
           )}
-        </Card>
+        </div>
 
         {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 pt-2">
@@ -398,25 +398,25 @@ export default function AgentInviteManagementClient({
       <div className="glass-card rounded-xl p-6">
         <h4 className="font-heading text-white mb-4">Sent Invites</h4>
         {loading ? (
-          <p className="text-sm text-muted-foreground">Loading invites...</p>
+          <p className="text-sm text-zinc-400">Loading invites...</p>
         ) : invites.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No invites yet.</p>
+          <p className="text-sm text-zinc-400">No invites yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-obsidian-800/30">
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Email</th>
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Recipient</th>
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Status</th>
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Assigned Listings</th>
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Sent</th>
-                  <th className="px-4 py-3 font-label-sm text-muted-foreground uppercase">Action</th>
+                <tr className="bg-zinc-950/50">
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Email</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Recipient</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Status</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Assigned Listings</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Sent</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-400 uppercase">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {invites.map((invite) => (
-                  <tr key={invite.id} className="hover:bg-obsidian-800-lowest/60">
+                  <tr key={invite.id} className="hover:bg-zinc-950/60">
                     <td className="px-4 py-3 text-sm">{invite.email}</td>
                     <td className="px-4 py-3 text-sm">{invite.recipient?.fullName || '—'}</td>
                     <td className="px-4 py-3 text-sm">
@@ -434,10 +434,10 @@ export default function AgentInviteManagementClient({
                           ))}
                         </div>
                       ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
+                        <span className="text-xs text-zinc-400">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm text-muted-foreground">
+                    <td className="px-4 py-3 text-sm text-zinc-400">
                       {new Date(invite.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-sm">
@@ -471,14 +471,14 @@ export default function AgentInviteManagementClient({
       </div>
       {/* Reassign Dialog */}
       <Dialog open={reassignOpen} onOpenChange={setReassignOpen}>
-        <DialogContent className="bg-obsidian-800 border-[#262626] text-white">
+        <DialogContent className="bg-zinc-900 border-white/[0.08] text-white">
           <DialogHeader>
             <DialogTitle className="text-white">Reassign Listings</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-            <p className="text-sm text-neutral-400">Select which listings this agent should manage.</p>
+            <p className="text-sm text-zinc-500">Select which listings this agent should manage.</p>
             {properties.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No properties available.</p>
+              <p className="text-sm text-zinc-400">No properties available.</p>
             ) : (
               <div className="space-y-2">
                 {properties.map((prop) => {
@@ -488,7 +488,7 @@ export default function AgentInviteManagementClient({
                       key={prop.id}
                       className={cn(
                         'flex items-start gap-3 rounded-lg border p-3 cursor-pointer select-none transition-all',
-                        checked ? 'border-[#00ff66]/40 bg-[#00ff66]/5' : 'border-[#262626] hover:border-[#00ff66]/20'
+                        checked ? 'border-[#00ff66]/40 bg-[#00ff66]/5' : 'border-white/[0.08] hover:border-[#00ff66]/20'
                       )}
                     >
                       <Checkbox
@@ -502,7 +502,7 @@ export default function AgentInviteManagementClient({
                       />
                       <div>
                         <p className="text-sm font-medium text-white">{prop.title}</p>
-                        <p className="text-xs text-neutral-400">
+                        <p className="text-xs text-zinc-500">
                           {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
                         </p>
                       </div>

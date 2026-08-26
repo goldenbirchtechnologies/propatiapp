@@ -31,7 +31,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'bg-[#262626] text-white border-primary/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
     certified: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
@@ -41,22 +41,22 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-bold font-headline-sm text-headline-sm text-white">
+        <h1 className="font-heading font-bold font-headline-sm text-white text-white">
           Verifications
         </h1>
-        <p className="text-neutral-400">
+        <p className="text-zinc-500">
           Track 5-layer property verification and tier status.
         </p>
       </div>
 
       <DashboardSection loading={false} error={null}>
         {initialVerifications.length === 0 ? (
-          <div className="bg-obsidian-800/30 rounded-xl border border-[#262626]-body text-center py-16">
-            <Shield className="w-16 h-16 mx-auto mb-4 text-neutral-400" style={{ opacity: 0.5 }} />
+          <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08]-body text-center py-16">
+            <Shield className="w-16 h-16 mx-auto mb-4 text-zinc-500" style={{ opacity: 0.5 }} />
             <h3 className="text-white">
               No verifications
             </h3>
-            <p className="text-neutral-400">
+            <p className="text-zinc-500">
               Start a verification for your listings to earn the Certified badge.
             </p>
             <Link href="/dashboard/landlord/properties/new" className="btn btn-primary mt-4">
@@ -76,11 +76,11 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
               const progress = Math.round((approvedCount / 5) * 100);
 
               return (
-                <div key={v.id} className="bg-obsidian-800/30 rounded-xl border border-[#262626] p-6">
+                <div key={v.id} className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className="bg-[#262626] text-white"
+                        className="bg-zinc-900 text-white"
                       >
                         <BuildingIcon className="w-6 h-6" />
                       </div>
@@ -88,7 +88,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                         <h3 className="text-white">
                           {v.listing?.title || 'Unknown'}
                         </h3>
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-500">
                           {v.listing?.address}
                         </p>
                       </div>
@@ -101,7 +101,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
                   {/* Progress */}
                   <div className="mb-4">
-                    <div className="text-neutral-400">
+                    <div className="text-zinc-500">
                       <AppIcon name="Progress" className="lucide" />
                       <AppIcon name="{progress}%" className="lucide" />
                     </div>
@@ -125,21 +125,21 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                         <div
                           key={layer.key}
                           className={`flex items-center gap-3 p-3 rounded-lg ${
-                            isCurrent ? 'bg-[#262626] border border-primary' : 'border border-[#262626] bg-transparent'
+                            isCurrent ? 'bg-zinc-900 border border-white/[0.08]' : 'border border-white/[0.08] bg-transparent'
                           } ${
                             isApproved
                               ? 'bg-[#00ff66]/10 text-[#00ff66]'
                               : isCurrent
-                                ? 'bg-[#262626] text-white'
-                                : 'bg-outline-variant text-neutral-400'
+                                ? 'bg-zinc-900 text-white'
+                                : 'bg-outline-variant text-zinc-500'
                           }`}
                         >
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${
                             isApproved
                               ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20'
                               : isCurrent
-                                ? 'bg-[#262626] text-white border-primary/20'
-                                : 'bg-outline-variant text-neutral-400 border-[#262626]'
+                                ? 'bg-zinc-900 text-white border-white/[0.08]/20'
+                                : 'bg-outline-variant text-zinc-500 border-white/[0.08]'
                           }`}>
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
@@ -147,7 +147,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                             <p className="text-white">
                               {layer.label}
                             </p>
-                            <p className="text-neutral-400">
+                            <p className="text-zinc-500">
                               {layer.desc}
                             </p>
                           </div>
@@ -161,7 +161,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   </div>
 
                   {/* Actions */}
-                  <div className="border-[#262626] flex items-center gap-2">
+                  <div className="border-white/[0.08] flex items-center gap-2">
                     <Link
                       href={`/dashboard/landlord/properties/${v.listingId}`}
                       className="btn btn-secondary w-full justify-center"

@@ -17,9 +17,9 @@ type AgreementItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-[#171717] text-neutral-400 border border-[#262626]', label: 'Draft' },
-  pending_landlord: { color: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-[#262626] text-neutral-300 border border-[#262626]', label: 'Pending Tenant' },
+  draft: { color: 'bg-[#171717] text-zinc-500 border border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { color: 'bg-zinc-900 text-zinc-300 border border-white/[0.08]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-zinc-900 text-zinc-300 border border-white/[0.08]', label: 'Pending Tenant' },
   tenant_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Tenant Signed' },
   landlord_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Landlord Signed' },
   fully_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Fully Signed' },
@@ -29,7 +29,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-[#171717] text-neutral-400 border border-[#262626]', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-500 border border-white/[0.08]', label: s };
 }
 
 const fmtCurrency = (v: number) =>
@@ -49,75 +49,75 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight text-white">Sell Pipeline</h1>
-          <p className="text-base text-neutral-400 mt-1">Sale agreements where you are the listing agent</p>
+          <p className="text-base text-zinc-500 mt-1">Sale agreements where you are the listing agent</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Deals</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-white text-xs uppercase tracking-wider text-zinc-500">Total Deals</h3>
+          </div>
+          <div className="p-6">
             <p className="text-2xl font-bold text-white">{stats.total}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Total Value</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </div>
+        </div>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-white text-xs uppercase tracking-wider text-zinc-500">Total Value</h3>
+          </div>
+          <div className="p-6">
             <p className="text-2xl font-bold text-white">{fmtCurrency(stats.totalValue)}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">In Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-neutral-300">{stats.activeCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xs uppercase tracking-wider text-neutral-400">Closed</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </div>
+        </div>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-white text-xs uppercase tracking-wider text-zinc-500">In Progress</h3>
+          </div>
+          <div className="p-6">
+            <p className="text-2xl font-bold text-zinc-300">{stats.activeCount}</p>
+          </div>
+        </div>
+        <div className="glass-card">
+          <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-white text-xs uppercase tracking-wider text-zinc-500">Closed</h3>
+          </div>
+          <div className="p-6">
             <p className="text-2xl font-bold text-[#00ff66]">{stats.closedCount}</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardContent className="p-0">
+      <div className="glass-card">
+        <div className="p-6 p-0">
           {initialDeals.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <FileSearch className="w-16 h-16 mx-auto mb-4 text-neutral-400 opacity-50" />
-              <h3 className="font-headline-sm text-headline-sm text-white mb-2">No sell deals</h3>
-              <p className="text-sm text-neutral-400">Sale agreements will appear here.</p>
+              <FileSearch className="w-16 h-16 mx-auto mb-4 text-zinc-500 opacity-50" />
+              <h3 className="font-headline-sm text-white text-white mb-2">No sell deals</h3>
+              <p className="text-sm text-zinc-500">Sale agreements will appear here.</p>
             </div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Property</th>
-                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Status</th>
-                  <th className="text-right p-4 text-sm font-medium text-neutral-400">Value</th>
-                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Client</th>
-                  <th className="text-left p-4 text-sm font-medium text-neutral-400">Created</th>
-                  <th className="text-right p-4 text-sm font-medium text-neutral-400">Details</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-500">Property</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-500">Status</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-500">Value</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-500">Client</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-500">Created</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-500">Details</th>
                 </tr>
               </thead>
               <tbody>
                 {initialDeals.map((d) => {
                   const st = sc(d.status);
                   return (
-                    <tr key={d.id} className="border-b border-[#262626] hover:bg-[#0a0a0a]/30 transition-colors">
+                    <tr key={d.id} className="border-b border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
                       <td className="p-4 font-medium text-sm text-white">{d.property}</td>
                       <td className="p-4"><Badge variant="outline" className={st.color}>{st.label}</Badge></td>
                       <td className="p-4 text-sm text-right text-white font-medium">{fmtCurrency(d.value)}</td>
-                      <td className="p-4 text-sm text-neutral-400">{d.tenant}</td>
-                      <td className="p-4 text-sm text-neutral-400">
+                      <td className="p-4 text-sm text-zinc-500">{d.tenant}</td>
+                      <td className="p-4 text-sm text-zinc-500">
                         {new Date(d.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </td>
                       <td className="p-4 text-right">
@@ -131,8 +131,8 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
               </tbody>
             </table>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

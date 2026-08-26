@@ -586,6 +586,7 @@ export function DashboardShell({
         className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${sidebarOpen ? 'open' : ''}`}
         role="navigation"
         aria-label="Main navigation"
+        style={{ background: '#09090b', borderRight: '1px solid rgba(255,255,255,0.07)' }}
       >
         <style>{`
           @keyframes propLogoPop {
@@ -603,8 +604,9 @@ export function DashboardShell({
           .sb-user-name { color: var(--text); font-weight: 600; font-size: 14px; line-height: 20px; }
           .sb-user-role { color: var(--muted); font-size: 11px; line-height: 16px; text-transform: capitalize; }
           .sb-nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
-          .sb-nav-item { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 10px; color: var(--text); background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
-          .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: var(--accent); border-left-color: var(--accent2); }
+          .sb-nav-item { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 8px; color: #a1a1aa; background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
+          .sb-nav-item:hover { color: #ffffff; background: rgba(255,255,255,0.04); }
+          .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: rgba(16,185,129,0.10); color: #34d399; border-left-color: #10b981; }
           .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
           .sb-footer-bar { justify-content: center; }
           .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: flex-start; gap: 10px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--text); background: var(--surface-elevated); border: none; cursor: pointer; transition: background-color 0.15s ease; }
@@ -748,7 +750,7 @@ export function DashboardShell({
       </aside>
 
       <main className="main-area">
-        <header className="topbar">
+        <header className="topbar" style={{ background: '#09090b', borderBottom: '1px solid rgba(255,255,255,0.07)', height: 56 }}>
           <button
             className="md:hidden p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={() => setSidebarOpen(true)}
@@ -837,7 +839,7 @@ export function DashboardShell({
           </div>
         </header>
 
-        <div className="content-area">{children}</div>
+        <div className="content-area" style={{ background: '#000000' }}>{children}</div>
       </main>
 
       {/* Mobile bottom nav + FAB */}

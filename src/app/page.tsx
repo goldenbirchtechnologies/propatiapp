@@ -125,107 +125,135 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white antialiased selection:bg-emerald-500/20 w-full">
       {/* ===================== HERO ===================== */}
-      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16">
         <div className="absolute inset-0">
           <Image
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyb0_8AiXYjkWOvrsX6HKuCTBTF-B13KXmbZe5bAP1hmhDGL9RuD8j76Iav5tzCSZArlSJYJnuXQcbqOpqOZHonaHU8bjq5ObRDzvQZhc3UIxTadhK_79Hd6w1HrrKjVqPSXW-kHMteFwkQV83tZmLF02BTqc8sUDd9oh6pVT98cFHhGuL81_GwnzbP0cj70-QkU9histim_P_kC3Pj6zxycSpIWcJ7CL8W2OzJeizckcrR8GWKn3G"
             alt="Luxury Nigerian property exterior"
             fill
-            className="object-cover brightness-[0.55]"
+            className="object-cover"
             priority
           />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-          <div className="max-w-3xl">
-            <SectionLabel>Nigeria&apos;s First Verified Property OS</SectionLabel>
-            <h1 className="font-extrabold text-4xl sm:text-5xl lg:text-7xl text-white leading-[1.05] mb-6 tracking-tight">
-              Rent, buy, or list with people you can trust.
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24">
+          <div className="max-w-4xl">
+            <div className="mb-6">
+              <SectionLabel>
+                <CheckCircle2 size={11} className="text-emerald-400" />
+                Nigeria&apos;s First Verified Property Marketplace
+              </SectionLabel>
+            </div>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white leading-[0.9] tracking-tight mb-6">
+              Find your{' '}
+              <span className="text-emerald-400">verified</span>{' '}
+              home in Lagos.
             </h1>
-            <p className="text-lg sm:text-xl text-zinc-500 max-w-2xl mb-10 leading-relaxed">
-              Verified listings, licensed agents, escrow payments, and digital agreements — built for how Nigerians actually transact property.
+
+            <p className="text-lg sm:text-xl text-zinc-300 mb-10 max-w-2xl leading-relaxed">
+              Every listing verified. Every landlord authenticated. Every payment protected.
+              Stop viewing fake listings and start finding real homes.
             </p>
 
-            {/* Embedded search widget */}
-            <div className="glass-card p-2 max-w-3xl">
-              <div className="flex flex-col sm:flex-row gap-2">
+            {/* Search widget */}
+            <div className="bg-zinc-950/90 backdrop-blur-xl border border-white/10 rounded-2xl p-2">
+              {/* Type tabs */}
+              <div className="flex gap-1 p-1 mb-3">
+                {['rent', 'buy', 'shortlet', 'commercial'].map((t) => (
+                  <button
+                    key={t}
+                    className={`flex-1 py-1.5 px-3 text-sm font-medium rounded-lg capitalize transition-colors ${
+                      t === 'rent' ? 'bg-emerald-500 text-white' : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-2">
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                   <input
                     type="text"
-                    placeholder="Search by location, property type..."
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-9 pr-3 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+                    placeholder="Search by location, property type, or keyword…"
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-9 pr-3 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-                <button className="inline-flex items-center justify-center px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold rounded-lg transition-colors">
-                  Search
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2 mt-3 px-1">
-                {['Lagos', 'Abuja', 'Port Harcourt', 'Ibadan', 'Calabar', 'Enugu'].map((city) => (
-                  <button
-                    key={city}
-                    className="px-3 py-1.5 text-xs font-medium text-zinc-400 bg-zinc-900 border border-zinc-800 rounded-full hover:text-white hover:border-zinc-700 transition-colors"
-                  >
-                    {city}
-                  </button>
-                ))}
+                <Link
+                  href="/listings"
+                  className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl flex items-center gap-2 transition-colors"
+                >
+                  <span>Search</span>
+                  <ArrowRight size={15} />
+                </Link>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-6 mt-8 text-zinc-500 text-sm font-medium">
-              <span className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs">✓</span>
-                5-Layer Verification
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs">✓</span>
-                Escrow Protected
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs">✓</span>
-                Legally Compliant
-              </span>
+            {/* Quick stats */}
+            <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6">
+              {stats.map((s) => (
+                <div key={s.label} className="flex items-baseline gap-1.5">
+                  <span className="text-emerald-400 font-bold text-lg">{s.value}</span>
+                  <span className="text-zinc-500 text-sm">{s.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ===================== TRUST STRIP ===================== */}
-      <section className="py-6 border-y border-white/[0.06] bg-zinc-950/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 text-zinc-600 text-sm">
-            <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-500" /> Verified Agents</span>
-            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-500" /> Escrow Payments</span>
-            <span className="flex items-center gap-2"><Home className="h-4 w-4 text-emerald-500" /> Digital Agreements</span>
-            <span className="flex items-center gap-2"><Users className="h-4 w-4 text-emerald-500" /> 45k+ Tenants</span>
+      <section className="border-y border-white/[0.06] bg-zinc-950/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: ShieldCheck, label: 'Document Verification', desc: 'Every property and landlord verified by our compliance team' },
+              { icon: Star, label: 'Instant Matching', desc: 'AI-powered matching connects tenants with the right properties' },
+              { icon: Users, label: 'Market Intelligence', desc: 'Real-time pricing data for 12 Nigerian cities' },
+              { icon: Building2, label: '50,000+ Properties', desc: 'The largest verified property database in Nigeria' },
+            ].map((item) => (
+              <div key={item.label} className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <item.icon size={16} className="text-emerald-400" />
+                </div>
+                <div>
+                  <div className="text-white text-sm font-semibold">{item.label}</div>
+                  <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">{item.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ===================== HOW IT WORKS ===================== */}
-      <section className="py-24 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-14">
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-16">
             <SectionLabel>How it works</SectionLabel>
-            <h2 className="font-extrabold text-3xl sm:text-4xl text-white leading-tight">
-              From first click to keys in hand — without the drama.
+            <h2 className="text-4xl lg:text-5xl font-black text-white mt-4 tracking-tight">
+              Renting reimagined
             </h2>
-            <p className="mt-4 text-zinc-500 text-lg leading-relaxed">
-              We built PROPATI to remove the uncertainty from Nigerian real estate. Here is the simple path.
+            <p className="text-zinc-500 mt-3 max-w-xl mx-auto">
+              From search to keys in hand — a seamless, transparent process built for Nigeria.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {steps.map((step, i) => (
-              <FadeIn key={step.num} delay={i * 0.12} y={20}>
-                <div className="glass-card p-8 h-full flex flex-col">
-                  <div className="text-5xl font-extrabold text-emerald-400/15 mb-4">{step.num}</div>
-                  <h3 className="font-bold text-xl text-white mb-3">{step.title}</h3>
-                  <p className="text-zinc-500 leading-relaxed flex-1">{step.desc}</p>
+              <div key={step.num} className="glass-card p-8 relative overflow-hidden hover:border-white/15 transition-colors">
+                <div className="text-[80px] font-black text-white/[0.04] absolute -top-4 -right-2 leading-none select-none">
+                  {step.num}
                 </div>
-              </FadeIn>
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-5">
+                  <CheckCircle2 size={18} className="text-emerald-400" />
+                </div>
+                <h3 className="text-white font-bold text-lg mb-2">{step.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">{step.desc}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -363,7 +391,6 @@ export default function HomePage() {
             ].map((role, i) => (
               <FadeIn key={role.label} delay={i * 0.08} y={16}>
                 <Link
-                  to={role.href}
                   href={role.href}
                   className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group"
                 >

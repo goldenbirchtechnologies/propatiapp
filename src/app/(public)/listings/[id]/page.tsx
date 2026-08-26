@@ -8,6 +8,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { StarRating } from '@/components/ui/star-rating';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { CheckCircle, MapPin, BedDouble, Bath, Square, Heart, Share2, Phone, MessageSquare, ArrowLeft, ArrowRight, Wifi, Car, Dumbbell, Shield, Star, Zap, Wind, TreePine } from 'lucide-react';
 
 const galleryImages = [

@@ -108,28 +108,26 @@ export default function PublicNav() {
 
             {userId ? (
               <div className="hidden md:flex items-center gap-3">
-                <Link href="/dashboard">
-                  <Button variant="ghost" size="sm">
-                    Dashboard
-                  </Button>
+                <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
+                  Dashboard
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <button
                   onClick={() => clerk.signOut({ redirectUrl: '/sign-in' })}
+                  className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
                 >
                   Sign Out
-                </Button>
+                </button>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2">
-                <Link href="/sign-in">
-                  <Button variant="ghost" size="sm">
-                    Sign in
-                  </Button>
+                <Link href="/sign-in" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
+                  Sign in
                 </Link>
-                <Link href="/signup">
-                  <Button size="sm">Get Started</Button>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium bg-white text-black rounded-lg hover:bg-zinc-100 transition-colors"
+                >
+                  Get Started
                 </Link>
               </div>
             )}

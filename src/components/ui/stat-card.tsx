@@ -25,30 +25,18 @@ function StatCard({
   className,
 }: StatCardProps) {
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus
-  const trendColor =
-    trend === "up"
-      ? "text-emerald-400"
-      : trend === "down"
-        ? "text-red-400"
-        : "text-zinc-400"
+  const trendColor = trend === "up" ? "text-emerald-400" : trend === "down" ? "text-red-400" : "text-zinc-400"
 
   return (
-    <div
-      className={cn(
-        "glass-card p-5 flex flex-col gap-3 hover:border-white/15 transition-colors",
-        className
-      )}
-    >
+    <div className={cn("glass-card p-5 flex flex-col gap-3 hover:border-white/15 transition-colors", className)}>
       <div className="flex items-start justify-between">
-        <span className="text-xs text-zinc-500 uppercase tracking-wider font-medium">
-          {label}
-        </span>
+        <span className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{label}</span>
         {Icon && (
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: `${accentColor}15` }}
           >
-            <Icon size={15} className="text-emerald-400" />
+            <Icon size={15} style={{ color: accentColor }} />
           </div>
         )}
       </div>

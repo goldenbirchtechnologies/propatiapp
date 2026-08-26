@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';
-import { PropertyCard, Btn } from '@/components/ui';
+import { PropertyCard } from '@/components/listings/PropertyCard';
+import { Button } from '@/components/ui/button';
 import { SectionLabel } from '@/components/ui';
 
 const categories = ['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'];
@@ -335,9 +336,9 @@ export default function ListingsPage() {
 
             {/* Load more */}
             <div className="text-center mt-10">
-              <Btn variant="secondary" size="lg">
+              <Button variant="secondary" size="lg">
                 Load more listings
-              </Btn>
+              </Button>
             </div>
           </div>
         </div>

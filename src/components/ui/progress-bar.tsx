@@ -8,7 +8,7 @@ interface ProgressProps {
   className?: string
 }
 
-function Progress({ value, color = "#10b981", className }: ProgressProps) {
+function ProgressBar({ value, color = "#10b981", className }: ProgressProps) {
   return (
     <div className={cn("h-1.5 bg-zinc-800 rounded-full overflow-hidden w-full", className)}>
       <div
@@ -19,4 +19,4 @@ function Progress({ value, color = "#10b981", className }: ProgressProps) {
   )
 }
 
-export { Progress }
+export { ProgressBar };

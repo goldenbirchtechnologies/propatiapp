@@ -97,7 +97,7 @@ export default function AgreementsPage() {
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3].map((i) => (
-                <div className="glass-card" key={i} className="p-6 animate-pulse">
+                <div className="glass-card p-6 animate-pulse" key={i}>
                   <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
                   <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
                   <div className="h-3 bg-muted rounded w-2/3"></div>
@@ -125,7 +125,7 @@ export default function AgreementsPage() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredAgreements.map((agreement) => (
-                <div className="glass-card" key={agreement.id} className="p-6 hover:shadow-none transition-shadow">
+                <div className="glass-card p-6 hover:shadow-none transition-shadow" key={agreement.id}>
                   <div className="space-y-4">
                     {/* Property Image & Title */}
                     <div className="flex items-start gap-3">

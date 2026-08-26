@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/table';
 import { CreditCard, Receipt, Eye, Loader2, Plus, Filter } from 'lucide-react';
 import { useTransactions } from '@/hooks/usePayments';
-import { TransactionStatusBadge } from '@/components/payments/transaction-status-badge';
+import { TransactionStatusBadge, type TransactionStatus } from '@/components/payments/transaction-status-badge';
 import { formatAmountFromKobo } from '@/lib/payment-utils';
 
 interface User {
@@ -33,12 +33,11 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('all');
 
-  const { data: transactionsData, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 }) as unknown;
+  const { data: transactionsDataRaw, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useTransactions({ limit: 20 });
+  const transactionsData = transactionsDataRaw as any;
+  const transactions = transactionsData?.pages?.flatMap((page: any) => page.data || []) || [];
 
-  const transactions = transactionsData?.pages?.flatMap((page: unknown) => page.data || []) || [];
-
-  // Filter transactions based on active tab
-  const filteredTransactions = transactions.filter((tx: unknown) => {
+  const filteredTransactions = transactions.filter((tx: any) => {
     if (activeTab === 'all') return true;
     if (activeTab === 'pending') return tx.status === 'pending';
     if (activeTab === 'in_escrow') return tx.status === 'in_escrow';
@@ -120,7 +119,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredTransactions.map((tx: unknown) => (
+                      {filteredTransactions.map((tx: any) => (
                         <TableRow key={tx.id}>
                           <TableCell>
                             {format(new Date(tx.createdAt), 'MMM dd, yyyy')}
@@ -146,7 +145,7 @@ export default function TransactionsListClient({ user }: TransactionsListClientP
                             {formatAmountFromKobo(tx.amount)}
                           </TableCell>
                           <TableCell>
-                            <TransactionStatusBadge status={tx.status} />
+                            <TransactionStatusBadge status={tx.status as TransactionStatus} />
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex items-center justify-end gap-2">

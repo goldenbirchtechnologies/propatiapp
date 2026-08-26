@@ -102,7 +102,7 @@ export default function NotificationsPage() {
     }
 
     // Navigate to action URL if exists
-    const actionUrl = notification.data?.actionUrl || notification.actionUrl;
+    const actionUrl = (notification.data?.actionUrl || notification.actionUrl) as string | undefined;
     if (actionUrl) {
       window.location.href = actionUrl;
     }

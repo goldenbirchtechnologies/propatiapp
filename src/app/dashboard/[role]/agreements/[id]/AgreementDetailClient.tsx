@@ -324,7 +324,7 @@ export default function AgreementDetailClient() {
           <StampDutyWidget
             agreementId={agreement.id}
             annualRent={agreement.rentAmount || 0}
-            stampDuty={(agreement as unknown).stampDuty as never}
+            stampDuty={(agreement as any).stampDuty}
           />
         </div>
       )}

@@ -52,8 +52,8 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
     if (paramType) setPaymentType(paramType);
   }, [searchParams]);
 
-  const agreements = agreementsData?.data?.flatMap((page: unknown) => page.data || []) || [];
-  const selectedAgreement = agreements.find((a: unknown) => a.id === agreementId);
+  const agreements = agreementsData?.data?.flatMap((page) => page.data || []) || [];
+  const selectedAgreement = agreements.find((a) => a.id === agreementId);
 
   // Auto-fill listing ID from selected agreement
   useEffect(() => {
@@ -98,13 +98,13 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
       const result = await initiatePayment.mutateAsync({
         email: user.email,
         amount: parseFloat(amount),
-        type: paymentType as unknown,
+        type: paymentType as 'rent' | 'sale' | 'short_let' | 'caution' | 'subscription',
         listingId,
         agreementId: agreementId || undefined,
         metadata: {
           description: description || `${paymentType} payment`,
         },
-      } as unknown);
+      });
 
       if (result.authorizationUrl) {
         // Redirect to Paystack
@@ -173,7 +173,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                     <SelectValue placeholder="Choose an agreement..." />
                   </SelectTrigger>
                   <SelectContent>
-                    {agreements.map((agreement: unknown) => (
+                    {agreements.map((agreement) => (
                       <SelectItem key={agreement.id} value={agreement.id}>
                         {agreement.listing?.title} - {agreement.id.slice(-8).toUpperCase()}
                       </SelectItem>

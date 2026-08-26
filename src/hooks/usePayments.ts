@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Types
 export interface InitiatePaymentInput {
@@ -60,13 +60,21 @@ export const paymentsKeys = {
  * Get all transactions with pagination and filters
  */
 export function useTransactions(params?: TransactionFilters) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: paymentsKeys.transactionList(params),
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       const searchParams = new URLSearchParams((params ?? {}) as Record<string, string>);
+      if (pageParam) {
+        searchParams.set('page', String(pageParam));
+      }
       const response = await fetch(`/api/payments/transactions?${searchParams}`);
       if (!response.ok) throw new Error('Failed to fetch transactions');
       return response.json();
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.success || !lastPage.pagination) return undefined;
+      const { page, totalPages } = lastPage.pagination;
+      return page < totalPages ? page + 1 : undefined;
     },
     staleTime: 60 * 1000,
   });

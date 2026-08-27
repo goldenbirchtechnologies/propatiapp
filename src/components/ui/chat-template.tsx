@@ -19,9 +19,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import {
+  MessageGroup,
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageHeader,
+} from "@/components/ui/bubble";
 import { cn } from "@/lib/utils";
 import { getConversations, getMessages, sendMessage } from "@/app/actions/messaging";
-import type { Conversation, Message } from "@/app/actions/messaging";
+import type { Conversation, Message as MessageType } from "@/app/actions/messaging";
 import { useEffect, useMemo, useState } from "react";
 import { Send } from "lucide-react";
 
@@ -175,7 +183,7 @@ export default function MessageConversation({
 }) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
@@ -247,7 +255,7 @@ export default function MessageConversation({
     setSending(true);
     try {
       const tempId = `temp-${Date.now()}`;
-      const optimisticMessage: Message = {
+      const optimisticMessage: MessageType = {
         id: tempId,
         content: content.trim(),
         createdAt: new Date().toISOString(),
@@ -332,28 +340,20 @@ export default function MessageConversation({
             className="flex h-full max-h-full flex-col gap-6 bg-background p-4"
             role="log"
           >
-            {sortedMessages.map((msg) => {
-              const isMe = msg.senderId === userId;
-              const senderName = msg.sender?.fullName || msg.sender?.role || "User";
-              return (
-                <div
-                  className={cn(
-                    "group my-4 flex gap-2",
-                    isMe ? "justify-end" : "justify-start"
-                  )}
-                  key={msg.id}
-                >
-                  <div
-                    className={cn(
-                      "flex max-w-[80%] items-start gap-2",
-                      isMe ? "flex-row-reverse" : undefined
-                    )}
-                  >
-                    <Avatar className="size-8">
-                      <AvatarImage alt={senderName} src={msg.sender?.avatarUrl || undefined} />
-                      <AvatarFallback>{senderName[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
+            <MessageGroup>
+              {sortedMessages.map((msg) => {
+                const isMe = msg.senderId === userId;
+                const senderName = msg.sender?.fullName || msg.sender?.role || "User";
+                return (
+                  <Message key={msg.id} align={isMe ? "end" : "start"} className="group/message">
+                    <MessageAvatar>
+                      <Avatar className="size-8">
+                        <AvatarImage alt={senderName} src={msg.sender?.avatarUrl || undefined} />
+                        <AvatarFallback>{senderName[0]}</AvatarFallback>
+                      </Avatar>
+                    </MessageAvatar>
+                    <MessageContent>
+                      <MessageHeader>{senderName}</MessageHeader>
                       <div
                         className={cn(
                           "rounded-md px-3 py-2 text-sm",
@@ -364,7 +364,7 @@ export default function MessageConversation({
                       >
                         {msg.content}
                       </div>
-                      <div className="mt-1 flex items-center gap-2">
+                      <MessageFooter>
                         <time
                           aria-label={`Sent at ${new Date(msg.createdAt).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}`}
                           className="text-muted-foreground text-xs"
@@ -378,12 +378,12 @@ export default function MessageConversation({
                         <div className="opacity-0 transition-all group-hover:opacity-100">
                           <MessageActions isMe={isMe} />
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                      </MessageFooter>
+                    </MessageContent>
+                  </Message>
+                );
+              })}
+            </MessageGroup>
           </ScrollArea>
         )}
       </CardContent>

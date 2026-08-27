@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { DashboardShell } from '@/components/layout/DashboardShell';
-import { AGENT_NAVIGATION } from '@/lib/navigation';
 import { CalendarDays, MapPin, Clock, Plus, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -83,28 +81,25 @@ export default function AgentScheduleClient() {
 
   if (error) {
     return (
-      <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Agent" userAvatar={undefined}>
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>Schedule</h1>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500 mt-1">Inspection and meeting calendar</p>
-            </div>
-          </div>
-          <div className="rounded-xl border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
-            <AlertTriangle className="w-12 h-12 mx-auto mb-3 text-red-500" />
-            <p className="text-red-500 font-medium mb-1">Unable to load schedule</p>
-            <p className="text-sm text-zinc-500 mb-3">{error.message}</p>
-            <button onClick={load} className="btn btn-secondary text-sm" style={{ padding: '1.5rem' }}>Retry</button>
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>Schedule</h1>
+            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500 mt-1">Inspection and meeting calendar</p>
           </div>
         </div>
-      </DashboardShell>
+        <div className="rounded-xl border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
+          <AlertTriangle className="w-12 h-12 mx-auto mb-3 text-red-500" />
+          <p className="text-red-500 font-medium mb-1">Unable to load schedule</p>
+          <p className="text-sm text-zinc-500 mb-3">{error.message}</p>
+          <button onClick={load} className="btn btn-secondary text-sm" style={{ padding: '1.5rem' }}>Retry</button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Agent" userAvatar={undefined}>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>Schedule</h1>
@@ -211,6 +206,5 @@ export default function AgentScheduleClient() {
           </>
         )}
       </div>
-    </DashboardShell>
   );
 }

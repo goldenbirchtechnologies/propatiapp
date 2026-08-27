@@ -150,6 +150,16 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
       },
     ],
   },
+  {
+    title: 'Invitations',
+    items: [
+      {
+        label: 'Invitations',
+        href: '/dashboard/agent/invites',
+        icon: <Mail className="h-5 w-5" />,
+      },
+    ],
+  },
 ];
 
 export const ADMIN_NAVIGATION: NavItem[] = [
@@ -183,6 +193,8 @@ export const ESTATE_MANAGER_NAVIGATION: NavItem[] = [
   { label: 'Maintenance', href: '/dashboard/estate-manager/maintenance', icon: <Wrench className="h-5 w-5" /> },
   { label: 'Team', href: '/dashboard/estate-manager/team', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/estate-manager/agreements', icon: <FileText className="h-5 w-5" /> },
+  { label: 'Messages', href: '/dashboard/estate-manager/messages', icon: <MessageSquare className="h-5 w-5" /> },
+  { label: 'Invitations', href: '/dashboard/estate-manager/invite-property-manager', icon: <Mail className="h-5 w-5" /> },
   { label: 'My Profile', href: '/dashboard/estate-manager/profile', icon: <User className="h-5 w-5" /> },
 ];
 

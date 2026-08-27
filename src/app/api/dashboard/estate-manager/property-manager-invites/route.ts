@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ success: true, data: invitees, orgName: activeOrg.name });
+    return NextResponse.json({ success: true, data: invitees, orgName: activeOrg.name, orgId });
   } catch (error) {
     console.error('Property manager invites GET error:', error);
     if (error instanceof Error && error.name === 'ZodError') {

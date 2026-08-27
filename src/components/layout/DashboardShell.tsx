@@ -772,13 +772,13 @@ export function DashboardShell({
             >
               <HelpCircle size={20} style={{ color: 'var(--muted-foreground)' }} />
             </button>
-            {['landlord', 'tenant', 'agent', 'accountant'].includes((userRole || '').toLowerCase()) && (
+            {['landlord', 'tenant', 'agent', 'accountant', 'estate_manager'].includes((userRole || '').toLowerCase()) && (
               <Link href={`/dashboard/${userRole}/messages`} className="hidden md:flex p-2 rounded-full transition hover:bg-muted" aria-label="Messages" title="Messages">
                 <MessageSquare size={20} style={{ color: 'var(--muted-foreground)' }} />
               </Link>
             )}
-            {userRole === 'agent' && (
-              <Link href="/dashboard/agent/invites" className="hidden md:flex p-2 rounded-full transition hover:bg-muted" aria-label="Invitations" title="Invitations">
+            {['agent', 'estate_manager'].includes((userRole || '').toLowerCase()) && (
+              <Link href={userRole === 'agent' ? '/dashboard/agent/invites' : '/dashboard/estate-manager/invite-property-manager'} className="hidden md:flex p-2 rounded-full transition hover:bg-muted" aria-label="Invitations" title="Invitations">
                 <Mail size={20} style={{ color: 'var(--muted-foreground)' }} />
               </Link>
             )}

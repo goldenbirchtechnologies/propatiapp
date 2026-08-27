@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft, Phone, Calendar } from 'lucide-react';
+import { Search, Plus, Send, MessageSquare, MoreHorizontal, ArrowLeft, Phone, Calendar, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -95,6 +95,112 @@ type ScreeningCall = {
   };
 };
 
+type Invite = {
+  id: string;
+  email?: string | null;
+  status?: string;
+  sender?: { fullName?: string | null; email?: string } | null;
+  invitedBy?: string | null;
+  createdAt?: string | null;
+  listingId?: string | null;
+  listing?: { title?: string | null; address?: string | null } | null;
+  orgId?: string | null;
+  orgName?: string | null;
+  assignments?: { listing?: { title?: string | null } }[];
+};
+
+function InvitesList({ invites, loading, error, userRole, onAccept, onRemove, onRetry }: { invites: Invite[]; loading: boolean; error: string | null; userRole: string; onAccept: (id: string) => void; onRemove: (memberId: string, orgId: string) => void; onRetry: () => void }) {
+  const [query, setQuery] = useState('');
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return invites;
+    return invites.filter((inv) => {
+      const name = (inv.sender?.fullName || inv.email || '').toLowerCase();
+      const listing = (inv.listing?.title || inv.listing?.address || '').toLowerCase();
+      return name.includes(q) || listing.includes(q);
+    });
+  }, [invites, query]);
+
+  if (loading) {
+    return (
+      <div className="p-4 space-y-3">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="p-4 border" style={{ borderColor: 'var(--border)' }}>
+            <div className="h-4 w-32 rounded mb-2" style={{ background: 'var(--muted)', opacity: 0.2 }} />
+            <div className="h-3 w-48 rounded" style={{ background: 'var(--muted)', opacity: 0.1 }} />
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4">
+        <Card className="p-4 border" style={{ borderColor: 'var(--border)' }}>
+          <p style={{ color: 'var(--text)' }}>{error}</p>
+          <Button onClick={onRetry} className="mt-3">Retry</Button>
+        </Card>
+      </div>
+    );
+  }
+
+  if (filtered.length === 0) {
+    return (
+      <div className="card-body text-center py-16">
+        <Mail className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--muted)', opacity: 0.5 }} />
+        <h3 className="font-heading font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>No invites</h3>
+        <p style={{ color: 'var(--muted)' }}>Pending invitations will appear here.</p>
+      </div>
+    );
+  }
+
+  return (
+    <ScrollArea>
+      <div>
+        {filtered.map((inv) => {
+          const label = inv.sender?.fullName || inv.email || 'Invitation';
+          const subline = [inv.listing?.title, inv.listing?.address, inv.orgName].filter(Boolean).join(' · ') || 'Invitation';
+          return (
+            <div
+              key={inv.id}
+              className="w-full flex items-center gap-4 p-4 border-b transition-colors text-left hover:bg-zinc-900/30"
+              style={{ borderColor: 'var(--border)' }}
+            >
+              <div className="rounded-full p-2" style={{ background: 'var(--surface-elevated)' }}>
+                <Mail className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{label}</p>
+                  {inv.status && (
+                    <Badge variant="default" className="rounded-full px-2 py-0 text-xs">{inv.status}</Badge>
+                  )}
+                </div>
+                <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>{subline}</p>
+                {inv.createdAt && (
+                  <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
+                    {new Date(inv.createdAt).toLocaleString('en-NG', { dateStyle: 'medium', timeStyle: 'short' })}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {userRole === 'agent' && inv.status === 'pending' && (
+                  <Button size="sm" onClick={() => onAccept(inv.id)}>Accept</Button>
+                )}
+                {userRole === 'estate_manager' && inv.orgId && (
+                  <Button size="sm" variant="destructive" onClick={() => onRemove(inv.id, inv.orgId!)}>Remove</Button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </ScrollArea>
+  );
+}
+
 const ELEVATION_TOKENS: Record<string, string> = {
   elevation_1: 'var(--elevation-1)',
   elevation_2: 'var(--elevation-2)',
@@ -113,7 +219,7 @@ const elevationStyle = (token?: string): CSSProperties => {
   return {};
 };
 
-type Tab = 'all' | 'chats' | 'screening';
+type Tab = 'all' | 'chats' | 'screening' | 'invites';
 
 export default function UnifiedMessagesClient({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -128,6 +234,9 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   const [replyToId, setReplyToId] = useState<string | null>(null);
   const [screeningCalls, setScreeningCalls] = useState<ScreeningCall[]>([]);
   const [screeningLoading, setScreeningLoading] = useState(false);
+  const [invites, setInvites] = useState<Invite[]>([]);
+  const [invitesLoading, setInvitesLoading] = useState(false);
+  const [invitesError, setInvitesError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('all');
 
   const filtered = useMemo(() => {
@@ -170,6 +279,52 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     }
   }
 
+  async function loadInvites() {
+    if (userRole !== 'agent' && userRole !== 'estate_manager') return;
+    setInvitesLoading(true);
+    setInvitesError(null);
+    try {
+      if (userRole === 'agent') {
+        const res = await withRetry(() => fetch('/api/agent-invites'));
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to load invites');
+        setInvites(Array.isArray(json.data) ? json.data : []);
+      } else if (userRole === 'estate_manager') {
+        const res = await withRetry(() => fetch('/api/dashboard/estate-manager/property-manager-invites'));
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to load invites');
+        setInvites(Array.isArray(json.data) ? json.data : []);
+      }
+    } catch (err: unknown) {
+      setInvitesError(err instanceof Error ? err.message : 'Failed to load invites');
+    } finally {
+      setInvitesLoading(false);
+    }
+  }
+
+  async function handleAcceptInvite(inviteId: string) {
+    try {
+      const res = await withRetry(() => fetch(`/api/agent-invites/${inviteId}/accept`, { method: 'POST' }));
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Failed to accept invite');
+      setInvites((prev) => prev.filter((inv) => inv.id !== inviteId));
+      loadConversations();
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : 'Failed to accept invite');
+    }
+  }
+
+  async function handleRemoveInvite(memberId: string, orgId: string) {
+    try {
+      const res = await withRetry(() => fetch(`/api/orgs/${orgId}/members/${memberId}`, { method: 'DELETE' }));
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Failed to remove invite');
+      setInvites((prev) => prev.filter((inv) => inv.id !== memberId));
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : 'Failed to remove invite');
+    }
+  }
+
   async function markConversationRead(conversationId: string) {
     try {
       await withRetry(() => fetch(`/api/conversations/${conversationId}/mark-read`, { method: 'POST' }));
@@ -205,6 +360,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
   useEffect(() => {
     loadConversations();
     loadScreening();
+    loadInvites();
     const params = new URLSearchParams(window.location.search);
     const convoId = params.get('conversationId');
     if (convoId) setSelectedId(convoId);
@@ -267,14 +423,17 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     return d.toLocaleDateString('en-NG', { month: 'short', day: 'numeric' });
   }
 
-  const showList = activeTab !== 'screening' && !selectedId;
-  const showDetail = activeTab !== 'screening' && !!selectedId;
+  const showList = activeTab !== 'screening' && activeTab !== 'invites' && !selectedId;
+  const showDetail = activeTab !== 'screening' && activeTab !== 'invites' && !!selectedId;
 
   const tabs: { value: Tab; label: string }[] = [
     { value: 'all', label: 'All' },
     { value: 'chats', label: 'Chats' },
     { value: 'screening', label: 'Screening Calls' },
   ];
+  if (userRole === 'agent' || userRole === 'estate_manager' || userRole === 'landlord') {
+    tabs.push({ value: 'invites', label: 'Invites' });
+  }
 
   return (
     <div className="space-y-6" style={elevationStyle(ELEVATION_TOKENS.elevation_2)}>
@@ -336,7 +495,19 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
                   className="pl-10"
                 />
               </div>
-            )}
+                    )}
+                    {(activeTab === 'all' || activeTab === 'chats' || activeTab === 'invites') && (
+                      <div className="relative max-w-xl">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--muted)' }} />
+                        <Input
+                          type="text"
+                          placeholder={activeTab === 'invites' ? 'Search invites...' : 'Search conversations...'}
+                          value={activeTab === 'invites' ? '' : search}
+                          onChange={(e) => activeTab === 'invites' ? null : setSearch(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    )}
           </div>
         </div>
 
@@ -349,7 +520,9 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
           </div>
         )}
 
-        {activeTab === 'screening' ? (
+        {activeTab === 'invites' ? (
+          <InvitesList invites={invites} loading={invitesLoading} error={invitesError} userRole={userRole} onAccept={handleAcceptInvite} onRemove={handleRemoveInvite} onRetry={loadInvites} />
+        ) : activeTab === 'screening' ? (
           <ScreeningCallsList calls={screeningCalls} loading={screeningLoading} />
         ) : showList ? (
           <ConversationList conversations={filtered} loading={loading} onSelect={setSelectedId} />
@@ -476,7 +649,7 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
             style={{ borderColor: 'var(--border)' }}
           >
             <Avatar>
-              <AvatarImage src={conv.participant?.avatarUrl} alt={conv.participant?.fullName || 'User'} />
+              <AvatarImage src={conv.participant?.avatarUrl as string | undefined} alt={conv.participant?.fullName || 'User'} />
               <AvatarFallback>{initials(conv.participant?.fullName)}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -578,7 +751,7 @@ function MessageBubble({ message }: { message: Message }) {
   return (
     <div className="flex gap-3">
       <Avatar>
-        <AvatarImage src={message.sender?.avatarUrl} alt={senderName} />
+        <AvatarImage src={message.sender?.avatarUrl as string | undefined} alt={senderName} />
         <AvatarFallback>{initials(senderName)}</AvatarFallback>
       </Avatar>
       <div className="max-w-[70%] rounded-lg px-3 py-2" style={{ background: 'var(--elevation-2)', color: 'var(--text)' }}>

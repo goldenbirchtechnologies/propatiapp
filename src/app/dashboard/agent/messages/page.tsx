@@ -3,6 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
+import { prisma } from '@/lib/prisma';
 import AgentMessagesClient from './AgentMessagesClient';
 
 export default async function Page() {

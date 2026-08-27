@@ -8,6 +8,8 @@ import { formatNotificationTime, truncateNotification } from '@/lib/notification
 import { getNotificationIcon, getNotificationColor } from '@/lib/notification-icons';
 import { cn } from '@/lib/utils';
 import type { Notification } from './notification-card';
+import { Button, Card, CardHeader, CardFooter } from '@/components/ui';
+import { NotificationCard } from './notification-card';
 
 interface NotificationsPanelProps {
   notifications: Notification[];
@@ -33,7 +35,7 @@ export function NotificationsPanel({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
       </div>
     );
   }
@@ -41,9 +43,9 @@ export function NotificationsPanel({
   if (notifications.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-        <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-3">
+        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-3">
           <svg
-            className="w-8 h-8 text-zinc-400"
+            className="w-8 h-8 text-muted-foreground"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -56,8 +58,8 @@ export function NotificationsPanel({
             />
           </svg>
         </div>
-        <p className="font-medium mb-1" style={{ color: 'var(--text)' }}>No notifications</p>
-        <p className="text-sm" style={{ color: 'var(--muted)' }}>You're all caught up!</p>
+        <p className="font-medium mb-1">No notifications</p>
+        <p className="text-sm text-muted-foreground">You're all caught up!</p>
       </div>
     );
   }
@@ -66,52 +68,13 @@ export function NotificationsPanel({
     <div className="divide-y divide-border">
       {notifications.map((notification) => {
         const Icon = getNotificationIcon(notification.type);
-        const iconColor = getNotificationColor(notification.type);
 
         return (
-          <button
+          <NotificationCard
             key={notification.id}
-            onClick={() => onNotificationClick(notification)}
-            className={cn(
-              'w-full text-left p-4 transition-colors hover:bg-zinc-900/50',
-              !notification.read && 'bg-accent/5'
-            )}
-          >
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 mt-1">
-                <div
-                  className={cn(
-                    'w-8 h-8 rounded-full flex items-center justify-center',
-                    notification.read ? 'bg-zinc-900' : 'bg-zinc-800'
-                  )}
-                >
-                  <Icon className={cn('w-4 h-4', iconColor)} />
-                </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <p
-                    className={cn(
-                      'text-sm',
-                      notification.read ? 'font-medium' : 'font-semibold'
-                    )}
-                    style={{ color: 'var(--text)' }}
-                  >
-                    {notification.title}
-                  </p>
-                  {!notification.read && (
-                    <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0 mt-1" />
-                  )}
-                </div>
-                <p className="text-sm mb-1" style={{ color: 'var(--muted-foreground)' }}>
-                  {truncateNotification(notification.body, 80)}
-                </p>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                  {formatNotificationTime(notification.createdAt)}
-                </p>
-              </div>
-            </div>
-          </button>
+            notification={notification}
+            onClick={onNotificationClick}
+          />
         );
       })}
     </div>
@@ -233,44 +196,46 @@ export function NotificationsDropdown({
   if (!isOpen) return null;
 
   return (
-    <div
+    <Card
       ref={dropdownRef}
       className={cn(
-        'absolute top-full mt-2 w-96 max-w-[calc(100vw-2rem)] bg-zinc-900 rounded-lg shadow-xl border border-zinc-800 z-50',
+        'w-96 max-w-[calc(100vw-2rem)] shadow-xl border',
         position === 'right' ? 'right-0' : 'left-0'
       )}
       role="dialog"
       aria-label="Notifications"
     >
-      <div className="flex items-center justify-between p-4 border-b border-zinc-800">
+      <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold" style={{ color: 'var(--text)' }}>Notifications</h3>
+          <h3 className="font-semibold">Notifications</h3>
           {unreadCount > 0 && (
-            <span className="px-2 py-0.5 text-xs font-semibold bg-accent/10 text-accent rounded-full">
+            <span className="px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
               {unreadCount} new
             </span>
           )}
         </div>
         <div className="flex items-center gap-1">
-          <button
+          <Button
             onClick={fetchNotifications}
             disabled={loading || markingAll}
-            className="p-1 hover:bg-zinc-900 rounded transition-colors"
+            size="icon"
+            variant="ghost"
             aria-label="Refresh notifications"
           >
-            <svg className={`w-4 h-4 text-zinc-400 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.005A7.5 7.5 0 0119 10.5v.006a7.005 7.005 0 01.527 2.93M4 4v5h.005A7.5 7.5 0 0119 15v.005a7.005 7.005 0 01.527 2.93M19 4v5h-.005A7.5 7.5 0 014 15V14.995" />
             </svg>
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onClose}
-            className="p-1 hover:bg-zinc-900 rounded transition-colors"
+            size="icon"
+            variant="ghost"
             aria-label="Close notifications"
           >
-            <X className="w-4 h-4 text-zinc-400" />
-          </button>
+            <X className="w-4 h-4" />
+          </Button>
         </div>
-      </div>
+      </CardHeader>
 
       <NotificationsPanel
         notifications={notifications}
@@ -287,26 +252,27 @@ export function NotificationsDropdown({
       />
 
       {notifications.length > 0 && (
-        <div className="flex items-center justify-between p-3 border-t border-zinc-800 bg-zinc-900/30">
+        <CardFooter className="flex items-center justify-between p-3 border-t border-border bg-muted/30">
           {unreadCount > 0 && (
-            <button
+            <Button
               onClick={handleMarkAllRead}
               disabled={markingAll}
-              className="text-sm font-medium text-accent hover:text-accent/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="ghost"
+              size="sm"
             >
               {markingAll ? 'Marking...' : 'Mark all read'}
-            </button>
+            </Button>
           )}
           {unreadCount === 0 && <div />}
           <Link
             href={`/dashboard/${userRole}/notifications`}
             onClick={onClose}
-            className="text-sm font-medium text-accent hover:text-accent/80"
+            className="text-sm font-medium text-primary hover:text-primary/80"
           >
             View all →
           </Link>
-        </div>
+        </CardFooter>
       )}
-    </div>
+    </Card>
   );
 }

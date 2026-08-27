@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { formatNotificationTime } from '@/lib/notification-utils';
 import { getNotificationIcon, getNotificationColor, getNotificationBgColor } from '@/lib/notification-icons';
 import { cn } from '@/lib/utils';
-import { MagicCard } from '@/components/magic-card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, Button } from '@/components/ui';
 
 export interface Notification {
   id: string;
@@ -68,117 +68,111 @@ export function NotificationCard({
   }, [onDispute, notification.id]);
 
   return (
-    <MagicCard
+    <Card
       className={cn(
-        'cursor-pointer',
+        'cursor-pointer transition-colors',
         compact && 'p-3',
         notification.read
-          ? 'bg-surface-elevated border-zinc-800'
-          : 'bg-blue-50/50 border-blue-200 hover:border-blue-300',
+          ? 'bg-background'
+          : 'bg-accent/5',
         !compact && 'p-4'
       )}
       onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
     >
-      {/* Unread indicator */}
-      {!notification.read && (
-        <div className="absolute top-4 right-4 w-2 h-2 bg-blue-500 rounded-full" />
-      )}
-
-      <div className="flex gap-3">
-        {/* Icon */}
-        <div
-          className={cn(
-            'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center',
-            notification.read ? 'bg-gray-100' : bgColor
-          )}
-        >
-          <Icon className={cn('w-5 h-5', iconColor)} />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-1">
-            <h4
-              className={cn(
-                'text-sm',
-                notification.read ? 'font-medium text-gray-900' : 'font-semibold text-gray-900'
-              )}
-            >
-              {notification.title}
-            </h4>
-          </div>
-
-          <p
+      <CardContent className="p-0">
+        <div className="flex gap-3">
+          {/* Icon */}
+          <div
             className={cn(
-              'text-sm mb-2',
-              notification.read ? 'text-gray-600' : 'text-gray-700'
+              'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center',
+              notification.read ? 'bg-muted' : bgColor
             )}
           >
-            {notification.body}
-          </p>
+            <Icon className={cn('w-5 h-5', iconColor)} />
+          </div>
 
-           <div className="flex items-center justify-between gap-3">
-             <span className="text-xs text-gray-500">
-               {formatNotificationTime(notification.createdAt)}
-             </span>
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <h4
+                className={cn(
+                  'text-sm',
+                  notification.read ? 'font-medium' : 'font-semibold'
+                )}
+              >
+                {notification.title}
+              </h4>
+              {!notification.read && (
+                <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-1" />
+              )}
+            </div>
 
-             <div className="flex items-center gap-2">
-               {(canConfirm || canDispute) && (
-                 <div className="flex items-center gap-2 mr-2" onClick={(e) => e.stopPropagation()}>
-                   {canConfirm && (
-                     <button
-                       onClick={(e) => { e.stopPropagation(); doConfirm(); }}
-                       className="text-xs font-semibold text-emerald-400 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full transition"
-                     >
-                       Confirm payment
-                     </button>
-                   )}
-                   {canDispute && (
-                     <button
-                       onClick={(e) => { e.stopPropagation(); doDispute(); }}
-                       className="text-xs font-semibold text-red-700 bg-red-100 hover:bg-red-200 px-3 py-1 rounded-full transition"
-                     >
-                       Dispute
-                     </button>
-                   )}
-                 </div>
-               )}
+            <p className={cn('text-sm mb-2', notification.read ? 'text-muted-foreground' : 'text-foreground')}>
+              {notification.body}
+            </p>
 
-               {/* Mark as read/unread button */}
-               {onMarkRead && (
-                 <button
-                   onClick={handleMarkReadToggle}
-                   className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
-                   aria-label={notification.read ? 'Mark as unread' : 'Mark as read'}
-                 >
-                   {notification.read ? 'Mark unread' : 'Mark read'}
-                 </button>
-               )}
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs text-muted-foreground">
+                {formatNotificationTime(notification.createdAt)}
+              </span>
 
-               {/* Action button */}
-               {actionUrl && (
-                 <button
-                   className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                   onClick={(e) => {
-                     e.stopPropagation();
-                     window.location.href = actionUrl as string;
-                   }}
-                 >
-                   View Details →
-                 </button>
-               )}
-             </div>
-           </div>
+              <div className="flex items-center gap-2">
+                {(canConfirm || canDispute) && (
+                  <div className="flex items-center gap-2 mr-2" onClick={(e) => e.stopPropagation()}>
+                    {canConfirm && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => { e.stopPropagation(); doConfirm(); }}
+                        className="text-emerald-400 border-emerald-400/20 bg-emerald-400/10 hover:bg-emerald-400/20"
+                      >
+                        Confirm payment
+                      </Button>
+                    )}
+                    {canDispute && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => { e.stopPropagation(); doDispute(); }}
+                        className="text-red-400 border-red-400/20 bg-red-400/10 hover:bg-red-400/20"
+                      >
+                        Dispute
+                      </Button>
+                    )}
+                  </div>
+                )}
+
+                {/* Mark as read/unread button */}
+                {onMarkRead && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={handleMarkReadToggle}
+                    className="text-xs"
+                  >
+                    {notification.read ? 'Mark unread' : 'Mark read'}
+                  </Button>
+                )}
+
+                {/* Action button */}
+                {actionUrl && (
+                  <Button
+                    size="sm"
+                    variant="link"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = actionUrl as string;
+                    }}
+                    className="text-xs"
+                  >
+                    View Details →
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </MagicCard>
+      </CardContent>
+    </Card>
   );
 }

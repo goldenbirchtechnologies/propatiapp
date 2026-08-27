@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { Loader2, Save, Bell, Mail, MessageSquare, Phone } from 'lucide-react';
-import { InteractiveHoverButton } from '@/components/ui';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  Button,
+} from '@/components/ui';
 
 interface NotificationPreferences {
   email: boolean;
@@ -119,161 +127,157 @@ export default function NotificationSettingsPage() {
 
       <div className="space-y-6">
         {/* Notification Channels */}
-        <div className="bg-zinc-950/50 rounded-lg border border-white/[0.08] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Notification Channels</h2>
-          <p className="text-sm text-zinc-500 mb-6">
-            Choose how you want to receive notifications
-          </p>
-
-          <div className="space-y-4">
-            {/* In-App Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
-                  <Bell className="w-5 h-5 text-white" />
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-white">Notification Channels</CardTitle>
+            <CardDescription>Choose how you want to receive notifications</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {/* In-App Notifications */}
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <Bell className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">In-App Notifications</p>
+                    <p className="text-sm text-muted-foreground">Receive notifications in the app</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-white">In-App Notifications</p>
-                  <p className="text-sm text-zinc-500">Receive notifications in the app</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={preferences.inapp}
-                  onChange={() => toggleChannel('inapp')}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
-            {/* Email Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-[#00ff66]" />
-                </div>
-                <div>
-                  <p className="font-medium text-white">Email Notifications</p>
-                  <p className="text-sm text-zinc-500">Receive notifications via email</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={preferences.email}
-                  onChange={() => toggleChannel('email')}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
-            {/* SMS Notifications */}
-            <div className="flex items-center justify-between py-3 border-b border-white/[0.08]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="font-medium text-white">SMS Notifications</p>
-                  <p className="text-sm text-zinc-500">Receive notifications via text message</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={preferences.sms}
-                  onChange={() => toggleChannel('sms')}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
-            {/* WhatsApp Notifications */}
-            <div className="flex items-center justify-between py-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-[#00ff66]" />
-                </div>
-                <div>
-                  <p className="font-medium text-white">WhatsApp Notifications</p>
-                  <p className="text-sm text-zinc-500">Receive notifications via WhatsApp</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={preferences.whatsapp}
-                  onChange={() => toggleChannel('whatsapp')}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Notification Types */}
-        <div className="bg-zinc-950/50 rounded-lg border border-white/[0.08] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Notification Types</h2>
-          <p className="text-sm text-zinc-500 mb-6">
-            Choose which types of notifications you want to receive
-          </p>
-
-          <div className="space-y-3">
-            {Object.entries({
-              verification: 'Verification Updates',
-              agreement: 'Agreement Notifications',
-              payment: 'Payment Notifications',
-              message: 'New Messages',
-              rent_due: 'Rent Due Reminders',
-              maintenance: 'Maintenance Tickets',
-              screening: 'Screening Updates',
-              system: 'System Announcements',
-            }).map(([key, label]) => (
-              <div key={key} className="flex items-center justify-between py-2">
-                <span className="text-sm font-medium text-zinc-500">{label}</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={preferences.types[key as keyof NotificationPreferences['types']]}
-                    onChange={() => toggleType(key as keyof NotificationPreferences['types'])}
+                    checked={preferences.inapp}
+                    onChange={() => toggleChannel('inapp')}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-zinc-900 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-950/50 after:border-white/[0.08] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                  <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-ring rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                 </label>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Save Button */}
-        <div className="flex items-center justify-between">
-          {saveSuccess && (
-            <p className="text-sm text-[#00ff66] font-medium">Settings saved successfully!</p>
-          )}
-          <div className="flex-1" />
-          <InteractiveHoverButton
-            onClick={handleSave}
-            disabled={saving}
-            className="px-6 py-3 bg-emerald-500 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {saving ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              <>
-                <Save className="w-5 h-5" />
-                Save Changes
-              </>
+              {/* Email Notifications */}
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">Email Notifications</p>
+                    <p className="text-sm text-muted-foreground">Receive notifications via email</p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={preferences.email}
+                    onChange={() => toggleChannel('email')}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-ring rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+
+              {/* SMS Notifications */}
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">SMS Notifications</p>
+                    <p className="text-sm text-muted-foreground">Receive notifications via text message</p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={preferences.sms}
+                    onChange={() => toggleChannel('sms')}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-ring rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+
+              {/* WhatsApp Notifications */}
+              <div className="flex items-center justify-between py-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">WhatsApp Notifications</p>
+                    <p className="text-sm text-muted-foreground">Receive notifications via WhatsApp</p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={preferences.whatsapp}
+                    onChange={() => toggleChannel('whatsapp')}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-ring rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Notification Types */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-white">Notification Types</CardTitle>
+            <CardDescription>Choose which types of notifications you want to receive</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {Object.entries({
+                verification: 'Verification Updates',
+                agreement: 'Agreement Notifications',
+                payment: 'Payment Notifications',
+                message: 'New Messages',
+                rent_due: 'Rent Due Reminders',
+                maintenance: 'Maintenance Tickets',
+                screening: 'Screening Updates',
+                system: 'System Announcements',
+              }).map(([key, label]) => (
+                <div key={key} className="flex items-center justify-between py-2">
+                  <span className="text-sm font-medium text-white">{label}</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={preferences.types[key as keyof NotificationPreferences['types']]}
+                      onChange={() => toggleType(key as keyof NotificationPreferences['types'])}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-muted peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-ring rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  </label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter className="flex items-center justify-between">
+            {saveSuccess && (
+              <p className="text-sm text-primary font-medium">Settings saved successfully!</p>
             )}
-          </InteractiveHoverButton>
-        </div>
+            <div className="flex-1" />
+            <Button onClick={handleSave} disabled={saving}>
+              {saving ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-5 h-5" />
+                  Save Changes
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );

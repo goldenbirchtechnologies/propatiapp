@@ -34,14 +34,14 @@ export default async function LandlordFinancialForecastingPage() {
       }),
       prisma.$queryRaw<{ month: string; revenue: bigint; count: bigint }[]>`
         SELECT
-          to_char("createdAt", 'YYYY-MM') AS month,
+          to_char("created_at", 'YYYY-MM') AS month,
           SUM("amount")::bigint AS revenue,
           COUNT(*)::bigint AS count
         FROM "transactions"
-        WHERE "payeeId" = ${user.id}
+        WHERE "payee_id" = ${user.id}
           AND ("status" = 'released' OR "status" = 'success')
-          AND "createdAt" >= ${yearStart}
-        GROUP BY to_char("createdAt", 'YYYY-MM')
+          AND "created_at" >= ${yearStart}
+        GROUP BY to_char("created_at", 'YYYY-MM')
         ORDER BY month ASC
       `,
     ]);

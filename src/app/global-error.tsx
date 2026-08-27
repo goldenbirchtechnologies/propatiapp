@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
+import Link from 'next/link';
+import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
 export default function GlobalError({
   error,
@@ -12,96 +12,37 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body>
-        <div
-          style={{
-            minHeight: '100dvh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: '#06203d',
-            padding: '1.5rem',
-          }}
-        >
-          <div style={{ maxWidth: '640px', width: '100%', textAlign: 'center' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '88px',
-                height: '88px',
-                borderRadius: '9999px',
-                background: 'rgba(255,255,255,0.08)',
-                marginBottom: '1.5rem',
-                animation: 'propLogoPop 2.4s ease-in-out infinite',
-              }}
-            >
-              <span
-                aria-hidden
-                style={{
-                  fontSize: '36px',
-                  lineHeight: 1,
-                  color: '#2563eb',
-                }}
-              >
-                ⚡
-              </span>
-            </div>
-
-            <h1
-              style={{
-                fontSize: 'clamp(1.6rem, 4vw, 2.4rem)',
-                fontWeight: 800,
-                color: '#e6ebf1',
-                marginBottom: '0.75rem',
-              }}
-            >
-              System error
-            </h1>
-
-            <p
-              style={{
-                color: '#9fb3c8',
-                fontSize: '0.95rem',
-                lineHeight: 1.5,
-                marginBottom: '1.75rem',
-              }}
-            >
-              Something went wrong. Please try reloading or go back home.
-            </p>
-
-            <Button
-              onClick={reset}
-              style={{
-                background: '#2563eb',
-                color: '#fff',
-                borderRadius: '9999px',
-                padding: '0.75rem 1.5rem',
-              }}
-            >
-              <RefreshCw style={{ width: '18px', height: '18px', marginRight: '8px' }} />
-              Reload
-            </Button>
-
-            {error?.digest ? (
-              <p style={{ color: '#7e8aa0', fontSize: '0.75rem', marginTop: '1.5rem' }}>
-                Ref: {error.digest}
-              </p>
-            ) : null}
+      <body className="bg-black min-h-screen flex items-center justify-center p-6 antialiased">
+        <div className="max-w-md w-full text-center">
+          <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
+            <AlertTriangle size={28} className="text-red-400" />
           </div>
 
-          <style>{`
-            @keyframes propLogoPop {
-              0%, 100% { transform: scale(1); }
-              50% { transform: scale(1.08); }
-            }
-            @media (prefers-reduced-motion: reduce) {
-              div[aria-hidden='true'] {
-                animation: none !important;
-              }
-            }
-          `}</style>
+          <h1 className="text-2xl font-bold text-white mb-2">System error</h1>
+          <p className="text-zinc-500 text-sm mb-6">
+            Something went wrong. Please try reloading or go back home.
+          </p>
+
+          {error?.digest && (
+            <p className="text-xs text-zinc-600 mb-6 font-mono">Ref: {error.digest}</p>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={reset}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <RefreshCw size={14} />
+              Reload
+            </button>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"
+            >
+              <Home size={14} />
+              Back home
+            </Link>
+          </div>
         </div>
       </body>
     </html>

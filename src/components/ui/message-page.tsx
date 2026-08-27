@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Send, Mail } from 'lucide-react';
+import { Send, Mail, MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Conversation = {
@@ -77,6 +77,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const [loading, setLoading] = useState(false);
   const [invites, setInvites] = useState<Invite[]>([]);
   const [invitesLoading, setInvitesLoading] = useState(false);
+  const [messagingLoading, setMessagingLoading] = useState(false);
 
   const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
 
@@ -174,6 +175,37 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     }
   }
 
+  async function handleInviteMessage(inv: Invite) {
+    setActiveTab('messages');
+    setMessagingLoading(true);
+    try {
+      const subject = inv.listing?.title ? `Inquiry about ${inv.listing.title}` : 'New Conversation';
+      const participants = [
+        { userId, role: userRole },
+        ...(inv.sender?.email ? [{ userId: inv.sender.email, role: 'landlord' }] : []),
+      ];
+
+      const res = await fetch('/api/conversations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          participants,
+          subject,
+          listingId: inv.listingId || undefined,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Failed to start conversation');
+      const conversation = json.data;
+      setConversations((prev) => [conversation, ...prev]);
+      setSelectedId(conversation.id);
+    } catch {
+      // silent
+    } finally {
+      setMessagingLoading(false);
+    }
+  }
+
   function formatTime(input: string | null | undefined) {
     if (!input) return '';
     const d = new Date(input);
@@ -189,7 +221,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const showInvites = activeTab === 'invites';
 
   return (
-    <div className="mx-auto flex h-[75vh] min-h-0 max-w-4xl w-full flex-col overflow-hidden border border-neutral-800 bg-black text-white shadow-none">
+    <div className="mx-auto flex h-full w-full flex-col overflow-hidden border border-neutral-800 bg-black text-white shadow-none">
       <div className="border-b border-neutral-800 px-4 py-3">
         <PageHeader title="Messages" description="Manage your conversations and invitations." />
       </div>
@@ -297,6 +329,15 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                       )}
                     </div>
                     <div className="flex items-center gap-1">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleInviteMessage(inv)}
+                        title="Message about this invite"
+                        aria-label="Message about this invite"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                      </Button>
                       {userRole === 'agent' && inv.status === 'pending' && (
                         <Button size="sm" onClick={() => handleAcceptInvite(inv.id)}>
                           Accept
@@ -388,7 +429,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
             </>
           ) : (
             <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm">
-              Select a conversation to start messaging
+              {messagingLoading ? 'Starting conversation...' : 'Select a conversation to start messaging'}
             </div>
           )}
         </div>

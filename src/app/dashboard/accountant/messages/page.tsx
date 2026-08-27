@@ -15,7 +15,7 @@ export default async function AccountantMessagesPage() {
     <DashboardShell navigation={ACCOUNTANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
       <ErrorBoundary>
         <SidebarProvider>
-          <Home />
+          <Home userId={user.id} userName={user.fullName} userRole={user.role} />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

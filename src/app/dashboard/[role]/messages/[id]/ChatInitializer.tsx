@@ -24,5 +24,5 @@ export default function ChatInitializer({ conversationId }: Props) {
     }
   }, [conversationId, pathname, router, searchParams]);
 
-  return <Home />;
+  return <Home userId={user?.id || ''} userName={user?.fullName || ''} userRole={(user?.publicMetadata?.role as string) || ''} />;
 }

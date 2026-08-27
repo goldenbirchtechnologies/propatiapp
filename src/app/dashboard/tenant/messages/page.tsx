@@ -61,7 +61,7 @@ export default async function TenantMessagesPage() {
             </div>
           )}
           <SidebarProvider>
-            <Home />
+            <Home userId={user.id} userName={user.fullName} userRole={user.role} />
           </SidebarProvider>
         </div>
       </ErrorBoundary>

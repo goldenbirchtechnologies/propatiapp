@@ -25,7 +25,7 @@ export default async function LandlordMessagesPage() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <Home />
+          <Home userId={user.id} userName={user.fullName} userRole={user.role} />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

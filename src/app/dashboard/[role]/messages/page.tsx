@@ -12,7 +12,7 @@ export default async function MessagesPage({ params }: { params: Promise<{ role:
 
   return (
     <SidebarProvider>
-      <Home />
+      <Home userId={user.id} userName={user.fullName} userRole={user.role} />
     </SidebarProvider>
   );
 }

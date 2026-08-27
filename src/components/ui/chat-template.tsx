@@ -6,29 +6,25 @@ import type { Conversation, Message as MessageType } from "@/app/actions/messagi
 import { useEffect, useMemo, useState } from "react";
 import { Send } from "lucide-react";
 import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+import {
   Bubble,
   BubbleContent,
   Message,
   MessageContent,
-  MessageFooter,
 } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import {
-  Copy,
-  MoreHorizontal,
-  RefreshCcw,
-  ThumbsDown,
-  ThumbsUp,
-  Trash2,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DownloadIcon, FileTextIcon } from "lucide-react";
 
 type StatusType = "online" | "dnd" | "offline";
 
@@ -62,88 +58,6 @@ function UserActionsMenu() {
     >
       <span className="text-xs">•••</span>
     </Button>
-  );
-}
-
-function MessageActions({ isMe }: { isMe: boolean }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          aria-label="Message actions"
-          className="size-7 rounded bg-background hover:bg-accent"
-          size="icon"
-          type="button"
-          variant="ghost"
-        >
-          <MoreHorizontal aria-hidden="true" className="size-3.5" focusable="false" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="center"
-        className="w-40 rounded-lg bg-popover p-1 shadow-xl"
-      >
-        <div className="flex flex-col gap-1">
-          <Button
-            aria-label="Copy"
-            className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Copy aria-hidden="true" className="size-3" focusable="false" />
-            <span>Copy</span>
-          </Button>
-          {isMe ? (
-            <Button
-              aria-label="Retry"
-              className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-              size="sm"
-              type="button"
-              variant="ghost"
-            >
-              <RefreshCcw aria-hidden="true" className="size-3" focusable="false" />
-              <span>Retry</span>
-            </Button>
-          ) : (
-            <>
-              <Button
-                aria-label="Like"
-                className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                <ThumbsUp aria-hidden="true" className="size-3" focusable="false" />
-                <span>Like</span>
-              </Button>
-              <Button
-                aria-label="Dislike"
-                className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                <ThumbsDown aria-hidden="true" className="size-3" focusable="false" />
-                <span>Dislike</span>
-              </Button>
-            </>
-          )}
-          {isMe ? (
-            <Button
-              aria-label="Delete"
-              className="w-full justify-start gap-2 rounded px-2 py-1 text-destructive text-xs"
-              size="sm"
-              type="button"
-              variant="ghost"
-            >
-              <Trash2 aria-hidden="true" className="size-3" focusable="false" />
-              <span>Delete</span>
-            </Button>
-          ) : null}
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }
 
@@ -319,27 +233,13 @@ export default function MessageConversation({
             {sortedMessages.map((msg) => {
               const isMe = msg.senderId === userId;
               const senderName = msg.sender?.fullName || msg.sender?.role || "User";
+
               return (
-                <Message key={msg.id} align={isMe ? "end" : "start"} className="group/message">
+                <Message key={msg.id} align={isMe ? "end" : "start"}>
                   <MessageContent>
                     <Bubble variant={isMe ? undefined : "muted"}>
                       <BubbleContent>{msg.content}</BubbleContent>
                     </Bubble>
-                    <MessageFooter className="gap-1">
-                      <time
-                        aria-label={`Sent at ${new Date(msg.createdAt).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}`}
-                        className="text-neutral-500 text-xs"
-                        dateTime={msg.createdAt}
-                      >
-                        {new Date(msg.createdAt).toLocaleTimeString("en-NG", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </time>
-                      <div className="opacity-0 transition-all group-hover:opacity-100">
-                        <MessageActions isMe={isMe} />
-                      </div>
-                    </MessageFooter>
                   </MessageContent>
                 </Message>
               );

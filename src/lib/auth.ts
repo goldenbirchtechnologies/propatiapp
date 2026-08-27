@@ -74,7 +74,13 @@ export async function getCurrentUser() {
       const clerkUser = await currentUser();
       if (!clerkUser) return null;
       console.error('getCurrentUser fallback: database unavailable, cannot resolve Prisma user id for', clerkUser.id);
-      return null;
+      
+      try {
+        return await ensurePrismaUserFromClerk();
+      } catch (provisionError) {
+        console.error('getCurrentUser fallback provisioning failed:', provisionError);
+        return null;
+      }
     } catch {
       return null;
     }

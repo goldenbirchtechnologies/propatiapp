@@ -11,6 +11,9 @@ export default async function DashboardRootPage() {
 
   const user = await getCurrentUser();
 
-  const target = user ? getRoleRedirectPath(user.role) : '/sign-in';
-  redirect(target);
+  if (!user) {
+    redirect('/');
+  }
+
+  redirect(getRoleRedirectPath(user.role));
 }

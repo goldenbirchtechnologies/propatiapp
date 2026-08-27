@@ -9,17 +9,26 @@ import {
   Bubble,
   BubbleContent,
   Message,
-  MessageAvatar,
   MessageContent,
   MessageFooter,
-  MessageHeader,
-  MessageGroup,
 } from "@/components/ui/bubble";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import {
+  Copy,
+  MoreHorizontal,
+  RefreshCcw,
+  ThumbsDown,
+  ThumbsUp,
+  Trash2,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type StatusType = "online" | "dnd" | "offline";
 
@@ -53,6 +62,88 @@ function UserActionsMenu() {
     >
       <span className="text-xs">•••</span>
     </Button>
+  );
+}
+
+function MessageActions({ isMe }: { isMe: boolean }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          aria-label="Message actions"
+          className="size-7 rounded bg-background hover:bg-accent"
+          size="icon"
+          type="button"
+          variant="ghost"
+        >
+          <MoreHorizontal aria-hidden="true" className="size-3.5" focusable="false" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="center"
+        className="w-40 rounded-lg bg-popover p-1 shadow-xl"
+      >
+        <div className="flex flex-col gap-1">
+          <Button
+            aria-label="Copy"
+            className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
+            size="sm"
+            type="button"
+            variant="ghost"
+          >
+            <Copy aria-hidden="true" className="size-3" focusable="false" />
+            <span>Copy</span>
+          </Button>
+          {isMe ? (
+            <Button
+              aria-label="Retry"
+              className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
+              size="sm"
+              type="button"
+              variant="ghost"
+            >
+              <RefreshCcw aria-hidden="true" className="size-3" focusable="false" />
+              <span>Retry</span>
+            </Button>
+          ) : (
+            <>
+              <Button
+                aria-label="Like"
+                className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
+                size="sm"
+                type="button"
+                variant="ghost"
+              >
+                <ThumbsUp aria-hidden="true" className="size-3" focusable="false" />
+                <span>Like</span>
+              </Button>
+              <Button
+                aria-label="Dislike"
+                className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
+                size="sm"
+                type="button"
+                variant="ghost"
+              >
+                <ThumbsDown aria-hidden="true" className="size-3" focusable="false" />
+                <span>Dislike</span>
+              </Button>
+            </>
+          )}
+          {isMe ? (
+            <Button
+              aria-label="Delete"
+              className="w-full justify-start gap-2 rounded px-2 py-1 text-destructive text-xs"
+              size="sm"
+              type="button"
+              variant="ghost"
+            >
+              <Trash2 aria-hidden="true" className="size-3" focusable="false" />
+              <span>Delete</span>
+            </Button>
+          ) : null}
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -194,10 +285,9 @@ export default function MessageConversation({
       <CardHeader className="sticky top-0 z-10 flex flex-row items-center justify-between gap-2 border-b border-neutral-800 bg-black px-4 py-2">
         <div className="flex items-center gap-3 pt-1">
           <div className="relative">
-            <Avatar>
-              <AvatarImage alt={participantName} src={participantAvatar || undefined} />
-              <AvatarFallback>{participantName[0]}</AvatarFallback>
-            </Avatar>
+            <div className="flex size-8 items-center justify-center rounded-full bg-neutral-800 text-xs text-neutral-400">
+              {participantName[0]}
+            </div>
           </div>
           <div className="flex flex-col">
             <div className="font-semibold text-base text-white">{participantName}</div>
@@ -226,34 +316,34 @@ export default function MessageConversation({
             className="flex h-full max-h-full flex-col gap-6 bg-black p-4"
             role="log"
           >
-            <MessageGroup>
-              {sortedMessages.map((msg) => {
-                const isMe = msg.senderId === userId;
-                const senderName = msg.sender?.fullName || msg.sender?.role || "User";
-                return (
-                  <Message key={msg.id} align={isMe ? "end" : "start"} className="group/message">
-                    <MessageContent>
-                      <MessageHeader>{senderName}</MessageHeader>
-                      <Bubble variant={isMe ? undefined : "muted"}>
-                        <BubbleContent>{msg.content}</BubbleContent>
-                      </Bubble>
-                      <MessageFooter>
-                        <time
-                          aria-label={`Sent at ${new Date(msg.createdAt).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}`}
-                          className="text-neutral-500 text-xs"
-                          dateTime={msg.createdAt}
-                        >
-                          {new Date(msg.createdAt).toLocaleTimeString("en-NG", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </time>
-                      </MessageFooter>
-                    </MessageContent>
-                  </Message>
-                );
-              })}
-            </MessageGroup>
+            {sortedMessages.map((msg) => {
+              const isMe = msg.senderId === userId;
+              const senderName = msg.sender?.fullName || msg.sender?.role || "User";
+              return (
+                <Message key={msg.id} align={isMe ? "end" : "start"} className="group/message">
+                  <MessageContent>
+                    <Bubble variant={isMe ? undefined : "muted"}>
+                      <BubbleContent>{msg.content}</BubbleContent>
+                    </Bubble>
+                    <MessageFooter className="gap-1">
+                      <time
+                        aria-label={`Sent at ${new Date(msg.createdAt).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}`}
+                        className="text-neutral-500 text-xs"
+                        dateTime={msg.createdAt}
+                      >
+                        {new Date(msg.createdAt).toLocaleTimeString("en-NG", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </time>
+                      <div className="opacity-0 transition-all group-hover:opacity-100">
+                        <MessageActions isMe={isMe} />
+                      </div>
+                    </MessageFooter>
+                  </MessageContent>
+                </Message>
+              );
+            })}
           </ScrollArea>
         )}
       </CardContent>

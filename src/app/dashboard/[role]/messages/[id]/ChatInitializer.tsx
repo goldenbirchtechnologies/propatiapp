@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { Home as ChatHome } from '@/components/ui/chat-template';
+import Home from '@/components/ui/chat-template';
 import { useUser } from '@clerk/nextjs';
 
 type Props = {
@@ -24,5 +24,5 @@ export default function ChatInitializer({ conversationId }: Props) {
     }
   }, [conversationId, pathname, router, searchParams]);
 
-  return <ChatHome userId={user?.id || ''} userName={user?.fullName || ''} userRole={user?.publicMetadata?.role as string || ''} />;
+  return <Home />;
 }

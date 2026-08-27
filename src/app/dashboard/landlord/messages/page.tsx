@@ -3,7 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
-import { Home as ChatHome } from '@/components/ui/chat-template';
+import Home from '@/components/ui/chat-template';
 import { SidebarProvider } from '@/components/blocks/sidebar';
 
 export const metadata = {
@@ -25,7 +25,7 @@ export default async function LandlordMessagesPage() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+          <Home />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

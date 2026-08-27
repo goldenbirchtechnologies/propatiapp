@@ -3,7 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
-import { Home as ChatHome } from '@/components/ui/chat-template';
+import Home from '@/components/ui/chat-template';
 import { SidebarProvider } from '@/components/blocks/sidebar';
 
 export default async function Page() {
@@ -20,7 +20,7 @@ export default async function Page() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+          <Home />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import { Home as ChatHome } from '@/components/ui/chat-template';
+import Home from '@/components/ui/chat-template';
 import { SidebarProvider } from '@/components/blocks/sidebar';
 
 export default async function MessagesPage({ params }: { params: Promise<{ role: string }> }) {
@@ -12,7 +12,7 @@ export default async function MessagesPage({ params }: { params: Promise<{ role:
 
   return (
     <SidebarProvider>
-      <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+      <Home />
     </SidebarProvider>
   );
 }

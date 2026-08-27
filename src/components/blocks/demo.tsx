@@ -1,11 +1,11 @@
-import { Home } from "@/components/ui/chat-template";
-import {SidebarProvider} from "@/components/blocks/sidebar";
+import Home from "@/components/ui/chat-template";
+import { SidebarProvider } from "@/components/blocks/sidebar";
 
 
 function Demo() {
   return (
     <SidebarProvider>
-      <Home/>
+      <Home />
     </SidebarProvider>
   );
 }

@@ -20,7 +20,7 @@ export default async function Page() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <Home userId={user.id} userName={user.fullName} userRole={user.role} />
+          <Home />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

@@ -3,10 +3,8 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
-import Home from '@/components/ui/chat-template';
+import MessagePage from "@/components/ui/message-page";
 import { SidebarProvider } from '@/components/blocks/sidebar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UserCheck } from 'lucide-react';
 
 export default async function TenantMessagesPage() {
   const user = await getCurrentUserWithProfile();
@@ -23,7 +21,7 @@ export default async function TenantMessagesPage() {
       <ErrorBoundary>
         <div className="space-y-6">
           <SidebarProvider>
-            <Home />
+            <MessagePage />
           </SidebarProvider>
         </div>
       </ErrorBoundary>

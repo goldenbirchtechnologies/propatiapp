@@ -3,7 +3,7 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ESTATE_MANAGER_NAVIGATION } from '@/lib/navigation';
-import Home from '@/components/ui/chat-template';
+import MessagePage from "@/components/ui/message-page";
 import { SidebarProvider } from '@/components/blocks/sidebar';
 
 export default async function EstateManagerMessagesPage() {
@@ -20,7 +20,7 @@ export default async function EstateManagerMessagesPage() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <Home />
+          <MessagePage />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import Home from '@/components/ui/chat-template';
+import MessagePage from "@/components/ui/message-page";
 
 type Props = {
   conversationId: string;
@@ -22,5 +22,5 @@ export default function ChatInitializer({ conversationId }: Props) {
     }
   }, [conversationId, pathname, router, searchParams]);
 
-  return <Home />;
+  return <MessagePage />;
 }

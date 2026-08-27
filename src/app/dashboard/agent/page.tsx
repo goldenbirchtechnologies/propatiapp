@@ -17,7 +17,7 @@ export default async function AgentDashboardPage() {
 
   const displayName = user.fullName || 'User';
 
-  const [managedProperties, activeListings, pendingInvites] = await Promise.all([
+  const [managedProperties, activeListings, pendingInvites, totalUnits, vacantUnits, enquiries] = await Promise.all([
     prisma.listing.count({
       where: {
         OR: [
@@ -27,10 +27,43 @@ export default async function AgentDashboardPage() {
       },
     }),
     prisma.listing.count({
-      where: { agentId: user.id, status: 'active' },
+      where: {
+        OR: [
+          { agentId: user.id },
+          { assignments: { some: { agentId: user.id, status: 'active' } } },
+        ],
+        status: 'active',
+      },
     }),
     prisma.agentInvite.count({
       where: { email: user.email, status: 'pending' },
+    }),
+    prisma.unit.count({
+      where: {
+        listing: {
+          OR: [
+            { agentId: user.id },
+            { assignments: { some: { agentId: user.id, status: 'active' } } },
+          ],
+        },
+      },
+    }),
+    prisma.unit.count({
+      where: {
+        listing: {
+          OR: [
+            { agentId: user.id },
+            { assignments: { some: { agentId: user.id, status: 'active' } } },
+          ],
+        },
+        occupancy: 'VACANT',
+      },
+    }),
+    prisma.conversation.count({
+      where: {
+        agentId: user.id,
+        messages: { some: {} },
+      },
     }),
   ]);
 
@@ -44,6 +77,9 @@ export default async function AgentDashboardPage() {
         managedProperties={managedProperties}
         activeListings={activeListings}
         pendingInvites={pendingInvites}
+        totalUnits={totalUnits}
+        vacantUnits={vacantUnits}
+        enquiries={enquiries}
       />
 
       </ErrorBoundary>

@@ -123,7 +123,7 @@ export async function POST(
         OR: [
           { agentId: user.id },
           {
-            agentAssignments: {
+            assignments: {
               some: {
                 agentId: user.id,
                 status: 'active',

@@ -33,7 +33,7 @@ export default async function LandlordPropertiesPage() {
         images: { where: { isCover: true }, take: 1 },
         verification: true,
         agent: { select: { id: true, fullName: true, email: true } },
-        agentAssignments: {
+        assignments: {
           where: { status: 'active' },
           include: { agent: { select: { id: true, fullName: true, email: true } } },
         },
@@ -64,7 +64,7 @@ export default async function LandlordPropertiesPage() {
         const vacantUnits = listing.units.filter((u) => u.occupancy === 'VACANT').length;
         const listedUnits = listing.units.filter((u) => u.isListed).length;
         const assignedAgent =
-          listing.agent ?? listing.agentAssignments?.[0]?.agent ?? null;
+          listing.agent ?? listing.assignments?.[0]?.agent ?? null;
         return {
           ...listing,
           price: Number(listing.price),

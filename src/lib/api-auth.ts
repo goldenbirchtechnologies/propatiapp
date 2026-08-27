@@ -140,7 +140,7 @@ export async function requireAgentPermission(
       OR: [
         { agentId: user.id },
         {
-          agentAssignments: {
+          assignments: {
             some: {
               agentId: user.id,
               status: 'active',
@@ -160,4 +160,18 @@ export async function requireAgentPermission(
   }
 
   return { allowed: true };
+}
+
+export async function getAgentAccessibleListingIds(userId: string) {
+  const assignments = await prisma.agentAssignment.findMany({
+    where: {
+      agentId: userId,
+      status: 'active',
+    },
+    select: {
+      listingId: true,
+    },
+  });
+
+  return assignments.map((a) => a.listingId);
 }

@@ -105,6 +105,7 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
     title: 'Main',
     items: [
       { label: 'Dashboard', href: '/dashboard/agent', icon: <Home className="h-5 w-5" /> },
+      { label: 'Managed Properties', href: '/dashboard/agent/properties', icon: <Building2 className="h-5 w-5" /> },
       { label: 'Calendar', href: '/dashboard/agent/schedule', icon: <CalendarDays className="h-5 w-5" /> },
     ],
   },
@@ -128,7 +129,11 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
   {
     title: 'Market & Leads',
     items: [
-      { label: 'Marketplace', href: '/dashboard/agent/market', icon: <TrendingUp className="h-5 w-5" /> },
+      {
+        label: 'Marketplace',
+        href: '/dashboard/agent/market',
+        icon: <TrendingUp className="h-5 w-5" />,
+      },
     ],
   },
   {
@@ -149,8 +154,6 @@ export const AGENT_NAVIGATION: Array<NavItem | NavSection> = [
 
 export const ADMIN_NAVIGATION: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard/admin', icon: <ChartNoAxesCombined className="h-5 w-5" /> },
-  { label: 'Verifications', href: '/dashboard/admin/verifications', icon: <Shield className="h-5 w-5" /> },
-  { label: 'Flagged Listings', href: '/dashboard/admin/flags', icon: <Flag className="h-5 w-5" /> },
   { label: 'Users', href: '/dashboard/admin/users', icon: <Users className="h-5 w-5" /> },
   { label: 'Agreements', href: '/dashboard/admin/agreements', icon: <FileText className="h-5 w-5" /> },
   { label: 'Rent & Payments', href: '/dashboard/admin/payments', icon: <Receipt className="h-5 w-5" /> },

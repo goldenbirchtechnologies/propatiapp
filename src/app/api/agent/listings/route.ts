@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         OR: [
           { agentId: user.id },
           {
-            agentAssignments: {
+            assignments: {
               some: {
                 agentId: user.id,
                 status: 'active',
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
           images: { where: { isCover: true }, take: 1 },
           owner: { select: { id: true, fullName: true, email: true } },
           agent: { select: { id: true, fullName: true, email: true } },
-          agentAssignments: {
+          assignments: {
             where: { status: 'active' },
             include: {
               agent: { select: { id: true, fullName: true, email: true } },

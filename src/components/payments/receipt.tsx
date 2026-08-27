@@ -5,6 +5,7 @@ import AppIcon from '@/components/icons/app-icon';
 import { format } from 'date-fns';
 import { formatAmountFromKobo, formatTransactionReference } from '@/lib/payment-utils';
 import { TransactionStatusBadge } from './transaction-status-badge';
+import { InteractiveHoverButton } from '@/components/ui';
 
 
 interface ReceiptProps {
@@ -212,12 +213,12 @@ export function Receipt({ transaction }: ReceiptProps) {
 
       {/* Print Button (hidden in print) */}
       <div className="mt-6 text-center no-print">
-        <button
+        <InteractiveHoverButton
           onClick={handlePrint}
           className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
         >
           Print / Download as PDF
-        </button>
+        </InteractiveHoverButton>
         <p className="text-xs text-muted-foreground mt-2">
           Use your browser's print function and select "Save as PDF"
         </p>

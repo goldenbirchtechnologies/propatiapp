@@ -30,3 +30,4 @@ export * from './mini-sparkline';
 export * from './progress-bar';
 export * from './search-input';
 export * from './empty-state';
+export * from './interactive-hover-button';

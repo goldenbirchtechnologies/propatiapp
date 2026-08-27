@@ -31,6 +31,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { InteractiveHoverButton } from '@/components/ui';
 import { formatCurrency } from '@/lib/utils';
 import type { ListingData } from '@/components/listings/listing-card';
 
@@ -503,9 +504,9 @@ export function PropertyComparison({
             Add properties to start comparing their features and prices.
           </p>
           {onAddProperty && (
-            <Button onClick={onAddProperty} className="bg-emerald-500">
+            <InteractiveHoverButton onClick={onAddProperty} className="bg-emerald-500">
               Add Properties
-            </Button>
+            </InteractiveHoverButton>
           )}
         </div>
       </div>
@@ -534,13 +535,13 @@ export function PropertyComparison({
             Export
           </Button>
           {onAddProperty && displayedProperties.length < maxProperties && (
-            <Button
+            <InteractiveHoverButton
               onClick={onAddProperty}
               size="sm"
               className="bg-emerald-500 hover:bg-emerald-500/90"
             >
               Add Property
-            </Button>
+            </InteractiveHoverButton>
           )}
         </div>
       </div>

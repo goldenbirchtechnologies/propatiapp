@@ -17,6 +17,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/utils';
 import {
   PageHeader,
@@ -25,6 +26,7 @@ import {
   StatusBadge,
   SectionLabel,
   Avatar,
+  InteractiveHoverButton,
 } from '@/components/ui';
 
 const revenueData = [4.2, 3.8, 4.5, 4.1, 4.8, 5.1, 4.9, 5.4, 5.2, 5.7, 5.5, 5.9];
@@ -106,18 +108,20 @@ export default function LandlordDashboardClient({
     { label: 'Profile Complete', value: 72, color: '#f59e0b' },
   ];
 
+  const router = useRouter();
+
   return (
     <div className="p-6 space-y-6">
       <PageHeader
         title="Landlord Dashboard"
         description={`Good morning, ${displayName}. Here's an overview of your portfolio.`}
         actions={
-          <Link
-            href="/dashboard/landlord/listing/new"
+          <InteractiveHoverButton
+            onClick={() => router.push('/dashboard/landlord/listing/new')}
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors"
           >
             <Plus size={14} /> Add Listing
-          </Link>
+          </InteractiveHoverButton>
         }
       />
 

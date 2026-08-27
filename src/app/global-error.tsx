@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { InteractiveHoverButton } from '@/components/ui';
 
 export default function GlobalError({
   error,
@@ -10,6 +12,8 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const router = useRouter();
+
   return (
     <html lang="en">
       <body className="bg-black min-h-screen flex items-center justify-center p-6 antialiased">
@@ -28,13 +32,13 @@ export default function GlobalError({
           )}
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
+            <InteractiveHoverButton
               onClick={reset}
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <RefreshCw size={14} />
               Reload
-            </button>
+            </InteractiveHoverButton>
             <Link
               href="/"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-white hover:border-zinc-600 transition-colors"

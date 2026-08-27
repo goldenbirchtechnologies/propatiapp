@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';
 import { PropertyCard } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
-import { SectionLabel } from '@/components/ui';
+import { SectionLabel, InteractiveHoverButton } from '@/components/ui';
 
 const categories = ['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'];
 const bedroomOptions = ['Any', '1', '2', '3', '4', '5+'];
@@ -129,6 +130,7 @@ const listings = [
 ];
 
 export default function ListingsPage() {
+  const router = useRouter();
   const [category, setCategory] = useState('All');
   const [bedrooms, setBedrooms] = useState('Any');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -387,12 +389,12 @@ export default function ListingsPage() {
               >
                 Reset
               </button>
-              <button
+              <InteractiveHoverButton
                 onClick={() => setFilterOpen(false)}
                 className="flex-1 py-2.5 text-sm font-medium bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
               >
                 Apply Filters
-              </button>
+              </InteractiveHoverButton>
             </div>
           </div>
         </div>

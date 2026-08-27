@@ -4,6 +4,7 @@
 import AppIcon from '@/components/icons/app-icon';
 import React from 'react';
 import Link from 'next/link';
+import { InteractiveHoverButton } from '@/components/ui';
 
 
 interface EmptySearchStateProps {
@@ -60,12 +61,12 @@ export default function EmptySearchState({ onResetFilters }: EmptySearchStatePro
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 mb-12">
-        <button
+        <InteractiveHoverButton
           onClick={onResetFilters}
           className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200"
         >
           Reset Filters
-        </button>
+        </InteractiveHoverButton>
         <Link
           href="/listings"
           className="px-6 py-3 bg-surface-elevated border-border font-medium rounded-lg hover:bg-muted transition-colors duration-200"

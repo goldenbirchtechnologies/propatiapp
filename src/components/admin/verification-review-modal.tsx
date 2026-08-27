@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { InteractiveHoverButton } from '@/components/ui';
 import { ActionConfirmationDialog } from './action-confirmation-dialog';
 import { CheckCircle2, XCircle, ExternalLink, FileText, User, Building2 } from 'lucide-react';
 import Image from 'next/image';
@@ -337,14 +338,14 @@ export function VerificationReviewModal({
 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-4">
-              <Button
+              <InteractiveHoverButton
                 onClick={() => setShowApproveDialog(true)}
                 disabled={loading}
                 className="flex-1 bg-green-600 hover:bg-green-700"
               >
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Approve
-              </Button>
+              </InteractiveHoverButton>
               <Button
                 onClick={() => setShowRejectDialog(true)}
                 disabled={loading}

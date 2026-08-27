@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Globe, Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import { getCountryByCode, type CountryCode } from "@/lib/countries";
-import { SectionLabel } from "@/components/ui/section-label";
+import { SectionLabel, InteractiveHoverButton } from "@/components/ui";
 
 function ComingSoonContent() {
   const searchParams = useSearchParams();
@@ -53,9 +53,12 @@ function ComingSoonContent() {
                 placeholder="your@email.com"
                 className="dark-input w-full px-4 py-3 text-sm focus:outline-none"
               />
-              <button type="submit" className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 transition-colors">
+              <InteractiveHoverButton
+                type="submit"
+                className="w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 transition-colors"
+              >
                 Notify me
-              </button>
+              </InteractiveHoverButton>
             </form>
           ) : (
             <div className="flex items-center justify-center gap-2 text-emerald-400">

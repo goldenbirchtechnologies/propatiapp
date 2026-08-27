@@ -3,6 +3,7 @@
 import { Component, ReactNode } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { InteractiveHoverButton } from '@/components/ui';
 
 interface Props {
   children: ReactNode;
@@ -62,12 +63,12 @@ export class ErrorBoundary extends Component<Props, State> {
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <button
+            <InteractiveHoverButton
               onClick={this.handleRetry}
               className="inline-flex items-center justify-center rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-emerald-500/90"
             >
               Try again
-            </button>
+            </InteractiveHoverButton>
             <Button asChild variant="secondary">
               <Link href="/dashboard">Back to Dashboard</Link>
             </Button>

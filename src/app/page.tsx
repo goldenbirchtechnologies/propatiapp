@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Search, Home, Users, Building2, ShieldCheck, ArrowRight, CheckCircle2, Star } from 'lucide-react';
-import { SectionLabel, StarRating } from '@/components/ui';
+import { SectionLabel, StarRating, InteractiveHoverButton } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 const stats = [
@@ -122,6 +123,8 @@ function FadeIn({ children, className = '', delay = 0, y = 24 }) {
 }
 
 export default function HomePage() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-black text-white antialiased selection:bg-emerald-500/20 w-full">
       {/* ===================== HERO ===================== */}
@@ -182,13 +185,12 @@ export default function HomePage() {
                     className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-9 pr-3 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-                <Link
-                  href="/listings"
+                <InteractiveHoverButton
+                  onClick={() => router.push('/listings')}
                   className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl flex items-center gap-2 transition-colors"
                 >
-                  <span>Search</span>
-                  <ArrowRight size={15} />
-                </Link>
+                  Search
+                </InteractiveHoverButton>
               </div>
             </div>
 
@@ -358,13 +360,12 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href="/listings"
+            <InteractiveHoverButton
+              onClick={() => router.push('/listings')}
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500 text-white font-bold rounded-full hover:brightness-110 transition-all shadow-emerald-500/20"
             >
               View all listings
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            </InteractiveHoverButton>
           </div>
         </div>
       </section>
@@ -458,12 +459,12 @@ export default function HomePage() {
               Join thousands of Nigerians who trust PROPATI for verified listings, secure payments, and legally sound agreements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/signup"
+              <InteractiveHoverButton
+                onClick={() => router.push('/signup')}
                 className="inline-flex items-center justify-center px-8 py-4 bg-emerald-500 text-white font-bold rounded-full hover:brightness-110 transition-all shadow-emerald-500/20"
               >
                 Create free account
-              </Link>
+              </InteractiveHoverButton>
               <Link
                 href="/listings"
                 className="inline-flex items-center justify-center px-8 py-4 bg-zinc-900 text-white font-semibold rounded-full border border-zinc-800 hover:bg-zinc-800 transition-all"

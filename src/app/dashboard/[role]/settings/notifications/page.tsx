@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Loader2, Save, Bell, Mail, MessageSquare, Phone } from 'lucide-react';
+import { InteractiveHoverButton } from '@/components/ui';
 
 interface NotificationPreferences {
   email: boolean;
@@ -255,7 +256,7 @@ export default function NotificationSettingsPage() {
             <p className="text-sm text-[#00ff66] font-medium">Settings saved successfully!</p>
           )}
           <div className="flex-1" />
-          <button
+          <InteractiveHoverButton
             onClick={handleSave}
             disabled={saving}
             className="px-6 py-3 bg-emerald-500 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
@@ -271,7 +272,7 @@ export default function NotificationSettingsPage() {
                 Save Changes
               </>
             )}
-          </button>
+          </InteractiveHoverButton>
         </div>
       </div>
     </div>

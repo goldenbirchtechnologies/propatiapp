@@ -78,6 +78,12 @@ export function NotificationsBell({
   }, [fetchUnreadCount]);
 
   useEffect(() => {
+    if (isOpen) {
+      fetchNotifications();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     const startPolling = () => {
       if (pollInterval.current) {
         clearInterval(pollInterval.current);
@@ -180,11 +186,11 @@ export function NotificationsBell({
   };
 
   return (
-    <>
+    <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'relative p-2 rounded-lg transition-all',
+          'p-2 rounded-lg transition-all',
           'bg-zinc-900 hover:bg-zinc-900 text-white',
           'border border-zinc-800',
           isAnimating && 'animate-bounce'
@@ -281,12 +287,12 @@ export function NotificationsBell({
                 onClick={handleClose}
                 className="text-sm font-medium text-accent hover:text-accent/80"
               >
-                View all →
+                View all &rarr;
               </Link>
             </div>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }

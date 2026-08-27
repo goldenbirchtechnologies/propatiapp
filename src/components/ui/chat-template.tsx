@@ -1,52 +1,40 @@
 "use client";
 
-import {
-  Copy,
-  Flag,
-  MoreHorizontal,
-  MoreVertical,
-  Reply,
-  Trash2,
-  UserMinus2,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input";
-import {
-  MessageGroup,
-  Message,
-  MessageAvatar,
-  MessageContent,
-  MessageFooter,
-  MessageHeader,
-} from "@/components/ui/bubble";
 import { cn } from "@/lib/utils";
 import { getConversations, getMessages, sendMessage } from "@/app/actions/messaging";
 import type { Conversation, Message as MessageType } from "@/app/actions/messaging";
 import { useEffect, useMemo, useState } from "react";
 import { Send } from "lucide-react";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageHeader,
+  MessageGroup,
+} from "@/components/ui/bubble";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 
 type StatusType = "online" | "dnd" | "offline";
 
 function StatusBadge({ status }: { status: StatusType }) {
   const colors: Record<StatusType, string> = {
-    online: "bg-green-500",
+    online: "bg-emerald-500",
     dnd: "bg-red-500",
-    offline: "bg-gray-400",
+    offline: "bg-neutral-500",
   };
 
   return (
     <span
       aria-label={status}
       className={cn(
-        "inline-block size-3 rounded-full border-2 border-background",
+        "inline-block size-2.5 rounded-full border-2 border-black",
         colors[status]
       )}
       title={status.charAt(0).toUpperCase() + status.slice(1)}
@@ -56,117 +44,15 @@ function StatusBadge({ status }: { status: StatusType }) {
 
 function UserActionsMenu() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          aria-label="User actions"
-          className="border-muted-foreground/30"
-          size="icon"
-          type="button"
-          variant="outline"
-        >
-          <MoreVertical aria-hidden="true" className="size-4" focusable="false" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-36 rounded-lg bg-popover p-1 shadow-xl">
-        <div className="flex flex-col gap-1">
-          <Button
-            className="w-full justify-start gap-2 rounded bg-transparent text-rose-600 hover:bg-accent"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <UserMinus2 aria-hidden="true" className="size-4" focusable="false" />
-            <span className="font-medium text-xs">Block User</span>
-          </Button>
-          <Button
-            className="w-full justify-start gap-2 rounded bg-transparent text-destructive hover:bg-accent"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Trash2 aria-hidden="true" className="size-4" focusable="false" />
-            <span className="font-medium text-xs">Delete Conversation</span>
-          </Button>
-          <Button
-            className="w-full justify-start gap-2 rounded bg-transparent text-yellow-600 hover:bg-accent"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Flag aria-hidden="true" className="size-4" focusable="false" />
-            <span className="font-medium text-xs">Report User</span>
-          </Button>
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
-function MessageActions({ isMe }: { isMe: boolean }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          aria-label="Message actions"
-          className="size-7 rounded bg-background hover:bg-accent"
-          size="icon"
-          type="button"
-          variant="ghost"
-        >
-          <MoreHorizontal aria-hidden="true" className="size-3.5" focusable="false" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="center"
-        className="w-40 rounded-lg bg-popover p-1 shadow-xl"
-      >
-        <div className="flex flex-col gap-1">
-          <Button
-            aria-label="Reply"
-            className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Reply aria-hidden="true" className="size-3" focusable="false" />
-            <span>Reply</span>
-          </Button>
-          <Button
-            aria-label="Copy"
-            className="w-full justify-start gap-2 rounded px-2 py-1 text-xs"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Copy aria-hidden="true" className="size-3" focusable="false" />
-            <span>Copy</span>
-          </Button>
-          {isMe ? (
-            <Button
-              aria-label="Delete"
-              className="w-full justify-start gap-2 rounded px-2 py-1 text-destructive text-xs"
-              size="sm"
-              type="button"
-              variant="ghost"
-            >
-              <Trash2 aria-hidden="true" className="size-3" focusable="false" />
-              <span>Delete</span>
-            </Button>
-          ) : null}
-          <Button
-            aria-label="Report"
-            className="w-full justify-start gap-2 rounded px-2 py-1 text-xs text-yellow-600"
-            size="sm"
-            type="button"
-            variant="ghost"
-          >
-            <Flag aria-hidden="true" className="size-3" focusable="false" />
-            <span>Report</span>
-          </Button>
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      aria-label="User actions"
+      className="border-neutral-700 text-neutral-200 hover:bg-neutral-800"
+      size="icon"
+      type="button"
+      variant="outline"
+    >
+      <span className="text-xs">•••</span>
+    </Button>
   );
 }
 
@@ -301,11 +187,11 @@ export default function MessageConversation({
   return (
     <Card
       className={cn(
-        "mx-auto flex h-[75vh] min-h-0 max-w-2xl w-full grow flex-col overflow-hidden shadow-none",
+        "mx-auto flex h-[75vh] min-h-0 max-w-2xl w-full grow flex-col overflow-hidden border-neutral-800 bg-black text-white shadow-none",
         className
       )}
     >
-      <CardHeader className="sticky top-0 z-10 flex flex-row items-center justify-between gap-2 border-b bg-background px-4 py-2">
+      <CardHeader className="sticky top-0 z-10 flex flex-row items-center justify-between gap-2 border-b border-neutral-800 bg-black px-4 py-2">
         <div className="flex items-center gap-3 pt-1">
           <div className="relative">
             <Avatar>
@@ -314,8 +200,8 @@ export default function MessageConversation({
             </Avatar>
           </div>
           <div className="flex flex-col">
-            <div className="font-semibold text-base">{participantName}</div>
-            <div className="flex items-center gap-1 text-muted-foreground text-xs">
+            <div className="font-semibold text-base text-white">{participantName}</div>
+            <div className="flex items-center gap-1 text-neutral-400 text-xs">
               <StatusBadge status={status} /> {status}
             </div>
           </div>
@@ -327,17 +213,17 @@ export default function MessageConversation({
 
       <CardContent className="min-h-0 flex-1 p-0">
         {error ? (
-          <div className="p-4 text-sm text-destructive">{error}</div>
+          <div className="p-4 text-sm text-red-400">{error}</div>
         ) : loading && messages.length === 0 ? (
           <div className="p-4 space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-4 w-32 rounded bg-muted animate-pulse" />
+              <div key={i} className="h-4 w-32 rounded bg-neutral-800 animate-pulse" />
             ))}
           </div>
         ) : (
           <ScrollArea
             aria-label="Conversation transcript"
-            className="flex h-full max-h-full flex-col gap-6 bg-background p-4"
+            className="flex h-full max-h-full flex-col gap-6 bg-black p-4"
             role="log"
           >
             <MessageGroup>
@@ -346,28 +232,15 @@ export default function MessageConversation({
                 const senderName = msg.sender?.fullName || msg.sender?.role || "User";
                 return (
                   <Message key={msg.id} align={isMe ? "end" : "start"} className="group/message">
-                    <MessageAvatar>
-                      <Avatar className="size-8">
-                        <AvatarImage alt={senderName} src={msg.sender?.avatarUrl || undefined} />
-                        <AvatarFallback>{senderName[0]}</AvatarFallback>
-                      </Avatar>
-                    </MessageAvatar>
                     <MessageContent>
                       <MessageHeader>{senderName}</MessageHeader>
-                      <div
-                        className={cn(
-                          "rounded-md px-3 py-2 text-sm",
-                          isMe
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-accent text-foreground"
-                        )}
-                      >
-                        {msg.content}
-                      </div>
+                      <Bubble variant={isMe ? undefined : "muted"}>
+                        <BubbleContent>{msg.content}</BubbleContent>
+                      </Bubble>
                       <MessageFooter>
                         <time
                           aria-label={`Sent at ${new Date(msg.createdAt).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" })}`}
-                          className="text-muted-foreground text-xs"
+                          className="text-neutral-500 text-xs"
                           dateTime={msg.createdAt}
                         >
                           {new Date(msg.createdAt).toLocaleTimeString("en-NG", {
@@ -375,9 +248,6 @@ export default function MessageConversation({
                             minute: "2-digit",
                           })}
                         </time>
-                        <div className="opacity-0 transition-all group-hover:opacity-100">
-                          <MessageActions isMe={isMe} />
-                        </div>
                       </MessageFooter>
                     </MessageContent>
                   </Message>
@@ -388,7 +258,7 @@ export default function MessageConversation({
         )}
       </CardContent>
 
-      <div className="border-t p-4">
+      <div className="border-t border-neutral-800 p-4">
         <div className="flex gap-2">
           <Input
             value={content}
@@ -401,8 +271,13 @@ export default function MessageConversation({
             }}
             placeholder="Type a message..."
             disabled={sending || !currentConversation}
+            className="border-neutral-800 bg-black text-white placeholder:text-neutral-500"
           />
-          <Button onClick={handleSend} disabled={sending || !currentConversation}>
+          <Button
+            onClick={handleSend}
+            disabled={sending || !currentConversation}
+            className="bg-emerald-500 text-black hover:bg-emerald-400"
+          >
             <Send className="size-4" />
             <span className="sr-only">Send</span>
           </Button>

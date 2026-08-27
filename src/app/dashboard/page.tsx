@@ -13,7 +13,13 @@ export default async function DashboardRootPage() {
     redirect('/sign-in');
   }
 
-  let user = await prisma.user.findUnique({ where: { clerkId: userId } });
+  let user: Awaited<ReturnType<typeof prisma.user.findUnique>> | null = null;
+  try {
+    user = await prisma.user.findUnique({ where: { clerkId: userId } });
+  } catch (err) {
+    console.error('DashboardRootPage: prisma.user.findUnique failed', err);
+    throw err;
+  }
 
   // Resolve the redirect target first, then redirect OUTSIDE any try/catch.
   // redirect() signals by throwing NEXT_REDIRECT; calling it inside a try means

@@ -67,9 +67,33 @@ export default async function TenantDashboardPage() {
     savedCount = sCount;
     activeAgreementCount = aAgreementCount;
     openMaintenanceCount = oMaintenanceCount;
-    recentAgreements = rAgreements;
-    recentTransactions = rTransactions;
-    activeAgreement = actAgreement;
+    recentAgreements = rAgreements.map((a: any) => ({
+      id: a.id,
+      status: a.status,
+      createdAt: a.createdAt?.toISOString() ?? null,
+      listing: a.listing ? {
+        title: a.listing.title,
+        address: a.listing.address,
+      } : null,
+    }));
+    recentTransactions = rTransactions.map((tx: any) => ({
+      id: tx.id,
+      type: tx.type,
+      status: tx.status,
+      amount: Number(tx.amount || 0),
+      createdAt: tx.createdAt?.toISOString() ?? null,
+    }));
+    activeAgreement = actAgreement ? {
+      id: actAgreement.id,
+      status: actAgreement.status,
+      listing: actAgreement.listing ? {
+        title: actAgreement.listing.title,
+        address: actAgreement.listing.address,
+        price: Number(actAgreement.listing.price || 0),
+        pricePeriod: actAgreement.listing.pricePeriod,
+        images: actAgreement.listing.images || [],
+      } : null,
+    } : null;
   } catch (error) {
     console.error('Error loading Tenant dashboard data:', error);
   }

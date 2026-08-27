@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '@/lib/auth';
+import { getCurrentUserWithProfile, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { LANDLORD_NAVIGATION } from '@/lib/navigation';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -18,7 +18,7 @@ export default async function LandlordDashboardPage() {
     redirect('/sign-in');
   }
   if (user.role !== 'landlord') {
-    redirect('/dashboard/tenant');
+    redirect(getRoleRedirectPath(user.role));
   }
 
   const displayName = user.fullName || 'Landlord';
@@ -105,9 +105,22 @@ export default async function LandlordDashboardPage() {
     pendingApplicationCount = pAppCount;
     openMaintenanceCount = oMCount;
     totalRevenue = Number(revenueAgg._sum.amount ?? 0);
-    recentListings = rListings;
+    recentListings = rListings.map((l: any) => ({
+      id: l.id,
+      title: l.title,
+      listingType: l.listingType,
+      status: l.status,
+      price: Number(l.price || 0),
+      createdAt: l.createdAt?.toISOString() ?? null,
+    }));
     maintenanceTickets = mTickets;
-    recentTenants = rTenants;
+    recentTenants = rTenants.map((t: any) => ({
+      id: t.id,
+      tenant: t.tenant,
+      listing: t.listing,
+      rentAmount: Number(t.rentAmount || 0),
+      status: t.status,
+    }));
   } catch (error) {
     console.error('Error loading Landlord dashboard data:', error);
   }

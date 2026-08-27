@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { formatNotificationTime } from '@/lib/notification-utils';
 import { getNotificationIcon, getNotificationColor, getNotificationBgColor } from '@/lib/notification-icons';
 import { cn } from '@/lib/utils';
+import { MagicCard } from '@/components/magic-card';
 
 export interface Notification {
   id: string;
@@ -67,13 +68,14 @@ export function NotificationCard({
   }, [onDispute, notification.id]);
 
   return (
-    <div
+    <MagicCard
       className={cn(
-        'relative p-4 rounded-lg border transition-all cursor-pointer',
+        'cursor-pointer',
+        compact && 'p-3',
         notification.read
           ? 'bg-surface-elevated border-zinc-800'
           : 'bg-blue-50/50 border-blue-200 hover:border-blue-300',
-        compact && 'p-3'
+        !compact && 'p-4'
       )}
       onClick={handleClick}
       role="button"
@@ -167,7 +169,7 @@ export function NotificationCard({
                    className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
                    onClick={(e) => {
                      e.stopPropagation();
-                     window.location.href = actionUrl;
+                     window.location.href = actionUrl as string;
                    }}
                  >
                    View Details →
@@ -177,6 +179,6 @@ export function NotificationCard({
            </div>
         </div>
       </div>
-    </div>
+    </MagicCard>
   );
 }

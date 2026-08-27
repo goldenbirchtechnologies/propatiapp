@@ -54,7 +54,9 @@ function isOrbMode(props: MagicCardProps): props is MagicCardOrbProps {
   return props.mode === "orb"
 }
 
-export function MagicCard(props: MagicCardProps) {
+export function MagicCard(
+  props: MagicCardProps & React.ComponentProps<"div">
+) {
   const {
     children,
     className,
@@ -64,6 +66,7 @@ export function MagicCard(props: MagicCardProps) {
     gradientFrom = "#9E7AFF",
     gradientTo = "#FE8BBB",
     mode = "gradient",
+    ...divProps
   } = props
 
   const glowFrom = isOrbMode(props) ? (props.glowFrom ?? "#ee4f27") : "#ee4f27"
@@ -159,12 +162,13 @@ export function MagicCard(props: MagicCardProps) {
   return (
     <motion.div
       className={cn(
-        "group relative isolate overflow-hidden rounded-[inherit] border border-transparent",
+        "group relative isolate overflow-hidden rounded-xl border border-transparent",
         className
       )}
       onPointerMove={handlePointerMove}
       onPointerLeave={() => reset("leave")}
       onPointerEnter={() => reset("enter")}
+      {...(divProps as any)}
       style={{
         background: useMotionTemplate`
           linear-gradient(var(--color-background) 0 0) padding-box,
@@ -174,9 +178,10 @@ export function MagicCard(props: MagicCardProps) {
             var(--color-border) 100%
           ) border-box
         `,
+        ...(props.style as object),
       }}
     >
-      <div className="bg-background absolute inset-px z-20 rounded-[inherit]" />
+      <div className="bg-background absolute inset-px z-20 rounded-xl" />
 
       {mode === "gradient" && (
         <motion.div

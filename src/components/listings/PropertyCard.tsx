@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, CheckCircle, MapPin, Bed, Bath, Square } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { MagicCard } from '@/components/magic-card';
 
 export interface PropertyCardProps {
   id: string;
@@ -112,10 +113,9 @@ export function PropertyCard({
   };
 
   const cardContent = (
-    <article
+    <MagicCard
       className={cn(
-        'glass-card group overflow-hidden',
-        'transition-all duration-200 hover:border-white/20 cursor-pointer',
+        'cursor-pointer',
         className
       )}
       onClick={onClick}
@@ -200,9 +200,8 @@ export function PropertyCard({
           </div>
         )}
       </div>
-    </article>
+    </MagicCard>
   );
-
   return cardContent;
 }
 

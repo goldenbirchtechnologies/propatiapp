@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { VerifiedIconBadge } from '@/components/ui/badges';
 import { formatCurrency, getInitials } from '@/lib/utils';
+import { MagicCard } from '@/components/magic-card';
 
 export interface ListingData {
   id: string;
@@ -92,12 +93,12 @@ const verificationTierLabels: Record<ListingData['verificationTier'], string> = 
   certified: 'Certified',
 };
 
-const verificationTierColors: Record<NonNullable<ListingData['verificationTier']>, 'default' | 'success' | 'warning' | 'verification'> = {
+const verificationTierColors: Record<NonNullable<ListingData['verificationTier']>, 'default' | 'success' | 'warning' | 'outline'> = {
   basic: 'default',
   verified: 'success',
   inspected: 'warning',
-  certified: 'verification',
-};
+  certified: 'outline',
+} as const;
 
 import { Home, LayoutDashboard, Building, Store, Warehouse } from 'lucide-react';
 
@@ -423,8 +424,8 @@ export function ListingCard({
   );
 
   const baseClasses = cn(
-    'relative bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden transition-all duration-200',
-    'hover:shadow-lg hover:border-accent/50',
+    'relative',
+    'hover:shadow-lg',
     variant === 'grid' && 'flex flex-col h-full',
     variant === 'list' && 'flex flex-row items-start gap-4',
     variant === 'compact' && 'flex items-center gap-3 p-3',
@@ -433,13 +434,17 @@ export function ListingCard({
 
   if (onClick) {
     return (
-      <article className={baseClasses} onClick={() => onClick(listing)} tabIndex={0} role="button" onKeyDown={(e) => e.key === 'Enter' && onClick(listing)}>
+      <MagicCard className={baseClasses} onClick={() => onClick(listing)} tabIndex={0} role="button" onKeyDown={(e) => e.key === 'Enter' && onClick(listing)}>
         {cardContent}
-      </article>
+      </MagicCard>
     );
   }
 
-  return <article className={baseClasses}>{cardContent}</article>;
+  return (
+    <MagicCard className={baseClasses}>
+      {cardContent}
+    </MagicCard>
+  );
 }
 
 export function ListingSkeleton({ variant = 'grid', count = 3 }: { variant?: 'grid' | 'list' | 'compact'; count?: number }) {

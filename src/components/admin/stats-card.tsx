@@ -1,5 +1,6 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
+import { MagicCard } from '@/components/magic-card';
 
 interface StatsCardProps {
   title: string;
@@ -17,7 +18,7 @@ export function StatsCard({
   trendPositive = true,
 }: StatsCardProps) {
   return (
-    <div className="card p-6">
+    <MagicCard className="p-6">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium mb-1" style={{ color: 'var(--muted)' }}>
@@ -50,6 +51,6 @@ export function StatsCard({
           </span>
         </div>
       )}
-    </div>
+    </MagicCard>
   );
 }

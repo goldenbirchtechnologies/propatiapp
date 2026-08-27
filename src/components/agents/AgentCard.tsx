@@ -9,6 +9,7 @@ import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { MagicCard } from '@/components/magic-card';
 
 
 export interface Agent {
@@ -81,10 +82,9 @@ export function AgentCard({ agent, className }: AgentCardProps) {
     .toUpperCase();
 
   return (
-    <article
+    <MagicCard
       className={cn(
-        'group relative bg-zinc-900 dark:bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800',
-        'transition-all duration-200 card-hover flex flex-col',
+        'flex flex-col',
         className
       )}
     >
@@ -162,7 +162,7 @@ export function AgentCard({ agent, className }: AgentCardProps) {
           </div>
         </div>
       </Link>
-    </article>
+    </MagicCard>
   );
 }
 

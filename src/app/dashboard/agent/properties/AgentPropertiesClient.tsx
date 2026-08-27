@@ -113,10 +113,10 @@ export default function AgentPropertiesClient({ listings }: Props) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Managed Properties" value={String(counts.totalProperties)} icon={<Building2 className="size-5" />} />
-        <StatCard label="Total Units" value={String(counts.totalUnits)} icon={<Home className="size-5" />} />
-        <StatCard label="Active Listings" value={String(counts.activeListings)} icon={<CheckCircle2 className="size-5" />} />
-        <StatCard label="Verified Properties" value={String(listings.filter((l) => l.verificationTier !== 'basic').length)} icon={<ShieldCheck className="size-5" />} />
+        <StatCard label="Managed Properties" value={String(counts.totalProperties)} icon={Building2} />
+        <StatCard label="Total Units" value={String(counts.totalUnits)} icon={Home} />
+        <StatCard label="Active Listings" value={String(counts.activeListings)} icon={CheckCircle2} />
+        <StatCard label="Verified Properties" value={String(listings.filter((l) => l.verificationTier !== 'basic').length)} icon={ShieldCheck} />
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

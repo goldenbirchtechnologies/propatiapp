@@ -39,10 +39,10 @@ export default function AgentDashboardClient({
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Managed Properties" value={String(managedProperties)} icon={<Building2 className="size-5" />} />
-        <StatCard label="Active Listings" value={String(activeListings)} icon={<CheckCircle2 className="size-5" />} />
-        <StatCard label="Vacant Units" value={String(vacantUnits)} icon={<Clock className="size-5" />} />
-        <StatCard label="Pending Invites" value={String(pendingInvites)} icon={<Users className="size-5" />} />
+        <StatCard label="Managed Properties" value={String(managedProperties)} icon={Building2} />
+        <StatCard label="Active Listings" value={String(activeListings)} icon={CheckCircle2} />
+        <StatCard label="Vacant Units" value={String(vacantUnits)} icon={Clock} />
+        <StatCard label="Pending Invites" value={String(pendingInvites)} icon={Users} />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">

@@ -22,5 +22,5 @@ export default function ChatInitializer({ conversationId }: Props) {
     }
   }, [conversationId, pathname, router, searchParams]);
 
-  return <MessagePage />;
+  return <MessagePage userId="" userName="" userRole="" />;
 }

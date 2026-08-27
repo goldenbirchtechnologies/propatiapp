@@ -20,7 +20,7 @@ export default async function EstateManagerMessagesPage() {
     >
       <ErrorBoundary>
         <SidebarProvider>
-          <MessagePage />
+          <MessagePage userId={user.id} userName={user.fullName} userRole={user.role} />
         </SidebarProvider>
       </ErrorBoundary>
     </DashboardShell>

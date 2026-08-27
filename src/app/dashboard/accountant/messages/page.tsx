@@ -4,6 +4,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { ACCOUNTANT_NAVIGATION } from '@/lib/navigation';
 import { Home as ChatHome } from '@/components/ui/chat-template';
+import { SidebarProvider } from '@/components/blocks/sidebar';
 
 export default async function AccountantMessagesPage() {
   const user = await getCurrentUserWithProfile();
@@ -12,12 +13,11 @@ export default async function AccountantMessagesPage() {
 
   return (
     <DashboardShell navigation={ACCOUNTANT_NAVIGATION} userRole={user.role} userName={user.fullName} userAvatar={user.avatarUrl || undefined}>
-
       <ErrorBoundary>
-
-      <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
-    
+        <SidebarProvider>
+          <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+        </SidebarProvider>
       </ErrorBoundary>
-</DashboardShell>
+    </DashboardShell>
   );
 }

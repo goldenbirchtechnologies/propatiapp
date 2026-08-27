@@ -5,6 +5,7 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import { Home as ChatHome } from '@/components/ui/chat-template';
+import { SidebarProvider } from '@/components/blocks/sidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserCheck } from 'lucide-react';
 
@@ -59,7 +60,9 @@ export default async function TenantMessagesPage() {
               ))}
             </div>
           )}
-          <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+          <SidebarProvider>
+            <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
+          </SidebarProvider>
         </div>
       </ErrorBoundary>
     </DashboardShell>

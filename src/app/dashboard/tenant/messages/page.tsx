@@ -4,7 +4,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { TENANT_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
-import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
+import { Home as ChatHome } from '@/components/ui/chat-template';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserCheck } from 'lucide-react';
 
@@ -45,7 +45,7 @@ export default async function TenantMessagesPage() {
           {assignedAgents.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {assignedAgents.map((agent) => (
-                <div className="glass-card" key={agent.id} className="border-white/[0.08] bg-zinc-950/50">
+                <div key={agent.id} className="glass-card border-white/[0.08] bg-zinc-950/50">
                   <div className="px-6 py-5 border-b border-white/[0.08] pb-2">
                     <h3 className="text-lg font-semibold text-white text-sm font-label-sm uppercase tracking-wider text-zinc-500 flex items-center gap-2">
                       <UserCheck className="w-4 h-4 text-[#00ff66]" />
@@ -59,7 +59,7 @@ export default async function TenantMessagesPage() {
               ))}
             </div>
           )}
-          <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />
+          <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
         </div>
       </ErrorBoundary>
     </DashboardShell>

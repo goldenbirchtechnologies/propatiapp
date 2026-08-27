@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
-import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
+import { Home as ChatHome } from '@/components/ui/chat-template';
 
 export default async function MessagesPage({ params }: { params: Promise<{ role: string }> }) {
   const user = await getCurrentUserWithProfile();
@@ -9,5 +9,5 @@ export default async function MessagesPage({ params }: { params: Promise<{ role:
   const { role } = await params;
   if (user.role !== role) redirect('/dashboard');
 
-  return <UnifiedMessagesClient userId={user.id} userName={user.fullName} userRole={user.role} />;
+  return <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />;
 }

@@ -3,40 +3,12 @@ import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
-import { prisma } from '@/lib/prisma';
-import AgentMessagesClient from './AgentMessagesClient';
+import { Home as ChatHome } from '@/components/ui/chat-template';
 
 export default async function Page() {
   const user = await getCurrentUserWithProfile();
   if (!user) redirect('/sign-in');
   if (user.role !== 'agent') redirect('/dashboard');
-
-  const conversations = await prisma.conversation.findMany({
-    where: {
-      OR: [{ landlordId: user.id }, { tenantId: user.id }],
-    },
-    select: {
-      id: true,
-      subject: true,
-      lastMessage: true,
-      lastMessageAt: true,
-      status: true,
-      listingId: true,
-      unreadCounts: true,
-    },
-    orderBy: { lastMessageAt: 'desc' },
-    take: 30,
-  });
-
-  const initialConversations = conversations.map((c) => ({
-    id: c.id,
-    subject: c.subject,
-    lastMessage: c.lastMessage,
-    lastMessageAt: c.lastMessageAt?.toISOString() || null,
-    status: c.status,
-    listingId: c.listingId,
-    unreadCounts: c.unreadCounts as Record<string, number> | null,
-  }));
 
   return (
     <DashboardShell
@@ -48,7 +20,7 @@ export default async function Page() {
 
       <ErrorBoundary>
 
-      <AgentMessagesClient initialConversations={initialConversations} userId={user.id} />
+      <ChatHome userId={user.id} userName={user.fullName} userRole={user.role} />
     
       </ErrorBoundary>
 </DashboardShell>

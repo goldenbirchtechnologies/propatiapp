@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import UnifiedMessagesClient from '@/components/messaging/UnifiedMessagesClient';
+import { Home as ChatHome } from '@/components/ui/chat-template';
+import { useUser } from '@clerk/nextjs';
 
 type Props = {
   conversationId: string;
@@ -12,6 +13,7 @@ export default function ChatInitializer({ conversationId }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { user } = useUser();
 
   useEffect(() => {
     const currentConversationId = searchParams.get('conversationId');
@@ -22,5 +24,5 @@ export default function ChatInitializer({ conversationId }: Props) {
     }
   }, [conversationId, pathname, router, searchParams]);
 
-  return <UnifiedMessagesClient userId="" userName="" userRole="" />;
+  return <ChatHome userId={user?.id || ''} userName={user?.fullName || ''} userRole={user?.publicMetadata?.role as string || ''} />;
 }

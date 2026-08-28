@@ -302,7 +302,7 @@ export interface Conversation {
   createdAt: string;
   updatedAt: string;
   participants: unknown[];
-  lastMessage?: Message | null;
+  lastMessage?: string | null;
   [key: string]: unknown;
 }
 
@@ -514,7 +514,6 @@ export const apiEndpoints = {
       return api.get<any>(`/conversations/${conversationId}/messages`, params);
     },
     sendMessage: (data: { conversationId: string; content: string; attachmentUrl?: string; attachmentType?: 'image' | 'document' | 'video' }) => api.post<any>(`/conversations/${data.conversationId}/messages`, data),
-    createConversation: (data: any) => api.post<any>('/conversations', data),
     markAsRead: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, {}),
     archiveConversation: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, { action: 'archive' }),
     blockConversation: (conversationId: string) => api.post<any>(`/conversations/${conversationId}/mark-read`, { action: 'block' }),

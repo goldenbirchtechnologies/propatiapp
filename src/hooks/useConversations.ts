@@ -34,7 +34,7 @@ export interface Conversation {
   listing: Listing | null;
   participant: User;
   subject: string | null;
-  lastMessage: LastMessage | null;
+  lastMessage: string | null;
   lastMessageAt: string | null;
   unreadCount: number;
   status: string;
@@ -304,12 +304,7 @@ export function useSendMessage(conversationId: string) {
               conv.id === conversationId
                 ? {
                     ...conv,
-                    lastMessage: {
-                      id: optimisticMessage.id,
-                      content: optimisticMessage.content.substring(0, 100),
-                      createdAt: optimisticMessage.createdAt,
-                      isSentByMe: true,
-                    },
+                    lastMessage: optimisticMessage.content.substring(0, 100),
                     lastMessageAt: optimisticMessage.createdAt,
                   }
                 : conv

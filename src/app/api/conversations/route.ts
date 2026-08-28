@@ -141,7 +141,8 @@ export async function GET(request: NextRequest) {
         ? (conv as { tenant?: { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string } }).tenant
         : (conv as { landlord?: { id: string; fullName?: string | null; avatarUrl?: string | null; role?: string } }).landlord;
       const unread = participantUnreadCount((conv as JsonValue).participants, user.id) || 0;
-      const lastMessage = (Array.isArray((conv as { messages?: unknown[] }).messages) ? (conv as { messages?: unknown[] }).messages[0] : null);
+      const rawMessages = (conv as any).messages;
+      const lastMessage = Array.isArray(rawMessages) && rawMessages.length > 0 ? rawMessages[0] : null;
 
       return {
         id: conv.id,
@@ -149,8 +150,8 @@ export async function GET(request: NextRequest) {
         listing: conv.listing,
         participant: other,
         subject: conv.subject,
-        lastMessage: lastMessage
-          ? { id: lastMessage.id, content: lastMessage.content.substring(0, 100), createdAt: lastMessage.createdAt, isSentByMe: lastMessage.senderId === user.id }
+        lastMessage: lastMessage && typeof lastMessage === 'object' && 'content' in lastMessage
+          ? (lastMessage as { content: string }).content.substring(0, 100)
           : null,
         lastMessageAt: conv.lastMessageAt,
         unreadCount: unread,

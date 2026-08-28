@@ -54,7 +54,7 @@ type Conversation = {
     role?: string | null;
   };
   subject?: string | null;
-  lastMessage?: { content: string; createdAt: string; isSentByMe: boolean } | null;
+  lastMessage?: string | null;
   lastMessageAt?: string | null;
   unreadCount: number;
   status: string;
@@ -245,7 +245,7 @@ export default function UnifiedMessagesClient({ userId, userName, userRole }: { 
     return conversations.filter((c) => {
       const name = c.participant?.fullName?.toLowerCase() || '';
       const subj = c.subject?.toLowerCase() || '';
-      const preview = c.lastMessage?.content?.toLowerCase() || '';
+      const preview = c.lastMessage?.toLowerCase() || '';
       return name.includes(q) || subj.includes(q) || preview.includes(q);
     });
   }, [conversations, search]);
@@ -665,7 +665,7 @@ function ConversationList({ conversations, loading, onSelect }: { conversations:
                 )}
               </div>
               <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>
-                {conv.lastMessage?.content || conv.subject || 'No messages yet'}
+                {conv.lastMessage || conv.subject || 'No messages yet'}
               </p>
             </div>
             <div className="text-right">

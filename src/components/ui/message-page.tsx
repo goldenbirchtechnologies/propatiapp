@@ -5,7 +5,6 @@ import { SearchInput } from '@/components/ui/search-input';
 import { PageHeader } from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Send, Mail, MessageSquare, Plus, X } from 'lucide-react';
@@ -255,15 +254,15 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const showInvites = activeTab === 'invites';
 
   return (
-    <div className="mx-auto flex h-full w-full flex-col overflow-hidden border border-neutral-800 bg-black text-white shadow-none">
-      <div className="border-b border-neutral-800 px-4 py-3">
-        <PageHeader title="Messages" description="Manage your conversations and invitations." />
+    <div className="h-full flex flex-col">
+      <div className="px-6 py-4 border-b border-white/[0.07]">
+        <h1 className="text-lg font-bold text-white">Messages</h1>
       </div>
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+        {/* Conversation list */}
         <div className="w-72 flex-shrink-0 border-r border-white/[0.07] overflow-y-auto">
           <div className="p-3">
-            <SearchInput placeholder="Search..." />
+            <SearchInput placeholder="Search conversations…" />
           </div>
           <div className="px-3 pb-2 flex gap-1 border-b border-white/[0.07]">
             <button
@@ -304,27 +303,25 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   key={conv.id}
                   onClick={() => setSelectedId(conv.id)}
                   className={cn(
-                    'w-full text-left px-4 py-3 hover:bg-white/[0.04] transition-colors border-l-2',
+                    'w-full text-left px-4 py-3.5 hover:bg-white/[0.04] transition-colors border-l-2',
                     selectedId === conv.id ? 'bg-emerald-500/5 border-emerald-500' : 'border-transparent'
                   )}
                 >
                   <div className="flex items-start gap-2.5">
-                    <Avatar className="size-8">
-                      <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs font-semibold">
-                        {(conv.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
+                    <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                      {(conv.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-center">
-                        <span className="text-white text-sm font-medium truncate">{conv.participant?.fullName || conv.subject || 'Conversation'}</span>
-                        <span className="text-[10px] text-zinc-600 flex-shrink-0">{formatTime(conv.lastMessageAt)}</span>
+                        <span className="text-white text-sm font-medium">{conv.participant?.fullName || conv.subject || 'Conversation'}</span>
+                        <span className="text-[10px] text-zinc-600">{formatTime(conv.lastMessageAt)}</span>
                       </div>
                       <div className="text-xs text-zinc-600 truncate mt-0.5">{conv.lastMessage || conv.subject || 'No messages yet'}</div>
                     </div>
                     {conv.unreadCount > 0 && (
-                      <Badge className="flex-shrink-0 h-4 min-w-4 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center px-1">
+                      <span className="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
                         {conv.unreadCount}
-                      </Badge>
+                      </span>
                     )}
                   </div>
                 </button>
@@ -421,11 +418,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           {selectedConversation ? (
             <>
               <div className="px-5 py-3 border-b border-white/[0.07] flex items-center gap-3">
-                <Avatar className="size-8">
-                  <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs font-semibold">
-                    {(selectedConversation.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold">
+                  {(selectedConversation.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
+                </div>
                 <div>
                   <div className="text-white font-medium text-sm">
                     {selectedConversation.participant?.fullName || selectedConversation.subject || 'Conversation'}
@@ -433,35 +428,33 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   <div className="text-zinc-600 text-xs">{selectedConversation.participant?.role || ''}</div>
                 </div>
               </div>
-              <ScrollArea className="flex-1 p-5">
-                <div className="space-y-4">
-                  {messages.map((m) => (
-                    <div key={m.id} className={`flex ${m.senderId === userId ? 'justify-end' : ''}`}>
+              <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                {messages.map((m) => (
+                  <div key={m.id} className={`flex ${m.senderId === userId ? 'justify-end' : ''}`}>
+                    <div
+                      className={cn(
+                        'max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm',
+                        m.senderId === userId
+                          ? 'bg-emerald-500 text-white rounded-br-sm'
+                          : 'bg-zinc-900 border border-white/[0.08] text-zinc-200 rounded-bl-sm'
+                      )}
+                    >
+                      {m.content}
                       <div
                         className={cn(
-                          'max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm',
-                          m.senderId === userId
-                            ? 'bg-emerald-500 text-white rounded-br-sm'
-                            : 'bg-zinc-900 border border-white/[0.08] text-zinc-200 rounded-bl-sm'
+                          'text-[10px] mt-1',
+                          m.senderId === userId ? 'text-emerald-200' : 'text-zinc-600'
                         )}
                       >
-                        {m.content}
-                        <div
-                          className={cn(
-                            'text-[10px] mt-1',
-                            m.senderId === userId ? 'text-emerald-200' : 'text-zinc-600'
-                          )}
-                        >
-                          {formatTime(m.createdAt)}
-                        </div>
+                        {formatTime(m.createdAt)}
                       </div>
                     </div>
-                  ))}
-                  {messages.length === 0 && !loading && (
-                    <div className="text-center text-xs text-zinc-600 py-8">No messages yet</div>
-                  )}
-                </div>
-              </ScrollArea>
+                  </div>
+                ))}
+                {messages.length === 0 && !loading && (
+                  <div className="text-center text-xs text-zinc-600 py-8">No messages yet</div>
+                )}
+              </div>
               <div className="p-4 border-t border-white/[0.07]">
                 <div className="flex gap-2">
                   <Input

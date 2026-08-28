@@ -39,12 +39,20 @@ export async function POST(
       listingIds = allListings.map((l) => l.id);
     }
 
-    const assignmentPromises: Promise<any>[] = [];
-    const listingUpdatePromises: Promise<any>[] = [];
+    const safeListingIds = listingIds.filter((listingId) => typeof listingId === 'string' && listingId.length > 0);
 
-    for (const listingId of listingIds) {
-      assignmentPromises.push(
-        prisma.agentAssignment.create({
+    for (const listingId of safeListingIds) {
+      try {
+        await prisma.listing.update({
+          where: { id: listingId },
+          data: { agentId: user.id },
+        });
+      } catch {
+        // skip stale/deleted listing references
+      }
+
+      try {
+        await prisma.agentAssignment.create({
           data: {
             inviteId: invite.id,
             agentId: user.id,
@@ -54,23 +62,16 @@ export async function POST(
             status: 'active',
           },
           include: { listing: true },
-        })
-      );
-
-      listingUpdatePromises.push(
-        prisma.listing.update({
-          where: { id: listingId },
-          data: { agentId: user.id },
-        })
-      );
+        });
+      } catch {
+        // ignore duplicate/invalid assignments
+      }
     }
 
-    await Promise.all([...assignmentPromises, ...listingUpdatePromises]);
-
-    if (listingIds.length > 0) {
+    if (safeListingIds.length > 0) {
       await prisma.conversation.updateMany({
         where: {
-          listingId: { in: listingIds },
+          listingId: { in: safeListingIds },
           agentId: null,
         },
         data: { agentId: user.id },
@@ -94,7 +95,7 @@ export async function POST(
           orgId: org.id,
           userId: user.id,
           email: user.email,
-          role: 'agent',
+          role: 'manager',
           status: 'active',
           joinedAt: new Date(),
         },
@@ -118,36 +119,21 @@ export async function POST(
       },
     });
 
-    const assignedListings = await prisma.listing.findMany({
-      where: {
-        OR: [
-          { agentId: user.id },
-          {
-            assignments: {
-              some: {
-                agentId: user.id,
-                status: 'active',
-              },
-            },
-          },
-        ],
-      },
-      include: {
-        images: { where: { isCover: true }, take: 1 },
-        owner: { select: { id: true, fullName: true, email: true } },
-      },
-    });
+    try {
+      await notifyAgentInviteAccepted({
+        landlordId: invite.landlordId,
+        agentId: user.id,
+        inviteId: invite.id,
+        listingIds: safeListingIds,
+      });
+    } catch {
+      // non-blocking notification failure
+    }
 
-    await notifyAgentInviteAccepted({
-      landlordId: invite.landlordId,
-      agentId: user.id,
-      inviteId: invite.id,
-      listingIds,
-    });
-
-    return NextResponse.json({ success: true, data: updated, assignedListings });
+    return NextResponse.json({ success: true, data: updated });
   } catch (error) {
     console.error('Agent invite accept error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

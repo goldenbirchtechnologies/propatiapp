@@ -56,7 +56,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const searchParams = request.nextUrl.searchParams;
-    const { page, limit } = listQuerySchema.parse(Object.fromEntries(searchParams.entries()));
+    const rawPage = searchParams.get('page');
+    const rawLimit = searchParams.get('limit');
+    const page = rawPage && !Number.isNaN(Number(rawPage)) && Number(rawPage) > 0 ? Number(rawPage) : 1;
+    const limit = rawLimit && !Number.isNaN(Number(rawLimit)) && Number(rawLimit) > 0 ? Math.min(Number(rawLimit), 100) : 20;
     const skip = (page - 1) * limit;
 
     const withRetry = async <T>(label: string, fn: () => Promise<T>, tries = 2): Promise<T> => {

@@ -1,14 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { SearchInput } from '@/components/ui/search-input';
-import { PageHeader } from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Send, Mail, MessageSquare, Plus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useConversations,
+  useConversation,
+  useSendMessage,
+  useMarkAsRead,
+  messagesKeys,
+} from '@/hooks/useMessages';
 
 type Conversation = {
   id: string;
@@ -115,7 +120,7 @@ const DEMO_CONVERSATIONS: Conversation[] = [
   },
 ];
 
-const DEMO_MESSAGES_FACTORY = (me: { id: string; fullName: string; role: string }): Message[] => [
+const makeDemoMessages = (me: { id: string; fullName: string; role: string }): Message[] => [
   { id: 'demo-m1', content: 'Hi, I wanted to confirm the viewing for the 3BR apartment on Friday.', createdAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
   { id: 'demo-m2', content: 'Yes, confirmed! 2pm on Friday works perfectly. Please bring a valid ID and proof of income.', createdAt: new Date(Date.now() - 1000 * 60 * 11).toISOString(), isRead: true, senderId: me.id, sender: { id: me.id, fullName: me.fullName, avatarUrl: null, role: me.role } },
   { id: 'demo-m3', content: 'Perfect. Will do. Also, are utilities included in the rent?', createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
@@ -124,49 +129,38 @@ const DEMO_MESSAGES_FACTORY = (me: { id: string; fullName: string; role: string 
 
 export default function MessagePage({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [activeTab, setActiveTab] = useState<Tab>('messages');
-  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
   const [msg, setMsg] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [invites, setInvites] = useState<Invite[]>([]);
-  const [invitesLoading, setInvitesLoading] = useState(false);
-  const [messagingLoading, setMessagingLoading] = useState(false);
   const [showNewConversation, setShowNewConversation] = useState(false);
   const [newParticipantEmail, setNewParticipantEmail] = useState('');
   const [newSubject, setNewSubject] = useState('');
   const [creatingConversation, setCreatingConversation] = useState(false);
+  const [messagingLoading, setMessagingLoading] = useState(false);
+
+  const queryClient = useQueryClient();
+  const me = useMemo(() => ({ id: userId, fullName: userName, role: userRole }), [userId, userName, userRole]);
+
+  const { data: conversationsData, refetch: refetchConversations } = useConversations();
+  const conversations: Conversation[] = useMemo(() => {
+    const source = Array.isArray((conversationsData as any)?.data) ? (conversationsData as any).data : [];
+    return source.length ? source : DEMO_CONVERSATIONS;
+  }, [conversationsData]);
 
   const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
 
-  async function loadConversations() {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/conversations');
-      const json = await res.json();
-      const data = res.ok && Array.isArray(json.data) ? json.data : [];
-      setConversations(data.length ? data : DEMO_CONVERSATIONS);
-    } catch {
-      setConversations(DEMO_CONVERSATIONS);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { data: messagesData, refetch: refetchMessages } = useConversation(selectedId || '', !!selectedId);
+  const messages: Message[] = useMemo(() => {
+    const source = Array.isArray((messagesData as any)?.data?.messages)
+      ? (messagesData as any).data.messages
+      : [];
+    return source.length ? source : selectedId ? makeDemoMessages(me) : [];
+  }, [messagesData, selectedId, me]);
 
-  async function loadMessages(conversationId: string) {
-    setLoading(true);
-    setMessages([]);
-    try {
-      const res = await fetch(`/api/conversations/${conversationId}/messages`);
-      const json = await res.json();
-      const data = res.ok && Array.isArray(json.data) ? json.data : [];
-      setMessages(data.length ? data : DEMO_MESSAGES_FACTORY({ id: userId, fullName: userName, role: userRole }));
-    } catch {
-      setMessages(DEMO_MESSAGES_FACTORY({ id: userId, fullName: userName, role: userRole }));
-    } finally {
-      setLoading(false);
-    }
-  }
+  const sendMessageMutation = useSendMessage(selectedId || '');
+  const markAsReadMutation = useMarkAsRead();
+
+  const [invites, setInvites] = useState<Invite[]>([]);
+  const [invitesLoading, setInvitesLoading] = useState(false);
 
   async function loadInvites() {
     if (userRole !== 'agent' && userRole !== 'estate_manager') return;
@@ -186,14 +180,30 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     }
   }
 
+  // Live conversation list refresh
   useEffect(() => {
-    loadConversations();
+    const interval = setInterval(() => {
+      refetchConversations();
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [refetchConversations]);
+
+  // Refresh messages when selected conversation changes
+  useEffect(() => {
+    if (!selectedId) return;
+    refetchMessages();
+    markAsReadMutation.mutate(selectedId);
+  }, [selectedId]);
+
+  // Initial invites load
+  useEffect(() => {
     loadInvites();
   }, []);
 
+  // Initial invites load
   useEffect(() => {
-    if (selectedId) loadMessages(selectedId);
-  }, [selectedId]);
+    loadInvites();
+  }, []);
 
   async function handleSend() {
     const trimmed = msg.trim();
@@ -201,16 +211,8 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     const prev = msg;
     setMsg('');
     try {
-      const res = await fetch(`/api/conversations/${selectedId}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: trimmed }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || 'Failed to send');
-      const payload = Array.isArray(json.data) ? json.data[0] : json.data;
-      if (payload && payload.id) setMessages((m) => [...m, payload]);
-      loadConversations();
+      await sendMessageMutation.mutateAsync({ content: trimmed });
+      refetchConversations();
     } catch {
       setMsg(prev);
     }
@@ -234,11 +236,11 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to start conversation');
       const conversation = json.data;
-      setConversations((prev) => [conversation, ...prev]);
       setSelectedId(conversation.id);
       setShowNewConversation(false);
       setNewParticipantEmail('');
       setNewSubject('');
+      refetchConversations();
     } catch {
       // silent
     } finally {
@@ -250,7 +252,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     try {
       await fetch(`/api/agent-invites/${inviteId}/accept`, { method: 'POST' });
       setInvites((prev) => prev.filter((inv) => inv.id !== inviteId));
-      loadConversations();
+      loadInvites();
     } catch {
       // silent
     }
@@ -287,7 +289,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Failed to start conversation');
       const conversation = json.data;
-      setConversations((prev) => [conversation, ...prev]);
       setSelectedId(conversation.id);
     } catch {
       // silent
@@ -383,7 +384,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   </div>
                 </button>
               ))}
-              {conversations.length === 0 && !loading && (
+              {conversations.length === 0 && (
                 <div className="p-4 text-center text-xs text-zinc-600">
                   <p className="mb-2">No conversations yet</p>
                   <Button
@@ -422,9 +423,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                           {inv.sender?.fullName || inv.email || 'Invitation'}
                         </p>
                         {inv.status && (
-                          <Badge variant="default" className="rounded-full px-2 py-0 text-xs">
+                          <span className="rounded-full px-2 py-0 text-[10px] font-medium bg-zinc-900 text-zinc-300 border border-white/10">
                             {inv.status}
-                          </Badge>
+                          </span>
                         )}
                       </div>
                       <p className="text-xs text-zinc-600 truncate">
@@ -508,7 +509,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                     </div>
                   </div>
                 ))}
-                {messages.length === 0 && !loading && (
+                {messages.length === 0 && (
                   <div className="text-center text-xs text-zinc-600 py-8">No messages yet</div>
                 )}
               </div>

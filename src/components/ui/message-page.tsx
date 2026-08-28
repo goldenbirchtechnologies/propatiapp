@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Send, Mail, MessageSquare } from 'lucide-react';
+import { Send, Mail, MessageSquare, Plus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Conversation = {
@@ -30,7 +30,7 @@ type Conversation = {
     role: string | null;
   } | null;
   listing?: {
-    id?: string;
+    id?: string | null;
     title?: string | null;
     area?: string | null;
     state?: string | null;
@@ -78,6 +78,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const [invites, setInvites] = useState<Invite[]>([]);
   const [invitesLoading, setInvitesLoading] = useState(false);
   const [messagingLoading, setMessagingLoading] = useState(false);
+  const [showNewConversation, setShowNewConversation] = useState(false);
+  const [newParticipantEmail, setNewParticipantEmail] = useState('');
+  const [newSubject, setNewSubject] = useState('');
+  const [creatingConversation, setCreatingConversation] = useState(false);
 
   const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
 
@@ -153,6 +157,36 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       loadConversations();
     } catch {
       setMsg(prev);
+    }
+  }
+
+  async function handleCreateConversation() {
+    const email = newParticipantEmail.trim();
+    if (!email) return;
+    setCreatingConversation(true);
+    try {
+      const participants = [
+        { userId: userId, role: userRole },
+        { userId: email, role: 'tenant' },
+      ];
+      const subject = newSubject.trim() || 'New Conversation';
+      const res = await fetch('/api/conversations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ participants, subject }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Failed to start conversation');
+      const conversation = json.data;
+      setConversations((prev) => [conversation, ...prev]);
+      setSelectedId(conversation.id);
+      setShowNewConversation(false);
+      setNewParticipantEmail('');
+      setNewSubject('');
+    } catch {
+      // silent
+    } finally {
+      setCreatingConversation(false);
     }
   }
 
@@ -235,21 +269,31 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
             <button
               onClick={() => setActiveTab('messages')}
               className={cn(
-                'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors',
+                'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
                 activeTab === 'messages' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
               )}
             >
               Messages
+              {conversations.some((c) => c.unreadCount > 0) && (
+                <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
+                  {conversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0)}
+                </span>
+              )}
             </button>
             {(userRole === 'agent' || userRole === 'estate_manager' || userRole === 'landlord') && (
               <button
                 onClick={() => setActiveTab('invites')}
                 className={cn(
-                  'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors',
+                  'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
                   activeTab === 'invites' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
                 )}
               >
                 Invites
+                {invites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
+                    {invites.length}
+                  </span>
+                )}
               </button>
             )}
           </div>
@@ -286,7 +330,17 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 </button>
               ))}
               {conversations.length === 0 && !loading && (
-                <div className="p-4 text-center text-xs text-zinc-600">No conversations yet</div>
+                <div className="p-4 text-center text-xs text-zinc-600">
+                  <p className="mb-2">No conversations yet</p>
+                  <Button
+                    size="sm"
+                    onClick={() => setShowNewConversation(true)}
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                  >
+                    <Plus className="w-3 h-3 mr-1" />
+                    New Conversation
+                  </Button>
+                </div>
               )}
             </div>
           )}
@@ -434,6 +488,50 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           )}
         </div>
       </div>
+
+      {/* New Conversation Modal */}
+      {showNewConversation && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="w-full max-w-md rounded-lg border border-neutral-800 bg-black p-4 shadow-xl">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-white">New Conversation</h3>
+              <button onClick={() => setShowNewConversation(false)} className="text-zinc-400 hover:text-white">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1">Participant email</label>
+                <Input
+                  type="email"
+                  value={newParticipantEmail}
+                  onChange={(e) => setNewParticipantEmail(e.target.value)}
+                  placeholder="user@example.com"
+                  className="bg-black border-neutral-800 text-white placeholder:text-zinc-600"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1">Subject</label>
+                <Input
+                  type="text"
+                  value={newSubject}
+                  onChange={(e) => setNewSubject(e.target.value)}
+                  placeholder="Conversation subject"
+                  className="bg-black border-neutral-800 text-white placeholder:text-zinc-600"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="ghost" onClick={() => setShowNewConversation(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleCreateConversation} disabled={creatingConversation} className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                  Start Conversation
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

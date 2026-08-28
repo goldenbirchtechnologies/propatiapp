@@ -71,34 +71,31 @@ export function useCreateConversation() {
  * Mutation for sending a message with OPTIMISTIC UPDATES
  * This provides instant UI feedback before the server responds
  */
-export function useSendMessage(conversationId: string) {
+export function useSendMessage(conversationId: string, sender?: { id: string; fullName: string; role: string }) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: Omit<SendMessageInput, 'conversationId'>) =>
       apiEndpoints.messages.sendMessage({ ...data, conversationId }),
     onMutate: async (newMessage) => {
-      // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({ queryKey: messagesKeys.conversation(conversationId) });
 
-      // Snapshot the previous value
       const previousData = queryClient.getQueryData(messagesKeys.conversation(conversationId)) as { data?: unknown } | undefined;
 
-      // Optimistically update the cache
       const optimisticMessage: Message = {
         id: `temp-${Date.now()}`,
         conversationId,
-        senderId: 'current-user', // Will be replaced by server
+        senderId: sender?.id || 'current-user',
         content: newMessage.content,
         attachmentUrl: newMessage.attachmentUrl || null,
         attachmentType: newMessage.attachmentType || null,
         readAt: null,
         createdAt: new Date().toISOString(),
         sender: {
-          id: 'current-user',
-          fullName: 'You',
+          id: sender?.id || 'current-user',
+          fullName: sender?.fullName || 'You',
           avatarUrl: null,
-          role: 'tenant',
+          role: sender?.role || 'tenant',
         },
       };
 
@@ -279,9 +276,9 @@ export function useReceiveMessage() {
         if (!old) return old;
         return {
           ...old,
-          data: old.data.map(conv => 
+          data: old.data.map((conv: any) => 
             conv.id === message.conversationId 
-              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: ((conv as Record<string, unknown> | null)?.unreadCount || 0) + 1 }
+              ? { ...conv, lastMessageAt: message.createdAt, unreadCount: Number(conv.unreadCount || 0) + 1 }
               : conv
           ),
         };

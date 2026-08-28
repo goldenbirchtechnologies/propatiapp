@@ -156,7 +156,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     return source.length ? source : selectedId ? makeDemoMessages(me) : [];
   }, [messagesData, selectedId, me]);
 
-  const sendMessageMutation = useSendMessage(selectedId || '');
+  const sendMessageMutation = useSendMessage(selectedId || '', { id: userId, fullName: userName, role: userRole });
   const markAsReadMutation = useMarkAsRead();
 
   const [invites, setInvites] = useState<Invite[]>([]);

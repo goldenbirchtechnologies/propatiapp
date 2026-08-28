@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { SearchInput } from '@/components/ui/search-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Mail, MessageSquare, Plus, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Send, Mail, MessageSquare, Plus, X, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -12,6 +13,7 @@ import {
   useConversation,
   useSendMessage,
   useMarkAsRead,
+  useDeleteMessage,
   messagesKeys,
 } from '@/hooks/useMessages';
 
@@ -102,9 +104,12 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
   const sendMessageMutation = useSendMessage(selectedId || '', { id: userId, fullName: userName, role: userRole });
   const markAsReadMutation = useMarkAsRead();
+  const deleteMessageMutation = useDeleteMessage();
 
   const [invites, setInvites] = useState<Invite[]>([]);
   const [invitesLoading, setInvitesLoading] = useState(false);
+  const [senderProfile, setSenderProfile] = useState<{ id: string; fullName: string; role: string | null; avatarUrl: string | null } | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   async function loadInvites() {
     if (userRole !== 'agent' && userRole !== 'estate_manager') return;
@@ -439,28 +444,53 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-5 space-y-4">
-                {messages.map((m) => (
-                  <div key={m.id} className={`flex ${m.senderId === userId ? 'justify-end' : ''}`}>
-                    <div
-                      className={cn(
-                        'max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm',
-                        m.senderId === userId
-                          ? 'bg-emerald-500 text-white rounded-br-sm'
-                          : 'bg-zinc-900 border border-white/[0.08] text-zinc-200 rounded-bl-sm'
-                      )}
-                    >
-                      {m.content}
-                      <div
-                        className={cn(
-                          'text-[10px] mt-1',
-                          m.senderId === userId ? 'text-emerald-200' : 'text-zinc-600'
+                {messages.map((m) => {
+                  const isOwn = m.senderId === userId;
+                  return (
+                    <div key={m.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'} group`}>
+                      <div className="flex items-end gap-2 max-w-xs lg:max-w-md">
+                        {!isOwn && m.sender && (
+                          <button
+                            type="button"
+                            onClick={() => setSenderProfile({ id: m.sender!.id, fullName: m.sender!.fullName || 'User', role: m.sender!.role, avatarUrl: m.sender!.avatarUrl })}
+                            className="h-8 w-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold flex-shrink-0 hover:bg-zinc-700"
+                          >
+                            {(m.sender.fullName || '?').split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
+                          </button>
                         )}
-                      >
-                        {formatTime(m.createdAt)}
+                        <div className="relative">
+                          <div
+                            className={cn(
+                              'max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm',
+                              isOwn
+                                ? 'bg-emerald-500 text-white rounded-br-sm'
+                                : 'bg-zinc-900 border border-white/[0.08] text-zinc-200 rounded-bl-sm'
+                            )}
+                          >
+                            {m.content}
+                            <div
+                              className={cn(
+                                'text-[10px] mt-1',
+                                isOwn ? 'text-emerald-200' : 'text-zinc-600'
+                              )}
+                            >
+                              {formatTime(m.createdAt)}
+                            </div>
+                          </div>
+                          {isOwn && (
+                            <button
+                              type="button"
+                              onClick={() => setDeleteTarget(m.id)}
+                              className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-full bg-neutral-900 border border-neutral-700 p-1 hover:bg-red-500 hover:border-red-500"
+                            >
+                              <Trash2 className="h-3 w-3 text-neutral-300 hover:text-white" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {messages.length === 0 && (
                   <div className="text-center text-xs text-zinc-600 py-8">No messages yet</div>
                 )}
@@ -532,6 +562,51 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           </div>
         </div>
       )}
+
+      {/* Sender Profile Popup */}
+      <Dialog open={!!senderProfile} onOpenChange={(open) => !open && setSenderProfile(null)}>
+        <DialogContent className="sm:max-w-sm border-neutral-800 bg-black">
+          <DialogHeader>
+            <DialogTitle className="text-white">Profile</DialogTitle>
+          </DialogHeader>
+          {senderProfile && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-sm font-semibold">
+                  {(senderProfile.fullName || '?').split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
+                </div>
+                <div>
+                  <p className="text-white text-sm font-medium">{senderProfile.fullName}</p>
+                  <p className="text-zinc-500 text-xs capitalize">{senderProfile.role || 'User'}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation */}
+      <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <DialogContent className="sm:max-w-sm border-neutral-800 bg-black">
+          <DialogHeader>
+            <DialogTitle className="text-white">Delete message?</DialogTitle>
+          </DialogHeader>
+          <p className="text-zinc-400 text-sm">This action cannot be undone.</p>
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" onClick={() => setDeleteTarget(null)} className="text-white">Cancel</Button>
+            <Button
+              onClick={() => {
+                if (!selectedId || !deleteTarget) return;
+                deleteMessageMutation.mutate({ conversationId: selectedId, messageId: deleteTarget });
+                setDeleteTarget(null);
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Delete
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

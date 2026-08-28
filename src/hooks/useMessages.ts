@@ -209,6 +209,22 @@ export function useMarkAsRead() {
   });
 }
 
+export function useDeleteMessage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ conversationId, messageId }: { conversationId: string; messageId: string }) =>
+      fetch(`/api/conversations/${conversationId}/messages/${messageId}`, { method: 'DELETE' }).then((res) => {
+        if (!res.ok) return res.json().then((err: any) => Promise.reject(new Error(err?.error || 'Failed to delete message')));
+        return res.json();
+      }),
+    onSuccess: (_, { conversationId }) => {
+      queryClient.invalidateQueries({ queryKey: messagesKeys.conversation(conversationId) });
+      queryClient.invalidateQueries({ queryKey: messagesKeys.conversations() });
+    },
+  });
+}
+
 /**
  * Mutation for archiving a conversation
  */

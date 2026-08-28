@@ -102,15 +102,11 @@ export function useSendMessage(conversationId: string, sender?: { id: string; fu
       // Update the conversation query (which includes messages)
       queryClient.setQueryData(
         messagesKeys.conversation(conversationId),
-        (old: { data?: { messages?: Message[]; lastMessageAt?: string; [k: string]: unknown } } | undefined) => {
-          if (!old?.data) return old;
+        (old: { data?: Message[]; [k: string]: unknown } | undefined) => {
+          const current = Array.isArray(old?.data) ? old.data : [];
           return {
             ...old,
-            data: {
-              ...old.data,
-              messages: [...(old.data.messages || []), optimisticMessage],
-              lastMessageAt: optimisticMessage.createdAt,
-            },
+            data: [...current, optimisticMessage],
           };
         }
       );
@@ -153,18 +149,15 @@ export function useSendMessage(conversationId: string, sender?: { id: string; fu
       // Replace optimistic message with server message
       queryClient.setQueryData(
         messagesKeys.conversation(conversationId),
-        (old: { data?: { messages?: Message[]; [k: string]: unknown } } | undefined) => {
-          if (!old?.data) return old;
+        (old: { data?: Message[]; [k: string]: unknown } | undefined) => {
+          const current = Array.isArray(old?.data) ? old.data : [];
           return {
             ...old,
-            data: {
-              ...old.data,
-              messages: (old.data.messages || []).map((msg: Message) =>
-                msg.id.startsWith('temp-') && msg.content === serverMessage.content
-                  ? serverMessage
-                  : msg
-              ),
-            },
+            data: current.map((msg: Message) =>
+              msg.id.startsWith('temp-') && msg.content === serverMessage.content
+                ? serverMessage
+                : msg
+            ),
           };
         }
       );

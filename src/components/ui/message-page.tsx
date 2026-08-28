@@ -95,9 +95,8 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
   const { data: messagesData, refetch: refetchMessages } = useConversation(selectedId || '', !!selectedId);
   const messages: Message[] = useMemo(() => {
-    const source = Array.isArray((messagesData as any)?.data?.messages)
-      ? (messagesData as any).data.messages
-      : [];
+    const raw = (messagesData as any)?.data;
+    const source = Array.isArray(raw) ? raw : [];
     return source;
   }, [messagesData, selectedId]);
 

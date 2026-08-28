@@ -10,7 +10,7 @@ const listQuerySchema = z.object({
 });
 
 const createBodySchema = z.object({
-  participants: z.array(z.object({ userId: z.string().cuid(), role: z.string() })).min(2),
+  participants: z.array(z.object({ userId: z.string().cuid().or(z.string().email()), role: z.string() })).min(2),
   subject: z.string().optional(),
   listingId: z.string().cuid().optional(),
   propertyId: z.string().cuid().optional(),
@@ -191,6 +191,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'You must be included as a participant' }, { status: 400 });
     }
 
+    const resolvedParticipants = await Promise.all(
+      validated.participants.map(async (p) => {
+        if (p.userId.includes('@')) {
+          const found = await prisma.user.findUnique({ where: { email: p.userId }, select: { id: true } });
+          if (!found) return null;
+          return { userId: found.id, role: p.role };
+        }
+        return p;
+      })
+    );
+
+    const participants = resolvedParticipants.filter((p): p is NonNullable<typeof p> => p !== null);
+    if (participants.length < 2) {
+      return NextResponse.json({ error: 'At least one valid participant is required' }, { status: 400 });
+    }
+
     const listing = validated.listingId
       ? await prisma.listing.findUnique({ where: { id: validated.listingId }, select: { id: true, title: true } })
       : null;
@@ -198,8 +214,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
     }
 
-    const fallbackLandlord = validated.participants.find((p) => p.role === 'landlord')?.userId || null;
-    const fallbackTenant = validated.participants.find((p) => p.role === 'tenant')?.userId || null;
+    const fallbackLandlord = participants.find((p) => p.role === 'landlord')?.userId || null;
+    const fallbackTenant = participants.find((p) => p.role === 'tenant')?.userId || null;
 
     const conversation = await prisma.conversation.create({
       data: {
@@ -208,7 +224,7 @@ export async function POST(request: NextRequest) {
         orgId: validated.orgId || null,
         landlordId: fallbackLandlord,
         tenantId: fallbackTenant,
-        participants: validated.participants,
+        participants,
         subject: validated.subject || (listing ? `Inquiry about ${listing.title}` : 'New Conversation'),
         lastMessageAt: new Date(),
         status: 'active',
@@ -222,11 +238,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const others = validated.participants.filter((p) => p.userId !== user.id);
+    const others = participants.filter((p) => p.userId !== user.id);
     if (others.length) {
       const notifications = others.map((p) => ({
         userId: p.userId,
-        type: 'message',
+        type: 'message' as const,
         title: 'New Conversation',
         body: `${user.fullName} started a conversation${conversation.listing ? ` about ${(conversation.listing as { title?: string | null }).title ?? ''}` : ''}`,
         data: { conversationId: conversation.id, listingId: validated.listingId },

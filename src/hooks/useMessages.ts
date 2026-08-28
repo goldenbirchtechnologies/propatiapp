@@ -209,6 +209,21 @@ export function useMarkAsRead() {
   });
 }
 
+export function useDeleteConversation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (conversationId: string) =>
+      fetch(`/api/conversations/${conversationId}`, { method: 'DELETE' }).then((res) => {
+        if (!res.ok) return res.json().then((err: any) => Promise.reject(new Error(err?.error || 'Failed to delete conversation')));
+        return res.json();
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: messagesKeys.conversations() });
+    },
+  });
+}
+
 export function useDeleteMessage() {
   const queryClient = useQueryClient();
 

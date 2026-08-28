@@ -14,6 +14,7 @@ import {
   useSendMessage,
   useMarkAsRead,
   useDeleteMessage,
+  useDeleteConversation,
   messagesKeys,
 } from '@/hooks/useMessages';
 
@@ -105,11 +106,13 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const sendMessageMutation = useSendMessage(selectedId || '', { id: userId, fullName: userName, role: userRole });
   const markAsReadMutation = useMarkAsRead();
   const deleteMessageMutation = useDeleteMessage();
+  const deleteConversationMutation = useDeleteConversation();
 
   const [invites, setInvites] = useState<Invite[]>([]);
   const [invitesLoading, setInvitesLoading] = useState(false);
   const [senderProfile, setSenderProfile] = useState<{ id: string; fullName: string; role: string | null; avatarUrl: string | null } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [deleteConversationId, setDeleteConversationId] = useState<string | null>(null);
 
   async function loadInvites() {
     if (userRole !== 'agent' && userRole !== 'estate_manager') return;
@@ -318,7 +321,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   key={conv.id}
                   onClick={() => setSelectedId(conv.id)}
                   className={cn(
-                    'w-full text-left px-4 py-3.5 hover:bg-white/[0.04] transition-colors border-l-2',
+                    'w-full text-left px-4 py-3.5 hover:bg-white/[0.04] transition-colors border-l-2 group',
                     selectedId === conv.id ? 'bg-emerald-500/5 border-emerald-500' : 'border-transparent'
                   )}
                 >
@@ -338,6 +341,16 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                         {conv.unreadCount}
                       </span>
                     )}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteConversationId(conv.id);
+                      }}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity rounded-full p-1 hover:bg-red-500/20"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 text-zinc-500 hover:text-red-400" />
+                    </button>
                   </div>
                 </button>
               ))}
@@ -599,6 +612,30 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 if (!selectedId || !deleteTarget) return;
                 deleteMessageMutation.mutate({ conversationId: selectedId, messageId: deleteTarget });
                 setDeleteTarget(null);
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Delete
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Conversation Confirmation */}
+      <Dialog open={!!deleteConversationId} onOpenChange={(open) => !open && setDeleteConversationId(null)}>
+        <DialogContent className="sm:max-w-sm border-neutral-800 bg-black">
+          <DialogHeader>
+            <DialogTitle className="text-white">Delete conversation?</DialogTitle>
+          </DialogHeader>
+          <p className="text-zinc-400 text-sm">This will remove the conversation and its messages permanently.</p>
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" onClick={() => setDeleteConversationId(null)} className="text-white">Cancel</Button>
+            <Button
+              onClick={() => {
+                if (!deleteConversationId) return;
+                deleteConversationMutation.mutate(deleteConversationId);
+                if (selectedId === deleteConversationId) setSelectedId(null);
+                setDeleteConversationId(null);
               }}
               className="bg-red-500 hover:bg-red-600 text-white"
             >

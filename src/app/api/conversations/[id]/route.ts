@@ -148,3 +148,43 @@ export async function POST(
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const authResult = await withAuth(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const { user } = authResult;
+  const { id } = await params;
+
+  try {
+    const conversation = await prisma.conversation.findUnique({
+      where: { id },
+      select: { id: true, landlordId: true, tenantId: true, participants: true },
+    });
+    if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
+
+    const participants = (() => {
+      try { return JSON.parse((conversation as any).participants || '[]'); }
+      catch { return []; }
+    })();
+    const isAuthorized =
+      conversation.landlordId === user.id ||
+      conversation.tenantId === user.id ||
+      participants.some((p: any) => p?.userId === user.id) ||
+      user.role === 'admin';
+
+    if (!isAuthorized) {
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
+    }
+
+    await prisma.message.deleteMany({ where: { conversationId: id } });
+    await prisma.conversation.delete({ where: { id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('DELETE conversation error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

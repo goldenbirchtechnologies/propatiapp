@@ -67,6 +67,61 @@ type Invite = {
 
 type Tab = 'messages' | 'invites';
 
+const DEMO_CONVERSATIONS: Conversation[] = [
+  {
+    id: 'demo-1',
+    subject: 'Viewing confirmation',
+    listingId: null,
+    propertyId: null,
+    orgId: null,
+    lastMessage: 'Yes, confirmed! 2pm on Friday works perfectly.',
+    lastMessageAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    unreadCount: 2,
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    participant: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' },
+    listing: null,
+  },
+  {
+    id: 'demo-2',
+    subject: 'Lease agreement',
+    listingId: null,
+    propertyId: null,
+    orgId: null,
+    lastMessage: 'I\'ve reviewed the lease agreement and everything looks good.',
+    lastMessageAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    unreadCount: 0,
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    participant: { id: 'demo-user-3', fullName: 'Yetunde Afolabi', avatarUrl: null, role: 'Agent' },
+    listing: null,
+  },
+  {
+    id: 'demo-3',
+    subject: 'Support ticket',
+    listingId: null,
+    propertyId: null,
+    orgId: null,
+    lastMessage: 'Your verification has been approved!',
+    lastMessageAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
+    unreadCount: 1,
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    participant: { id: 'demo-user-4', fullName: 'PROPATI Support', avatarUrl: null, role: 'Support' },
+    listing: null,
+  },
+];
+
+const DEMO_MESSAGES_FACTORY = (me: { id: string; fullName: string; role: string }): Message[] => [
+  { id: 'demo-m1', content: 'Hi, I wanted to confirm the viewing for the 3BR apartment on Friday.', createdAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
+  { id: 'demo-m2', content: 'Yes, confirmed! 2pm on Friday works perfectly. Please bring a valid ID and proof of income.', createdAt: new Date(Date.now() - 1000 * 60 * 11).toISOString(), isRead: true, senderId: me.id, sender: { id: me.id, fullName: me.fullName, avatarUrl: null, role: me.role } },
+  { id: 'demo-m3', content: 'Perfect. Will do. Also, are utilities included in the rent?', createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
+  { id: 'demo-m4', content: 'Water is included. Electricity is metered separately. Generator is shared cost.', createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(), isRead: false, senderId: me.id, sender: { id: me.id, fullName: me.fullName, avatarUrl: null, role: me.role } },
+];
+
 export default function MessagePage({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [activeTab, setActiveTab] = useState<Tab>('messages');
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -89,9 +144,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     try {
       const res = await fetch('/api/conversations');
       const json = await res.json();
-      if (res.ok) setConversations(Array.isArray(json.data) ? json.data : []);
+      const data = res.ok && Array.isArray(json.data) ? json.data : [];
+      setConversations(data.length ? data : DEMO_CONVERSATIONS);
     } catch {
-      // keep previous state
+      setConversations(DEMO_CONVERSATIONS);
     } finally {
       setLoading(false);
     }
@@ -103,9 +159,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     try {
       const res = await fetch(`/api/conversations/${conversationId}/messages`);
       const json = await res.json();
-      if (res.ok) setMessages(Array.isArray(json.data) ? json.data : []);
+      const data = res.ok && Array.isArray(json.data) ? json.data : [];
+      setMessages(data.length ? data : DEMO_MESSAGES_FACTORY({ id: userId, fullName: userName, role: userRole }));
     } catch {
-      setMessages([]);
+      setMessages(DEMO_MESSAGES_FACTORY({ id: userId, fullName: userName, role: userRole }));
     } finally {
       setLoading(false);
     }

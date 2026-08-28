@@ -72,61 +72,6 @@ type Invite = {
 
 type Tab = 'messages' | 'invites';
 
-const DEMO_CONVERSATIONS: Conversation[] = [
-  {
-    id: 'demo-1',
-    subject: 'Viewing confirmation',
-    listingId: null,
-    propertyId: null,
-    orgId: null,
-    lastMessage: 'Yes, confirmed! 2pm on Friday works perfectly.',
-    lastMessageAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-    unreadCount: 2,
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    participant: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' },
-    listing: null,
-  },
-  {
-    id: 'demo-2',
-    subject: 'Lease agreement',
-    listingId: null,
-    propertyId: null,
-    orgId: null,
-    lastMessage: 'I\'ve reviewed the lease agreement and everything looks good.',
-    lastMessageAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
-    unreadCount: 0,
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    participant: { id: 'demo-user-3', fullName: 'Yetunde Afolabi', avatarUrl: null, role: 'Agent' },
-    listing: null,
-  },
-  {
-    id: 'demo-3',
-    subject: 'Support ticket',
-    listingId: null,
-    propertyId: null,
-    orgId: null,
-    lastMessage: 'Your verification has been approved!',
-    lastMessageAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
-    unreadCount: 1,
-    status: 'active',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    participant: { id: 'demo-user-4', fullName: 'PROPATI Support', avatarUrl: null, role: 'Support' },
-    listing: null,
-  },
-];
-
-const makeDemoMessages = (me: { id: string; fullName: string; role: string }): Message[] => [
-  { id: 'demo-m1', content: 'Hi, I wanted to confirm the viewing for the 3BR apartment on Friday.', createdAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
-  { id: 'demo-m2', content: 'Yes, confirmed! 2pm on Friday works perfectly. Please bring a valid ID and proof of income.', createdAt: new Date(Date.now() - 1000 * 60 * 11).toISOString(), isRead: true, senderId: me.id, sender: { id: me.id, fullName: me.fullName, avatarUrl: null, role: me.role } },
-  { id: 'demo-m3', content: 'Perfect. Will do. Also, are utilities included in the rent?', createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(), isRead: true, senderId: 'demo-user-2', sender: { id: 'demo-user-2', fullName: 'Emeka Nwosu', avatarUrl: null, role: 'Landlord' } },
-  { id: 'demo-m4', content: 'Water is included. Electricity is metered separately. Generator is shared cost.', createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(), isRead: false, senderId: me.id, sender: { id: me.id, fullName: me.fullName, avatarUrl: null, role: me.role } },
-];
-
 export default function MessagePage({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [activeTab, setActiveTab] = useState<Tab>('messages');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -143,7 +88,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const { data: conversationsData, refetch: refetchConversations } = useConversations();
   const conversations: Conversation[] = useMemo(() => {
     const source = Array.isArray((conversationsData as any)?.data) ? (conversationsData as any).data : [];
-    return source.length ? source : DEMO_CONVERSATIONS;
+    return source;
   }, [conversationsData]);
 
   const selectedConversation = conversations.find((c) => c.id === selectedId) || null;
@@ -153,8 +98,8 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     const source = Array.isArray((messagesData as any)?.data?.messages)
       ? (messagesData as any).data.messages
       : [];
-    return source.length ? source : selectedId ? makeDemoMessages(me) : [];
-  }, [messagesData, selectedId, me]);
+    return source;
+  }, [messagesData, selectedId]);
 
   const sendMessageMutation = useSendMessage(selectedId || '', { id: userId, fullName: userName, role: userRole });
   const markAsReadMutation = useMarkAsRead();
@@ -194,11 +139,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     refetchMessages();
     markAsReadMutation.mutate(selectedId);
   }, [selectedId]);
-
-  // Initial invites load
-  useEffect(() => {
-    loadInvites();
-  }, []);
 
   // Initial invites load
   useEffect(() => {
@@ -250,20 +190,31 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
 
   async function handleAcceptInvite(inviteId: string) {
     try {
-      await fetch(`/api/agent-invites/${inviteId}/accept`, { method: 'POST' });
+      const res = await fetch(`/api/agent-invites/${inviteId}/accept`, { method: 'POST' });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const detail = (json as any)?.error || 'Failed to accept invite';
+        throw new Error(detail);
+      }
       setInvites((prev) => prev.filter((inv) => inv.id !== inviteId));
       loadInvites();
-    } catch {
-      // silent
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to accept invite';
+      console.error('Failed to accept invite:', error);
+      alert(message);
     }
   }
 
   async function handleRemoveInvite(memberId: string, orgId: string) {
     try {
-      await fetch(`/api/orgs/${orgId}/members/${memberId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/orgs/${orgId}/members/${memberId}`, { method: 'DELETE' });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error((json as any)?.error || 'Failed to remove invite');
       setInvites((prev) => prev.filter((inv) => inv.id !== memberId));
-    } catch {
-      // silent
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to remove invite';
+      console.error('Failed to remove invite:', error);
+      alert(message);
     }
   }
 
@@ -290,8 +241,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
       if (!res.ok) throw new Error(json.error || 'Failed to start conversation');
       const conversation = json.data;
       setSelectedId(conversation.id);
-    } catch {
-      // silent
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to start conversation';
+      console.error('handleInviteMessage error:', error);
+      alert(message);
     } finally {
       setMessagingLoading(false);
     }
@@ -545,40 +498,37 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-md rounded-lg border border-neutral-800 bg-black p-4 shadow-xl">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-white">New Conversation</h3>
+              <h2 className="text-sm font-semibold text-white">New Conversation</h2>
               <button onClick={() => setShowNewConversation(false)} className="text-zinc-400 hover:text-white">
                 <X className="w-4 h-4" />
               </button>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs text-zinc-400 mb-1">Participant email</label>
+                <label className="text-xs text-zinc-400 block mb-1">Participant email</label>
                 <Input
-                  type="email"
+                  placeholder="user@example.com"
                   value={newParticipantEmail}
                   onChange={(e) => setNewParticipantEmail(e.target.value)}
-                  placeholder="user@example.com"
                   className="bg-black border-neutral-800 text-white placeholder:text-zinc-600"
                 />
               </div>
               <div>
-                <label className="block text-xs text-zinc-400 mb-1">Subject</label>
+                <label className="text-xs text-zinc-400 block mb-1">Subject</label>
                 <Input
-                  type="text"
+                  placeholder="Conversation subject"
                   value={newSubject}
                   onChange={(e) => setNewSubject(e.target.value)}
-                  placeholder="Conversation subject"
                   className="bg-black border-neutral-800 text-white placeholder:text-zinc-600"
                 />
               </div>
-              <div className="flex justify-end gap-2 pt-2">
-                <Button variant="ghost" onClick={() => setShowNewConversation(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleCreateConversation} disabled={creatingConversation} className="bg-emerald-500 hover:bg-emerald-600 text-white">
-                  Start Conversation
-                </Button>
-              </div>
+              <Button
+                onClick={handleCreateConversation}
+                disabled={creatingConversation}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+              >
+                {creatingConversation ? 'Starting...' : 'Start Conversation'}
+              </Button>
             </div>
           </div>
         </div>

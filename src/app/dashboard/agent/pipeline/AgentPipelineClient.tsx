@@ -4,7 +4,7 @@ import AppIcon from '@/components/icons/app-icon'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Plus, DollarSign, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical, MoreVertical, ArrowRight } from 'lucide-react'
+import { Search, Filter, Plus, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical, MoreVertical, ArrowRight, LayoutKanban, DollarSign } from 'lucide-react'
 import { StatCard } from '@/components/ui/stat-card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -41,6 +41,18 @@ const STAGE_COLORS: Record<string, string> = {
 }
 
 const STAGE_ORDER = ['enquiries', 'viewings', 'offers', 'agreements', 'closed']
+
+function NairaIcon({ size = 16, className, style }: { size?: number; className?: string; style?: React.CSSProperties }) {
+  return (
+    <span
+      className={cn('inline-flex items-center justify-center rounded-md font-bold', className)}
+      style={{ background: 'rgba(16,185,129,0.12)', color: '#10b981', width: size, height: size, fontSize: size * 0.85, ...style }}
+      aria-hidden="true"
+    >
+      ₦
+    </span>
+  )
+}
 
 export default function AgentPipelineClient({ initialData }: { initialData: { stages: Stage[]; stats: { totalValue: number; enquiries: number; viewings: number; offers: number; closed: number }; trend?: string | null; trendPositive?: boolean } }) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -82,22 +94,27 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
     alert(`Move deal ${dealId} to ${toStage?.title || toStageId}`)
   }
 
+  const isFiltered = stageFilter !== 'all'
+
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-full overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="font-headline-sm font-bold" style={{ fontSize: 'font-headline-sm', color: '#ffffff' }}>
-            Deal Pipeline
-          </h1>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500 mt-1">
-            Track deals across enquiries, viewings, offers, agreements, and closed
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default">
-            <Plus className="w-4 h-4 mr-2" /> New Deal
-          </Button>
+      <div className="rounded-xl border border-white/[0.08] bg-black/40 p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-emerald-500/10 p-2">
+              <LayoutKanban className="h-5 w-5 text-emerald-400" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-white">Deal Pipeline</h1>
+              <p className="text-xs text-gray-400 tracking-wider mt-0.5">TRACK DEALS ACROSS ENQUIRIES, VIEWINGS, OFFERS, AGREEMENTS, AND CLOSED</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="default">
+              <Plus className="w-4 h-4 mr-2" /> New Deal
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -141,28 +158,54 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
         <StatCard
           label="Total Value"
           value={initialData.stats.totalValue > 0 ? `₦${(initialData.stats.totalValue / 1_000_000).toFixed(1)}M` : 'Value unassigned'}
-          icon={DollarSign}
+          icon={NairaIcon}
           trend={initialData.trend ? 'up' : 'flat'}
-          trendValue={initialData.trend || undefined}
+          trendValue={initialData.trend || null}
         />
-        <StatCard label="Enquiries" value={String(initialData.stats.enquiries)} icon={Mail} />
-        <StatCard label="Viewings" value={String(initialData.stats.viewings)} icon={Eye} />
-        <StatCard label="Offers" value={String(initialData.stats.offers)} icon={DollarSign} />
-        <StatCard
-          label="Closed"
-          value={String(initialData.stats.closed)}
-          icon={CheckCircle}
-          trend={initialData.trendPositive ? 'up' : 'flat'}
-          trendValue={initialData.trend ?? null}
-        />
+        <button type="button" onClick={() => setStageFilter(stageFilter === 'enquiries' ? 'all' : 'enquiries')} className="text-left">
+          <StatCard
+            label="Enquiries"
+            value={String(initialData.stats.enquiries)}
+            icon={Mail}
+            accentColor={isFiltered && stageFilter === 'enquiries' ? '#3b82f6' : undefined}
+            className={isFiltered && stageFilter === 'enquiries' ? 'ring-1 ring-blue-500/60' : ''}
+          />
+        </button>
+        <button type="button" onClick={() => setStageFilter(stageFilter === 'viewings' ? 'all' : 'viewings')} className="text-left">
+          <StatCard
+            label="Viewings"
+            value={String(initialData.stats.viewings)}
+            icon={Eye}
+            accentColor={isFiltered && stageFilter === 'viewings' ? '#f59e0b' : undefined}
+            className={isFiltered && stageFilter === 'viewings' ? 'ring-1 ring-amber-500/60' : ''}
+          />
+        </button>
+        <button type="button" onClick={() => setStageFilter(stageFilter === 'offers' ? 'all' : 'offers')} className="text-left">
+          <StatCard
+            label="Offers"
+            value={String(initialData.stats.offers)}
+            icon={DollarSign}
+            accentColor={isFiltered && stageFilter === 'offers' ? '#10b981' : undefined}
+            className={isFiltered && stageFilter === 'offers' ? 'ring-1 ring-emerald-500/60' : ''}
+          />
+        </button>
+        <button type="button" onClick={() => setStageFilter(stageFilter === 'closed' ? 'all' : 'closed')} className="text-left">
+          <StatCard
+            label="Closed"
+            value={String(initialData.stats.closed)}
+            icon={CheckCircle}
+            accentColor={isFiltered && stageFilter === 'closed' ? '#10b981' : undefined}
+            className={isFiltered && stageFilter === 'closed' ? 'ring-1 ring-emerald-500/60' : ''}
+          />
+        </button>
       </div>
 
       {/* Kanban */}
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="w-full overflow-x-auto pb-4">
         {visibleStages.map((stage) => {
           const stageIndex = STAGE_ORDER.indexOf(stage.id)
           const nextStageId = stageIndex >= 0 && stageIndex < STAGE_ORDER.length - 1 ? STAGE_ORDER[stageIndex + 1] : null
-          const nextStageTitle = nextStageId ? initialData.stages.find((s) => s.id === nextStageId)?.title : null
+          const nextStageTitle = nextStageId ? initialData.stages.find((s) => s.id === nextStageId)?.title ?? null : null
           return (
             <PipelineColumn key={stage.id} stage={stage} deals={getDealsForStage(stage.id)} color={STAGE_COLORS[stage.id] || 'var(--accent)'} nextStageTitle={nextStageTitle} onMoveStage={handleMoveStage} />
           )
@@ -174,16 +217,16 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
 
 function PipelineColumn({ stage, deals, color, nextStageTitle, onMoveStage }: { stage: Stage; deals: Deal[]; color: string; nextStageTitle: string | null; onMoveStage: (dealId: string, fromStageId: string) => void }) {
   return (
-    <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '320px' }}>
+    <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '280px' }}>
       <div className="glass-card h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-white/[0.08] rounded-xl">
-        <div className="px-6 py-5 border-b border-white/[0.08] pb-3" style={{ background: `${color}15` }}>
+        <div className="px-4 py-4 border-b border-white/[0.08]" style={{ background: `${color}15` }}>
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white text-base" style={{ color }}>{stage.title}</h3>
+            <h3 className="text-sm font-semibold text-white" style={{ color }}>{stage.title}</h3>
             <Badge variant="secondary" className="text-xs font-bold" style={{ background: color, color: 'white' }}>{deals.length}</Badge>
           </div>
         </div>
-        <div className="p-6 flex-1 p-0">
-          <div className="p-3 space-y-3 min-h-[400px]" style={{ background: 'rgba(10,10,10,0.3)' }}>
+        <div className="p-4 flex-1">
+          <div className="space-y-3 min-h-[400px]">
             {deals.length === 0 ? (
               <div className="h-32 flex flex-col items-center justify-center gap-2" style={{ border: '2px dashed #262626', borderRadius: '0.75rem' }}>
                 <span className="text-xs text-zinc-500">No deals in this stage</span>
@@ -208,8 +251,8 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
     <div
       className="p-3 rounded-xl cursor-pointer transition-all group"
       style={{
-        background: 'bg-zinc-950/50',
-        border: '1px solid border-white/[0.08]',
+        background: 'rgba(10,10,10,0.5)',
+        border: '1px solid rgba(255,255,255,0.08)',
         boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
       }}
       onClick={() => setExpanded(!expanded)}

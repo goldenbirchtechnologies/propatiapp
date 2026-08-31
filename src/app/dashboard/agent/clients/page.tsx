@@ -77,47 +77,73 @@ export default async function Page() {
       tenantId: true,
       landlordId: true,
       updatedAt: true,
-      listing: { select: { price: true, listingType: true } },
+      type: true,
+      agent: { select: { fullName: true } },
+      listing: { select: { price: true, listingType: true, title: true, address: true } },
     },
     take: 500,
   });
 
-  const userAgreementMap = new Map<string, { count: number; lastContact: string; value: number }>();
+  const userAgreementMap = new Map<string, { count: number; lastContact: string; value: number; types: Set<string>; agentName: string | null; properties: { title: string; address: string }[] }>();
   for (const a of agreements) {
     const ids = [a.tenantId, a.landlordId].filter(Boolean) as string[];
     for (const id of ids) {
       const existing = userAgreementMap.get(id);
       const value = Number(a.listing?.price || 0);
       const updated = a.updatedAt.toISOString();
+      const types = existing?.types || new Set<string>();
+      if (a.type) types.add(a.type);
+      const properties = existing?.properties || [];
+      if (a.listing?.title || a.listing?.address) {
+        properties.push({ title: a.listing.title || '', address: a.listing.address || '' });
+      }
+      const agentName = a.agent?.fullName || existing?.agentName || null;
       if (!existing) {
-        userAgreementMap.set(id, { count: 1, lastContact: updated, value });
+        userAgreementMap.set(id, { count: 1, lastContact: updated, value, types, agentName, properties });
       } else {
         userAgreementMap.set(id, {
           count: existing.count + 1,
           lastContact: updated > existing.lastContact ? updated : existing.lastContact,
           value: existing.value + value,
+          types,
+          agentName: agentName || existing.agentName,
+          properties,
         });
       }
     }
   }
 
-  const now = new Date();
+  const resolveClientType = (role: string, userId: string): string => {
+    const data = userAgreementMap.get(userId);
+    const types = data?.types;
+    if (role === 'landlord') {
+      if (types && types.has('sale')) return 'Seller';
+      if (types && (types.has('rental') || types.has('short_let') || types.has('share'))) return 'Landlord';
+      return 'Seller';
+    }
+    if (types && types.has('sale')) return 'Buyer';
+    if (types && (types.has('rental') || types.has('short_let') || types.has('share'))) return 'Renter';
+    return 'Buyer';
+  };
+
   const initialClients = relatedUsers.map((u) => {
-    const agreementData = userAgreementMap.get(u.id) || { count: 0, lastContact: u.updatedAt.toISOString(), value: 0 };
-    const type = u.role === 'landlord' ? 'Landlord' : 'Renter';
+    const agreementData = userAgreementMap.get(u.id) || { count: 0, lastContact: u.updatedAt.toISOString(), value: 0, types: new Set(), agentName: null, properties: [] };
+    const type = resolveClientType(u.role, u.id);
     return {
       id: u.id,
       name: u.fullName,
       phone: u.phone || 'N/A',
       email: u.email,
       avatarUrl: u.avatarUrl,
-      type,
+      type: type as any,
       minBudget: 0,
       maxBudget: agreementData.value,
       lastContact: agreementData.lastContact,
       createdAt: u.createdAt.toISOString(),
       dealsCount: agreementData.count,
       managedValue: agreementData.value,
+      assignedAgent: agreementData.agentName,
+      linkedProperties: agreementData.properties,
     };
   });
 

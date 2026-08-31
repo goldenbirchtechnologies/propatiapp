@@ -40,16 +40,18 @@ interface Client {
   phone: string;
   email: string;
   avatarUrl: string | null;
-  type: 'Landlord' | 'Renter' | 'Buyer';
+  type: 'Landlord' | 'Renter' | 'Buyer' | 'Seller';
   minBudget: number;
   maxBudget: number;
   lastContact: string;
   createdAt: string;
   dealsCount: number;
   managedValue: number;
+  assignedAgent: string | null;
+  linkedProperties: { title: string; address: string }[];
 }
 
-type ClientFilter = 'all' | 'Landlord' | 'Renter' | 'Buyer';
+type ClientFilter = 'all' | 'Landlord' | 'Renter' | 'Buyer' | 'Seller';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface AgentClientsClientProps {
@@ -132,6 +134,10 @@ function ClientRow({ client }: { client: Client }) {
       icon: <Building2 className="h-3 w-3" />,
       className: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]',
     },
+    Seller: {
+      icon: <Building2 className="h-3 w-3" />,
+      className: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]',
+    },
     Buyer: {
       icon: <ShoppingBag className="h-3 w-3" />,
       className: 'bg-blue-500/10 text-blue-400 border border-white/[0.08]',
@@ -186,11 +192,24 @@ function ClientRow({ client }: { client: Client }) {
               {client.phone}
             </span>
           </div>
+          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-500">
+            {client.assignedAgent && (
+              <span className="flex items-center gap-1 truncate">
+                Agent: {client.assignedAgent}
+              </span>
+            )}
+            {client.linkedProperties.length > 0 && (
+              <span className="flex items-center gap-1 truncate">
+                {client.linkedProperties[0].title || client.linkedProperties[0].address || 'Linked property'}
+                {client.linkedProperties.length > 1 && ` +${client.linkedProperties.length - 1}`}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Contextual financial / portfolio info */}
         <div className="text-right hidden xl:block flex-shrink-0" style={{ minWidth: 140 }}>
-          {client.type === 'Landlord' ? (
+          {client.type === 'Landlord' || client.type === 'Seller' ? (
             <>
               <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Portfolio</p>
               <p className="text-sm font-medium text-white">
@@ -200,16 +219,14 @@ function ClientRow({ client }: { client: Client }) {
                 <p className="text-xs text-zinc-500">{formatNaira(client.managedValue)} value</p>
               )}
             </>
-          ) : client.minBudget > 0 || client.maxBudget > 0 ? (
+          ) : client.dealsCount > 0 ? (
             <>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Budget</p>
-              <p className="text-sm font-medium text-white">
-                {formatNaira(client.minBudget)} – {formatNaira(client.maxBudget)}
-              </p>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Active Deals</p>
+              <p className="text-sm font-medium text-white">{client.dealsCount}</p>
             </>
           ) : (
             <>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Budget</p>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Status</p>
               <Badge variant="outline" className="border-white/10 text-zinc-500 text-xs">Unset</Badge>
             </>
           )}
@@ -236,6 +253,7 @@ function ClientRow({ client }: { client: Client }) {
             variant="ghost"
             className="h-8 px-2 text-xs gap-1"
             asChild
+            title="Message client"
           >
             <Link href={`/dashboard/agent/messages?recipientId=${client.id}`}>
               <MessageSquare className="w-3.5 h-3.5" />
@@ -247,6 +265,7 @@ function ClientRow({ client }: { client: Client }) {
             variant="ghost"
             className="h-8 px-2 text-xs gap-1"
             asChild
+            title="View client details"
           >
             <Link href={`/dashboard/agent/pipeline?clientId=${client.id}`}>
               <Eye className="w-3.5 h-3.5" />
@@ -260,6 +279,7 @@ function ClientRow({ client }: { client: Client }) {
                 variant="ghost"
                 className="h-8 w-8 p-0"
                 aria-label="More actions"
+                title="More actions"
               >
                 <MoreVertical className="w-4 h-4 text-zinc-500" />
               </Button>
@@ -327,11 +347,13 @@ export default function AgentClientsClient({
   // Derived stats
   const total = clients.length;
   const landlords = clients.filter((c) => c.type === 'Landlord').length;
+  const sellers = clients.filter((c) => c.type === 'Seller').length;
   const renters = clients.filter((c) => c.type === 'Renter').length;
   const buyers = clients.filter((c) => c.type === 'Buyer').length;
 
   const activeTypes: ClientFilter[] = ['all'];
   if (landlords > 0) activeTypes.push('Landlord');
+  if (sellers > 0) activeTypes.push('Seller');
   if (renters > 0) activeTypes.push('Renter');
   if (buyers > 0) activeTypes.push('Buyer');
 
@@ -343,6 +365,7 @@ export default function AgentClientsClient({
   const counts: Record<ClientFilter, number> = {
     all: total,
     Landlord: landlords,
+    Seller: sellers,
     Renter: renters,
     Buyer: buyers,
   };
@@ -374,9 +397,9 @@ export default function AgentClientsClient({
       {/* Stats grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <ClientStatCard label="Total Clients" value={total} icon={<Users className="w-5 h-5" />} />
+        <ClientStatCard label="Sellers" value={sellers} icon={<Building2 className="w-5 h-5" />} />
         <ClientStatCard label="Buyers" value={buyers} icon={<ShoppingBag className="w-5 h-5" />} />
         <ClientStatCard label="Renters" value={renters} icon={<HomeIcon className="w-5 h-5" />} />
-        <ClientStatCard label="Landlords" value={landlords} icon={<Building2 className="w-5 h-5" />} />
       </div>
 
       {/* Filters */}

@@ -4,7 +4,7 @@ import AppIcon from '@/components/icons/app-icon'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Plus, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical, MoreVertical, ArrowRight, LayoutKanban, DollarSign } from 'lucide-react'
+import { Search, Filter, Plus, Eye, Mail, Phone, MapPin, Edit, CheckCircle, GripVertical, MoreVertical, ArrowRight, Kanban, DollarSign } from 'lucide-react'
 import { StatCard } from '@/components/ui/stat-card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -103,7 +103,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-start gap-3">
             <div className="rounded-lg bg-emerald-500/10 p-2">
-              <LayoutKanban className="h-5 w-5 text-emerald-400" />
+              <Kanban className="h-5 w-5 text-emerald-400" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">Deal Pipeline</h1>

@@ -526,6 +526,7 @@ export function DashboardShell({
   orgName,
   shellLoading = false,
   quickAction,
+  hideGlobalSearch = false,
 }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();

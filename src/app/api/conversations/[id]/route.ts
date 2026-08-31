@@ -165,10 +165,9 @@ export async function DELETE(
     });
     if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
 
-    const participants = (() => {
-      try { return JSON.parse((conversation as any).participants || '[]'); }
-      catch { return []; }
-    })();
+    const participants = Array.isArray((conversation as any).participants)
+      ? ((conversation as any).participants as Array<{ userId?: string }>)
+      : [];
     const isAuthorized =
       conversation.landlordId === user.id ||
       conversation.tenantId === user.id ||

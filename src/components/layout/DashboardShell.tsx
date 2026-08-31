@@ -35,6 +35,7 @@ interface DashboardShellProps {
   orgName?: string | null;
   shellLoading?: boolean;
   quickAction?: { href: string; label: string; icon?: React.ReactNode };
+  hideGlobalSearch?: boolean;
 }
 function StatCardSkeleton() {
   return (
@@ -762,7 +763,7 @@ export function DashboardShell({
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
-          <GlobalSearch userRole={userRole} />
+          {!hideGlobalSearch && <GlobalSearch userRole={userRole} />}
 
           <div className="flex items-center gap-2 sm:gap-3 ml-auto">
             <button

@@ -71,6 +71,7 @@ export default async function AgentPropertiesPage() {
             },
           },
           isListed: true,
+          organizationId: true,
         },
       },
       assignments: {
@@ -128,6 +129,7 @@ export default async function AgentPropertiesPage() {
         status: unit.status,
         occupancy: unit.occupancy,
         isListed: unit.isListed,
+        organizationId: unit.organizationId,
         currentTenant: unit.currentTenant,
       })),
     };
@@ -139,9 +141,10 @@ export default async function AgentPropertiesPage() {
       userRole={user.role}
       userName={user.fullName}
       userAvatar={user.avatarUrl || undefined}
+      hideGlobalSearch
     >
       <ErrorBoundary>
-        <AgentPropertiesClient listings={normalized} />
+        <AgentPropertiesClient listings={normalized} userRole={user.role} />
       </ErrorBoundary>
     </DashboardShell>
   );

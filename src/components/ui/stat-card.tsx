@@ -8,7 +8,7 @@ interface StatCardProps {
   value: string
   sub?: string
   trend?: "up" | "down" | "flat"
-  trendValue?: string
+  trendValue?: string | null | undefined
   icon?: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>
   accentColor?: string
   className?: string

@@ -21,6 +21,7 @@ export default async function Page() {
       tenantId: true,
       listingId: true,
       unreadCounts: true,
+      updatedAt: true,
     },
     take: 100,
   });
@@ -55,23 +56,68 @@ export default async function Page() {
       id: true,
       fullName: true,
       phone: true,
+      email: true,
+      avatarUrl: true,
       role: true,
       createdAt: true,
+      updatedAt: true,
     },
   });
 
+  // Get agreement/deal counts and last contact timestamps for related users
+  const agreements = await prisma.agreement.findMany({
+    where: {
+      OR: [
+        { tenantId: { in: Array.from(relatedUserIds) } },
+        { landlordId: { in: Array.from(relatedUserIds) } },
+      ],
+      status: { not: 'draft' },
+    },
+    select: {
+      tenantId: true,
+      landlordId: true,
+      updatedAt: true,
+      listing: { select: { price: true, listingType: true } },
+    },
+    take: 500,
+  });
+
+  const userAgreementMap = new Map<string, { count: number; lastContact: string; value: number }>();
+  for (const a of agreements) {
+    const ids = [a.tenantId, a.landlordId].filter(Boolean) as string[];
+    for (const id of ids) {
+      const existing = userAgreementMap.get(id);
+      const value = Number(a.listing?.price || 0);
+      const updated = a.updatedAt.toISOString();
+      if (!existing) {
+        userAgreementMap.set(id, { count: 1, lastContact: updated, value });
+      } else {
+        userAgreementMap.set(id, {
+          count: existing.count + 1,
+          lastContact: updated > existing.lastContact ? updated : existing.lastContact,
+          value: existing.value + value,
+        });
+      }
+    }
+  }
+
   const now = new Date();
   const initialClients = relatedUsers.map((u) => {
-    const monthsSince = (now.getFullYear() - new Date(u.createdAt).getFullYear()) * 12 + (now.getMonth() - new Date(u.createdAt).getMonth());
+    const agreementData = userAgreementMap.get(u.id) || { count: 0, lastContact: u.updatedAt.toISOString(), value: 0 };
+    const type = u.role === 'landlord' ? 'Landlord' : 'Renter';
     return {
       id: u.id,
       name: u.fullName,
       phone: u.phone || 'N/A',
-      type: u.role === 'landlord' ? 'Seller' : 'Buyer',
+      email: u.email,
+      avatarUrl: u.avatarUrl,
+      type,
       minBudget: 0,
-      maxBudget: 0,
-      lastContact: new Date().toISOString(),
+      maxBudget: agreementData.value,
+      lastContact: agreementData.lastContact,
       createdAt: u.createdAt.toISOString(),
+      dealsCount: agreementData.count,
+      managedValue: agreementData.value,
     };
   });
 

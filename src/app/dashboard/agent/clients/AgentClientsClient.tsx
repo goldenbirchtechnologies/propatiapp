@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { cn, formatCurrency } from '@/lib/utils';
+import { cn, formatNaira } from '@/lib/utils';
 import {
   Users,
   Plus,
@@ -13,10 +13,22 @@ import {
   CheckCircle2,
   ShoppingBag,
   Home as HomeIcon,
+  MoreVertical,
+  MessageSquare,
+  FileText,
+  Archive,
+  Edit,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { FailureState } from '@/components/feedback/FailureState';
 import { LoadingState } from '@/components/feedback/LoadingState';
 import Link from 'next/link';
@@ -26,14 +38,18 @@ interface Client {
   id: string;
   name: string;
   phone: string;
-  type: string;
+  email: string;
+  avatarUrl: string | null;
+  type: 'Landlord' | 'Renter' | 'Buyer';
   minBudget: number;
   maxBudget: number;
   lastContact: string;
   createdAt: string;
+  dealsCount: number;
+  managedValue: number;
 }
 
-type ClientFilter = 'all' | 'Buyer' | 'Renter';
+type ClientFilter = 'all' | 'Landlord' | 'Renter' | 'Buyer';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface AgentClientsClientProps {
@@ -111,86 +127,188 @@ function EmptyClientsState({ onAdd }: { onAdd: () => void }) {
 
 // ─── Client Row ───────────────────────────────────────────────────────────────
 function ClientRow({ client }: { client: Client }) {
+  const typeConfig: Record<string, { icon: React.ReactNode; className: string }> = {
+    Landlord: {
+      icon: <Building2 className="h-3 w-3" />,
+      className: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]',
+    },
+    Buyer: {
+      icon: <ShoppingBag className="h-3 w-3" />,
+      className: 'bg-blue-500/10 text-blue-400 border border-white/[0.08]',
+    },
+    Renter: {
+      icon: <HomeIcon className="h-3 w-3" />,
+      className: 'bg-zinc-800 text-zinc-300 border border-white/[0.08]',
+    },
+  };
+
+  const config = typeConfig[client.type] || typeConfig.Renter;
+  const lastContactDate = new Date(client.lastContact);
+  const contactRelative = getRelativeTime(lastContactDate);
+
   return (
     <div className="glass-card p-5">
       <div className="flex items-center gap-4">
         {/* Avatar */}
         <div
-          className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
-          style={{ background: 'bg-[#00ff66]/10', color: 'text-white' }}
+          className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold text-white"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
+          }}
         >
-          <Users className="h-4 w-4" />
+          {client.avatarUrl ? (
+            <img src={client.avatarUrl} alt={client.name} className="h-full w-full rounded-full object-cover" />
+          ) : (
+            client.name.charAt(0).toUpperCase()
+          )}
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-white">
-            {client.name}
-          </p>
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">
-            {client.phone}
-          </p>
+          <div className="flex items-center gap-2 min-w-0">
+            <p className="text-sm font-medium text-white truncate">
+              {client.name}
+            </p>
+            <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium flex-shrink-0', config.className)}>
+              {config.icon}
+              {client.type}
+            </span>
+          </div>
+          <div className="flex items-center gap-3 mt-1 text-xs text-zinc-500">
+            {client.email && (
+              <span className="flex items-center gap-1 truncate">
+                <Mail className="h-3 w-3" />
+                {client.email}
+              </span>
+            )}
+            <span className="flex items-center gap-1">
+              <Phone className="h-3 w-3" />
+              {client.phone}
+            </span>
+          </div>
         </div>
 
-        {/* Type badge */}
-        <span
-          className={cn(
-            'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0',
-            client.type === 'Buyer'
-              ? 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]'
-              : 'bg-zinc-900 text-zinc-300 border border-white/[0.08]'
+        {/* Contextual financial / portfolio info */}
+        <div className="text-right hidden xl:block flex-shrink-0" style={{ minWidth: 140 }}>
+          {client.type === 'Landlord' ? (
+            <>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Portfolio</p>
+              <p className="text-sm font-medium text-white">
+                {client.dealsCount > 0 ? `${client.dealsCount} Managed Unit${client.dealsCount === 1 ? '' : 's'}` : 'No units'}
+              </p>
+              {client.managedValue > 0 && (
+                <p className="text-xs text-zinc-500">{formatNaira(client.managedValue)} value</p>
+              )}
+            </>
+          ) : client.minBudget > 0 || client.maxBudget > 0 ? (
+            <>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Budget</p>
+              <p className="text-sm font-medium text-white">
+                {formatNaira(client.minBudget)} – {formatNaira(client.maxBudget)}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Budget</p>
+              <Badge variant="outline" className="border-white/10 text-zinc-500 text-xs">Unset</Badge>
+            </>
           )}
-        >
-          {client.type}
-        </span>
+        </div>
 
-        {/* Budget */}
-        <div className="text-right hidden md:block flex-shrink-0">
-          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Budget</p>
-          <p className="text-sm font-medium text-white">
-            {formatCurrency(client.minBudget)} – {formatCurrency(client.maxBudget)}
-          </p>
+        {/* Deals count */}
+        <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 100 }}>
+          <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Deals</p>
+          <p className="text-sm font-medium text-white">{client.dealsCount}</p>
         </div>
 
         {/* Last contact */}
-        <div className="text-right hidden lg:block flex-shrink-0" style={{ minWidth: 90 }}>
+        <div className="text-right hidden 2xl:block flex-shrink-0" style={{ minWidth: 110 }}>
           <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Last Contact</p>
-          <p className="text-sm text-white">
-            {new Date(client.lastContact).toLocaleDateString('en-NG', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
+          <p className="text-sm text-white" title={lastContactDate.toISOString()}>
+            {contactRelative}
           </p>
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-1 flex-shrink-0">
-          <Link
-            href={`tel:${client.phone}`}
-            className="p-2 rounded-md hover:bg-[#171717]/50"
-            title="Call"
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-8 px-2 text-xs gap-1"
+            asChild
           >
-            <Phone className="w-4 h-4 text-zinc-500" />
-          </Link>
-          <Link
-            href={`mailto:${client.name.replace(/\s+/g, '.').toLowerCase()}@example.com`}
-            className="p-2 rounded-md hover:bg-[#171717]/50"
-            title="Email"
+            <Link href={`/dashboard/agent/messages?recipientId=${client.id}`}>
+              <MessageSquare className="w-3.5 h-3.5" />
+              Message
+            </Link>
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-8 px-2 text-xs gap-1"
+            asChild
           >
-            <Mail className="w-4 h-4 text-zinc-500" />
-          </Link>
-          <Link
-            href={`/dashboard/agent/pipeline?clientId=${client.id}`}
-            className="p-2 rounded-md hover:bg-[#171717]/50"
-            title="View Deal"
-          >
-            <Eye className="w-4 h-4 text-zinc-500" />
-          </Link>
+            <Link href={`/dashboard/agent/pipeline?clientId=${client.id}`}>
+              <Eye className="w-3.5 h-3.5" />
+              View
+            </Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-8 w-8 p-0"
+                aria-label="More actions"
+              >
+                <MoreVertical className="w-4 h-4 text-zinc-500" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem asChild>
+                <Link href={`tel:${client.phone}`} className="gap-2">
+                  <Phone className="w-3.5 h-3.5" />
+                  Call
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`mailto:${client.email}`} className="gap-2">
+                  <Mail className="w-3.5 h-3.5" />
+                  Email
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`/dashboard/agent/clients/${client.id}`} className="gap-2">
+                  <FileText className="w-3.5 h-3.5" />
+                  Details
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="gap-2 text-zinc-400">
+                <Edit className="w-3.5 h-3.5" />
+                Edit Client
+              </DropdownMenuItem>
+              <DropdownMenuItem className="gap-2 text-zinc-400">
+                <Archive className="w-3.5 h-3.5" />
+                Archive
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
   );
+}
+
+function getRelativeTime(date: Date): string {
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const days = Math.floor(diff / 86400000);
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  if (days < 7) return `${days} days ago`;
+  if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
+  return date.toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 // ─── Main Client Component ────────────────────────────────────────────────────
@@ -200,7 +318,6 @@ export default function AgentClientsClient({
 }: AgentClientsClientProps) {
   const [clients] = useState(initialClients);
   const [error, setError] = useState<Error | null>(null);
-  const [filter, setFilter] = useState<ClientFilter>('all');
 
   const retry = useCallback(() => {
     setError(null);
@@ -209,11 +326,26 @@ export default function AgentClientsClient({
 
   // Derived stats
   const total = clients.length;
-  const buyers = clients.filter((c) => c.type === 'Buyer').length;
+  const landlords = clients.filter((c) => c.type === 'Landlord').length;
   const renters = clients.filter((c) => c.type === 'Renter').length;
+  const buyers = clients.filter((c) => c.type === 'Buyer').length;
+
+  const activeTypes: ClientFilter[] = ['all'];
+  if (landlords > 0) activeTypes.push('Landlord');
+  if (renters > 0) activeTypes.push('Renter');
+  if (buyers > 0) activeTypes.push('Buyer');
+
+  const [filter, setFilter] = useState<ClientFilter>('all');
 
   const filtered =
     filter === 'all' ? clients : clients.filter((c) => c.type === filter);
+
+  const counts: Record<ClientFilter, number> = {
+    all: total,
+    Landlord: landlords,
+    Renter: renters,
+    Buyer: buyers,
+  };
 
   if (error) {
     return (
@@ -244,7 +376,7 @@ export default function AgentClientsClient({
         <ClientStatCard label="Total Clients" value={total} icon={<Users className="w-5 h-5" />} />
         <ClientStatCard label="Buyers" value={buyers} icon={<ShoppingBag className="w-5 h-5" />} />
         <ClientStatCard label="Renters" value={renters} icon={<HomeIcon className="w-5 h-5" />} />
-        <ClientStatCard label="Active" value={total} icon={<CheckCircle2 className="w-5 h-5" />} />
+        <ClientStatCard label="Landlords" value={landlords} icon={<Building2 className="w-5 h-5" />} />
       </div>
 
       {/* Filters */}
@@ -254,7 +386,7 @@ export default function AgentClientsClient({
             <Building2 className="w-3.5 h-3.5 inline mr-1" />
             Filter
           </span>
-          {(['all', 'Buyer', 'Renter'] as ClientFilter[]).map((f) => (
+          {activeTypes.map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -271,7 +403,7 @@ export default function AgentClientsClient({
                   variant="secondary"
                   className="ml-2 text-xs px-1.5 py-0 min-w-[20px]"
                 >
-                  {f === 'Buyer' ? buyers : renters}
+                  {counts[f]}
                 </Badge>
               )}
             </button>
@@ -281,7 +413,6 @@ export default function AgentClientsClient({
 
       {/* List */}
       <div className="space-y-3">
-        {/* Skeleton is shown only on the very first load, controlled by parent page.tsx */}
         {clients.length === 0 ? (
           <EmptyClientsState onAdd={() => {}} />
         ) : filtered.length === 0 ? (

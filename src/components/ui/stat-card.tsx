@@ -1,5 +1,6 @@
 import * as React from "react"
 import { TrendingUp, TrendingDown, Minus } from "lucide-react"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 
@@ -12,6 +13,7 @@ interface StatCardProps {
   icon?: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>
   accentColor?: string
   className?: string
+  href?: string
 }
 
 function StatCard({
@@ -23,11 +25,12 @@ function StatCard({
   icon: Icon,
   accentColor = "#10b981",
   className,
+  href,
 }: StatCardProps) {
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus
   const trendColor = trend === "up" ? "text-emerald-400" : trend === "down" ? "text-red-400" : "text-zinc-400"
 
-  return (
+  const content = (
     <div className={cn("glass-card p-5 flex flex-col gap-3 hover:border-white/15 transition-colors", className)}>
       <div className="flex items-start justify-between">
         <span className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{label}</span>
@@ -54,6 +57,16 @@ function StatCard({
       )}
     </div>
   )
+
+  if (href) {
+    return (
+      <Link href={href} className="block no-underline">
+        {content}
+      </Link>
+    )
+  }
+
+  return content
 }
 
 export { StatCard }

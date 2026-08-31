@@ -25,7 +25,9 @@ export default async function AgentDashboardPage() {
   };
 
   const today = new Date().toISOString().slice(0, 10);
-  const monthStart = new Date(Date.utcFullYear(new Date()), new Date().getUTCMonth(), 1).toISOString().slice(0, 10);
+  const monthStart = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1))
+    .toISOString()
+    .slice(0, 10);
 
   const [
     managedProperties,
@@ -49,7 +51,7 @@ export default async function AgentDashboardPage() {
     prisma.agentInvite.count({ where: { email: user.email, status: 'pending' } }),
     prisma.unit.count({ where: { listing: agentListingFilter } }),
     prisma.unit.count({ where: { listing: agentListingFilter, occupancy: 'VACANT' } }),
-    prisma.conversation.count({ where: { agentId: user.id, messages: { some: {} } } }),
+    prisma.conversation.count({ where: { agentId: user.id } }),
     prisma.listing.count({ where: { ...agentListingFilter, listingType: 'sale' } }),
     prisma.application.count({
       where: {
@@ -84,7 +86,11 @@ export default async function AgentDashboardPage() {
         address: true,
         listingType: true,
         price: true,
-        coverImage: true,
+        images: {
+          where: { isCover: true },
+          take: 1,
+          select: { url: true },
+        },
         units: {
           select: {
             id: true,
@@ -152,7 +158,7 @@ export default async function AgentDashboardPage() {
           address: l.address,
           listingType: l.listingType,
           price: toNumber(l.price),
-          coverImage: l.coverImage,
+          coverImage: l.images?.[0]?.url || null,
           unitCount: l.units.length,
           vacantCount: l.units.filter((u) => u.occupancy === 'VACANT').length,
           occupiedCount: l.units.filter((u) => u.occupancy === 'OCCUPIED').length,

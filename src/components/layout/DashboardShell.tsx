@@ -258,13 +258,13 @@ function LoadingShell() {
       className="app-layout"
       aria-busy="true"
       aria-label="Loading dashboard"
-      style={{
+      style={({
         minHeight: '100vh',
         '--text': '#f8f6f0',
         '--muted': 'rgba(255,255,255,0.65)',
         '--surface-elevated': '#093057',
         '--border': 'rgba(255,255,255,0.18)',
-      }}
+      } as React.CSSProperties)}
     >
       {/* Skeleton sidebar */}
       <aside
@@ -752,7 +752,7 @@ export function DashboardShell({
       <main className="main-area">
         <header className="topbar" style={{ background: '#09090b', borderBottom: '1px solid rgba(255,255,255,0.07)', height: 56 }}>
           <button
-            className="md:hidden p-2 rounded-lg bg-surface-elevated text-foreground"
+            className="lg:hidden p-2 rounded-lg bg-surface-elevated text-foreground"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open menu"
           >

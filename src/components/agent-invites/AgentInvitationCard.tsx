@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { AgentInvite } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
+import { CheckCircle2 } from 'lucide-react';
 
 type Props = {
   email: string;
@@ -72,8 +73,13 @@ export default function AgentInvitationCard({ email }: Props) {
       {pending.map((invite) => (
         <Card key={invite.id} className="p-6 border-primary/20">
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="font-semibold text-emerald-400">Invitation from {invite.sender?.fullName || 'a landlord'}</p>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 min-w-0">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                <p className="font-semibold text-emerald-400 truncate" title={invite.sender?.fullName || 'a landlord'}>
+                  Invitation from {invite.sender?.fullName || 'a landlord'}
+                </p>
+              </div>
               <p className="text-sm text-zinc-400 mt-1">
                 {invite.sender?.fullName || 'A landlord'} invited you to manage their listings. Accepting this will add you as their agent.
               </p>
@@ -81,7 +87,7 @@ export default function AgentInvitationCard({ email }: Props) {
                 Sent {new Date(invite.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <Badge variant="secondary">pending</Badge>
               <Button
                 onClick={() => accept(invite.id)}

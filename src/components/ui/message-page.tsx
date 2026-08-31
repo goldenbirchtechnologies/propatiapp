@@ -388,12 +388,12 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                       <Mail className="w-4 h-4 text-emerald-400" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center justify-between gap-2 min-w-0">
                         <p className="text-white text-sm font-medium truncate">
                           {inv.sender?.fullName || inv.email || 'Invitation'}
                         </p>
                         {inv.status && (
-                          <span className="rounded-full px-2 py-0 text-[10px] font-medium bg-zinc-900 text-zinc-300 border border-white/10">
+                          <span className="rounded-full px-2 py-0 text-[10px] font-medium bg-zinc-900 text-zinc-300 border border-white/10 flex-shrink-0">
                             {inv.status}
                           </span>
                         )}
@@ -527,6 +527,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 </div>
               </div>
             </>
+          ) : showInvites ? (
+            <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm p-4 text-center">
+              Select an invitation from the list to view details
+            </div>
           ) : (
             <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm">
               {messagingLoading ? 'Starting conversation...' : 'Select a conversation to start messaging'}

@@ -60,33 +60,35 @@ export default function AcceptInviteClient({ invites, email }: Props) {
       {pending.map((invite) => (
         <Card key={invite.id} className="p-6 border border-white/[0.08]">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                <p className="font-semibold text-emerald-400">Invitation from {invite.sender?.fullName || 'a landlord'}</p>
+            <div className="space-y-2 min-w-0 flex-1">
+              <div className="flex items-center gap-2 min-w-0">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                <p className="font-semibold text-emerald-400 truncate" title={invite.sender?.fullName || 'a landlord'}>
+                  Invitation from {invite.sender?.fullName || 'a landlord'}
+                </p>
               </div>
               <p className="text-sm text-zinc-400">
                 {invite.sender?.fullName || 'A landlord'} invited you to manage their listings. Accepting will add you as their agent.
               </p>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline" className="border-white/10 text-zinc-300">
-                  {(invite.scope || 'specific') === 'all' ? 'All properties' : `${invite.assignments?.length || 0} properties`}
+                  {(invite as any).scope === 'all' ? 'All properties' : 'Specific properties'}
                 </Badge>
-                {(invite.permissions as string[] | undefined)?.length ? (
-                  <Badge variant="outline" className="border-white/10 text-zinc-500">
-                    {(invite.permissions as string[]).length} permissions
-                  </Badge>
-                ) : null}
               </div>
-              <p className="text-xs text-zinc-500">Sent {new Date(invite.createdAt).toLocaleDateString()}</p>
             </div>
-            <Button
-              onClick={() => accept(invite.id)}
-              disabled={actionId === invite.id}
-              className="shrink-0"
-            >
-              {actionId === invite.id ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Accept'}
-            </Button>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <Button
+                size="sm"
+                onClick={() => accept(invite.id)}
+                disabled={actionId === invite.id}
+              >
+                {actionId === invite.id ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  'Accept'
+                )}
+              </Button>
+            </div>
           </div>
         </Card>
       ))}

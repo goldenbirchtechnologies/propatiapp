@@ -90,7 +90,7 @@ const permissionLabels: Record<string, string> = {
 
 export default function AgentPropertiesClient({ listings, userRole }: Props) {
   const router = useRouter();
-  const [, setQuery] = useState('');
+  const [query, setQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());

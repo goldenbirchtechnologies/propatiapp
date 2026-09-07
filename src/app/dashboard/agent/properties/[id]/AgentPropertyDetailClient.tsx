@@ -216,7 +216,7 @@ function initials(name: string) {
     .slice(0, 2);
 }
 
-type Props = { listing: Listing };
+type Props = { listing: Listing; currentAgentId: string };
 
 function AmenityBadge({ label }: { label: string }) {
   return (
@@ -238,7 +238,7 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
   );
 }
 
-export default function AgentPropertyDetailClient({ listing }: Props) {
+export default function AgentPropertyDetailClient({ listing, currentAgentId }: Props) {
   const router = useRouter();
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageText, setMessageText] = useState('');
@@ -255,7 +255,7 @@ export default function AgentPropertyDetailClient({ listing }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           listingId: listing.id,
-          agentId: listing.agent?.id || (await import('@/lib/auth')).getCurrentUserWithProfile().then((u) => u?.id),
+          agentId: listing.agent?.id || currentAgentId,
           landlordId: listing.owner?.id,
           tenantId: null,
           orgId: null,

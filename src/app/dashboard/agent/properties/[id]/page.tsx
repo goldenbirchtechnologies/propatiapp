@@ -198,8 +198,8 @@ export default async function AgentPropertyDetailPage({ params }: { params: { id
               status: b.status,
               checkIn: b.checkIn.toISOString(),
               checkOut: b.checkOut.toISOString(),
-              totalPrice: toNumber(b.totalPrice),
               tenant: b.tenant,
+              totalPrice: b.totalPrice,
             })),
             maintenanceTickets: listing.maintenanceTickets.map((t) => ({
               id: t.id,
@@ -234,6 +234,7 @@ export default async function AgentPropertyDetailPage({ params }: { params: { id
               createdAt: d.createdAt.toISOString(),
             })),
           }}
+          currentAgentId={user.id}
         />
       </ErrorBoundary>
     </DashboardShell>

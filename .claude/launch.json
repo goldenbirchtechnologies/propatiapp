@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "start",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set WSLENV=PORT/u&& wsl.exe -d Ubuntu bash /home/r2d2c3p0/NEWPROPATI_new/.claude/start.sh"
+      ],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

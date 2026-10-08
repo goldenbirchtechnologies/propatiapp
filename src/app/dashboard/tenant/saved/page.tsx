@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
@@ -8,9 +7,10 @@ import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import TenantSavedPropertiesClient, {
   SavedProperty,
 } from './TenantSavedPropertiesClient';
+import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export default async function TenantSavedPage() {
-  const { userId } = await auth();
+  const userId = await resolveAuthUserId();
 
   if (!userId) {
     redirect('/sign-in');

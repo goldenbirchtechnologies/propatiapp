@@ -1,9 +1,9 @@
-import { auth } from '@clerk/nextjs/server';
 import { getCurrentUser, getRoleRedirectPath } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export default async function DashboardRootPage() {
-  const { userId } = await auth();
+  const userId = await resolveAuthUserId();
 
   if (!userId) {
     redirect('/sign-in');

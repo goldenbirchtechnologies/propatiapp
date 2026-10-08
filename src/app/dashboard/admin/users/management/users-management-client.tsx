@@ -1,0 +1,275 @@
+'use client';
+
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import AppIcon from '@/components/icons/app-icon';
+
+function UsersManagementClient({
+  users,
+  totalUsers,
+  activeUsers,
+  verifiedUsers,
+  flaggedUsers,
+  currentPage,
+  totalPages,
+  roleFilter,
+  statusFilter,
+}: {
+  users: {
+    id: string;
+    fullName: string;
+    email: string;
+    phone: string | null;
+    role: string;
+    isActive: boolean;
+    isBanned: boolean;
+    phoneVerified: boolean;
+    idVerified: boolean;
+    createdAt: Date;
+    lastLogin: Date | null;
+  }[];
+  totalUsers: number;
+  activeUsers: number;
+  verifiedUsers: number;
+  flaggedUsers: number;
+  currentPage: number;
+  totalPages: number;
+  roleFilter: string;
+  statusFilter: string;
+}) {
+  const PAGE_SIZE = 20;
+
+  const buildHref = (page: number) => {
+    const params = new URLSearchParams();
+    if (page > 1) params.set('page', String(page));
+    if (roleFilter) params.set('role', roleFilter);
+    if (statusFilter) params.set('status', statusFilter);
+    const qs = params.toString();
+    return `/dashboard/admin/users/management${qs ? `?${qs}` : ''}`;
+  };
+
+  const initials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+
+  const VerificationBadge = ({ user }: { user: (typeof users)[0] }) => {
+    if (user.idVerified)
+      return (
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#00ff66] font-label-sm text-label-sm border border-on-tertiary-container/20">
+          <AppIcon name="verified" className="lucide" size={16} />
+          Lvl 5
+        </span>
+      );
+    if (user.phoneVerified)
+      return (
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
+          <AppIcon name="stars" className="lucide" size={16} />
+          Lvl 2
+        </span>
+      );
+    return (
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-400 font-label-sm text-label-sm border border-white/[0.08]">
+        Lvl 1
+      </span>
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Summary Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-lg">
+        {[
+          { label: 'Total Users', value: totalUsers.toLocaleString(), icon: 'group' },
+          { label: 'Active Today', value: activeUsers.toLocaleString(), icon: 'bolt' },
+          { label: 'Verified Users', value: verifiedUsers.toLocaleString(), icon: 'verified_user' },
+          { label: 'Flagged Accounts', value: flaggedUsers.toLocaleString(), icon: 'report', isError: flaggedUsers > 0 },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className="rounded-xl border border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
+          >
+            <div className="p-3 rounded-lg bg-emerald-500-container/5 text-white shrink-0">
+              <AppIcon name={card.icon} className="lucide" size={28} />
+            </div>
+            <div>
+              <p className={`text-label-sm ${card.isError ? 'text-error' : 'text-zinc-400'}`}>
+                {card.label}
+              </p>
+              <h2 className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-white'}`}>
+                {card.value}
+              </h2>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
+        <div className="p-lg border-b border-white/[0.08] bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="relative w-64">
+              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-zinc-400" />
+              <input
+                type="text"
+                placeholder="Search name or email…"
+                className="w-full pl-9 pr-4 py-2 border border-white/[0.08] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
+              />
+            </div>
+            <select className="border border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+              <option value="">All Roles</option>
+              {['tenant', 'landlord', 'agent', 'admin', 'estate_manager'].map((r) => (
+                <option key={r} value={r} selected={roleFilter === r}>
+                  {r.replace('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                </option>
+              ))}
+            </select>
+            <select
+              className="border border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
+              defaultValue={statusFilter}
+            >
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="suspended">Suspended</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <span className="text-xs text-zinc-400 whitespace-nowrap">
+            Showing{' '}
+            <span className="font-bold">
+              {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
+              {Math.min(currentPage * PAGE_SIZE, totalUsers)}
+            </span>{' '}
+            of <span className="font-bold">{totalUsers.toLocaleString()}</span> users
+          </span>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto flex-1">
+          {users.length === 0 ? (
+            <p className="p-lg text-sm text-zinc-400 text-center">No users match the current filters.</p>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-white/[0.08] sticky top-0">
+                  {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
+                    <th
+                      key={h}
+                      className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#262626]/50">
+                {users.map((u) => (
+                  <tr key={u.id} className="hover:bg-zinc-900 transition-all duration-200">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center text-white font-bold text-sm">
+                          {initials(u.fullName)}
+                        </div>
+                        <div>
+                          <p className="font-bold text-white">{u.fullName}</p>
+                          <p className="text-body-sm text-zinc-400">{u.email}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 bg-zinc-800 rounded-full text-label-sm text-zinc-400 font-medium capitalize">
+                        {u.role.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            u.isBanned
+                              ? 'bg-error'
+                              : u.isActive
+                                ? 'bg-on-tertiary-container'
+                                : 'bg-outline-variant'
+                          }`}
+                        />
+                        <span
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#00ff66]' : 'text-zinc-400'}`}
+                        >
+                          {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <VerificationBadge user={u} />
+                    </td>
+                    <td className="px-6 py-4 text-zinc-400 text-body-sm">
+                      {u.createdAt.toLocaleDateString('en-NG', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Pagination */}
+        <div className="px-6 py-3 border-t border-white/[0.08] bg-zinc-950 flex items-center justify-between">
+          <p className="text-body-sm text-zinc-400">
+            Showing{' '}
+            <span className="font-bold">
+              {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
+              {Math.min(currentPage * PAGE_SIZE, totalUsers)}
+            </span>{' '}
+            of <span className="font-bold">{totalUsers.toLocaleString()}</span> users
+          </p>
+          <div className="flex items-center gap-1">
+            <a
+              href={buildHref(currentPage - 1)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-white/[0.08] transition-colors ${
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-white'
+              }`}
+            >
+              <ChevronLeft className="!w-5 !h-5" />
+            </a>
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNum: number;
+              if (totalPages <= 5) pageNum = i + 1;
+              else if (currentPage <= 3) pageNum = i + 1;
+              else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
+              else pageNum = currentPage - 2 + i;
+              return (
+                <a
+                  key={pageNum}
+                  href={buildHref(pageNum)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
+                    pageNum === currentPage
+                      ? 'bg-emerald-500 text-white shadow-none font-bold'
+                      : 'border border-white/[0.08] text-zinc-400 hover:bg-zinc-900'
+                  }`}
+                >
+                  {pageNum}
+                </a>
+              );
+            })}
+            <a
+              href={buildHref(currentPage + 1)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-white/[0.08] transition-colors ${
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-white'
+              }`}
+            >
+              <ChevronRight className="!w-5 !h-5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default UsersManagementClient;

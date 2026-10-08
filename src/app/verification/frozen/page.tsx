@@ -1,15 +1,15 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { FrozenState } from '@/components/feedback/FrozenState';
+import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export const metadata = {
   title: 'Verification Frozen — PROPATI',
 };
 
 export default async function VerificationFrozenPage() {
-  const { userId } = await auth();
+  const userId = await resolveAuthUserId();
   if (!userId) redirect('/sign-in');
 
   const user = await getCurrentUser();

@@ -1,0 +1,137 @@
+'use client';
+
+import { ChevronRight } from 'lucide-react';
+
+function VerificationOfficerClient({
+  users,
+  counts,
+}: {
+  users: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+    isActive: boolean;
+    isBanned: boolean;
+    createdAt: Date;
+    lastLogin: Date | null;
+  }[];
+  counts: { pendingCount: number; inProgressCount: number; certifiedCount: number };
+}) {
+  const initials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <nav className="flex items-center gap-xs text-zinc-400 mb-2">
+            <a className="hover:text-white transition-colors text-xs" href="/dashboard/admin">
+              Admin
+            </a>
+            <ChevronRight className="text-xs" />
+            <span className="text-white font-semibold text-xs">Verification Officers</span>
+          </nav>
+          <h1 className="font-headline-lg text-headline-lg text-white tracking-tight">
+            Verification Officer Roles
+          </h1>
+          <p className="text-zinc-400 font-body-md mt-1">
+            Manage users with verification permissions and review the current queue.
+          </p>
+        </div>
+        <div className="flex items-center gap-sm">
+          <span className="text-xs text-zinc-400">{users.length} officer(s) configured</span>
+        </div>
+      </div>
+
+      {/* Queue Stats Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#00ff66]' },
+          { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
+          { label: 'Certified', value: counts.certifiedCount, color: 'bg-emerald-500-container text-on-primary-container' },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-white/[0.08] bg-surface p-lg shadow-none"
+          >
+            <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${stat.color}`}>
+              {stat.label}
+            </div>
+            <div className="font-headline-md text-headline-md text-white">{stat.value.toLocaleString()}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Assigned Users */}
+      <div className="rounded-xl border border-white/[0.08] bg-surface shadow-none overflow-hidden">
+        <div className="p-md border-b border-white/[0.08] flex items-center justify-between bg-zinc-950">
+          <h3 className="text-white text-white">Assigned Users</h3>
+          <span className="text-xs text-zinc-400">
+            {users.filter((u) => u.isActive && !u.isBanned).length} active
+          </span>
+        </div>
+        {users.length === 0 ? (
+          <p className="p-lg text-sm text-zinc-400 text-center">No verification officers assigned.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-zinc-900 text-zinc-400 border-b border-white/[0.08]">
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">User</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Role</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Last Login</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#262626]">
+                {users.map((u) => (
+                  <tr key={u.id} className="hover:bg-zinc-900 transition-colors">
+                    <td className="px-6 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-surface-elevated flex items-center justify-center text-sm font-bold text-white">
+                          {initials(u.fullName)}
+                        </div>
+                        <div>
+                          <div className="font-bold text-white text-sm">{u.fullName}</div>
+                          <div className="text-xs text-zinc-400">{u.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-3 text-body-sm capitalize">{u.role.replace('_', ' ')}</td>
+                    <td className="px-6 py-3">
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                          u.isBanned
+                            ? 'bg-error/10 text-error'
+                            : u.isActive
+                              ? 'bg-on-tertiary-container/10 text-[#00ff66]'
+                              : 'bg-outline-variant/30 text-zinc-400'
+                        }`}
+                      >
+                        {u.isBanned ? 'Banned' : u.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-3 text-body-sm text-zinc-400">
+                      {u.lastLogin
+                        ? u.lastLogin.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : 'Never'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default VerificationOfficerClient;

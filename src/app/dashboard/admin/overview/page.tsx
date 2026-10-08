@@ -6,6 +6,7 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { prisma } from '@/lib/prisma';
 import AppIcon from '@/components/icons/app-icon';
 import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/components/ui';
+import { Users, UserCheck, Wallet, Flag } from 'lucide-react';
 import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
@@ -47,7 +48,7 @@ export default async function AdminOverviewPage() {
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { isActive: true } }),
-    prisma.verification.count({ where: { status: 'in_progress' } }),
+    prisma.verification.count({ where: { overallStatus: 'in_progress' } }),
     prisma.listing.count(),
     prisma.listing.count({ where: { status: 'active' } }),
     prisma.transaction.count(),
@@ -89,9 +90,9 @@ export default async function AdminOverviewPage() {
           {/* KPI Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard label="Total Users" value={totalUsers.toLocaleString()} sub={`${activeUsers.toLocaleString()} active · ${newToday} new today`} icon={Users} />
-            <StatCard label="Pending Verifications" value={String(pendingVerifications)} sub="Awaiting review" icon={'pending_actions'} />
-            <StatCard label="Platform Revenue (GTV)" value={formatCurrency(gtv / 100)} sub={`${totalTransactions.toLocaleString()} transactions`} icon={'payments'} />
-            <StatCard label="Active Disputes" value={String(disputeCount)} sub={`${escrowedTransactions} in escrow`} icon={'report'} />
+            <StatCard label="Pending Verifications" value={String(pendingVerifications)} sub="Awaiting review" icon={UserCheck} />
+            <StatCard label="Platform Revenue (GTV)" value={formatCurrency(gtv / 100)} sub={`${totalTransactions.toLocaleString()} transactions`} icon={Wallet} />
+            <StatCard label="Active Disputes" value={String(disputeCount)} sub={`${escrowedTransactions} in escrow`} icon={Flag} />
           </div>
 
           {/* Recent Users + Quick Stats */}

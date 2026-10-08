@@ -25,14 +25,6 @@ export default function PublicNav() {
 
   const displayName = user?.fullName || user?.primaryEmailAddress?.emailAddress || '';
 
-  if (!isLoaded) {
-    return (
-      <div className="cursor-pointer min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
-  }
-
   const isHome = pathname === '/';
   const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
   const isListingsPage = pathname === LISTINGS_PATH;
@@ -49,6 +41,16 @@ export default function PublicNav() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  // Keep every hook above this line — an early return before a hook triggers
+  // React #310 (hook count mismatch) when isLoaded flips true after hydration.
+  if (!isLoaded) {
+    return (
+      <div className="cursor-pointer min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
 
   return (
     <>

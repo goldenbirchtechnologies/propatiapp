@@ -1,5 +1,4 @@
 import { notFound, redirect } from 'next/navigation';
-import { auth } from '@clerk/nextjs/server';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { VerificationService } from '@/lib/verification';
@@ -16,6 +15,7 @@ import { PageHeader } from '@/components/ui/page-header';
 import { StatusBadge as StatusBadgeUI } from '@/components/ui/status-badge';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
+import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export const metadata: Metadata = {
   title: 'Verification Details — PROPATI',
@@ -238,7 +238,7 @@ function TimelineTab({ verification }: { verification: unknown }) {
 
 // ─── Main server component ────────────────────────────────────────────────────
 export default async function VerificationDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { userId } = await auth();
+  const userId = await resolveAuthUserId();
   if (!userId) redirect('/sign-in');
 
   const { id } = await params;

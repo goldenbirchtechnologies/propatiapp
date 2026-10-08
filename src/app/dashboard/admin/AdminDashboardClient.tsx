@@ -8,67 +8,6 @@ import { useUser } from '@clerk/nextjs';
 import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/components/ui';
 import { ArrowRight, Users, Building2, Shield, DollarSign, AlertTriangle, TrendingUp, Flag } from 'lucide-react';
 
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  icon: string;
-  trend?: string;
-  trendUp?: boolean;
-  colorClass: string;
-  bgClass: string;
-}
-
-const StatCard = ({ title, value, icon, trend, trendUp, colorClass, bgClass }: StatCardProps) => (
-  <div className="glass-card p-5 flex flex-col gap-3 hover:border-white/15 transition-colors">
-    <div className="flex items-start justify-between">
-      <div className="flex-1">
-        <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{title}</p>
-        <p className="text-2xl font-bold text-white tracking-tight">{value}</p>
-        {trend && (
-          <div className="flex items-center gap-1">
-            <span className={`lucide text-sm ${trendUp ? 'text-emerald-400' : 'text-red-400'}`}>
-              {trendUp ? 'trending_up' : 'trending_down'}
-            </span>
-            <span className={`text-xs font-medium ${trendUp ? 'text-emerald-400' : 'text-red-400'}`}>{trend}</span>
-          </div>
-        )}
-      </div>
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${bgClass}`}>
-        <span className={`lucide text-xl ${colorClass}`}>{icon}</span>
-      </div>
-    </div>
-  </div>
-);
-
-interface ActionCardProps {
-  title: string;
-  description: string;
-  icon: string;
-  href: string;
-  count?: number;
-  colorClass: string;
-  bgClass: string;
-}
-
-const ActionCard = ({ title, description, icon, href, count, colorClass, bgClass }: ActionCardProps) => (
-  <a href={href}>
-    <div className="glass-card p-5 flex items-center gap-3 hover:border-white/15 transition-colors cursor-pointer relative">
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${bgClass}`}>
-        <span className={`lucide text-xl ${colorClass}`}>{icon}</span>
-      </div>
-      <div className="flex-1">
-        <h3 className="text-sm font-semibold text-white">{title}</h3>
-        <p className="text-xs text-zinc-500">{description}</p>
-      </div>
-      {count !== undefined && count > 0 && (
-        <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-          {count > 99 ? '99+' : count}
-        </div>
-      )}
-    </div>
-  </a>
-);
-
 interface UserActivityProps {
   id: string;
   name: string;

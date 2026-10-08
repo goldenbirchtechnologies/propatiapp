@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 import { UserRole as Role } from '@prisma/client';
+import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export interface AuthenticatedRequest extends NextRequest {
   user: {
@@ -19,8 +19,10 @@ export async function withAuth(
 ): Promise<{ user: AuthenticatedRequest['user'] } | NextResponse> {
   let userId: string | undefined;
   try {
-    const authResult = await auth();
-    userId = authResult.userId;
+    // Dev bypass (AUTH_BYPASS=*** returns the dev user's clerkId instead
+    // of a real session id; the clerkId lookup below resolves the dev user.
+    const resolvedId = await resolveAuthUserId();
+    userId = resolvedId ?? undefined;
   } catch (error) {
     console.error('Clerk auth() failed:', error);
     return NextResponse.json({ error: 'AUTH_UNAVAILABLE' }, { status: 503 });

@@ -1,5 +1,9 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse, type NextRequest, type NextFetchEvent } from 'next/server';
+import {
+  isAuthBypassEnabled,
+  isValidBypassRole,
+} from '@/lib/auth-bypass-config';
 
 const isPublic = createRouteMatcher([
   '/',
@@ -28,8 +32,43 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     return NextResponse.redirect(signIn);
   }
 
+  // Dev bypass (AUTH_BYPASS=*** /?as=<role> pins the bypass role via
+  // cookie so role-gated dashboards (/dashboard/<role>) render on the
+  // very first request. Note: clerkMiddleware still runs below in bypass
+  // mode — pages that fall through to auth() need its context.
+  if (isAuthBypassEnabled()) {
+    const asRole = reqUrl.searchParams.get('as');
+    const normalizedRole = asRole?.replace(/-/g, '_');
+    if (isValidBypassRole(normalizedRole)) {
+      const cleanUrl = reqUrl.clone();
+      cleanUrl.searchParams.delete('as');
+      const resp = NextResponse.redirect(cleanUrl);
+      resp.cookies.set('bypass_role', normalizedRole, {
+        path: '/',
+        httpOnly: false,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30,
+      });
+      return resp;
+    }
+    if (!isClerkConfigured) {
+      const resp = NextResponse.next();
+      if (
+        reqUrl.pathname.startsWith('/dashboard') ||
+        reqUrl.pathname.startsWith('/admin') ||
+        reqUrl.pathname.startsWith('/verification')
+      ) {
+        resp.headers.set('Cache-Control', 'no-store');
+      }
+      return resp;
+    }
+    // Clerk configured → fall through so clerkMiddleware() provides auth()
+    // context; no sign-in redirect will be issued for unauthenticated users.
+  }
+
   if (!isClerkConfigured) {
     if (isPublic(req)) return NextResponse.next();
+    if (isAuthBypassEnabled()) return NextResponse.next();
     return NextResponse.redirect(new URL('/sign-in', req.url));
   }
 
@@ -48,6 +87,9 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   } catch (error) {
     console.error('Clerk middleware failed:', error);
     if (isPublic(req)) {
+      return NextResponse.next();
+    }
+    if (isAuthBypassEnabled()) {
       return NextResponse.next();
     }
     return NextResponse.redirect(new URL('/sign-in', req.url));

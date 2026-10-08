@@ -2,6 +2,7 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { prisma } from './prisma';
 import { UserRole } from '@prisma/client';
+import { isAuthBypassEnabled, getBypassUser } from './auth-bypass';
 
 // Roles a user may end up with via signup/onboarding. 'admin' is excluded on
 // purpose: it can only be granted through the admin-guarded change-role route.
@@ -57,6 +58,12 @@ async function ensurePrismaUserFromClerk() {
 }
 
 export async function getCurrentUser() {
+  // Dev bypass (AUTH_BYPASS=*** → return the dev user directly.
+  if (isAuthBypassEnabled()) {
+    const bypassUser = await getBypassUser();
+    if (bypassUser) return bypassUser;
+  }
+
   try {
     const { userId } = await auth();
     if (!userId) return null;
@@ -104,6 +111,11 @@ export async function requireRole(...roles: UserRole[]) {
 }
 
 export async function getCurrentUserId() {
+  // Dev bypass: return the dev user's clerkId so callers get a stable id.
+  if (isAuthBypassEnabled()) {
+    const bypassUser = await getBypassUser();
+    if (bypassUser) return bypassUser.clerkId;
+  }
   const { userId } = await auth();
   return userId;
 }
@@ -175,6 +187,12 @@ export function getRoleRedirectPath(role: UserRole): string {
 }
 
 export async function getCurrentUserWithProfile() {
+  // Dev bypass (AUTH_BYPASS=*** → return the dev user (with profile) directly.
+  if (isAuthBypassEnabled()) {
+    const bypassUser = await getBypassUser();
+    if (bypassUser) return bypassUser;
+  }
+
   try {
     const { userId } = await auth();
     if (!userId) return null;

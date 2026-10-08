@@ -55,3 +55,4 @@ Desktop.ini
 
 # ESLint cache
 .eslintcache
+*:Zone.Identifier

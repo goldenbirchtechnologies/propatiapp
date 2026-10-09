@@ -38,6 +38,7 @@ export default function NewAgreementPage() {
     handleSubmit,
     watch,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(createAgreementSchema) as unknown,

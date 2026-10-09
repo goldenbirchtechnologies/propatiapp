@@ -63,7 +63,7 @@ export function TicketCard({ ticket, onClick }: TicketCardProps) {
 
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          {new Date(ticket.createdAt).toLocaleDateString()}
+          {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
         </p>
 
         {status && (

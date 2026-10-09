@@ -53,7 +53,7 @@ export default function EstateManagerTurnoverPage() {
           </div>
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Avg Score</p>
-            <p className="text-2xl font-bold text-[#00ff66]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
+            <p className="text-2xl font-bold text-[#10b981]">{inspections.length > 0 ? Math.round(inspections.reduce((sum, i) => sum + i.score, 0) / inspections.length) : 0}%</p>
           </div>
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Open Issues</p>
@@ -100,7 +100,7 @@ export default function EstateManagerTurnoverPage() {
                         <p className="font-medium text-sm text-white">Unit {ins.unit}</p>
                         <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>{new Date(ins.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                       </div>
-                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#00ff66] border border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-white/[0.08]')}>{ins.result}</span>
+                      <span className={cn('inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border', ins.result === 'Passed' ? 'bg-emerald-500/10 text-[#10b981] border border-white/[0.08]' : 'bg-amber-500/10 text-amber-400 border border-white/[0.08]')}>{ins.result}</span>
                     </div>
                     <div className="mt-3">
                       <Progress value={ins.score} className="h-2" />

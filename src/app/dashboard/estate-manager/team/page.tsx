@@ -346,7 +346,7 @@ export default function TeamManagementPage() {
                     </TableCell>
                     <TableCell>
                       {member.joinedAt
-                        ? new Date(member.joinedAt).toLocaleDateString()
+                        ? new Date(member.joinedAt).toLocaleDateString('en-NG')
                         : 'N/A'}
                     </TableCell>
                     <TableCell className="text-right">

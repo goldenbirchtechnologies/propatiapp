@@ -23,14 +23,14 @@ const inter = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'PROPATIBOX - All Your Properties. One Box.',
-    template: '%s - PROPATIBOX',
+    default: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
+    template: '%s - PROPATI',
   },
   description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
-  keywords: ['property management', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified properties', 'PROPATIBOX'],
-  authors: [{ name: 'PROPATIBOX' }],
-  creator: 'PROPATIBOX',
-  publisher: 'PROPATIBOX',
+  keywords: ['property management', 'real estate', 'Nigeria', 'Lagos', 'rent', 'sale', 'verified properties', 'PROPATI'],
+  authors: [{ name: 'PROPATI' }],
+  creator: 'PROPATI',
+  publisher: 'PROPATI',
   formatDetection: {
     email: false,
     address: false,
@@ -44,21 +44,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_NG',
     url: '/',
-    siteName: 'PROPATIBOX',
-    title: 'PROPATIBOX - All Your Properties. One Box.',
+    siteName: 'PROPATI',
+    title: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
     description: 'Manage, view, and organize all your properties in one verified box. Secure transactions, escrow payments, stamp duty verification, and tenancy management.',
     images: [
       {
         url: '/brand/propatibox-logo-dark.jpg',
         width: 1200,
         height: 630,
-        alt: 'PROPATIBOX - All Your Properties. One Box.',
+        alt: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PROPATIBOX - All Your Properties. One Box.',
+    title: 'PROPATI \u2014 Nigeria\'s Verified Property Marketplace',
     description: 'Manage, view, and organize all your properties in one verified box.',
     images: ['/brand/propatibox-logo-dark.jpg'],
   },

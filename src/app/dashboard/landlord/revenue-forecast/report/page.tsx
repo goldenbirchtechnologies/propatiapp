@@ -79,7 +79,7 @@ export default async function LandlordRevenueForecastReportPage() {
                         <td className="py-3">{Number(row.count)}</td>
                         <td className="py-3 text-right font-mono">₦{parseKoboToNaira(Number(row.revenue)).toLocaleString()}</td>
                         <td className="py-3">
-                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-[#00ff66] border-success/20">
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-success/10 text-[#10b981] border-success/20">
                             Closed
                           </span>
                         </td>

@@ -32,7 +32,7 @@ export function LandingPage() {
                 className="w-10 h-10 rounded-lg object-cover bg-[#0A0F18]"
               />
               <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-                PROPATI<span style={{ color: '#C8A45C' }}>BOX</span>
+                PROPATI
               </span>
             </Link>
 
@@ -232,7 +232,7 @@ export function LandingPage() {
                   height="32"
                   className="w-8 h-8 rounded-lg object-cover bg-[#0A0F18]"
                 />
-                <span className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>PROPATI<span style={{ color: '#C8A45C' }}>BOX</span></span>
+                <span className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>PROPATI</span>
               </Link>
               <p className="text-sm" style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
                 All your properties in one box for easier visibility and management. Verified properties, stamp duty verification, and secure payments across Nigeria.

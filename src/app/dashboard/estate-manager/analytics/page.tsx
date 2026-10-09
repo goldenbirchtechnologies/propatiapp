@@ -172,17 +172,17 @@ export default async function EstateManagerAnalyticsPage() {
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Portfolio Value</p>
             <p className="text-2xl font-bold text-white">{portfolioValue}</p>
-            <p className="text-xs text-[#00ff66] mt-1">+4.2% vs last month</p>
+            <p className="text-xs text-[#10b981] mt-1">+4.2% vs last month</p>
           </div>
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Active Units</p>
             <p className="text-2xl font-bold text-white">{activeUnits}</p>
-            <p className="text-xs text-[#00ff66] mt-1">{occupancyRate}% occupancy</p>
+            <p className="text-xs text-[#10b981] mt-1">{occupancyRate}% occupancy</p>
           </div>
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Monthly Collections</p>
-            <p className="text-2xl font-bold text-[#00ff66]">{monthlyCollections}</p>
-            <p className="text-xs text-[#00ff66] mt-1">+7.1% vs last month</p>
+            <p className="text-2xl font-bold text-[#10b981]">{monthlyCollections}</p>
+            <p className="text-xs text-[#10b981] mt-1">+7.1% vs last month</p>
           </div>
           <div className="glass-card p-4">
             <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Avg Rent / Unit</p>

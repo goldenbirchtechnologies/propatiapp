@@ -51,19 +51,20 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
       });
       return resp;
     }
-    if (!isClerkConfigured) {
-      const resp = NextResponse.next();
-      if (
-        reqUrl.pathname.startsWith('/dashboard') ||
-        reqUrl.pathname.startsWith('/admin') ||
-        reqUrl.pathname.startsWith('/verification')
-      ) {
-        resp.headers.set('Cache-Control', 'no-store');
-      }
-      return resp;
+    // Clerk may be configured (real test keys) while the dev bypass is on —
+    // clerkMiddleware would still redirect signed-out users to /sign-in
+    // ("dev-browser-missing"), which pre-empts the page-level bypass entirely.
+    // Skip it: pages resolve the dev user via getCurrentUser /
+    // resolveAuthUserId, both of which are bypass-aware.
+    const resp = NextResponse.next();
+    if (
+      reqUrl.pathname.startsWith('/dashboard') ||
+      reqUrl.pathname.startsWith('/admin') ||
+      reqUrl.pathname.startsWith('/verification')
+    ) {
+      resp.headers.set('Cache-Control', 'no-store');
     }
-    // Clerk configured → fall through so clerkMiddleware() provides auth()
-    // context; no sign-in redirect will be issued for unauthenticated users.
+    return resp;
   }
 
   if (!isClerkConfigured) {

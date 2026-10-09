@@ -122,7 +122,7 @@ export default function AgentDashboardClient({
           value={String(buyerApplicationsCount)}
           sub={formatNaira(saleListingsValue)}
           icon={ShoppingCart}
-          accentColor="#3b82f6"
+          accentColor="var(--accent)"
           href="/dashboard/agent/pipeline"
         />
         <StatCard
@@ -130,14 +130,14 @@ export default function AgentDashboardClient({
           value={String(saleListingsCount)}
           sub={`${formatNaira(saleListingsValue)} portfolio`}
           icon={Gavel}
-          accentColor="#f59e0b"
+          accentColor="var(--accent)"
           href="/dashboard/agent/listings"
         />
         <StatCard
           label="Pending Closings"
           value={String(pendingAgreementsCount)}
           icon={CheckCircle2}
-          accentColor="#8b5cf6"
+          accentColor="var(--accent)"
           href="/dashboard/agent/deals"
         />
       </div>
@@ -149,7 +149,7 @@ export default function AgentDashboardClient({
           value={`${shortletOccupancyRate}%`}
           sub={`${shortletOccupiedUnits}/${shortletTotalUnits} booked`}
           icon={BedDouble}
-          accentColor="#ec4899"
+          accentColor="var(--accent)"
           href="/dashboard/agent/properties"
         />
         <StatCard
@@ -157,7 +157,7 @@ export default function AgentDashboardClient({
           value={`${shortletCheckinsToday}/${shortletCheckoutsToday}`}
           sub="Today"
           icon={CalendarCheck}
-          accentColor="#06b6d4"
+          accentColor="var(--accent)"
           href="/dashboard/agent/schedule"
         />
         <StatCard
@@ -165,7 +165,7 @@ export default function AgentDashboardClient({
           value={formatNaira(shortletRevenue)}
           sub={shortletAvgDailyRate > 0 ? `${formatNaira(Math.round(shortletAvgDailyRate))} / night avg` : 'No bookings'}
           icon={Wallet}
-          accentColor="#10b981"
+          accentColor="var(--accent)"
           href="/dashboard/agent/earnings"
         />
       </div>

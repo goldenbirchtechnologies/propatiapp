@@ -145,7 +145,7 @@ export default function GlobalSettingsClient() {
                 {/* Rule Card */}
                 <div className="p-4 bg-surface rounded-lg border border-white/[0.08]/50">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="px-2 py-1 bg-on-tertiary-container/10 text-[#00ff66] text-[10px] font-bold rounded uppercase tracking-wider">
+                    <span className="px-2 py-1 bg-on-tertiary-container/10 text-[#10b981] text-[10px] font-bold rounded uppercase tracking-wider">
                       Automated
                     </span>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -290,7 +290,7 @@ export default function GlobalSettingsClient() {
                       </div>
                       <p className="font-label-sm text-label-md">NIMC Identity API</p>
                     </div>
-                    <span className="px-2 py-0.5 bg-on-tertiary-container/20 text-[#00ff66] text-[10px] font-bold rounded">
+                    <span className="px-2 py-0.5 bg-on-tertiary-container/20 text-[#10b981] text-[10px] font-bold rounded">
                       CONNECTED
                     </span>
                   </div>
@@ -308,7 +308,7 @@ export default function GlobalSettingsClient() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[10px] text-zinc-500 font-medium">Last Ping: 2m ago</span>
-                      <span className="text-[10px] text-[#00ff66] font-bold">Latency: 45ms</span>
+                      <span className="text-[10px] text-[#10b981] font-bold">Latency: 45ms</span>
                     </div>
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export default function GlobalSettingsClient() {
       {/* Footer Fixed Save Bar */}
       <div className="fixed bottom-0 left-64 right-0 bg-zinc-950/50/80 backdrop-blur-md border-t border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
         <div className="flex items-center gap-4">
-          <span className="lucide text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
           <p className="text-body-sm text-zinc-500">

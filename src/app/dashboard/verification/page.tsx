@@ -108,7 +108,7 @@ export default async function VerificationHubPage() {
               {existing && (
                 <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
                   <span>Status: {existing.overallStatus.replace(/_/g, ' ')}</span>
-                  <span>{new Date(existing.createdAt).toLocaleDateString()}</span>
+                  <span>{new Date(existing.createdAt).toLocaleDateString('en-NG')}</span>
                 </div>
               )}
             </Link>

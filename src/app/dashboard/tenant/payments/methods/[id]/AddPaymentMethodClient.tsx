@@ -268,7 +268,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         {accountName}
                       </span>
                       {accountName === 'ADEWALE SULEIMAN BOLAJI' && (
-                        <Verified className="w-4 h-4 text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }} />
+                        <Verified className="w-4 h-4 text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }} />
                       )}
                     </div>
                   </div>

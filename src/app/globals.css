@@ -41,6 +41,9 @@
   /* Role-based Theme overrides map to Vercel Dark */
   /* Landing / Marketplace */
   --theme-landing-bg: #000000;
+  --theme-landing-surface: #09090b;
+  --theme-landing-surface-elevated: #121215;
+  --theme-landing-border: rgba(255, 255, 255, 0.08);
   --theme-landing-text: #ededed;
   --theme-landing-accent: #10b981;
 
@@ -168,8 +171,8 @@
 /* Role-based theme classes applied to body */
 .app-layout.theme-landing {
   --bg: var(--theme-landing-bg);
-  --surface: var(--theme-landing-bg);
-  --border: var(--theme-landing-bg);
+  --surface: var(--theme-landing-surface, #09090b);
+  --border: var(--theme-landing-border, rgba(255, 255, 255, 0.08));
   --text: var(--theme-landing-text);
   --muted: var(--theme-landing-text);
   --accent: var(--theme-landing-accent);
@@ -835,6 +838,11 @@ a:hover {
   display: flex;
   min-height: 100vh;
   align-items: stretch;
+  /* The sidebar is 100vh + sticky, so on documents taller than the viewport
+     its background stops early and the column below it would show the page
+     background. Paint the layout with the sidebar surface so the left column
+     stays continuous; .main-area repaints its own background below. */
+  background: var(--surface);
 }
 
 .topbar {
@@ -895,6 +903,7 @@ a:hover {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--bg);
 }
 
 .content-area {
@@ -1151,32 +1160,13 @@ a:hover {
 
 /* ─── Vercel Dark Design System (ported from Figma Make) ─── */
 
-/* Glass card surface */
-.glass-card {
-  background: #09090b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-}
+/* Elevated card surface. The base .glass-card and .dark-input are defined
+   above and are token-driven — do not redefine them here or they will
+   override the role themes with hardcoded values. */
 .glass-card-elevated {
-  background: #121215;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--surface-elevated, #121215);
+  border: 1px solid var(--border);
   border-radius: 14px;
-}
-
-/* Dark form inputs */
-.dark-input {
-  background: #09090b;
-  border: 1px solid #27272a;
-  color: #ededed;
-  border-radius: 8px;
-}
-.dark-input:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 1px #10b981;
-  outline: none;
-}
-.dark-input::placeholder {
-  color: #52525b;
 }
 
 /* Skeleton loading */

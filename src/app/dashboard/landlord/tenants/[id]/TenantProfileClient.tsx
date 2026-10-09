@@ -125,9 +125,9 @@ function AgreementStatusBadge({ status }: { status: string }) {
     draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
     pending_landlord: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Pending Landlord' },
     pending_tenant: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Pending Tenant' },
-    tenant_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Tenant Signed' },
-    landlord_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Landlord Signed' },
-    fully_signed: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Fully Signed' },
+    tenant_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Tenant Signed' },
+    landlord_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Landlord Signed' },
+    fully_signed: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Fully Signed' },
     terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
     expired: { class: 'bg-muted/30 text-zinc-500 border-muted/50', label: 'Expired' },
   };
@@ -138,7 +138,7 @@ function AgreementStatusBadge({ status }: { status: string }) {
 const INVOICE_STATUS_CONFIG: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-muted/30 text-zinc-500 border-muted/50', label: 'Draft' },
   sent: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Sent' },
-  paid: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Paid' },
+  paid: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-muted/30 text-zinc-500 border-muted/50', label: 'Cancelled' },
 };
@@ -151,7 +151,7 @@ function InvoiceStatusBadge({ status }: { status: string }) {
 const TICKET_STATUS_CONFIG: Record<string, { class: string; label: string }> = {
   open: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Open' },
   in_progress: { class: 'bg-info/10 text-info border-info/20', label: 'In Progress' },
-  resolved: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Resolved' },
+  resolved: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Resolved' },
   closed: { class: 'bg-muted/30 text-zinc-500 border-muted/50', label: 'Closed' },
 };
 
@@ -386,7 +386,7 @@ export default function TenantProfileClient({
             <div className="px-6 py-5 border-b border-white/[0.08]">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-white text-white">Financial Summary</h3>
-                <span className={`text-sm font-medium ${outstanding > 0 ? 'text-red-500' : 'text-[#00ff66]'}`}>
+                <span className={`text-sm font-medium ${outstanding > 0 ? 'text-red-500' : 'text-[#10b981]'}`}>
                   Outstanding: {formatCurrency(outstanding > 0 ? outstanding : null)}
                 </span>
               </div>

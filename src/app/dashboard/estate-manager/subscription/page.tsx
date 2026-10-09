@@ -134,7 +134,7 @@ export default function SubscriptionPage() {
               </p>
               {subscription && (
                 <p className="text-xs text-zinc-500 mt-1">
-                  Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </p>
               )}
             </div>
@@ -252,7 +252,7 @@ export default function SubscriptionPage() {
                 {billingHistory.map((entry) => (
                   <TableRow key={entry.id}>
                     <TableCell>
-                      {new Date(entry.date).toLocaleDateString('en-US', {
+                      {new Date(entry.date).toLocaleDateString('en-NG', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',

@@ -38,7 +38,7 @@ function AuditLogsClient({
     const lower = action.toLowerCase();
     if (lower.includes('blocked') || lower.includes('ban') || lower.includes('suspend'))
       return 'text-error';
-    if (lower.includes('approve') || lower.includes('verify')) return 'text-[#00ff66]';
+    if (lower.includes('approve') || lower.includes('verify')) return 'text-[#10b981]';
     return 'text-white';
   };
 

@@ -41,7 +41,7 @@ interface UtilityAllocationItem {
 const invoiceStatusSchema: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Draft' },
   sent: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Sent' },
-  paid: { class: 'bg-emerald-500/10 text-[#00ff66] border-success/20', label: 'Paid' },
+  paid: { class: 'bg-emerald-500/10 text-[#10b981] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };

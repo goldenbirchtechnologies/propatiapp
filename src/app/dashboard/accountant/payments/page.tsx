@@ -61,7 +61,7 @@ export default async function AccountantPaymentsPage() {
                         <p className="text-sm font-medium text-white">{tx.description || tx.type}</p>
                         <p className="text-xs text-zinc-500">{new Date(tx.createdAt).toLocaleString()}</p>
                       </div>
-                      <p className={`text-sm font-semibold ${tx.status === 'success' ? 'text-[#00ff66]' : 'text-zinc-300'}`}>
+                      <p className={`text-sm font-semibold ${tx.status === 'success' ? 'text-[#10b981]' : 'text-zinc-300'}`}>
                         ₦{Number(tx.amount).toLocaleString()} <span className="text-xs">{tx.status}</span>
                       </p>
                     </div>

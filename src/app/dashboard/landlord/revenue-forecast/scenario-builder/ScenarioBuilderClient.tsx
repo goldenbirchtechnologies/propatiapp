@@ -110,7 +110,7 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
             <p className="text-xs opacity-60 mb-1">Resulting Forecast</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-surface-bright">₦{calculated}M</span>
-              <span className="text-sm text-[#00ff66]">+₦{(Number(calculated) - baseRevenue).toFixed(1)}M impact</span>
+              <span className="text-sm text-[#10b981]">+₦{(Number(calculated) - baseRevenue).toFixed(1)}M impact</span>
             </div>
           </div>
         </div>

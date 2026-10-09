@@ -1,19 +1,19 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import type { AgreementStatus } from '@prisma/client';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { AGENT_NAVIGATION } from '@/lib/navigation';
 import AgentDealsClient from './AgentDealsClient';
 
-const ACTIVE_STATUSES = [
+const ACTIVE_STATUSES: AgreementStatus[] = [
   'draft',
   'pending_landlord',
   'pending_tenant',
   'tenant_signed',
   'landlord_signed',
   'fully_signed',
-  'active',
 ];
 
 export default async function Page() {

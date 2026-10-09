@@ -113,7 +113,7 @@ function Step4InspectionClient(props: Props) {
             )}
             {props.inspection.l4CompletedAt && (
               <div className="text-sm text-zinc-400">
-                Completed on {new Date(props.inspection.l4CompletedAt).toLocaleDateString()}
+                Completed on {new Date(props.inspection.l4CompletedAt).toLocaleDateString('en-NG')}
               </div>
             )}
           </div>
@@ -127,7 +127,7 @@ function Step4InspectionClient(props: Props) {
             </div>
             {props.inspection.l4ScheduledAt && (
               <div className="text-sm text-zinc-400">
-                Scheduled for {new Date(props.inspection.l4ScheduledAt).toLocaleDateString()} at {preferredTime}
+                Scheduled for {new Date(props.inspection.l4ScheduledAt).toLocaleDateString('en-NG')} at {preferredTime}
               </div>
             )}
             {props.inspection.l4Agent && (

@@ -92,10 +92,10 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Active" value={String(activeCount)} icon={<FileText className="w-5 h-5" />} />
-        <StatCard label="Pending" value={String(pendingCount)} icon={<FileText className="w-5 h-5" />} />
-        <StatCard label="Expired" value={String(expiredCount)} icon={<FileText className="w-5 h-5" />} />
-        <StatCard label="Total" value={String(agreements.length)} icon={<FileText className="w-5 h-5" />} />
+        <StatCard label="Active" value={String(activeCount)} icon={FileText} />
+        <StatCard label="Pending" value={String(pendingCount)} icon={FileText} />
+        <StatCard label="Expired" value={String(expiredCount)} icon={FileText} />
+        <StatCard label="Total" value={String(agreements.length)} icon={FileText} />
       </div>
 
       {/* Filters */}

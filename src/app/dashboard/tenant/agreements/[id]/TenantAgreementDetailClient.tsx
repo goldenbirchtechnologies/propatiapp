@@ -59,9 +59,9 @@ const statusConfig: Record<
   draft: { class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]', label: 'Draft' },
   pending_landlord: { label: 'Pending Landlord', class: 'bg-zinc-900 text-white border-white/[0.08]/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
-  tenant_signed: { label: 'Tenant Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
-  landlord_signed: { label: 'Landlord Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
-  fully_signed: { label: 'Fully Signed', class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' },
+  tenant_signed: { label: 'Tenant Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
+  landlord_signed: { label: 'Landlord Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
+  fully_signed: { label: 'Fully Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   terminated: { label: 'Terminated', class: 'bg-red-500/10 text-red-500 border-red-500/20' },
   expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]' },
 };
@@ -214,7 +214,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                     )}
                   </div>
                   {sig ? (
-                    <Badge className="bg-success/10 text-[#00ff66] border-success/20">
+                    <Badge className="bg-success/10 text-[#10b981] border-success/20">
                       <CheckCircle2 className="h-3 w-3 mr-1" />
                       Signed
                     </Badge>

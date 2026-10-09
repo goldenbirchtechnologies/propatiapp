@@ -549,9 +549,9 @@ export default function AgentListingDetailClient({ listing }: Props) {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Listed Units" value={String(listing.units.filter((u) => u.isListed).length)} icon={Eye} />
-        <StatCard label="Applications" value={String(listing.applications.length)} icon={Inbox} accentColor="#3b82f6" />
-        <StatCard label="Agreements" value={String(listing.agreements.length)} icon={FileText} accentColor="#10b981" />
-        <StatCard label="Bookings" value={String(listing.bookings.length)} icon={Calendar} accentColor="#f59e0b" />
+        <StatCard label="Applications" value={String(listing.applications.length)} icon={Inbox} accentColor="var(--accent)" />
+        <StatCard label="Agreements" value={String(listing.agreements.length)} icon={FileText} accentColor="var(--accent)" />
+        <StatCard label="Bookings" value={String(listing.bookings.length)} icon={Calendar} accentColor="var(--accent)" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">

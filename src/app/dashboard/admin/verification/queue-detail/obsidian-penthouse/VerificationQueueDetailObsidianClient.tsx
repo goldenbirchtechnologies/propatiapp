@@ -45,7 +45,7 @@ export default function VerificationQueueDetailObsidianClient() {
             ].map((step) => {
               const icon = step.state === 'done' ? 'check' : step.state === 'active' ? 'pending' : 'radio_button_unchecked';
               const cls = step.state === 'done'
-                ? 'bg-on-tertiary-container text-[#00ff66]'
+                ? 'bg-on-tertiary-container text-[#10b981]'
                 : step.state === 'active'
                   ? 'bg-secondary-container text-on-secondary-fixed ring-4 ring-background'
                   : 'bg-zinc-800 text-zinc-500';
@@ -68,7 +68,7 @@ export default function VerificationQueueDetailObsidianClient() {
           <div className="rounded-lg border border-white/[0.08] bg-zinc-950/50 p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h4 className="font-label-sm uppercase tracking-wider text-zinc-500">Property Owner</h4>
-              <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#00ff66]">MATCHED 98%</span>
+              <span className="rounded bg-on-tertiary-container/10 px-2 py-0.5 text-xs font-label-sm text-[#10b981]">MATCHED 98%</span>
             </div>
             <div className="flex items-center gap-4">
               <img alt="Owner avatar" className="h-12 w-12 rounded-full border border-white/[0.08] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRtVkTaJtRyCVW7YClt5jsc2v2_klnwX2OEojt3Ht0JZoh9tP55l32XVouzrCafjRxTqn0gXWoLQlMwZ7dUOMRQqvfPbBGwj5C9ADSl4K9W5PO0CLYKtPZOeCjg0c64x6OB0Z-1n8t1vVKyUqFNBoA9xJ7bu9kOue7rsijLpShIHReVxnkQXuLs4vtzyIYUV2t9Bd33yaqmh69JV0dYYiD1Y__xfrysY3JM1pZ8SSp_PFIT4oEmtJcJNE1tuX5MadK9GpxIFq6ABM" />
@@ -145,8 +145,8 @@ export default function VerificationQueueDetailObsidianClient() {
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-widest text-zinc-500 font-label-sm">Risk Assessment</p>
               <div className="rounded-r-lg border-l-4 border-on-tertiary-container bg-on-tertiary-container/5 p-4">
-                <p className="font-headline-sm text-[#00ff66] text-white">LOW RISK</p>
-                <p className="text-sm opacity-80 text-[#00ff66]">9.5/10 Security Score</p>
+                <p className="font-headline-sm text-[#10b981] text-white">LOW RISK</p>
+                <p className="text-sm opacity-80 text-[#10b981]">9.5/10 Security Score</p>
               </div>
             </div>
           </div>

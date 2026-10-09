@@ -126,7 +126,7 @@ export default function RevenueSignatureClient({
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-500">Total Revenue</p>
-          <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
+          <p className="text-2xl font-bold text-[#10b981] font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-500">Service Charges</p>
@@ -138,7 +138,7 @@ export default function RevenueSignatureClient({
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <p className="text-xs uppercase tracking-wider text-zinc-500">Net Signature</p>
-          <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#00ff66]' : 'text-red-500'}`}>
+          <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
             {totalNet >= 0 ? '+' : ''}₦{(totalNet / 1e6).toFixed(2)}M
           </p>
         </div>
@@ -184,10 +184,10 @@ export default function RevenueSignatureClient({
                 filtered.map((m) => (
                   <TableRow key={m.month} className="border-white/[0.08] transition-colors hover:bg-zinc-900est">
                     <TableCell className="text-white text-sm">{m.month}</TableCell>
-                    <TableCell className="text-right text-[#00ff66] font-mono text-sm">₦{m.totalRevenue.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-[#10b981] font-mono text-sm">₦{m.totalRevenue.toLocaleString()}</TableCell>
                     <TableCell className="text-right text-zinc-300 font-mono text-sm">₦{m.serviceCharges.toLocaleString()}</TableCell>
                     <TableCell className="text-right text-white font-mono text-sm">₦{m.rentTransactions.toLocaleString()}</TableCell>
-                    <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-[#00ff66]' : 'text-red-500'}`}>
+                    <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
                       {m.net >= 0 ? '+' : ''}₦{m.net.toLocaleString()}
                     </TableCell>
                   </TableRow>

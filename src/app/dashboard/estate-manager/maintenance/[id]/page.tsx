@@ -37,7 +37,7 @@ const statusConfig: Record<string, { label: string; className: string }> = {
   open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-white/[0.08]' },
   assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-white/[0.08]' },
   in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-white/[0.08]' },
-  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#00ff66] border border-white/[0.08]' },
+  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#10b981] border border-white/[0.08]' },
   closed: { label: 'Closed', className: 'bg-zinc-900 text-zinc-500 border border-white/[0.08]' },
 };
 

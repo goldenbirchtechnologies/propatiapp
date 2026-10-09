@@ -16,7 +16,7 @@ type Screening = {
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   scheduled: { class: 'bg-zinc-900 text-zinc-300 border-white/[0.08]', label: 'Scheduled' },
-  completed: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Completed' },
+  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Completed' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
 

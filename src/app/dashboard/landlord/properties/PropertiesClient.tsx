@@ -50,6 +50,7 @@ import {
 } from 'lucide-react';
 
 import { VerificationBadge as SharedVerificationBadge } from '@/components/ui/badges';
+import { StatCard } from '@/components/ui/stat-card';
 
 type ListingUnit = {
   id: string;
@@ -128,7 +129,7 @@ function formatUnitSubtext(unit: ListingUnit) {
 function OccupancyBadge({ occupancy }: { occupancy?: string }) {
   const cfg =
     {
-      VACANT: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Vacant' },
+      VACANT: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Vacant' },
       OCCUPIED: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Occupied' },
       NOTICE_GIVEN: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Notice Given' },
       MAINTENANCE: { class: 'bg-muted text-zinc-500 border-white/[0.08]', label: 'Under Maintenance' },
@@ -209,10 +210,10 @@ export default function PropertiesClient({ listings }: Props) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Properties" value={counts.totalProperties} icon={<BuildingIcon className="size-5" />} />
-        <StatCard label="Total Units" value={counts.totalUnits} icon={<BuildingIcon className="size-5" />} />
-        <StatCard label="Active Listings" value={counts.activeListings} icon={<CheckCircleIcon className="size-5" />} />
-        <StatCard label="Verified" value={counts.verified} icon={<ShieldCheckIcon className="size-5" />} />
+        <StatCard label="Total Properties" value={String(counts.totalProperties)} icon={BuildingIcon} />
+        <StatCard label="Total Units" value={String(counts.totalUnits)} icon={BuildingIcon} />
+        <StatCard label="Active Listings" value={String(counts.activeListings)} icon={CheckCircleIcon} />
+        <StatCard label="Verified" value={String(counts.verified)} icon={ShieldCheckIcon} />
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -320,23 +321,10 @@ export default function PropertiesClient({ listings }: Props) {
   );
 }
 
-function StatCard({ label, value, icon: Icon }: { label: string; value: number; icon: React.ReactNode }) {
-  return (
-    <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-5 shadow-none hover:shadow-none transition-shadow">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">{label}</p>
-          <p className="text-2xl font-headline-sm font-bold text-white">{value.toLocaleString()}</p>
-        </div>
-        <div className="p-2.5 rounded-xl bg-zinc-900 text-white">{Icon}</div>
-      </div>
-    </div>
-  );
-}
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Active' },
+    active: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Active' },
     draft: { class: 'bg-muted text-zinc-500 border-white/[0.08]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
     deleted: { class: 'bg-muted text-zinc-500 border-white/[0.08]', label: 'Deleted' },

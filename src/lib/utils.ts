@@ -47,3 +47,36 @@ export function truncate(text: string, length: number): string {
   if (text.length <= length) return text
   return `${text.slice(0, length)}...`
 }
+
+// Nigeria reads dates day-first (dd/mm/yyyy). Use these instead of bare
+// toLocaleDateString(), which follows the viewer's browser locale and renders
+// month-first for US visitors.
+export function formatDate(
+  value: Date | string | number | null | undefined,
+  fallback = '—'
+): string {
+  if (value === null || value === undefined || value === '') return fallback
+  const d = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(d.getTime())) return fallback
+  return d.toLocaleDateString('en-NG', { day: '2-digit', month: '2-digit', year: 'numeric' })
+}
+
+export function formatDateLong(
+  value: Date | string | number | null | undefined,
+  fallback = '—'
+): string {
+  if (value === null || value === undefined || value === '') return fallback
+  const d = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(d.getTime())) return fallback
+  return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+export function formatDateTime(
+  value: Date | string | number | null | undefined,
+  fallback = '—'
+): string {
+  if (value === null || value === undefined || value === '') return fallback
+  const d = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(d.getTime())) return fallback
+  return `${formatDate(d)}, ${d.toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' })}`
+}

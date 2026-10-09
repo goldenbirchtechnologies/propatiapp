@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 const listingStatusConfig: Record<string, { color: string; label: string }> = {
-  active: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Active' },
+  active: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
   draft: { color: 'bg-[#171717] text-zinc-500 border border-white/[0.08]', label: 'Draft' },
   suspended: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
   deleted: { color: 'bg-destructive/5 text-red-500/60 border border-white/[0.08]', label: 'Deleted' },

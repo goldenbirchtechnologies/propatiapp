@@ -110,10 +110,10 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Open" value={String(openCount)} icon={<AlertCircle className="w-5 h-5" />} />
-        <StatCard label="In Progress" value={String(inProgressCount)} icon={<Loader2 className="w-5 h-5" />} />
-        <StatCard label="Resolved" value={String(resolvedCount)} icon={<CheckCircle2 className="w-5 h-5" />} />
-        <StatCard label="Total" value={String(tickets.length)} icon={<Clock className="w-5 h-5" />} />
+        <StatCard label="Open" value={String(openCount)} icon={AlertCircle} />
+        <StatCard label="In Progress" value={String(inProgressCount)} icon={Loader2} />
+        <StatCard label="Resolved" value={String(resolvedCount)} icon={CheckCircle2} />
+        <StatCard label="Total" value={String(tickets.length)} icon={Clock} />
       </div>
 
       {/* Filters */}

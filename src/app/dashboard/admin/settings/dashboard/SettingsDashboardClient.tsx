@@ -75,7 +75,7 @@ export default function SettingsDashboardClient() {
               <div className="space-y-md">
                 <div className="flex justify-between items-center py-sm border-b border-white/[0.08]">
                   <span className="text-body-sm font-medium">2FA Status</span>
-                  <span className="text-[#00ff66] font-label-sm">Enforced</span>
+                  <span className="text-[#10b981] font-label-sm">Enforced</span>
                 </div>
                 <div className="flex justify-between items-center py-sm border-b border-white/[0.08]">
                   <span className="text-body-sm font-medium">Active Admin Sessions</span>
@@ -100,7 +100,7 @@ export default function SettingsDashboardClient() {
             </div>
             <div className="space-y-lg">
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#00ff66]">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#10b981]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
@@ -109,7 +109,7 @@ export default function SettingsDashboardClient() {
                 </div>
               </div>
               <div className="flex items-center gap-md">
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#00ff66]">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-[#10b981]">
                   <AppIcon name="check_circle" className="lucide" />
                 </div>
                 <div>
@@ -211,7 +211,7 @@ export default function SettingsDashboardClient() {
         {/* Footer Fixed Save Bar */}
         <div className="fixed bottom-0 left-64 right-0 bg-zinc-950/50/80 backdrop-blur-md border-t border-white/[0.08] py-4 px-gutter flex justify-between items-center z-40">
           <div className="flex items-center gap-4">
-            <span className="lucide text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }}>
+            <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
               check_circle
             </span>
             <p className="text-body-sm text-zinc-500">

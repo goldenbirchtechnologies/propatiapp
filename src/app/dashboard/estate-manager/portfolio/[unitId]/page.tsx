@@ -202,7 +202,7 @@ export default function UnitDetailPage() {
                 <div>
                   <p className="text-sm text-zinc-500">Move-in Date</p>
                   <p className="font-medium">
-                    {new Date(unit.leaseStartDate).toLocaleDateString()}
+                    {new Date(unit.leaseStartDate).toLocaleDateString('en-NG')}
                   </p>
                 </div>
                 )}
@@ -237,13 +237,13 @@ export default function UnitDetailPage() {
               <div>
                 <p className="text-sm text-zinc-500">Start Date</p>
                 <p className="font-medium">
-                  {new Date(lease.startDate).toLocaleDateString()}
+                  {new Date(lease.startDate).toLocaleDateString('en-NG')}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-zinc-500">End Date</p>
                 <p className="font-medium">
-                  {new Date(lease.endDate).toLocaleDateString()}
+                  {new Date(lease.endDate).toLocaleDateString('en-NG')}
                 </p>
               </div>
               <div>
@@ -285,7 +285,7 @@ export default function UnitDetailPage() {
                   <div>
                     <p className="font-medium">{ticket.title}</p>
                     <p className="text-sm text-zinc-500">
-                      {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString()}
+                      {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">

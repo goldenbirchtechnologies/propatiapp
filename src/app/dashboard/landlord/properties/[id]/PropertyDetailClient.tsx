@@ -159,7 +159,7 @@ function formatPropertyType(value?: string) {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
-    active: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Active' },
+    active: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Active' },
     draft: { class: 'bg-zinc-900 text-zinc-400 border-white/[0.08]', label: 'Draft' },
     suspended: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Suspended' },
     deleted: { class: 'bg-zinc-900 text-zinc-400 border-white/[0.08]', label: 'Deleted' },
@@ -323,10 +323,10 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
   const statusColors: Record<string, { class: string; label: string }> = {
     not_started: { class: 'bg-zinc-900 text-zinc-400 border-white/[0.08]', label: 'Not Started' },
     in_progress: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'In Progress' },
-    certified: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Verified ✓' },
+    certified: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Verified ✓' },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected' },
     pending: { class: 'bg-amber-500/10 text-amber-300 border-amber-500/30', label: 'Pending' },
-    approved: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Approved' },
+    approved: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Approved' },
   };
 
   const verificationStatus = listing.verification?.overallStatus || 'not_started';
@@ -570,7 +570,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               <div>
                 <p className="text-xs text-zinc-500">Added</p>
                 <p className="font-medium text-sm text-white">
-                  {new Date(listing.createdAt).toLocaleDateString()}
+                  {new Date(listing.createdAt).toLocaleDateString('en-NG')}
                 </p>
               </div>
             </div>
@@ -657,7 +657,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
                         <div className="flex flex-wrap items-center gap-2">
                           <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
                             unit.occupancy === 'VACANT'
-                              ? 'bg-success/10 text-[#00ff66] border-success/20'
+                              ? 'bg-success/10 text-[#10b981] border-success/20'
                               : unit.occupancy === 'OCCUPIED'
                                 ? 'bg-zinc-900 text-zinc-400 border-white/[0.08]'
                                 : 'bg-warning/10 text-warning border-warning/20'
@@ -763,7 +763,7 @@ export default function PropertyDetailClient({ listing }: { listing: Listing }) 
               Shared Building Amenities
             </h2>
             {saved && (
-              <span className="text-xs text-[#00ff66]">
+              <span className="text-xs text-[#10b981]">
                 Changes saved
               </span>
             )}

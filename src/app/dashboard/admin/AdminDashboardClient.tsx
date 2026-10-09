@@ -7,6 +7,7 @@ import { ADMIN_NAVIGATION } from '@/lib/navigation';
 import { useUser } from '@clerk/nextjs';
 import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/components/ui';
 import { ArrowRight, Users, Building2, Shield, DollarSign, AlertTriangle, TrendingUp, Flag } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils';
 
 interface UserActivityProps {
   id: string;
@@ -88,25 +89,57 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
   });
   const [recentUsers, setRecentUsers] = useState<UserActivityProps[]>([]);
 
-  useEffect(() => {
-    setStats({
-      totalUsers: 12847,
-      totalProperties: 3426,
-      pendingVerifications: 47,
-      monthlyRevenue: 8450000,
-      activeListings: 2891,
-      totalTransactions: 1534,
-      disputesCases: 12,
-      platformFees: 3420000,
-    });
+  const [revenueByMonth, setRevenueByMonth] = useState<{ month: string; amount: number }[]>([]);
+  const [recentTransactions, setRecentTransactions] = useState<
+    { id: string; type: string; amount: string; from: string; to: string; date: string; status: string }[]
+  >([]);
+  const [verificationQueue, setVerificationQueue] = useState<
+    { id: string; property: string; owner: string; type: string; status: string; submitted: string }[]
+  >([]);
+  const [loadError, setLoadError] = useState(false);
 
-    setRecentUsers([
-      { id: '1', name: 'Adebayo Johnson', email: 'adebayo.j@email.com', role: 'tenant', registeredAt: '2 hours ago', status: 'pending' },
-      { id: '2', name: 'Chioma Nwankwo', email: 'chioma.nw@email.com', role: 'landlord', registeredAt: '5 hours ago', status: 'verified' },
-      { id: '3', name: 'Ibrahim Hassan', email: 'ibrahim.h@email.com', role: 'agent', registeredAt: '1 day ago', status: 'active' },
-      { id: '4', name: 'Blessing Okoro', email: 'blessing.o@email.com', role: 'estate-manager', registeredAt: '1 day ago', status: 'verified' },
-      { id: '5', name: 'Tunde Adeyemi', email: 'tunde.a@email.com', role: 'tenant', registeredAt: '2 days ago', status: 'active' },
-    ]);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/admin/stats')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((payload) => {
+        if (cancelled) return;
+        const d = payload?.data ?? payload;
+        const o = d?.overview ?? {};
+        setStats({
+          totalUsers: o.totalUsers ?? 0,
+          totalProperties: o.totalListings ?? 0,
+          pendingVerifications:
+            (d?.verificationsByStatus ?? [])
+              .filter((v: { status: string }) => v.status === 'in_progress' || v.status === 'not_started')
+              .reduce((sum: number, v: { count: number }) => sum + v.count, 0),
+          monthlyRevenue: o.revenueThisMonth ?? 0,
+          activeListings:
+            (d?.listingsByStatus ?? [])
+              .filter((l: { status: string }) => l.status === 'active')
+              .reduce((sum: number, l: { count: number }) => sum + l.count, 0),
+          totalTransactions: o.totalTransactions ?? 0,
+          disputesCases: 0,
+          platformFees: 0,
+        });
+        setRevenueByMonth(
+          Array.isArray(d?.revenueByMonth)
+            ? d.revenueByMonth.map((m: { month: string; revenue?: number; amount?: number }) => ({
+                month: m.month,
+                amount: m.revenue ?? m.amount ?? 0,
+              }))
+            : []
+        );
+        setRecentTransactions(Array.isArray(d?.recentTransactions) ? d.recentTransactions : []);
+        setVerificationQueue(Array.isArray(d?.verificationQueue) ? d.verificationQueue : []);
+        setRecentUsers(Array.isArray(d?.recentUsers) ? d.recentUsers : []);
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(true);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const transactionColumns = [
@@ -119,19 +152,11 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
     { key: 'status', label: 'Status', render: (row: Record<string, unknown>) => <StatusBadge status={String(row.status ?? '')} /> },
   ];
 
-  const mockTransactions = [
-    { id: 'TXN-001', type: 'Rent Payment', amount: '₦450,000', from: 'Adebayo Johnson', to: 'Lekki Palms Estate', date: 'Aug 24, 2026', status: 'Completed' },
-    { id: 'TXN-002', type: 'Service Charge', amount: '₦120,000', from: 'Chioma Nwankwo', to: 'Victoria Heights', date: 'Aug 24, 2026', status: 'Processing' },
-    { id: 'TXN-003', type: 'Commission', amount: '₦85,000', from: 'Zenith Corp', to: 'Ibrahim Hassan', date: 'Aug 23, 2026', status: 'Completed' },
-    { id: 'TXN-004', type: 'Caution Deposit', amount: '₦200,000', from: 'Tunde Adeyemi', to: 'Prime Heights', date: 'Aug 23, 2026', status: 'In Escrow' },
-    { id: 'TXN-005', type: 'Rent Payment', amount: '₦380,000', from: 'Blessing Okoro', to: 'Ikoyi Gardens', date: 'Aug 22, 2026', status: 'Completed' },
-  ];
-
   return (
     <div className="p-6 space-y-6">
       <PageHeader
         title="Admin Dashboard"
-        description="Platform overview · August 24, 2026"
+        description={`Platform overview · ${new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}`}
         actions={
           <div className="flex gap-2">
             <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-white/[0.08] text-zinc-300 rounded-lg hover:text-white hover:border-zinc-600 transition-colors">
@@ -144,12 +169,13 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         }
       />
 
-      {/* KPIs */}
+      {/* KPIs — every figure is fetched from /api/admin/stats; no trend deltas
+          are shown because month-over-month history is not tracked yet. */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Users" value={stats.totalUsers.toLocaleString()} trend="up" trendValue="+290 this month" icon={Users} />
-        <StatCard label="Active Listings" value={stats.activeListings.toLocaleString()} trend="up" trendValue="+1.2K" icon={Building2} />
-        <StatCard label="Verification Queue" value={String(stats.pendingVerifications)} sub="Pending review" trend="flat" icon={Shield} />
-        <StatCard label="Platform Revenue" value={`₦${(stats.monthlyRevenue / 1e6).toFixed(1)}M`} trend="up" trendValue="+23.4%" icon={DollarSign} />
+        <StatCard label="Total Users" value={stats.totalUsers.toLocaleString()} icon={Users} />
+        <StatCard label="Active Listings" value={stats.activeListings.toLocaleString()} icon={Building2} />
+        <StatCard label="Verification Queue" value={String(stats.pendingVerifications)} sub="Pending review" icon={Shield} />
+        <StatCard label="Platform Revenue" value={formatCurrency(stats.monthlyRevenue)} sub="This month" icon={DollarSign} />
       </div>
 
       {/* Charts */}
@@ -159,56 +185,88 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-white font-semibold text-sm">User Growth</h3>
-              <p className="text-zinc-500 text-xs mt-0.5">Monthly active users · Last 12 months</p>
+              <p className="text-zinc-500 text-xs mt-0.5">Platform revenue · last 12 months</p>
             </div>
             <a href="/dashboard/admin/users" className="text-xs text-emerald-400 flex items-center gap-1">
               View users <ArrowRight size={11} />
             </a>
           </div>
-          <div className="flex items-end gap-1.5 h-32">
-            {[820, 950, 1100, 1280, 1450, 1620, 1890, 2100, 2350, 2600, 2890, 3180].map((v, i) => {
-              const max = 3180;
-              const pct = (v / max) * 100;
-              const isLast = i === 11;
-              return (
-                <div key={i} className="flex-1">
-                  <div
-                    className="w-full rounded-sm"
-                    style={{
-                      height: `${pct}%`,
-                      background: isLast ? '#10b981' : 'rgba(255,255,255,0.06)',
-                      minHeight: 4,
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-between mt-2 text-[10px] text-zinc-700">
-            {['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'].map((m) => (
-              <span key={m}>{m}</span>
-            ))}
-          </div>
+          {revenueByMonth.length === 0 || revenueByMonth.every((m) => !m.amount) ? (
+            <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-sm text-zinc-400">No revenue recorded yet</p>
+              <p className="text-xs text-zinc-600">
+                {loadError ? 'Could not load platform stats.' : 'Completed transactions will appear here.'}
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-end gap-1.5 h-32">
+                {revenueByMonth.map((m, i) => {
+                  const max = Math.max(...revenueByMonth.map((x) => x.amount), 1);
+                  const pct = (m.amount / max) * 100;
+                  const isLast = i === revenueByMonth.length - 1;
+                  return (
+                    <div key={`${m.month}-${i}`} className="flex-1">
+                      <div
+                        className="w-full rounded-sm"
+                        style={{
+                          height: `${pct}%`,
+                          background: isLast ? '#10b981' : 'rgba(255,255,255,0.06)',
+                          minHeight: 4,
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-between mt-2 text-[10px] text-zinc-700">
+                {revenueByMonth.map((m, i) => (
+                  <span key={`${m.month}-label-${i}`}>{m.month}</span>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Alerts */}
         <div className="glass-card p-5">
           <h3 className="text-white font-semibold text-sm mb-4">System Alerts</h3>
           <div className="space-y-2.5">
+            {/* Derived from real counts only. The previous list included
+                infrastructure telemetry (backups, API latency) that this app
+                does not monitor — it was static text presented as live status. */}
             {[
-              { severity: 'critical', msg: 'Failed payment rate 2.3% — above threshold', path: '/dashboard/admin/transactions' },
-              { severity: 'warning', msg: '3 disputes unresolved > 7 days', path: '/dashboard/admin/disputes' },
-              { severity: 'warning', msg: '12 verification submissions pending', path: '/dashboard/admin/verification' },
-              { severity: 'info', msg: 'DB backup completed successfully', path: '#' },
-              { severity: 'info', msg: 'API latency normal — p95 < 200ms', path: '#' },
-            ].map((a, i) => (
-              <a key={i} href={a.path} className="flex items-start gap-2.5 hover:bg-white/[0.03] p-2 rounded-lg transition-colors">
-                <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
-                  a.severity === 'critical' ? 'bg-red-400' : a.severity === 'warning' ? 'bg-amber-400' : 'bg-blue-400'
-                }`} />
-                <span className="text-xs text-zinc-400">{a.msg}</span>
-              </a>
-            ))}
+              stats.pendingVerifications > 0 && {
+                severity: 'warning',
+                msg: `${stats.pendingVerifications} verification${stats.pendingVerifications === 1 ? '' : 's'} pending review`,
+                path: '/dashboard/admin/verification',
+              },
+              stats.disputesCases > 0 && {
+                severity: 'critical',
+                msg: `${stats.disputesCases} open dispute${stats.disputesCases === 1 ? '' : 's'}`,
+                path: '/dashboard/admin/disputes',
+              },
+              stats.totalUsers === 0 && {
+                severity: 'info',
+                msg: 'No users registered yet',
+                path: '/dashboard/admin/users',
+              },
+            ]
+              .filter(Boolean)
+              .map((raw, i) => {
+                const a = raw as { severity: string; msg: string; path: string };
+                return (
+                  <a key={i} href={a.path} className="flex items-start gap-2.5 hover:bg-white/[0.03] p-2 rounded-lg transition-colors">
+                    <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                      a.severity === 'critical' ? 'bg-red-400' : a.severity === 'warning' ? 'bg-amber-400' : 'bg-blue-400'
+                    }`} />
+                    <span className="text-xs text-zinc-400">{a.msg}</span>
+                  </a>
+                );
+              })}
+            {stats.pendingVerifications === 0 && stats.disputesCases === 0 && stats.totalUsers > 0 && (
+              <p className="text-xs text-zinc-500 text-center py-4">No alerts. Platform is healthy.</p>
+            )}
           </div>
         </div>
       </div>
@@ -240,29 +298,31 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
             <h3 className="text-white font-semibold text-sm flex items-center gap-2">
               <Shield size={14} className="text-emerald-400" />
               Verification Queue
-              <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full">12</span>
+              <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full">
+                {stats.pendingVerifications}
+              </span>
             </h3>
             <a href="/dashboard/admin/verification" className="text-xs text-emerald-400 flex items-center gap-1">
               View all <ArrowRight size={11} />
             </a>
           </div>
           <div className="space-y-2">
-            {[
-              { id: '1', property: 'Lekki Phase 1 Duplex', owner: 'Adebayo Johnson', type: 'Property', status: 'Pending Review', submitted: '2 hours ago' },
-              { id: '2', property: 'VI Waterfront Apartment', owner: 'Chioma Nwankwo', type: 'Property', status: 'Under Review', submitted: '5 hours ago' },
-              { id: '3', property: 'Ikeja GRA Office Space', owner: 'Zenith Corp', type: 'Commercial', status: 'Pending Review', submitted: '1 day ago' },
-            ].map((v) => (
-              <div key={v.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-zinc-950/60">
-                <div className="flex-1 min-w-0">
-                  <div className="text-white text-xs font-medium">{v.property}</div>
-                  <div className="text-zinc-600 text-xs">{v.owner} · {v.type}</div>
+            {verificationQueue.length === 0 ? (
+              <p className="text-sm text-zinc-500 text-center py-4">Nothing awaiting review.</p>
+            ) : (
+              verificationQueue.map((v) => (
+                <div key={v.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-zinc-950/60">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-xs font-medium">{v.property}</div>
+                    <div className="text-zinc-600 text-xs">{v.owner} · {v.type}</div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <StatusBadge status={v.status} />
+                    <div className="text-zinc-700 text-[10px] mt-0.5">{v.submitted}</div>
+                  </div>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  <StatusBadge status={v.status} />
-                  <div className="text-zinc-700 text-[10px] mt-0.5">{v.submitted}</div>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -275,10 +335,11 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
             All transactions <ArrowRight size={11} />
           </a>
         </div>
-        <DataTable
-          columns={transactionColumns}
-          data={mockTransactions}
-        />
+        {recentTransactions.length === 0 ? (
+          <p className="text-sm text-zinc-500 text-center py-4">No transactions recorded yet.</p>
+        ) : (
+          <DataTable columns={transactionColumns} data={recentTransactions} />
+        )}
       </div>
     </div>
   );

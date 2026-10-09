@@ -21,9 +21,9 @@ const statusConfig: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Draft' },
   pending_landlord: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
   pending_tenant: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
-  tenant_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Tenant Signed' },
-  landlord_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Landlord Signed' },
-  fully_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Fully Signed' },
+  tenant_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Tenant Signed' },
+  landlord_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Landlord Signed' },
+  fully_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Fully Signed' },
   terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
   expired: { class: 'bg-surface text-zinc-500 border-white/[0.08]', label: 'Expired' },
 };
@@ -44,7 +44,7 @@ export default function EstateManagerAgreementsClient({ initialAgreements }: { i
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-background rounded-xl border border-white/[0.08] p-4 shadow-none"><p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">Total</p><p className="text-2xl font-bold text-white">{initialAgreements.length}</p></div>
-        <div className="bg-background rounded-xl border border-white/[0.08] p-4 shadow-none"><p className="text-[10px] font-label-sm uppercase tracking-wider text-[#00ff66]">Signed</p><p className="text-2xl font-bold text-[#00ff66]">{initialAgreements.filter((a) => a.status === 'fully_signed').length}</p></div>
+        <div className="bg-background rounded-xl border border-white/[0.08] p-4 shadow-none"><p className="text-[10px] font-label-sm uppercase tracking-wider text-[#10b981]">Signed</p><p className="text-2xl font-bold text-[#10b981]">{initialAgreements.filter((a) => a.status === 'fully_signed').length}</p></div>
         <div className="bg-background rounded-xl border border-white/[0.08] p-4 shadow-none"><p className="text-[10px] font-label-sm uppercase tracking-wider text-warning">Pending</p><p className="text-2xl font-bold text-warning">{initialAgreements.filter((a) => ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(a.status)).length}</p></div>
         <div className="bg-background rounded-xl border border-white/[0.08] p-4 shadow-none"><p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500">Draft</p><p className="text-2xl font-bold text-white">{initialAgreements.filter((a) => a.status === 'draft').length}</p></div>
       </div>

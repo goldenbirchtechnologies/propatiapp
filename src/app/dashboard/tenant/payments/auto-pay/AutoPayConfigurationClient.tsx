@@ -65,7 +65,7 @@ export default function AutoPayConfigurationClient() {
         <h2 className="font-heading text-headline-lg text-white">Manage Automated Payments</h2>
         <p className="font-body-md text-zinc-500 max-w-2xl">
           Automate your monthly payments to avoid late fees and maintain your{' '}
-          <span className="text-[#00ff66] font-semibold">Perfect Payer status</span>.
+          <span className="text-[#10b981] font-semibold">Perfect Payer status</span>.
         </p>
       </div>
 
@@ -73,7 +73,7 @@ export default function AutoPayConfigurationClient() {
       <div className="glass-card border-white/[0.08]">
         <div className="p-6 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#00ff66] text-black flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-[#10b981] text-black flex items-center justify-center">
               <Zap className="w-6 h-6" style={{ fontVariationSettings: "'FILL' 1" }} />
             </div>
             <div>
@@ -84,7 +84,7 @@ export default function AutoPayConfigurationClient() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="font-label-sm text-label-md bg-accent/10 text-[#00ff66] px-3 py-1 rounded-full flex items-center gap-xs">
+            <span className="font-label-sm text-label-md bg-accent/10 text-[#10b981] px-3 py-1 rounded-full flex items-center gap-xs">
               <span className="w-2 h-2 rounded-full bg-accent"></span>
               ACTIVE
             </span>
@@ -152,7 +152,7 @@ export default function AutoPayConfigurationClient() {
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-zinc-900 border border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#00ff66] focus:border-[#00ff66] font-label-sm text-white"
+                    className="pl-10 pr-4 py-3 bg-zinc-900 border border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-white"
                   />
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function AutoPayConfigurationClient() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
             <div className="p-6 p-5 space-y-4 relative z-10">
               <div className="flex items-center gap-2">
-                <span className="lucide text-[#00ff66]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <span className="lucide text-[#10b981]" style={{ fontVariationSettings: "'FILL' 1" }}>
                   verified_user
                 </span>
                 <span className="font-label-sm label-sm tracking-widest text-white uppercase">

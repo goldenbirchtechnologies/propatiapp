@@ -64,7 +64,7 @@ export default async function LandlordWithdrawalsPage() {
                       <td className="px-5 py-4 text-sm"><span className="capitalize">{w.type.replace('_', ' ')}</span></td>
                       <td className="px-5 py-4 text-sm font-medium">₦{new Intl.NumberFormat('en-NG').format(Number(w.amount) / 100)}</td>
                       <td className="px-5 py-4">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${w.status === 'released' ? 'bg-success/10 text-[#00ff66] border border-success/20' : w.status === 'pending' ? 'bg-warning/10 text-warning border border-warning/20' : 'bg-zinc-900/30 text-zinc-400'}`}>
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${w.status === 'released' ? 'bg-success/10 text-[#10b981] border border-success/20' : w.status === 'pending' ? 'bg-warning/10 text-warning border border-warning/20' : 'bg-zinc-900/30 text-zinc-400'}`}>
                           {w.status}
                         </span>
                       </td>

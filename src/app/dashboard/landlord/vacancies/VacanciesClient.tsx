@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DashboardSection } from '@/components/layout/DashboardShell';
 import { Skeleton } from '@/components/ui/skeleton';
+import { StatCard } from '@/components/ui/stat-card';
 import {
   Home as HomeIcon,
   AlertTriangle,
@@ -146,7 +147,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function StatusBadge({ status }: { status: VacancyStatus }) {
     const config: Record<VacancyStatus, string> = {
-      open: 'bg-success/10 text-[#00ff66] border-success/20',
+      open: 'bg-success/10 text-[#10b981] border-success/20',
       filled: 'bg-zinc-900 text-white border-white/[0.08]/20',
       closed: 'bg-zinc-900/30 text-zinc-500 border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
@@ -239,30 +240,26 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         <StatCard
           label="Open Vacancies"
           value={String(openVacancies)}
-          icon={<HomeIcon className="h-5 w-5" />}
+          icon={HomeIcon}
           trend="Active listings"
-          trendPositive={openVacancies > 0}
         />
         <StatCard
           label="Total Applicants"
           value={String(totalApplicants)}
-          icon={<Users className="h-5 w-5" />}
+          icon={Users}
           trend="Pending review"
-          trendPositive={totalApplicants > 0}
         />
         <StatCard
           label="Filled"
           value={String(filledVacancies)}
-          icon={<CheckCircle2 className="h-5 w-5" />}
-          trend="Tenant matched"
-          trendPositive
+          icon={CheckCircle2}
+          trend="Tenant matched" trend="up"
         />
         <StatCard
           label="Total Listings"
           value={String(totalVacancies)}
-          icon={<Building2 className="h-5 w-5" />}
-          trend="All properties"
-          trendPositive
+          icon={Building2}
+          trend="All properties" trend="up"
         />
       </div>
 
@@ -431,44 +428,3 @@ export default function VacanciesClient({ userId }: { userId: string }) {
   );
 }
 
-function StatCard({
-  label,
-  value,
-  icon,
-  trend,
-  trendPositive = true,
-}: {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
-  trend?: string;
-  trendPositive?: boolean;
-}) {
-  return (
-    <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-zinc-500">
-            {label}
-          </p>
-          <p className="text-white">
-            {value}
-          </p>
-        </div>
-        <div className="bg-zinc-900 text-white">
-          {icon}
-        </div>
-      </div>
-      {trend && (
-        <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
-            {trendPositive ? '↑' : '↓'}
-          </span>
-          <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
-            {trend}
-          </span>
-        </div>
-      )}
-    </div>
-  );
-}

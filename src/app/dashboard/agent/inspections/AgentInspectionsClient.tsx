@@ -16,7 +16,7 @@ type Inspection = {
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   scheduled: { class: 'bg-info/10 text-info border border-white/[0.08]', label: 'Scheduled' },
-  completed: { class: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]', label: 'Completed' },
+  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-white/[0.08]', label: 'Completed' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border border-white/[0.08]', label: 'Cancelled' },
 };
 
@@ -38,7 +38,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Total</p><p className="text-2xl font-bold text-white">{initialInspections.length}</p></div>
           <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Scheduled</p><p className="text-2xl font-bold text-info">{initialInspections.filter((i) => i.status === 'scheduled').length}</p></div>
-          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Completed</p><p className="text-2xl font-bold text-[#00ff66]">{initialInspections.filter((i) => i.status === 'completed').length}</p></div>
+          <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Completed</p><p className="text-2xl font-bold text-[#10b981]">{initialInspections.filter((i) => i.status === 'completed').length}</p></div>
           <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Cancelled</p><p className="text-2xl font-bold text-red-500">{initialInspections.filter((i) => i.status === 'cancelled').length}</p></div>
         </div>
 

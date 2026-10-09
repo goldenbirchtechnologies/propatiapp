@@ -257,7 +257,7 @@ export default function MaintenancePage() {
                         </p>
                       )}
                       <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-500' }}>
-                        <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString()}
+                        <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                       </p>
                     </div>
                   </div>

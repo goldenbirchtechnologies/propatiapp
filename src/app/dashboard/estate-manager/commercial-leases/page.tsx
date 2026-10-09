@@ -16,7 +16,7 @@ const leases = [
 ];
 
 const statusStyles: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-[#00ff66] border border-white/[0.08]', label: 'PAID' },
+  paid: { class: 'bg-success/10 text-[#10b981] border border-white/[0.08]', label: 'PAID' },
   overdue: { class: 'bg-red-500/10 text-red-500 border border-white/[0.08]', label: 'OVERDUE' },
   partial: { class: 'bg-warning/10 text-warning border border-white/[0.08]', label: 'PARTIAL' },
 };
@@ -70,11 +70,11 @@ export default function EstateManagerCommercialLeasesPage() {
           <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">
             <div className="flex items-center justify-between">
               <span className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>Collection Rate</span>
-              <TrendingUp className="w-5 h-5 text-[#00ff66]" />
+              <TrendingUp className="w-5 h-5 text-[#10b981]" />
             </div>
             <div className="mt-3">
               <p className="text-2xl font-bold text-white">94.2%</p>
-              <p className="text-xs text-[#00ff66] mt-1">+2.4% from last month</p>
+              <p className="text-xs text-[#10b981] mt-1">+2.4% from last month</p>
             </div>
           </div>
           <div className="glass-card p-5 rounded-xl border border-white/[0.08] shadow-none hover:shadow-none transition-shadow">

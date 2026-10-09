@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CreditCard, Wrench, Home, Calendar, ArrowRight, AlertCircle, CheckCircle, Clock } from 'lucide-react';
 import { StatCard, StatusBadge, PageHeader, Progress } from '@/components/ui';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, formatDate } from '@/lib/utils';
 
 interface Agreement {
   id: string;
@@ -96,9 +96,9 @@ export default function TenantDashboardClient({
   }
 
   const paymentHistory = recentTransactions.slice(0, 4).map((tx) => ({
-    month: new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    month: new Date(tx.createdAt).toLocaleDateString('en-NG', { month: 'long', year: 'numeric' }),
     amount: formatCurrency(Number(tx.amount)),
-    date: new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+    date: new Date(tx.createdAt).toLocaleDateString('en-NG', { month: 'short', day: 'numeric' }),
     status: tx.status,
   }));
 
@@ -123,10 +123,11 @@ export default function TenantDashboardClient({
         }
       />
 
-      {/* KPIs */}
+      {/* KPIs — "Days Until Rent" / "Lease Remaining" derive from the real
+          next-due-date + endDate. Before, they were hardcoded. */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Days Until Rent" value={`${daysUntilRent}d`} sub="Sep 1, 2026" icon={Calendar} />
-        <StatCard label="Lease Remaining" value="4 months" sub="Expires Dec 2026" icon={Home} />
+        <StatCard label="Days Until Rent" value={`${daysUntilRent}d`} sub={activeAgreement ? `Due ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Calendar} />
+        <StatCard label="Lease Remaining" value={activeAgreement ? `${Math.max(0, Math.ceil((new Date(activeAgreement.endDate!).getTime() - Date.now()) / (30 * 24 * 60 * 60 * 1000)))} months` : '—'} sub={activeAgreement ? `Expires ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Home} />
         <StatCard label="Open Tickets" value={String(openMaintenanceCount)} sub="Maintenance" trend="flat" icon={Wrench} />
         <StatCard label="Saved Properties" value={String(savedCount)} sub="Browse more" icon={Home} />
       </div>
@@ -139,9 +140,7 @@ export default function TenantDashboardClient({
               <h3 className="text-white font-semibold">Current Lease</h3>
               <p className="text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
             </div>
-            <span className="px-2.5 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg">
-              Active
-            </span>
+            <StatusBadge status={activeAgreement ? 'Active' : 'Vacant'} />
           </div>
           <div className="grid grid-cols-3 gap-4 mb-5">
             {[
@@ -155,35 +154,59 @@ export default function TenantDashboardClient({
               </div>
             ))}
           </div>
-          <div>
-            <div className="flex justify-between text-xs mb-2">
-              <span className="text-zinc-500">Lease Progress</span>
-              <span className="text-white">{leaseProgress}% complete</span>
+          {activeAgreement ? (
+            <div>
+              <div className="flex justify-between text-xs mb-2">
+                <span className="text-zinc-500">Lease Progress</span>
+                <span className="text-white">{leaseProgress}% complete</span>
+              </div>
+              <Progress value={leaseProgress} color="#10b981" />
             </div>
-            <Progress value={leaseProgress} color="#10b981" />
-          </div>
+          ) : (
+            <p className="text-xs text-zinc-500">No lease dates to track yet.</p>
+          )}
         </div>
 
-        {/* Next payment */}
+        {/* Next payment — gated on a real active agreement; otherwise the
+            empty state replaces the action so tenants are not invited to pay
+            a lease that does not exist. */}
         <div className="glass-card p-5 flex flex-col">
-          <h3 className="text-white font-semibold text-sm mb-4">Next Payment</h3>
-          <div className="flex-1">
-            <div className="text-3xl font-black text-white mb-1">
-              {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
+          {activeAgreement ? (
+            <>
+              <h3 className="text-white font-semibold text-sm mb-4">Next Payment</h3>
+              <div className="flex-1">
+                <div className="text-3xl font-black text-white mb-1">
+                  {activeAgreement?.listing?.price ? formatCurrency(activeAgreement.listing.price) : '₦0'}
+                </div>
+                <div className="text-zinc-500 text-xs mb-1">Due {formatDate(activeAgreement.endDate!)}</div>
+                <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-500'}`}>
+                  <Clock size={11} />
+                  {daysUntilRent} days remaining
+                </div>
+              </div>
+              <Link
+                href="/dashboard/tenant/payments"
+                className="mt-5 w-full py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+              >
+                <CreditCard size={14} />
+                Pay Rent
+              </Link>
+            </>
+          ) : (
+            <div className="flex flex-1 flex-col items-center justify-center text-center py-8 gap-2">
+              <h3 className="text-white font-semibold text-sm">No Payment Due</h3>
+              <p className="text-xs text-zinc-500 max-w-[20rem]">
+                You have no active lease. When you verify a tenancy, rent dates and payment actions appear here.
+              </p>
+              <Link
+                href="/listings"
+                className="mt-3 inline-flex items-center gap-2 text-xs font-medium text-emerald-400 hover:text-emerald-300"
+              >
+                Browse Listings
+                <ArrowRight size={11} />
+              </Link>
             </div>
-            <div className="text-zinc-500 text-xs mb-1">Due September 1, 2026</div>
-            <div className={`flex items-center gap-1.5 text-xs ${daysUntilRent <= 7 ? 'text-amber-400' : 'text-zinc-500'}`}>
-              <Clock size={11} />
-              {daysUntilRent} days remaining
-            </div>
-          </div>
-          <Link
-            href="/dashboard/tenant/payments"
-            className="mt-5 w-full py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors text-center flex items-center justify-center gap-2"
-          >
-            <CreditCard size={14} />
-            Pay Rent
-          </Link>
+          )}
         </div>
       </div>
 

@@ -150,7 +150,7 @@ export default function LedgerPage() {
               {entries.map((entry: LedgerEntry) => (
                 <TableRow key={entry.id} className="animate-fadeUp">
                   <TableCell>
-                    {new Date(entry.date || Date.now()).toLocaleDateString()}
+                    {new Date(entry.date || Date.now()).toLocaleDateString('en-NG')}
                   </TableCell>
                   <TableCell>{entry.description}</TableCell>
                   <TableCell className="text-right">

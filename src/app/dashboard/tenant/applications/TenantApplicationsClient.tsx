@@ -8,6 +8,7 @@ import { Building2, Clock, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-rea
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { StatCard } from '@/components/ui/stat-card';
 
 type ApplicationStatus = 'pending' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
 
@@ -38,7 +39,7 @@ interface Application {
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   under_review: { label: 'Under Review', className: 'bg-zinc-900 text-zinc-300 border-white/[0.08]' },
-  accepted: { label: 'Accepted', className: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20' },
+  accepted: { label: 'Accepted', className: 'bg-success/10 text-[#10b981] border-[#10b981]/20' },
   rejected: { label: 'Not Successful', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
   withdrawn: { label: 'Withdrawn', className: 'bg-zinc-950/50 text-zinc-500 border-white/[0.08]' },
 };
@@ -95,11 +96,11 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        <StatCard label="Total" value={applications.length} icon={<Building2 className="w-5 h-5" />} />
-        <StatCard label="Pending" value={pending} icon={<Clock className="w-5 h-5" />} />
-        <StatCard label="Under Review" value={underReview} icon={<Eye className="w-5 h-5" />} />
-        <StatCard label="Accepted" value={accepted} icon={<CheckCircle className="w-5 h-5" />} />
-        <StatCard label="Declined" value={rejected} icon={<XCircle className="w-5 h-5" />} />
+        <StatCard label="Total" value={String(applications.length)} icon={Building2} />
+        <StatCard label="Pending" value={String(pending)} icon={Clock} />
+        <StatCard label="Under Review" value={String(underReview)} icon={Eye} />
+        <StatCard label="Accepted" value={String(accepted)} icon={CheckCircle} />
+        <StatCard label="Declined" value={String(rejected)} icon={XCircle} />
       </div>
 
       {applications.length === 0 ? (
@@ -129,7 +130,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
             const isWithdrawing = withdrawingId === app.id && isPending;
 
             return (
-              <div className="glass-card" key={app.id} className="overflow-hidden">
+              <div key={app.id} className="glass-card overflow-hidden">
                 <div className="p-6 p-0">
                   <div className="flex flex-col sm:flex-row gap-4 p-4 sm:p-6">
                     <div
@@ -214,20 +215,3 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
   );
 }
 
-function StatCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
-  return (
-    <div className="glass-card">
-      <div className="p-6 p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-sm font-medium mb-1 text-zinc-500">{label}</p>
-            <p className="text-2xl text-white text-white">{value}</p>
-          </div>
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400" style={{ flexShrink: 0 }}>
-            {icon}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}

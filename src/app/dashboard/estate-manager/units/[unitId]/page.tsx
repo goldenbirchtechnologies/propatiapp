@@ -367,13 +367,13 @@ export default function UnitDetailPage() {
                       <div>
                         <p className="text-sm" style={{ color: 'var(--muted)' }}>Lease Start</p>
                         <p className="font-medium" style={{ color: 'var(--text)' }}>
-                          {new Date(unit.leaseStartDate).toLocaleDateString()}
+                          {new Date(unit.leaseStartDate).toLocaleDateString('en-NG')}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm" style={{ color: 'var(--muted)' }}>Lease End</p>
                         <p className="font-medium" style={{ color: 'var(--text)' }}>
-                          {new Date(unit.leaseEndDate).toLocaleDateString()}
+                          {new Date(unit.leaseEndDate).toLocaleDateString('en-NG')}
                         </p>
                       </div>
                     </div>
@@ -427,7 +427,7 @@ export default function UnitDetailPage() {
                             {ticket.title}
                           </Link>
                           <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
-                            {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString()}
+                            {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                           </p>
                         </div>
                         <div className="flex items-center gap-2 ml-4">
@@ -491,8 +491,8 @@ export default function UnitDetailPage() {
                             {agreement.type} • {agreement.status.replace('_', ' ')}
                           </p>
                           <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                            {agreement.startDate ? new Date(agreement.startDate).toLocaleDateString() : '—'}
-                            {agreement.endDate ? ` — ${new Date(agreement.endDate).toLocaleDateString()}` : ''}
+                            {agreement.startDate ? new Date(agreement.startDate).toLocaleDateString('en-NG') : '—'}
+                            {agreement.endDate ? ` — ${new Date(agreement.endDate).toLocaleDateString('en-NG')}` : ''}
                           </p>
                         </div>
                         <div className="ml-4">

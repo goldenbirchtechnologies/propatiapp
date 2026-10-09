@@ -149,7 +149,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             </p>
             <p className="text-4xl font-headline-sm text-white font-bold text-white text-on-primary mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1 text-[#00ff66]-bright">
+              <div className="flex items-center gap-1 text-[#10b981]-bright">
                 <AppIcon name="trending_up" className="lucide" />
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
@@ -230,7 +230,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                       </td>
                       <td className="px-6 py-4 text-sm">{tx.listing?.title || tx.listing?.area || '-'}</td>
                       <td className="px-6 py-4 text-sm font-medium font-mono">₦{Number(tx.amount).toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm text-zinc-500">{new Date(tx.createdAt).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 text-sm text-zinc-500">{new Date(tx.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-6 py-4">
                         <RentStatusBadge status={tx.status} />
                       </td>
@@ -303,7 +303,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
 function RentStatusBadge({ status }: { status: string }) {
   const config: Record<string, { className: string; label: string }> = {
-    released: { className: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Paid' },
+    released: { className: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
     in_escrow: { className: 'bg-accent/20 text-accent border-accent/30', label: 'In Escrow' },
     pending: { className: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
     failed: { className: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },

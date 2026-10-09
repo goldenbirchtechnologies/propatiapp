@@ -16,7 +16,7 @@ type Bill = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-[#00ff66] border border-white/[0.08]', label: 'Paid' },
+  paid: { class: 'bg-success/10 text-[#10b981] border border-white/[0.08]', label: 'Paid' },
   pending: { class: 'bg-warning/10 text-warning border border-white/[0.08]', label: 'Pending' },
   overdue: { class: 'bg-red-500/10 text-red-500 border border-white/[0.08]', label: 'Overdue' },
 };

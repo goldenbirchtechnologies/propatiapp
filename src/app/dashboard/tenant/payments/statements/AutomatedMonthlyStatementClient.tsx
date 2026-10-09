@@ -220,7 +220,7 @@ export default function AutomatedMonthlyStatementClient() {
           <div className="max-w-md">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="w-4 h-4 text-[#009e6f]" />
-              <span className="font-label-sm text-[#00ff66] font-bold">
+              <span className="font-label-sm text-[#10b981] font-bold">
                 DIGITALLY VERIFIED DOCUMENT
               </span>
             </div>

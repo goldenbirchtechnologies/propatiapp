@@ -4,6 +4,14 @@ import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
+type StatusKey =
+  | 'Active' | 'Verified' | 'Approved' | 'Completed' | 'Paid' | 'Resolved' | 'Closed' | 'Occupied'
+  | 'Overdue' | 'Rejected' | 'Failed' | 'Suspended' | 'Hot'
+  | 'Pending' | 'Pending Review' | 'Under Review' | 'Notice' | 'Maintenance' | 'Negotiation'
+  | 'Additional Info Needed' | 'In Review' | 'In Progress' | 'Processing' | 'New'
+  | 'Offer Made' | 'Due Diligence' | 'Viewing Scheduled'
+  | 'Vacant' | 'Featured' | 'Premium';
+
 const statusBadgeVariants = cva(
   "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
@@ -53,15 +61,79 @@ const statusBadgeVariants = cva(
   }
 )
 
+// Snake_case / kebab / lowercase callers (in_escrow, pending_review, paid)
+// previously fell through to the "Vacant" default, so every unmapped status
+// rendered as a neutral grey badge. Normalise before lookup, and fall back by
+// keyword family instead of silently rendering "Vacant".
+const NORMALISED: Record<string, StatusKey> = {
+  in_escrow: 'Processing',
+  inescrow: 'Processing',
+  escrow: 'Processing',
+  open: 'Pending',
+  pending_review: 'Pending Review',
+  under_review: 'Under Review',
+  in_progress: 'In Progress',
+  in_review: 'In Review',
+  not_started: 'Pending',
+  fully_signed: 'Completed',
+  tenant_signed: 'In Progress',
+  landlord_signed: 'In Progress',
+  draft: 'Pending',
+  success: 'Paid',
+  settled: 'Paid',
+  released: 'Paid',
+  withdrawn: 'Paid',
+  shortlisted: 'New',
+  rejected: 'Rejected',
+  cancelled: 'Suspended',
+  frozen: 'Suspended',
+  verified: 'Verified',
+  approved: 'Approved',
+  resolved: 'Resolved',
+  closed: 'Closed',
+  occupied: 'Occupied',
+  vacant: 'Vacant',
+};
+
+// Explicit key list — cva does not expose `.variants` at runtime, so the
+// variant names must be mirrored here for lookup.
+const KNOWN_STATUSES = new Set([
+  'Active', 'Verified', 'Approved', 'Completed', 'Paid', 'Resolved', 'Closed', 'Occupied',
+  'Overdue', 'Rejected', 'Failed', 'Suspended', 'Hot',
+  'Pending', 'Pending Review', 'Under Review', 'Notice', 'Maintenance', 'Negotiation', 'Additional Info Needed',
+  'In Review', 'In Progress', 'Processing', 'New', 'Offer Made', 'Due Diligence', 'Viewing Scheduled',
+  'Vacant', 'Featured', 'Premium',
+]);
+
+function resolveStatus(status?: string): StatusKey {
+  if (!status) return 'Vacant';
+  const snake = status.replace(/[-\s]/g, '_').toLowerCase();
+
+  if (NORMALISED[snake]) return NORMALISED[snake];
+
+  // Exact match (covers "In Progress", "Pending Review", "Under Review")
+  if (KNOWN_STATUSES.has(status)) return status as StatusKey;
+  const titled = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  if (KNOWN_STATUSES.has(titled)) return titled as StatusKey;
+
+  // Keyword family fallback
+  if (/fail|error|reject|suspend|ban|overdue|urgent/.test(snake)) return 'Failed';
+  if (/paid|complete|approv|verif|success|resolved|active|closed/.test(snake)) return 'Completed';
+  if (/progress|review|process|pending|open|draft|escrow/.test(snake)) return 'Pending';
+  return 'Vacant';
+}
+
 function StatusBadge({
   className,
   status,
   ...props
-}: React.ComponentProps<"span"> &
-  VariantProps<typeof statusBadgeVariants> & {
+}: Omit<React.ComponentProps<"span">, 'status'> &
+  Omit<VariantProps<typeof statusBadgeVariants>, 'status'> & {
+    // Any backend status string is accepted; resolveStatus() normalises it to a
+    // styled variant (snake_case, kebab-case, lowercase, or Title Case).
     status?: string
   }) {
-  const resolvedStatus = (status ?? "Vacant") as keyof typeof statusBadgeVariants.variants.status
+  const resolvedStatus = resolveStatus(status)
 
   return (
     <span

@@ -200,7 +200,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-white">Unit Specs & Pricing</h3>
                 <div className="flex items-center gap-2">
-                  {specsSaved && <span className="text-xs text-[#00ff66]">Changes saved</span>}
+                  {specsSaved && <span className="text-xs text-[#10b981]">Changes saved</span>}
                   {editingSpecs ? (
                     <>
                       <Button size="sm" variant="secondary" onClick={() => setEditingSpecs(false)} disabled={savingSpecs}>
@@ -406,7 +406,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                 <span
                   className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border ${
                     unit.occupancy === "VACANT"
-                      ? "bg-success/10 text-[#00ff66] border-success/20"
+                      ? "bg-success/10 text-[#10b981] border-success/20"
                       : unit.occupancy === "OCCUPIED"
                         ? "bg-muted text-zinc-500 border-white/[0.08]"
                         : "bg-warning/10 text-warning border-warning/20"
@@ -529,7 +529,7 @@ export default function ManageUnitDrawer({ open, onOpenChange, unit, listing }: 
                     {unit.isListed ? "This unit is visible on the marketplace." : "This unit is not listed."}
                   </p>
                 </div>
-                <span className={`tag ${unit.isListed ? "bg-success/10 text-[#00ff66] border-success/20" : "bg-muted text-zinc-500 border-white/[0.08]"}`}>
+                <span className={`tag ${unit.isListed ? "bg-success/10 text-[#10b981] border-success/20" : "bg-muted text-zinc-500 border-white/[0.08]"}`}>
                   {unit.isListed ? "Listed" : "Unlisted"}
                 </span>
               </div>

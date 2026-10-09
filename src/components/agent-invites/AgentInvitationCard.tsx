@@ -84,7 +84,7 @@ export default function AgentInvitationCard({ email }: Props) {
                 {invite.sender?.fullName || 'A landlord'} invited you to manage their listings. Accepting this will add you as their agent.
               </p>
               <p className="text-xs text-zinc-400 mt-2">
-                Sent {new Date(invite.createdAt).toLocaleDateString()}
+                Sent {new Date(invite.createdAt).toLocaleDateString('en-NG')}
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">

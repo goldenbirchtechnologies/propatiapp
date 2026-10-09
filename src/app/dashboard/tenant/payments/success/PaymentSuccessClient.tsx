@@ -45,7 +45,7 @@ export default function PaymentSuccessPage() {
       <section className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-tertiary-container mb-4 shadow-[0_20px_50px_rgba(0,158,111,0.2)]">
           <span
-            className="lucide text-[#00ff66]-bright text-5xl"
+            className="lucide text-[#10b981]-bright text-5xl"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             check_circle

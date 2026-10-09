@@ -370,8 +370,8 @@ export default function AgentPropertyDetailClient({ listing, currentAgentId }: P
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Units" value={String(listing.totalUnits)} icon={Home} />
         <StatCard label="Vacant" value={String(listing.vacantUnits)} icon={XCircle} accentColor="#ef4444" />
-        <StatCard label="Occupied" value={String(listing.occupiedUnits)} icon={CheckCircle2} accentColor="#10b981" />
-        <StatCard label="Listed" value={String(listing.listedUnits)} icon={ExternalLink} accentColor="#3b82f6" />
+        <StatCard label="Occupied" value={String(listing.occupiedUnits)} icon={CheckCircle2} accentColor="var(--accent)" />
+        <StatCard label="Listed" value={String(listing.listedUnits)} icon={ExternalLink} accentColor="var(--accent)" />
       </div>
 
       {/* Main Layout */}

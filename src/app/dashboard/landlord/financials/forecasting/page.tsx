@@ -84,7 +84,7 @@ export default async function LandlordFinancialForecastingPage() {
             <div className="p-6 p-6">
               <p className="text-sm text-zinc-500">Projected Annual Revenue</p>
               <p className="text-2xl font-bold mt-2">₦{totalRevenue.toLocaleString()}</p>
-              <p className="text-sm text-[#00ff66] mt-1">From collected payments</p>
+              <p className="text-sm text-[#10b981] mt-1">From collected payments</p>
             </div>
           </div>
           <div className="glass-card">

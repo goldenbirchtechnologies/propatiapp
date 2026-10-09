@@ -53,7 +53,7 @@ export default function EstateManagerLeaseReviewPage() {
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-secondary bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors text-sm font-medium">
               <AlertTriangle className="w-4 h-4" /> Request Changes
             </button>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#00ff66]-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-none">
+            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-success text-[#10b981]-foreground hover:bg-success/90 transition-colors text-sm font-medium shadow-none">
               <CheckCircle2 className="w-4 h-4" /> Approve Agreement
             </button>
           </div>

@@ -118,7 +118,7 @@ export default function TurnoverClient({ initialTasks }: TurnoverClientProps) {
                         {task.scheduledStart && (
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            {new Date(task.scheduledStart).toLocaleDateString()}
+                            {new Date(task.scheduledStart).toLocaleDateString('en-NG')}
                           </span>
                         )}
                       </div>

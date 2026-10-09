@@ -428,7 +428,7 @@ export default function AgentInviteManagementClient({
                       {invite.assignments && invite.assignments.length > 0 ? (
                         <div className="flex flex-wrap gap-1">
                           {invite.assignments.map((a) => (
-                            <span key={a.id} className="text-xs px-2 py-0.5 rounded bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20">
+                            <span key={a.id} className="text-xs px-2 py-0.5 rounded bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">
                               {a.listing.title}
                             </span>
                           ))}
@@ -438,7 +438,7 @@ export default function AgentInviteManagementClient({
                       )}
                     </td>
                     <td className="px-4 py-3 text-sm text-zinc-400">
-                      {new Date(invite.createdAt).toLocaleDateString()}
+                      {new Date(invite.createdAt).toLocaleDateString('en-NG')}
                     </td>
                     <td className="px-4 py-3 text-sm">
                       {invite.status === 'pending' && (
@@ -488,7 +488,7 @@ export default function AgentInviteManagementClient({
                       key={prop.id}
                       className={cn(
                         'flex items-start gap-3 rounded-lg border p-3 cursor-pointer select-none transition-all',
-                        checked ? 'border-[#00ff66]/40 bg-[#00ff66]/5' : 'border-white/[0.08] hover:border-[#00ff66]/20'
+                        checked ? 'border-[#10b981]/40 bg-[#10b981]/5' : 'border-white/[0.08] hover:border-[#10b981]/20'
                       )}
                     >
                       <Checkbox

@@ -51,7 +51,7 @@ function rentBadge(tenant: Tenant) {
   if (!s) return <Badge variant="outline" className="bg-muted/30 text-zinc-500 border border-white/[0.08]">No Record</Badge>;
   switch (s) {
     case 'paid':
-      return <Badge variant="default" className="bg-success/10 text-[#00ff66] border border-white/[0.08]">Paid</Badge>;
+      return <Badge variant="default" className="bg-success/10 text-[#10b981] border border-white/[0.08]">Paid</Badge>;
     case 'overdue':
       return <Badge variant="destructive" className="bg-red-500/10 text-red-500 border border-white/[0.08]">Overdue</Badge>;
     case 'sent':
@@ -130,7 +130,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
         </div>
         <div className="rounded-xl border border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">Active</p>
-          <p className="text-2xl font-bold mt-1 text-[#00ff66]">{stats.active}</p>
+          <p className="text-2xl font-bold mt-1 text-[#10b981]">{stats.active}</p>
         </div>
         <div className="rounded-xl border border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
           <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">Pending</p>
@@ -233,7 +233,7 @@ export default function LandlordTenantsClient({ tenants }: { tenants: Tenant[] }
                       <TableCell>{rentBadge(tenant)}</TableCell>
                       <TableCell>
                         {tenant.idVerified || tenant.ninVerified ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-[#00ff66] border-success/20">Verified</span>
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-success/10 text-[#10b981] border-success/20">Verified</span>
                         ) : (
                           <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-muted/30 text-zinc-500 border-white/[0.08]">Unverified</span>
                         )}

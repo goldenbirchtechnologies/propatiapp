@@ -52,9 +52,9 @@ export default function AgentProfileClient({
 
   const tierColor =
     user.agentTier === 'premium'
-      ? 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20'
+      ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
       : user.agentTier === 'standard'
-        ? 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20'
+        ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
         : 'bg-[#171717] text-zinc-500 border border-white/[0.08]';
 
   const { data: kyc, reload } = useKycStatus();
@@ -76,8 +76,8 @@ export default function AgentProfileClient({
                 className="h-16 w-16 rounded-full border border-white/[0.08]"
               />
             ) : (
-              <div className="h-16 w-16 rounded-full bg-[#00ff66]/10 border border-white/[0.08] flex items-center justify-center">
-                <UserCircle className="h-8 w-8 text-[#00ff66]" />
+              <div className="h-16 w-16 rounded-full bg-[#10b981]/10 border border-white/[0.08] flex items-center justify-center">
+                <UserCircle className="h-8 w-8 text-[#10b981]" />
               </div>
             )}
             <div>
@@ -86,7 +86,7 @@ export default function AgentProfileClient({
               <div className="flex items-center gap-2 mt-2">
                 <Badge variant="outline" className={tierColor}>{user.agentTier}</Badge>
                 {user.agentApproved && (
-                  <Badge variant="outline" className="bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20">Approved</Badge>
+                  <Badge variant="outline" className="bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">Approved</Badge>
                 )}
               </div>
             </div>
@@ -95,8 +95,8 @@ export default function AgentProfileClient({
         <div className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-white/[0.08]">
-              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
-                <Mail className="h-4 w-4 text-[#00ff66]" />
+              <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
+                <Mail className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs uppercase tracking-wider text-zinc-500">Email</p>
@@ -104,8 +104,8 @@ export default function AgentProfileClient({
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-white/[0.08]">
-              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
-                <Phone className="h-4 w-4 text-[#00ff66]" />
+              <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
+                <Phone className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs uppercase tracking-wider text-zinc-500">Phone</p>
@@ -115,8 +115,8 @@ export default function AgentProfileClient({
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-white/[0.08]">
-              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
-                <Shield className="h-4 w-4 text-[#00ff66]" />
+              <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
+                <Shield className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs uppercase tracking-wider text-zinc-500">Role</p>
@@ -124,8 +124,8 @@ export default function AgentProfileClient({
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-white/[0.08]">
-              <div className="p-2 rounded-full bg-[#00ff66]/10 flex-shrink-0">
-                <Calendar className="h-4 w-4 text-[#00ff66]" />
+              <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
+                <Calendar className="h-4 w-4 text-[#10b981]" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs uppercase tracking-wider text-zinc-500">Member Since</p>

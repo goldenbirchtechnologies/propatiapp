@@ -8,6 +8,7 @@ import AppIcon from '@/components/icons/app-icon';
 import { PageHeader, StatCard, StatusBadge, DataTable, Avatar } from '@/components/ui';
 import { Users, UserCheck, Wallet, Flag } from 'lucide-react';
 import Link from 'next/link';
+import RecentUsersTable from './RecentUsersTable';
 export const dynamic = 'force-dynamic';
 
 function formatCurrency(value: number, currency = 'NGN') {
@@ -106,22 +107,7 @@ export default async function AdminOverviewPage() {
               {recentUsers.length === 0 ? (
                 <p className="p-6 text-sm text-zinc-500 text-center">No users registered yet.</p>
               ) : (
-                <DataTable
-                  columns={[
-                    { key: 'fullName', label: 'User', render: (row) => (
-                      <div className="flex items-center gap-3">
-                        <Avatar name={String(row.fullName || '')} size="sm" />
-                        <div>
-                          <div className="text-white text-sm font-medium">{String(row.fullName)}</div>
-                          <div className="text-zinc-600 text-xs">{String(row.email)}</div>
-                        </div>
-                      </div>
-                    )},
-                    { key: 'role', label: 'Role', render: (row) => <span className="capitalize text-zinc-300">{String(row.role).replace('_', ' ')}</span> },
-                    { key: 'createdAt', label: 'Joined', render: (row) => <span className="text-zinc-500">{new Date(String(row.createdAt)).toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}</span> },
-                  ]}
-                  data={recentUsers as unknown as Record<string, unknown>[]}
-                />
+                <RecentUsersTable users={recentUsers} />
               )}
             </div>
 

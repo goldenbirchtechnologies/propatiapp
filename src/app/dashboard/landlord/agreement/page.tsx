@@ -78,7 +78,7 @@ export default async function LandlordAgreementPage() {
                           {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : '—'}
                         </td>
                         <td className="py-3 text-zinc-500">
-                          {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} → {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
+                          {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} → {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                         </td>
                         <td className="py-3">
                           <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeVariant[agr.status] || 'bg-muted text-zinc-500'}`}>

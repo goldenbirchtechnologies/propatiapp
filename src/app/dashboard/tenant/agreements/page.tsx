@@ -76,9 +76,7 @@ export default async function TenantAgreementsPage() {
       userAvatar={user.avatarUrl || undefined}
     >
       <ErrorBoundary>
-        <TenantAgreementsClient
-          initialAgreements={agreements}
-        />
+        <TenantAgreementsClient agreements={agreements} />
       </ErrorBoundary>
     </DashboardShell>
   );

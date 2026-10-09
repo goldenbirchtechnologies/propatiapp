@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { StatCard } from '@/components/ui/stat-card';
 import Link from 'next/link';
 
 export const metadata = {
@@ -65,9 +66,9 @@ export default async function LandlordLeasesPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <StatCard label="Active Leases" value={String(stats.active)} trend="Currently signed" trendPositive />
-          <StatCard label="Expiring Soon" value={String(stats.expiringSoon)} trend="Within 30 days" trendPositive={false} />
-          <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" trendPositive={false} />
+          <StatCard label="Active Leases" value={String(stats.active)} trend="Currently signed" trend="up" />
+          <StatCard label="Expiring Soon" value={String(stats.expiringSoon)} trend="Within 30 days" />
+          <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" />
         </div>
 
         <div className="rounded-lg border border-white/[0.08] bg-zinc-950/50 shadow-none">
@@ -119,21 +120,3 @@ export default async function LandlordLeasesPage() {
   );
 }
 
-function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; trend: string; trendPositive?: boolean }) {
-  return (
-    <div className="rounded-xl border border-white/[0.08] p-6 shadow-none">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{label}</p>
-          <p className="text-2xl font-bold mt-1">{value}</p>
-        </div>
-      </div>
-      <div className="mt-3 flex items-center gap-1">
-        <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
-          {trendPositive ? '↑' : '↓'}
-        </span>
-        <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
-      </div>
-    </div>
-  );
-}

@@ -85,7 +85,7 @@ export default async function LandlordOverduePaymentsPage() {
         {rows.length === 0 ? (
           <div className="glass-card">
             <div className="p-6 p-8 text-center">
-              <p className="text-[#00ff66] font-medium">No overdue payments</p>
+              <p className="text-[#10b981] font-medium">No overdue payments</p>
               <p className="text-sm text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default async function LandlordOverduePaymentsPage() {
                       <td className="px-5 py-4 text-sm font-medium text-red-500">₦{row.amount.toLocaleString()}</td>
                       <td className="px-5 py-4 text-sm text-red-500 font-bold">{row.days} days</td>
                       <td className="px-5 py-4">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${row.noticeSent ? 'bg-success/10 text-[#00ff66] border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'}`}>
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${row.noticeSent ? 'bg-success/10 text-[#10b981] border border-success/20' : 'bg-warning/10 text-warning border border-warning/20'}`}>
                           {row.noticeSent ? 'Sent' : 'Pending'}
                         </span>
                       </td>

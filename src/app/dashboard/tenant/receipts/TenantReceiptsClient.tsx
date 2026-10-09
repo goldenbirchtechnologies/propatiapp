@@ -15,7 +15,7 @@ type Receipt = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  released: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Paid' },
+  released: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
   pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending' },
   failed: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
 };

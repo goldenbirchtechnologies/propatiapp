@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { PageHeader, StatCard, StatusBadge, Avatar } from '@/components/ui';
 
 type PaymentStatus = 'success' | 'pending' | 'failed' | 'refunded';
@@ -147,28 +148,28 @@ export default function TenantPaymentsClient({ userId }: Props) {
         <StatCard
           label="Total Paid"
           value={formatShort(totalPaid)}
-          icon={<CreditCard className="w-5 h-5" />}
+          icon={CreditCard}
           trend="All time"
           trendPositive
         />
         <StatCard
           label="Successful"
           value={String(successCount)}
-          icon={<CreditCard className="w-5 h-5" />}
+          icon={CreditCard}
           trend="Completed"
           trendPositive
         />
         <StatCard
           label="Pending"
           value={String(pendingCount)}
-          icon={<CreditCard className="w-5 h-5" />}
+          icon={CreditCard}
           trend="Awaiting"
           trendPositive={pendingCount === 0}
         />
         <StatCard
           label="Average"
           value={formatShort(averagePayment)}
-          icon={<CreditCard className="w-5 h-5" />}
+          icon={CreditCard}
           trend="Per payment"
           trendPositive
         />

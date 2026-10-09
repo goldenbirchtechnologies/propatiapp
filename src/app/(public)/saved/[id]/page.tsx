@@ -500,7 +500,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-zinc-400" />
                     <span style={{ color: 'var(--text)' }}>
-                      Available from: {new Date(listing.availableFrom).toLocaleDateString()}
+                      Available from: {new Date(listing.availableFrom).toLocaleDateString('en-NG')}
                     </span>
                   </div>
                   {(listing as unknown).minimumStay && (
@@ -617,7 +617,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                 <div className="flex items-center justify-between">
                   <span className="text-zinc-400">Listed</span>
                   <span className="font-medium" style={{ color: 'var(--text)' }}>
-                    {new Date(listing.createdAt).toLocaleDateString()}
+                    {new Date(listing.createdAt).toLocaleDateString('en-NG')}
                   </span>
                 </div>
                 {listing.updatedAt !== listing.createdAt && (
@@ -626,7 +626,7 @@ export default function SavedListingDetailPage({ params }: PageProps) {
                     <div className="flex items-center justify-between">
                       <span className="text-zinc-400">Updated</span>
                       <span className="font-medium" style={{ color: 'var(--text)' }}>
-                        {new Date(listing.updatedAt).toLocaleDateString()}
+                        {new Date(listing.updatedAt).toLocaleDateString('en-NG')}
                       </span>
                     </div>
                   </>

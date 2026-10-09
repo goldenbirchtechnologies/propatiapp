@@ -53,7 +53,7 @@ function VerificationOfficerClient({
       {/* Queue Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#00ff66]' },
+          { label: 'Pending Review', value: counts.pendingCount, color: 'bg-tertiary-container text-[#10b981]' },
           { label: 'In Progress', value: counts.inProgressCount, color: 'bg-secondary-container text-on-secondary-container' },
           { label: 'Certified', value: counts.certifiedCount, color: 'bg-emerald-500-container text-on-primary-container' },
         ].map((stat) => (
@@ -111,7 +111,7 @@ function VerificationOfficerClient({
                           u.isBanned
                             ? 'bg-error/10 text-error'
                             : u.isActive
-                              ? 'bg-on-tertiary-container/10 text-[#00ff66]'
+                              ? 'bg-on-tertiary-container/10 text-[#10b981]'
                               : 'bg-outline-variant/30 text-zinc-400'
                         }`}
                       >

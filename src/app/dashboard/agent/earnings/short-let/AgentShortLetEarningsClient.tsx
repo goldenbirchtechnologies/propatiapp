@@ -109,7 +109,7 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="glass-card md:col-span-2 bg-[#00ff66] text-white relative overflow-hidden">
+        <div className="glass-card md:col-span-2 bg-[#10b981] text-white relative overflow-hidden">
           <div className="p-6 p-6 relative z-10">
             <p className="text-xs font-label-sm uppercase tracking-wider opacity-80">Available Revenue</p>
             <h2 className="text-white font-bold mt-2">₦12,450,000.00</h2>
@@ -129,7 +129,7 @@ export default function AgentShortLetEarningsClient() {
           <div className="p-6 p-6">
             <div className="flex justify-between items-start">
               <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Occupancy Rate</p>
-              <span className="bg-[#00ff66]/10 text-[#00ff66] px-2 py-1 rounded text-xs font-bold border border-white/[0.08]">+12%</span>
+              <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded text-xs font-bold border border-white/[0.08]">+12%</span>
             </div>
             <h3 className="text-white font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
@@ -186,14 +186,14 @@ export default function AgentShortLetEarningsClient() {
                   className={cn(
                     'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
                     d.disabled ? 'bg-[#171717] border-white/[0.08] opacity-40' : 'bg-zinc-950/50 border-white/[0.08] hover:border-white cursor-pointer',
-                    d.active ? 'bg-[#00ff66] text-white border-white/[0.08]' : '',
+                    d.active ? 'bg-[#10b981] text-white border-white/[0.08]' : '',
                     d.peak ? 'bg-zinc-900 text-white border-white/[0.08]' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
                   {d.revenue && (
                     <div>
-                      <span className={cn('text-[10px] font-label-sm uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-[#00ff66]')}>
+                      <span className={cn('text-[10px] font-label-sm uppercase tracking-wider', d.active || d.peak ? 'text-white' : 'text-[#10b981]')}>
                         ₦{(d.revenue / 1000).toFixed(0)}k
                       </span>
                       {(d.active || d.peak) && (
@@ -228,7 +228,7 @@ export default function AgentShortLetEarningsClient() {
                 </div>
                 <div className="w-full bg-[#171717] rounded-full h-3">
                   <div
-                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-destructive/60' : 'bg-[#00ff66]')}
+                    className={cn('h-full rounded-full', item.value.startsWith('-') ? 'bg-destructive/60' : 'bg-[#10b981]')}
                     style={{ width: `${Math.min(item.pct, 100)}%` }}
                   />
                 </div>
@@ -238,9 +238,9 @@ export default function AgentShortLetEarningsClient() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-500">Net Revenue</p>
-                  <p className="text-white font-bold text-[#00ff66]">₦12,450,000</p>
+                  <p className="text-white font-bold text-[#10b981]">₦12,450,000</p>
                 </div>
-                <div className="bg-[#00ff66]/10 text-[#00ff66] px-3 py-1 rounded-full text-xs font-bold border border-white/[0.08]">
+                <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-white/[0.08]">
                   VERIFIED
                 </div>
               </div>
@@ -293,7 +293,7 @@ export default function AgentShortLetEarningsClient() {
                   <td className="px-4 py-4">
                     <Badge
                       variant={stay.status === 'Settled' ? 'default' : 'secondary'}
-                      className="bg-[#00ff66]/10 text-[#00ff66] hover:bg-[#00ff66]/10"
+                      className="bg-[#10b981]/10 text-[#10b981] hover:bg-[#10b981]/10"
                     >
                       {stay.status}
                     </Badge>

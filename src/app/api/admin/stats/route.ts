@@ -69,6 +69,44 @@ export async function GET(request: NextRequest) {
       _count: { overallStatus: true },
     });
 
+    // Newest users for the dashboard list
+    const newestUsers = await prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: { id: true, fullName: true, email: true, role: true, createdAt: true, isActive: true },
+    });
+
+    // Recent transactions for the dashboard table
+    const recentTransactions = await prisma.transaction.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: {
+        id: true,
+        reference: true,
+        type: true,
+        amount: true,
+        status: true,
+        createdAt: true,
+        payer: { select: { fullName: true } },
+        payee: { select: { fullName: true } },
+      },
+    });
+
+    // Verification queue (pending / in-progress only)
+    const pendingVerifications = await prisma.verification.findMany({
+      where: { overallStatus: { in: ['not_started', 'in_progress'] } },
+      orderBy: { updatedAt: 'desc' },
+      take: 5,
+      select: {
+        id: true,
+        type: true,
+        overallStatus: true,
+        updatedAt: true,
+        listing: { select: { title: true } },
+        owner: { select: { fullName: true } },
+      },
+    });
+
     // Revenue by month (last 12 months)
     const last12Months = new Date(now.getFullYear(), now.getMonth() - 11, 1);
     const transactions = await prisma.transaction.findMany({
@@ -87,7 +125,7 @@ export async function GET(request: NextRequest) {
     for (let i = 11; i >= 0; i--) {
       const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const monthKey = monthDate.toISOString().slice(0, 7); // YYYY-MM
-      const monthName = monthDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      const monthName = monthDate.toLocaleDateString('en-NG', { month: 'short', year: 'numeric' });
 
       const monthRevenue = transactions
         .filter((t) => t.createdAt.toISOString().slice(0, 7) === monthKey)
@@ -119,6 +157,31 @@ export async function GET(request: NextRequest) {
         count: v._count.overallStatus
       })),
       revenueByMonth,
+      recentUsers: newestUsers.map((u) => ({
+        id: u.id,
+        name: u.fullName || u.email,
+        email: u.email,
+        role: u.role,
+        registeredAt: u.createdAt.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' }),
+        status: u.isActive ? 'active' : 'pending',
+      })),
+      recentTransactions: recentTransactions.map((t) => ({
+        id: t.reference ?? t.id.slice(-8).toUpperCase(),
+        type: t.type,
+        amount: `₦${Number(t.amount).toLocaleString('en-NG')}`,
+        from: t.payer?.fullName ?? '—',
+        to: t.payee?.fullName ?? '—',
+        date: t.createdAt.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' }),
+        status: t.status,
+      })),
+      verificationQueue: pendingVerifications.map((v) => ({
+        id: v.id,
+        property: v.listing?.title ?? 'Unlinked verification',
+        owner: v.owner?.fullName ?? '—',
+        type: v.type,
+        status: v.overallStatus,
+        submitted: v.updatedAt.toLocaleDateString('en-NG', { day: 'numeric', month: 'short' }),
+      })),
     };
 
     return successResponse(data);

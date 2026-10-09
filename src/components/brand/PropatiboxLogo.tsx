@@ -30,7 +30,7 @@ export function PropatiboxLogo({
       />
       {showText && (
         <span className="font-bold text-base tracking-tight text-foreground truncate">
-          PROPATI<span className="text-[#C8A45C]">BOX</span>
+          PROPATI
         </span>
       )}
     </div>

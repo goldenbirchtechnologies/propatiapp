@@ -20,10 +20,10 @@ const statusConfig: Record<string, { color: string; label: string }> = {
   draft: { color: 'bg-[#171717] text-zinc-500 border border-white/[0.08]', label: 'Draft' },
   pending_landlord: { color: 'bg-zinc-900 text-zinc-300 border border-white/[0.08]', label: 'Pending Landlord' },
   pending_tenant: { color: 'bg-zinc-900 text-zinc-300 border border-white/[0.08]', label: 'Pending Tenant' },
-  tenant_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Tenant Signed' },
-  landlord_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Landlord Signed' },
-  fully_signed: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Fully Signed' },
-  active: { color: 'bg-[#00ff66]/10 text-[#00ff66] border border-[#00ff66]/20', label: 'Active' },
+  tenant_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Tenant Signed' },
+  landlord_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Landlord Signed' },
+  fully_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Fully Signed' },
+  active: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
   expired: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Expired' },
   terminated: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Terminated' },
 };
@@ -83,7 +83,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
             <h3 className="text-lg font-semibold text-white text-xs uppercase tracking-wider text-zinc-500">Closed</h3>
           </div>
           <div className="p-6">
-            <p className="text-2xl font-bold text-[#00ff66]">{stats.closedCount}</p>
+            <p className="text-2xl font-bold text-[#10b981]">{stats.closedCount}</p>
           </div>
         </div>
       </div>

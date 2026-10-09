@@ -29,7 +29,7 @@ export default function RentAndPaymentsHub({
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="border-b-2 border-transparent text-neutral-400 transition-colors hover:text-white hover:border-neutral-300 data-[state=active]:border-[#00ff66] data-[state=active]:text-[#00ff66]"
+              className="border-b-2 border-transparent text-neutral-400 transition-colors hover:text-white hover:border-neutral-300 data-[state=active]:border-[#10b981] data-[state=active]:text-[#10b981]"
             >
               {tab.label}
             </TabsTrigger>

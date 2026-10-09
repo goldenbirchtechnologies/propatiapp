@@ -194,7 +194,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
           {step === 1 && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               {[
-                { icon: '✓', color: 'bg-success text-[#00ff66]', title: 'Certified Techs', desc: 'All our technicians are background-checked and certified.' },
+                { icon: '✓', color: 'bg-success text-[#10b981]', title: 'Certified Techs', desc: 'All our technicians are background-checked and certified.' },
                 { icon: '⏱', color: 'bg-zinc-950/50 text-white', title: 'Fast Response', desc: 'Requests are usually acknowledged within 2 hours.' },
                 { icon: '📋', color: 'bg-warning/10 text-warning', title: 'Track Progress', desc: 'Real-time tracking of your technician\'s arrival time.' },
               ].map((tip, i) => (

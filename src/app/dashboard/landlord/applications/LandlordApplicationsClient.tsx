@@ -239,12 +239,12 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       />
 
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-        <StatCard label="Total" value={String(applications.length)} icon={<Users className="w-5 h-5" />} />
-        <StatCard label="Pending" value={String(pending)} icon={<Clock className="w-5 h-5" />} />
-        <StatCard label="Under Review" value={String(underReview)} icon={<Clock className="w-5 h-5" />} />
-        <StatCard label="Accepted" value={String(accepted)} icon={<CheckCircle className="w-5 h-5" />} />
-        <StatCard label="Screening" value={String(stageStats.screening)} icon={<ShieldCheck className="w-5 h-5" />} />
-        <StatCard label="Guarantor Pending" value={String(stageStats.guarantor_pending)} icon={<UserCheck className="w-5 h-5" />} />
+        <StatCard label="Total" value={String(applications.length)} icon={Users} />
+        <StatCard label="Pending" value={String(pending)} icon={Clock} />
+        <StatCard label="Under Review" value={String(underReview)} icon={Clock} />
+        <StatCard label="Accepted" value={String(accepted)} icon={CheckCircle} />
+        <StatCard label="Screening" value={String(stageStats.screening)} icon={ShieldCheck} />
+        <StatCard label="Guarantor Pending" value={String(stageStats.guarantor_pending)} icon={UserCheck} />
       </div>
 
       <div className="glass-card rounded-xl p-4">

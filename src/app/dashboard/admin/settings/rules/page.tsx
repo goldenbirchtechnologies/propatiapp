@@ -137,7 +137,7 @@ export default function RulesEnginePage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-white">{event.title}</h3>
-                        <p className="text-sm text-zinc-400">{event.eventType} · Due: {new Date(event.deadline).toLocaleDateString()}</p>
+                        <p className="text-sm text-zinc-400">{event.eventType} · Due: {new Date(event.deadline).toLocaleDateString('en-NG')}</p>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded ${event.status === "completed" ? "bg-green-100 text-emerald-400" : event.status === "overdue" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"}`}>
                         {event.status}

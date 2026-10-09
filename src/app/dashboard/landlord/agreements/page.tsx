@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { StatCard } from '@/components/ui/stat-card';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
@@ -54,27 +55,26 @@ export default async function LandlordAgreementsPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <StatCard label="Total" value={agreements.length} icon={<FileIcon />} />
+          <StatCard label="Total" value={agreements.length} icon={FileIcon} />
           <StatCard
             label="Fully Signed"
             value={agreements.filter(a => a.status === 'fully_signed').length}
-            icon={<CheckCircleIcon />}
-            trendPositive
+            icon={CheckCircleIcon}
           />
           <StatCard
             label="Pending Signature"
             value={agreements.filter(a => ['pending_landlord', 'pending_tenant', 'tenant_signed', 'landlord_signed'].includes(a.status)).length}
-            icon={<ClockIcon />}
+            icon={ClockIcon}
           />
           <StatCard
             label="Draft"
             value={agreements.filter(a => a.status === 'draft').length}
-            icon={<FileIcon />}
+            icon={FileIcon}
           />
           <StatCard
             label="Terminated"
             value={agreements.filter(a => a.status === 'terminated').length}
-            icon={<XCircleIcon />}
+            icon={XCircleIcon}
           />
         </div>
 
@@ -187,7 +187,7 @@ export default async function LandlordAgreementsPage() {
                               return (
                                 <div
                                   key={role}
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20' : 'bg-zinc-900 text-zinc-500 border-white/[0.08]'}`}
+                                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${sig ? 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' : 'bg-zinc-900 text-zinc-500 border-white/[0.08]'}`}
                                   title={role === 'landlord' ? 'Landlord' : 'Tenant'}
                                 >
                                   {sig ? <CheckIcon className="w-4 h-4" /> : role.charAt(0).toUpperCase()}
@@ -240,30 +240,15 @@ export default async function LandlordAgreementsPage() {
   );
 }
 
-function StatCard({ label, value, icon: Icon, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trendPositive?: boolean }) {
-  return (
-    <div className="bg-zinc-950/50 rounded-xl border border-white/[0.08] p-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-zinc-500">{label}</p>
-          <p className="text-white">{value}</p>
-        </div>
-        <div className="bg-zinc-900 text-white">
-          {Icon}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function AgreementStatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
     pending_landlord: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Pending Landlord' },
     pending_tenant: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'Pending Tenant' },
-    tenant_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Tenant Signed' },
-    landlord_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Landlord Signed' },
-    fully_signed: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Fully Signed ✓' },
+    tenant_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Tenant Signed' },
+    landlord_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Landlord Signed' },
+    fully_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Fully Signed ✓' },
     terminated: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Terminated' },
     expired: { class: 'bg-zinc-900/30 text-zinc-500 border-muted/50', label: 'Expired' },
   };

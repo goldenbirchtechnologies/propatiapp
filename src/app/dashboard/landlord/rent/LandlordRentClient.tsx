@@ -122,28 +122,28 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
         <StatCard
           label="Total Revenue"
           value={`₦${(totalRevenue / 100).toLocaleString()}`}
-          icon={<CurrencyIcon />}
+          icon={CurrencyIcon}
           trend={trendPositive ? `+${monthPercent}% this month` : 'No revenue'}
           trendPositive={trendPositive}
         />
         <StatCard
           label="In Escrow"
           value={`₦${(inEscrow / 100).toLocaleString()}`}
-          icon={<ShieldIcon />}
+          icon={ShieldIcon}
           trend={transactions.filter((t) => t.status === 'in_escrow').length > 0 ? 'Awaiting release' : 'None'}
           trendPositive={transactions.filter((t) => t.status === 'in_escrow').length === 0}
         />
         <StatCard
           label="Pending Payments"
           value={String(pendingCount)}
-          icon={<ClockIcon />}
+          icon={ClockIcon}
           trend={pendingCount > 0 ? 'Action required' : 'All caught up'}
           trendPositive={pendingCount === 0}
         />
         <StatCard
           label="This Month"
           value={`₦${(thisMonthRevenue / 100).toLocaleString()}`}
-          icon={<CalendarIcon />}
+          icon={CalendarIcon}
           trend=""
           trendPositive
         />

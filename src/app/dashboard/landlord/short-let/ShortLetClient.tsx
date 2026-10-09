@@ -68,7 +68,7 @@ function formatCurrency(value: number) {
 function formatDateRange(checkIn: string, checkOut: string, nights: number) {
   const inDate = new Date(checkIn);
   const outDate = new Date(checkOut);
-  const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const fmt = (d: Date) => d.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' });
   return `${fmt(inDate)} – ${fmt(outDate)} (${nights} night${nights === 1 ? '' : 's'})`;
 }
 
@@ -327,7 +327,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-white">{formatCurrency(req.totalPrice)}</span>
-                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-[#00ff66]' : 'text-zinc-500'}`}>
+                        <span className={`text-xs ${req.paymentStatus === 'paid' ? 'text-[#10b981]' : 'text-zinc-500'}`}>
                           {req.paymentStatus === 'paid' ? 'Paid' : 'Pending Payout'}
                         </span>
                       </div>

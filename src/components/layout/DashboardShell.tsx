@@ -630,7 +630,7 @@ export function DashboardShell({
               />
               {!sidebarCollapsed && (
                 <span className="font-bold text-base tracking-tight text-foreground truncate">
-                  PROPATI<span className="text-[#C8A45C]">BOX</span>
+                  PROPATI
                 </span>
               )}
             </Link>

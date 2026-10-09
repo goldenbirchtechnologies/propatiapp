@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 const statusConfig: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-zinc-950 text-zinc-500 border-white/[0.08]', label: 'Draft' },
   sent: { class: 'bg-zinc-900 text-zinc-300 border-white/[0.08]', label: 'Sent' },
-  paid: { class: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20', label: 'Paid' },
+  paid: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
@@ -72,7 +72,7 @@ export default function TenantInvoicesClient() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">₦{Number(invoice.amount).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-sm text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString('en-NG')}</td>
                     <td className="px-4 py-3 text-sm">
                       <Button variant="ghost" size="sm" onClick={() => downloadReceipt(invoice.id)}>Receipt</Button>
                     </td>

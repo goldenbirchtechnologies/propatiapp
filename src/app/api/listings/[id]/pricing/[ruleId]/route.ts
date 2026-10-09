@@ -11,7 +11,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const validated = updatePricingRuleSchema.parse(body);
     const v = validated as Record<string, unknown>;
 
-    const { ruleId } = await params;
+    const { id, ruleId } = await params;
     const rule = await prisma.pricingRule.findUnique({
       where: { id: ruleId },
       include: { listing: { select: { ownerId: true } } },

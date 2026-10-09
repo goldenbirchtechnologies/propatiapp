@@ -29,14 +29,12 @@ import {
   InteractiveHoverButton,
 } from '@/components/ui';
 
-const revenueData = [4.2, 3.8, 4.5, 4.1, 4.8, 5.1, 4.9, 5.4, 5.2, 5.7, 5.5, 5.9];
-const occupancyData = [80, 83, 85, 88, 85, 90, 88, 92, 90, 93, 91, 94];
 
 const quickActions = [
   { label: 'Add Property', path: '/dashboard/landlord/properties', icon: Home, color: '#10b981' },
-  { label: 'New Listing', path: '/dashboard/landlord/listing/new', icon: Plus, color: '#3b82f6' },
-  { label: 'View Tenants', path: '/dashboard/landlord/tenants', icon: Users, color: '#8b5cf6' },
-  { label: 'Financials', path: '/dashboard/landlord/financials', icon: DollarSign, color: '#f59e0b' },
+  { label: 'New Listing', path: '/dashboard/landlord/listing/new', icon: Plus, color: '#10b981' },
+  { label: 'View Tenants', path: '/dashboard/landlord/tenants', icon: Users, color: '#10b981' },
+  { label: 'Financials', path: '/dashboard/landlord/financials', icon: DollarSign, color: '#10b981' },
 ];
 
 interface ListingItem {
@@ -101,20 +99,22 @@ export default function LandlordDashboardClient({
     );
   });
 
+  // Only real, computed metrics — hardcoded bars (rent collected, profile
+  // completeness) previously showed healthy values regardless of data.
   const portfolioHealthItems = [
     { label: 'Occupancy', value: occupancyRate, color: '#10b981' },
-    { label: 'Rent Collected', value: 87, color: '#3b82f6' },
-    { label: 'Verified Listings', value: 100, color: '#10b981' },
-    { label: 'Profile Complete', value: 72, color: '#f59e0b' },
   ];
 
   const router = useRouter();
+
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
     <div className="p-6 space-y-6">
       <PageHeader
         title="Landlord Dashboard"
-        description={`Good morning, ${displayName}. Here's an overview of your portfolio.`}
+        description={`${greeting}, ${displayName}. Here's an overview of your portfolio.`}
         actions={
           <InteractiveHoverButton
             onClick={() => router.push('/dashboard/landlord/listing/new')}
@@ -127,10 +127,10 @@ export default function LandlordDashboardClient({
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Properties" value={String(listingCount)} sub={`${listingCount - activeListingCount} vacant`} trend="up" trendValue="+2 this month" icon={Home} />
-        <StatCard label="Active Listings" value={String(activeListingCount)} sub={`across ${new Set(recentListings.map((l) => l.listingType).filter(Boolean)).size} types`} trend="up" trendValue="+3" icon={ClipboardList} />
-        <StatCard label="Monthly Revenue" value={formatCurrency(totalRevenue)} trend="up" trendValue="+12.3%" icon={DollarSign} />
-        <StatCard label="Occupancy Rate" value={`${occupancyRate}%`} trend="up" trendValue="+4%" icon={TrendingUp} />
+        <StatCard label="Total Properties" value={String(listingCount)} sub={`${listingCount - activeListingCount} vacant`} icon={Home} />
+        <StatCard label="Active Listings" value={String(activeListingCount)} sub={`across ${new Set(recentListings.map((l) => l.listingType).filter(Boolean)).size} types`} icon={ClipboardList} />
+        <StatCard label="Monthly Revenue" value={formatCurrency(totalRevenue)} icon={DollarSign} />
+        <StatCard label="Occupancy Rate" value={`${occupancyRate}%`} icon={TrendingUp} />
       </div>
 
       {/* Charts + Quick actions */}
@@ -146,31 +146,22 @@ export default function LandlordDashboardClient({
               View all <ArrowRight size={11} />
             </Link>
           </div>
-          {/* Simple bar chart */}
-          <div className="flex items-end gap-1.5 h-32">
-            {revenueData.map((v, i) => {
-              const max = Math.max(...revenueData);
-              const pct = (v / max) * 100;
-              const isLast = i === revenueData.length - 1;
-              return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div
-                    className="w-full rounded-sm transition-all"
-                    style={{
-                      height: `${pct}%`,
-                      background: isLast ? '#10b981' : 'rgba(255,255,255,0.06)',
-                      minHeight: 4,
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-between mt-2 text-[10px] text-zinc-700">
-            {['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'].map((m) => (
-              <span key={m}>{m}</span>
-            ))}
-          </div>
+          {/* No monthly history is recorded yet — an empty axis implied data we
+              do not have. Show the honest state until series data exists. */}
+          {totalRevenue > 0 ? (
+            <div className="h-32 flex items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-xs text-zinc-500">
+                Monthly breakdown arrives with your next billing cycle.
+              </p>
+            </div>
+          ) : (
+            <div className="h-32 flex flex-col items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.02]">
+              <p className="text-sm text-zinc-400">No revenue recorded yet</p>
+              <p className="text-xs text-zinc-600">
+                Rent payments will appear here once your first tenant pays.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Quick actions */}
@@ -254,23 +245,46 @@ export default function LandlordDashboardClient({
             Requires Attention
           </h3>
           <div className="space-y-2">
+            {/* Built from real counts only — the previous list named specific
+                tenants/units that did not exist. */}
             {[
-              { type: 'warning', msg: `Flat 1B rent overdue by 24 days — Ngozi Eze`, path: '/dashboard/landlord/tenants' },
-              { type: 'info', msg: `${pendingApplicationCount} new applications need review`, path: '/dashboard/landlord/applications' },
-              { type: 'warning', msg: 'Lease for Flat 4D expires in 30 days', path: '/dashboard/landlord/leases' },
-              { type: 'success', msg: 'Verification approved — Flat 2C listed', path: '/dashboard/landlord/listings' },
-            ].map((alert, i) => (
-              <Link
-                key={i}
-                href={alert.path}
-                className="flex items-start gap-2.5 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
-              >
-                <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
-                  alert.type === 'warning' ? 'bg-amber-400' : alert.type === 'info' ? 'bg-blue-400' : 'bg-emerald-400'
-                }`} />
-                <span className="text-sm text-zinc-400 hover:text-zinc-200">{alert.msg}</span>
-              </Link>
-            ))}
+              pendingApplicationCount > 0 && {
+                type: 'info',
+                msg: `${pendingApplicationCount} application${pendingApplicationCount === 1 ? '' : 's'} awaiting review`,
+                path: '/dashboard/landlord/applications',
+              },
+              openMaintenanceCount > 0 && {
+                type: 'warning',
+                msg: `${openMaintenanceCount} open maintenance request${openMaintenanceCount === 1 ? '' : 's'}`,
+                path: '/dashboard/landlord/maintenance',
+              },
+              listingCount === 0 && {
+                type: 'info',
+                msg: 'Add your first property to start collecting rent',
+                path: '/dashboard/landlord/properties',
+              },
+            ]
+              .filter(Boolean)
+              .map((alert, i) => {
+                const a = alert as { type: string; msg: string; path: string };
+                return (
+                  <Link
+                    key={i}
+                    href={a.path}
+                    className="flex items-start gap-2.5 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
+                  >
+                    <div
+                      className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
+                        a.type === 'warning' ? 'bg-amber-400' : a.type === 'info' ? 'bg-blue-400' : 'bg-emerald-400'
+                      }`}
+                    />
+                    <span className="text-sm text-zinc-400 hover:text-zinc-200">{a.msg}</span>
+                  </Link>
+                );
+              })}
+            {pendingApplicationCount === 0 && openMaintenanceCount === 0 && listingCount > 0 && (
+              <p className="text-sm text-zinc-500 text-center py-4">Nothing needs your attention.</p>
+            )}
           </div>
         </div>
 

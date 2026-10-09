@@ -84,7 +84,7 @@ export default function AgentInspectionReportClient() {
       {/* Report Paper */}
       <div className="bg-zinc-950/50 shadow-none border border-white/[0.08] rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
         {/* Report Header */}
-        <div className="bg-[#00ff66] text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-white/[0.08]">
+        <div className="bg-[#10b981] text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-white/[0.08]">
           <div className="space-y-2">
             <div className="flex items-center gap-2 opacity-80 mb-2">
               <Building2 className="h-4 w-4" />
@@ -104,7 +104,7 @@ export default function AgentInspectionReportClient() {
           </div>
           <div className="flex flex-col items-end justify-center">
             <div className="bg-success border border-success/30 px-6 py-3 rounded-xl flex items-center gap-3">
-              <Verified className="h-6 w-6 text-[#00ff66]/80" />
+              <Verified className="h-6 w-6 text-[#10b981]/80" />
               <span className="text-white font-bold">CLEARANCE ISSUED</span>
             </div>
             <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-white/60">Final Accreditation Status</p>
@@ -125,7 +125,7 @@ export default function AgentInspectionReportClient() {
                   confirming legal residency, operational capacity, and structural compliance.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  <span className="bg-[#00ff66] text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
+                  <span className="bg-[#10b981] text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
                     Tier 2 Accredited
                   </span>
                   <span className="bg-zinc-900 text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
@@ -134,7 +134,7 @@ export default function AgentInspectionReportClient() {
                 </div>
               </div>
             </div>
-            <div className="bg-[#00ff66] p-6 rounded-xl flex flex-col justify-center items-center text-white text-center border border-white/[0.08]">
+            <div className="bg-[#10b981] p-6 rounded-xl flex flex-col justify-center items-center text-white text-center border border-white/[0.08]">
               <p className="text-xs font-label-sm uppercase tracking-wider mb-1 opacity-80">Audit Score</p>
               <div className="text-headline-md font-black leading-none">
                 {score}<span className="text-white text-zinc-300">%</span>
@@ -157,7 +157,7 @@ export default function AgentInspectionReportClient() {
                       <div className="p-2 bg-[#171717] rounded-xl">
                         <AppIcon name={cat.icon} className="lucide" />
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-[#00ff66]/10 text-[#00ff66] text-[10px] font-label-sm uppercase tracking-wider border border-white/[0.08] font-bold">
+                      <span className="px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] text-[10px] font-label-sm uppercase tracking-wider border border-white/[0.08] font-bold">
                         VERIFIED
                       </span>
                     </div>

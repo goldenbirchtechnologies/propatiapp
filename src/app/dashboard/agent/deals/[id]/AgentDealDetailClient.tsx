@@ -26,7 +26,7 @@ const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
   enquiries: { color: '#3b82f6', bg: '#1e3a5f' },
   viewings: { color: '#f59e0b', bg: '#78350f' },
   offers: { color: '#10b981', bg: '#064e3b' },
-  agreements: { color: '#00ff66', bg: '#064e3b' },
+  agreements: { color: '#10b981', bg: '#064e3b' },
   closed: { color: '#10b981', bg: '#064e3b' },
 };
 
@@ -279,7 +279,7 @@ function StatusBar({ label, active }: { label: string; active: boolean }) {
 function ActionCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
     <Link href={href} className="glass-card p-5 flex items-start gap-4 transition-all hover:shadow-none group border border-white/[0.08] bg-zinc-900 text-white no-underline">
-      <div className="p-3 rounded-xl bg-[#00ff66]/10 text-white">
+      <div className="p-3 rounded-xl bg-[#10b981]/10 text-white">
         {icon}
       </div>
       <div className="flex-1 min-w-0">

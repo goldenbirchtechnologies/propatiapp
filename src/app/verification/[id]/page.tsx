@@ -115,8 +115,8 @@ function OverviewTab({
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div><dt className="text-zinc-500">Listing ID</dt><dd className="font-mono text-zinc-300">{listing?.id}</dd></div>
           <div><dt className="text-zinc-500">Current Layer</dt><dd className="text-zinc-300">{currentLayer} / 5</dd></div>
-          <div><dt className="text-zinc-500">Submitted</dt><dd className="text-zinc-300">{verification.createdAt ? new Date(verification.createdAt).toLocaleDateString() : '—'}</dd></div>
-          <div><dt className="text-zinc-500">Last Updated</dt><dd className="text-zinc-300">{verification.updatedAt ? new Date(verification.updatedAt).toLocaleDateString() : '—'}</dd></div>
+          <div><dt className="text-zinc-500">Submitted</dt><dd className="text-zinc-300">{verification.createdAt ? new Date(verification.createdAt).toLocaleDateString('en-NG') : '—'}</dd></div>
+          <div><dt className="text-zinc-500">Last Updated</dt><dd className="text-zinc-300">{verification.updatedAt ? new Date(verification.updatedAt).toLocaleDateString('en-NG') : '—'}</dd></div>
         </dl>
       </div>
 

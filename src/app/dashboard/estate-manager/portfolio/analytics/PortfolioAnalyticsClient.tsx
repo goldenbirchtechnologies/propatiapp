@@ -44,7 +44,7 @@ const statusLabel: Record<string, string> = {
 const priorityColors: Record<string, string> = {
   low: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
   medium: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
-  high: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20',
+  high: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
   urgent: 'bg-red-500/10 text-red-500 border-red-500/20',
 };
 
@@ -52,7 +52,7 @@ const statusColors: Record<string, string> = {
   open: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
   assigned: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
   in_progress: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
-  resolved: 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/20',
+  resolved: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
   closed: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
 };
 
@@ -101,18 +101,18 @@ export default function PortfolioAnalyticsClient({
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 text-[#00ff66]" />
+            <TrendingUp className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-500">Occupancy Rate</p>
           </div>
-          <p className="text-2xl font-bold text-[#00ff66] font-mono">{occupancyRate.toFixed(1)}%</p>
+          <p className="text-2xl font-bold text-[#10b981] font-mono">{occupancyRate.toFixed(1)}%</p>
           <p className="text-xs text-zinc-500 mt-1">{Object.values(unitsByStatus).reduce((a, b) => a + b, 0) || totalUnits} total units</p>
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
-            <Receipt className="w-4 h-4 text-[#00ff66]" />
+            <Receipt className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-500">Billed Service Charges</p>
           </div>
-          <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{(billedServiceCharges / 1e6).toFixed(2)}M</p>
+          <p className="text-2xl font-bold text-[#10b981] font-mono">₦{(billedServiceCharges / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-zinc-500 mt-1">{collectionRate}% collected</p>
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
@@ -125,10 +125,10 @@ export default function PortfolioAnalyticsClient({
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 text-[#00ff66]" />
+            <TrendingUp className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-500">Avg Rent</p>
           </div>
-          <p className="text-2xl font-bold text-[#00ff66] font-mono">₦{Math.round(avgRent / 1000)}K</p>
+          <p className="text-2xl font-bold text-[#10b981] font-mono">₦{Math.round(avgRent / 1000)}K</p>
           <p className="text-xs text-zinc-500 mt-1">Occupied units</p>
         </div>
         <div className="glass-card p-4 border-white/[0.08] bg-zinc-950/50">
@@ -195,7 +195,7 @@ export default function PortfolioAnalyticsClient({
         <div className="glass-card p-6 border-white/[0.08] bg-zinc-950/50">
           <div className="px-6 py-5 border-b border-white/[0.08] p-0 mb-4">
             <h3 className="text-lg font-semibold text-white text-white flex items-center gap-2">
-              <Receipt className="w-4 h-4 text-[#00ff66]" />
+              <Receipt className="w-4 h-4 text-[#10b981]" />
               Service Charge Collection
             </h3>
           </div>
@@ -203,7 +203,7 @@ export default function PortfolioAnalyticsClient({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-zinc-300">Billed</span>
-                <span className="text-sm font-mono text-[#00ff66]">₦{billedServiceCharges.toLocaleString()}</span>
+                <span className="text-sm font-mono text-[#10b981]">₦{billedServiceCharges.toLocaleString()}</span>
               </div>
               <div className="w-full h-2 bg-zinc-900/10 rounded-full overflow-hidden">
                 <div className="h-full bg-success/60 rounded-full" style={{ width: `${collectionRate}%` }} />

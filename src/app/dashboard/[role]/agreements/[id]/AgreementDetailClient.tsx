@@ -70,7 +70,7 @@ export default function AgreementDetailClient() {
       toast({
         title: 'WhatsApp Link Sent',
         description: `Agreement update sent to the party on WhatsApp.`,
-        className: 'bg-success/10 border-green-200 text-[#00ff66]',
+        className: 'bg-success/10 border-green-200 text-[#10b981]',
       });
     } catch (error) {
       toast({
@@ -241,7 +241,7 @@ export default function AgreementDetailClient() {
             <p className="text-lg">{agreement.landlord?.fullName || 'Unknown'}</p>
             <p className="text-sm text-zinc-500">{agreement.landlord?.email}</p>
             {agreement.landlordSignedAt && (
-              <div className="mt-2 flex items-center gap-2 text-[#00ff66]">
+              <div className="mt-2 flex items-center gap-2 text-[#10b981]">
                 <CheckCircle2 className="h-4 w-4" />
                 <span className="text-sm">
                   Signed on {format(new Date(agreement.landlordSignedAt), 'MMM dd, yyyy')}
@@ -254,7 +254,7 @@ export default function AgreementDetailClient() {
             <p className="text-lg">{agreement.tenant?.fullName || 'Unknown'}</p>
             <p className="text-sm text-zinc-500">{agreement.tenant?.email}</p>
             {agreement.tenantSignedAt && (
-              <div className="mt-2 flex items-center gap-2 text-[#00ff66]">
+              <div className="mt-2 flex items-center gap-2 text-[#10b981]">
                 <CheckCircle2 className="h-4 w-4" />
                 <span className="text-sm">
                   Signed on {format(new Date(agreement.tenantSignedAt), 'MMM dd, yyyy')}

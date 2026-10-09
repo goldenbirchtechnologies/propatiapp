@@ -58,7 +58,7 @@ function UsersManagementClient({
   const VerificationBadge = ({ user }: { user: (typeof users)[0] }) => {
     if (user.idVerified)
       return (
-        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#00ff66] font-label-sm text-label-sm border border-on-tertiary-container/20">
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-on-tertiary-container/10 text-[#10b981] font-label-sm text-label-sm border border-on-tertiary-container/20">
           <AppIcon name="verified" className="lucide" size={16} />
           Lvl 5
         </span>
@@ -195,7 +195,7 @@ function UsersManagementClient({
                           }`}
                         />
                         <span
-                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#00ff66]' : 'text-zinc-400'}`}
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#10b981]' : 'text-zinc-400'}`}
                         >
                           {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
                         </span>

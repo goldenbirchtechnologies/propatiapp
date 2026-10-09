@@ -115,10 +115,10 @@ function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }
       </div>
       {trend && (
         <div className="mt-4 flex items-center gap-1">
-          <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-zinc-500'}`}>
+          <span className={`text-xs font-medium ${trendPositive ? 'text-[#10b981]' : 'text-zinc-500'}`}>
             {trendPositive ? '✓' : ''}
           </span>
-          <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-zinc-500'}`}>
+          <span className={`text-xs ${trendPositive ? 'text-[#10b981]' : 'text-zinc-500'}`}>
             {trend}
           </span>
         </div>
@@ -143,10 +143,10 @@ function VerificationCard({ listing }: { listing: unknown }) {
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
     in_progress: { class: 'bg-zinc-900 text-white border-white/[0.08]/20', label: 'In Progress', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
-    certified: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    certified: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Verified ✓', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <ClockIcon className="w-3 h-3 mr-1" /> },
-    approved: { class: 'bg-success/10 text-[#00ff66] border-success/20', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
+    approved: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Approved', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
   };
 
   const overallConfig = statusColors[overallStatus] || statusColors.not_started;

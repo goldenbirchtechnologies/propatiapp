@@ -40,7 +40,7 @@ export default function EstateManagerBulkImportPage() {
               </div>
             ) : status === 'done' ? (
               <div className="space-y-2">
-                <div className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#00ff66]" /> <span className="text-sm font-medium">Import completed</span></div>
+                <div className="flex items-center gap-2"><CheckCircle className="w-5 h-5 text-[#10b981]" /> <span className="text-sm font-medium">Import completed</span></div>
                 <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-500' }}>5,412 properties loaded. 0 errors.</p>
               </div>
             ) : (

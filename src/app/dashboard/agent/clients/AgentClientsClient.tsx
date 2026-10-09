@@ -89,7 +89,7 @@ function ClientStatCard({ label, value, icon: Icon, color }: { label: string; va
         <div
           className="p-2 rounded-full flex-shrink-0"
           style={{
-            background: 'bg-[#00ff66]/10',
+            background: 'bg-[#10b981]/10',
             color: 'text-white',
           }}
         >
@@ -132,11 +132,11 @@ function ClientRow({ client }: { client: Client }) {
   const typeConfig: Record<string, { icon: React.ReactNode; className: string }> = {
     Landlord: {
       icon: <Building2 className="h-3 w-3" />,
-      className: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]',
+      className: 'bg-[#10b981]/10 text-[#10b981] border border-white/[0.08]',
     },
     Seller: {
       icon: <Building2 className="h-3 w-3" />,
-      className: 'bg-[#00ff66]/10 text-[#00ff66] border border-white/[0.08]',
+      className: 'bg-[#10b981]/10 text-[#10b981] border border-white/[0.08]',
     },
     Buyer: {
       icon: <ShoppingBag className="h-3 w-3" />,

@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { StatCard } from '@/components/ui/stat-card';
 import { getCurrentUserWithProfile } from '@/lib/auth';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
@@ -73,9 +74,9 @@ export default async function LandlordMaintenancePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <StatCard label="Open Requests" value={String(openCount + inProgressCount)} icon="open" trend={`${openCount} urgent`} trendPositive={false} />
-          <StatCard label="In Progress" value={String(inProgressCount)} icon="progress" trend="Assignees active" trendPositive />
-          <StatCard label="Completed" value={String(completedCount)} icon="done" trend="+ this month" trendPositive />
+          <StatCard label="Open Requests" value={String(openCount + inProgressCount)} trend={`${openCount} urgent`} />
+          <StatCard label="In Progress" value={String(inProgressCount)} trend="Assignees active" />
+          <StatCard label="Completed" value={String(completedCount)} trend="+ this month" />
         </div>
 
         <div className="glass-card">
@@ -131,17 +132,3 @@ export default async function LandlordMaintenancePage() {
   );
 }
 
-function StatCard({ label, value, icon, trend, trendPositive = true }: { label: string; value: string; icon: string; trend: string; trendPositive?: boolean }) {
-  return (
-    <div className="rounded-xl border border-white/[0.08] p-5 shadow-none">
-      <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider">{label}</p>
-      <p className="text-2xl font-bold mt-1">{value}</p>
-      <div className="mt-2 flex items-center gap-1">
-        <span className={`text-xs font-medium ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>
-          {trendPositive ? '↑' : '↓'}
-        </span>
-        <span className={`text-xs ${trendPositive ? 'text-[#00ff66]' : 'text-red-500'}`}>{trend}</span>
-      </div>
-    </div>
-  );
-}

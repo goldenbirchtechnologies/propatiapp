@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { StatCard } from '@/components/ui/stat-card';
 import { Bell, AlertTriangle, CheckCircle2, XCircle, Info, Megaphone, ShieldAlert, CreditCard } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { FailureState } from '@/components/feedback/FailureState';
@@ -53,7 +54,7 @@ const typeConfig: Record<
 };
 
 const colorMap: Record<string, string> = {
-  green: 'bg-success/10 text-[#00ff66] border-[#00ff66]/20',
+  green: 'bg-success/10 text-[#10b981] border-[#10b981]/20',
   amber: 'bg-warning/10 text-warning border-warning/20',
   red: 'bg-red-500/10 text-red-500 border-red-500/20',
   blue: 'bg-zinc-900 text-zinc-300 border-white/[0.08]',
@@ -89,35 +90,6 @@ const SkeletonRow = () => (
 );
 
 // ─── Stat Card component ──────────────────────────────────────────────────────
-function StatCard({
-  label,
-  value,
-  icon: Icon,
-  color,
-}: {
-  label: string;
-  value: number;
-  icon: React.ElementType;
-  color: 'green' | 'amber' | 'red' | 'blue' | 'slate';
-}) {
-  return (
-    <div className="glass-card p-5">
-      <div className="flex items-center gap-3">
-        <div className={`p-2 rounded-full ${colorMap[color]}`}>
-          <Icon className="h-4 w-4" />
-        </div>
-        <div>
-          <p className="text-xs font-medium text-zinc-500">
-            {label}
-          </p>
-          <p className="text-2xl text-white text-white">
-            {value}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── Empty State ──────────────────────────────────────────────────────────────
 function EmptyState({ filter }: { filter: string }) {
@@ -276,9 +248,9 @@ export default function TenantNotificationsClient() {
       <div className="space-y-6">
         <PageHeader />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <StatCard label="Total" value={0} icon={Bell} color="slate" />
-          <StatCard label="Unread" value={0} icon={AlertTriangle} color="amber" />
-          <StatCard label="Read" value={0} icon={CheckCircle2} color="green" />
+          <StatCard label="Total" value={0} icon={Bell} />
+          <StatCard label="Unread" value={0} icon={AlertTriangle} />
+          <StatCard label="Read" value={0} icon={CheckCircle2} />
         </div>
         <FailureState
           title="Unable to load notifications"
@@ -384,9 +356,9 @@ function StatsRow({ loading, total, unreadCount, readCount }: StatsProps) {
   }
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-      <StatCard label="Total" value={total} icon={Bell} color="slate" />
-      <StatCard label="Unread" value={unreadCount} icon={AlertTriangle} color="amber" />
-      <StatCard label="Read Today" value={readCount} icon={CheckCircle2} color="green" />
+      <StatCard label="Total" value={total} icon={Bell} />
+      <StatCard label="Unread" value={unreadCount} icon={AlertTriangle} />
+      <StatCard label="Read Today" value={readCount} icon={CheckCircle2} />
     </div>
   );
 }

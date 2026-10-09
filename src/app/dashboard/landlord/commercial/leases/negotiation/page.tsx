@@ -64,8 +64,8 @@ export default async function CommercialLeaseNegotiationPage() {
                   </p>
                   <p>
                     <span className="text-zinc-500">Term:</span>{' '}
-                    {agr.startDate ? new Date(agr.startDate).toLocaleDateString() : '—'} →{' '}
-                    {agr.endDate ? new Date(agr.endDate).toLocaleDateString() : '—'}
+                    {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} →{' '}
+                    {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                   </p>
                   <p>
                     <span className="text-zinc-500">Deposit:</span>{' '}

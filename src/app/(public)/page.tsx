@@ -7,12 +7,27 @@ import { Search, Home, Users, Building2, ShieldCheck, ArrowRight, CheckCircle2, 
 import { SectionLabel, StarRating, InteractiveHoverButton } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
-const stats = [
-  { value: '12,500+', label: 'Active Listings', sub: 'across 18 states' },
-  { value: '2,300+', label: 'Verified Agents', sub: 'NBA-compliant' },
-  { value: '45,000+', label: 'Happy Tenants', sub: 'and counting' },
-  { value: '18+', label: 'Cities Covered', sub: 'Lagos to Maiduguri' },
-];
+function usePublicStats() {
+  const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch('/api/public/stats')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!cancelled && d?.listings) setStats({ active: d.listings.active ?? 0, verified: d.listings.verified ?? 0 });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  if (!stats) return null;
+  if (stats.active === 0) return null;
+  return [
+    { value: `${stats.active.toLocaleString('en-NG')}`, label: 'Active Listings', sub: 'verified marketplace' },
+    { value: `${stats.verified.toLocaleString('en-NG')}`, label: 'Verified', sub: 'inspected & certified' },
+  ];
+}
 
 const categories = [
   { label: 'Apartments', icon: '🏢', count: '5,200' },
@@ -124,6 +139,7 @@ function FadeIn({ children, className = '', delay = 0, y = 24 }) {
 
 export default function HomePage() {
   const router = useRouter();
+  const liveStats = usePublicStats();
 
   return (
     <div className="min-h-screen bg-black text-white antialiased selection:bg-emerald-500/20 w-full">
@@ -194,15 +210,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Quick stats */}
-            <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6">
-              {stats.map((s) => (
-                <div key={s.label} className="flex items-baseline gap-1.5">
-                  <span className="text-emerald-400 font-bold text-lg">{s.value}</span>
-                  <span className="text-zinc-500 text-sm">{s.label}</span>
-                </div>
-              ))}
-            </div>
+            {/* Quick stats — honest: only renders when we have real counts */}
+            {liveStats && (
+              <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6">
+                {liveStats.map((s) => (
+                  <div key={s.label} className="flex items-baseline gap-1.5">
+                    <span className="text-emerald-400 font-bold text-lg">{s.value}</span>
+                    <span className="text-zinc-500 text-sm">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

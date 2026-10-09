@@ -89,6 +89,9 @@ export function PropertyCard({
   onClick,
   className,
 }: PropertyCardProps) {
+  const [imgError, setImgError] = React.useState(false);
+  const showPlaceholder = !image || imgError;
+
   const handleSave = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -122,40 +125,41 @@ export function PropertyCard({
     >
       {/* Image Container */}
       <div className="relative w-full h-48 overflow-hidden bg-zinc-900">
-        <Image
-          src={image}
-          alt={title}
-          width={800}
-          height={600}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        {showPlaceholder ? (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-zinc-950 text-zinc-600">
+            <Building2 className="h-8 w-8" />
+            <span className="text-xs">No image yet</span>
+          </div>
+        ) : (
+          <Image
+            src={image}
+            alt={title}
+            width={800}
+            height={600}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImgError(true)}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
 
-        {/* Floating Badges - Top Left */}
+        {/* Floating Badges — single source of truth */}
         <div className="absolute top-3 left-3 flex gap-2">
           <span
             className="px-2 py-0.5 text-xs font-semibold rounded text-white capitalize"
             style={{ background: typeColors[category] || '#10b981' }}
           >
-            {category.replace('_', ' ')}
+            {listingTypeLabels[listingType] || category.replace('_', ' ')}
           </span>
-          {listingType === 'sale' && (
-            <span className="px-2 py-0.5 text-xs font-semibold rounded bg-black/70 text-white backdrop-blur-sm">
-              For Sale
-            </span>
-          )}
         </div>
 
-        {/* Verified badge - top right */}
-        {verificationTier === 'verified' && (
-          <div className="absolute top-3 right-3">
-            <span className="flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 backdrop-blur-sm">
-              <CheckCircle size={10} />
-              Verified
-            </span>
-          </div>
-        )}
+        {/* Verification tier — always visible, color by tier */}
+        <div className="absolute top-3 right-3">
+          <span className={`flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded border backdrop-blur-sm ${verificationChips[verificationTier] || verificationChips.basic}`}>
+            <CheckCircle size={10} />
+            {verificationLabels[verificationTier] || 'Basic'}
+          </span>
+        </div>
 
         {/* Price - bottom left */}
         <div className="absolute bottom-3 left-3">

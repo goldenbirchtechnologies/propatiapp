@@ -282,78 +282,134 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           <div className="p-3">
             <SearchInput placeholder="Search conversations…" />
           </div>
-          <div className="px-3 pb-2 flex gap-1 border-b border-white/[0.07]">
-            <button
-              onClick={() => setActiveTab('messages')}
-              className={cn(
-                'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
-                activeTab === 'messages' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
-              )}
-            >
-              Messages
-              {conversations.some((c) => c.unreadCount > 0) && (
-                <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
-                  {conversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0)}
-                </span>
-              )}
-            </button>
-            {(userRole === 'agent' || userRole === 'estate_manager' || userRole === 'landlord') && (
-              <button
-                onClick={() => setActiveTab('invites')}
-                className={cn(
-                  'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
-                  activeTab === 'invites' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
-                )}
+          <div className="px-3 pb-2">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex gap-1">
+                <button
+                  onClick={() => setActiveTab('messages')}
+                  className={cn(
+                    'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
+                    activeTab === 'messages' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
+                  )}
+                >
+                  All
+                  {conversations.some((c) => c.unreadCount > 0) && (
+                    <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
+                      {conversations.reduce((sum, c) => sum + (c.unreadCount || 0), 0)}
+                    </span>
+                  )}
+                </button>
+                <button
+                  onClick={() => setActiveTab('unread')}
+                  className={cn(
+                    'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
+                    activeTab === 'unread' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
+                  )}
+                >
+                  Unread
+                </button>
+                <button
+                  onClick={() => setActiveTab('tenants')}
+                  className={cn(
+                    'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
+                    activeTab === 'tenants' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
+                  )}
+                >
+                  Tenants
+                </button>
+                <button
+                  onClick={() => setActiveTab('applicants')}
+                  className={cn(
+                    'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
+                    activeTab === 'applicants' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
+                  )}
+                >
+                  Applicants
+                </button>
+                <button
+                  onClick={() => setActiveTab('archived')}
+                  className={cn(
+                    'flex-1 text-xs font-medium py-1.5 rounded-md transition-colors relative',
+                    activeTab === 'archived' ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'
+                  )}
+                >
+                  Archived
+                </button>
+              </div>
+              <Button
+                size="sm"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                onClick={() => setShowNewConversation(true)}
               >
-                Invites
-                {invites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
-                    {invites.length}
-                  </span>
-                )}
-              </button>
-            )}
+                <Plus className="w-4 h-4 mr-1" />
+                + New
+              </Button>
+            </div>
           </div>
           {showConversations && (
             <div>
               {conversations.map((conv) => (
-                <button
-                  key={conv.id}
-                  onClick={() => setSelectedId(conv.id)}
-                  className={cn(
-                    'w-full text-left px-4 py-3.5 hover:bg-white/[0.04] transition-colors border-l-2 group',
-                    selectedId === conv.id ? 'bg-emerald-500/5 border-emerald-500' : 'border-transparent'
-                  )}
-                >
-                  <div className="flex items-start gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold flex-shrink-0">
-                      {(conv.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-center">
-                        <span className="text-white text-sm font-medium">{conv.participant?.fullName || conv.subject || 'Conversation'}</span>
-                        <span className="text-[10px] text-zinc-600">{formatTime(conv.lastMessageAt)}</span>
-                      </div>
-                      <div className="text-xs text-zinc-600 truncate mt-0.5">{conv.lastMessage || conv.subject || 'No messages yet'}</div>
-                    </div>
-                    {conv.unreadCount > 0 && (
-                      <span className="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
-                        {conv.unreadCount}
-                      </span>
+                  <button
+                    key={conv.id}
+                    onClick={() => setSelectedId(conv.id)}
+                    className={cn(
+                      'w-full text-left px-4 py-3.5 hover:bg-white/[0.04] transition-colors border-l-2 group',
+                      selectedId === conv.id ? 'bg-emerald-500/5 border-emerald-500' : 'border-transparent'
                     )}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setDeleteConversationId(conv.id);
-                      }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity rounded-full p-1 hover:bg-red-500/20"
-                    >
-                      <Trash2 className="h-3.5 w-3.5 text-zinc-500 hover:text-red-400" />
-                    </button>
-                  </div>
-                </button>
-              ))}
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                        {(conv.participant?.fullName || conv.subject || 'New Conversation').split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-white text-sm font-medium truncate">
+                              {conv.participant?.fullName || conv.subject || 'New Conversation'}
+                            </span>
+                            {conv.participant?.role && (
+                              <span className={cn(
+                                'text-[9px] px-1.5 py-0.5 rounded-full font-medium',
+                                conv.participant.role === 'tenant' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                conv.participant.role === 'agent' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                                conv.participant.role === 'landlord' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                                'bg-zinc-800 text-zinc-400'
+                              )}>
+                                {conv.participant.role.charAt(0).toUpperCase() + conv.participant.role.slice(1)}
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[10px] text-zinc-600">
+                            {formatTime(conv.lastMessageAt)}
+                          </span>
+                        </div>
+                        <div className="text-xs text-zinc-600 truncate mt-0.5">
+                          {conv.lastMessage || conv.subject || 'No messages yet'}
+                        </div>
+                        {conv.propertyName && (
+                          <div className="text-[9px] text-zinc-500 truncate mt-0.5">
+                            {conv.propertyName}
+                          </div>
+                        )}
+                      </div>
+                      {conv.unreadCount > 0 && (
+                        <span className="flex-shrink-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[9px] font-bold flex items-center justify-center">
+                          {conv.unreadCount}
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteConversationId(conv.id);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity rounded-full p-1 hover:bg-red-500/20"
+                      >
+                        <Trash2 className="h-3.5 w-3.5 text-zinc-500 hover:text-red-400" />
+                      </button>
+                    </div>
+                  </button>
+                ))}
               {conversations.length === 0 && (
                 <div className="p-4 text-center text-xs text-zinc-600">
                   <p className="mb-2">No conversations yet</p>

@@ -57,7 +57,7 @@ export default async function LandlordAgentsPage() {
               <p className="text-sm text-zinc-500">Invite agents to manage your listings. Agents can register directly; invites are optional.</p>
             </div>
           </div>
-          <AgentInviteManagementClient properties={listings} initialInvites={invites} initialAssignments={assignments} />
+          <AgentInviteManagementClient properties={listings} initialInvites={invites} initialAssignments={assignments} currentUserRole={user.role} />
         </div>
       </ErrorBoundary>
     </DashboardShell>

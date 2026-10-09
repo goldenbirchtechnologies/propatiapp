@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';
@@ -12,123 +12,6 @@ const categories = ['All', 'Rent', 'Buy', 'Shortlet', 'Lease', 'Room Share'];
 const bedroomOptions = ['Any', '1', '2', '3', '4', '5+'];
 const sortOptions = ['Newest First', 'Price: Low to High', 'Price: High to Low', 'Most Verified'];
 
-const listings = [
-  {
-    id: '1',
-    title: '3 Bedroom Luxury Apartment with Pool',
-    address: 'Lekki Phase 1, Lagos',
-    price: 8500000,
-    type: 'rent',
-    beds: 3,
-    baths: 4,
-    sqm: 180,
-    image: 'https://picsum.photos/seed/1/800/600',
-    verified: true,
-    pricePeriod: 'year' as const,
-  },
-  {
-    id: '2',
-    title: '2 Bedroom Duplex in Lekki',
-    address: 'Victoria Island, Lagos',
-    price: 15000000,
-    type: 'sale',
-    beds: 2,
-    baths: 3,
-    sqm: 140,
-    image: 'https://picsum.photos/seed/2/800/600',
-    verified: true,
-    pricePeriod: 'once' as const,
-  },
-  {
-    id: '3',
-    title: 'Luxury 4 Bedroom Detached House',
-    address: 'Ikeja GRA, Lagos',
-    price: 65000000,
-    type: 'sale',
-    beds: 4,
-    baths: 5,
-    sqm: 350,
-    image: 'https://picsum.photos/seed/3/800/600',
-    verified: true,
-    pricePeriod: 'once' as const,
-  },
-  {
-    id: '4',
-    title: 'Studio Apartment in VI',
-    address: 'Victoria Island, Lagos',
-    price: 1200000,
-    type: 'rent',
-    beds: 1,
-    baths: 1,
-    sqm: 55,
-    image: 'https://picsum.photos/seed/4/800/600',
-    verified: false,
-    pricePeriod: 'year' as const,
-  },
-  {
-    id: '5',
-    title: 'Open Plan Office Space in VI',
-    address: 'Victoria Island, Lagos',
-    price: 25000000,
-    type: 'commercial',
-    sqm: 200,
-    parking: 10,
-    image: 'https://picsum.photos/seed/5/800/600',
-    verified: true,
-    pricePeriod: 'year' as const,
-  },
-  {
-    id: '6',
-    title: 'Serviced Office in Lekki',
-    address: 'Lekki Phase 1, Lagos',
-    price: 18000000,
-    type: 'commercial',
-    sqm: 150,
-    parking: 8,
-    image: 'https://picsum.photos/seed/6/800/600',
-    verified: true,
-    pricePeriod: 'year' as const,
-  },
-  {
-    id: '7',
-    title: 'Short Let Studio Apartment',
-    address: 'Ikeja GRA, Lagos',
-    price: 45000,
-    type: 'short_let',
-    beds: 1,
-    baths: 1,
-    sqm: 45,
-    image: 'https://picsum.photos/seed/7/800/600',
-    verified: false,
-    pricePeriod: 'night' as const,
-  },
-  {
-    id: '8',
-    title: 'Furnished 2 Bedroom Short Stay',
-    address: 'Lekki Phase 1, Lagos',
-    price: 85000,
-    type: 'short_let',
-    beds: 2,
-    baths: 2,
-    sqm: 75,
-    image: 'https://picsum.photos/seed/8/800/600',
-    verified: true,
-    pricePeriod: 'night' as const,
-  },
-  {
-    id: '9',
-    title: 'Retail Shop Front on Main Road',
-    address: 'Ikeja, Lagos',
-    price: 12000000,
-    type: 'commercial',
-    sqm: 80,
-    parking: 0,
-    image: 'https://picsum.photos/seed/9/800/600',
-    verified: true,
-    pricePeriod: 'year' as const,
-  },
-];
-
 export default function ListingsPage() {
   const router = useRouter();
   const [category, setCategory] = useState('All');
@@ -137,15 +20,72 @@ export default function ListingsPage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [sort, setSort] = useState('Newest First');
   const [search, setSearch] = useState('');
+  const [listings, setListings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    fetch('/api/listings?limit=50')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((data) => {
+        if (cancelled) return;
+        const items = Array.isArray(data.listings) ? data.listings : [];
+        // Map API shape to card shape — coverImage is derived from images relation server-side
+        setListings(
+          items.map((l: any) => ({
+            id: l.id,
+            title: l.title,
+            address: l.address || l.area || '',
+            price: Number(l.price),
+            type: l.listingType || l.type || 'rent',
+            beds: l.bedrooms,
+            baths: l.bathrooms,
+            sqm: l.sizeSqm ?? l.sqm,
+            image: l.coverImage || l.images?.[0]?.url || '',
+            verified: l.verificationTier ? l.verificationTier !== 'basic' : !!l.verified,
+            verificationTier: l.verificationTier || (l.verified ? 'verified' : 'basic'),
+            pricePeriod: l.pricePeriod || 'year',
+            listingType: l.listingType || l.type || 'rent',
+            category: l.propertyType ? 'residential' : 'residential',
+          }))
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setListings([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filtered = listings.filter((l) => {
-    const matchesCategory = category === 'All' || l.type === category.toLowerCase();
+    const matchesCategory = category === 'All' || (l.listingType || l.type)?.toLowerCase() === category.toLowerCase();
     const matchesSearch =
       !search ||
       l.title.toLowerCase().includes(search.toLowerCase()) ||
       l.address.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const price = Number(l.price) || 0;
+    const min = minPrice ? Number(minPrice.replace(/,/g, '')) : undefined;
+    const max = maxPrice ? Number(maxPrice.replace(/,/g, '')) : undefined;
+    const matchesPrice = (min === undefined || price >= min) && (max === undefined || price <= max);
+    const matchesVerified = !verifiedOnly || l.verificationTier !== 'basic';
+    return matchesCategory && matchesSearch && matchesPrice && matchesVerified;
   });
+
+  const activeFilters = [
+    category !== 'All' ? { label: category, clear: () => setCategory('All') } : null,
+    minPrice ? { label: `Min ${minPrice}`, clear: () => setMinPrice('') } : null,
+    maxPrice ? { label: `Max ${maxPrice}`, clear: () => setMaxPrice('') } : null,
+    verifiedOnly ? { label: 'Verified only', clear: () => setVerifiedOnly(false) } : null,
+  ].filter(Boolean) as { label: string; clear: () => void }[];
 
   return (
     <div className="bg-black min-h-screen pt-16">
@@ -224,36 +164,25 @@ export default function ListingsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex gap-6">
-          {/* Sidebar filters — desktop */}
+          {/* Sidebar filters — desktop (Type lives in the top bar only — single source of truth) */}
           <aside className="hidden lg:block w-56 flex-shrink-0 space-y-6">
-            <div>
-              <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Type</h3>
-              <div className="space-y-1">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setCategory(cat)}
-                    className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
-                      category === cat ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Price Range</h3>
               <div className="space-y-2">
                 <input
                   type="text"
+                  inputMode="numeric"
                   placeholder="Min (₦)"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value.replace(/[^0-9,]/g, ''))}
                   className="w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
                 />
                 <input
                   type="text"
+                  inputMode="numeric"
                   placeholder="Max (₦)"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value.replace(/[^0-9,]/g, ''))}
                   className="w-full px-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-emerald-500"
                 />
               </div>
@@ -281,12 +210,20 @@ export default function ListingsPage() {
             <div>
               <h3 className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-3">Verification</h3>
               <label className="flex items-center gap-2.5 cursor-pointer">
-                <div className="w-4 h-4 rounded border-2 border-emerald-500 bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <span className="text-sm text-zinc-300">Verified only</span>
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={verifiedOnly}
+                  onClick={() => setVerifiedOnly((v) => !v)}
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${verifiedOnly ? 'border-emerald-500 bg-emerald-500/20' : 'border-zinc-700 bg-zinc-950'}`}
+                >
+                  {verifiedOnly && (
+                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </button>
+                <span className={`text-sm ${verifiedOnly ? 'text-zinc-300' : 'text-zinc-400'}`}>Verified only</span>
               </label>
             </div>
 
@@ -305,40 +242,109 @@ export default function ListingsPage() {
 
           {/* Main content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-zinc-500">
                 Showing <span className="text-white font-medium">{filtered.length}</span> properties
                 {category !== 'All' && ` · ${category}`}
               </p>
             </div>
+            {activeFilters.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                {activeFilters.map((f) => (
+                  <span key={f.label} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full bg-white/[0.06] border border-white/[0.08] text-zinc-300">
+                    {f.label}
+                    <button onClick={f.clear} className="ml-1 text-zinc-500 hover:text-white leading-none" aria-label={`Clear ${f.label}`}>
+                      ×
+                    </button>
+                  </span>
+                ))}
+                <button
+                  onClick={() => {
+                    setCategory('All');
+                    setMinPrice('');
+                    setMaxPrice('');
+                    setVerifiedOnly(false);
+                    setSearch('');
+                  }}
+                  className="text-xs text-zinc-500 hover:text-white"
+                >
+                  Clear all
+                </button>
+              </div>
+            )}
 
-            <div className={viewMode === 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
-              {filtered.map((listing) => (
-                <Link key={listing.id} href={`/listings/${listing.id}`}>
-                  <PropertyCard
-                    id={listing.id}
-                    title={listing.title}
-                    location={listing.address}
-                    price={listing.price}
-                    pricePeriod={listing.pricePeriod}
-                    category={listing.type as 'residential' | 'commercial' | 'short_let'}
-                    verificationTier={listing.verified ? 'verified' : 'basic'}
-                    listingType={listing.type as 'rent' | 'sale' | 'short_let' | 'share' | 'commercial'}
-                    image={listing.image}
-                    specs={{ beds: listing.beds, baths: listing.baths, sqm: listing.sqm, parking: listing.parking }}
-                  />
-                </Link>
-              ))}
-              {filtered.length === 0 && (
-                <div className="col-span-3 py-20 text-center text-zinc-600">
-                  No properties match your filters. Try adjusting your search.
+            {loading ? (
+              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="h-64 rounded-xl bg-zinc-900 border border-white/[0.06] animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              <div className={viewMode === 'grid' ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
+                {filtered.map((listing) => {
+                  const isCompared = compareIds.includes(listing.id);
+                  return (
+                    <div key={listing.id} className="relative">
+                      <Link href={`/listings/${listing.id}`}>
+                        <PropertyCard
+                          id={listing.id}
+                          title={listing.title}
+                          location={listing.address}
+                          price={listing.price}
+                          pricePeriod={listing.pricePeriod}
+                          category={(listing.category as 'residential' | 'commercial' | 'short_let') || 'residential'}
+                          verificationTier={(listing.verificationTier as 'basic' | 'verified' | 'inspected' | 'certified') || 'basic'}
+                          listingType={listing.listingType as 'rent' | 'sale' | 'short_let' | 'share' | 'commercial'}
+                          image={listing.image}
+                          specs={{ beds: listing.beds, baths: listing.baths, sqm: listing.sqm, parking: listing.parking }}
+                        />
+                      </Link>
+                      <label className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 rounded-full bg-black/70 backdrop-blur border border-white/10 text-xs text-white cursor-pointer hover:bg-black/80">
+                        <input
+                          type="checkbox"
+                          checked={isCompared}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            setCompareIds((prev) =>
+                              e.target.checked ? (prev.length < 3 ? [...prev, listing.id] : prev) : prev.filter((x) => x !== listing.id)
+                            );
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-3.5 h-3.5 rounded border-white/20 bg-white/10 accent-emerald-500"
+                        />
+                        Compare
+                      </label>
+                    </div>
+                  );
+                })}
+                {filtered.length === 0 && (
+                  <div className="col-span-3 py-20 text-center text-zinc-600">No properties match your filters. Try adjusting your search.</div>
+                )}
+              </div>
+            )}
+
+            {/* Compare bar */}
+            {compareIds.length > 0 && (
+              <div className="sticky bottom-4 mt-6 z-20">
+                <div className="glass-card p-3 flex items-center justify-between gap-3">
+                  <span className="text-sm text-zinc-300">
+                    <span className="text-white font-semibold">{compareIds.length}/3</span> selected for comparison
+                  </span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setCompareIds([])} className="border-white/15 text-white hover:bg-white/10">
+                      Clear
+                    </Button>
+                    <Button size="sm" onClick={() => router.push(`/compare?ids=${compareIds.join(',')}`)}>
+                      Compare
+                    </Button>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Load more */}
             <div className="text-center mt-10">
-              <Button variant="secondary" size="lg">
+              <Button variant="outline" size="lg" className="border-white/15 text-white hover:bg-white/10">
                 Load more listings
               </Button>
             </div>

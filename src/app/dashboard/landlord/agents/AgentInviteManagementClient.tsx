@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,7 +16,6 @@ import type { AgentInvite } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 export interface AgentInviteWithRelations extends AgentInvite {
-  recipient?: { id: string; fullName: string | null } | null;
   assignments?: {
     id: string;
     listing: { id: string; title: string; address: string };
@@ -53,10 +52,12 @@ export default function AgentInviteManagementClient({
   properties = [],
   initialInvites,
   initialAssignments,
+  currentUserRole = 'landlord',
 }: {
   properties?: PropertyItem[];
   initialInvites?: AgentInviteWithRelations[];
   initialAssignments?: AgentAssignmentWithRelations[];
+  currentUserRole?: string;
 }) {
   const [invites, setInvites] = useState<AgentInviteWithRelations[]>(initialInvites ?? []);
   const [assignments] = useState<AgentAssignmentWithRelations[]>(initialAssignments ?? []);
@@ -64,7 +65,8 @@ export default function AgentInviteManagementClient({
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [actionId, setActionId] = useState<string | null>(null);
-  const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const STANDARD_PERMISSIONS = PERMISSIONS.filter((p) => p.id !== 'manage_team').map((p) => p.id);
+  const [selectedPermissions, setSelectedPermissions] = useState<string[]>(STANDARD_PERMISSIONS);
   const [scopeType, setScopeType] = useState<'all' | 'specific'>('all');
   const [selectedListingIds, setSelectedListingIds] = useState<string[]>([]);
   const [reassignOpen, setReassignOpen] = useState(false);
@@ -72,6 +74,7 @@ export default function AgentInviteManagementClient({
   const [reassignListingIds, setReassignListingIds] = useState<string[]>([]);
   const [reassignSaving, setReassignSaving] = useState(false);
   const { toast } = useToast();
+  const canManageTeam = currentUserRole === 'admin' || currentUserRole === 'landlord';
 
   const load = async () => {
     setLoading(true);
@@ -89,6 +92,25 @@ export default function AgentInviteManagementClient({
   useEffect(() => {
     void load();
   }, []);
+
+  // Group invites by email — keep only the latest status per email,
+  // with full audit history available for expansion
+  const groupedInvites = useMemo(() => {
+    if (!invites.length) return [];
+    const byEmail: Record<string, AgentInviteWithRelations[]> = {};
+    invites.forEach((inv) => {
+      const emailKey = inv.email.toLowerCase();
+      if (!byEmail[emailKey]) byEmail[emailKey] = [];
+      byEmail[emailKey].push(inv);
+    });
+    // For each email, pick the latest invite as the representative
+    return Object.values(byEmail).map((group) => {
+      const sorted = group.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      return sorted[0];
+    });
+  }, [invites]);
 
   const togglePermission = (id: string) => {
     setSelectedPermissions(prev =>
@@ -190,26 +212,13 @@ export default function AgentInviteManagementClient({
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* Header - consolidated, no duplicates */}
       <div className="flex items-start justify-between gap-4">
-        <div className="space-y-1">
-          <Link
-            href="/dashboard/landlord/agents"
-            className="inline-flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="size-4" />
-            Back
-          </Link>
-          <h1 className="font-heading text-headline-lg text-white">Invite agent</h1>
-          <p className="text-sm text-zinc-400">
-            They'll get an email to accept the invite
+        <div>
+          <h1 className="font-heading text-2xl text-white">Agent Management</h1>
+          <p className="text-sm text-zinc-500 mt-1">
+            Invite agents to manage your listings. Agents can register directly; invites are optional.
           </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
-            <UserPlus className="size-4" />
-            Refer &amp; earn
-          </Button>
         </div>
       </div>
 
@@ -248,6 +257,8 @@ export default function AgentInviteManagementClient({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
+                const isManageTeam = permission.id === 'manage_team';
+                const canGrantManageTeam = currentUserRole === 'admin';
                 return (
                   <label
                     key={permission.id}
@@ -255,12 +266,14 @@ export default function AgentInviteManagementClient({
                       'flex items-start gap-3 rounded-xl border p-4 transition-all cursor-pointer select-none',
                       isSelected
                         ? 'border-white/[0.08] bg-emerald-500/5 shadow-none shadow-primary/10'
-                        : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
+                        : 'border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est',
+                      (isManageTeam && !canGrantManageTeam) && 'opacity-50 cursor-not-allowed'
                     )}
                   >
                     <Checkbox
                       checked={isSelected}
                       onCheckedChange={() => togglePermission(permission.id)}
+                      disabled={isManageTeam && !canGrantManageTeam}
                       className={cn(
                         "mt-0.5 dark:border-white/50 dark:bg-transparent",
                         isSelected && "dark:bg-emerald-500"
@@ -271,6 +284,11 @@ export default function AgentInviteManagementClient({
                       <p className="text-xs text-zinc-400 leading-relaxed">
                         {permission.description}
                       </p>
+                      {isManageTeam && !canGrantManageTeam && (
+                        <p className="text-xs text-red-400">
+                          Admin-only permission — cannot grant.
+                        </p>
+                      )}
                     </div>
                   </label>
                 );
@@ -399,8 +417,8 @@ export default function AgentInviteManagementClient({
         <h4 className="font-heading text-white mb-4">Sent Invites</h4>
         {loading ? (
           <p className="text-sm text-zinc-400">Loading invites...</p>
-        ) : invites.length === 0 ? (
-          <p className="text-sm text-zinc-400">No invites yet.</p>
+        ) : groupedInvites.length === 0 ? (
+          <p className="text-sm text-zinc-500">No invites yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -415,7 +433,7 @@ export default function AgentInviteManagementClient({
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
-                {invites.map((invite) => (
+                {groupedInvites.map((invite) => (
                   <tr key={invite.id} className="hover:bg-zinc-950/60">
                     <td className="px-4 py-3 text-sm">{invite.email}</td>
                     <td className="px-4 py-3 text-sm">{invite.recipient?.fullName || '—'}</td>
@@ -425,7 +443,11 @@ export default function AgentInviteManagementClient({
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">
-                      {invite.assignments && invite.assignments.length > 0 ? (
+                      {(invite.scope === 'all' || (invite as unknown as Record<string, unknown>).scope === 'all') ? (
+                        <span className="text-xs px-2 py-0.5 rounded bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">
+                          All Properties
+                        </span>
+                      ) : invite.assignments && invite.assignments.length > 0 ? (
                         <div className="flex flex-wrap gap-1">
                           {invite.assignments.map((a) => (
                             <span key={a.id} className="text-xs px-2 py-0.5 rounded bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">

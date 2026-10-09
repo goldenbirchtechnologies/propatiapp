@@ -3,7 +3,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 interface EmptyStateProps {
-  icon?: React.ComponentType<{ size?: number; className?: string }>
+  icon?: React.ElementType
   title: string
   description?: string
   action?: React.ReactNode

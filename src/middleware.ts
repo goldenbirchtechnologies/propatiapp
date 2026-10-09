@@ -15,6 +15,17 @@ const isPublic = createRouteMatcher([
   '/login(.*)',
   '/onboarding(.*)',
   '/api/health',
+  '/about-us(.*)',
+  '/contact-us(.*)',
+  '/careers(.*)',
+  '/press(.*)',
+  '/compare(.*)',
+  '/verification(.*)',
+  '/agreements(.*)',
+  '/how-it-works(.*)',
+  '/mortgage-calculator(.*)',
+  '/api/contact(.*)',
+  '/api/public(.*)',
 ]);
 
 const isClerkConfigured =

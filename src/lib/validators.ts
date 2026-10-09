@@ -252,6 +252,7 @@ export const listingFilterSchema = paginationSchema.extend({
   status: listingStatusSchema.optional(),
   sortBy: z.enum(['newest', 'price_asc', 'price_desc', 'most_verified']).default('newest'),
   ownerId: z.string().optional(),
+  ids: z.string().optional(),
 });
 
 // Verification schemas

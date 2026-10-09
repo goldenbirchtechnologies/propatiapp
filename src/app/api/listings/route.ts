@@ -23,14 +23,25 @@ export async function GET(request: NextRequest) {
     const params = Object.fromEntries(searchParams.entries());
 
     const validated = listingFilterSchema.parse(params);
-    const { page, limit, sortBy, order, q, ownerId, ...filters } = validated;
+    const { page, limit, sortBy, order, q, ownerId, ids: rawIds, ...filters } = validated as typeof validated & { ids?: string };
     const skip = (page - 1) * limit;
     const take = limit;
 
+    // Compare mode: ?ids=id1,id2,id3 fetches those exact listings (max 3)
+    const compareIds = rawIds
+      ? rawIds
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .slice(0, 3)
+      : null;
+
     // Build where clause
-    const where: Record<string, unknown> = {
-      status: 'active',
-    };
+    const where: Record<string, unknown> = compareIds
+      ? { id: { in: compareIds } }
+      : {
+          status: 'active',
+        };
 
     if (ownerId === 'me') {
       const auth = await withAuth(request);

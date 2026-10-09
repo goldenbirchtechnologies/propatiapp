@@ -66,7 +66,7 @@ export default function TenantDashboardClient({
 
   // Calculate lease progress if we have an active agreement
   let leaseProgress = 0;
-  let daysUntilRent = 8;
+  let daysUntilRent: number | null = null;
   if (activeAgreement?.startDate && activeAgreement?.endDate) {
     const start = new Date(activeAgreement.startDate);
     const end = new Date(activeAgreement.endDate);
@@ -74,6 +74,8 @@ export default function TenantDashboardClient({
     const total = end.getTime() - start.getTime();
     const elapsed = now.getTime() - start.getTime();
     leaseProgress = total > 0 ? Math.max(0, Math.min(100, Math.round((elapsed / total) * 100))) : 0;
+    // Next rent due is end of current period; for demo, show days until lease end when no rent schedule exists
+    daysUntilRent = Math.max(0, Math.ceil((end.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)));
   }
 
   useEffect(() => {
@@ -126,7 +128,7 @@ export default function TenantDashboardClient({
       {/* KPIs — "Days Until Rent" / "Lease Remaining" derive from the real
           next-due-date + endDate. Before, they were hardcoded. */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Days Until Rent" value={`${daysUntilRent}d`} sub={activeAgreement ? `Due ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Calendar} />
+        <StatCard label="Days Until Rent" value={daysUntilRent != null ? `${daysUntilRent}d` : '—'} sub={activeAgreement ? `Due ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Calendar} />
         <StatCard label="Lease Remaining" value={activeAgreement ? `${Math.max(0, Math.ceil((new Date(activeAgreement.endDate!).getTime() - Date.now()) / (30 * 24 * 60 * 60 * 1000)))} months` : '—'} sub={activeAgreement ? `Expires ${formatDate(activeAgreement.endDate!)}` : 'No active lease'} icon={Home} />
         <StatCard label="Open Tickets" value={String(openMaintenanceCount)} sub="Maintenance" trend="flat" icon={Wrench} />
         <StatCard label="Saved Properties" value={String(savedCount)} sub="Browse more" icon={Home} />
@@ -140,7 +142,7 @@ export default function TenantDashboardClient({
               <h3 className="text-white font-semibold">Current Lease</h3>
               <p className="text-zinc-500 text-sm mt-0.5">{activeAgreement?.listing?.address || 'No active lease'}</p>
             </div>
-            <StatusBadge status={activeAgreement ? 'Active' : 'Vacant'} />
+            {activeAgreement ? <StatusBadge status="Active" /> : <span className="px-2.5 py-1 text-xs font-medium bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full">No lease</span>}
           </div>
           <div className="grid grid-cols-3 gap-4 mb-5">
             {[

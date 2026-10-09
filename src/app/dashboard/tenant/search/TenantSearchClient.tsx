@@ -44,11 +44,16 @@ interface Filters {
   amenities: string[];
 }
 
-export default function TenantSearchClient({ initialProperties, filters: initialFilters, cities, totalCount }: {
-  initialProperties: Property[];
-  filters: Filters;
-  cities: string[];
-  totalCount: number;
+export default function TenantSearchClient({
+  initialProperties = [],
+  filters: initialFilters = { propertyType: 'all', listingType: 'all', minPrice: '', maxPrice: '', bedrooms: 'all', bathrooms: 'all', minArea: '', maxArea: '', amenities: [] },
+  cities = [],
+  totalCount = 0,
+}: {
+  initialProperties?: Property[];
+  filters?: Filters;
+  cities?: string[];
+  totalCount?: number;
 }) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [saved, setSaved] = useState<Set<string>>(new Set());

@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
-import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useCreateAgreement } from '@/hooks/useAgreements';
 import { createAgreementSchema } from '@/lib/validators';
+import { cn } from '@/lib/utils';
 
 type FormData = z.infer<typeof createAgreementSchema>;
 
@@ -66,33 +68,60 @@ export default function NewAgreementPage() {
   };
 
   const calculateLeaseDuration = () => {
-    if (!watchedValues.startDate || !watchedValues.endDate) return null;
-    const start = new Date(watchedValues.startDate);
-    const end = new Date(watchedValues.endDate);
-    const months = Math.round(
-      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30)
-    );
-    return months;
+    const { startDate, endDate } = watchedValues;
+    if (
+      !startDate ||
+      !endDate ||
+      isNaN(Date.parse(startDate)) ||
+      isNaN(Date.parse(endDate))
+    ) {
+      return null;
+    }
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    // Guard against invalid date objects
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return null;
+    }
+    const diffTime = end.getTime() - start.getTime();
+    if (diffTime <= 0) {
+      return null;
+    }
+    const months = Math.round(diffTime / (1000 * 60 * 60 * 24 * 30));
+    return isNaN(months) ? null : months;
   };
 
   const calculateRentSchedule = () => {
-    if (!watchedValues.rentAmount || !watchedValues.startDate || !watchedValues.endDate) {
+    const { rentAmount, startDate, endDate, rentPeriod } = watchedValues;
+    if (
+      !rentAmount ||
+      !startDate ||
+      !endDate ||
+      isNaN(Date.parse(startDate)) ||
+      isNaN(Date.parse(endDate))
+    ) {
       return [];
     }
 
-    const schedule: unknown[] = [];
-    const start = new Date(watchedValues.startDate);
-    const end = new Date(watchedValues.endDate);
+    const schedule: { date: string; amount: number }[] = [];
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Guard against invalid date objects
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return [];
+    }
+
     const currentDate = new Date(start);
 
-    const interval = watchedValues.rentPeriod === 'monthly' ? 1 :
-                     watchedValues.rentPeriod === 'quarterly' ? 3 : 12;
+    const interval = rentPeriod === 'monthly' ? 1 :
+                     rentPeriod === 'quarterly' ? 3 : 12;
 
     while (currentDate <= end) {
       schedule.push({
         date: format(currentDate, 'MMM dd, yyyy'),
-        amount: watchedValues.rentAmount,
-      } as unknown);
+        amount: rentAmount,
+      });
       currentDate.setMonth(currentDate.getMonth() + interval);
     }
 
@@ -115,34 +144,59 @@ export default function NewAgreementPage() {
         </p>
       </div>
 
-      {/* Progress Indicator */}
+      {/* Progress Indicator - Visual Stepper */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          {[1, 2, 3].map((step) => (
-            <div key={step} className="flex items-center flex-1">
-              <div
-                className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
-                  currentStep >= step
-                    ? 'bg-primary text-white border-white/[0.08]'
-                    : 'bg-background border-muted'
-                }`}
-              >
-                {step}
-              </div>
-              {step < 3 && (
-                <div
-                  className={`flex-1 h-1 mx-2 ${
-                    currentStep > step ? 'bg-primary' : 'bg-muted'
-                  }`}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-between mt-2">
-          <span className="text-sm text-zinc-500">Select Tenant</span>
-          <span className="text-sm text-zinc-500">Agreement Terms</span>
-          <span className="text-sm text-zinc-500">Review</span>
+          {[
+            { id: 1, label: 'Select Tenant & Property' },
+            { id: 2, label: 'Agreement Terms & Pricing' },
+            { id: 3, label: 'Review & Dispatch' },
+          ].map((step, idx, arr) => {
+            const isCompleted = currentStep > step.id;
+            const isActive = currentStep === step.id;
+            const isUpcoming = currentStep < step.id;
+            const showLine = idx < arr.length - 1;
+            const isLineComplete = currentStep > step.id;
+
+            return (
+              <React.Fragment key={step.id}>
+                <div className="flex flex-col items-center flex-1">
+                  <div
+                    className={cn(
+                      'flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all',
+                      isCompleted
+                        ? 'bg-emerald-500 text-white border-emerald-500'
+                        : isActive
+                        ? 'bg-white text-emerald-600 border-white'
+                        : 'bg-zinc-800 text-zinc-500 border-zinc-700'
+                    )}
+                  >
+                    {isCompleted ? (
+                      <Check className="h-5 w-5" />
+                    ) : (
+                      <span className="text-sm font-medium">{step.id}</span>
+                    )}
+                  </div>
+                  <span className={cn(
+                    'text-xs mt-2 text-center',
+                    isCompleted ? 'text-emerald-400 font-medium' :
+                    isActive ? 'text-white font-medium' :
+                    'text-zinc-500'
+                  )}>
+                    {step.label}
+                  </span>
+                </div>
+                {showLine && (
+                  <div
+                    className={cn(
+                      'flex-1 h-0.5 mx-1 my-auto',
+                      isLineComplete ? 'bg-emerald-500' : 'bg-zinc-700'
+                    )}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
       </div>
 
@@ -368,7 +422,7 @@ export default function NewAgreementPage() {
                 </div>
                 <div>
                   <p className="text-sm text-zinc-500">Duration</p>
-                  <p className="font-medium">{calculateLeaseDuration()} months</p>
+                  <p className="font-medium">{calculateLeaseDuration() ?? '—'} {calculateLeaseDuration() !== null ? calculateLeaseDuration() === 1 ? 'month' : 'months' : ''}</p>
                 </div>
               </div>
 
@@ -418,6 +472,34 @@ export default function NewAgreementPage() {
           </div>
         )}
 
+  const validateStep = async (step: number): Promise<boolean> => {
+    const fieldsToValidate: Record<number, string[]> = {
+      1: ['listingId', 'tenantId', 'type'],
+      2: ['startDate', 'endDate', 'rentAmount', 'rentPeriod'],
+    };
+
+    const fields = fieldsToValidate[step];
+    if (!fields) return true;
+
+    const promises = fields.map(async (field) => {
+      const input = document.querySelector(`[name="${field}"]`) as HTMLInputElement | null;
+      if (input) {
+        input.dispatchEvent(new Event('blur', { bubbles: true }));
+      }
+      return await trigger(field as keyof FormData);
+    });
+
+    const results = await Promise.all(promises);
+    return results.every((valid) => valid);
+  };
+
+  const nextStep = async () => {
+    const isValid = await validateStep(currentStep);
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
         {/* Navigation Buttons */}
         <div className="mt-8 flex justify-between">
           <Button
@@ -438,7 +520,7 @@ export default function NewAgreementPage() {
           {currentStep < 3 ? (
             <Button
               type="button"
-              onClick={() => setCurrentStep(currentStep + 1)}
+              onClick={nextStep}
             >
               Next
               <ChevronRight className="h-4 w-4 ml-2" />

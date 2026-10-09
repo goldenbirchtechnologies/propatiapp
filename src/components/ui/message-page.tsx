@@ -268,8 +268,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     return d.toLocaleDateString('en-NG', { month: 'short', day: 'numeric' });
   }
 
-  const showConversations = activeTab === 'messages';
-  const showInvites = activeTab === 'invites';
+  const showConversations = ['messages', 'unread', 'tenants', 'applicants', 'archived'].includes(activeTab);
 
   return (
     <div className="h-full flex flex-col">
@@ -411,87 +410,19 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                   </button>
                 ))}
               {conversations.length === 0 && (
-                <div className="p-4 text-center text-xs text-zinc-600">
-                  <p className="mb-2">No conversations yet</p>
+                <div className="p-6 text-center text-xs text-zinc-500">
+                  <MessageSquare className="w-8 h-8 mx-auto mb-3 text-zinc-600" />
+                  <p className="mb-1 font-medium text-sm text-zinc-400">No conversations found</p>
+                  <p className="text-[10px] text-zinc-600 mb-3">Select a conversation from the left, or start a new one below.</p>
                   <Button
                     size="sm"
                     onClick={() => setShowNewConversation(true)}
                     className="bg-emerald-500 hover:bg-emerald-600 text-white"
                   >
                     <Plus className="w-3 h-3 mr-1" />
-                    New Conversation
+                    Start New Conversation
                   </Button>
                 </div>
-              )}
-            </div>
-          )}
-          {showInvites && (
-            <div>
-              {invitesLoading && (
-                <div className="p-4 space-y-3">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-12 rounded-md bg-zinc-900/50 animate-pulse" />
-                  ))}
-                </div>
-              )}
-              {!invitesLoading &&
-                invites.map((inv) => (
-                  <div
-                    key={inv.id}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors border-l-2 border-transparent"
-                  >
-                    <div className="rounded-full p-2 bg-zinc-900">
-                      <Mail className="w-4 h-4 text-emerald-400" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 min-w-0">
-                        <p className="text-white text-sm font-medium truncate">
-                          {inv.sender?.fullName || inv.email || 'Invitation'}
-                        </p>
-                        {inv.status && (
-                          <span className="rounded-full px-2 py-0 text-[10px] font-medium bg-zinc-900 text-zinc-300 border border-white/10 flex-shrink-0">
-                            {inv.status}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-zinc-600 truncate">
-                        {[inv.listing?.title, inv.listing?.address, inv.orgName].filter(Boolean).join(' · ') || 'Invitation'}
-                      </p>
-                      {inv.createdAt && (
-                        <p className="text-[10px] text-zinc-700 truncate">
-                          {new Date(inv.createdAt).toLocaleDateString('en-NG', { dateStyle: 'medium' })}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleInviteMessage(inv)}
-                        title="Message about this invite"
-                        aria-label="Message about this invite"
-                      >
-                        <MessageSquare className="w-4 h-4" />
-                      </Button>
-                      {userRole === 'agent' && inv.status === 'pending' && (
-                        <Button size="sm" onClick={() => handleAcceptInvite(inv.id)}>
-                          Accept
-                        </Button>
-                      )}
-                      {userRole === 'estate_manager' && inv.orgId && (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleRemoveInvite(inv.id, inv.orgId!)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              {!invitesLoading && invites.length === 0 && (
-                <div className="p-4 text-center text-xs text-zinc-600">No invites</div>
               )}
             </div>
           )}
@@ -502,14 +433,36 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
           {selectedConversation ? (
             <>
               <div className="px-5 py-3 border-b border-white/[0.07] flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold">
-                  {(selectedConversation.participant?.fullName || '?').split(' ').map((n) => n[0]).join('')}
+                <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                  {(selectedConversation.participant?.fullName || selectedConversation.subject || '?').split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <div className="text-white font-medium text-sm">
-                    {selectedConversation.participant?.fullName || selectedConversation.subject || 'Conversation'}
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-medium text-sm">
+                      {selectedConversation.participant?.fullName || selectedConversation.subject || 'Conversation'}
+                    </span>
+                    {selectedConversation.participant?.role && (
+                      <span className={cn(
+                        'text-[9px] px-1.5 py-0.5 rounded-full font-medium',
+                        selectedConversation.participant.role === 'tenant' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                        selectedConversation.participant.role === 'agent' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                        selectedConversation.participant.role === 'landlord' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                        'bg-zinc-800 text-zinc-400'
+                      )}>
+                        {selectedConversation.participant.role.charAt(0).toUpperCase() + selectedConversation.participant.role.slice(1)}
+                      </span>
+                    )}
                   </div>
-                  <div className="text-zinc-600 text-xs">{selectedConversation.participant?.role || ''}</div>
+                  {selectedConversation.propertyName && (
+                    <div className="text-zinc-500 text-xs mt-0.5">
+                      {selectedConversation.propertyName}
+                    </div>
+                  )}
+                  {!selectedConversation.propertyName && selectedConversation.participant?.role && (
+                    <div className="text-zinc-600 text-xs capitalize">
+                      {selectedConversation.participant.role}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-5 space-y-4">
@@ -583,13 +536,18 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
                 </div>
               </div>
             </>
-          ) : showInvites ? (
-            <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm p-4 text-center">
-              Select an invitation from the list to view details
-            </div>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm">
-              {messagingLoading ? 'Starting conversation...' : 'Select a conversation to start messaging'}
+            <div className="flex-1 flex items-center justify-center text-zinc-600 text-sm p-4 text-center">
+              <div className="text-center">
+                <p className="mb-4">No conversation selected</p>
+                <Button
+                  onClick={() => setShowNewConversation(true)}
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Start a new conversation
+                </Button>
+              </div>
             </div>
           )}
         </div>

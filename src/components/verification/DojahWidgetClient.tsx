@@ -42,17 +42,29 @@ export default function DojahWidgetClient({
     if (typeof window === 'undefined') return;
 
     const w = window as unknown as Record<string, unknown>;
-    if (w.Connect) {
+    if (w.Connect || w.Dojah) {
       setScriptReady(true);
       return;
     }
 
+    const existing = document.querySelector('script[src="https://widget.dojah.io/widget.js"]') as HTMLScriptElement | null;
+    if (existing) {
+      if ((existing as any)._dojahLoaded) { setScriptReady(true); return; }
+      const onLoad = () => { (existing as any)._dojahLoaded = true; setScriptReady(true); };
+      const onError = () => setScriptError('Failed to load Dojah widget — check network/CSP');
+      existing.addEventListener('load', onLoad);
+      existing.addEventListener('error', onError);
+      return () => {
+        existing.removeEventListener('load', onLoad);
+        existing.removeEventListener('error', onError);
+      };
+    }
+
     const script = document.createElement('script');
     script.src = 'https://widget.dojah.io/widget.js';
-    script.async = false;
-    script.defer = false;
-    const onLoad = () => setScriptReady(true);
-    const onError = () => setScriptError('Failed to load Dojah widget');
+    script.async = true;
+    const onLoad = () => { (script as any)._dojahLoaded = true; setScriptReady(true); };
+    const onError = () => setScriptError('Failed to load Dojah widget — check network/CSP');
     script.addEventListener('load', onLoad);
     script.addEventListener('error', onError);
     document.body.appendChild(script);
@@ -60,45 +72,55 @@ export default function DojahWidgetClient({
     return () => {
       script.removeEventListener('load', onLoad);
       script.removeEventListener('error', onError);
-      if (script.parentNode) script.parentNode.removeChild(script);
     };
   }, []);
 
   const createConnectInstance = () => {
     const w = window as unknown as Record<string, unknown>;
-    const Connect = w.Connect as { new (options: Record<string, unknown>): unknown } | undefined;
-    if (!Connect || !resolvedWidgetId || !appId || !publicKey || !referenceIdRef.current) return;
+    const Connect = (w.Connect || w.Dojah) as { new (options: Record<string, unknown>): unknown } | undefined;
+    if (!Connect) {
+      setScriptError('Dojah widget not available — refresh and try again');
+      return;
+    }
+    if (!resolvedWidgetId || !appId || !publicKey || !referenceIdRef.current) return;
 
-    connectRef.current = new Connect({
-      app_id: appId,
-      p_key: publicKey,
-      type,
-      reference_id: referenceIdRef.current,
-      widget_id: resolvedWidgetId,
-      user_data: userData || {},
-      metadata: {
-        ...metadata,
-        user_id: referenceIdRef.current,
-      },
-      embed: false,
-      onSuccess: (response: Record<string, unknown>) => {
-        setStatusState('completed');
-        onComplete?.({ success: true, referenceId: referenceIdRef.current ?? undefined, data: response as Record<string, unknown> });
-      },
-      onError: (err: Record<string, unknown>) => {
-        setStatusState('failed');
-        const message =
-          (err && typeof err === 'object' && 'message' in err && typeof (err as Record<string, unknown>).message === 'string')
-            ? ((err as Record<string, unknown>).message as string)
-            : 'Widget error';
-        setError(message);
-        onComplete?.({ success: false, error: message, referenceId: referenceIdRef.current ?? undefined });
-      },
-      onClose: () => {
-        setStatusState('idle');
-        onComplete?.({ success: false, error: 'Widget closed' });
-      },
-    });
+    try {
+      connectRef.current = new Connect({
+        app_id: appId,
+        p_key: publicKey,
+        type,
+        reference_id: referenceIdRef.current,
+        widget_id: resolvedWidgetId,
+        user_data: userData || {},
+        metadata: {
+          ...metadata,
+          user_id: referenceIdRef.current,
+        },
+        config: {
+          widget_id: resolvedWidgetId,
+        },
+        embed: false,
+        onSuccess: (response: Record<string, unknown>) => {
+          setStatusState('completed');
+          onComplete?.({ success: true, referenceId: referenceIdRef.current ?? undefined, data: response as Record<string, unknown> });
+        },
+        onError: (err: Record<string, unknown>) => {
+          setStatusState('failed');
+          const message =
+            (err && typeof err === 'object' && 'message' in err && typeof (err as Record<string, unknown>).message === 'string')
+              ? ((err as Record<string, unknown>).message as string)
+              : 'Widget error — please retry';
+          setError(message);
+          onComplete?.({ success: false, error: message, referenceId: referenceIdRef.current ?? undefined });
+        },
+        onClose: () => {
+          if (statusState === 'completed') return;
+          setStatusState('idle');
+        },
+      });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to initialize widget');
+    }
   };
 
   useEffect(() => {
@@ -161,28 +183,29 @@ export default function DojahWidgetClient({
 
   return (
     <div className="space-y-3">
-      <div className="text-xs text-zinc-400">
-        Status: <span className="font-mono">{statusState}</span>
-      </div>
-
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-red-400 border border-red-500/20 bg-red-500/10 rounded-lg p-2">{error}</p>}
+      {scriptError && <p className="text-xs text-amber-400 border border-amber-500/20 bg-amber-500/10 rounded-lg p-2">{scriptError}</p>}
 
       {statusState !== 'open' && statusState !== 'completed' && (
         <Button
           onClick={startVerification}
           disabled={!scriptReady || statusState === 'launching'}
           type="button"
+          className="bg-emerald-600 hover:bg-emerald-500 text-white"
         >
-          {statusState === 'launching' ? 'Launching...' : triggerLabel || 'Start Instant Verification'}
+          {statusState === 'launching' ? 'Launching…' : triggerLabel || 'Verify with Dojah'}
         </Button>
       )}
 
       {statusState === 'open' && (
-        <p className="text-xs text-zinc-400">Complete verification in the Dojah widget popup.</p>
+        <p className="text-xs text-zinc-400 border border-zinc-800 bg-zinc-900 rounded-lg p-3">Dojah is open — complete the steps in the popup. You can close and resume anytime.</p>
       )}
 
       {statusState === 'completed' && (
-        <p className="text-xs text-emerald-400">Verification submitted. We will update your status shortly.</p>
+        <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
+          <p className="text-xs font-medium text-emerald-400">Verification submitted</p>
+          <p className="text-xs text-zinc-400 mt-1">We’ll update your status via webhook shortly. Refresh status in a moment.</p>
+        </div>
       )}
     </div>
   );

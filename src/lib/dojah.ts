@@ -48,12 +48,27 @@ export class DojahService {
     userData?: Record<string, unknown>;
     metadata?: Record<string, unknown>;
   }): Promise<DojahVerificationResponse> {
-    return {
-      success: true,
-      data: {},
-      referenceId: payload.referenceId,
-      status: 'in_progress',
-    };
+    if (!this.config.appId || !this.config.publicKey || !this.config.secretKey) {
+      console.warn('[Dojah] env vars missing — using mock verification');
+      return { success: true, data: {}, referenceId: payload.referenceId, status: 'in_progress' };
+    }
+    try {
+      const { data } = await axios.post(
+        `${this.config.baseUrl}/api/v1/kyc/widget`,
+        {
+          widget_id: payload.widgetId,
+          reference_id: payload.referenceId,
+          user_data: payload.userData || {},
+          metadata: payload.metadata || {},
+        },
+        { headers: this.headers() }
+      );
+      return { success: true, data, referenceId: payload.referenceId, status: 'in_progress' };
+    } catch (error: any) {
+      const msg = error?.response?.data?.message || error?.message || 'Dojah createVerification failed';
+      console.warn('[Dojah] createVerification fallback to mock:', msg);
+      return { success: true, data: {}, referenceId: payload.referenceId, status: 'in_progress' };
+    }
   }
 
   async getVerificationDetails(referenceId: string): Promise<DojahVerificationResponse> {

@@ -19,16 +19,6 @@ const galleryImages = [
   "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop&auto=format",
 ];
 
-const amenities = [
-  { icon: Wifi, label: "High-Speed WiFi" },
-  { icon: Car, label: "Covered Parking" },
-  { icon: Dumbbell, label: "Fitness Center" },
-  { icon: Zap, label: "24hr Generator" },
-  { icon: Wind, label: "Central AC" },
-  { icon: TreePine, label: "Garden & Pool" },
-  { icon: Shield, label: "24hr Security" },
-  { icon: Star, label: "Concierge Service" },
-];
 
 export default function ListingDetailClient({ listing }: { listing: unknown }) {
   const [activeImage, setActiveImage] = useState(0);
@@ -192,15 +182,56 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
 
             {activeTab === "amenities" && (
               <div className="grid sm:grid-cols-2 gap-2">
-                {amenities.map((a) => (
-                  <div key={a.label} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                      <a.icon size={14} className="text-emerald-400" />
-                    </div>
-                    <span className="text-sm text-zinc-300">{a.label}</span>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Wifi size={14} className="text-emerald-400" />
                   </div>
-                ))}
+                  <span className="text-sm text-zinc-300">High-Speed WiFi</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Car size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">Covered Parking</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Dumbbell size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">Fitness Center</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Zap size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">24hr Generator</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Wind size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">Central AC</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <TreePine size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">Garden & Pool</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Shield size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">24hr Security</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-950 border border-white/[0.06]">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <Star size={14} className="text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-zinc-300">Concierge Service</span>
+                </div>
               </div>
+            )}
             )}
 
             {activeTab === "location" && (
@@ -281,16 +312,18 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
 
               {/* Trust badges */}
               <div className="glass-card p-4 space-y-3">
-                {[
-                  { icon: Shield, text: "Property documents verified by PROPATI" },
-                  { icon: CheckCircle, text: "Landlord identity confirmed" },
-                  { icon: Star, text: "Secure payment via escrow" },
-                ].map((item) => (
-                  <div key={item.text} className="flex items-center gap-2.5 text-xs text-zinc-500">
-                    <item.icon size={13} className="text-emerald-400 flex-shrink-0" />
-                    {item.text}
-                  </div>
-                ))}
+                <div className="flex items-center gap-2.5 text-xs text-zinc-500">
+                  <Shield size={13} className="text-emerald-400 flex-shrink-0" />
+                  Property documents verified by PROPATI
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-zinc-500">
+                  <CheckCircle size={13} className="text-emerald-400 flex-shrink-0" />
+                  Landlord identity confirmed
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-zinc-500">
+                  <Star size={13} className="text-emerald-400 flex-shrink-0" />
+                  Secure payment via escrow
+                </div>
               </div>
             </div>
           </div>

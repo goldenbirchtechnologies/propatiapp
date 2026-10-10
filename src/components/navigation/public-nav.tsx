@@ -11,8 +11,11 @@ import { Sun, Moon } from 'lucide-react';
 
 const LISTINGS_PATH = '/listings';
 
+const pilotEnabled = process.env.NEXT_PUBLIC_ZILLOW_PILOT === '1';
+
 const publicNavLinks = [
   { href: '/listings', label: 'Find Property' },
+  ...(pilotEnabled ? [{ href: '/rentals', label: 'Rentals (Pilot)' }] : []),
   { href: '/compare', label: 'Compare' },
 ];
 

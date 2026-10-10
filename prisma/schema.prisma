@@ -651,6 +651,9 @@ model Listing {
   state                String            @default("Lagos")
   city                 String?
   postalCode           String?           @map("postal_code")
+  zipCode              String?           @map("zip_code")
+  latitude             Decimal?          @db.Decimal(10, 7) @map("latitude")
+  longitude            Decimal?          @db.Decimal(11, 7) @map("longitude")
   floors               Int?
   price                Decimal           @db.Decimal(15, 2) // Naira for display
   pricePeriod          String?           @map("price_period") // night, month, year, total
@@ -720,6 +723,9 @@ model Listing {
   @@index([status], map: "idx_listings_status")
   @@index([listingType], map: "idx_listings_type")
   @@index([area], map: "idx_listings_area")
+  @@index([countryId], map: "idx_listings_country")
+  @@index([latitude, longitude], map: "idx_listings_lat_lng")
+  @@index([zipCode], map: "idx_listings_zip")
   @@map("listings")
 }
 

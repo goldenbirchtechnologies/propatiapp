@@ -244,15 +244,27 @@ export const listingFilterSchema = paginationSchema.extend({
   propertyType: propertyTypeSchema.optional(),
   area: z.string().optional(),
   state: z.string().optional(),
+  city: z.string().optional(),
+  countryId: z.string().optional(), // ISO 3166-1 alpha-2, e.g. US, NG
+  zipCode: z.string().optional(),
   minPrice: z.coerce.number().nonnegative().optional(),
   maxPrice: z.coerce.number().positive().optional(),
   minBedrooms: z.coerce.number().int().nonnegative().optional(),
   maxBedrooms: z.coerce.number().int().positive().optional(),
+  minBathrooms: z.coerce.number().int().nonnegative().optional(),
+  maxBathrooms: z.coerce.number().int().positive().optional(),
   verificationTier: verificationTierSchema.optional(),
   status: listingStatusSchema.optional(),
   sortBy: z.enum(['newest', 'price_asc', 'price_desc', 'most_verified']).default('newest'),
   ownerId: z.string().optional(),
   ids: z.string().optional(),
+  swLat: z.coerce.number().min(-90).max(90).optional(),
+  swLng: z.coerce.number().min(-180).max(180).optional(),
+  neLat: z.coerce.number().min(-90).max(90).optional(),
+  neLng: z.coerce.number().min(-180).max(180).optional(),
+  bbox: z.string().optional(), // alternative: "swLng,swLat,neLng,neLat"
+  petFriendly: z.enum(['true', 'false']).optional(),
+  furnished: z.enum(['true', 'false']).optional(),
 });
 
 // Verification schemas

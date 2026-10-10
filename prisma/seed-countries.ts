@@ -10,6 +10,7 @@ async function main() {
     { code: 'GB', name: 'United Kingdom', currency: 'GBP', locale: 'en-GB', timezone: 'Europe/London', active: false },
     { code: 'BJ', name: 'Benin', currency: 'XOF', locale: 'fr-BJ', timezone: 'Africa/Porto-Novo', active: false },
     { code: 'IT', name: 'Italy', currency: 'EUR', locale: 'it-IT', timezone: 'Europe/Rome', active: false },
+    { code: 'US', name: 'United States', currency: 'USD', locale: 'en-US', timezone: 'America/New_York', active: true },
   ];
 
   for (const country of countries) {
@@ -77,6 +78,28 @@ async function main() {
     });
   }
   console.log(`Seeded ${states.length} Nigerian jurisdictions`);
+
+  // Seed US pilot jurisdictions (NY, TX, CA)
+  const usStates = [
+    { code: 'NY', name: 'New York', level: 'state' },
+    { code: 'TX', name: 'Texas', level: 'state' },
+    { code: 'CA', name: 'California', level: 'state' },
+  ];
+  for (const s of usStates) {
+    await prisma.jurisdiction.upsert({
+      where: { id: `jur_us_${s.code.toLowerCase()}` },
+      update: {},
+      create: {
+        id: `jur_us_${s.code.toLowerCase()}`,
+        countryId: 'US',
+        name: s.name,
+        level: s.level,
+        code: s.code,
+        active: true,
+      },
+    });
+  }
+  console.log(`Seeded ${usStates.length} US jurisdictions`);
 
   // Seed Nigeria feature capabilities
   const features = [

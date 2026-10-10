@@ -1,14 +1,26 @@
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  const { userId } = await auth();
-  if (!userId) {
-    const url = new URL('/sign-in', request.url);
-    return NextResponse.redirect(url, 303);
-  }
-
-  return NextResponse.redirect(new URL('/sign-in', request.url), 303);
+  try {
+    const { userId } = await auth();
+    if (userId) {
+      try {
+        const client = await clerkClient();
+        await client.sessions.revokeSession(userId as any).catch(() => {});
+      } catch {}
+      try {
+        const a: any = await auth();
+        if (typeof a?.signOut === 'function') await a.signOut();
+      } catch {}
+    }
+  } catch {}
+  const url = new URL('/', request.url);
+  const res = NextResponse.redirect(url, 303);
+  res.cookies.delete('bypass_role');
+  res.cookies.delete('__session');
+  res.cookies.delete('__client_uat');
+  return res;
 }
 
 export async function POST(request: Request) {

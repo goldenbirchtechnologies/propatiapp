@@ -98,6 +98,7 @@ const featuredFallback = [
     verified: true,
   },
   {
+    id: 'feat-2',
     type: 'COMMERCIAL',
     kind: 'FOR LEASE',
     price: '₦8,500,000/yr',
@@ -112,6 +113,7 @@ const featuredFallback = [
     verified: true,
   },
   {
+    id: 'feat-3',
     type: 'RESIDENTIAL',
     kind: 'FOR RENT',
     price: '₦4,200,000/yr',
@@ -368,8 +370,8 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {featuredListings.map((listing, i) => (
-              <FadeIn key={listing.id || listing.title} delay={i * 0.1} y={20}>
-                <Link key={listing.id || listing.title} href={`/listings/${encodeURIComponent(listing.id.startsWith('feat-') ? listing.title : listing.id)}`} className="contents">
+              <FadeIn key={String(listing.id ?? listing.title ?? i)} delay={i * 0.1} y={20}>
+                <Link key={String(listing.id ?? listing.title ?? i)} href={`/listings/${encodeURIComponent(String(listing.id ?? '').startsWith('feat-') ? listing.title : String(listing.id ?? listing.title))}`} className="contents">
                   <article className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden hover:border-emerald-500/30 dark:hover:border-white/15 transition-all duration-300 h-full flex flex-col cursor-pointer shadow-sm hover:shadow-lg">
                     <div className="relative h-64 overflow-hidden">
                       <Image

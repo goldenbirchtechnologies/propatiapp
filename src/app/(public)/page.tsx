@@ -81,7 +81,7 @@ const testimonials = [
   },
 ];
 
-const featuredListings = [
+const featuredFallback = [
   {
     id: 'feat-1',
     type: 'RESIDENTIAL',
@@ -127,6 +127,40 @@ const featuredListings = [
   },
 ];
 
+function useFeaturedFromDb() {
+  const [dbFeatured, setDbFeatured] = React.useState<null | any[]>(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch('/api/listings?limit=6')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancelled) return;
+        const items = Array.isArray(d?.listings) ? d.listings : [];
+        const active = items.filter((l: any) => l.status !== 'suspended' && l.status !== 'deleted');
+        if (!active.length) return;
+        const mapped = active.slice(0, 3).map((l: any) => ({
+          id: l.id,
+          type: (l.propertyType === 'office' || l.propertyType === 'shop' || l.listingType === 'commercial' ? 'COMMERCIAL' : 'RESIDENTIAL') as string,
+          kind: (l.listingType === 'sale' ? 'FOR SALE' : l.listingType === 'short_let' ? 'SHORT-LET' : l.listingType === 'commercial' ? 'FOR LEASE' : 'FOR RENT') as string,
+          price: new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(Number(l.price || 0)) + (l.pricePeriod && l.pricePeriod !== 'total' ? `/${l.pricePeriod}` : l.listingType === 'sale' ? '' : '/yr'),
+          title: l.title,
+          location: [l.area, l.state].filter(Boolean).join(', ') || l.address || '',
+          specs: [
+            { icon: 'bed', val: String(l.bedrooms ?? '—') },
+            { icon: 'bathtub', val: String(l.bathrooms ?? '—') },
+            { icon: 'square_foot', val: l.sizeSqm ? `${l.sizeSqm}m²` : '—' },
+          ],
+          img: l.coverImage || l.images?.[0]?.url || featuredFallback[0].img,
+          verified: l.verificationTier ? l.verificationTier !== 'basic' : !!l.verified,
+        }));
+        if (mapped.length) setDbFeatured(mapped);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+  return dbFeatured;
+}
+
 function FadeIn({ children, className = '', delay = 0, y = 24 }) {
   return (
     <div
@@ -141,6 +175,8 @@ function FadeIn({ children, className = '', delay = 0, y = 24 }) {
 export default function HomePage() {
   const router = useRouter();
   const liveStats = usePublicStats();
+  const dbFeatured = useFeaturedFromDb();
+  const featuredListings = dbFeatured ?? featuredFallback;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-black text-zinc-900 dark:text-white antialiased selection:bg-emerald-500/20 w-full">
@@ -332,8 +368,8 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {featuredListings.map((listing, i) => (
-              <FadeIn key={listing.title} delay={i * 0.1} y={20}>
-                <Link key={listing.title} href={`/listings/${encodeURIComponent(listing.title)}`} className="contents">
+              <FadeIn key={listing.id || listing.title} delay={i * 0.1} y={20}>
+                <Link key={listing.id || listing.title} href={`/listings/${encodeURIComponent(listing.id.startsWith('feat-') ? listing.title : listing.id)}`} className="contents">
                   <article className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden hover:border-emerald-500/30 dark:hover:border-white/15 transition-all duration-300 h-full flex flex-col cursor-pointer shadow-sm hover:shadow-lg">
                     <div className="relative h-64 overflow-hidden">
                       <Image

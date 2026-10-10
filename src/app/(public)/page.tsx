@@ -452,25 +452,25 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <SectionLabel>I am a...</SectionLabel>
-            <h2 className="font-extrabold text-3xl sm:text-4xl text-white leading-tight">
+            <h2 className="font-extrabold text-3xl sm:text-4xl text-zinc-900 dark:text-white leading-tight">
               Built for every role in the property ecosystem
             </h2>
-            <p className="mt-4 text-zinc-500 text-lg">
+            <p className="mt-4 text-zinc-600 dark:text-zinc-500 text-lg">
               Whether you own, rent, manage, or transact — there is a dashboard built for you.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <FadeIn delay={0 * 0.08} y={16}>
-              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 dark:hover:border-white/15 transition-colors group">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                   <Home className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Landlord</h3>
-                  <p className="text-sm text-zinc-500 leading-relaxed">Manage properties, tenants, leases, and rent collection in one place.</p>
+                  <h3 className="font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Landlord</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-500 leading-relaxed">Manage properties, tenants, leases, and rent collection in one place.</p>
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-auto">
                   Get started <ArrowRight className="h-3 w-3" />
                 </span>
               </Link>
@@ -481,7 +481,7 @@ export default function HomePage() {
                   <Users className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Tenant</h3>
+                  <h3 className="font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Tenant</h3>
                   <p className="text-sm text-zinc-500 leading-relaxed">Find verified homes, pay rent securely, and track your lease lifecycle.</p>
                 </div>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
@@ -495,7 +495,7 @@ export default function HomePage() {
                   <Building2 className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Agent</h3>
+                  <h3 className="font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Agent</h3>
                   <p className="text-sm text-zinc-500 leading-relaxed">Showcase listings, schedule viewings, and close deals faster.</p>
                 </div>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
@@ -509,7 +509,7 @@ export default function HomePage() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Estate Manager</h3>
+                  <h3 className="font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Estate Manager</h3>
                   <p className="text-sm text-zinc-500 leading-relaxed">Run multiple buildings, units, maintenance, and occupancy from a single dashboard.</p>
                 </div>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">

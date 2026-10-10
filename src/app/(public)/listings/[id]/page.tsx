@@ -2,7 +2,8 @@
 
 import AppIcon from '@/components/icons/app-icon';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import { PageHeader } from '@/components/ui/page-header';
 import { SectionLabel } from '@/components/ui/section-label';
 import { StarRating } from '@/components/ui/star-rating';
@@ -20,12 +21,49 @@ const galleryImages = [
 ];
 
 
-export default function ListingDetailClient({ listing }: { listing: unknown }) {
+export default function ListingDetailClient({ listing: initialListing }: { listing?: any }) {
+  const params = useParams();
+  const routeId = (params?.id as string) || '';
+  const isFallbackTitle = routeId.startsWith('feat-') || routeId.includes(' ') || !routeId.startsWith('cm') && routeId.length < 20 && !routeId.includes('-');
+  const [fetched, setFetched] = useState<any>(initialListing || null);
+  const [loading, setLoading] = useState(!initialListing && !isFallbackTitle);
+  useEffect(() => {
+    if (initialListing || isFallbackTitle || !routeId) return;
+    let cancelled = false;
+    setLoading(true);
+    fetch(`/api/listings/${encodeURIComponent(routeId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancelled) return;
+        const l = d?.listing || d?.data || d;
+        if (l && (l.id || l._id)) {
+          setFetched({
+            id: String(l.id ?? l._id),
+            title: l.title || 'Listing',
+            address: l.address || [l.area, l.state].filter(Boolean).join(', ') || 'Nigeria',
+            type: l.listingType || l.type || 'residential',
+            tier: l.verificationTier || 'basic',
+            verified: l.verificationTier ? l.verificationTier !== 'basic' : !!l.verified,
+            price: Number(l.price ?? 0),
+            priceUnit: l.pricePeriod ? `/${l.pricePeriod}` : '/yr',
+            beds: Number(l.bedrooms ?? l.beds ?? 0),
+            baths: Number(l.bathrooms ?? l.baths ?? 0),
+            sqft: Number(l.sizeSqm ?? l.sqm ?? l.sqft ?? 0),
+          });
+        }
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [routeId, initialListing, isFallbackTitle]);
+  const listing: any = fetched || initialListing || (isFallbackTitle ? { id: routeId, title: decodeURIComponent(routeId), address: 'Featured — curated', type: 'residential', tier: 'basic', verified: true, price: 0, priceUnit: '', beds: 3, baths: 2, sqft: 120 } : null);
   const [activeImage, setActiveImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const tabs = ["Overview", "Amenities", "Location", "Agent"];
   const [activeTab, setActiveTab] = useState("overview");
+  if (loading) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center pt-16"><div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" /></div>;
+  if (!listing) return <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex flex-col items-center justify-center pt-16 p-8 text-center"><p className="text-zinc-900 dark:text-white font-semibold">Listing not found</p><Link href="/listings" className="mt-4 text-emerald-600 dark:text-emerald-400 text-sm">Back to listings</Link></div>;
 
   return (
     <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-16">

@@ -229,26 +229,44 @@ export default function HomePage() {
       {/* ===================== TRUST STRIP ===================== */}
       <section className="border-y border-white/[0.06] bg-zinc-950/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: ShieldCheck, label: 'Document Verification', desc: 'Every property and landlord verified by our compliance team' },
-              { icon: Star, label: 'Instant Matching', desc: 'AI-powered matching connects tenants with the right properties' },
-              { icon: Users, label: 'Market Intelligence', desc: 'Real-time pricing data for 12 Nigerian cities' },
-              { icon: Building2, label: '50,000+ Properties', desc: 'The largest verified property database in Nigeria' },
-            ].map((item) => (
-              <div key={item.label} className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                  <item.icon size={16} className="text-emerald-400" />
-                </div>
-                <div>
-                  <div className="text-white text-sm font-semibold">{item.label}</div>
-                  <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">{item.desc}</div>
-                </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck size={16} className="text-emerald-400" />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div>
+                <div className="text-white text-sm font-semibold">Document Verification</div>
+                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">Every property and landlord verified by our compliance team</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <Star size={16} className="text-emerald-400" />
+              </div>
+              <div>
+                <div className="text-white text-sm font-semibold">Instant Matching</div>
+                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">AI-powered matching connects tenants with the right properties</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <Users size={16} className="text-emerald-400" />
+              </div>
+              <div>
+                <div className="text-white text-sm font-semibold">Market Intelligence</div>
+                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">Real-time pricing data for 12 Nigerian cities</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <Building2 size={16} className="text-emerald-400" />
+              </div>
+              <div>
+                <div className="text-white text-sm font-semibold">50,000+ Properties</div>
+                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+              </div>
+            </div>
+          </div></section>
 
       {/* ===================== HOW IT WORKS ===================== */}
       <section className="py-24">
@@ -403,30 +421,62 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { label: 'Landlord', desc: 'Manage properties, tenants, leases, and rent collection in one place.', icon: Home, href: '/signup' },
-              { label: 'Tenant', desc: 'Find verified homes, pay rent securely, and track your lease lifecycle.', icon: Users, href: '/signup' },
-              { label: 'Agent', desc: 'Showcase listings, schedule viewings, and close deals faster.', icon: Building2, href: '/signup' },
-              { label: 'Estate Manager', desc: 'Run multiple buildings, units, maintenance, and occupancy from a single dashboard.', icon: ShieldCheck, href: '/signup' },
-            ].map((role, i) => (
-              <FadeIn key={role.label} delay={i * 0.08} y={16}>
-                <Link
-                  href={role.href}
-                  className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                    <role.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">{role.label}</h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed">{role.desc}</p>
-                  </div>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
-                    Get started <ArrowRight className="h-3 w-3" />
-                  </span>
-                </Link>
-              </FadeIn>
-            ))}
+            <FadeIn delay={0 * 0.08} y={16}>
+              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                  <Home className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Landlord</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">Manage properties, tenants, leases, and rent collection in one place.</p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
+                  Get started <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={1 * 0.08} y={16}>
+              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                  <Users className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Tenant</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">Find verified homes, pay rent securely, and track your lease lifecycle.</p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
+                  Get started <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={2 * 0.08} y={16}>
+              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                  <Building2 className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Agent</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">Showcase listings, schedule viewings, and close deals faster.</p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
+                  Get started <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={3 * 0.08} y={16}>
+              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white mb-1 group-hover:text-emerald-400 transition-colors">Estate Manager</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">Run multiple buildings, units, maintenance, and occupancy from a single dashboard.</p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 mt-auto">
+                  Get started <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            </FadeIn>
           </div>
         </div>
       </section>

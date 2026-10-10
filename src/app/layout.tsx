@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from '@/components/ui/toaster';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 import { cn } from "@/lib/utils";
+import { CookieConsent } from '@/components/cookie-consent';
 
 const inter = localFont({
   src: [
@@ -122,6 +123,7 @@ export default async function RootLayout({
             </ErrorBoundary>
           </main>
           <Toaster />
+          <CookieConsent />
           <script src="/push.js" defer strategy="afterInteractive" />
         </Providers>
         </ThemeProvider>

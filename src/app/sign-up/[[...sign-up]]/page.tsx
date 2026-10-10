@@ -23,6 +23,7 @@ const roles: {
 
 export default function SignUpPage() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showClerk, setShowClerk] = useState(false);
   const { isLoaded, isSignedIn } = useUser();
   const router = useRouter();
@@ -148,16 +149,41 @@ export default function SignUpPage() {
         <button
           type="button"
           onClick={handleContinue}
-          disabled={!selectedRole}
+          disabled={!selectedRole || !agreedToTerms}
           className={[
             'w-full rounded-xl py-4 text-base font-semibold transition-all duration-200',
-            selectedRole
+            selectedRole && agreedToTerms
               ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-none hover:shadow-none'
               : 'bg-zinc-900 text-zinc-600 cursor-not-allowed',
           ].join(' ')}
         >
           Continue
         </button>
+
+        <div className="mt-6 flex justify-center">
+          <label className="flex items-center gap-3 cursor-pointer text-sm text-zinc-400">
+            <div
+              className={
+                agreedToTerms
+                  ? 'w-5 h-5 rounded border-2 border-emerald-500 bg-emerald-500 flex items-center justify-center'
+                  : 'w-5 h-5 rounded border-2 border-zinc-700 bg-transparent'
+              }
+              onClick={() => setAgreedToTerms(!agreedToTerms)}
+            >
+              {agreedToTerms && <CheckCircle2 size={14} className="text-white" />}
+            </div>
+            <span>
+              I agree to the{' '}
+              <Link href="/terms-of-agreement" className="text-emerald-400 hover:underline" target="_blank">
+                Terms &amp; Conditions
+              </Link>
+              {' '}and{' '}
+              <Link href="/cookies" className="text-emerald-400 hover:underline" target="_blank">
+                Cookies Policy
+              </Link>
+            </span>
+          </label>
+        </div>
 
         <p className="text-center text-sm mt-6 text-zinc-500">
           Already have an account?{' '}

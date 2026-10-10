@@ -16,7 +16,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle, AlertCircle, ShieldCheck, Phone, Camera, Save, LogOut, Monitor, Lock } from 'lucide-react';
-import { PageHeader, SectionLabel } from '@/components/ui';
 import DojahWidgetClient from '@/components/verification/DojahWidgetClient';
 
 interface LandlordProfileClientProps {
@@ -90,8 +89,13 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   ] as const;
 
   const verifiedCount = verificationSteps.filter((step) => !!user?.[step.key]).length;
+  const hasName = !!profileData.fullName?.trim();
+  const hasEmail = !!profileData.email?.trim();
+  const profileCompleteSteps = (verifiedCount + (hasName ? 1 : 0) + (hasEmail ? 1 : 0));
+  const totalSteps = verificationSteps.length + 2;
   const verificationComplete = !!kyc?.status && kyc.status !== 'not_started' && kyc.status !== 'rejected';
-  const profileProgress = Math.round(((verifiedCount + (profileData.fullName ? 1 : 0) + (profileData.email ? 1 : 0)) / (verificationSteps.length + 2)) * 100);
+  const profileProgress = Math.round((profileCompleteSteps / totalSteps) * 100);
+  const setupComplete = profileProgress === 100 && verificationComplete;
 
   const missingActions = [
     !user?.phoneVerified && profileData.phone ? 'Verify your phone number' : null,
@@ -164,14 +168,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <PageHeader
-        title="My Profile"
-        description="Manage your account settings and preferences"
-      />
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-white">My Profile</h1>
+        <p className="mt-1 text-sm text-zinc-400">Manage your account settings and preferences</p>
+      </div>
 
-      {/* Profile overview card */}
-      <div className="glass-card rounded-xl p-6">
+      {/* Profile overview — single consolidated header */}
+      <div className="rounded-xl border border-white/[0.08] bg-zinc-950 p-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
@@ -208,12 +212,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <div className="md:min-w-[340px]">
             <div className="flex items-center justify-between text-sm">
               <Badge variant="secondary" className="text-xs font-semibold">{profileProgress}% complete</Badge>
-              <span className="text-xs text-zinc-400">{verifiedCount}/{verificationSteps.length + 2} steps</span>
+              <span className="text-xs text-zinc-400">{profileCompleteSteps}/{totalSteps} steps</span>
             </div>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-900">
               <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${profileProgress}%` }} />
             </div>
-            <p className="mt-2 text-xs text-zinc-400">{verificationComplete ? 'Setup complete.' : 'Verify your phone and identity to finish setup.'}</p>
+            <p className="mt-2 text-xs font-medium text-zinc-400">{setupComplete ? 'Setup complete — all steps verified.' : profileProgress === 100 ? 'Profile complete — finish verification to unlock all features.' : `${totalSteps - profileCompleteSteps} step${totalSteps - profileCompleteSteps === 1 ? '' : 's'} remaining.`}</p>
           </div>
         </div>
       </div>

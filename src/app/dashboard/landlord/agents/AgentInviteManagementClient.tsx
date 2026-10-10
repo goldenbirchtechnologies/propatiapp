@@ -71,11 +71,30 @@ export default function AgentInviteManagementClient({
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(STANDARD_PERMISSIONS);
   const [scopeType, setScopeType] = useState<'all' | 'specific'>('all');
   const [selectedListingIds, setSelectedListingIds] = useState<string[]>([]);
+  const [inviteOpen, setInviteOpen] = useState(false);
+  const [inviteSearch, setInviteSearch] = useState('');
   const [reassignOpen, setReassignOpen] = useState(false);
   const [reassignTargetId, setReassignTargetId] = useState<string | null>(null);
   const [reassignListingIds, setReassignListingIds] = useState<string[]>([]);
   const [reassignSaving, setReassignSaving] = useState(false);
+  const [reassignSearch, setReassignSearch] = useState('');
   const { toast } = useToast();
+
+  const filteredProperties = useMemo(() => {
+    const q = inviteSearch.trim().toLowerCase();
+    if (!q) return properties;
+    return properties
+      .filter((p) => p.title.trim() && p.address.trim())
+      .filter((p) => `${p.title} ${p.address} ${p.area} ${p.state}`.toLowerCase().includes(q));
+  }, [properties, inviteSearch]);
+
+  const filteredReassignProperties = useMemo(() => {
+    const q = reassignSearch.trim().toLowerCase();
+    if (!q) return properties;
+    return properties
+      .filter((p) => p.title.trim() && p.address.trim())
+      .filter((p) => `${p.title} ${p.address} ${p.area} ${p.state}`.toLowerCase().includes(q));
+  }, [properties, reassignSearch]);
   const canManageTeam = currentUserRole === 'admin' || currentUserRole === 'landlord';
 
   const load = async () => {
@@ -214,17 +233,24 @@ export default function AgentInviteManagementClient({
 
   return (
     <div className="space-y-8">
-      {/* Header - consolidated, no duplicates */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="font-heading text-2xl text-white">Agent Management</h1>
-          <p className="text-sm text-zinc-500 mt-1">
+          <h1 className="font-heading text-2xl font-bold text-white">Agent Management</h1>
+          <p className="mt-1 text-sm text-zinc-400">
             Invite agents to manage your listings. Agents can register directly; invites are optional.
           </p>
         </div>
+        <Button onClick={() => setInviteOpen(true)} className="shrink-0 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500">
+          + Invite Agent
+        </Button>
       </div>
 
-      <form onSubmit={sendInvite} className="space-y-6">
+      <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto bg-zinc-950 border-white/[0.08] sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="text-white">Invite Agent</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={async (e) => { await sendInvite(e); setInviteOpen(false); }} className="space-y-6">
         {/* Email Input */}
         <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
@@ -361,7 +387,19 @@ export default function AgentInviteManagementClient({
           {/* Specific Property Selection Grid */}
           {scopeType === 'specific' && (
             <div className="pt-2 space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Select Properties ({selectedListingIds.length} selected)</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Select Properties ({selectedListingIds.length} selected)</p>
+                {properties.length > 4 && (
+                  <div className="relative">
+                    <Input
+                      placeholder="Search properties..."
+                      value={inviteSearch}
+                      onChange={(e) => setInviteSearch(e.target.value)}
+                      className="h-8 w-40 bg-zinc-900 border-white/[0.08] text-xs"
+                    />
+                  </div>
+                )}
+              </div>
               {properties.length === 0 ? (
                 <div className="p-4 rounded-xl border border-dashed text-center space-y-2 bg-zinc-900/20">
                   <p className="text-sm text-zinc-400">No properties added yet.</p>
@@ -369,9 +407,11 @@ export default function AgentInviteManagementClient({
                     <Link href="/dashboard/landlord/properties/new">+ Add property</Link>
                   </Button>
                 </div>
+              ) : filteredProperties.length === 0 ? (
+                <p className="text-sm text-zinc-400 text-center py-4">No matching properties.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
-                  {properties.map((prop) => {
+                <div className="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto pr-1">
+                  {filteredProperties.map((prop) => {
                     const isSelected = selectedListingIds.includes(prop.id);
                     return (
                       <label
@@ -379,18 +419,18 @@ export default function AgentInviteManagementClient({
                         className={cn(
                           'flex items-start gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none',
                           isSelected
-                            ? 'border-white/[0.08] bg-emerald-500/5'
-                            : 'border-white/[0.08] hover:border-white/40'
+                            ? 'border-emerald-500/30 bg-emerald-500/5'
+                            : 'border-white/[0.08] hover:border-white/20'
                         )}
                       >
                         <Checkbox
                           checked={isSelected}
                           onCheckedChange={() => toggleListing(prop.id)}
-                          className="mt-0.5"
+                          className="mt-0.5 shrink-0"
                         />
-                        <div className="space-y-0.5">
-                          <p className="font-medium text-sm text-white line-clamp-1">{prop.title}</p>
-                          <p className="text-xs text-zinc-400 line-clamp-1">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-white" title={prop.title}>{prop.title}</p>
+                          <p className="truncate text-xs text-zinc-400" title={[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}>
                             {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
                           </p>
                         </div>
@@ -403,24 +443,33 @@ export default function AgentInviteManagementClient({
           )}
         </div>
 
-        {/* Footer Actions */}
-        <div className="flex items-center justify-end gap-3 pt-2">
-          <Button type="button" variant="secondary" onClick={() => window.history.back()}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={sending}>
-            {sending ? 'Sending invite...' : 'Send invite'}
-          </Button>
-        </div>
-      </form>
+          <DialogFooter className="gap-2">
+            <Button type="button" variant="ghost" onClick={() => setInviteOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={sending} className="bg-emerald-600 hover:bg-emerald-500 text-white">
+              {sending ? 'Sending…' : 'Send invite'}
+            </Button>
+          </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-      {/* Sent Invites */}
-      <div className="glass-card rounded-xl p-6">
-        <h4 className="font-heading text-white mb-4">Sent Invites</h4>
+      {/* Sent Invites — focused roster */}
+      <div className="rounded-xl border border-white/[0.08] bg-zinc-950 p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h4 className="font-heading font-semibold text-white">Sent Invites</h4>
+          <span className="text-xs font-medium text-zinc-400">{groupedInvites.length} total</span>
+        </div>
         {loading ? (
           <p className="text-sm text-zinc-400">Loading invites...</p>
         ) : groupedInvites.length === 0 ? (
-          <p className="text-sm text-zinc-500">No invites yet.</p>
+          <div className="rounded-lg border border-dashed border-white/[0.08] bg-zinc-900/50 p-8 text-center">
+            <p className="text-sm text-zinc-400">No invites sent yet.</p>
+            <Button onClick={() => setInviteOpen(true)} variant="outline" size="sm" className="mt-3 border-white/[0.08] text-zinc-300 hover:bg-zinc-900">
+              Invite your first agent
+            </Button>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -494,25 +543,35 @@ export default function AgentInviteManagementClient({
         )}
       </div>
       {/* Reassign Dialog */}
-      <Dialog open={reassignOpen} onOpenChange={setReassignOpen}>
-        <DialogContent className="bg-zinc-900 border-white/[0.08] text-white">
+      <Dialog open={reassignOpen} onOpenChange={(open) => { setReassignOpen(open); if (!open) setReassignSearch(''); }}>
+        <DialogContent className="bg-zinc-950 border-white/[0.08] text-white sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-white">Reassign Listings</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-            <p className="text-sm text-zinc-500">Select which listings this agent should manage.</p>
+            <p className="text-sm text-zinc-400">Select which listings this agent should manage.</p>
+            {properties.length > 3 && (
+              <Input
+                placeholder="Search properties..."
+                value={reassignSearch}
+                onChange={(e) => setReassignSearch(e.target.value)}
+                className="bg-zinc-900 border-white/[0.08]"
+              />
+            )}
             {properties.length === 0 ? (
               <p className="text-sm text-zinc-400">No properties available.</p>
+            ) : filteredReassignProperties.length === 0 ? (
+              <p className="text-sm text-zinc-400 text-center py-4">No matching properties.</p>
             ) : (
               <div className="space-y-2">
-                {properties.map((prop) => {
+                {filteredReassignProperties.map((prop) => {
                   const checked = reassignListingIds.includes(prop.id);
                   return (
                     <label
                       key={prop.id}
                       className={cn(
                         'flex items-start gap-3 rounded-lg border p-3 cursor-pointer select-none transition-all',
-                        checked ? 'border-[#10b981]/40 bg-[#10b981]/5' : 'border-white/[0.08] hover:border-[#10b981]/20'
+                        checked ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/[0.08] hover:border-white/20'
                       )}
                     >
                       <Checkbox
@@ -522,11 +581,11 @@ export default function AgentInviteManagementClient({
                             prev.includes(prop.id) ? prev.filter((id) => id !== prop.id) : [...prev, prop.id]
                           );
                         }}
-                        className="mt-0.5"
+                        className="mt-0.5 shrink-0"
                       />
-                      <div>
-                        <p className="text-sm font-medium text-white">{prop.title}</p>
-                        <p className="text-xs text-zinc-500">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-white" title={prop.title}>{prop.title}</p>
+                        <p className="truncate text-xs text-zinc-400" title={[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}>
                           {[prop.address, prop.area, prop.state].filter(Boolean).join(', ')}
                         </p>
                       </div>

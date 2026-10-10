@@ -256,8 +256,8 @@ export default function PropertiesClient({ listings }: Props) {
             </div>
           ) : (
             filtered.map((listing) => (
-              <div key={listing.id} className="flex flex-col rounded-xl border border-white/[0.08]/80 bg-[#121820] transition hover:border-zinc-700/80">
-                <Link href={`/dashboard/landlord/properties/${listing.id}`} className="relative block aspect-[16/9] w-full overflow-hidden rounded-t-xl bg-zinc-900">
+              <div key={listing.id} className="group flex flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-zinc-950 transition hover:border-zinc-700/60 md:flex-col">
+                <Link href={`/dashboard/landlord/properties/${listing.id}`} className="relative block h-40 w-full shrink-0 overflow-hidden bg-zinc-900 md:aspect-[16/9] md:h-auto">
                   {listing.images[0]?.url ? (
                     <img src={listing.images[0].url} alt={titleCase(listing.title)} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                   ) : (
@@ -271,44 +271,61 @@ export default function PropertiesClient({ listings }: Props) {
                 </Link>
                 <div className="flex flex-1 flex-col justify-between p-4">
                   <div>
-                    <Link href={`/dashboard/landlord/properties/${listing.id}`}>
-                      <h3 className="truncate text-sm font-semibold text-zinc-100 group-hover:underline">{titleCase(listing.title)}</h3>
-                    </Link>
-                    <div className="mt-1 flex items-center justify-between text-xs text-zinc-500">
+                    <div className="flex items-start justify-between gap-2">
+                      <Link href={`/dashboard/landlord/properties/${listing.id}`} className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-semibold text-zinc-100 group-hover:underline">{titleCase(listing.title)}</h3>
+                      </Link>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label="Property actions"
+                            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.08] bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-44">
+                          <DropdownMenuItem asChild>
+                            <Link href={`/dashboard/landlord/properties/${listing.id}`}>View / Manage</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            className="text-red-500 focus:text-red-500"
+                            onClick={() => handleDelete(listing.id)}
+                          >
+                            Delete Property
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <div className="mt-1 flex items-center justify-between text-xs text-zinc-400">
                       <span className="truncate pr-2">{titleCase(listing.area)}, {titleCase(listing.state)}</span>
                       <span className="shrink-0 font-medium text-zinc-300">{listing.unitCount} Units</span>
                     </div>
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-zinc-500">
-                      <span className={`tag ${listing.listedUnitCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-muted text-zinc-500 border-white/[0.08]'}`}>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${listing.listedUnitCount > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-zinc-900 text-zinc-300 border-white/[0.08]'}`}>
                         {listing.listedUnitCount > 0 ? 'Listed' : 'Unlisted'}
                       </span>
-                      <span className={`tag ${listing.vacantUnitCount > 0 ? 'bg-amber-500/10 text-zinc-300 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
+                      <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${listing.vacantUnitCount > 0 ? 'bg-amber-500/15 text-amber-400 border-amber-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
                         {listing.vacantUnitCount > 0 ? `${listing.vacantUnitCount} Vacant` : 'Full'}
                       </span>
                       {listing.assignedAgent ? (
-                        <span className="tag bg-zinc-900 text-white border-white/[0.08]/20">
+                        <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-white/[0.08] bg-zinc-900 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
                           Agent: {listing.assignedAgent.fullName || listing.assignedAgent.email}
                         </span>
                       ) : null}
                     </div>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-2">
-                    <Button variant="outline" size="sm" asChild className="rounded-lg border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10">
+                    <Button size="sm" asChild className="rounded-lg bg-emerald-600 text-white hover:bg-emerald-500">
                       <Link href={`/dashboard/landlord/properties/${listing.id}`}>Manage</Link>
                     </Button>
-                    <Button variant="secondary" size="sm" asChild className="rounded-lg bg-[#1a212b] border border-white/[0.08] text-zinc-300 hover:bg-zinc-800">
+                    <Button variant="outline" size="sm" asChild className="rounded-lg border-white/[0.08] bg-transparent text-zinc-300 hover:bg-zinc-900 hover:text-white">
                       <Link href={`/dashboard/landlord/properties/${listing.id}/units/new`}>Add Unit</Link>
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="col-span-2 rounded-lg border border-red-500/40 text-red-500 hover:bg-red-500/10"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleDelete(listing.id);
-                      }}
-                    >
-                      Delete Property
                     </Button>
                   </div>
                 </div>

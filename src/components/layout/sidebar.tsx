@@ -137,7 +137,8 @@ export function NavItemComponent({
 }) {
   const [expanded, setExpanded] = React.useState(() => {
     if (typeof window === 'undefined') return false;
-    return item.children?.some((c) => c.href === window.location.pathname) || false;
+    const path = window.location.pathname;
+    return item.children?.some((c) => c.href && (path === c.href || path.startsWith(c.href + '/'))) || false;
   });
   const pathname = usePathname();
   const active = isActive;
@@ -146,22 +147,26 @@ export function NavItemComponent({
 
   if (sidebarCollapsed && level === 0) {
     return (
-      <Link
-        href={(item.children?.[0]?.href || item.href || '#') as any}
-        className={cn(
-          'nav-item flex items-center justify-center relative',
-          active && 'active'
-        )}
-        title={item.label}
-        aria-label={item.label}
-      >
-        {icon}
-        {item.badge && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 text-[10px] font-bold bg-accent text-accent-foreground rounded-full flex items-center justify-center">
-            {item.badge}
-          </span>
-        )}
-      </Link>
+      <div className="group relative flex justify-center">
+        <Link
+          href={(item.children?.[0]?.href || item.href || '#') as any}
+          className={cn(
+            'nav-item flex items-center justify-center relative',
+            active && 'active'
+          )}
+          aria-label={item.label}
+        >
+          {icon}
+          {item.badge && (
+            <span className="absolute -top-1 -right-1 w-5 h-5 text-[10px] font-bold bg-accent text-accent-foreground rounded-full flex items-center justify-center">
+              {item.badge}
+            </span>
+          )}
+        </Link>
+        <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md border border-white/[0.08] bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-100 opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+          {item.label}
+        </span>
+      </div>
     );
   }
 
@@ -188,7 +193,7 @@ export function NavItemComponent({
             aria-expanded={expanded}
           >
             <span className="flex-shrink-0">{icon}</span>
-            <span className="flex-1 truncate">{item.label}</span>
+            <span className="flex-1 min-w-0 break-words leading-tight">{item.label}</span>
             {item.badge && (
               <span className="flex-shrink-0 px-2 py-0.5 text-xs font-bold bg-accent/10 text-accent rounded-full">
                 {item.badge}
@@ -250,7 +255,7 @@ export function NavItemComponent({
       aria-current={active ? 'page' : undefined}
     >
       <span className="flex-shrink-0">{icon}</span>
-      <span className={sidebarCollapsed ? 'hidden' : 'truncate'}>{item.label}</span>
+      <span className={sidebarCollapsed ? 'hidden' : 'flex-1 min-w-0 truncate'}>{item.label}</span>
       {item.badge && (
         <span className="flex-shrink-0 px-2 py-0.5 text-xs font-bold bg-accent/10 text-accent rounded-full">
           {item.badge}
@@ -347,7 +352,13 @@ export function Sidebar({
 
   const isActive = (href?: string) => {
     if (!href) return false;
-    return pathname === href;
+    if (pathname === href) return true;
+    return pathname.startsWith(href + '/');
+  };
+
+  const isParentActive = (item: NavItem) => {
+    if (isActive(item.href)) return true;
+    return !!item.children?.some((c) => isActive(c.href));
   };
 
   const isSection = (item: NavItem | NavSection): item is NavSection => 'items' in item;
@@ -452,7 +463,7 @@ export function Sidebar({
                       <li key={child.href}>
                         <NavItemComponent
                           item={child}
-                          isActive={isActive(child.href)}
+                          isActive={child.children?.length ? isParentActive(child) : isActive(child.href)}
                           sidebarCollapsed={collapsed}
                         />
                       </li>
@@ -468,7 +479,7 @@ export function Sidebar({
               <li key={key}>
                 <NavItemComponent
                   item={navItem}
-                  isActive={isActive(navItem.href)}
+                  isActive={navItem.children?.length ? isParentActive(navItem) : isActive(navItem.href)}
                   sidebarCollapsed={collapsed}
                 />
               </li>
@@ -477,12 +488,12 @@ export function Sidebar({
         </ul>
       </nav>
 
-      {/* Collapse toggle anchored to sidebar bounds */}
+      {/* Collapse toggle — padded button container */}
       {showToggle && (
-        <div className="px-2 pb-2" style={{ marginTop: 'auto' }}>
+        <div className="px-3 pb-3" style={{ marginTop: 'auto' }}>
           <button
             onClick={handleToggle}
-            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg p-2 transition-colors bg-surface-elevated text-foreground border border-border"
+            className="hidden md:flex w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-zinc-900 px-3 py-2.5 text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >

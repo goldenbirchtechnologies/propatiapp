@@ -88,6 +88,17 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
   const [actionIds, setActionIds] = useState<string[]>([]);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
 
+  const sanitizedListings = listings.filter((l) => {
+    const t = (l.title || '').trim();
+    if (!t || t.length < 3) return false;
+    const lower = t.toLowerCase();
+    if (lower === 'test listing' || lower === 'test' || lower.startsWith('test listing ')) return false;
+    if (/^(ghd|dfdf|asdf|qwerty|xxx|zzz)/i.test(t)) return false;
+    if (t.length > 60 && !t.includes(' ')) return false;
+    if (/([a-z])\1{4,}/i.test(t)) return false;
+    return true;
+  });
+
   const filtered = bookings.filter((b) => {
     if (selectedListingId !== 'all' && b.listingId !== selectedListingId) return false;
     if (statusFilter !== 'all' && b.status !== statusFilter) return false;
@@ -216,43 +227,50 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="glass-card border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Pending Approvals</p>
-          <p className="mt-2 text-3xl font-bold text-white">{pendingApprovals}</p>
+        <div className="rounded-xl border border-[#27272a] bg-[#121214] p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Pending Approvals</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-white">{pendingApprovals}</p>
           <p className="mt-1 text-xs text-zinc-500">Booking requests awaiting host confirmation</p>
         </div>
-        <div className="glass-card border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Upcoming Check-ins</p>
-          <p className="mt-2 text-3xl font-bold text-white">{upcomingCheckIns}</p>
+        <div className="rounded-xl border border-[#27272a] bg-[#121214] p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Upcoming Check-ins</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-white">{upcomingCheckIns}</p>
           <p className="mt-1 text-xs text-zinc-500">Stays starting within the next 7 days</p>
         </div>
-        <div className="glass-card border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Monthly Revenue</p>
-          <p className="mt-2 text-3xl font-bold text-white">{formatCurrency(monthlyRevenue)}</p>
+        <div className="rounded-xl border border-[#27272a] bg-[#121214] p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Monthly Revenue</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-white">{formatCurrency(monthlyRevenue)}</p>
           <p className="mt-1 text-xs text-zinc-500">Confirmed/completed payouts this month</p>
         </div>
-        <div className="glass-card border-white/[0.08] bg-zinc-950/50 p-5 shadow-none">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Occupancy Rate</p>
-          <p className="mt-2 text-3xl font-bold text-white">{occupancyRate}%</p>
+        <div className="rounded-xl border border-[#27272a] bg-[#121214] p-5">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Occupancy Rate</p>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-white">{occupancyRate}%</p>
           <p className="mt-1 text-xs text-zinc-500">Available days booked this month</p>
         </div>
       </div>
 
-      <div className="glass-card space-y-5 p-4">
+      <div className="rounded-xl border border-[#27272a] bg-[#121214] space-y-5 p-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label className="text-sm font-medium text-white">Property</label>
               <select
-                className="mt-1 w-full rounded-lg border border-slate-200 bg-zinc-950/50 p-2 text-sm"
+                className="mt-1 w-full rounded-lg border border-[#27272a] bg-[#18181b] p-2.5 text-sm text-zinc-300 focus:border-emerald-500/30 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
                 value={selectedListingId}
                 onChange={(e) => setSelectedListingId(e.target.value)}
               >
                 <option value="all">All properties</option>
-                {listings.map((l) => (
-                  <option key={l.id} value={l.id}>{l.title}</option>
-                ))}
+                {sanitizedListings.length === 0 ? (
+                  <option disabled>No properties available</option>
+                ) : (
+                  sanitizedListings.map((l) => (
+                    <option key={l.id} value={l.id}>{l.title.length > 48 ? `${l.title.slice(0, 48)}…` : l.title}</option>
+                  ))
+                )}
               </select>
+              {sanitizedListings.length === 0 && (
+                <p className="text-xs text-zinc-500 mt-1">No properties available</p>
+              )}
             </div>
             <div className="flex items-end">
               <p className="text-sm font-medium text-white">Guest Reservations</p>
@@ -276,20 +294,24 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
         </div>
 
         <div className="space-y-4">
-          {loading && !actionIds.length && <p className="text-sm text-zinc-500">Loading bookings…</p>}
-          {!loading && filtered.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-white/[0.08] bg-zinc-950/50/70 p-8 text-center shadow-none">
-              <ClipboardList className="w-9 h-9 mx-auto mb-3 text-white" />
-              <p className="font-semibold text-white mb-1">No bookings found</p>
-              <p className="text-sm text-zinc-500">Direct guest reservation requests will appear here.</p>
-              <div className="mt-4">
-                <Button size="sm" variant="outline" className="gap-2" onClick={refresh}>
+          {loading && !actionIds.length && <p className="text-sm text-zinc-400">Loading bookings…</p>}
+          {!loading && filtered.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-[#27272a] bg-[#18181b] p-10 text-center">
+              <div className="w-14 h-14 rounded-xl bg-[#27272a] border border-white/[0.06] flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-7 h-7 text-zinc-400" />
+              </div>
+              <p className="font-semibold text-white mb-1">No bookings yet</p>
+              <p className="text-sm text-zinc-400 max-w-md mx-auto">Direct guest reservation requests will appear here once booked.</p>
+              <div className="mt-5 flex items-center justify-center gap-2">
+                <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => (window.location.href = '/dashboard/landlord/properties/new')}>
+                  Add Property
+                </Button>
+                <Button size="sm" variant="outline" className="gap-2 border-[#27272a] bg-[#121214] text-zinc-300 hover:bg-[#18181b]" onClick={refresh}>
                   <RefreshCw className="h-4 w-4" /> Refresh
                 </Button>
               </div>
             </div>
-          )}
-
+          ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
@@ -385,6 +407,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
               </tbody>
             </table>
           </div>
+          )}
         </div>
       </div>
     </div>

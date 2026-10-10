@@ -21,6 +21,13 @@ import {
   ArrowLeft,
   CheckCircle2,
   Pencil,
+  Upload,
+  Image as ImageIcon,
+  X,
+  Star,
+  MapPin,
+  DollarSign,
+  Megaphone,
 } from 'lucide-react';
 import WizardShell from '@/app/dashboard/landlord/listing/new/wizard/WizardShell';
 import { useToast } from '@/hooks/use-toast';
@@ -93,6 +100,8 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
   const [autoFilledSource, setAutoFilledSource] = useState<string | null>(null);
   const [clientErrors, setClientErrors] = useState<string[]>([]);
   const [wizardMode, setWizardMode] = useState(false);
+  const [listingImages, setListingImages] = useState<{ id: string; url: string; file?: File }[]>([]);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema) as any,
@@ -321,92 +330,175 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
         </div>
       )}
 
-      <div className="rounded-xl border border-white/[0.08] bg-zinc-950/50">
-        <div className="p-6 border-b border-white/[0.08]">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-bold text-white">Marketplace Listing Details</h2>
-            <p className="text-sm text-zinc-500">
-              {selectedUnitId
-                ? 'Review and adjust the auto-filled details from your property data.'
-                : 'Select a vacant unit to prefill the listing from your existing property data.'}
-            </p>
+      <div className="space-y-6 pb-20">
+        {/* Property Source — Step 1 */}
+        <div className="rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden">
+          <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                <Building2 className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold text-white">Property Source</h2>
+                <p className="text-xs text-zinc-400">Select a vacant unit — this is required to publish</p>
+              </div>
+              {!selectedUnitId && <span className="ml-auto text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">Required</span>}
+              {selectedUnitId && <span className="ml-auto flex items-center gap-1 text-xs font-medium text-emerald-400"><CheckCircle2 className="w-3.5 h-3.5" /> Selected</span>}
+            </div>
           </div>
-          {verificationStatus && verificationStatus !== 'certified' ? (
-            <Button
-              type="button"
-              variant="outline"
-              className="mt-4"
-              onClick={() => router.push('/dashboard/verification?type=property')}
-            >
-              <ShieldCheck className="mr-2 h-4 w-4" />
-              Property Verification
-            </Button>
-          ) : null}
+          <div className="p-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-1.5">Vacant Unit <span className="text-red-400">*</span></label>
+              <Select value={selectedUnitId} onValueChange={(value) => {
+                setSelectedUnitId(value);
+                setClientErrors([]);
+              }}>
+                <SelectTrigger className="bg-[#09090b] border-[#27272a] text-white rounded-lg h-11">
+                  <SelectValue placeholder="Select a vacant unit from your properties" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#121214] border-[#27272a]">
+                  {listings.map((listing) => {
+                    const units = vacantUnits.filter((u) => u.listingId === listing.id);
+                    if (!units.length) return null;
+                    return (
+                      <div key={listing.id}>
+                        <p className="px-2 py-1 text-xs text-zinc-500 uppercase tracking-wide">{listing.title.length > 40 ? `${listing.title.slice(0, 40)}…` : listing.title}</p>
+                        {units.map((unit) => (
+                          <SelectItem key={unit.id} value={unit.id} className="text-zinc-300 focus:bg-[#18181b] focus:text-white">
+                            Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''} — {unit.bedrooms ?? 0}bd/{unit.bathrooms ?? 0}ba
+                          </SelectItem>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-zinc-500 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
+            </div>
+            {autoFilledSource && (
+              <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span className="text-xs text-zinc-400">Auto-filled from</span>
+                <Badge variant="secondary" className="text-xs border-[#27272a] bg-[#121214] text-zinc-300">{autoFilledSource}</Badge>
+                <Button type="button" variant="ghost" size="sm" className="ml-auto h-7 gap-1 text-zinc-400 hover:text-white" onClick={() => { setAutoFilledSource(null); setSelectedUnitId(''); }}>
+                  <Pencil className="h-3 w-3" /> Change
+                </Button>
+              </div>
+            )}
+            {verificationStatus && verificationStatus !== 'certified' ? (
+              <Button type="button" variant="outline" size="sm" className="border-[#27272a] bg-transparent text-zinc-400 hover:text-white" onClick={() => router.push('/dashboard/verification?type=property')}>
+                <ShieldCheck className="mr-2 h-4 w-4" /> Verify property for better visibility
+              </Button>
+            ) : null}
+          </div>
         </div>
 
-        <div className="p-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
-              const first = Object.values(errors)[0];
-              toast({
-                title: 'Check the form',
-                description: (first as any)?.message || 'Please fix the highlighted fields.',
-                variant: 'destructive',
-              });
-            })} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-white mb-1">Vacant Unit</label>
-                  <Select value={selectedUnitId} onValueChange={(value) => {
-                    setSelectedUnitId(value);
-                    setClientErrors([]);
-                  }}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a vacant unit from your properties" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {listings.map((listing) => {
-                        const units = vacantUnits.filter((u) => u.listingId === listing.id);
-                        if (!units.length) return null;
-                        return (
-                          <div key={listing.id}>
-                            <p className="px-2 py-1 text-xs text-zinc-500 uppercase tracking-wide">{listing.title}</p>
-                            {units.map((unit) => (
-                              <SelectItem key={unit.id} value={unit.id}>
-                                Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''}
-                              </SelectItem>
-                            ))}
-                          </div>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-zinc-500 mt-1">
-                    Choose a unit to populate listing details from your property data.
-                  </p>
-                </div>
-
-                {autoFilledSource && (
-                  <div className="md:col-span-2 flex items-center gap-2 rounded-lg border border-white/[0.08] bg-background p-3">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                    <span className="text-xs text-zinc-500">Auto-filled from</span>
-                    <Badge variant="secondary" className="text-xs">{autoFilledSource}</Badge>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="ml-auto h-7 gap-1"
-                      onClick={() => {
-                        setAutoFilledSource(null);
-                        setSelectedUnitId('');
-                      }}
-                    >
-                      <Pencil className="h-3 w-3" />
-                      Edit manually
-                    </Button>
+        {/* Media Upload Zone */}
+        <div className={`rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden transition-all ${!selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
+          <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-[#27272a] flex items-center justify-center shrink-0">
+                <ImageIcon className="w-4 h-4 text-zinc-400" />
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold text-white">Media</h2>
+                <p className="text-xs text-zinc-400">Drag & drop photos • First image is the cover</p>
+              </div>
+            </div>
+          </div>
+          <div className="p-6">
+            <div
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                const files = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith('image/'));
+                files.slice(0, 10 - listingImages.length).forEach((file) => {
+                  const url = URL.createObjectURL(file);
+                  setListingImages((prev) => [...prev, { id: Math.random().toString(36).slice(2), url, file }]);
+                });
+              }}
+              className="rounded-xl border-2 border-dashed border-[#27272a] bg-[#09090b] p-8 text-center hover:border-emerald-500/30 hover:bg-[#121214] transition-colors"
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#18181b] border border-[#27272a] flex items-center justify-center mx-auto mb-3">
+                <Upload className="w-6 h-6 text-zinc-500" />
+              </div>
+              <p className="text-sm font-medium text-white">Drag & drop images here</p>
+              <p className="text-xs text-zinc-500 mt-1">or click to browse • PNG, JPG up to 10MB • Up to 10 photos</p>
+              <label className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 text-sm font-medium cursor-pointer">
+                <Plus className="w-4 h-4" /> Browse files
+                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
+                  const files = Array.from(e.target.files || []).filter((f) => f.type.startsWith('image/'));
+                  files.slice(0, 10 - listingImages.length).forEach((file) => {
+                    const url = URL.createObjectURL(file);
+                    setListingImages((prev) => [...prev, { id: Math.random().toString(36).slice(2), url, file }]);
+                  });
+                  e.target.value = '';
+                }} />
+              </label>
+            </div>
+            {listingImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {listingImages.map((img, idx) => (
+                  <div
+                    key={img.id}
+                    draggable
+                    onDragStart={() => setDragIndex(idx)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => {
+                      if (dragIndex === null || dragIndex === idx) return;
+                      setListingImages((prev) => {
+                        const next = [...prev];
+                        const [moved] = next.splice(dragIndex, 1);
+                        next.splice(idx, 0, moved);
+                        return next;
+                      });
+                      setDragIndex(null);
+                    }}
+                    className="relative group rounded-lg overflow-hidden border border-[#27272a] bg-[#09090b] aspect-[4/3]"
+                  >
+                    <img src={img.url} alt={`Listing ${idx + 1}`} className="w-full h-full object-cover" />
+                    {idx === 0 && (
+                      <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-amber-500 text-white px-2 py-0.5 text-xs font-medium">
+                        <Star className="w-3 h-3" /> Cover
+                      </span>
+                    )}
+                    <button type="button" onClick={() => setListingImages((prev) => prev.filter((_, i) => i !== idx))} className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <X className="w-4 h-4" />
+                    </button>
+                    <span className="absolute bottom-1 right-1 text-xs bg-black/60 text-white rounded px-1.5 py-0.5">{idx + 1}</span>
                   </div>
-                )}
+                ))}
+              </div>
+            )}
+            {listingImages.length > 0 && <p className="text-xs text-zinc-500 mt-2">Drag to reorder • First image is used as the featured cover photo</p>}
+          </div>
+        </div>
 
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            const first = Object.values(errors)[0];
+            toast({ title: 'Check the form', description: (first as any)?.message || 'Please fix the highlighted fields.', variant: 'destructive' });
+          })} className="space-y-6">
+            <div className={`space-y-6 transition-all ${!selectedUnitId ? 'opacity-40 pointer-events-none select-none' : ''}`}>
+              {/* Gate overlay hint */}
+              {!selectedUnitId && (
+                <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 flex items-center gap-2 text-sm text-amber-300">
+                  <Building2 className="w-4 h-4 shrink-0" /> Select a vacant unit above to unlock the remaining fields
+                </div>
+              )}
+
+              {/* Basic Information */}
+              <div className="rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden">
+                <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-[#27272a] flex items-center justify-center shrink-0">
+                    <Store className="w-4 h-4 text-zinc-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Basic Information</h3>
+                    <p className="text-xs text-zinc-400">Title and listing category</p>
+                  </div>
+                </div>
+                <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control as any}
                   name="title"
@@ -470,26 +562,40 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     </FormItem>
                   )}
                 />
+              </div>
+            </div>
 
+            {/* Location & Pricing */}
+            <div className="rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden">
+              <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-[#27272a] flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 text-zinc-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">Location & Pricing</h3>
+                  <p className="text-xs text-zinc-400">Where it is and what it costs</p>
+                </div>
+              </div>
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-white mb-1">Address</label>
-                  <Input placeholder="Full street address" {...form.register('address')} className="placeholder:text-white/40" />
+                  <label className="block text-sm font-medium text-white mb-1.5">Address</label>
+                  <Input placeholder="Full street address" {...form.register('address')} className="bg-[#09090b] border-[#27272a] text-white placeholder:text-zinc-500 rounded-lg" />
                   {form.formState.errors.address && <p className="text-xs text-red-500 mt-1">{form.formState.errors.address.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-1">Area</label>
-                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="placeholder:text-white/40" />
+                  <label className="block text-sm font-medium text-white mb-1.5">Area</label>
+                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="bg-[#09090b] border-[#27272a] text-white placeholder:text-zinc-500 rounded-lg" />
                   {form.formState.errors.area && <p className="text-xs text-red-500 mt-1">{form.formState.errors.area.message}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white mb-1">State</label>
-                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="placeholder:text-white/40" />
+                  <label className="block text-sm font-medium text-white mb-1.5">State</label>
+                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="bg-[#09090b] border-[#27272a] text-white placeholder:text-zinc-500 rounded-lg" />
                   {form.formState.errors.state && <p className="text-xs text-red-500 mt-1">{form.formState.errors.state.message}</p>}
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-white mb-1">
+                  <label className="block text-sm font-medium text-white mb-1.5">
                     Price {form.watch('listingType') === 'short_let' ? '(per night)' : form.watch('listingType') === 'sale' ? '(total price)' : '(per month)'}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -498,26 +604,26 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                       <Input
                         type="number"
                         placeholder={form.watch('listingType') === 'short_let' ? 'e.g., 25,000' : '500,000'}
-                        className="pl-8 placeholder:text-white/40"
+                        className="pl-8 bg-[#09090b] border-[#27272a] text-white placeholder:text-zinc-500 rounded-lg"
                         {...form.register('price', { valueAsNumber: true })}
                       />
                       {form.formState.errors.price && <p className="text-xs text-red-500 mt-1">{form.formState.errors.price.message}</p>}
                     </div>
                     <Select value={form.watch('pricePeriod')} onValueChange={(value) => form.setValue('pricePeriod', value as ListingInput['pricePeriod'])}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-[#09090b] border-[#27272a] text-white rounded-lg">
                         <SelectValue placeholder={form.watch('listingType') === 'short_let' ? 'Per Night' : 'Per Month'} />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#121214] border-[#27272a]">
                         {form.watch('listingType') === 'short_let' ? (
                           <>
-                            <SelectItem value="night">Per Night</SelectItem>
-                            <SelectItem value="total">Total (One-time)</SelectItem>
+                            <SelectItem value="night" className="text-zinc-300 focus:bg-[#18181b]">Per Night</SelectItem>
+                            <SelectItem value="total" className="text-zinc-300 focus:bg-[#18181b]">Total (One-time)</SelectItem>
                           </>
                         ) : (
                           <>
-                            <SelectItem value="month">Per Month</SelectItem>
-                            <SelectItem value="year">Per Year</SelectItem>
-                            <SelectItem value="total">Total (One-time)</SelectItem>
+                            <SelectItem value="month" className="text-zinc-300 focus:bg-[#18181b]">Per Month</SelectItem>
+                            <SelectItem value="year" className="text-zinc-300 focus:bg-[#18181b]">Per Year</SelectItem>
+                            <SelectItem value="total" className="text-zinc-300 focus:bg-[#18181b]">Total (One-time)</SelectItem>
                           </>
                         )}
                       </SelectContent>
@@ -527,44 +633,55 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     <p className="text-xs text-zinc-500 mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
                   )}
                 </div>
+              </div>
+            </div>
 
+            {/* Marketing Details */}
+            <div className="rounded-xl border border-[#27272a] bg-[#121214] overflow-hidden">
+              <div className="p-6 border-b border-[#27272a] bg-[#18181b]/50 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-[#27272a] flex items-center justify-center shrink-0">
+                  <Megaphone className="w-4 h-4 text-zinc-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">Marketing Details</h3>
+                  <p className="text-xs text-zinc-400">Make your listing stand out</p>
+                </div>
+              </div>
+              <div className="p-6">
                 <FormField
                   control={form.control as any}
                   name="description"
                   render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>Description</FormLabel>
+                    <FormItem>
+                      <FormLabel className="text-zinc-300">Description</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe the property..." {...field} className="placeholder:text-white/40" />
+                        <Textarea rows={5} placeholder="Describe the property, highlights, neighborhood, access…" {...field} className="bg-[#09090b] border-[#27272a] text-white placeholder:text-zinc-500 rounded-lg min-h-[120px]" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-
-              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => router.back()}>
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Cancel
-                </Button>
-                <Button
-                  type="button"
-                  onClick={handleSubmitClick}
-                  disabled={submitting || !selectedUnitId || safeVacantUnits.length === 0}
-                >
-                  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  <Store className="mr-2 h-4 w-4" />
-                  Publish to Marketplace
-                </Button>
-              </div>
-              {(!selectedUnitId || safeVacantUnits.length === 0) && (
-                <p className="text-xs text-zinc-500 text-right">
-                  {safeVacantUnits.length === 0 ? 'Add a vacant unit to enable publishing.' : 'Select a vacant unit to continue.'}
-                </p>
-              )}
+            </div>
+            </div>
             </form>
           </Form>
+        </div>
+
+      {/* Sticky action bar */}
+      <div className="fixed bottom-0 left-0 right-0 lg:left-[260px] border-t border-[#27272a] bg-[#121214]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121214]/80 p-4 z-20">
+        <div className="max-w-7xl mx-auto flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p className="text-xs text-zinc-500 hidden sm:block">
+            {!selectedUnitId ? 'Select a vacant unit to publish' : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
+          </p>
+          <div className="flex items-center gap-2 justify-end">
+            <Button type="button" variant="outline" onClick={() => router.back()} className="border-[#27272a] bg-[#18181b] text-zinc-300 hover:text-white rounded-lg">
+              <ArrowLeft className="mr-2 h-4 w-4" /> Cancel
+            </Button>
+            <Button type="button" onClick={handleSubmitClick} disabled={submitting || !selectedUnitId || safeVacantUnits.length === 0} className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 rounded-lg disabled:opacity-40">
+              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} <Store className="mr-2 h-4 w-4" /> Publish to Marketplace
+            </Button>
+          </div>
         </div>
       </div>
     </div>

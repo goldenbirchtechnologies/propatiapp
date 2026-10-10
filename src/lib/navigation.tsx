@@ -88,6 +88,13 @@ export const LANDLORD_NAVIGATION: Array<NavItem | NavSection> = [
       },
     ],
   },
+  {
+    title: 'Account',
+    items: [
+      { label: 'Profile', href: '/dashboard/landlord/profile', icon: <User className="h-5 w-5" /> },
+      { label: 'Settings', href: '/dashboard/landlord/settings', icon: <Cog className="h-5 w-5" /> },
+    ],
+  },
 ];
 
 export const TENANT_NAVIGATION: NavItem[] = [

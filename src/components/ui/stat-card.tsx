@@ -42,12 +42,12 @@ function StatCard({
       : null
 
   const content = (
-    <div className={cn("glass-card p-5 flex flex-col gap-3 hover:border-white/15 transition-colors", className)}>
+    <div className={cn("rounded-xl border border-[#27272a] bg-[#121214] p-5 flex flex-col gap-3 hover:border-zinc-700 transition-colors", className)}>
       <div className="flex items-start justify-between">
-        <span className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{label}</span>
+        <span className="text-xs text-zinc-400 uppercase tracking-wider font-medium">{label}</span>
         {iconNode && (
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            className="w-8 h-8 rounded-lg flex items-center justify-center border border-[#27272a]"
             style={{ background: `${accentColor}15` }}
           >
             {iconNode}
@@ -63,11 +63,10 @@ function StatCard({
               {trendValue}
             </span>
           )}
-          {/* A non-directional `trend` is a plain label, e.g. trend="Pending review" */}
           {!trendValue && trend && !isDirection && (
-            <span className="text-xs font-medium text-zinc-500">{trend}</span>
+            <span className="text-xs font-medium text-zinc-400">{trend}</span>
           )}
-          {sub && <span className="text-xs text-zinc-600">{sub}</span>}
+          {sub && <span className="text-xs text-zinc-500">{sub}</span>}
         </div>
       )}
     </div>

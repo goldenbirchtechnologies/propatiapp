@@ -143,7 +143,7 @@ export default function HomePage() {
   const liveStats = usePublicStats();
 
   return (
-    <div className="min-h-screen bg-black text-white antialiased selection:bg-emerald-500/20 w-full">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-black text-zinc-900 dark:text-white antialiased selection:bg-emerald-500/20 w-full">
       {/* ===================== HERO ===================== */}
       <section className="relative min-h-screen flex items-center pt-16">
         <div className="absolute inset-0">
@@ -177,15 +177,15 @@ export default function HomePage() {
               Stop viewing fake listings and start finding real homes.
             </p>
 
-            {/* Search widget */}
-            <div className="bg-zinc-950/90 backdrop-blur-xl border border-white/10 rounded-2xl p-2">
+            {/* Search widget — Zillow pill */}
+            <div className="bg-white/95 dark:bg-zinc-950/90 backdrop-blur-xl border border-zinc-200 dark:border-white/10 rounded-2xl p-2 shadow-xl shadow-black/10">
               {/* Type tabs */}
               <div className="flex gap-1 p-1 mb-3">
                 {['rent', 'buy', 'shortlet', 'commercial'].map((t) => (
                   <button
                     key={t}
-                    className={`flex-1 py-1.5 px-3 text-sm font-medium rounded-lg capitalize transition-colors ${
-                      t === 'rent' ? 'bg-emerald-500 text-white' : 'text-zinc-400 hover:text-white'
+                    className={`flex-1 py-1.5 px-3 text-sm font-medium rounded-full capitalize transition-colors ${
+                      t === 'rent' ? 'bg-emerald-600 text-white shadow-md' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10'
                     }`}
                   >
                     {t}
@@ -199,12 +199,12 @@ export default function HomePage() {
                   <input
                     type="text"
                     placeholder="Search by location, property type, or keyword…"
-                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-9 pr-3 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-9 pr-3 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-500 dark:placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                   />
                 </div>
                 <InteractiveHoverButton
                   onClick={() => router.push('/listings')}
-                  className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl flex items-center gap-2 transition-colors"
+                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-emerald-600/20"
                 >
                   Search
                 </InteractiveHoverButton>
@@ -227,43 +227,43 @@ export default function HomePage() {
       </section>
 
       {/* ===================== TRUST STRIP ===================== */}
-      <section className="border-y border-white/[0.06] bg-zinc-950/50">
+      <section className="border-y border-zinc-200 dark:border-white/[0.06] bg-white dark:bg-zinc-950/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <ShieldCheck size={16} className="text-emerald-400" />
+                <ShieldCheck size={16} className="text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <div className="text-white text-sm font-semibold">Document Verification</div>
-                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">Every property and landlord verified by our compliance team</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-semibold">Document Verification</div>
+                <div className="text-zinc-500 dark:text-zinc-500 text-xs mt-0.5 leading-relaxed">Every property and landlord verified by our compliance team</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <Star size={16} className="text-emerald-400" />
+                <Star size={16} className="text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <div className="text-white text-sm font-semibold">Instant Matching</div>
-                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">AI-powered matching connects tenants with the right properties</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-semibold">Instant Matching</div>
+                <div className="text-zinc-500 dark:text-zinc-500 text-xs mt-0.5 leading-relaxed">AI-powered matching connects tenants with the right properties</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <Users size={16} className="text-emerald-400" />
+                <Users size={16} className="text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <div className="text-white text-sm font-semibold">Market Intelligence</div>
-                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">Real-time pricing data for 12 Nigerian cities</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-semibold">Market Intelligence</div>
+                <div className="text-zinc-500 dark:text-zinc-500 text-xs mt-0.5 leading-relaxed">Real-time pricing data for 12 Nigerian cities</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <Building2 size={16} className="text-emerald-400" />
+                <Building2 size={16} className="text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <div className="text-white text-sm font-semibold">50,000+ Properties</div>
-                <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+                <div className="text-zinc-900 dark:text-white text-sm font-semibold">50,000+ Properties</div>
+                <div className="text-zinc-500 dark:text-zinc-500 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
               </div>
             </div>
           </div>
@@ -271,29 +271,29 @@ export default function HomePage() {
       </section>
 
       {/* ===================== HOW IT WORKS ===================== */}
-      <section className="py-24">
+      <section className="py-24 bg-zinc-50 dark:bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <SectionLabel>How it works</SectionLabel>
-            <h2 className="text-4xl lg:text-5xl font-black text-white mt-4 tracking-tight">
+            <h2 className="text-4xl lg:text-5xl font-black text-zinc-900 dark:text-white mt-4 tracking-tight">
               Renting reimagined
             </h2>
-            <p className="text-zinc-500 mt-3 max-w-xl mx-auto">
+            <p className="text-zinc-600 dark:text-zinc-500 mt-3 max-w-xl mx-auto">
               From search to keys in hand — a seamless, transparent process built for Nigeria.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {steps.map((step, i) => (
-              <div key={step.num} className="glass-card p-8 relative overflow-hidden hover:border-white/15 transition-colors">
-                <div className="text-[80px] font-black text-white/[0.04] absolute -top-4 -right-2 leading-none select-none">
+              <div key={step.num} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl p-8 relative overflow-hidden hover:border-emerald-500/30 dark:hover:border-white/15 transition-colors shadow-sm">
+                <div className="text-[80px] font-black text-zinc-900/[0.04] dark:text-white/[0.04] absolute -top-4 -right-2 leading-none select-none">
                   {step.num}
                 </div>
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-5">
-                  <CheckCircle2 size={18} className="text-emerald-400" />
+                  <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h3 className="text-white font-bold text-lg mb-2">{step.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{step.desc}</p>
+                <h3 className="text-zinc-900 dark:text-white font-bold text-lg mb-2">{step.title}</h3>
+                <p className="text-zinc-600 dark:text-zinc-500 text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -301,27 +301,27 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED LISTINGS ===================== */}
-      <section className="py-16 bg-black">
+      <section className="py-16 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <SectionLabel>Featured</SectionLabel>
-              <h2 className="font-extrabold text-3xl sm:text-4xl text-white leading-tight">
+              <h2 className="font-extrabold text-3xl sm:text-4xl text-zinc-900 dark:text-white leading-tight">
                 Handpicked opportunities
               </h2>
-              <p className="mt-3 text-zinc-500 text-lg max-w-xl">
+              <p className="mt-3 text-zinc-600 dark:text-zinc-500 text-lg max-w-xl">
                 Properties that passed our verification checks. No unfinished buildings, no fake listings.
               </p>
             </div>
-            <div className="flex bg-zinc-900 p-1 rounded-full border border-zinc-800">
+            <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-zinc-200 dark:border-zinc-800">
               {['All', 'Residential', 'Commercial'].map((tab) => (
                 <button
                   key={tab}
                   className={cn(
                     'px-5 py-2 rounded-full text-sm font-bold transition-all',
                     tab === 'All'
-                      ? 'bg-zinc-950 text-emerald-400'
-                      : 'text-zinc-500 hover:text-emerald-400'
+                      ? 'bg-emerald-600 text-white dark:bg-zinc-950 dark:text-emerald-400 shadow-sm'
+                      : 'text-zinc-600 dark:text-zinc-500 hover:text-emerald-600 dark:hover:text-emerald-400'
                   )}
                 >
                   {tab}
@@ -334,7 +334,7 @@ export default function HomePage() {
             {featuredListings.map((listing, i) => (
               <FadeIn key={listing.title} delay={i * 0.1} y={20}>
                 <Link key={listing.title} href={`/listings/${encodeURIComponent(listing.title)}`} className="contents">
-                  <article className="group glass-card overflow-hidden hover:border-white/15 transition-all duration-300 h-full flex flex-col cursor-pointer">
+                  <article className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden hover:border-emerald-500/30 dark:hover:border-white/15 transition-all duration-300 h-full flex flex-col cursor-pointer shadow-sm hover:shadow-lg">
                     <div className="relative h-64 overflow-hidden">
                       <Image
                         src={listing.img}
@@ -344,32 +344,32 @@ export default function HomePage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                       <div className="absolute top-4 left-4 flex gap-2">
-                        <span className="px-3 py-1 bg-emerald-500 text-emerald-400 text-xs font-bold rounded-full">
+                        <span className="px-3 py-1 bg-emerald-600 text-white dark:bg-emerald-500 dark:text-white text-xs font-bold rounded-full shadow">
                           {listing.type}
                         </span>
                       </div>
                       <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-zinc-800 text-emerald-400 text-xs font-bold rounded-full">
+                        <span className="px-3 py-1 bg-white/90 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-full shadow">
                           {listing.kind}
                         </span>
                       </div>
-                      <div className="absolute bottom-4 right-4 bg-zinc-800/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400 shadow">
+                      <div className="absolute bottom-4 right-4 bg-white/95 dark:bg-zinc-800/95 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-600 dark:text-emerald-400 shadow">
                         {listing.price}
                       </div>
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="font-bold text-lg text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                      <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                         {listing.title}
                       </h3>
-                      <div className="flex items-center gap-1.5 text-zinc-500 text-sm mb-5">
+                      <div className="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-500 text-sm mb-5">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
                         </svg>
                         {listing.location}
                       </div>
-                      <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/[0.08] mt-auto">
+                      <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-zinc-200 dark:border-white/[0.08] mt-auto">
                         {listing.specs.map((s) => (
-                          <span key={s.icon} className="flex items-center gap-1 text-zinc-500 text-xs font-medium">
+                          <span key={s.icon} className="flex items-center gap-1 text-zinc-600 dark:text-zinc-500 text-xs font-medium">
                             {s.icon === 'bed' && <span className="text-sm">🛏</span>}
                             {s.icon === 'bathtub' && <span className="text-sm">🛁</span>}
                             {s.icon === 'square_foot' && <span className="text-sm">📐</span>}
@@ -379,14 +379,14 @@ export default function HomePage() {
                             {s.val}
                           </span>
                         ))}
-                        <button className="ml-auto w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-emerald-400 transition-all">
+                        <button className="ml-auto w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white transition-all">
                           <ArrowRight className="h-4 w-4" />
                         </button>
                       </div>
                     </div>
                     {listing.verified && (
                       <div className="px-6 pb-4">
-                        <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded-full">
                           <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                           Verified Property
                         </span>
@@ -410,7 +410,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== ROLE CARDS ===================== */}
-      <section className="py-24 bg-zinc-950/30">
+      <section className="py-24 bg-zinc-50 dark:bg-zinc-950/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <SectionLabel>I am a...</SectionLabel>
@@ -424,7 +424,7 @@ export default function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <FadeIn delay={0 * 0.08} y={16}>
-              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                   <Home className="h-5 w-5" />
                 </div>
@@ -438,7 +438,7 @@ export default function HomePage() {
               </Link>
             </FadeIn>
             <FadeIn delay={1 * 0.08} y={16}>
-              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                   <Users className="h-5 w-5" />
                 </div>
@@ -452,7 +452,7 @@ export default function HomePage() {
               </Link>
             </FadeIn>
             <FadeIn delay={2 * 0.08} y={16}>
-              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                   <Building2 className="h-5 w-5" />
                 </div>
@@ -466,7 +466,7 @@ export default function HomePage() {
               </Link>
             </FadeIn>
             <FadeIn delay={3 * 0.08} y={16}>
-              <Link href="/signup" className="glass-card p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
+              <Link href="/signup" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-6 flex flex-col items-start gap-4 hover:border-white/15 transition-colors group">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
@@ -499,7 +499,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <FadeIn key={t.name} delay={i * 0.12} y={20}>
-                <div className="glass-card p-8 h-full flex flex-col">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-xl shadow-sm p-8 h-full flex flex-col">
                   <StarRating count={t.rating} className="mb-5" />
                   <p className="text-white leading-relaxed mb-6 flex-1">&ldquo;{t.text}&rdquo;</p>
                   <div className="flex items-center gap-3">

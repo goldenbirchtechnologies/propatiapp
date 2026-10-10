@@ -28,8 +28,8 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="bg-black min-h-screen pt-16">
-      <div className="border-b border-white/[0.06] bg-black/80 backdrop-blur sticky top-16 z-20">
+    <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-16">
+      <div className="border-b border-zinc-200 dark:border-white/[0.06] bg-white/80 dark:bg-black/80 backdrop-blur sticky top-16 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
           <Link href="/listings" className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white transition-colors">
             <ChevronLeft size={16} />

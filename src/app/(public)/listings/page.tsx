@@ -89,32 +89,32 @@ export default function ListingsPage() {
   ].filter(Boolean) as { label: string; clear: () => void }[];
 
   return (
-    <div className="bg-black min-h-screen pt-16">
-      {/* Sticky filter bar */}
-      <div className="sticky top-16 z-30 bg-black/90 backdrop-blur-md border-b border-white/[0.08]">
+    <div className="bg-[#F8FAFC] dark:bg-black min-h-screen pt-16">
+      {/* Sticky filter bar — Zillow pill bar */}
+      <div className="sticky top-16 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-zinc-200 dark:border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
-          {/* Search */}
+          {/* Search — Zillow pill */}
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-600" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500" />
             <input
               type="text"
               placeholder="Search location or property…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-8 pr-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              className="w-full pl-8 pr-3 py-2 text-sm bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
 
-          {/* Category tabs */}
-          <div className="hidden md:flex items-center gap-1 bg-zinc-950 border border-zinc-800 rounded-lg p-1">
+          {/* Category tabs — Zillow pills */}
+          <div className="hidden md:flex items-center gap-1 bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-full p-1">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                   category === cat
-                    ? 'bg-emerald-500 text-white'
-                    : 'text-zinc-400 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
                 {cat}

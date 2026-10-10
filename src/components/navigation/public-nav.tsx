@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
+import { useTheme } from '@/components/providers/ThemeProvider';
+import { Sun, Moon } from 'lucide-react';
 
 const LISTINGS_PATH = '/listings';
 
@@ -24,6 +26,7 @@ export default function PublicNav() {
   const clerk = useClerk();
 
   const displayName = user?.fullName || user?.primaryEmailAddress?.emailAddress || '';
+  const { theme, toggleTheme } = useTheme();
 
   const isHome = pathname === '/';
   const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
@@ -100,6 +103,14 @@ export default function PublicNav() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              className="p-2 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/10 transition-colors"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             {!isAuthPage && !isListingsPage && (
               <Link href="/listings" className="hidden sm:inline-flex">
                 <Button variant="ghost" size="sm">

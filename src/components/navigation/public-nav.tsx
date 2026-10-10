@@ -107,9 +107,10 @@ export default function PublicNav() {
               onClick={toggleTheme}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="p-2 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/10 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-300 dark:border-white/10 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/10 transition-colors text-sm font-medium shadow-sm"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
             </button>
             {!isAuthPage && !isListingsPage && (
               <Link href="/listings" className="hidden sm:inline-flex">

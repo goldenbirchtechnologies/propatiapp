@@ -60,19 +60,27 @@ export default function AboutUsPage() {
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            {[
-              { icon: Users, title: 'For tenants', desc: 'Verified listings, vetted landlords, and rent collection that creates a receipt — not a dispute.' },
-              { icon: Shield, title: 'For landlords', desc: 'Identity-verified tenants, stamp-duty-compliant agreements, and escrow until handover is confirmed.' },
-              { icon: Heart, title: 'For the market', desc: 'A single source of truth where a certified badge actually means something.' },
-            ].map((item) => (
-              <div key={item.title} className="glass-card p-6">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 text-sm font-semibold text-white">{item.title}</h3>
-                <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">{item.desc}</p>
+            <div className="glass-card p-6">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <Users className="h-5 w-5" />
               </div>
-            ))}
+              <h3 className="mt-4 text-sm font-semibold text-white">For tenants</h3>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Verified listings, vetted landlords, and rent collection that creates a receipt ┬ÌÌÑ a dispute.</p>
+            </div>
+            <div className="glass-card p-6">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <Shield className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-sm font-semibold text-white">For landlords</h3>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">Identity-verified tenants, stamp-duty-compliant agreements, and escrow until handover is confirmed.</p>
+            </div>
+            <div className="glass-card p-6">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <Heart className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-sm font-semibold text-white">For the market</h3>
+              <p className="mt-1.5 text-sm text-zinc-500 leading-relaxed">A single source of truth where a certified badge actually means something.</p>
+            </div>
           </div>
         </div>
       </section>

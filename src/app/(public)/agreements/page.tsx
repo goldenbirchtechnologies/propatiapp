@@ -156,21 +156,33 @@ export default function AgreementsPage() {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              { icon: PenLine, title: 'E-signature', desc: 'Typed consent + SHA-256 hash + IP/UA + timestamp. Tamper-evident.' },
-              { icon: Shield, title: 'Escrow', desc: 'Rent held until handover is confirmed — not released on a timer.' },
-              { icon: FileCheck, title: 'Rent schedule', desc: 'Prorated schedule generated from start date and tenancy length.' },
-            ].map((item) => (
-              <div key={item.title} className="glass-card p-5 flex gap-3">
-                <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                  <item.icon className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">{item.title}</p>
-                  <p className="mt-1 text-sm text-zinc-500 leading-relaxed">{item.desc}</p>
-                </div>
+            <div className="glass-card p-5 flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <PenLine className="h-4 w-4" />
               </div>
-            ))}
+              <div>
+                <p className="text-sm font-semibold text-white">E-signature</p>
+                <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Typed consent + SHA-256 hash + IP/UA + timestamp. Tamper-evident.</p>
+              </div>
+            </div>
+            <div className="glass-card p-5 flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <Shield className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Escrow</p>
+                <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Rent held until handover is confirmed — not released on a timer.</p>
+              </div>
+            </div>
+            <div className="glass-card p-5 flex gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <FileCheck className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Rent schedule</p>
+                <p className="mt-1 text-sm text-zinc-500 leading-relaxed">Prorated schedule generated from start date and tenancy length.</p>
+              </div>
+            </div>
           </div>
 
           {/* Endorsement preview */}

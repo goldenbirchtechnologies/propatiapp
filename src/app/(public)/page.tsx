@@ -266,7 +266,9 @@ export default function HomePage() {
                 <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
               </div>
             </div>
-          </div></section>
+          </div>
+        </div>
+      </section>
 
       {/* ===================== HOW IT WORKS ===================== */}
       <section className="py-24">

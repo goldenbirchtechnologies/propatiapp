@@ -232,7 +232,6 @@ export default function ListingDetailClient({ listing }: { listing: unknown }) {
                 </div>
               </div>
             )}
-            )}
 
             {activeTab === "location" && (
               <div className="rounded-2xl overflow-hidden border border-white/[0.08] h-64 bg-zinc-900 flex items-center justify-center">

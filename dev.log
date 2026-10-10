@@ -1,0 +1,1189 @@
+   ▲ Next.js 15.5.19
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.18.6:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 14.6s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1199ms (223 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 39.1s (11451 modules)
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 43712ms
+ ○ Compiling /dashboard/tenant ...
+ ✓ Compiled /dashboard/tenant in 21.1s (11862 modules)
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."saved_listings"."id" FROM "public"."saved_listings" WHERE "public"."saved_listings"."user_id" = $1 OFFSET $2) AS "sub"
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."transactions"."id", "public"."transactions"."type"::text, "public"."transactions"."status"::text, "public"."transactions"."amount", "public"."transactions"."created_at" FROM "public"."transactions" WHERE "public"."transactions"."payer_id" = $1 ORDER BY "public"."transactions"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."agreements"."id" FROM "public"."agreements" WHERE ("public"."agreements"."tenant_id" = $1 AND "public"."agreements"."status" IN (CAST($2::text AS "public"."AgreementStatus"),CAST($3::text AS "public"."AgreementStatus"))) OFFSET $4) AS "sub"
+prisma:query SELECT "public"."agreements"."id", "public"."agreements"."country_id", "public"."agreements"."jurisdiction_id", "public"."agreements"."listing_id", "public"."agreements"."landlord_id", "public"."agreements"."tenant_id", "public"."agreements"."agent_id", "public"."agreements"."type"::text, "public"."agreements"."status"::text, "public"."agreements"."start_date", "public"."agreements"."end_date", "public"."agreements"."rent_amount", "public"."agreements"."rent_period", "public"."agreements"."caution_deposit", "public"."agreements"."service_charge", "public"."agreements"."notice_period_days", "public"."agreements"."special_clauses", "public"."agreements"."landlord_signed_at", "public"."agreements"."tenant_signed_at", "public"."agreements"."pdf_url", "public"."agreements"."template_vars", "public"."agreements"."risk_tier", "public"."agreements"."jurisdiction_state", "public"."agreements"."governing_statute", "public"."agreements"."head_tenant_verified", "public"."agreements"."created_at", "public"."agreements"."updated_at", "public"."agreements"."pdf_content_hash", "public"."agreements"."finalized_at", "public"."agreements"."lock_status"::text, "public"."agreements"."integrity_chain_hash", "public"."agreements"."locked_by" FROM "public"."agreements" WHERE ("public"."agreements"."tenant_id" = $1 AND "public"."agreements"."status" IN (CAST($2::text AS "public"."AgreementStatus"),CAST($3::text AS "public"."AgreementStatus"))) ORDER BY "public"."agreements"."created_at" DESC LIMIT $4 OFFSET $5
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."maintenance_tickets"."id" FROM "public"."maintenance_tickets" WHERE ("public"."maintenance_tickets"."tenant_id" = $1 AND "public"."maintenance_tickets"."status" IN (CAST($2::text AS "public"."MaintenanceStatus"),CAST($3::text AS "public"."MaintenanceStatus"))) OFFSET $4) AS "sub"
+prisma:query SELECT "public"."agreements"."id", "public"."agreements"."country_id", "public"."agreements"."jurisdiction_id", "public"."agreements"."listing_id", "public"."agreements"."landlord_id", "public"."agreements"."tenant_id", "public"."agreements"."agent_id", "public"."agreements"."type"::text, "public"."agreements"."status"::text, "public"."agreements"."start_date", "public"."agreements"."end_date", "public"."agreements"."rent_amount", "public"."agreements"."rent_period", "public"."agreements"."caution_deposit", "public"."agreements"."service_charge", "public"."agreements"."notice_period_days", "public"."agreements"."special_clauses", "public"."agreements"."landlord_signed_at", "public"."agreements"."tenant_signed_at", "public"."agreements"."pdf_url", "public"."agreements"."template_vars", "public"."agreements"."risk_tier", "public"."agreements"."jurisdiction_state", "public"."agreements"."governing_statute", "public"."agreements"."head_tenant_verified", "public"."agreements"."created_at", "public"."agreements"."updated_at", "public"."agreements"."pdf_content_hash", "public"."agreements"."finalized_at", "public"."agreements"."lock_status"::text, "public"."agreements"."integrity_chain_hash", "public"."agreements"."locked_by" FROM "public"."agreements" WHERE "public"."agreements"."tenant_id" = $1 ORDER BY "public"."agreements"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+ GET /dashboard/tenant 200 in 22922ms
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT 1
+prisma:query SELECT 1
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query SELECT 1
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."saved_listings"."id" FROM "public"."saved_listings" WHERE "public"."saved_listings"."user_id" = $1 OFFSET $2) AS "sub"
+prisma:query SELECT "public"."transactions"."id", "public"."transactions"."type"::text, "public"."transactions"."status"::text, "public"."transactions"."amount", "public"."transactions"."created_at" FROM "public"."transactions" WHERE "public"."transactions"."payer_id" = $1 ORDER BY "public"."transactions"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."maintenance_tickets"."id" FROM "public"."maintenance_tickets" WHERE ("public"."maintenance_tickets"."tenant_id" = $1 AND "public"."maintenance_tickets"."status" IN (CAST($2::text AS "public"."MaintenanceStatus"),CAST($3::text AS "public"."MaintenanceStatus"))) OFFSET $4) AS "sub"
+prisma:query SELECT "public"."agreements"."id", "public"."agreements"."country_id", "public"."agreements"."jurisdiction_id", "public"."agreements"."listing_id", "public"."agreements"."landlord_id", "public"."agreements"."tenant_id", "public"."agreements"."agent_id", "public"."agreements"."type"::text, "public"."agreements"."status"::text, "public"."agreements"."start_date", "public"."agreements"."end_date", "public"."agreements"."rent_amount", "public"."agreements"."rent_period", "public"."agreements"."caution_deposit", "public"."agreements"."service_charge", "public"."agreements"."notice_period_days", "public"."agreements"."special_clauses", "public"."agreements"."landlord_signed_at", "public"."agreements"."tenant_signed_at", "public"."agreements"."pdf_url", "public"."agreements"."template_vars", "public"."agreements"."risk_tier", "public"."agreements"."jurisdiction_state", "public"."agreements"."governing_statute", "public"."agreements"."head_tenant_verified", "public"."agreements"."created_at", "public"."agreements"."updated_at", "public"."agreements"."pdf_content_hash", "public"."agreements"."finalized_at", "public"."agreements"."lock_status"::text, "public"."agreements"."integrity_chain_hash", "public"."agreements"."locked_by" FROM "public"."agreements" WHERE "public"."agreements"."tenant_id" = $1 ORDER BY "public"."agreements"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."agreements"."id" FROM "public"."agreements" WHERE ("public"."agreements"."tenant_id" = $1 AND "public"."agreements"."status" IN (CAST($2::text AS "public"."AgreementStatus"),CAST($3::text AS "public"."AgreementStatus"))) OFFSET $4) AS "sub"
+prisma:query SELECT "public"."agreements"."id", "public"."agreements"."country_id", "public"."agreements"."jurisdiction_id", "public"."agreements"."listing_id", "public"."agreements"."landlord_id", "public"."agreements"."tenant_id", "public"."agreements"."agent_id", "public"."agreements"."type"::text, "public"."agreements"."status"::text, "public"."agreements"."start_date", "public"."agreements"."end_date", "public"."agreements"."rent_amount", "public"."agreements"."rent_period", "public"."agreements"."caution_deposit", "public"."agreements"."service_charge", "public"."agreements"."notice_period_days", "public"."agreements"."special_clauses", "public"."agreements"."landlord_signed_at", "public"."agreements"."tenant_signed_at", "public"."agreements"."pdf_url", "public"."agreements"."template_vars", "public"."agreements"."risk_tier", "public"."agreements"."jurisdiction_state", "public"."agreements"."governing_statute", "public"."agreements"."head_tenant_verified", "public"."agreements"."created_at", "public"."agreements"."updated_at", "public"."agreements"."pdf_content_hash", "public"."agreements"."finalized_at", "public"."agreements"."lock_status"::text, "public"."agreements"."integrity_chain_hash", "public"."agreements"."locked_by" FROM "public"."agreements" WHERE ("public"."agreements"."tenant_id" = $1 AND "public"."agreements"."status" IN (CAST($2::text AS "public"."AgreementStatus"),CAST($3::text AS "public"."AgreementStatus"))) ORDER BY "public"."agreements"."created_at" DESC LIMIT $4 OFFSET $5
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+prisma:query COMMIT
+ GET /dashboard/tenant 200 in 3111ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1217ms
+ ⨯ [Error: aborted]
+ ○ Compiling /dashboard/tenant/search ...
+ ✓ Compiled /dashboard/tenant/search in 17.8s (12230 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ ⨯ TypeError: Cannot read properties of undefined (reading 'slice')
+    at TenantSearchClient (src\app\dashboard\tenant\search\TenantSearchClient.tsx:109:19)
+  107 |
+  108 |         <div className="mt-4 flex flex-wrap gap-2">
+> 109 |           {cities.slice(0, 12).map((city) => (
+      |                   ^
+  110 |             <Badge
+  111 |               key={city}
+  112 |               variant={searchQuery.toLowerCase() === city.toLowerCase() ? 'secondary' : 'outline'} {
+  digest: '3307948133'
+}
+ GET /dashboard/tenant/search 500 in 20113ms
+ ○ Compiling /api/notifications/unread-count ...
+ ✓ Compiled /dashboard/tenant/saved in 11.8s (12246 modules)
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query SELECT 1
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query BEGIN
+prisma:query COMMIT
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."saved_listings"."id", "public"."saved_listings"."user_id", "public"."saved_listings"."listing_id", "public"."saved_listings"."created_at" FROM "public"."saved_listings" WHERE "public"."saved_listings"."user_id" = $1 ORDER BY "public"."saved_listings"."created_at" DESC OFFSET $2
+prisma:query COMMIT
+ GET /dashboard/tenant/saved 200 in 16568ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 815ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ GET /api/notifications/unread-count 200 in 2146ms
+ POST /dashboard/tenant/saved 200 in 1336ms
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+ ○ Compiling /dashboard/tenant/applications ...
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/applications in 13.4s (12268 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."applications"."id", "public"."applications"."listing_id", "public"."applications"."tenant_id", "public"."applications"."landlord_id", "public"."applications"."status"::text, "public"."applications"."message", "public"."applications"."landlord_notes", "public"."applications"."reviewed_at", "public"."applications"."rejection_reason", "public"."applications"."requested_info_at", "public"."applications"."stage", "public"."applications"."screening_status", "public"."applications"."guarantor_data", "public"."applications"."applicant_documents", "public"."applications"."created_at", "public"."applications"."updated_at" FROM "public"."applications" WHERE "public"."applications"."tenant_id" = $1 ORDER BY "public"."applications"."created_at" DESC OFFSET $2
+prisma:query COMMIT
+ GET /dashboard/tenant/applications 200 in 21382ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1246ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+ GET /api/notifications/unread-count 200 in 1206ms
+ POST /dashboard/tenant/applications 200 in 783ms
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+ ○ Compiling /dashboard/tenant/agreements ...
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/agreements in 5.1s (12170 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."agreements"."id", "public"."agreements"."country_id", "public"."agreements"."jurisdiction_id", "public"."agreements"."listing_id", "public"."agreements"."landlord_id", "public"."agreements"."tenant_id", "public"."agreements"."agent_id", "public"."agreements"."type"::text, "public"."agreements"."status"::text, "public"."agreements"."start_date", "public"."agreements"."end_date", "public"."agreements"."rent_amount", "public"."agreements"."rent_period", "public"."agreements"."caution_deposit", "public"."agreements"."service_charge", "public"."agreements"."notice_period_days", "public"."agreements"."special_clauses", "public"."agreements"."landlord_signed_at", "public"."agreements"."tenant_signed_at", "public"."agreements"."pdf_url", "public"."agreements"."template_vars", "public"."agreements"."risk_tier", "public"."agreements"."jurisdiction_state", "public"."agreements"."governing_statute", "public"."agreements"."head_tenant_verified", "public"."agreements"."created_at", "public"."agreements"."updated_at", "public"."agreements"."pdf_content_hash", "public"."agreements"."finalized_at", "public"."agreements"."lock_status"::text, "public"."agreements"."integrity_chain_hash", "public"."agreements"."locked_by" FROM "public"."agreements" WHERE "public"."agreements"."tenant_id" = $1 ORDER BY "public"."agreements"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query COMMIT
+ ✓ Compiled in 6.4s (5903 modules)
+ GET /dashboard/tenant/agreements 200 in 28062ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1247ms
+ ○ Compiling /dashboard/tenant/payments ...
+ ✓ Compiled /dashboard/tenant/payments in 9.9s (12180 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/payments 200 in 15227ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1085ms
+ ○ Compiling /api/payments/transactions ...
+ GET /api/notifications/unread-count 200 in 1884ms
+ ✓ Compiled /dashboard/tenant/payments/auto-pay in 17.1s (12216 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query DEALLOCATE ALL
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query COMMIT
+prisma:query SELECT 1
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query BEGIN
+prisma:query COMMIT
+prisma:query DEALLOCATE ALL
+prisma:query BEGIN
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query COMMIT
+Transactions list error: Error [ZodError]: [
+  {
+    "validation": "uuid",
+    "code": "invalid_string",
+    "message": "Invalid ID format",
+    "path": [
+      "userId"
+    ]
+  }
+]
+    at GET (src\app\api\payments\transactions\route.ts:24:48)
+  22 |     const params = Object.fromEntries(searchParams.entries());
+  23 |
+> 24 |     const validated = transactionFiltersSchema.parse(params);
+     |                                                ^
+  25 |
+  26 |     const { page, limit, sort, order, ...filters } = validated;
+  27 | {
+  issues: [Array],
+  addIssue: [Function (anonymous)],
+  addIssues: [Function (anonymous)]
+}
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ GET /dashboard/tenant/payments/auto-pay 200 in 18223ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 808ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ GET /api/notifications/unread-count 200 in 1416ms
+ POST /dashboard/tenant/payments/auto-pay 200 in 1413ms
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ ○ Compiling /dashboard/tenant/payments/statements ...
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/payments/statements in 4.3s (12193 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+Invalid DOM property `colspan`. Did you mean `colSpan`?
+ GET /dashboard/tenant/payments/statements 200 in 12505ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 2377ms
+ ○ Compiling /dashboard/tenant/maintenance ...
+ ✓ Compiled /dashboard/tenant/maintenance in 7.5s (12205 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."maintenance_tickets"."id", "public"."maintenance_tickets"."org_id", "public"."maintenance_tickets"."listing_id", "public"."maintenance_tickets"."tenant_id", "public"."maintenance_tickets"."raised_by", "public"."maintenance_tickets"."title", "public"."maintenance_tickets"."description", "public"."maintenance_tickets"."category"::text, "public"."maintenance_tickets"."priority"::text, "public"."maintenance_tickets"."status"::text, "public"."maintenance_tickets"."assigned_to", "public"."maintenance_tickets"."photo_urls", "public"."maintenance_tickets"."resolution_note", "public"."maintenance_tickets"."resolved_at", "public"."maintenance_tickets"."closed_at", "public"."maintenance_tickets"."created_at", "public"."maintenance_tickets"."updated_at" FROM "public"."maintenance_tickets" WHERE "public"."maintenance_tickets"."tenant_id" = $1 ORDER BY "public"."maintenance_tickets"."created_at" DESC OFFSET $2
+prisma:query COMMIT
+ GET /dashboard/tenant/maintenance 200 in 13797ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ ○ Compiling /dashboard/tenant/maintenance/new ...
+ ✓ Compiled /dashboard/tenant/maintenance/new in 4.4s (12215 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/maintenance/new 200 in 9523ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1382ms
+[Error: aborted] { code: 'ECONNRESET' }
+ ⨯ uncaughtException: [Error: aborted] { code: 'ECONNRESET' }
+ ⨯ uncaughtException:  [Error: aborted] { code: 'ECONNRESET' }
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+ ○ Compiling /dashboard/tenant/messages ...
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/messages in 18.5s (12433 modules)
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/messages 200 in 24300ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1003ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ ○ Compiling /api/conversations ...
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+ GET /api/notifications/unread-count 200 in 1945ms
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/invoices in 10s (12420 modules)
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query BEGIN
+prisma:query COMMIT
+prisma:query DEALLOCATE ALL
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query 
+          SELECT id FROM conversations
+          WHERE participants @> $1::jsonb
+            AND status != 'blocked'
+          ORDER BY last_message_at DESC
+          LIMIT $2
+          OFFSET $3
+        
+prisma:query COMMIT
+ GET /dashboard/tenant/invoices 200 in 13748ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."conversations"."id", "public"."conversations"."listing_id", "public"."conversations"."property_id", "public"."conversations"."org_id", "public"."conversations"."landlord_id", "public"."conversations"."tenant_id", "public"."conversations"."agent_id", "public"."conversations"."participants", "public"."conversations"."subject", "public"."conversations"."last_message", "public"."conversations"."last_message_at", "public"."conversations"."unread_counts", "public"."conversations"."status"::text, "public"."conversations"."created_at", "public"."conversations"."updated_at" FROM "public"."conversations" WHERE (("public"."conversations"."landlord_id" = $1 OR "public"."conversations"."tenant_id" = $2) AND "public"."conversations"."status" <> CAST($3::text AS "public"."ConversationStatus")) ORDER BY "public"."conversations"."last_message_at" DESC LIMIT $4 OFFSET $5
+prisma:query COMMIT
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1025ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ ○ Compiling /dashboard/tenant/receipts ...
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/receipts in 4.3s (12421 modules)
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."transactions"."id", "public"."transactions"."reference", "public"."transactions"."listing_id", "public"."transactions"."payer_id", "public"."transactions"."payee_id", "public"."transactions"."agent_id", "public"."transactions"."type"::text, "public"."transactions"."status"::text, "public"."transactions"."amount", "public"."transactions"."currency", "public"."transactions"."platform_fee", "public"."transactions"."agent_commission", "public"."transactions"."payee_amount", "public"."transactions"."paystack_ref", "public"."transactions"."agent_commission_status", "public"."transactions"."commission_hold_reason", "public"."transactions"."agent_commission_released_at", "public"."transactions"."buyer_confirmed_at", "public"."transactions"."seller_confirmed_at", "public"."transactions"."confirmation_status", "public"."transactions"."description", "public"."transactions"."paystack_data", "public"."transactions"."paid_at", "public"."transactions"."created_at", "public"."transactions"."updated_at" FROM "public"."transactions" WHERE ("public"."transactions"."payer_id" = $1 AND "public"."transactions"."status" = CAST($2::text AS "public"."TransactionStatus")) ORDER BY "public"."transactions"."paid_at" DESC LIMIT $3 OFFSET $4
+prisma:query COMMIT
+ GET /dashboard/tenant/receipts 200 in 8063ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 916ms
+prisma:query SELECT 1
+prisma:query BEGIN
+ GET /api/notifications/unread-count 200 in 1032ms
+ POST /dashboard/tenant/receipts 200 in 1028ms
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+ ○ Compiling /dashboard/tenant/notifications ...
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/notifications in 4.3s (12432 modules)
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/notifications 200 in 7639ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 909ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+ ○ Compiling /_not-found ...
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+ POST /dashboard/tenant/notifications 200 in 1667ms
+ GET /api/notifications/unread-count 200 in 1905ms
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/profile in 13.2s (12458 modules)
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/profile 200 in 14207ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 836ms
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+ ○ Compiling /api/verification/dojah/status ...
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+ GET /api/notifications/unread-count 200 in 1863ms
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT COUNT(*) FROM (SELECT "public"."notifications"."id" FROM "public"."notifications" WHERE ("public"."notifications"."user_id" = $1 AND "public"."notifications"."read" = $2) OFFSET $3) AS "sub"
+prisma:query COMMIT
+ ✓ Compiled /dashboard/tenant/screening in 11.1s (12598 modules)
+ ⨯ [Error: aborted] { code: 'ECONNRESET', digest: '28012489' }
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query DEALLOCATE ALL
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."users"."id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."is_active", "public"."users"."is_banned" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query BEGIN
+prisma:query COMMIT
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."screening_calls"."id", "public"."screening_calls"."listing_id", "public"."screening_calls"."landlord_id", "public"."screening_calls"."tenant_id", "public"."screening_calls"."scheduled_at", "public"."screening_calls"."status"::text, "public"."screening_calls"."notes", "public"."screening_calls"."created_at" FROM "public"."screening_calls" WHERE "public"."screening_calls"."tenant_id" = $1 ORDER BY "public"."screening_calls"."created_at" DESC LIMIT $2 OFFSET $3
+prisma:query COMMIT
+prisma:query SELECT "public"."user_kyc"."id", "public"."user_kyc"."user_id", "public"."user_kyc"."role", "public"."user_kyc"."status"::text, "public"."user_kyc"."level", "public"."user_kyc"."dojah_ref", "public"."user_kyc"."verified_at", "public"."user_kyc"."rejected_at", "public"."user_kyc"."rejection_reason", "public"."user_kyc"."metadata", "public"."user_kyc"."created_at", "public"."user_kyc"."updated_at" FROM "public"."user_kyc" WHERE ("public"."user_kyc"."user_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/screening 200 in 13439ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ GET / 500 in 1693ms
+ ○ Compiling /dashboard/tenant/support ...
+ ✓ Compiled /dashboard/tenant/support in 8.3s (12576 modules)
+prisma:query SELECT 1
+prisma:query BEGIN
+prisma:query DEALLOCATE ALL
+prisma:query SELECT "public"."users"."id", "public"."users"."country_id", "public"."users"."clerk_id", "public"."users"."email", "public"."users"."phone", "public"."users"."password", "public"."users"."role"::text, "public"."users"."full_name", "public"."users"."avatar_url", "public"."users"."nin_encrypted", "public"."users"."nin_hash", "public"."users"."nin_verified", "public"."users"."bvn_encrypted", "public"."users"."id_type"::text, "public"."users"."id_number_enc", "public"."users"."id_verified", "public"."users"."id_doc_url", "public"."users"."phone_verified", "public"."users"."employment_status"::text, "public"."users"."employment_type"::text, "public"."users"."employer_name", "public"."users"."job_title", "public"."users"."yearly_income", "public"."users"."income_verified", "public"."users"."profile_bio", "public"."users"."profile_completed", "public"."users"."guarantor_name", "public"."users"."guarantor_phone", "public"."users"."guarantor_relationship", "public"."users"."is_active", "public"."users"."is_banned", "public"."users"."ban_reason", "public"."users"."agent_tier"::text, "public"."users"."agent_approved", "public"."users"."agent_bio", "public"."users"."agent_areas", "public"."users"."notification_preferences", "public"."users"."push_subscription", "public"."users"."created_at", "public"."users"."updated_at", "public"."users"."last_login" FROM "public"."users" WHERE ("public"."users"."clerk_id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query SELECT "public"."organisations"."id", "public"."organisations"."country_id", "public"."organisations"."name", "public"."organisations"."owner_id", "public"."organisations"."billing_email", "public"."organisations"."address", "public"."organisations"."cac_number", "public"."organisations"."verified", "public"."organisations"."verified_at", "public"."organisations"."plan_tier"::text, "public"."organisations"."max_units", "public"."organisations"."max_seats", "public"."organisations"."paystack_customer_id", "public"."organisations"."created_at", "public"."organisations"."updated_at" FROM "public"."organisations" WHERE "public"."organisations"."owner_id" IN ($1) OFFSET $2
+prisma:query SELECT "public"."org_members"."id", "public"."org_members"."org_id", "public"."org_members"."user_id", "public"."org_members"."email", "public"."org_members"."role"::text, "public"."org_members"."status"::text, "public"."org_members"."invited_by", "public"."org_members"."invite_token", "public"."org_members"."joined_at", "public"."org_members"."created_at" FROM "public"."org_members" WHERE ("public"."org_members"."status" = CAST($1::text AS "public"."OrgMemberStatus") AND "public"."org_members"."user_id" IN ($2)) OFFSET $3
+prisma:query COMMIT
+ GET /dashboard/tenant/support 200 in 14549ms
+ ⨯ ReferenceError: React is not defined
+    at usePublicStats (src\app\(public)\page.tsx:11:29)
+    at HomePage (src\app\(public)\page.tsx:142:21)
+   9 |
+  10 | function usePublicStats() {
+> 11 |   const [stats, setStats] = React.useState<{ active: number; verified: number } | null>(null);
+     |                             ^
+  12 |   React.useEffect(() => {
+  13 |     let cancelled = false;
+  14 |     fetch('/api/public/stats') {
+  digest: '1467142285'
+}
+ ✓ Compiled in 21.9s (6015 modules)
+ ✓ Compiled in 2.5s (6015 modules)
+ ✓ Compiled in 1758ms (6015 modules)
+ ✓ Compiled in 5.8s (6015 modules)
+ ✓ Compiled in 9.3s (6015 modules)
+ ✓ Compiled in 4.7s (6015 modules)
+ ✓ Compiled in 20.1s (12240 modules)
+ ✓ Compiled in 5.1s (6015 modules)
+ ✓ Compiled in 6.8s (6015 modules)
+ ✓ Compiled in 5.5s (6015 modules)
+ ✓ Compiled in 5.5s (6015 modules)
+ ✓ Compiled in 3s (6015 modules)
+ ✓ Compiled in 6.6s (6015 modules)
+ ✓ Compiled in 2.6s (6015 modules)
+ ✓ Compiled in 5.7s (6015 modules)
+ ✓ Compiled in 4.7s (6015 modules)
+ ✓ Compiled in 6.8s (6015 modules)
+ ✓ Compiled in 5.6s (6015 modules)
+ ✓ Compiled in 2.6s (6015 modules)
+ ✓ Compiled in 6.3s (6015 modules)
+ ✓ Compiled in 15.1s (6015 modules)
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+prisma:error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: "An existing connection was forcibly closed by the remote host." }) }
+ ✓ Compiled in 10.5s (6015 modules)
+ ✓ Compiled in 2.3s (6015 modules)
+ ✓ Compiled in 4.5s (6015 modules)
+ ✓ Compiled in 2.7s (6015 modules)
+ ✓ Compiled in 2.2s (6015 modules)
+ ✓ Compiled in 6s (6015 modules)
+ ✓ Compiled in 6.1s (6015 modules)
+ ✓ Compiled in 12.7s (6015 modules)
+ ✓ Compiled in 2.2s (6015 modules)
+ ✓ Compiled in 4.3s (6015 modules)
+ ✓ Compiled in 2.4s (6015 modules)
+ ✓ Compiled in 2.1s (6015 modules)
+ ✓ Compiled in 2.9s (6015 modules)
+ ✓ Compiled in 5.7s (6015 modules)
+ ✓ Compiled in 2.1s (6015 modules)
+ ✓ Compiled in 1939ms (6015 modules)
+ ✓ Compiled in 2.8s (6015 modules)
+ ✓ Compiled in 2.8s (6015 modules)
+ ✓ Compiled in 2.3s (6015 modules)
+ ✓ Compiled in 2.3s (6015 modules)
+ ✓ Compiled in 3.3s (6015 modules)
+ ✓ Compiled in 1991ms (6015 modules)
+ ✓ Compiled in 2.5s (6015 modules)
+ ✓ Compiled in 2.1s (6015 modules)
+ ✓ Compiled in 2.1s (6015 modules)
+ ✓ Compiled in 1959ms (6015 modules)
+ ✓ Compiled in 1942ms (6015 modules)
+ ✓ Compiled in 3s (6015 modules)
+ ✓ Compiled in 5.1s (6015 modules)
+ ✓ Compiled in 4.1s (6015 modules)
+ ✓ Compiled in 2.9s (6015 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 8.7s (6251 modules)
+ GET / 200 in 10354ms
+ ⨯ Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\vendor-chunks\@radix-ui.js'
+    at <unknown> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1020:47)
+    at Object.<anonymous> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1023:3) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\vendor-chunks\\@radix-ui.js',
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 12s (12362 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\pages\\_document.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\vendor-chunks\@radix-ui.js'
+    at <unknown> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1020:47)
+    at Object.<anonymous> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1023:3) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\vendor-chunks\\@radix-ui.js',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\pages\\_document.js'
+}
+ GET / 500 in 10984ms
+ ⨯ Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\vendor-chunks\@radix-ui.js'
+    at <unknown> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1020:47)
+    at Object.<anonymous> (C:\Users\USER\Documents\NEWPROPATI-win\.next\server\app\(public)\page.js:1023:3) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\vendor-chunks\\@radix-ui.js',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\USER\Documents\NEWPROPATI-win\.next\server\pages\_document.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\USER\\Documents\\NEWPROPATI-win\\.next\\server\\pages\\_document.js'
+}
+ GET / 500 in 6894ms
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\3.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\3.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ⨯ ./src/app/(public)/page.tsx
+Error:   [31mx[0m Expected '</', got 'jsx text (
+  [31m|[0m
+  [31m|[0m       )'
+     ,-[[36;1;4mC:\Users\USER\Documents\NEWPROPATI-win\src\app\(public)\page.tsx[0m:269:1]
+ [2m266[0m |                     <div className="text-zinc-600 text-xs mt-0.5 leading-relaxed">The largest verified property database in Nigeria</div>
+ [2m267[0m |                   </div>
+ [2m268[0m |                 </div>
+ [2m269[0m | [35;1m,[0m[35;1m-[0m[35;1m>[0m           </div></section>
+ [2m270[0m | [35;1m|[0m   
+ [2m271[0m | [35;1m`[0m[35;1m-[0m[35;1m>[0m       {/* ===================== HOW IT WORKS ===================== */}
+ [2m272[0m |           <section className="py-24">
+ [2m273[0m |             <div className="max-w-7xl mx-auto px-4 sm:px-6">
+ [2m273[0m |               <div className="text-center mb-16">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(public)/page.tsx
+ ✓ Compiled in 3s (6015 modules)
+ ✓ Compiled in 2.9s (6015 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz_' -> 'C:\Users\USER\Documents\NEWPROPATI-win\.next\cache\webpack\client-development\0.pack.gz'

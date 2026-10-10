@@ -1,7 +1,7 @@
 'use client'
 
 import AppIcon from '@/components/icons/app-icon';
-
+import React from 'react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -185,7 +185,7 @@ export function PropertySpecs({
   sizeSqm?: number | null;
   parkingSpaces?: number | null;
 }) {
-  const specs = [
+  const specList = [
     { icon: Bed, label: 'Bedrooms', value: bedrooms },
     { icon: Bath, label: 'Bathrooms', value: bathrooms },
     { icon: Bath, label: 'Toilets', value: toilets },
@@ -193,16 +193,16 @@ export function PropertySpecs({
     { icon: Car, label: 'Parking', value: parkingSpaces },
   ].filter((spec) => spec.value !== null && spec.value !== undefined);
 
-  if (specs.length === 0) return null;
+  if (specList.length === 0) return null;
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-      {specs.map((spec, index) => (
+      {specList.map((spec, index) => (
         <div
           key={index}
           className="flex flex-col items-center p-4 bg-muted/50 rounded-lg"
         >
-          <spec.icon className="h-6 w-6 mb-2 text-zinc-500" />
+          {React.createElement(spec.icon, { className: "h-6 w-6 mb-2 text-zinc-500" })}
           <span className="text-lg font-semibold" style={{ color: 'var(--text)' }}>
             {spec.value}
           </span>

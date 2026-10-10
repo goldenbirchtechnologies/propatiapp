@@ -1,0 +1,517 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (v5.22.0) to .\node_modules\@prisma\client in 1.45s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+
+   ▲ Next.js 15.5.19
+   - Environments: .env
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (192kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully in 3.5min
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Remita] REMITA_MERCHANT_ID not configured. Using mock mode.
+[Remita] REMITA_MERCHANT_ID not configured. Using mock mode.
+⚠️  Prembly running in MOCK MODE - credentials not configured
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+   Generating static pages (0/144) ...
+[Remita] REMITA_MERCHANT_ID not configured. Using mock mode.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+⚠️  Prembly running in MOCK MODE - credentials not configured
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+[Remita] REMITA_MERCHANT_ID not configured. Using mock mode.
+[Paystack] PAYSTACK_SECRET_KEY not configured.
+   Generating static pages (36/144) 
+   Generating static pages (72/144) 
+   Generating static pages (108/144) 
+ ✓ Generating static pages (144/144)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                           Size  First Load JS  Revalidate  Expire
+┌ ƒ /                                                              9.05 kB         236 kB
+├ ƒ /_not-found                                                      757 B         103 kB
+├ ƒ /about-us                                                      6.95 kB         119 kB
+├ ƒ /account/suspended                                               826 B         106 kB
+├ ƒ /agreements                                                    7.59 kB         120 kB
+├ ƒ /api/admin/audit-logs                                            757 B         103 kB
+├ ƒ /api/admin/business/verifications                                757 B         103 kB
+├ ƒ /api/admin/business/verifications/[id]/approve                   757 B         103 kB
+├ ƒ /api/admin/business/verifications/[id]/reject                    757 B         103 kB
+├ ƒ /api/admin/capabilities                                          757 B         103 kB
+├ ƒ /api/admin/compliance-events                                     757 B         103 kB
+├ ƒ /api/admin/conflict-checks                                       757 B         103 kB
+├ ƒ /api/admin/conflict-checks/[id]                                  757 B         103 kB
+├ ƒ /api/admin/conflict-checks/[id]/waive                            757 B         103 kB
+├ ƒ /api/admin/countries                                             757 B         103 kB
+├ ƒ /api/admin/countries/[id]                                        757 B         103 kB
+├ ƒ /api/admin/deal/[id]/release-commission                          757 B         103 kB
+├ ƒ /api/admin/document-templates                                    757 B         103 kB
+├ ƒ /api/admin/document-templates/[id]                               757 B         103 kB
+├ ƒ /api/admin/documents                                             757 B         103 kB
+├ ƒ /api/admin/engagements                                           757 B         103 kB
+├ ƒ /api/admin/engagements/[id]                                      757 B         103 kB
+├ ƒ /api/admin/engagements/[id]/approve                              757 B         103 kB
+├ ƒ /api/admin/engagements/[id]/lawyer-review                        757 B         103 kB
+├ ƒ /api/admin/engagements/[id]/reject                               757 B         103 kB
+├ ƒ /api/admin/engagements/[id]/send                                 757 B         103 kB
+├ ƒ /api/admin/evidence-packs                                        757 B         103 kB
+├ ƒ /api/admin/evidence-packs/[id]                                   757 B         103 kB
+├ ƒ /api/admin/flagged-listings                                      757 B         103 kB
+├ ƒ /api/admin/flagged-listings/[id]                                 757 B         103 kB
+├ ƒ /api/admin/jurisdictions                                         757 B         103 kB
+├ ƒ /api/admin/law-firm-cases                                        757 B         103 kB
+├ ƒ /api/admin/law-firms                                             757 B         103 kB
+├ ƒ /api/admin/legal-agreements/[id]                                 757 B         103 kB
+├ ƒ /api/admin/listings/[id]/dismiss-flags                           757 B         103 kB
+├ ƒ /api/admin/listings/[id]/suspend                                 757 B         103 kB
+├ ƒ /api/admin/reports/generate                                      757 B         103 kB
+├ ƒ /api/admin/revenue                                               757 B         103 kB
+├ ƒ /api/admin/rules                                                 757 B         103 kB
+├ ƒ /api/admin/rules/[id]                                            757 B         103 kB
+├ ƒ /api/admin/stats                                                 757 B         103 kB
+├ ƒ /api/admin/subscription-plans                                    757 B         103 kB
+├ ƒ /api/admin/subscription-plans/[id]                               757 B         103 kB
+├ ƒ /api/admin/users                                                 757 B         103 kB
+├ ƒ /api/admin/users/[id]                                            757 B         103 kB
+├ ƒ /api/admin/users/[id]/activate                                   757 B         103 kB
+├ ƒ /api/admin/users/[id]/ban                                        757 B         103 kB
+├ ƒ /api/admin/users/[id]/change-role                                757 B         103 kB
+├ ƒ /api/admin/users/[id]/reset-password                             757 B         103 kB
+├ ƒ /api/admin/users/[id]/suspend                                    757 B         103 kB
+├ ƒ /api/admin/verification-queue                                    757 B         103 kB
+├ ƒ /api/admin/verifications/[id]/approve                            757 B         103 kB
+├ ƒ /api/admin/verifications/[id]/reject                             757 B         103 kB
+├ ƒ /api/agent-invites                                               757 B         103 kB
+├ ƒ /api/agent-invites/[id]/accept                                   757 B         103 kB
+├ ƒ /api/agent-invites/[id]/revoke                                   757 B         103 kB
+├ ƒ /api/agent/[id]/close                                            757 B         103 kB
+├ ƒ /api/agent/[id]/commission                                       757 B         103 kB
+├ ƒ /api/agent/listings                                              757 B         103 kB
+├ ƒ /api/agreements                                                  757 B         103 kB
+├ ƒ /api/agreements/[id]                                             757 B         103 kB
+├ ƒ /api/agreements/[id]/pdf                                         757 B         103 kB
+├ ƒ /api/agreements/[id]/preview                                     757 B         103 kB
+├ ƒ /api/agreements/[id]/rent-schedule                               757 B         103 kB
+├ ƒ /api/agreements/[id]/send-whatsapp                               757 B         103 kB
+├ ƒ /api/agreements/[id]/sign                                        757 B         103 kB
+├ ƒ /api/agreements/[id]/terminate                                   757 B         103 kB
+├ ƒ /api/applications                                                757 B         103 kB
+├ ƒ /api/applications/[id]                                           757 B         103 kB
+├ ƒ /api/assignments/[id]                                            757 B         103 kB
+├ ƒ /api/auth/clerk-webhook                                          757 B         103 kB
+├ ƒ /api/auth/me                                                     757 B         103 kB
+├ ƒ /api/auth/sign-out                                               757 B         103 kB
+├ ƒ /api/bookings                                                    757 B         103 kB
+├ ƒ /api/bookings/[id]                                               757 B         103 kB
+├ ƒ /api/bookings/stats                                              757 B         103 kB
+├ ƒ /api/business-profiles                                           757 B         103 kB
+├ ƒ /api/contact                                                     757 B         103 kB
+├ ƒ /api/conversations                                               757 B         103 kB
+├ ƒ /api/conversations/[id]                                          757 B         103 kB
+├ ƒ /api/conversations/[id]/mark-read                                757 B         103 kB
+├ ƒ /api/conversations/[id]/messages                                 757 B         103 kB
+├ ƒ /api/conversations/[id]/messages/[messageId]                     757 B         103 kB
+├ ƒ /api/conversations/[id]/typing                                   757 B         103 kB
+├ ƒ /api/cron/paystack-reconcile                                     757 B         103 kB
+├ ƒ /api/dashboard/agent/clients                                     757 B         103 kB
+├ ƒ /api/dashboard/agent/deals                                       757 B         103 kB
+├ ƒ /api/dashboard/agent/properties                                  757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/analytics                          757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/financials                         757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/property-manager-invites           757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/service-charges                    757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/subscription                       757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/tenants                            757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/units                              757 B         103 kB
+├ ƒ /api/dashboard/estate-manager/utilities                          757 B         103 kB
+├ ƒ /api/dashboard/landlord/financials/overview                      757 B         103 kB
+├ ƒ /api/dashboard/landlord/financials/wallet                        757 B         103 kB
+├ ƒ /api/dashboard/landlord/properties                               757 B         103 kB
+├ ƒ /api/dashboard/landlord/rent                                     757 B         103 kB
+├ ƒ /api/dashboard/landlord/vacancies                                757 B         103 kB
+├ ƒ /api/disputes                                                    757 B         103 kB
+├ ƒ /api/disputes/[id]/action                                        757 B         103 kB
+├ ƒ /api/documents                                                   757 B         103 kB
+├ ƒ /api/get-client-ip                                               757 B         103 kB
+├ ƒ /api/invoices                                                    757 B         103 kB
+├ ƒ /api/invoices/[id]                                               757 B         103 kB
+├ ƒ /api/invoices/[id]/mark-paid                                     757 B         103 kB
+├ ƒ /api/invoices/[id]/receipt                                       757 B         103 kB
+├ ƒ /api/invoices/[id]/send                                          757 B         103 kB
+├ ƒ /api/law-firm-cases                                              757 B         103 kB
+├ ƒ /api/law-firm-cases/[id]                                         757 B         103 kB
+├ ƒ /api/law-firms                                                   757 B         103 kB
+├ ƒ /api/law-firms/[id]                                              757 B         103 kB
+├ ƒ /api/listings                                                    757 B         103 kB
+├ ƒ /api/listings/[id]                                               757 B         103 kB
+├ ƒ /api/listings/[id]/calendar                                      757 B         103 kB
+├ ƒ /api/listings/[id]/flag                                          757 B         103 kB
+├ ƒ /api/listings/[id]/images                                        757 B         103 kB
+├ ƒ /api/listings/[id]/pricing                                       757 B         103 kB
+├ ƒ /api/listings/[id]/pricing/[ruleId]                              757 B         103 kB
+├ ƒ /api/listings/[id]/save                                          757 B         103 kB
+├ ƒ /api/notifications                                               757 B         103 kB
+├ ƒ /api/notifications/[id]/read                                     757 B         103 kB
+├ ƒ /api/notifications/mark-all-read                                 757 B         103 kB
+├ ƒ /api/notifications/unread-count                                  757 B         103 kB
+├ ƒ /api/onboarding/role                                             757 B         103 kB
+├ ƒ /api/orgs                                                        757 B         103 kB
+├ ƒ /api/orgs/[id]                                                   757 B         103 kB
+├ ƒ /api/orgs/[id]/bulk-upload                                       757 B         103 kB
+├ ƒ /api/orgs/[id]/ledger                                            757 B         103 kB
+├ ƒ /api/orgs/[id]/listings                                          757 B         103 kB
+├ ƒ /api/orgs/[id]/members                                           757 B         103 kB
+├ ƒ /api/orgs/[id]/members/[memberId]                                757 B         103 kB
+├ ƒ /api/orgs/[id]/portfolio                                         757 B         103 kB
+├ ƒ /api/orgs/[id]/reports                                           757 B         103 kB
+├ ƒ /api/orgs/[id]/subscription                                      757 B         103 kB
+├ ƒ /api/orgs/[id]/tickets                                           757 B         103 kB
+├ ƒ /api/orgs/[id]/tickets/[ticketId]                                757 B         103 kB
+├ ƒ /api/orgs/[id]/units                                             757 B         103 kB
+├ ƒ /api/orgs/[id]/units/[unitId]                                    757 B         103 kB
+├ ƒ /api/payments                                                    757 B         103 kB
+├ ƒ /api/payments/[id]                                               757 B         103 kB
+├ ƒ /api/payments/[id]/release                                       757 B         103 kB
+├ ƒ /api/payments/[id]/verify                                        757 B         103 kB
+├ ƒ /api/payments/initiate                                           757 B         103 kB
+├ ƒ /api/payments/release-escrow/[id]                                757 B         103 kB
+├ ƒ /api/payments/transactions                                       757 B         103 kB
+├ ƒ /api/payments/transactions/[id]                                  757 B         103 kB
+├ ƒ /api/payments/transactions/[id]/receipt                          757 B         103 kB
+├ ƒ /api/payments/verify/[reference]                                 757 B         103 kB
+├ ƒ /api/paystack/balance                                            757 B         103 kB
+├ ƒ /api/paystack/banks                                              757 B         103 kB
+├ ƒ /api/paystack/customer                                           757 B         103 kB
+├ ƒ /api/paystack/dedicated-account                                  757 B         103 kB
+├ ƒ /api/paystack/me                                                 757 B         103 kB
+├ ƒ /api/paystack/resolve-account                                    757 B         103 kB
+├ ƒ /api/public/listings                                             757 B         103 kB
+├ ƒ /api/public/marketplace                                          757 B         103 kB
+├ ○ /api/public/stats                                                757 B         103 kB          5m      1y
+├ ƒ /api/push/subscribe                                              757 B         103 kB
+├ ƒ /api/reports/export                                              757 B         103 kB
+├ ƒ /api/screening-calls                                             757 B         103 kB
+├ ƒ /api/screening-calls/[id]                                        757 B         103 kB
+├ ƒ /api/service-charges                                             757 B         103 kB
+├ ƒ /api/service-charges/[id]                                        757 B         103 kB
+├ ƒ /api/shortlets                                                   757 B         103 kB
+├ ƒ /api/stamp-duty/initiate                                         757 B         103 kB
+├ ƒ /api/stamp-duty/verify                                           757 B         103 kB
+├ ƒ /api/subscriptions                                               757 B         103 kB
+├ ƒ /api/tenant-shortlets/[id]                                       757 B         103 kB
+├ ƒ /api/transactions/[id]                                           757 B         103 kB
+├ ƒ /api/transactions/[id]/confirm                                   757 B         103 kB
+├ ƒ /api/transactions/[id]/dispute                                   757 B         103 kB
+├ ƒ /api/turnover-tasks                                              757 B         103 kB
+├ ƒ /api/turnover-tasks/[id]                                         757 B         103 kB
+├ ƒ /api/user/bank                                                   757 B         103 kB
+├ ƒ /api/users                                                       757 B         103 kB
+├ ƒ /api/users/[id]                                                  757 B         103 kB
+├ ƒ /api/users/me/notifications                                      757 B         103 kB
+├ ƒ /api/users/me/profile                                            757 B         103 kB
+├ ƒ /api/users/notification-preferences                              757 B         103 kB
+├ ƒ /api/utilities                                                   757 B         103 kB
+├ ƒ /api/utilities/[id]                                              757 B         103 kB
+├ ƒ /api/verification/[id]                                           757 B         103 kB
+├ ƒ /api/verification/[id]/documents                                 757 B         103 kB
+├ ƒ /api/verification/[id]/identity-status                           757 B         103 kB
+├ ƒ /api/verification/[id]/status                                    757 B         103 kB
+├ ƒ /api/verification/[id]/submit                                    757 B         103 kB
+├ ƒ /api/verification/admin/queue                                    757 B         103 kB
+├ ƒ /api/verification/dojah/initiate                                 757 B         103 kB
+├ ƒ /api/verification/dojah/status                                   757 B         103 kB
+├ ƒ /api/verification/dojah/webhook                                  757 B         103 kB
+├ ƒ /api/verification/inspections/[id]                               757 B         103 kB
+├ ƒ /api/verification/inspections/[id]/complete                      757 B         103 kB
+├ ƒ /api/verification/layer1                                         757 B         103 kB
+├ ƒ /api/verification/layer1/review                                  757 B         103 kB
+├ ƒ /api/verification/layer2                                         757 B         103 kB
+├ ƒ /api/verification/layer2/confirm                                 757 B         103 kB
+├ ƒ /api/verification/layer3                                         757 B         103 kB
+├ ƒ /api/verification/layer3/review                                  757 B         103 kB
+├ ƒ /api/verification/layer4                                         757 B         103 kB
+├ ƒ /api/verification/layer4/complete                                757 B         103 kB
+├ ƒ /api/verification/layer5                                         757 B         103 kB
+├ ƒ /api/verification/my                                             757 B         103 kB
+├ ƒ /api/verification/qr-code/[id]                                   757 B         103 kB
+├ ƒ /api/verification/request-inspection                             757 B         103 kB
+├ ƒ /api/verification/start                                          757 B         103 kB
+├ ƒ /api/verification/status                                         757 B         103 kB
+├ ƒ /api/verification/upload-document                                757 B         103 kB
+├ ƒ /api/verification/upload-video                                   757 B         103 kB
+├ ƒ /api/verification/verify-identity                                757 B         103 kB
+├ ƒ /api/wallet/agent-payout                                         757 B         103 kB
+├ ƒ /api/wallet/balance                                              757 B         103 kB
+├ ƒ /api/wallet/deposit/initiate                                     757 B         103 kB
+├ ƒ /api/wallet/deposit/verify                                       757 B         103 kB
+├ ƒ /api/wallet/disburse                                             757 B         103 kB
+├ ƒ /api/wallet/managed                                              757 B         103 kB
+├ ƒ /api/wallet/payout                                               757 B         103 kB
+├ ƒ /api/wallet/transactions                                         757 B         103 kB
+├ ƒ /api/wallet/withdraw                                             757 B         103 kB
+├ ƒ /api/webhook/clerk                                               757 B         103 kB
+├ ƒ /api/webhook/paystack                                            757 B         103 kB
+├ ƒ /api/webhook/remita                                              757 B         103 kB
+├ ƒ /api/webhooks/paystack-subscriptions                             757 B         103 kB
+├ ƒ /careers                                                       5.52 kB         118 kB
+├ ƒ /coming-soon                                                   10.1 kB         232 kB
+├ ƒ /compare                                                        8.5 kB         121 kB
+├ ƒ /contact-us                                                    7.08 kB         120 kB
+├ ƒ /dashboard                                                       757 B         103 kB
+├ ƒ /dashboard/[role]                                                757 B         103 kB
+├ ƒ /dashboard/[role]/agreements                                   7.82 kB         167 kB
+├ ƒ /dashboard/[role]/agreements/[id]                              12.9 kB         207 kB
+├ ƒ /dashboard/[role]/agreements/[id]/sign                         18.9 kB         207 kB
+├ ƒ /dashboard/[role]/messages                                     6.51 kB         186 kB
+├ ƒ /dashboard/[role]/messages/[id]                                7.84 kB         169 kB
+├ ƒ /dashboard/[role]/notifications                                6.43 kB         261 kB
+├ ƒ /dashboard/[role]/payments                                     10.6 kB         141 kB
+├ ƒ /dashboard/[role]/payments/[id]                                11.1 kB         138 kB
+├ ƒ /dashboard/[role]/payments/[id]/receipt                        11.2 kB         251 kB
+├ ƒ /dashboard/[role]/payments/callback                            8.31 kB         126 kB
+├ ƒ /dashboard/[role]/payments/new                                 13.8 kB         191 kB
+├ ƒ /dashboard/[role]/settings/notifications                       4.41 kB         226 kB
+├ ƒ /dashboard/accountant                                            249 B         251 kB
+├ ƒ /dashboard/accountant/invoices                                   190 B         274 kB
+├ ƒ /dashboard/accountant/messages                                 3.22 kB         294 kB
+├ ƒ /dashboard/accountant/payments                                 1.12 kB         248 kB
+├ ƒ /dashboard/accountant/profile                                   4.1 kB         251 kB
+├ ƒ /dashboard/accountant/receipts                                 2.28 kB         249 kB
+├ ƒ /dashboard/accountant/reports                                    249 B         251 kB
+├ ƒ /dashboard/accountant/statements                                 187 B         251 kB
+├ ƒ /dashboard/accountant/withdrawals                              1.18 kB         248 kB
+├ ƒ /dashboard/admin                                               3.71 kB         250 kB
+├ ƒ /dashboard/admin/agreements                                    1.18 kB         248 kB
+├ ƒ /dashboard/admin/audit/event-detail                             3.6 kB         250 kB
+├ ƒ /dashboard/admin/audit/logs                                    2.84 kB         250 kB
+├ ƒ /dashboard/admin/disputes                                      1.13 kB         248 kB
+├ ƒ /dashboard/admin/disputes/[id]                                 1.13 kB         248 kB
+├ ƒ /dashboard/admin/flags                                         1.99 kB         249 kB
+├ ƒ /dashboard/admin/invoices                                        190 B         274 kB
+├ ƒ /dashboard/admin/overview                                      1.65 kB         278 kB
+├ ƒ /dashboard/admin/payments                                      1.18 kB         248 kB
+├ ƒ /dashboard/admin/profile                                       4.59 kB         251 kB
+├ ƒ /dashboard/admin/profile/security                              3.77 kB         251 kB
+├ ƒ /dashboard/admin/properties                                    1.18 kB         248 kB
+├ ƒ /dashboard/admin/receipts                                      2.28 kB         249 kB
+├ ƒ /dashboard/admin/reports                                         230 B         251 kB
+├ ƒ /dashboard/admin/revenue                                       1.18 kB         248 kB
+├ ƒ /dashboard/admin/roles/verification-officer                    2.22 kB         249 kB
+├ ƒ /dashboard/admin/settings                                      1.18 kB         248 kB
+├ ƒ /dashboard/admin/settings/countries                            2.68 kB         105 kB
+├ ƒ /dashboard/admin/settings/dashboard                            3.23 kB         250 kB
+├ ƒ /dashboard/admin/settings/global                               4.99 kB         252 kB
+├ ƒ /dashboard/admin/settings/mfa                                  1.95 kB         275 kB
+├ ƒ /dashboard/admin/settings/rules                                 2.6 kB         105 kB
+├ ƒ /dashboard/admin/statements                                      187 B         251 kB
+├ ƒ /dashboard/admin/transactions                                    241 B         247 kB
+├ ƒ /dashboard/admin/transactions/escrow                            2.4 kB         249 kB
+├ ƒ /dashboard/admin/transactions/withdrawals                      2.55 kB         249 kB
+├ ƒ /dashboard/admin/users                                         1.18 kB         248 kB
+├ ƒ /dashboard/admin/users/management                              3.03 kB         250 kB
+├ ƒ /dashboard/admin/verification                                  1.18 kB         248 kB
+├ ƒ /dashboard/admin/verification/queue-detail/obsidian-penthouse  4.59 kB         251 kB
+├ ƒ /dashboard/admin/verifications                                 1.18 kB         248 kB
+├ ƒ /dashboard/agent                                               3.11 kB         250 kB
+├ ƒ /dashboard/agent/agreements/new                                1.54 kB         248 kB
+├ ƒ /dashboard/agent/buy                                           2.58 kB         249 kB
+├ ƒ /dashboard/agent/clients                                       4.53 kB         251 kB
+├ ƒ /dashboard/agent/clients/[id]                                  1.92 kB         249 kB
+├ ƒ /dashboard/agent/commission-ledger                             1.83 kB         253 kB
+├ ƒ /dashboard/agent/commissions                                   3.28 kB         250 kB
+├ ƒ /dashboard/agent/deals                                          2.5 kB         249 kB
+├ ƒ /dashboard/agent/deals/[id]                                    3.79 kB         255 kB
+├ ƒ /dashboard/agent/earnings/short-let                            3.51 kB         250 kB
+├ ƒ /dashboard/agent/inspections                                   2.26 kB         249 kB
+├ ƒ /dashboard/agent/inspections/new                                 241 B         247 kB
+├ ƒ /dashboard/agent/inspections/report                            3.88 kB         251 kB
+├ ƒ /dashboard/agent/invites                                       3.97 kB         274 kB
+├ ƒ /dashboard/agent/invoices                                        190 B         274 kB
+├ ƒ /dashboard/agent/listings                                      2.76 kB         250 kB
+├ ƒ /dashboard/agent/listings/[id]                                 7.96 kB         255 kB
+├ ƒ /dashboard/agent/market                                        2.26 kB         249 kB
+├ ƒ /dashboard/agent/messages                                      3.22 kB         294 kB
+├ ƒ /dashboard/agent/payments                                      1.12 kB         248 kB
+├ ƒ /dashboard/agent/pipeline                                      6.41 kB         260 kB
+├ ƒ /dashboard/agent/profile                                       4.65 kB         251 kB
+├ ƒ /dashboard/agent/properties                                    6.18 kB         253 kB
+├ ƒ /dashboard/agent/properties/[id]                               6.33 kB         253 kB
+├ ƒ /dashboard/agent/receipts                                      2.28 kB         249 kB
+├ ƒ /dashboard/agent/reputation                                    1.74 kB         249 kB
+├ ƒ /dashboard/agent/schedule                                      3.19 kB         250 kB
+├ ƒ /dashboard/agent/sell                                          2.58 kB         249 kB
+├ ƒ /dashboard/agent/statements                                      186 B         251 kB
+├ ƒ /dashboard/agent/verifications                                 3.14 kB         250 kB
+├ ƒ /dashboard/agent/verifications/license                         3.86 kB         251 kB
+├ ƒ /dashboard/agent/withdrawals                                   1.18 kB         248 kB
+├ ƒ /dashboard/estate-manager                                      1.73 kB         278 kB
+├ ƒ /dashboard/estate-manager/agreements                           2.58 kB         249 kB
+├ ƒ /dashboard/estate-manager/analytics                            1.18 kB         248 kB
+├ ƒ /dashboard/estate-manager/billing                              2.08 kB         249 kB
+├ ƒ /dashboard/estate-manager/bulk-import                          2.08 kB         249 kB
+├ ƒ /dashboard/estate-manager/collections                          1.97 kB         253 kB
+├ ƒ /dashboard/estate-manager/commercial-leases                    3.34 kB         250 kB
+├ ƒ /dashboard/estate-manager/disbursements                        2.61 kB         254 kB
+├ ƒ /dashboard/estate-manager/financials                           4.13 kB         251 kB
+├ ƒ /dashboard/estate-manager/financials/scenario                   1.9 kB         275 kB
+├ ƒ /dashboard/estate-manager/financials/scenario-builder          2.28 kB         249 kB
+├ ƒ /dashboard/estate-manager/invite-property-manager              6.55 kB         190 kB
+├ ƒ /dashboard/estate-manager/invoices                             1.92 kB         259 kB
+├ ƒ /dashboard/estate-manager/lease-negotiation                    2.43 kB         249 kB
+├ ƒ /dashboard/estate-manager/lease-review                          2.5 kB         249 kB
+├ ƒ /dashboard/estate-manager/ledger                               10.6 kB         155 kB
+├ ƒ /dashboard/estate-manager/maintenance                          13.4 kB         193 kB
+├ ƒ /dashboard/estate-manager/maintenance/[id]                     6.01 kB         288 kB
+├ ƒ /dashboard/estate-manager/messages                             3.22 kB         294 kB
+├ ƒ /dashboard/estate-manager/move-in                              3.87 kB         251 kB
+├ ƒ /dashboard/estate-manager/portfolio                            9.59 kB         189 kB
+├ ƒ /dashboard/estate-manager/portfolio/[unitId]                   10.7 kB         158 kB
+├ ƒ /dashboard/estate-manager/portfolio/analytics                  3.54 kB         250 kB
+├ ƒ /dashboard/estate-manager/profile                              14.2 kB         166 kB
+├ ƒ /dashboard/estate-manager/receipts                             2.28 kB         249 kB
+├ ƒ /dashboard/estate-manager/reports                              2.97 kB         250 kB
+├ ƒ /dashboard/estate-manager/reports/revenue-signature            4.99 kB         259 kB
+├ ƒ /dashboard/estate-manager/service-charges                      6.89 kB         152 kB
+├ ƒ /dashboard/estate-manager/statements                             186 B         251 kB
+├ ƒ /dashboard/estate-manager/subscription                         7.29 kB         125 kB
+├ ƒ /dashboard/estate-manager/team                                 13.1 kB         189 kB
+├ ƒ /dashboard/estate-manager/tenants                              7.27 kB         296 kB
+├ ƒ /dashboard/estate-manager/turnover                             2.23 kB         249 kB
+├ ƒ /dashboard/estate-manager/units                                10.4 kB         187 kB
+├ ƒ /dashboard/estate-manager/units/[unitId]                       7.51 kB         289 kB
+├ ƒ /dashboard/estate-manager/utilities                            9.79 kB         151 kB
+├ ƒ /dashboard/landlord                                            3.24 kB         250 kB
+├ ƒ /dashboard/landlord/agents                                     8.28 kB         278 kB
+├ ƒ /dashboard/landlord/agreement                                  1.18 kB         248 kB
+├ ƒ /dashboard/landlord/agreements                                 1.12 kB         248 kB
+├ ƒ /dashboard/landlord/agreements/new                             16.4 kB         222 kB
+├ ƒ /dashboard/landlord/applications                               4.33 kB         255 kB
+├ ƒ /dashboard/landlord/applications/[id]                          4.13 kB         255 kB
+├ ƒ /dashboard/landlord/commercial/agreements/review               1.29 kB         277 kB
+├ ƒ /dashboard/landlord/commercial/leases                          1.29 kB         277 kB
+├ ƒ /dashboard/landlord/commercial/leases/negotiation              1.29 kB         277 kB
+├ ƒ /dashboard/landlord/commercial/move-in                         1.18 kB         248 kB
+├ ƒ /dashboard/landlord/financials                                 7.69 kB         261 kB
+├ ƒ /dashboard/landlord/financials/forecasting                     1.13 kB         248 kB
+├ ƒ /dashboard/landlord/financials/invoices                        4.28 kB         274 kB
+├ ƒ /dashboard/landlord/financials/overdue                         1.29 kB         277 kB
+├ ƒ /dashboard/landlord/financials/reports                         1.18 kB         248 kB
+├ ƒ /dashboard/landlord/financials/scenario-builder                1.29 kB         277 kB
+├ ƒ /dashboard/landlord/financials/withdrawals                     1.18 kB         248 kB
+├ ƒ /dashboard/landlord/invoices                                     190 B         274 kB
+├ ƒ /dashboard/landlord/leases                                     1.28 kB         277 kB
+├ ƒ /dashboard/landlord/listing/[id]                               4.85 kB         257 kB
+├ ƒ /dashboard/landlord/listing/new                                5.83 kB         345 kB
+├ ƒ /dashboard/landlord/listing/new/wizard                         6.92 kB         208 kB
+├ ƒ /dashboard/landlord/maintenance                                1.28 kB         277 kB
+├ ƒ /dashboard/landlord/messages                                   3.22 kB         294 kB
+├ ƒ /dashboard/landlord/notifications                              1.29 kB         277 kB
+├ ƒ /dashboard/landlord/portfolio                                  1.18 kB         248 kB
+├ ƒ /dashboard/landlord/profile                                      11 kB         290 kB
+├ ƒ /dashboard/landlord/properties                                 5.51 kB         252 kB
+├ ƒ /dashboard/landlord/properties/[id]                            12.6 kB         259 kB
+├ ƒ /dashboard/landlord/properties/[id]/edit                         757 B         103 kB
+├ ƒ /dashboard/landlord/properties/[id]/publish                      757 B         103 kB
+├ ƒ /dashboard/landlord/properties/[id]/units/new                  7.47 kB         270 kB
+├ ƒ /dashboard/landlord/properties/new                             14.3 kB         326 kB
+├ ƒ /dashboard/landlord/receipts                                   2.28 kB         249 kB
+├ ƒ /dashboard/landlord/rent                                       3.72 kB         250 kB
+├ ƒ /dashboard/landlord/rents                                      4.24 kB         251 kB
+├ ƒ /dashboard/landlord/revenue-forecast                           1.13 kB         248 kB
+├ ƒ /dashboard/landlord/revenue-forecast/report                    1.18 kB         248 kB
+├ ƒ /dashboard/landlord/revenue-forecast/scenario-builder          2.18 kB         249 kB
+├ ƒ /dashboard/landlord/screening                                  2.04 kB         249 kB
+├ ƒ /dashboard/landlord/short-let                                  4.14 kB         251 kB
+├ ƒ /dashboard/landlord/statements                                   187 B         251 kB
+├ ƒ /dashboard/landlord/tenants                                    5.68 kB         259 kB
+├ ƒ /dashboard/landlord/tenants/[id]                                3.9 kB         255 kB
+├ ƒ /dashboard/landlord/turnover                                   4.22 kB         258 kB
+├ ƒ /dashboard/landlord/vacancies                                  3.74 kB         250 kB
+├ ƒ /dashboard/landlord/verification                               1.13 kB         248 kB
+├ ƒ /dashboard/landlord/verify                                     2.89 kB         250 kB
+├ ƒ /dashboard/tenant                                              3.37 kB         250 kB
+├ ƒ /dashboard/tenant/agreements                                   4.85 kB         258 kB
+├ ƒ /dashboard/tenant/agreements/[id]                                187 B         249 kB
+├ ƒ /dashboard/tenant/agreements/[id]/sign                           187 B         249 kB
+├ ƒ /dashboard/tenant/applications                                 2.97 kB         254 kB
+├ ƒ /dashboard/tenant/applications/[id]                            3.34 kB         254 kB
+├ ƒ /dashboard/tenant/invoices                                       190 B         274 kB
+├ ƒ /dashboard/tenant/maintenance                                  4.83 kB         258 kB
+├ ƒ /dashboard/tenant/maintenance/[id]                             3.84 kB         251 kB
+├ ƒ /dashboard/tenant/maintenance/emergency                        1.91 kB         275 kB
+├ ƒ /dashboard/tenant/maintenance/new                              3.28 kB         250 kB
+├ ƒ /dashboard/tenant/maintenance/protocol                          1.9 kB         275 kB
+├ ƒ /dashboard/tenant/messages                                     3.22 kB         294 kB
+├ ƒ /dashboard/tenant/notifications                                6.07 kB         276 kB
+├ ƒ /dashboard/tenant/payments                                     2.75 kB         250 kB
+├ ƒ /dashboard/tenant/payments/auto-pay                            3.58 kB         250 kB
+├ ƒ /dashboard/tenant/payments/methods/[id]                        6.06 kB         253 kB
+├ ƒ /dashboard/tenant/payments/methods/new                         2.86 kB         282 kB
+├ ƒ /dashboard/tenant/payments/overdue                             1.81 kB         275 kB
+├ ƒ /dashboard/tenant/payments/statements                            185 B         251 kB
+├ ƒ /dashboard/tenant/payments/success                             3.61 kB         250 kB
+├ ƒ /dashboard/tenant/profile                                      8.12 kB         262 kB
+├ ƒ /dashboard/tenant/receipts                                     2.28 kB         249 kB
+├ ƒ /dashboard/tenant/saved                                        2.84 kB         250 kB
+├ ƒ /dashboard/tenant/screening                                    2.12 kB         249 kB
+├ ƒ /dashboard/tenant/search                                       3.29 kB         250 kB
+├ ƒ /dashboard/tenant/support                                      3.75 kB         251 kB
+├ ƒ /dashboard/verification                                        2.26 kB         248 kB
+├ ƒ /dashboard/verification/checklist                              2.31 kB         278 kB
+├ ƒ /dashboard/verification/dojah-kyc                              4.64 kB         285 kB
+├ ƒ /dashboard/verification/guide                                  3.06 kB         250 kB
+├ ƒ /dashboard/verification/step1/documents                        2.92 kB         283 kB
+├ ƒ /dashboard/verification/step2/identity                           757 B         103 kB
+├ ƒ /dashboard/verification/step3/video                            12.3 kB         293 kB
+├ ƒ /dashboard/verification/step4/inspection                       2.83 kB         283 kB
+├ ƒ /dashboard/verification/submitted                              1.91 kB         278 kB
+├ ƒ /dashboard/wallet                                                557 B         130 kB
+├ ƒ /how-it-works                                                  5.67 kB         118 kB
+├ ƒ /listings                                                      7.81 kB         235 kB
+├ ƒ /listings/[id]                                                 10.8 kB         127 kB
+├ ○ /manifest.webmanifest                                            757 B         103 kB
+├ ƒ /mortgage-calculator                                           6.52 kB         119 kB
+├ ƒ /payment/declined                                              5.92 kB         161 kB
+├ ƒ /payment/success                                               7.12 kB         165 kB
+├ ƒ /press                                                         5.69 kB         115 kB
+├ ƒ /privacy-policy                                                4.27 kB         113 kB
+├ ƒ /saved                                                         12.9 kB         205 kB
+├ ƒ /saved/[id]                                                    17.2 kB         213 kB
+├ ƒ /search                                                          757 B         103 kB
+├ ƒ /sign-in/[[...sign-in]]                                        4.02 kB         143 kB
+├ ƒ /sign-up/[[...sign-up]]                                         2.4 kB         145 kB
+├ ƒ /signup                                                        6.98 kB         191 kB
+├ ƒ /verification                                                  6.99 kB         119 kB
+├ ƒ /verification/[id]                                             3.19 kB         195 kB
+├ ƒ /verification/checklist                                        2.05 kB         153 kB
+├ ƒ /verification/frozen                                           4.15 kB         113 kB
+├ ƒ /verification/guide                                            2.05 kB         153 kB
+├ ƒ /verification/step1/documents                                  2.05 kB         153 kB
+├ ƒ /verification/step2/identity                                   2.05 kB         153 kB
+├ ƒ /verification/step4/inspection                                 2.05 kB         153 kB
+└ ƒ /verification/submitted                                        2.05 kB         153 kB
++ First Load JS shared by all                                       102 kB
+  ├ chunks/31255-a5e2329efa4925e2.js                                 46 kB
+  ├ chunks/4bd1b696-bad92808725a934a.js                            54.2 kB
+  └ other shared chunks (total)                                    2.06 kB
+
+
+ƒ Middleware                                                       88.4 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+BUILD_EXIT:0

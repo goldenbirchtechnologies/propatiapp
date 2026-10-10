@@ -125,12 +125,12 @@ export default function PublicNav() {
                 <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5">
                   Dashboard
                 </Link>
-                <button
-                  onClick={() => clerk.signOut({ redirectUrl: '/sign-in' })}
+                <a
+                  href="/api/auth/sign-out"
                   className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
                 >
                   Sign Out
-                </button>
+                </a>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-2">

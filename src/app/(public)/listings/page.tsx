@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';

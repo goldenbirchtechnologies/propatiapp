@@ -1,16 +1,27 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_PORT === '465',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
+// ===========================================================================
+// PROPATI — Email Service (Resend)
+// Resend provides API-based email delivery with better deliverability
+// than SMTP. Falls back to console logging when RESEND_API_KEY is unset.
+// ===========================================================================
 
-interface EmailOptions {
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+
+// Mock mode: enabled if Resend API key is not configured
+const MOCK_MODE = !RESEND_API_KEY;
+
+let resend: Resend | null = null;
+
+if (!MOCK_MODE) {
+  resend = new Resend(RESEND_API_KEY);
+}
+
+// ===========================================================================
+// EMAIL SERVICE
+// ===========================================================================
+
+export interface EmailOptions {
   to: string;
   subject: string;
   html: string;
@@ -18,21 +29,44 @@ interface EmailOptions {
   from?: string;
 }
 
+const DEFAULT_FROM = process.env.EMAIL_FROM || 'PROPATI <onboarding@resend.dev>';
+
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
+  if (MOCK_MODE || !resend) {
+    console.log('\n=== EMAIL (MOCK MODE) ===');
+    console.log('To:', options.to);
+    console.log('Subject:', options.subject);
+    console.log('Text:', options.text || 'No plain text');
+    console.log('HTML Length:', options.html.length, 'characters');
+    console.log('=========================\n');
+    return true;
+  }
+
   try {
-    await transporter.sendMail({
-      from: options.from || `"PROPATI" <noreply@${process.env.NEXT_PUBLIC_APP_URL?.replace('https://', '').replace('http://', '')}>`,
+    const result = await resend.emails.send({
+      from: options.from || DEFAULT_FROM,
       to: options.to,
       subject: options.subject,
       html: options.html,
       text: options.text,
     });
+
+    if (result.error) {
+      console.error('Resend error:', result.error);
+      return false;
+    }
+
+    console.log(`Email sent successfully to ${options.to} (id: ${result.data?.id})`);
     return true;
   } catch (error) {
-    console.error('Email send failed:', error);
+    console.error('Email send error:', error);
     return false;
   }
 }
+
+// ===========================================================================
+// AGENT INVITE EMAIL
+// ===========================================================================
 
 export interface AgentInviteEmailOptions {
   to: string;
@@ -56,6 +90,47 @@ export async function sendAgentInviteEmail({
     html: template.html,
   });
 }
+
+// ===========================================================================
+// PASSWORD RESET EMAIL
+// ===========================================================================
+
+export interface SendPasswordResetEmailParams {
+  to: string;
+  userName: string;
+  resetToken: string;
+}
+
+export async function sendPasswordResetEmail(params: SendPasswordResetEmailParams): Promise<void> {
+  const { to, userName, resetToken } = params;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://propati.ng';
+  const resetUrl = `${appUrl}/reset-password?token=${resetToken}`;
+
+  const html = `
+    <html>
+      <body>
+        <p>Hello ${userName},</p>
+        <p>An administrator has requested a password reset for your account.</p>
+        <p>Click the link below to set a new password:</p>
+        <p><a href="${resetUrl}">Reset your password</a></p>
+        <p>If you did not anticipate this email, please contact support.</p>
+      </body>
+    </html>
+  `;
+
+  const text = `Hello ${userName},\n\nAn administrator has requested a password reset for your account.\n\nCopy and paste this link into your browser to set a new password:\n${resetUrl}\n\nIf you did not anticipate this email, please contact support.`;
+
+  await sendEmail({
+    to,
+    subject: 'Password Reset Request',
+    html,
+    text,
+  });
+}
+
+// ===========================================================================
+// EMAIL TEMPLATES
+// ===========================================================================
 
 export const emailTemplates = {
   welcome: (name: string, loginUrl: string) => ({

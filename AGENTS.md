@@ -6,6 +6,7 @@ Nigeria's first verified property marketplace. Next.js 14 App Router + Prisma + 
 - **Framework:** Next.js 14 App Router, TypeScript, Tailwind CSS + shadcn/ui
 - **Database:** Supabase (PostgreSQL) via Prisma ORM
 - **Auth:** Clerk (`clerkMiddleware`, webhooks → Prisma User table)
+- **Email:** Resend (API-based) with mock fallback when `RESEND_API_KEY` is unset
 - **Payments:** Paystack (HMAC-SHA512 webhook), Remita (stamp duty / FIRS)
 - **Files:** Cloudinary (images, documents, PDFs, videos)
 - **Roles:** `landlord | tenant | agent | estate_manager | admin`
@@ -38,12 +39,13 @@ src/app/
 - **`withAuth(request)` with one argument authenticates but does NOT authorize.** Pass `withAuth(request, ['admin'])` (or the allowed roles) on any privileged route. A path under `api/admin/` gets no automatic protection from its directory name.
 - Run `npx prisma generate && next build` (not just `next build`) — Vercel needs the generate step
 - `DATABASE_URL` uses pooler port 6543; `DIRECT_URL` uses direct port 5432 for migrations
-- Mock fallbacks are active for all external services when env vars are unset (Remita, Prembly, Termii, Cloudinary)
+- Mock fallbacks are active for all external services when env vars are unset (Resend, Remita, Prembly, Termii, Cloudinary)
 
 ## Key files
 - `prisma/schema.prisma` — source of truth for all 24+ tables
 - `src/lib/navigation.tsx` — all sidebar nav configs per role
 - `src/lib/auth.ts` — `getRoleRedirectPath()`, `getCurrentUser()`
+- `src/lib/email.ts` — Resend-based email service with templates
 - `src/components/layout/DashboardShell.tsx` — sidebar + topbar chrome
 - `src/lib/stamp-duty.ts` — Remita/FIRS stamp duty logic (0.78% of annual rent)
 

@@ -56,3 +56,9 @@ Desktop.ini
 # ESLint cache
 .eslintcache
 *:Zone.Identifier
+build.log
+dev.log
+dev.pid
+smoke.log
+smoke.pid
+tsc.log

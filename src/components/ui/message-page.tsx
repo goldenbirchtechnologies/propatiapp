@@ -5,9 +5,8 @@ import { SearchInput } from '@/components/ui/search-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Send, Mail, MessageSquare, Plus, X, Trash2 } from 'lucide-react';
+import { Send, MessageSquare, Plus, X, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   useConversations,
   useConversation,
@@ -15,7 +14,6 @@ import {
   useMarkAsRead,
   useDeleteMessage,
   useDeleteConversation,
-  messagesKeys,
 } from '@/hooks/useMessages';
 
 type Conversation = {
@@ -30,6 +28,7 @@ type Conversation = {
   status: string;
   createdAt: string;
   updatedAt: string;
+  propertyName: string | null;
   participant: {
     id: string;
     fullName: string | null;
@@ -73,7 +72,7 @@ type Invite = {
   assignments?: { listing?: { title?: string | null } }[];
 };
 
-type Tab = 'messages' | 'invites';
+type Tab = 'messages' | 'unread' | 'tenants' | 'applicants' | 'archived';
 
 export default function MessagePage({ userId, userName, userRole }: { userId: string; userName: string; userRole: string }) {
   const [activeTab, setActiveTab] = useState<Tab>('messages');
@@ -83,10 +82,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const [newParticipantEmail, setNewParticipantEmail] = useState('');
   const [newSubject, setNewSubject] = useState('');
   const [creatingConversation, setCreatingConversation] = useState(false);
-  const [messagingLoading, setMessagingLoading] = useState(false);
-
-  const queryClient = useQueryClient();
-  const me = useMemo(() => ({ id: userId, fullName: userName, role: userRole }), [userId, userName, userRole]);
 
   const { data: conversationsData, refetch: refetchConversations } = useConversations();
   const conversations: Conversation[] = useMemo(() => {
@@ -108,29 +103,10 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
   const deleteMessageMutation = useDeleteMessage();
   const deleteConversationMutation = useDeleteConversation();
 
-  const [invites, setInvites] = useState<Invite[]>([]);
-  const [invitesLoading, setInvitesLoading] = useState(false);
   const [senderProfile, setSenderProfile] = useState<{ id: string; fullName: string; role: string | null; avatarUrl: string | null } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const [deleteConversationId, setDeleteConversationId] = useState<string | null>(null);
 
-  async function loadInvites() {
-    if (userRole !== 'agent' && userRole !== 'estate_manager') return;
-    setInvitesLoading(true);
-    try {
-      const endpoint =
-        userRole === 'agent'
-          ? '/api/agent-invites'
-          : '/api/dashboard/estate-manager/property-manager-invites';
-      const res = await fetch(endpoint);
-      const json = await res.json();
-      if (res.ok) setInvites(Array.isArray(json.data) ? json.data : []);
-    } catch {
-      setInvites([]);
-    } finally {
-      setInvitesLoading(false);
-    }
-  }
 
   // Live conversation list refresh
   useEffect(() => {
@@ -147,10 +123,6 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
     markAsReadMutation.mutate(selectedId);
   }, [selectedId]);
 
-  // Initial invites load
-  useEffect(() => {
-    loadInvites();
-  }, []);
 
   async function handleSend() {
     const trimmed = msg.trim();

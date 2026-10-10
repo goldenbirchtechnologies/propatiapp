@@ -136,6 +136,33 @@ export default function NewAgreementPage() {
     }).format(amount);
   };
 
+  const validateStep = async (step: number): Promise<boolean> => {
+    const fieldsToValidate: Record<number, string[]> = {
+      1: ['listingId', 'tenantId', 'type'],
+      2: ['startDate', 'endDate', 'rentAmount', 'rentPeriod'],
+    };
+
+    const fields = fieldsToValidate[step];
+    if (!fields) return true;
+
+    const promises = fields.map(async (field) => {
+      const input = document.querySelector(`[name="${field}"]`) as HTMLInputElement | null;
+      if (input) {
+        input.dispatchEvent(new Event('blur', { bubbles: true }));
+      }
+      return await trigger(field as keyof FormData);
+    });
+
+    const results = await Promise.all(promises);
+    return results.every((valid) => valid);
+  };
+
+  const nextStep = async () => {
+    const isValid = await validateStep(currentStep);
+    if (isValid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
   return (
     <div className="container max-w-4xl mx-auto py-8 px-4">
       <div className="mb-8">
@@ -473,33 +500,7 @@ export default function NewAgreementPage() {
           </div>
         )}
 
-  const validateStep = async (step: number): Promise<boolean> => {
-    const fieldsToValidate: Record<number, string[]> = {
-      1: ['listingId', 'tenantId', 'type'],
-      2: ['startDate', 'endDate', 'rentAmount', 'rentPeriod'],
-    };
 
-    const fields = fieldsToValidate[step];
-    if (!fields) return true;
-
-    const promises = fields.map(async (field) => {
-      const input = document.querySelector(`[name="${field}"]`) as HTMLInputElement | null;
-      if (input) {
-        input.dispatchEvent(new Event('blur', { bubbles: true }));
-      }
-      return await trigger(field as keyof FormData);
-    });
-
-    const results = await Promise.all(promises);
-    return results.every((valid) => valid);
-  };
-
-  const nextStep = async () => {
-    const isValid = await validateStep(currentStep);
-    if (isValid) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
 
         {/* Navigation Buttons */}
         <div className="mt-8 flex justify-between">

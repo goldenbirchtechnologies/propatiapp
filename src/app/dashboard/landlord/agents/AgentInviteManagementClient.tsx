@@ -7,15 +7,17 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { ArrowLeft, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiEndpoints } from '@/lib/api';
 import type { AgentInvite } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 export interface AgentInviteWithRelations extends AgentInvite {
+  scope?: string;
+  permissions?: string[];
+  listingIds?: string[];
+  orgName?: string | null;
   assignments?: {
     id: string;
     listing: { id: string; title: string; address: string };
@@ -258,7 +260,7 @@ export default function AgentInviteManagementClient({
               {PERMISSIONS.map((permission) => {
                 const isSelected = selectedPermissions.includes(permission.id);
                 const isManageTeam = permission.id === 'manage_team';
-                const canGrantManageTeam = currentUserRole === 'admin';
+                const canGrantManageTeam = canManageTeam;
                 return (
                   <label
                     key={permission.id}
@@ -443,7 +445,7 @@ export default function AgentInviteManagementClient({
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">
-                      {(invite.scope === 'all' || (invite as unknown as Record<string, unknown>).scope === 'all') ? (
+                      {invite.scope === 'all' ? (
                         <span className="text-xs px-2 py-0.5 rounded bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20">
                           All Properties
                         </span>

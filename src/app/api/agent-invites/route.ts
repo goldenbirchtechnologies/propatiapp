@@ -83,6 +83,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = createAgentInviteSchema.parse(body);
 
+    // Server-side guard: only admins and landlords can grant manage_team permission
+    // (non-admin agents cannot manage team permissions)
+    if (validated.permissions && validated.permissions.includes('manage_team') && user.role !== 'admin' && user.role !== 'landlord') {
+      return NextResponse.json(
+        { error: 'Only admins and landlords can grant manage_team permission' },
+        { status: 403 }
+      );
+    }
+
     const token = randomBytes(16).toString('hex');
 
     const invite = await prisma.agentInvite.create({

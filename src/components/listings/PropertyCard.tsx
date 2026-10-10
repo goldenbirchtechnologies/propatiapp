@@ -5,7 +5,7 @@ import AppIcon from '@/components/icons/app-icon';
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, CheckCircle, MapPin, Bed, Bath, Square } from 'lucide-react';
+import { Heart, CheckCircle, MapPin, Bed, Bath, Square, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MagicCard } from '@/components/magic-card';
 

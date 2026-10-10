@@ -114,6 +114,8 @@ export default function LandlordFinancialsPage() {
   const [accountNumberInput, setAccountNumberInput] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawReason, setWithdrawReason] = useState('Wallet withdrawal');
+  const [banks, setBanks] = useState<Array<{ name: string; code: string; slug: string }>>([]);
+  const [banksLoading, setBanksLoading] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -157,6 +159,19 @@ export default function LandlordFinancialsPage() {
   useEffect(() => {
     load();
   }, [filters.propertyId, filters.from, filters.to]);
+
+  useEffect(() => {
+    if (!bankModalOpen || banks.length > 0) return;
+    setBanksLoading(true);
+    fetch('/api/paystack/banks')
+      .then((r) => r.json())
+      .then((d) => {
+        const list = Array.isArray(d?.data) ? d.data : Array.isArray(d?.banks) ? d.banks : [];
+        if (list.length) setBanks(list.map((b: any) => ({ name: b.name, code: String(b.code), slug: b.slug || '' })));
+      })
+      .catch(() => {})
+      .finally(() => setBanksLoading(false));
+  }, [bankModalOpen, banks.length]);
 
   const resolveAccount = async () => {
     if (!accountNumberInput || !bankCode) {
@@ -504,8 +519,30 @@ export default function LandlordFinancialsPage() {
               <Input value={accountNumberInput} onChange={(e) => setAccountNumberInput(e.target.value.replace(/\D/g, ''))} placeholder="0123456789" />
             </div>
             <div className="space-y-2">
-              <Label>Bank Code / Name</Label>
-              <Input value={bankCode} onChange={(e) => setBankCode(e.target.value)} placeholder="e.g. 058 or First Bank" />
+              <Label>Bank</Label>
+              <Select
+                value={bankCode}
+                onValueChange={(v) => {
+                  setBankCode(v);
+                  const b = banks.find((x) => x.code === v);
+                  if (b) setBankNameInput(b.name);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={banksLoading ? 'Loading banks…' : 'Select your bank'} />
+                </SelectTrigger>
+                <SelectContent className="max-h-64">
+                  {banks.map((b) => (
+                    <SelectItem key={b.code} value={b.code}>
+                      {b.name}
+                    </SelectItem>
+                  ))}
+                  {!banksLoading && banks.length === 0 && (
+                    <div className="px-2 py-1.5 text-xs text-zinc-500">No banks loaded — check PAYSTACK_SECRET_KEY</div>
+                  )}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-zinc-500">Choose your bank — no code needed</p>
             </div>
             <Button variant="secondary" className="w-full gap-2" onClick={resolveAccount} disabled={resolving}>
               {resolving && <Loader2 className="w-4 h-4 animate-spin" />} Verify Account

@@ -227,4 +227,94 @@ export const emailTemplates = {
       </div>
     `,
   }),
+
+  listingApproved: (name: string, listingTitle: string, viewUrl: string) => ({
+    subject: `Listing Approved: ${listingTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">Listing Approved!</h1>
+        <p>Hi ${name},</p>
+        <p>Your property listing <strong>${listingTitle}</strong> has been approved and is now live on PROPATI.</p>
+        <a href="${viewUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">View Listing</a>
+      </div>
+    `,
+  }),
+
+  listingRejected: (name: string, listingTitle: string, reason: string, editUrl: string) => ({
+    subject: `Listing Needs Attention: ${listingTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">Listing Needs Attention</h1>
+        <p>Hi ${name},</p>
+        <p>Your listing for <strong>${listingTitle}</strong> could not be approved.</p>
+        <p><strong>Reason:</strong> ${reason}</p>
+        <a href="${editUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Edit Listing</a>
+      </div>
+    `,
+  }),
+
+  offerReceived: (name: string, propertyTitle: string, offerAmount: number, offerUrl: string, message?: string) => ({
+    subject: `New Offer Received: ${propertyTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">New Offer Received</h1>
+        <p>Hi ${name},</p>
+        <p>You have a new offer for <strong>${propertyTitle}</strong> worth <strong>${new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(offerAmount)}</strong>.</p>
+        ${message ? `<p><em>${message}</em></p>` : ''}
+        <a href="${offerUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">View Offer Details</a>
+      </div>
+    `,
+  }),
+
+  documentExpiring: (name: string, documentTitle: string, expiresAt: string, renewUrl?: string) => ({
+    subject: `Document Expiring Soon: ${documentTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">Document Expiring Soon</h1>
+        <p>Hi ${name},</p>
+        <p>Your document <strong>${documentTitle}</strong> expires on <strong>${expiresAt}</strong>.</p>
+        ${renewUrl ? `<a href="${renewUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Renew Now</a>` : ''}
+      </div>
+    `,
+  }),
+
+  reviewRequested: (name: string, propertyTitle: string, ratingUrl: string) => ({
+    subject: `Share Your Experience: ${propertyTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">How was your experience?</h1>
+        <p>Hi ${name},</p>
+        <p>We'd love to hear about your experience with <strong>${propertyTitle}</strong> on PROPATI.</p>
+        <a href="${ratingUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Leave a Review</a>
+        <p style="color: #74777e; font-size: 12px; margin-top: 16px;">Reviews help other users make informed decisions.</p>
+      </div>
+    `,
+  }),
+
+  messageNotification: (recipientName: string, senderName: string, messagePreview: string, messageUrl: string) => ({
+    subject: `New Message from ${senderName}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">New Message</h1>
+        <p>Hi ${recipientName},</p>
+        <p><strong>${senderName}</strong> sent you a message:</p>
+        <blockquote style="border-left: 3px solid #1e3a5f; padding-left: 16px; margin: 16px 0; color: #43474d;">${messagePreview}</blockquote>
+        <a href="${messageUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Read Message</a>
+      </div>
+    `,
+  }),
+
+  inspectionScheduled: (name: string, propertyTitle: string, scheduledAt: string, address?: string, inspectorName?: string) => ({
+    subject: `Inspection Scheduled: ${propertyTitle}`,
+    html: `
+      <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #1e3a5f;">Inspection Scheduled</h1>
+        <p>Hi ${name},</p>
+        <p>A property inspection has been scheduled for <strong>${propertyTitle}</strong>.</p>
+        <p><strong>Date & Time:</strong> ${scheduledAt}</p>
+        ${address ? `<p><strong>Address:</strong> ${address}</p>` : ''}
+        ${inspectorName ? `<p><strong>Inspector:</strong> ${inspectorName}</p>` : ''}
+      </div>
+    `,
+  }),
 };

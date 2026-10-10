@@ -38,8 +38,8 @@ export default function ListingsPage() {
         const items = Array.isArray(data.listings) ? data.listings : [];
         // Map API shape to card shape — coverImage is derived from images relation server-side
         setListings(
-          items.map((l: any) => ({
-            id: l.id,
+          items.map((l: any, idx: number) => ({
+            id: String(l.id ?? l._id ?? `listing-${idx}-${(l.title || 'untitled').slice(0, 8)}`),
             title: l.title,
             address: l.address || l.area || '',
             price: Number(l.price),

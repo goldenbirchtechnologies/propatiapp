@@ -172,17 +172,17 @@ export function PropertyCard({
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="text-white font-semibold text-sm leading-snug mb-1 line-clamp-1">
+      {/* Content — bichrome readable */}
+      <div className="p-4 bg-white dark:bg-transparent">
+        <h3 className="text-zinc-900 dark:text-white font-semibold text-sm leading-snug mb-1 line-clamp-1">
           {title}
         </h3>
-        <div className="flex items-center gap-1 text-zinc-500 text-xs mb-3">
+        <div className="flex items-center gap-1 text-zinc-600 dark:text-zinc-500 text-xs mb-3">
           <MapPin size={10} />
           <span className="line-clamp-1">{location}</span>
         </div>
         {specs && (
-          <div className="flex items-center gap-3 text-zinc-400 text-xs">
+          <div className="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 text-xs">
             {specs.beds !== undefined && specs.beds > 0 && (
               <span className="flex items-center gap-1">
                 <Bed size={12} />

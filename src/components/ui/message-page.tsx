@@ -498,9 +498,9 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               </div>
             )}
           </div>
+        </div>
 
-        {/* Message thread - bichrome */}
-        <div className="flex-1 min-w-0 flex flex-col bg-zinc-50 dark:bg-zinc-950/50">
+          <div className="flex-1 min-w-0 flex flex-col bg-zinc-50 dark:bg-zinc-950/50">
           {selectedConversation ? (
             <>
               <div className="px-5 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center gap-3">
@@ -621,6 +621,7 @@ export default function MessagePage({ userId, userName, userRole }: { userId: st
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
       </div>

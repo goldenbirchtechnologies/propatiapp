@@ -8,15 +8,15 @@ import { Button } from '@/components/ui/button';
 import { useAuth, useClerk, useUser } from '@clerk/nextjs';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { Sun, Moon } from 'lucide-react';
-import PropatiBoxLogo from '@/components/brand/PropatiBoxLogo';
 
 const LISTINGS_PATH = '/listings';
 
+const pilotEnabled = process.env.NEXT_PUBLIC_ZILLOW_PILOT === '1';
+
 const publicNavLinks = [
-  { href: '/listings?category=Buy', label: 'Buy' },
-  { href: '/listings?category=Rent', label: 'Rent' },
-  { href: '/listings?category=Sell', label: 'Sell' },
-  { href: '/find-agent', label: 'Find an agent' },
+  { href: '/listings', label: 'Find Property' },
+  ...(pilotEnabled ? [{ href: '/rentals', label: 'Rentals (Pilot)' }] : []),
+  { href: '/compare', label: 'Compare' },
 ];
 
 export default function PublicNav() {
@@ -76,22 +76,33 @@ export default function PublicNav() {
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <PropatiBoxLogo size="sm" className="group" />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <span className="text-white font-bold text-lg tracking-tight">PROPATI</span>
+          </Link>
 
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const base = link.href.split('?')[0];
-              const active = pathname === link.href || pathname === base;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${active ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-500/10' : 'text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5'}`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-3 py-1.5 text-sm text-zinc-300 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center gap-2">
@@ -111,6 +122,17 @@ export default function PublicNav() {
                 </Button>
               </Link>
             )}
+
+            {/* Find My Agent button — Zillow-style */}
+            <Link href="/find-my-agent" className="hidden sm:inline-flex">
+              <Button
+                variant="default"
+                size="sm"
+                className="bg-emerald-600 text-white hover:bg-emerald-700 border-none shadow-sm"
+              >
+                Find My Agent
+              </Button>
+            </Link>
 
             {userId ? (
               <div className="hidden md:flex items-center gap-3">
@@ -160,6 +182,12 @@ export default function PublicNav() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/find-my-agent"
+              className="block px-3 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg"
+            >
+              Find My Agent
+            </Link>
             <div className="border-t border-white/[0.08] mt-2 pt-2 flex gap-2">
               <Link to="/sign-in" className="flex-1 text-center py-2 text-sm text-zinc-400 border border-zinc-800 rounded-lg">
                 Sign in

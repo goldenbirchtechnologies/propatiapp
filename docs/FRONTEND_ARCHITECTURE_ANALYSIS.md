@@ -1,4 +1,4 @@
-# PROPATI — Frontend Architecture Analysis
+# PropatiBox — Frontend Architecture Analysis
 
 Source files: `oldpropati/FRONTEND_GUIDELINES.md`, `oldpropati/APP_FLOW.md`
 

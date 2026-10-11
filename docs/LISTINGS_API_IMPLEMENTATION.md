@@ -2,7 +2,7 @@
 
 ## Overview
 
-The GET /api/listings endpoint has been successfully implemented with comprehensive search, filtering, pagination, and sorting capabilities for the PROPATI property marketplace.
+The GET /api/listings endpoint has been successfully implemented with comprehensive search, filtering, pagination, and sorting capabilities for the PropatiBox property marketplace.
 
 ## Implementation Details
 

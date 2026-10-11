@@ -15,7 +15,7 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle: str
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-white font-bold text-lg">PROPATI</span>
+            <span className="text-white font-bold text-lg">PropatiBox</span>
           </Link>
         </div>
         <div className="glass-card p-8">
@@ -35,7 +35,7 @@ export function SignIn() {
   const navigate = useNavigate();
 
   return (
-    <AuthShell title="Welcome back" subtitle="Sign in to your PROPATI account">
+    <AuthShell title="Welcome back" subtitle="Sign in to your PropatiBox account">
       <div className="space-y-3">
         <div>
           <label className="block text-xs text-zinc-400 mb-1.5">Email address</label>
@@ -106,7 +106,7 @@ export function SignUp() {
   const navigate = useNavigate();
 
   return (
-    <AuthShell title="Create your account" subtitle="Join 120,000+ Nigerians on PROPATI">
+    <AuthShell title="Create your account" subtitle="Join 120,000+ Nigerians on PropatiBox">
       <div className="space-y-3">
         <div className="grid grid-cols-2 gap-2">
           <div>
@@ -214,7 +214,7 @@ export function RolePicker() {
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-white font-bold text-lg">PROPATI</span>
+            <span className="text-white font-bold text-lg">PropatiBox</span>
           </Link>
         </div>
 

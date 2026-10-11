@@ -1,4 +1,4 @@
-# PROPATI — Operations Playbook
+# PropatiBox — Operations Playbook
 
 **Version:** 1.0  
 **On-Call Rotation:** Engineering Lead (primary) · Backend Engineer (secondary)
@@ -190,7 +190,7 @@ curl -X POST https://propati.ng/api/webhook/paystack \
 # Expected: 400 (invalid signature) — proves endpoint is reachable
 
 # 5. For stuck transactions, manually verify via Paystack API
-curl https://api.paystack.co/transaction/verify/PROPATI-REF-HERE \
+curl https://api.paystack.co/transaction/verify/PropatiBox-REF-HERE \
   -H "Authorization: Bearer $PAYSTACK_SECRET_KEY"
 # Update transaction.status in DB to match Paystack's status
 ```
@@ -460,7 +460,7 @@ Bookmark these status pages:
 | Paystack | https://status.paystack.com |
 | Cloudinary | https://status.cloudinary.com |
 
-During an incident, always check these before digging into PROPATI code — the issue may be external.
+During an incident, always check these before digging into PropatiBox code — the issue may be external.
 
 ---
 

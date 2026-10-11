@@ -173,7 +173,7 @@ export default function EstateManagerMoveInPage() {
             <Info className="w-5 h-5 text-zinc-500 dark:text-zinc-400 shrink-0" />
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Temperature controls for Suite 402 can be managed via the{' '}
-              <a href="#" className="text-secondary font-bold underline">PROPATI Smart Facility App</a> starting from handover day.
+              <a href="#" className="text-secondary font-bold underline">PropatiBox Smart Facility App</a> starting from handover day.
             </p>
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function EstateManagerMoveInPage() {
             ))}
             <div className="pt-3 border-t border-white/10">
               <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase opacity-60">24/7 Concierge Hotline</p>
-              <p className="font-heading font-bold text-bg-secondary">0-800-PROPATI-SOS</p>
+              <p className="font-heading font-bold text-bg-secondary">0-800-PropatiBox-SOS</p>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Verification Submitted
+// PropatiBox — Email Template: Verification Submitted
 // ===========================================================================
 
 export interface VerificationSubmittedEmailData {
@@ -56,7 +56,7 @@ export function renderVerificationSubmittedEmail(
       <p>If you have any questions, contact us at support@propati.ng</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -81,7 +81,7 @@ Track verification status: ${appUrl}/verification/${listingId}
 If you have any questions, contact us at support@propati.ng
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

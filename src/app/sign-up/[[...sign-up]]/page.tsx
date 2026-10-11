@@ -52,7 +52,7 @@ export default function SignUpPage() {
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
               </div>
-              <span className="text-white font-bold text-lg">PROPATI</span>
+              <span className="text-white font-bold text-lg">PropatiBox</span>
             </Link>
           </div>
 
@@ -94,14 +94,14 @@ export default function SignUpPage() {
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-white font-bold text-lg">PROPATI</span>
+            <span className="text-white font-bold text-lg">PropatiBox</span>
           </Link>
         </div>
 
         <div className="text-center mb-10">
           <SectionLabel>
             <Building2 size={11} className="text-emerald-400" />
-            Join PROPATI
+            Join PropatiBox
           </SectionLabel>
           <h1 className="text-3xl font-bold text-white mt-4 mb-2">Join as a...</h1>
           <p className="text-zinc-500 text-base">Select your role to get started</p>

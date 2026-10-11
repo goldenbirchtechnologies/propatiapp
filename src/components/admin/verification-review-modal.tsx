@@ -317,7 +317,7 @@ export function VerificationReviewModal({
                     Admin Final Review
                   </h4>
                   <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                    Final review and approval by PROPATI admin team.
+                    Final review and approval by PropatiBox admin team.
                   </p>
                 </TabsContent>
               </Tabs>

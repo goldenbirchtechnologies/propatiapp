@@ -108,7 +108,7 @@ Every agreement must render:
 ### 3.3 Risk Tier Implementation in Templates
 
 - `self_serve` templates append an advisory banner: *“This document was generated automatically and is for informational purposes only. It does not constitute legal advice. Please consult a qualified legal practitioner before relying on it.”*
-- `review_required` templates append: *“PROPATI recommends independent legal review of this agreement. Use of this document without such review is at your own risk. Stamp duty and registration requirements may apply.”*
+- `review_required` templates append: *“PropatiBox recommends independent legal review of this agreement. Use of this document without such review is at your own risk. Stamp duty and registration requirements may apply.”*
 - Tier also influences verification requirement: `review_required` agreements must go through enhanced verification (e.g., DOCUMENT_VERIFIED or equivalent).
 
 ## 4. Complete File-by-File Change List
@@ -152,7 +152,7 @@ Every agreement must render:
   - Include statutory clauses sections.
   - Include tier-specific banners.
 - **Update** `templateData` typing (align with V2 shape).
-- **Update** PDF HEADER/FOOTER with agreement type, risk tier, statutory citation, generated timestamp, agreement ID, PROPATI verification badge.
+- **Update** PDF HEADER/FOOTER with agreement type, risk tier, statutory citation, generated timestamp, agreement ID, PropatiBox verification badge.
 
 ### 4.6 `src/app/api/agreements/route.ts`
 - **GET**: include new fields (`riskTier`, `jurisdictionState`, `governingStatute`) in response payload.

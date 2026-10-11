@@ -1,5 +1,5 @@
 // ===========================================================================
-// PROPATI — Email Templates Index
+// PropatiBox — Email Templates Index
 // Export all email templates
 // ===========================================================================
 

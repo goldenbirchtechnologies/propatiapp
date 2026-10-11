@@ -110,7 +110,7 @@ export const testimonials = [
     name: "Adaeze Okonkwo",
     role: "Tenant · Victoria Island",
     avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&auto=format",
-    text: "PROPATI found me a verified apartment in 48 hours. The landlord verification gave me total peace of mind. No more wasting weekends viewing fake listings.",
+    text: "PropatiBox found me a verified apartment in 48 hours. The landlord verification gave me total peace of mind. No more wasting weekends viewing fake listings.",
     rating: 5,
   },
   {
@@ -124,7 +124,7 @@ export const testimonials = [
     name: "Yetunde Afolabi",
     role: "Real Estate Agent · Lekki",
     avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&auto=format",
-    text: "My commission pipeline tripled in 3 months. The CRM and inspection tools are exactly what agents need. PROPATI understands the Nigerian market.",
+    text: "My commission pipeline tripled in 3 months. The CRM and inspection tools are exactly what agents need. PropatiBox understands the Nigerian market.",
     rating: 5,
   },
 ];
@@ -154,10 +154,10 @@ export const mockApplications = [
 
 export const mockTransactions = [
   { id: "TXN-9821", type: "Rent Payment", amount: "₦2,400,000", from: "Chidi Okafor", to: "Emeka Nwosu", date: "Aug 1, 2026", status: "Completed" },
-  { id: "TXN-9820", type: "Agent Commission", amount: "₦180,000", from: "PROPATI", to: "Yetunde Afolabi", date: "Jul 31, 2026", status: "Completed" },
+  { id: "TXN-9820", type: "Agent Commission", amount: "₦180,000", from: "PropatiBox", to: "Yetunde Afolabi", date: "Jul 31, 2026", status: "Completed" },
   { id: "TXN-9819", type: "Escrow Release", amount: "₦7,200,000", from: "Escrow", to: "Tunde Bakare", date: "Jul 30, 2026", status: "Processing" },
   { id: "TXN-9818", type: "Rent Payment", amount: "₦1,800,000", from: "Ngozi Eze", to: "Emeka Nwosu", date: "Jul 28, 2026", status: "Failed" },
-  { id: "TXN-9817", type: "Subscription Fee", amount: "₦150,000", from: "Lagos Estate Mgmt", to: "PROPATI", date: "Jul 25, 2026", status: "Completed" },
+  { id: "TXN-9817", type: "Subscription Fee", amount: "₦150,000", from: "Lagos Estate Mgmt", to: "PropatiBox", date: "Jul 25, 2026", status: "Completed" },
 ];
 
 export const mockMaintenanceTickets = [

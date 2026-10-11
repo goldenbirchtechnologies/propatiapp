@@ -1,4 +1,4 @@
-# FIGMA MAKE → PROPATI MIGRATION PLAN
+# FIGMA MAKE → PropatiBox MIGRATION PLAN
 
 > Goal: adopt the new visual design without losing any backend behavior.
 > Rule: every old fetch, redirect, validation, and role guard must survive the cut.

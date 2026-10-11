@@ -95,7 +95,7 @@ export default function AgentShortLetEarningsClient() {
 
   const breakdown = [
     { label: 'Gross Booking', value: '₦15,240,000', pct: 100 },
-    { label: 'PROPATI Service Fee (8%)', value: '-₦1,219,200', pct: 8 },
+    { label: 'PropatiBox Service Fee (8%)', value: '-₦1,219,200', pct: 8 },
     { label: 'Maintenance & Cleaning', value: '-₦840,000', pct: 5 },
     { label: 'VAT & Local Levies', value: '-₦730,800', pct: 4 },
   ];

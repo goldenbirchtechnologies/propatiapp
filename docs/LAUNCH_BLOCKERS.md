@@ -1,4 +1,4 @@
-# Launch Blockers — PROPATI
+# Launch Blockers — PropatiBox
 
 **Status as of:** 2026-06-23 (S8 — Launch Prep Finalize)  
 **Phase:** 10 — Active  

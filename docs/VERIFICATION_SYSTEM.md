@@ -1,8 +1,8 @@
-# PROPATI Verification State Machine Documentation
+# PropatiBox Verification State Machine Documentation
 
 ## Overview
 
-The PROPATI verification system is a 5-layer progressive verification flow that ensures property listing authenticity and builds trust in the marketplace. Each layer adds more verification depth, culminating in a "Certified" badge for fully verified properties.
+The PropatiBox verification system is a 5-layer progressive verification flow that ensures property listing authenticity and builds trust in the marketplace. Each layer adds more verification depth, culminating in a "Certified" badge for fully verified properties.
 
 ## Verification Flow
 
@@ -73,7 +73,7 @@ Each layer can also transition to `rejected` if verification fails.
 **Status:** `l4Status` (pending/approved/rejected)
 
 **Requirements:**
-- Physical visit by verified PROPATI agent
+- Physical visit by verified PropatiBox agent
 - Inspection report with photos
 - Verification of property condition
 
@@ -600,7 +600,7 @@ const queue = await verificationService.getAdminQueue('in_progress');
 
 **Last Updated:** 2026-06-18
 **Version:** 1.0
-**Maintained by:** PROPATI Development Team
+**Maintained by:** PropatiBox Development Team
 
 ## Core Platform Concept
 - Property marketplace (residential, commercial, industrial, short-let)

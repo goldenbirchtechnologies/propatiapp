@@ -3,7 +3,7 @@ import { Shield, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const metadata = {
-  title: 'Account Suspended — PROPATI',
+  title: 'Account Suspended — PropatiBox',
 };
 
 export default function AccountSuspendedPage() {

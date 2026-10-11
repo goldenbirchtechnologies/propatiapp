@@ -28,12 +28,12 @@ export default function AboutUsPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative">
           <div className="max-w-3xl">
-            <SectionLabel>About PROPATI</SectionLabel>
+            <SectionLabel>About PropatiBox</SectionLabel>
             <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">
               Building trust in Nigerian property transactions
             </h1>
             <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-              PROPATI connects tenants, landlords, agents, and estate managers through verified listings, escrow-backed payments, and legally sound tenancy agreements — so no one rents blind.
+              PropatiBox connects tenants, landlords, agents, and estate managers through verified listings, escrow-backed payments, and legally sound tenancy agreements — so no one rents blind.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="gap-2">
@@ -56,7 +56,7 @@ export default function AboutUsPage() {
             <SectionLabel>Our mission</SectionLabel>
             <h2 className="mt-3 text-2xl md:text-3xl font-bold text-white tracking-tight">Secure, transparent, and accessible for every Nigerian</h2>
             <p className="mt-3 text-sm text-zinc-500 leading-relaxed">
-              Fraud and misrepresentation are the country&apos;s top property risks. PROPATI was built to close that gap — not with slogans, but with verification, escrow, and enforceable agreements.
+              Fraud and misrepresentation are the country&apos;s top property risks. PropatiBox was built to close that gap — not with slogans, but with verification, escrow, and enforceable agreements.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -137,7 +137,7 @@ export default function AboutUsPage() {
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
                 <MapPin className="h-3.5 w-3.5" /> Lagos · Nigeria
               </div>
-              <h3 className="mt-2 text-lg font-bold text-white">PROPATI Technologies Ltd.</h3>
+              <h3 className="mt-2 text-lg font-bold text-white">PropatiBox Technologies Ltd.</h3>
               <p className="mt-1 text-sm text-zinc-500">15 Akin Adesola Street, Victoria Island, Lagos.</p>
               <p className="text-sm text-zinc-500">support@propati.ng · dpo@propati.ng</p>
             </div>

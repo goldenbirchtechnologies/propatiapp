@@ -1,4 +1,4 @@
-# PROPATI — Product Requirements Document (Enterprise Production)
+# PropatiBox — Product Requirements Document (Enterprise Production)
 
 **Version:** 2.0
 **Status:** Production-Ready Specification
@@ -9,7 +9,7 @@
 ## 1. Executive Summary
 
 ### 1.1 Product Vision
-PROPATI is Nigeria's first **verified property platform** combining a consumer marketplace (rent, buy, short-let, share, commercial) with property management infrastructure (rent collection, tenant screening, digital agreements, maintenance tracking) and a B2B SaaS layer for estate management companies.
+PropatiBox is Nigeria's first **verified property platform** combining a consumer marketplace (rent, buy, short-let, share, commercial) with property management infrastructure (rent collection, tenant screening, digital agreements, maintenance tracking) and a B2B SaaS layer for estate management companies.
 
 ### Core Platform Concept
 - Property marketplace (residential, commercial, industrial, short-let)
@@ -79,7 +79,7 @@ PROPATI is Nigeria's first **verified property platform** combining a consumer m
 - **Layer 1:** Document upload (C of O, Deed of Assignment, Survey Plan, Governor's Consent)
 - **Layer 2:** Identity match via Prembly (NIN/BVN)
 - **Layer 3:** Live video proof (landlord records video inside property with unique QR code)
-- **Layer 4:** Physical agent inspection (PROPATI agent visits on-site)
+- **Layer 4:** Physical agent inspection (PropatiBox agent visits on-site)
 - **Layer 5:** Admin final review → **Certified** badge
 - Admin queue: live list of pending verifications with approve/reject per layer
 

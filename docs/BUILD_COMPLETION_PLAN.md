@@ -1,4 +1,4 @@
-# PROPATI — Build Completion Plan (Gap Analysis & Fix Plan)
+# PropatiBox — Build Completion Plan (Gap Analysis & Fix Plan)
 
 **Generated:** 2025-06-23
 **Based on:** Full codebase audit — 134 API routes, 95 pages, 70 components, 49 lib files, 1436-line Prisma schema

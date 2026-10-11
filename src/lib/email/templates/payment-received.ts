@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Payment Received
+// PropatiBox — Email Template: Payment Received
 // ===========================================================================
 
 export interface PaymentReceivedEmailData {
@@ -70,7 +70,7 @@ export function renderPaymentReceivedEmail(
       <a href="${appUrl}/transactions/${transactionId}" class="button">View Transaction Details</a>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -94,7 +94,7 @@ The funds are being processed and will be released according to your agreement t
 View Transaction Details: ${appUrl}/transactions/${transactionId}
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

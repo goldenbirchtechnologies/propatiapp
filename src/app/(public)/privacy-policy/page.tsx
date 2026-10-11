@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">1. Introduction</h2>
                 <p className="mt-2 text-zinc-500">
-                  PROPATI Technologies Limited (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy and is committed to protecting your personal data in accordance with the Nigerian Data Protection Act (NDPA) 2023. This policy describes how we collect, use, and safeguard your information when you use our platform.
+                  PropatiBox Technologies Limited (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your privacy and is committed to protecting your personal data in accordance with the Nigerian Data Protection Act (NDPA) 2023. This policy describes how we collect, use, and safeguard your information when you use our platform.
                 </p>
               </div>
 

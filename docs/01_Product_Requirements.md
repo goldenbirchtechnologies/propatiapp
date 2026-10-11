@@ -2,12 +2,12 @@
 
 ## 1. Product Overview
 
-**Product Name:** PROPATI  
+**Product Name:** PropatiBox  
 **Tagline:** Nigeria's first verified property operating system  
 **Market:** Nigeria  
-**Legal Structure:** PROPATI Technologies Ltd (to be registered with CAC)
+**Legal Structure:** PropatiBox Technologies Ltd (to be registered with CAC)
 
-PROPATI is a unified PropTech platform that functions as the **operating system for real estate in Nigeria**. It digitizes and standardizes how property is listed, verified, transacted, managed, and legally enforced across residential, commercial, industrial, and short-let markets.
+PropatiBox is a unified PropTech platform that functions as the **operating system for real estate in Nigeria**. It digitizes and standardizes how property is listed, verified, transacted, managed, and legally enforced across residential, commercial, industrial, and short-let markets.
 
 ## 2. Product Principles
 

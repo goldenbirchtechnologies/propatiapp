@@ -1,4 +1,4 @@
-# PROPATI — Next.js 14 Build Plan (Production Rewrite)
+# PropatiBox — Next.js 14 Build Plan (Production Rewrite)
 
 **Version:** 1.0  \
 **Target Stack:** Next.js 14 (App Router), Prisma/PostgreSQL, Clerk Auth, Paystack, Tailwind CSS, TypeScript  \
@@ -122,7 +122,7 @@ PREMBLY_API_KEY=
 PREMBLY_APP_ID=
 
 TERMII_API_KEY=
-TERMII_SENDER_ID=PROPATI
+TERMII_SENDER_ID=PropatiBox
 ```
 
 ---

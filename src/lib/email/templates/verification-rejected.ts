@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Verification Rejected
+// PropatiBox — Email Template: Verification Rejected
 // ===========================================================================
 
 export interface VerificationRejectedEmailData {
@@ -60,7 +60,7 @@ export function renderVerificationRejectedEmail(
       <p>If you have questions or need assistance, contact support@propati.ng</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -85,7 +85,7 @@ Update & resubmit: ${appUrl}/verification/${listingId}
 If you have questions or need assistance, contact support@propati.ng
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

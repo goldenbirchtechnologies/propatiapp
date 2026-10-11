@@ -151,7 +151,7 @@ export function GenericFormPage({
 const CONVERSATIONS = [
   { id: 1, name: "Emeka Nwosu", role: "Landlord", last: "I've reviewed the lease agreement and everything looks good.", time: "2m ago", unread: 2 },
   { id: 2, name: "Yetunde Afolabi", role: "Agent", last: "The viewing is confirmed for Thursday 3pm.", time: "1h ago", unread: 0 },
-  { id: 3, name: "PROPATI Support", role: "Support", last: "Your verification has been approved!", time: "3h ago", unread: 1 },
+  { id: 3, name: "PropatiBox Support", role: "Support", last: "Your verification has been approved!", time: "3h ago", unread: 1 },
   { id: 4, name: "Chidi Okafor", role: "Tenant", last: "Can we reschedule the inspection?", time: "Yesterday", unread: 0 },
   { id: 5, name: "Ngozi Eze", role: "Tenant", last: "The maintenance has been resolved, thank you.", time: "2 days ago", unread: 0 },
 ];
@@ -370,7 +370,7 @@ export function GenericVerificationPage() {
     <div className="p-6 max-w-2xl space-y-6">
       <PageHeader
         title="Property Verification"
-        description="Complete all 4 steps to get your PROPATI Verified badge."
+        description="Complete all 4 steps to get your PropatiBox Verified badge."
       />
 
       {/* Stepper */}
@@ -427,7 +427,7 @@ export function GenericVerificationPage() {
 export function WalletPage() {
   return (
     <div className="p-6 space-y-5 max-w-2xl">
-      <PageHeader title="Wallet" description="Manage your PROPATI wallet balance and transactions." />
+      <PageHeader title="Wallet" description="Manage your PropatiBox wallet balance and transactions." />
       <div className="glass-card p-8 text-center">
         <p className="text-zinc-500 text-sm mb-1">Available Balance</p>
         <p className="text-5xl font-black text-white mb-1">₦347,500</p>

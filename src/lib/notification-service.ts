@@ -1,5 +1,5 @@
 // ===========================================================================
-// PROPATI — Notification Service
+// PropatiBox — Notification Service
 // Phase H: Multi-channel notification delivery (in-app, email, SMS, WhatsApp)
 // ===========================================================================
 

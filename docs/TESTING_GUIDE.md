@@ -1,4 +1,4 @@
-# PROPATI — Testing Guide
+# PropatiBox — Testing Guide
 
 **Version:** 1.0  
 **Stack:** Vitest (unit/integration) · Playwright (E2E) · Prisma (test DB) · MSW (API mocking)

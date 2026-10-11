@@ -1,4 +1,4 @@
-# PROPATI — User Journey Flows
+# PropatiBox — User Journey Flows
 
 **Version:** 1.0  
 **Source:** `oldpropati/APP_FLOW.md`, `oldpropati/FRONTEND_GUIDELINES.md`  

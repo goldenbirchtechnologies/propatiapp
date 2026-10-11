@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Verification Approved
+// PropatiBox — Email Template: Verification Approved
 // ===========================================================================
 
 export interface VerificationApprovedEmailData {
@@ -55,10 +55,10 @@ export function renderVerificationApprovedEmail(
         <li>✓ Access to verified-only features</li>
       </ul>
       <a href="${appUrl}/listings/${listingId}" class="button">View Your Listing</a>
-      <p>Thank you for choosing PROPATI. We're excited to help you find the perfect tenant.</p>
+      <p>Thank you for choosing PropatiBox. We're excited to help you find the perfect tenant.</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -80,10 +80,10 @@ What This Means:
 
 View your listing: ${appUrl}/listings/${listingId}
 
-Thank you for choosing PROPATI. We're excited to help you find the perfect tenant.
+Thank you for choosing PropatiBox. We're excited to help you find the perfect tenant.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

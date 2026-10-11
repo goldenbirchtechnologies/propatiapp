@@ -288,7 +288,7 @@ export default function AgentOfficeInspectionClient() {
                 <div>
                   <h4 className="font-headline-sm font-bold text-[#10b981] mb-1">Why verify?</h4>
                   <p className="text-xs font-label-sm uppercase tracking-wider text-[#10b981]/80 leading-relaxed">
-                    Verified agents receive 3x more property inquiries and gain access to the &quot;Verified Prime&quot; filter on the PROPATI consumer portal.
+                    Verified agents receive 3x more property inquiries and gain access to the &quot;Verified Prime&quot; filter on the PropatiBox consumer portal.
                   </p>
                 </div>
               </div>

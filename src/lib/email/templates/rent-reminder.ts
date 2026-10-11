@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Rent Due Reminder
+// PropatiBox — Email Template: Rent Due Reminder
 // ===========================================================================
 
 export interface RentReminderEmailData {
@@ -71,7 +71,7 @@ export function renderRentReminderEmail(
       <p><small>Late payments may incur additional charges as per your agreement terms.</small></p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -97,7 +97,7 @@ Pay Rent Now: ${appUrl}/agreements/${agreementId}/pay
 Late payments may incur additional charges as per your agreement terms.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

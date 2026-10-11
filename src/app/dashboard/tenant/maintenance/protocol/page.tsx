@@ -24,7 +24,7 @@ export default function refinedemergencyprotocolpropatimaintenancePage() {
       <div className="space-y-6">
         <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Refined Emergency Protocol Maintenance</h1>
-          <p className="text-zinc-600 dark:text-zinc-500 mt-1">PROPATI - New Maintenance Request PROPATI Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
+          <p className="text-zinc-600 dark:text-zinc-500 mt-1">PropatiBox - New Maintenance Request PropatiBox Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
         </section>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Low</Button>

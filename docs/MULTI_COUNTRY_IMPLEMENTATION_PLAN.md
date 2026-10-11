@@ -1,4 +1,4 @@
-# PROPATI — Multi-Country Implementation Plan
+# PropatiBox — Multi-Country Implementation Plan
 Platform-first, jurisdiction-second. Nigeria pilot. Five-country capable from day one.
 
 ## Strategic Principles

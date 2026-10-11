@@ -32,7 +32,7 @@ const roles = [
     location: 'Lagos · Hybrid',
     type: 'Full-time',
     team: 'Growth',
-    desc: 'Bring landlords, agents, and estate managers onto PROPATI. You understand Nigerian property and can sell trust.',
+    desc: 'Bring landlords, agents, and estate managers onto PropatiBox. You understand Nigerian property and can sell trust.',
   },
 ];
 
@@ -55,7 +55,7 @@ export default function CareersPage() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white/15 text-white hover:bg-white/10">
-              <Link href="/about-us">About PROPATI</Link>
+              <Link href="/about-us">About PropatiBox</Link>
             </Button>
           </div>
         </div>

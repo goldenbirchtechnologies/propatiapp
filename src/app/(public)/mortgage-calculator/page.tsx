@@ -31,7 +31,7 @@ export default function MortgageCalculatorPage() {
     const url = window.location.href;
     const text = `Mortgage estimate: ${formatNaira(Math.round(monthlyPayment))}/mo for ${formatNaira(price)} at ${annualRate}% over ${years}y`;
     try {
-      if (navigator.share) await navigator.share({ title: 'PROPATI Mortgage Estimate', text, url });
+      if (navigator.share) await navigator.share({ title: 'PropatiBox Mortgage Estimate', text, url });
       else await navigator.clipboard.writeText(`${text} — ${url}`);
     } catch {}
   };
@@ -177,7 +177,7 @@ export default function MortgageCalculatorPage() {
                   <li>Agency, legal, and valuation fees.</li>
                   <li>NHF / PMB-specific terms — confirm with your lender.</li>
                 </ul>
-                <p className="mt-4 text-xs text-zinc-600">This is an estimate, not a loan offer. PROPATI does not originate mortgages.</p>
+                <p className="mt-4 text-xs text-zinc-600">This is an estimate, not a loan offer. PropatiBox does not originate mortgages.</p>
               </div>
 
               <div className="glass-card p-5 flex items-center justify-between">

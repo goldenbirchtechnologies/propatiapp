@@ -12,7 +12,7 @@ export default function verificationchecklistpropatimarketplacePage() {
       <div className="space-y-6">
         <section className="rounded-2xl border border-white/[0.08] bg-card p-6 shadow-none">
           <h1 className="text-2xl font-bold text-foreground">Verification Checklist Marketplace</h1>
-          <p className="text-zinc-500 mt-1">PROPATI | Verification Checklist VeriLand Nigeria Dashboard Verify Listings Reports New Verification print Print Document download Download PDF share ...</p>
+          <p className="text-zinc-500 mt-1">PropatiBox | Verification Checklist VeriLand Nigeria Dashboard Verify Listings Reports New Verification print Print Document download Download PDF share ...</p>
         </section>
         <section className="rounded-xl border border-white/[0.08] bg-background p-5">
           <h2 className="text-xl font-semibold mb-2">Phase 1: Document Review</h2>

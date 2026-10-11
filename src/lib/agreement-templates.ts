@@ -238,7 +238,7 @@ ${data.specialClauses ? `
 </div>` : ''}
 ${signatureBlock(data.landlordName, data.tenantName)}
 <div class="footer">
-  <p>This agreement is facilitated by PROPATI – Nigeria's Verified Property Marketplace</p>
+  <p>This agreement is facilitated by PropatiBox – Nigeria's Verified Property Marketplace</p>
   <p>www.propati.ng</p>
 </div>
 ${data.stampDuty ? renderStampDutyEndorsement(data.stampDuty) : ''}

@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Welcome
+// PropatiBox — Email Template: Welcome
 // ===========================================================================
 
 export interface WelcomeEmailData {
@@ -25,7 +25,7 @@ export function renderWelcomeEmail(data: WelcomeEmailData): {
       : 'get started';
 
   return {
-    subject: 'Welcome to PROPATI — Nigeria\'s Verified Property Marketplace',
+    subject: 'Welcome to PropatiBox — Nigeria\'s Verified Property Marketplace',
     html: `
 <!DOCTYPE html>
 <html>
@@ -44,11 +44,11 @@ export function renderWelcomeEmail(data: WelcomeEmailData): {
 <body>
   <div class="container">
     <div class="header">
-      <h1>Welcome to PROPATI</h1>
+      <h1>Welcome to PropatiBox</h1>
     </div>
     <div class="content">
       <h2>Hello ${name},</h2>
-      <p>Thank you for joining PROPATI, Nigeria's first verified property marketplace.</p>
+      <p>Thank you for joining PropatiBox, Nigeria's first verified property marketplace.</p>
       <p>As a <strong>${role}</strong>, you can now ${roleGreeting} with confidence.</p>
       <h3>What's Next?</h3>
       <ul>
@@ -68,18 +68,18 @@ export function renderWelcomeEmail(data: WelcomeEmailData): {
       <p>If you have any questions, feel free to reach out to our support team.</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
       <p>Nigeria's Verified Property Marketplace</p>
     </div>
   </div>
 </body>
 </html>
     `,
-    text: `Welcome to PROPATI
+    text: `Welcome to PropatiBox
 
 Hello ${name},
 
-Thank you for joining PROPATI, Nigeria's first verified property marketplace.
+Thank you for joining PropatiBox, Nigeria's first verified property marketplace.
 
 As a ${role}, you can now ${roleGreeting} with confidence.
 
@@ -101,7 +101,7 @@ Visit your dashboard: ${
 If you have any questions, feel free to reach out to our support team.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
 Nigeria's Verified Property Marketplace
     `,
   };

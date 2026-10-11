@@ -1,10 +1,10 @@
-# DESIGN.md – PROPATI Platform Design System
+# DESIGN.md – PropatiBox Platform Design System
 
 ---
 
 ## 1. Project Overview
 
-**PROPATI** is a modern real‑estate marketplace that serves multiple user roles (Admin, Agent, Landlord, Tenant, Support, and executive leadership).  The platform is built with **Next.js**, **Tailwind CSS**, **Prisma** (PostgreSQL) and a **role‑based access control** system that drives both backend APIs and front‑end UI variations.
+**PropatiBox** is a modern real‑estate marketplace that serves multiple user roles (Admin, Agent, Landlord, Tenant, Support, and executive leadership).  The platform is built with **Next.js**, **Tailwind CSS**, **Prisma** (PostgreSQL) and a **role‑based access control** system that drives both backend APIs and front‑end UI variations.
 
 ---
 

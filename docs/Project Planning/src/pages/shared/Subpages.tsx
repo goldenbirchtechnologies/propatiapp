@@ -9,7 +9,7 @@ export const SharedVerification = () => <GenericVerificationPage />;
 export function VerificationHome() {
   return (
     <div className="p-6 space-y-5 max-w-xl">
-      <PageHeader title="Property Verification" description="Get the PROPATI Verified badge in 4 steps." />
+      <PageHeader title="Property Verification" description="Get the PropatiBox Verified badge in 4 steps." />
       <div className="space-y-3">
         {[
           { step: 1, label: "Document Submission", desc: "Upload property documents and ownership proof", status: "completed", path: "/dashboard/verification/step1/documents" },
@@ -107,7 +107,7 @@ const verificationStepPage = (step: number, label: string, desc: string) => () =
 export const VerificationStep1 = verificationStepPage(1, "Documents", "Upload your property title deed, survey plan, and building permit.");
 export const VerificationStep2 = verificationStepPage(2, "Identity", "Provide a government-issued ID to verify your identity.");
 export const VerificationStep3 = verificationStepPage(3, "Video", "Schedule and complete a brief video verification call.");
-export const VerificationStep4 = verificationStepPage(4, "Inspection", "A PROPATI agent will visit the property for physical inspection.");
+export const VerificationStep4 = verificationStepPage(4, "Inspection", "A PropatiBox agent will visit the property for physical inspection.");
 
 export const VerificationSubmitted = () => (
   <div className="p-6 max-w-md mx-auto text-center">

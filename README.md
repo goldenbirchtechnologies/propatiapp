@@ -1,4 +1,4 @@
-# PROPATI — Next.js 14 Property Marketplace
+# PropatiBox — Next.js 14 Property Marketplace
 
 Nigeria's most trusted property marketplace with 5-layer verification, escrow payments, and estate management tools.
 
@@ -157,7 +157,7 @@ See `DATABASE_SCHEMA.md` for complete documentation.
 1. **Documents** - Title docs, survey plan, ID
 2. **Identity** - NIN/BVN match via Prembly
 3. **Video** - Live video with QR code
-4. **Inspection** - Physical inspection by PROPATI agent
+4. **Inspection** - Physical inspection by PropatiBox agent
 5. **Certification** - Admin final approval → Certified badge
 
 ## 🏢 Estate Manager Features
@@ -196,7 +196,7 @@ npm run prisma:migrate:prod
 
 ## 📄 License
 
-Proprietary - PROPATI 2024
+Proprietary - PropatiBox 2024
 
 ---
 

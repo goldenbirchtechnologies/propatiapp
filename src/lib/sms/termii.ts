@@ -1,5 +1,5 @@
 // ===========================================================================
-// PROPATI — SMS Service (Termii)
+// PropatiBox — SMS Service (Termii)
 // Phase H: SMS notifications via Termii API
 // ===========================================================================
 
@@ -8,7 +8,7 @@
 // ===========================================================================
 
 const TERMII_API_KEY = process.env.TERMII_API_KEY || '';
-const TERMII_SENDER_ID = process.env.TERMII_SENDER_ID || 'PROPATI';
+const TERMII_SENDER_ID = process.env.TERMII_SENDER_ID || 'PropatiBox';
 const TERMII_API_URL = 'https://api.ng.termii.com/api/sms/send';
 
 // Mock mode: enabled if API key is not configured

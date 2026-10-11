@@ -287,7 +287,7 @@ export default function ListingDetail() {
               {/* Trust badges */}
               <div className="glass-card p-4 space-y-3">
                 {[
-                  { icon: Shield, text: "Property documents verified by PROPATI" },
+                  { icon: Shield, text: "Property documents verified by PropatiBox" },
                   { icon: CheckCircle, text: "Landlord identity confirmed" },
                   { icon: Star, text: "Secure payment via escrow" },
                 ].map((item) => (

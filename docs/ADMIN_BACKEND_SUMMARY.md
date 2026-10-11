@@ -1,7 +1,7 @@
 # Admin Dashboard Backend APIs - Phase G Implementation Summary
 
 ## Overview
-Built comprehensive admin dashboard backend APIs for PROPATI Phase G (Admin Console). All endpoints are protected by admin-only authentication and include full audit logging.
+Built comprehensive admin dashboard backend APIs for PropatiBox Phase G (Admin Console). All endpoints are protected by admin-only authentication and include full audit logging.
 
 ---
 

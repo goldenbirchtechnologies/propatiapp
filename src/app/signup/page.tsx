@@ -15,7 +15,7 @@ export default function SignupPage() {
             </svg>
           </div>
           <span className="text-xl font-bold tracking-tight text-white">
-            PROPATI
+            PropatiBox
           </span>
         </Link>
         <SignupForm />

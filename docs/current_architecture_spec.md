@@ -8,7 +8,7 @@
 ---
 
 ## 1. Document Purpose
-Create a comprehensive Technical Requirements Document for the PROPATI platform that serves as the single source of truth for architecture, APIs, data models, security, and infrastructure. Must be production-ready and enterprise-grade.
+Create a comprehensive Technical Requirements Document for the PropatiBox platform that serves as the single source of truth for architecture, APIs, data models, security, and infrastructure. Must be production-ready and enterprise-grade.
 
 ---
 

@@ -17,7 +17,7 @@ export default function SignInPage() {
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-white font-bold text-lg">PROPATI</span>
+            <span className="text-white font-bold text-lg">PropatiBox</span>
           </Link>
         </div>
 
@@ -28,7 +28,7 @@ export default function SignInPage() {
               Welcome back
             </SectionLabel>
             <h1 className="text-xl font-bold text-white mt-4 mb-1">Sign in to your account</h1>
-            <p className="text-sm text-zinc-500">Access your PROPATI dashboard</p>
+            <p className="text-sm text-zinc-500">Access your PropatiBox dashboard</p>
           </div>
 
           <SignIn

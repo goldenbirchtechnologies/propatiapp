@@ -59,7 +59,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
               <div className="flex items-center gap-2 mb-5">
                 <span className="bg-warning text-zinc-900 dark:text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                   <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                  PROPATI Verified
+                  PropatiBox Verified
                 </span>
               </div>
               <h1 className="font-heading text-2xl font-bold text-zinc-900 dark:text-white mb-2">New Maintenance Request</h1>

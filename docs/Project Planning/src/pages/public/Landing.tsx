@@ -8,7 +8,7 @@ const howItWorks = [
   {
     step: "01",
     title: "Browse Verified Listings",
-    description: "Every listing on PROPATI is verified by our team. View real photos, confirmed locations, and authenticated ownership.",
+    description: "Every listing on PropatiBox is verified by our team. View real photos, confirmed locations, and authenticated ownership.",
     icon: Shield,
   },
   {
@@ -279,7 +279,7 @@ export default function Landing() {
             Ready to find your <span className="text-emerald-400">next home?</span>
           </h2>
           <p className="text-zinc-500 text-lg mb-8">
-            Join 120,000+ Nigerians who found verified homes on PROPATI.
+            Join 120,000+ Nigerians who found verified homes on PropatiBox.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

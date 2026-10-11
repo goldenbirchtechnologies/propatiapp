@@ -137,7 +137,7 @@ export default function LandlordDashboardClient({
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
           <div className="flex items-start justify-between gap-4 mb-5">
             <div>
-              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Get started with PROPATI</h3>
+              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Get started with PropatiBox</h3>
               <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Complete these steps to start earning from your properties</p>
             </div>
             <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{completedSteps} of 3 completed</span>

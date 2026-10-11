@@ -72,7 +72,7 @@ export function Receipt({ transaction }: ReceiptProps) {
         <div className="border-b pb-6 mb-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold text-primary">PROPATI</h1>
+              <h1 className="text-3xl font-bold text-primary">PropatiBox</h1>
               <p className="text-sm text-muted-foreground mt-1">
                 Nigeria's Verified Property Marketplace
               </p>
@@ -206,7 +206,7 @@ export function Receipt({ transaction }: ReceiptProps) {
             For inquiries, contact support@propati.ng or visit www.propati.ng
           </p>
           <p className="text-xs text-muted-foreground mt-4">
-            PROPATI - Secured by Paystack | Regulated Property Transactions
+            PropatiBox - Secured by Paystack | Regulated Property Transactions
           </p>
         </div>
       </div>

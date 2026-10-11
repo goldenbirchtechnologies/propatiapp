@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 
 // ===========================================================================
-// PROPATI — Email Service (Resend)
+// PropatiBox — Email Service (Resend)
 // Resend provides API-based email delivery with better deliverability
 // than SMTP. Falls back to console logging when RESEND_API_KEY is unset.
 // ===========================================================================
@@ -29,7 +29,7 @@ export interface EmailOptions {
   from?: string;
 }
 
-const DEFAULT_FROM = process.env.EMAIL_FROM || 'PROPATI <onboarding@resend.dev>';
+const DEFAULT_FROM = process.env.EMAIL_FROM || 'PropatiBox <onboarding@resend.dev>';
 
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   if (MOCK_MODE || !resend) {
@@ -134,10 +134,10 @@ export async function sendPasswordResetEmail(params: SendPasswordResetEmailParam
 
 export const emailTemplates = {
   welcome: (name: string, loginUrl: string) => ({
-    subject: 'Welcome to PROPATI!',
+    subject: 'Welcome to PropatiBox!',
     html: `
       <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #1e3a5f;">Welcome to PROPATI, ${name}!</h1>
+        <h1 style="color: #1e3a5f;">Welcome to PropatiBox, ${name}!</h1>
         <p>Thank you for joining Nigeria's most trusted property marketplace.</p>
         <a href="${loginUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Get Started</a>
       </div>
@@ -193,11 +193,11 @@ export const emailTemplates = {
   }),
 
   orgInvite: (inviterName: string, orgName: string, acceptUrl: string) => ({
-    subject: `Invitation to join ${orgName} on PROPATI`,
+    subject: `Invitation to join ${orgName} on PropatiBox`,
     html: `
       <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #1e3a5f;">You're Invited!</h1>
-        <p>${inviterName} has invited you to join <strong>${orgName}</strong> on PROPATI.</p>
+        <p>${inviterName} has invited you to join <strong>${orgName}</strong> on PropatiBox.</p>
         <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
       </div>
     `,
@@ -216,12 +216,12 @@ export const emailTemplates = {
   }),
 
   agentInvite: (agentName: string, landlordName: string, acceptUrl: string, listingTitle?: string, message?: string) => ({
-    subject: `You've been invited to join PROPATI as an agent`,
+    subject: `You've been invited to join PropatiBox as an agent`,
     html: `
       <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #1e3a5f;">You're Invited!</h1>
         <p>Hi ${agentName || 'there'},</p>
-        <p><strong>${landlordName}</strong> has invited you to act as an agent on PROPATI${listingTitle ? ` for <strong>${listingTitle}</strong>` : ''}.</p>
+        <p><strong>${landlordName}</strong> has invited you to act as an agent on PropatiBox${listingTitle ? ` for <strong>${listingTitle}</strong>` : ''}.</p>
         ${message ? `<p><em>${message}</em></p>` : ''}
         <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
       </div>
@@ -234,7 +234,7 @@ export const emailTemplates = {
       <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #1e3a5f;">Listing Approved!</h1>
         <p>Hi ${name},</p>
-        <p>Your property listing <strong>${listingTitle}</strong> has been approved and is now live on PROPATI.</p>
+        <p>Your property listing <strong>${listingTitle}</strong> has been approved and is now live on PropatiBox.</p>
         <a href="${viewUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">View Listing</a>
       </div>
     `,
@@ -284,7 +284,7 @@ export const emailTemplates = {
       <div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #1e3a5f;">How was your experience?</h1>
         <p>Hi ${name},</p>
-        <p>We'd love to hear about your experience with <strong>${propertyTitle}</strong> on PROPATI.</p>
+        <p>We'd love to hear about your experience with <strong>${propertyTitle}</strong> on PropatiBox.</p>
         <a href="${ratingUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Leave a Review</a>
         <p style="color: #74777e; font-size: 12px; margin-top: 16px;">Reviews help other users make informed decisions.</p>
       </div>

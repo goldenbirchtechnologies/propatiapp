@@ -1,4 +1,4 @@
-# PROPATI Tech Stack & Implementation Analysis
+# PropatiBox Tech Stack & Implementation Analysis
 
 Extracted from `oldpropati/TECH_STACK.md` and `oldpropati/IMPLEMENTATION_PLAN.md`
 
@@ -139,7 +139,7 @@ SMTP_PASS=
 
 # SMS (Nigerian gateway)
 TERMII_API_KEY=
-TERMII_SENDER_ID=PROPATI
+TERMII_SENDER_ID=PropatiBox
 
 # WhatsApp OTP
 TWILIO_ACCOUNT_SID=AC...
@@ -314,7 +314,7 @@ Generated: `'prefix_' + uuidv4().replace(/-/g,'').slice(0,12)`
 ### Phase 10 — Launch Preparation (2–3 days)
 | Task | Status | File References |
 |------|--------|-----------------|
-| CAC Registration (PROPATI Technologies Ltd) | ☐ | Legal/offline |
+| CAC Registration (PropatiBox Technologies Ltd) | ☐ | Legal/offline |
 || Paystack live mode activation | ☐ | Railway: `PAYSTACK_SECRET_KEY=[REPLACE...RET]` |
 | Custom domain: `propati.ng` → Vercel, `api.propati.ng` → Railway | ☐ | Vercel/Railway config, `FRONTEND_URL`, CORS |
 | Monitoring: Railway alerts, Sentry, Supabase monitoring | ☐ | External services |

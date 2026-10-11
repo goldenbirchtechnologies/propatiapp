@@ -1,7 +1,7 @@
 # Technical Requirements Document (TRD)
 
 ## 1. Overview
-PROPATI is a Next.js 14 property marketplace targeting the Nigerian market. It provides role‑based dashboards, 5‑layer verification, escrow payments via Paystack, and estate‑manager B2B tools.
+PropatiBox is a Next.js 14 property marketplace targeting the Nigerian market. It provides role‑based dashboards, 5‑layer verification, escrow payments via Paystack, and estate‑manager B2B tools.
 
 ## 2. Architecture
 ```mermaid

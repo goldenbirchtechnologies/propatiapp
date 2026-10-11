@@ -348,7 +348,7 @@ For questions or issues:
 **Phase H: Notifications - COMPLETE** ✅
 
 Generated: 2026-06-18
-Project: PROPATI
+Project: PropatiBox
 Version: 1.0.0
 
 ## Core Platform Concept

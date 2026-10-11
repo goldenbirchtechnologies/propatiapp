@@ -409,7 +409,7 @@ export function Sidebar({
       <div className="sb-header p-4">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-xl font-heading font-bold text-accent">
-            PROPATI
+            PropatiBox
           </span>
           {!collapsed && (
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">

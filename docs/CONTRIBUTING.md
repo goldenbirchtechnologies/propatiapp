@@ -1,4 +1,4 @@
-# PROPATI — Contributor Guide
+# PropatiBox — Contributor Guide
 
 **Version:** 1.0  
 **Stack:** Next.js 14 App Router · TypeScript · Prisma · Supabase · Clerk · Paystack
@@ -58,7 +58,7 @@ Edit `.env.local` with your development credentials. See Section 3 for all requi
 
 ### 2.3 Database Setup
 
-PROPATI uses a shared staging Supabase database for local development. Each developer should use their own Supabase project for feature development:
+PropatiBox uses a shared staging Supabase database for local development. Each developer should use their own Supabase project for feature development:
 
 ```bash
 # Apply migrations to your dev database
@@ -185,7 +185,7 @@ git rebase --continue
 
 ## 5. Commit Message Conventions
 
-PROPATI uses **Conventional Commits** (`conventionalcommits.org`).
+PropatiBox uses **Conventional Commits** (`conventionalcommits.org`).
 
 ### 5.1 Format
 

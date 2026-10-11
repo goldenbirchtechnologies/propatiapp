@@ -5,7 +5,7 @@ import { FrozenState } from '@/components/feedback/FrozenState';
 import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export const metadata = {
-  title: 'Verification Frozen — PROPATI',
+  title: 'Verification Frozen — PropatiBox',
 };
 
 export default async function VerificationFrozenPage() {

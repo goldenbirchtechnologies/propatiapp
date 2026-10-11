@@ -231,7 +231,7 @@ export default function AutoPayConfigurationClient() {
             <span className="text-body-sm text-zinc-600 dark:text-zinc-500">Central Bank Licensed</span>
           </div>
         </div>
-        <p className="text-body-sm text-zinc-600 dark:text-zinc-500">© 2024 PROPATI Nigerian Real Estate Fintech. All rights reserved.</p>
+        <p className="text-body-sm text-zinc-600 dark:text-zinc-500">© 2024 PropatiBox Nigerian Real Estate Fintech. All rights reserved.</p>
       </footer>
     </div>
   );

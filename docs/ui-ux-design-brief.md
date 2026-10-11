@@ -1,7 +1,7 @@
 # UI/UX Design Brief
 
 ## 🎨 Design Vision
-PROPATI should feel **premium, trustworthy, and modern** while remaining highly usable on desktop and mobile devices. The visual language combines a dark‑mode friendly palette, subtle glass‑morphism, and smooth micro‑animations.
+PropatiBox should feel **premium, trustworthy, and modern** while remaining highly usable on desktop and mobile devices. The visual language combines a dark‑mode friendly palette, subtle glass‑morphism, and smooth micro‑animations.
 
 ---
 ## 1. Design Tokens

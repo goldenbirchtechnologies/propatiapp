@@ -1,5 +1,5 @@
 /**
- * Payment utility functions for PROPATI
+ * Payment utility functions for PropatiBox
  * Handles amount formatting, fee calculations, and Paystack integration
  */
 

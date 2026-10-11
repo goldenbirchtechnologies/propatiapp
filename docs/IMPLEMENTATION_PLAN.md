@@ -1,4 +1,4 @@
-# PROPATI — Implementation Plan
+# PropatiBox — Implementation Plan
 
 **Version:** 2.0  **Source:** `docs/IMPLEMENTATION_PLAN.md v1.0`, `docs/TECH_STACK.md`, current codebase audit  **Status:** 10 Phases — Phases 1–9 Complete · **Phase 10 Active** · Launch Gate In Progress
 
@@ -264,7 +264,7 @@ CREATE INDEX idx_applications_listing ON applications(listing_id);
 
 | Task ID | Task | Status | File References | Owner |
 |---------|------|--------|-----------------|-------|
-| 10.1 | CAC Registration: PROPATI Technologies Ltd | ☐ | Legal/offline | Owner |
+| 10.1 | CAC Registration: PropatiBox Technologies Ltd | ☐ | Legal/offline | Owner |
 || 10.2 | Paystack live mode activation — secret key in env (managed via secrets manager) | ☐ | Railway / Vercel env vars | Owner |
 | 10.3 | Custom domain: `propati.ng` → Vercel, `api.propati.ng` → Railway | ☐ | Vercel/Railway config, `FRONTEND_URL`, CORS | Owner |
 | 10.4 | SSL certificates (auto via Vercel/Railway) | ☐ | Vercel/Railway | Owner |

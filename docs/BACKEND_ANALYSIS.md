@@ -1,4 +1,4 @@
-# PROPATI Backend Structure Analysis
+# PropatiBox Backend Structure Analysis
 
 *Extracted from `oldpropati/BACKEND_STRUCTURE.md`*
 

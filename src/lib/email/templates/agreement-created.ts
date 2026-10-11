@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Agreement Created
+// PropatiBox — Email Template: Agreement Created
 // ===========================================================================
 
 export interface AgreementCreatedEmailData {
@@ -77,7 +77,7 @@ export function renderAgreementCreatedEmail(
       <p><strong>Important:</strong> The agreement becomes binding only after both parties have signed.</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -104,7 +104,7 @@ Review & Sign Agreement: ${appUrl}/agreements/${agreementId}
 Important: The agreement becomes binding only after both parties have signed.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

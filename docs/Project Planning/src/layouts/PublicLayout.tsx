@@ -44,7 +44,7 @@ export default function PublicLayout() {
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="text-white font-bold text-lg tracking-tight">PROPATI</span>
+            <span className="text-white font-bold text-lg tracking-tight">PropatiBox</span>
           </Link>
 
           {/* Desktop links */}
@@ -126,7 +126,7 @@ export default function PublicLayout() {
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                 </div>
-                <span className="text-white font-bold text-lg">PROPATI</span>
+                <span className="text-white font-bold text-lg">PropatiBox</span>
               </div>
               <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
                 Nigeria's first verified property marketplace. Find, rent, buy, and manage real estate with confidence.

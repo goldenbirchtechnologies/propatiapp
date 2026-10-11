@@ -1,4 +1,4 @@
-# PROPATI — Codex Instructions
+# PropatiBox — Codex Instructions
 
 Nigeria's first verified property marketplace. Next.js 14 App Router + Prisma + Supabase + Clerk + Paystack.
 

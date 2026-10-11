@@ -62,14 +62,14 @@ const testimonials = [
   {
     name: 'Chidinma O.',
     role: 'Tenant — Lekki',
-    text: "I spent weeks searching until I found PROPATI. Within three days, I'd viewed three apartments in Lekki and signed my tenancy digitally. No stress.",
+    text: "I spent weeks searching until I found PropatiBox. Within three days, I'd viewed three apartments in Lekki and signed my tenancy digitally. No stress.",
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6sJMd5M3QqXyjN7w7k7V3H4X8vF3xN9zR5T1wE4yU8iO2pL6mQ9sA0bC3dE6fG7hI8jK9lM0nP1qR2sT4uV5wX6yZ7aB8cD9eF0gH1iJ2kL3mN4oP5qR6sT7uV8wX9yZ0',
     rating: 5,
   },
   {
     name: 'Emeka N.',
     role: 'Landlord — Abuja',
-    text: 'Listing on PROPATI meant I got verified tenants fast. The five-layer verification gave me confidence, and rent collection is automatic now.',
+    text: 'Listing on PropatiBox meant I got verified tenants fast. The five-layer verification gave me confidence, and rent collection is automatic now.',
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6sJMd5M3QqXyjN7w7k7V3H4X8vF3xN9zR5T1wE4yU8iO2pL6mQ9sA0bC3dE6fG7hI8jK9lM0nP1qR2sT4uV5wX6yZ7aB8cD9eF0gH1iJ2kL3mN4oP5qR6sT7uV8wX9yZ0',
     rating: 5,
   },
@@ -528,7 +528,7 @@ export default function HomePage() {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <SectionLabel>Voices</SectionLabel>
             <h2 className="font-extrabold text-3xl sm:text-4xl text-white leading-tight">
-              Nigerians choosing PROPATI every day
+              Nigerians choosing PropatiBox every day
             </h2>
             <p className="mt-4 text-zinc-500 text-lg">
               Real stories from tenants, landlords, and estate managers across the country.
@@ -566,7 +566,7 @@ export default function HomePage() {
               Ready to find your next home — or tenant?
             </h2>
             <p className="text-zinc-500 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-              Join thousands of Nigerians who trust PROPATI for verified listings, secure payments, and legally sound agreements.
+              Join thousands of Nigerians who trust PropatiBox for verified listings, secure payments, and legally sound agreements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <InteractiveHoverButton

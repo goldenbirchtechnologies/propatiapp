@@ -2,7 +2,7 @@
 
 ## Status: Placeholder
 
-Illustrations are not yet produced for PROPATI.
+Illustrations are not yet produced for PropatiBox.
 
 ### Planned Usage
 

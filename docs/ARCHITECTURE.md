@@ -1,4 +1,4 @@
-# PROPATI — System Architecture
+# PropatiBox — System Architecture
 
 **Version:** 1.0  
 **Status:** Production Reference  

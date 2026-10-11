@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 
 /* ================================================================
-   COOKIES POLICY PAGE — PROPATI Platform
+   COOKIES POLICY PAGE — PropatiBox Platform
    Outlines cookie usage, types, and user controls
    ================================================================ */
 
@@ -47,7 +47,7 @@ export default function CookiesPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">2. How We Use Cookies</h2>
                 <p className="mt-2 text-zinc-500">
-                  PROPATI uses cookies and similar tracking technologies (including web beacons, tags, and scripts) to:
+                  PropatiBox uses cookies and similar tracking technologies (including web beacons, tags, and scripts) to:
                 </p>
                 <ul className="mt-2 text-zinc-500 list-disc list-inside space-y-1">
                   <li><strong>Authenticate your account</strong> and maintain your login session as you navigate the Platform</li>
@@ -165,7 +165,7 @@ export default function CookiesPage() {
                 <p className="mt-2 text-zinc-500">
                   Email: <a href="mailto:dpo@propati.ng" className="underline">dpo@propati.ng</a>
                   <br />
-                  Post: PROPATI Technologies Limited, 15 Akin Adesola Street, Victoria Island, Lagos, Nigeria
+                  Post: PropatiBox Technologies Limited, 15 Akin Adesola Street, Victoria Island, Lagos, Nigeria
                 </p>
               </div>
 

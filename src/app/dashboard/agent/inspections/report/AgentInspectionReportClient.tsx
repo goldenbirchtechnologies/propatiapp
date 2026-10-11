@@ -212,7 +212,7 @@ export default function AgentInspectionReportClient() {
               Lagos State regulatory requirements for Tier 2 accreditation. Documentation was verified
               against original state records and physical infrastructure exceeds standard safety and
               operational capacity benchmarks. We recommend immediate activation of the certified
-              listing status on the PROPATI marketplace.
+              listing status on the PropatiBox marketplace.
             </p>
           </section>
 

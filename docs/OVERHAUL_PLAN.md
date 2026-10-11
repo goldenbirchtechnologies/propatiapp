@@ -1,6 +1,6 @@
 # SITE-WIDE VERCEL DARK UI OVERHAUL PLAN
 
-> **Project:** PROPATI — Nigeria's First Verified Property Marketplace
+> **Project:** PropatiBox — Nigeria's First Verified Property Marketplace
 > **Scope:** Full sitewide visual overhaul to a unified Vercel-inspired dark theme
 > **Palette:** Black canvas `#000000` | Surface `#09090b` | Elevated `#121215` | Accent `#10b981` (green) | Text `#ededed` | Muted `#a1a1aa` | Border `rgba(255,255,255,0.08)`
 > **Font:** Inter (body + headings — already wired via `localFont`)
@@ -887,6 +887,6 @@ Add to `theme.extend.boxShadow`:
 
 ---
 
-*Document version: 1.0 — Generated for PROPATI sitewide dark UI overhaul*
+*Document version: 1.0 — Generated for PropatiBox sitewide dark UI overhaul*
 *Token source: `src/app/globals.css` + `tailwind.config.ts` (verified current state)*
 *Total pages scoped: 229 page.tsx files*

@@ -1,7 +1,7 @@
 # User Journey Flows
 
 ## Overview
-This document describes the end‑to‑end journeys for the five primary user roles in PROPATI:
+This document describes the end‑to‑end journeys for the five primary user roles in PropatiBox:
 - **Tenant**
 - **Agent**
 - **Admin**

@@ -35,7 +35,7 @@ export function CookieConsent() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex-1">
             <p className="text-sm text-zinc-300">
-              We use cookies to improve your experience on PROPATI and for marketing. 
+              We use cookies to improve your experience on PropatiBox and for marketing. 
               By clicking "Accept all", you agree to our{' '}
               <Link href="/terms-of-agreement" className="text-emerald-400 hover:underline">
                 Terms &amp; Conditions

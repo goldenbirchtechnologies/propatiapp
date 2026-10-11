@@ -1,7 +1,7 @@
 # Agreements & E-Signature System - Implementation Summary
 
 ## Overview
-Phase C implementation of PROPATI's Agreements and E-Signature system for digital rental agreements with legal compliance, PDF generation, and automated rent schedule creation.
+Phase C implementation of PropatiBox's Agreements and E-Signature system for digital rental agreements with legal compliance, PDF generation, and automated rent schedule creation.
 
 ## Agreement Flow
 ```

@@ -1,4 +1,4 @@
-# PROPATI — Security Policy
+# PropatiBox — Security Policy
 
 **Version:** 1.0  
 **Status:** Production  
@@ -89,7 +89,7 @@ In Clerk Dashboard, enforce:
 
 ### 2.2 JWT Handling
 
-Clerk issues RS256 JWTs signed with Clerk's private key. PROPATI verifies these via Clerk's JWKS endpoint:
+Clerk issues RS256 JWTs signed with Clerk's private key. PropatiBox verifies these via Clerk's JWKS endpoint:
 - Do **not** manually verify JWT signatures — use `auth()` from `@clerk/nextjs/server`
 - JWT expiry: 1 hour (Clerk default)
 - Session token stored in httpOnly cookie by Clerk.js — not accessible to JavaScript
@@ -112,7 +112,7 @@ If a user is banned (`User.isBanned = true` or `User.isActive = false`):
 
 ### 2.4 Password Reset Security
 
-Handled entirely by Clerk (secure email link, short expiry, one-time use). PROPATI does not implement custom password reset flows.
+Handled entirely by Clerk (secure email link, short expiry, one-time use). PropatiBox does not implement custom password reset flows.
 
 ---
 
@@ -605,7 +605,7 @@ export async function POST(req: Request) {
 
 ## 12. Responsible Disclosure
 
-If you discover a security vulnerability in PROPATI:
+If you discover a security vulnerability in PropatiBox:
 
 1. **Do not** publicly disclose until we have addressed it
 2. Email: security@propati.ng with subject "Security Vulnerability Report"

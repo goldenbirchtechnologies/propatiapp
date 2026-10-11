@@ -232,7 +232,7 @@ export function Topbar({
         <div className="hidden md:block w-px h-6 bg-border" />
         <Link href="/dashboard" className="flex items-center gap-2 px-2">
           <span className="text-xl font-heading font-bold text-accent">
-            PROPATI
+            PropatiBox
           </span>
         </Link>
       </div>

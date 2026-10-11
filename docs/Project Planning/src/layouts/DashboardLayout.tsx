@@ -46,7 +46,7 @@ export default function DashboardLayout({ role }: { role: string }) {
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-white font-bold text-sm leading-none">PROPATI</div>
+              <div className="text-white font-bold text-sm leading-none">PropatiBox</div>
               <div className="text-zinc-500 text-[10px] mt-0.5 capitalize">{config.label} Portal</div>
             </div>
           )}

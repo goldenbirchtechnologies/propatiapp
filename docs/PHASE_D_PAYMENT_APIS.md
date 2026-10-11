@@ -1,4 +1,4 @@
-# PROPATI Phase D: Payment APIs & Paystack Webhook Implementation
+# PropatiBox Phase D: Payment APIs & Paystack Webhook Implementation
 
 **Status:** ✅ Complete  
 **Date:** June 18, 2026  
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document details the complete implementation of PROPATI's payment infrastructure for Phase D, including:
+This document details the complete implementation of PropatiBox's payment infrastructure for Phase D, including:
 - Payment initiation API
 - Payment verification API
 - Paystack webhook handler with signature verification

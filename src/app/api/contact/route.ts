@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
   const html = `
     <div style="font-family:Inter,system-ui,sans-serif;max-width:600px;margin:0 auto;color:#161c27">
-      <h2 style="color:#000f22;margin:0 0 8px">New contact form submission — PROPATI</h2>
+      <h2 style="color:#000f22;margin:0 0 8px">New contact form submission — PropatiBox</h2>
       <p style="color:#43474d;font-size:14px;margin:0 0 16px">Received via propati.ng/contact-us</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px">
         <tr><td style="padding:6px 8px;font-weight:600;width:120px;background:#f1f3ff">Name</td><td style="padding:6px 8px">${name}</td></tr>
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
   `;
 
   try {
-    await sendEmail({ to: SUPPORT_EMAIL, subject: `[PROPATI Contact] ${safeSubject} — ${name}`, html });
+    await sendEmail({ to: SUPPORT_EMAIL, subject: `[PropatiBox Contact] ${safeSubject} — ${name}`, html });
   } catch (e) {
     console.error('[contact] sendEmail failed:', e);
     return NextResponse.json({ success: false, error: 'Could not send message. Please try again.' }, { status: 500 });

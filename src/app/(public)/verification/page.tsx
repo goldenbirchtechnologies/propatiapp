@@ -39,7 +39,7 @@ const layers = [
     tier: 'inspected',
     icon: MapPin,
     status: 'l4Status',
-    requires: ['PROPATI agent visit (scheduled via l4ScheduledAt)', 'On-site photos + inspection report (l4ReportUrl)', 'Agent sign-off (l4AgentId)'],
+    requires: ['PropatiBox agent visit (scheduled via l4ScheduledAt)', 'On-site photos + inspection report (l4ReportUrl)', 'Agent sign-off (l4AgentId)'],
     proves: 'A trained inspector physically stood in the property and confirmed it.',
   },
   {
@@ -49,7 +49,7 @@ const layers = [
     icon: Award,
     status: 'l5Status',
     requires: ['Review of bundled L1–L4 evidence', 'Overall status → certified, priority placement, badge'],
-    proves: 'PROPATI stakes its name on the listing. Certified listings carry a verifiable badge.',
+    proves: 'PropatiBox stakes its name on the listing. Certified listings carry a verifiable badge.',
   },
 ];
 
@@ -66,7 +66,7 @@ export default function VerificationPage() {
             5 layers. One certified badge.
           </h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-            Every certified listing on PROPATI passes the same gauntlet — document, identity, video, inspection, and admin review. No layer can be skipped.
+            Every certified listing on PropatiBox passes the same gauntlet — document, identity, video, inspection, and admin review. No layer can be skipped.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">

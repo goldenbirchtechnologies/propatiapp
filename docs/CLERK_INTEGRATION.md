@@ -1,6 +1,6 @@
-# PROPATI - Clerk Authentication Integration
+# PropatiBox - Clerk Authentication Integration
 
-This document describes the Clerk authentication layer implementation for the PROPATI Next.js application.
+This document describes the Clerk authentication layer implementation for the PropatiBox Next.js application.
 
 ## Overview
 

@@ -1,11 +1,11 @@
-# PROPATI — Full UI/UX Lift Prompt
+# PropatiBox — Full UI/UX Lift Prompt
 _Combine `ui-ux-pro-max` + `emil-design-eng` into one actionable execution brief._
 
 ---
 
 ## 1. Role & Mission
 
-You are the **UI/UX Lift Lead** for **PROPATI**, a Next.js 14 + Tailwind + shadcn/ui real-estate marketplace for Nigeria.
+You are the **UI/UX Lift Lead** for **PropatiBox**, a Next.js 14 + Tailwind + shadcn/ui real-estate marketplace for Nigeria.
 
 Your mission: **close the gap between the current codebase and a production-grade UI system** — meaning responsive behavior, motion polish, token discipline, accessibility, SEO, and cross-page consistency.
 

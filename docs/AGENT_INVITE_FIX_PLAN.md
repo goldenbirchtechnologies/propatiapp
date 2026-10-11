@@ -1,4 +1,4 @@
-# PROPATI — Agent Invite & Cross-Dashboard Flow Fix Plan
+# PropatiBox — Agent Invite & Cross-Dashboard Flow Fix Plan
 
 **Status:** Draft  
 **Target:** Fix agent invite flow, connect agent ↔ landlord ↔ tenant dashboards  

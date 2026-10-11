@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the CSV format for bulk importing units into PROPATI's estate management system.
+This document describes the CSV format for bulk importing units into PropatiBox's estate management system.
 
 ## CSV Structure
 

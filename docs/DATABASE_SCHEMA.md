@@ -1,4 +1,4 @@
-# PROPATI — Database Schema Reference
+# PropatiBox — Database Schema Reference
 
 **Version:** 1.0  
 **Source:** `oldpropati/BACKEND_STRUCTURE.md`  
@@ -293,7 +293,7 @@ CREATE TABLE verifications (
   l3_qr_code        TEXT,                     -- unique per user
   -- Layer 4: Physical Inspection
   l4_status         TEXT DEFAULT 'pending' CHECK IN ('pending','approved','rejected'),
-  l4_agent_id       TEXT REFERENCES users(id), -- PROPATI agent
+  l4_agent_id       TEXT REFERENCES users(id), -- PropatiBox agent
   l4_scheduled_at   TIMESTAMPTZ,
   l4_completed_at   TIMESTAMPTZ,
   l4_report_url     TEXT,

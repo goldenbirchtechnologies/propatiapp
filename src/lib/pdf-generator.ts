@@ -208,7 +208,7 @@ function buildAgreementPDFBuffer(
   doc
     .font('Helvetica-Bold')
     .text('Document Verification:', { continued: false });
-  doc.font('Helvetica').text('This document is legally binding and has been verified by PROPATI.');
+  doc.font('Helvetica').text('This document is legally binding and has been verified by PropatiBox.');
   doc.text(`Agreement ID: ${agreement.id}`);
   doc.text(`Generated on: ${new Date().toLocaleString('en-NG')}`);
 
@@ -349,7 +349,7 @@ export async function generateAgreementPDF(
           .join('')}
         <p style="margin-top: 40px; padding: 15px; background: #e8f5e9; border-radius: 5px;">
           <strong>Document Verification:</strong><br/>
-          This document is legally binding and has been verified by PROPATI.<br/>
+          This document is legally binding and has been verified by PropatiBox.<br/>
           Agreement ID: ${agreement.id}<br/>
           Generated on: ${new Date().toLocaleString('en-NG')}
         </p>

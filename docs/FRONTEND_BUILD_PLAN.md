@@ -1,4 +1,4 @@
-# PROPATI — Frontend Build Plan (UI Layer)
+# PropatiBox — Frontend Build Plan (UI Layer)
 **Version:** 1.0  
 **Style Direction:** Spatial UI (chosen over clay/glass for PropTech trust + depth)  
 **Stack:** Next.js 14 App Router + TypeScript + Tailwind + shadcn/ui  

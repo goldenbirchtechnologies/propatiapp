@@ -57,7 +57,7 @@ export default function ContactUsPage() {
           </div>
           <h2 className="mt-4 text-xl font-bold text-white">Message sent</h2>
           <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
-            Thank you for contacting PROPATI. Our team will respond within one business day. If you need faster help, email support@propati.ng.
+            Thank you for contacting PropatiBox. Our team will respond within one business day. If you need faster help, email support@propati.ng.
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Button onClick={() => setSubmitted(false)} variant="outline" className="border-white/15 text-white hover:bg-white/10">

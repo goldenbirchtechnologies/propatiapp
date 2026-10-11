@@ -1,4 +1,4 @@
-# PROPATI — UI/UX Design Brief
+# PropatiBox — UI/UX Design Brief
 
 **Version:** 1.0  
 **Source:** `oldpropati/FRONTEND_GUIDELINES.md`, `oldpropati/APP_FLOW.md`  
@@ -15,7 +15,7 @@
 ## 2. Brand Identity
 
 ### 2.1 Logo & Wordmark
-- **Primary:** "PROPATI" in Bricolage Grotesque 800
+- **Primary:** "PropatiBox" in Bricolage Grotesque 800
 - **Accent:** Gold (#c9952a) on warm sand (#f5f3ee) for landing
 - **Favicon:** Gold initial "P" on dark rust circle
 
@@ -698,7 +698,7 @@ function startMsgPolling(convId) {
 
 ---
 
-*This brief is the single source of truth for PROPATI visual design. All screens, components, and tokens derive from these specifications.*
+*This brief is the single source of truth for PropatiBox visual design. All screens, components, and tokens derive from these specifications.*
 ## Core Platform Concept
 - Property marketplace (residential, commercial, industrial, short-let)
 - Financial infrastructure (rent + booking payments)

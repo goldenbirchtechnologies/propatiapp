@@ -32,7 +32,7 @@ export function LandingPage() {
                 className="w-10 h-10 rounded-lg object-cover bg-[#0A0F18]"
               />
               <span className="text-2xl font-heading font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-                PROPATI
+                PropatiBox
               </span>
             </Link>
 
@@ -167,7 +167,7 @@ export function LandingPage() {
         <section className="bg-[var(--surface)]" style={{ padding: 'var(--space-section) var(--space-lg)' }}>
           <div className="max-w-7xl mx-auto">
             <h2 className="font-heading font-bold text-center mb-12" style={{ fontSize: '1.5rem', color: 'var(--text)' }}>
-              How PROPATI Works
+              How PropatiBox Works
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -205,7 +205,7 @@ export function LandingPage() {
                 Ready to Find Your Home?
               </h2>
               <p className="mb-8" style={{ color: 'rgba(26, 26, 26, 0.8)', fontSize: '1.1rem' }}>
-                Join thousands of Nigerians who trust PROPATI for their property needs.
+                Join thousands of Nigerians who trust PropatiBox for their property needs.
               </p>
               <SignUpButton>
                 Create Free Account
@@ -232,7 +232,7 @@ export function LandingPage() {
                   height="32"
                   className="w-8 h-8 rounded-lg object-cover bg-[#0A0F18]"
                 />
-                <span className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>PROPATI</span>
+                <span className="text-xl font-heading font-bold" style={{ color: 'var(--text)' }}>PropatiBox</span>
               </Link>
               <p className="text-sm" style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
                 All your properties in one box for easier visibility and management. Verified properties, stamp duty verification, and secure payments across Nigeria.
@@ -269,7 +269,7 @@ export function LandingPage() {
           <div className="border-t pt-8" style={{ borderColor: 'var(--border)' }}>
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                © 2024 PROPATI. All rights reserved.
+                © 2024 PropatiBox. All rights reserved.
               </p>
               <div className="flex items-center gap-6">
                 <Link href="/privacy-policy" className="text-sm hover:text-[var(--accent)]" style={{ color: 'var(--muted)' }}>Privacy</Link>

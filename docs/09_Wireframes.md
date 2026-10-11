@@ -2,7 +2,7 @@
 
 ## Status: Placeholder
 
-Wireframes are design-production artifacts and have not yet been produced for PROPATI.
+Wireframes are design-production artifacts and have not yet been produced for PropatiBox.
 
 ### Planned Coverage
 

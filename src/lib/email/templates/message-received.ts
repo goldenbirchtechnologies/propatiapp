@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: New Message Received
+// PropatiBox — Email Template: New Message Received
 // ===========================================================================
 
 export interface MessageReceivedEmailData {
@@ -64,7 +64,7 @@ export function renderMessageReceivedEmail(
       <p><small>To manage your notification preferences, visit your account settings.</small></p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -85,7 +85,7 @@ Read & Reply: ${appUrl}/dashboard/messages?conversationId=${conversationId}
 To manage your notification preferences, visit your account settings.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

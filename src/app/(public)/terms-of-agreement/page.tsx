@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 /* ================================================================
-   TERMS OF AGREEMENT PAGE — PROPATI Platform
+   TERMS OF AGREEMENT PAGE — PropatiBox Platform
    Comprehensive legal terms governing use of the platform
    ================================================================ */
 
@@ -39,14 +39,14 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">1. Acceptance of Terms</h2>
                 <p className="mt-2 text-zinc-500">
-                  These Terms and Conditions ("Terms") constitute a legally binding agreement between PROPATI Technologies Limited ("we", "our", "us", "PROPATI") and you ("you", "your", "user", or "party") governing your access to and use of the PROPATI platform, including all related websites, mobile applications, APIs, and services (collectively, the "Platform"). By accessing or using the Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use the Platform.
+                  These Terms and Conditions ("Terms") constitute a legally binding agreement between PropatiBox Technologies Limited ("we", "our", "us", "PropatiBox") and you ("you", "your", "user", or "party") governing your access to and use of the PropatiBox platform, including all related websites, mobile applications, APIs, and services (collectively, the "Platform"). By accessing or using the Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use the Platform.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-foreground">2. About PROPATI</h2>
+                <h2 className="text-xl font-bold text-foreground">2. About PropatiBox</h2>
                 <p className="mt-2 text-zinc-500">
-                  PROPATI is Nigeria's first verified property marketplace. We provide a technology platform that enables property owners (landlords), prospective tenants, real estate agents, and estate managers to list, search, manage, and transact on residential and commercial properties. PROPATI acts as an intermediary technology platform and is not a party to any transaction between users. We do not own, manage, or physically inspect properties listed on the Platform, except where we conduct verification on behalf of listing owners through our Verification Partners.
+                  PropatiBox is Nigeria's first verified property marketplace. We provide a technology platform that enables property owners (landlords), prospective tenants, real estate agents, and estate managers to list, search, manage, and transact on residential and commercial properties. PropatiBox acts as an intermediary technology platform and is not a party to any transaction between users. We do not own, manage, or physically inspect properties listed on the Platform, except where we conduct verification on behalf of listing owners through our Verification Partners.
                 </p>
               </div>
 
@@ -60,7 +60,7 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">4. Account Registration</h2>
                 <p className="mt-2 text-zinc-500">
-                  To access certain features of the Platform, you must register for an account. You agree to provide accurate, current, and complete information during registration and to update such information to keep it current. You are solely responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account. PROPATI shall not be liable for any loss resulting from your failure to protect your password.
+                  To access certain features of the Platform, you must register for an account. You agree to provide accurate, current, and complete information during registration and to update such information to keep it current. You are solely responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account. PropatiBox shall not be liable for any loss resulting from your failure to protect your password.
                 </p>
               </div>
 
@@ -74,14 +74,14 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">6. Property Listings and Accuracy</h2>
                 <p className="mt-2 text-zinc-500">
-                  Landlords and agents are responsible for providing accurate, truthful, and complete information in their property listings. This includes but is not limited to property location, dimensions, pricing, availability, photographs, amenities, and legal status. PROPATI reserves the right to verify listing information through third-party verification services and to remove or flag listings that are found to be inaccurate or misleading. We do not guarantee the accuracy of any listing information provided by users.
+                  Landlords and agents are responsible for providing accurate, truthful, and complete information in their property listings. This includes but is not limited to property location, dimensions, pricing, availability, photographs, amenities, and legal status. PropatiBox reserves the right to verify listing information through third-party verification services and to remove or flag listings that are found to be inaccurate or misleading. We do not guarantee the accuracy of any listing information provided by users.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">7. Five-Layer Verification System</h2>
                 <p className="mt-2 text-zinc-500">
-                  All properties listed on PROPATI undergo a mandatory five-layer verification process:
+                  All properties listed on PropatiBox undergo a mandatory five-layer verification process:
                 </p>
                 <ol className="mt-2 text-zinc-500 list-decimal list-inside space-y-1">
                   <li><strong>Layer 1 — Registered Ownership:</strong> Confirmation of legal ownership documents (Certificate of Occupancy, Deed of Assignment, etc.)</li>
@@ -91,21 +91,21 @@ export default function TermsOfAgreementPage() {
                   <li><strong>Layer 5 — NIPOST Address Cross-reference:</strong> Postal address validation through Nigeria Postal Service</li>
                 </ol>
                 <p className="mt-2 text-zinc-500">
-                  While we employ industry-leading verification processes and partner with third-party verification services, PROPATI does not guarantee that any verified property is free from legal encumbrances, disputes, or defects. Verification confirms the accuracy of information provided, not the absence of latent issues. Users should conduct their own due diligence and obtain independent legal advice before entering any transaction.
+                  While we employ industry-leading verification processes and partner with third-party verification services, PropatiBox does not guarantee that any verified property is free from legal encumbrances, disputes, or defects. Verification confirms the accuracy of information provided, not the absence of latent issues. Users should conduct their own due diligence and obtain independent legal advice before entering any transaction.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">8. Transactions and Payments</h2>
                 <p className="mt-2 text-zinc-500">
-                  All monetary transactions on the Platform are conducted through our escrow partner, Paystack, in accordance with escrow principles. Funds are held by the payment provider until the completion of the agreed-upon conditions (rental agreement signing, property handover, etc.) before being released to the landlord. PROPATI charges a service fee for facilitating transactions and managing verification, the amount of which is disclosed prior to completing a transaction.
+                  All monetary transactions on the Platform are conducted through our escrow partner, Paystack, in accordance with escrow principles. Funds are held by the payment provider until the completion of the agreed-upon conditions (rental agreement signing, property handover, etc.) before being released to the landlord. PropatiBox charges a service fee for facilitating transactions and managing verification, the amount of which is disclosed prior to completing a transaction.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">9. Stamp Duty and Taxes</h2>
                 <p className="mt-2 text-zinc-500">
-                  Tenancy agreements governed by PROPATI are subject to Nigerian Stamp Duties Act (CAP S8, LFN 2004). The applicable rate is 0.78% of the annual rent, with a minimum of ₦500 and zero charge for amounts ≤ ₦10,000. Stamp duty is processed through Remita (SystemSpecs), the official FIRS/GIFMIS gateway. The e-certificate generated by Remita is embedded directly in tenancy agreements signed on the Platform. Tenants are responsible for any taxes, levies, or duties imposed by relevant authorities.
+                  Tenancy agreements governed by PropatiBox are subject to Nigerian Stamp Duties Act (CAP S8, LFN 2004). The applicable rate is 0.78% of the annual rent, with a minimum of ₦500 and zero charge for amounts ≤ ₦10,000. Stamp duty is processed through Remita (SystemSpecs), the official FIRS/GIFMIS gateway. The e-certificate generated by Remita is embedded directly in tenancy agreements signed on the Platform. Tenants are responsible for any taxes, levies, or duties imposed by relevant authorities.
                 </p>
               </div>
 
@@ -129,7 +129,7 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">11. Intellectual Property</h2>
                 <p className="mt-2 text-zinc-500">
-                  All content, logos, graphics, and intellectual property displayed on the Platform ("Content") are the property of PROPATI or its licensors and are protected by Nigerian and international copyright, trademark, and other intellectual property laws. You may view and download Content solely for your personal, non-commercial use. Unauthorized use, reproduction, modification, or distribution is prohibited. PROPATI reserves all rights not expressly granted to you.
+                  All content, logos, graphics, and intellectual property displayed on the Platform ("Content") are the property of PropatiBox or its licensors and are protected by Nigerian and international copyright, trademark, and other intellectual property laws. You may view and download Content solely for your personal, non-commercial use. Unauthorized use, reproduction, modification, or distribution is prohibited. PropatiBox reserves all rights not expressly granted to you.
                 </p>
               </div>
 
@@ -143,35 +143,35 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">13. Dispute Resolution and Governing Law</h2>
                 <p className="mt-2 text-zinc-500">
-                  These Terms are governed by and construed in accordance with the laws of the Federal Republic of Nigeria. Any dispute, controversy, or claim arising from or in connection with these Terms or the Platform shall first be subject to mediation through PROPATI's internal dispute resolution process. If mediation is unsuccessful within 14 days, the matter shall be resolved by final and binding arbitration in Lagos, Nigeria, in accordance with the Arbitration and Conciliation Act (Cap A1, LFN 2004). The arbitration shall be conducted by a single arbitrator and the language of the arbitration shall be English.
+                  These Terms are governed by and construed in accordance with the laws of the Federal Republic of Nigeria. Any dispute, controversy, or claim arising from or in connection with these Terms or the Platform shall first be subject to mediation through PropatiBox's internal dispute resolution process. If mediation is unsuccessful within 14 days, the matter shall be resolved by final and binding arbitration in Lagos, Nigeria, in accordance with the Arbitration and Conciliation Act (Cap A1, LFN 2004). The arbitration shall be conducted by a single arbitrator and the language of the arbitration shall be English.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">14. Termination</h2>
                 <p className="mt-2 text-zinc-500">
-                  Either you or PROPATI may terminate your account and these Terms at any time. Upon termination, we will cease providing the Platform services and will delete your personal information in accordance with our Privacy Policy, subject to retention for legal, regulatory, or accounting purposes. Sections 1, 2, 4, 11 (Intellectual Property), 13 (Governing Law), 14 (Termination), and 15 (Miscellaneous) shall survive termination.
+                  Either you or PropatiBox may terminate your account and these Terms at any time. Upon termination, we will cease providing the Platform services and will delete your personal information in accordance with our Privacy Policy, subject to retention for legal, regulatory, or accounting purposes. Sections 1, 2, 4, 11 (Intellectual Property), 13 (Governing Law), 14 (Termination), and 15 (Miscellaneous) shall survive termination.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">15. Indemnification</h2>
                 <p className="mt-2 text-zinc-500">
-                  You agree to indemnify, defend, and hold harmless PROPATI, its affiliates, officers, directors, employees, agents, partners, and licensors from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable legal fees) arising out of or in any way connected with your access to or use of the Platform, your violation of these Terms, your breach of applicable laws, or your violation of any third-party right.
+                  You agree to indemnify, defend, and hold harmless PropatiBox, its affiliates, officers, directors, employees, agents, partners, and licensors from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable legal fees) arising out of or in any way connected with your access to or use of the Platform, your violation of these Terms, your breach of applicable laws, or your violation of any third-party right.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">16. Limitation of Liability</h2>
                 <p className="mt-2 text-zinc-500">
-                  To the fullest extent permitted by applicable law, in no event shall PROPATI, its affiliates, or their respective directors, officers, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, data, or use, arising out of or related to these Terms or your use of the Platform, whether in contract, tort (including negligence), strict liability, or otherwise, even if PROPATI has been advised of the possibility of such damages. PROPATI's total cumulative liability for any claim arising from or related to the Platform shall not exceed the amount you paid to PROPATI in the twelve (12) months immediately preceding the event giving rise to the claim, or ₦10,000 (Ten Thousand Naira), whichever is greater.
+                  To the fullest extent permitted by applicable law, in no event shall PropatiBox, its affiliates, or their respective directors, officers, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, data, or use, arising out of or related to these Terms or your use of the Platform, whether in contract, tort (including negligence), strict liability, or otherwise, even if PropatiBox has been advised of the possibility of such damages. PropatiBox's total cumulative liability for any claim arising from or related to the Platform shall not exceed the amount you paid to PropatiBox in the twelve (12) months immediately preceding the event giving rise to the claim, or ₦10,000 (Ten Thousand Naira), whichever is greater.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-xl font-bold text-foreground">17. Disclaimer of Warranties</h2>
                 <p className="mt-2 text-zinc-500">
-                  THE PLATFORM IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. PROPATI DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND THOSE ARISING BY COURSE OF DEALING OR COURSE OF PERFORMANCE. WE DO NOT WARRANT THAT THE PLATFORM WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE, OR THAT DEFECTS WILL BE CORRECTED. PROPATI MAKES NO WARRANTIES OR REPRESENTATIONS REGARDING THE ACCURACY, RELIABILITY, OR COMPLETENESS OF ANY LISTING, CONTENT, OR THIRD-PARTY SERVICE.
+                  THE PLATFORM IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. PropatiBox DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND THOSE ARISING BY COURSE OF DEALING OR COURSE OF PERFORMANCE. WE DO NOT WARRANT THAT THE PLATFORM WILL BE UNINTERRUPTED, SECURE, OR ERROR-FREE, OR THAT DEFECTS WILL BE CORRECTED. PropatiBox MAKES NO WARRANTIES OR REPRESENTATIONS REGARDING THE ACCURACY, RELIABILITY, OR COMPLETENESS OF ANY LISTING, CONTENT, OR THIRD-PARTY SERVICE.
                 </p>
               </div>
 
@@ -185,7 +185,7 @@ export default function TermsOfAgreementPage() {
               <div>
                 <h2 className="text-xl font-bold text-foreground">19. Changes to Terms</h2>
                 <p className="mt-2 text-zinc-500">
-                  PROPATI reserves the right, at its sole discretion, to modify or replace these Terms at any time. If we make material changes, we will notify you by posting the updated Terms on the Platform and updating the "Last updated" date. Your continued access to or use of the Platform after those changes constitutes acceptance of the revised Terms. If you do not agree to the revised Terms, you must stop using the Platform.
+                  PropatiBox reserves the right, at its sole discretion, to modify or replace these Terms at any time. If we make material changes, we will notify you by posting the updated Terms on the Platform and updating the "Last updated" date. Your continued access to or use of the Platform after those changes constitutes acceptance of the revised Terms. If you do not agree to the revised Terms, you must stop using the Platform.
                 </p>
               </div>
 
@@ -193,11 +193,11 @@ export default function TermsOfAgreementPage() {
                 <h2 className="text-xl font-bold text-foreground">20. Miscellaneous</h2>
                 <p className="mt-2 text-zinc-500">
                   <ul className="mt-2 text-zinc-500 list-disc list-inside space-y-1">
-                    <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement between you and PROPATI regarding the Platform and supersede all prior agreements.</li>
+                    <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement between you and PropatiBox regarding the Platform and supersede all prior agreements.</li>
                     <li><strong>Severability:</strong> If any provision is deemed invalid, the remaining provisions remain in full force.</li>
                     <li><strong>Waiver:</strong> Failure to enforce any right does not constitute a waiver of future enforcement.</li>
                     <li><strong>Assignment:</strong> You may not assign these Terms without our prior written consent. We may assign these Terms without notice to any affiliate or successor.</li>
-                    <li><strong>Contact:</strong> For questions about these Terms, contact us at legal@propati.ng or by post to PROPATI Technologies Limited, 15 Akin Adesola Street, Victoria Island, Lagos, Nigeria.</li>
+                    <li><strong>Contact:</strong> For questions about these Terms, contact us at legal@propati.ng or by post to PropatiBox Technologies Limited, 15 Akin Adesola Street, Victoria Island, Lagos, Nigeria.</li>
                   </ul>
                 </p>
               </div>

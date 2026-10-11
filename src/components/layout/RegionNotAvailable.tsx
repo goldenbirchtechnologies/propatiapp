@@ -20,7 +20,7 @@ export function RegionNotAvailable({ countryCode }: RegionNotAvailableProps) {
         </div>
         <h1 className="text-2xl font-bold text-foreground mb-2">Region Not Available</h1>
         <p className="text-muted-foreground mb-6">
-          PROPATI is currently available in Nigeria only. Your account is registered in region code: <strong>{countryCode}</strong>.
+          PropatiBox is currently available in Nigeria only. Your account is registered in region code: <strong>{countryCode}</strong>.
         </p>
         <InteractiveHoverButton
           onClick={() => router.push('/')}

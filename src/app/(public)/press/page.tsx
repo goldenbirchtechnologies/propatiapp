@@ -6,7 +6,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { Download, Mail, ExternalLink, Image as ImageIcon } from 'lucide-react';
 
 const coverage = [
-  { outlet: 'TechCabal', title: 'PROPATI launches verified property marketplace for Lagos', date: 'Jan 2026' },
+  { outlet: 'TechCabal', title: 'PropatiBox launches verified property marketplace for Lagos', date: 'Jan 2026' },
   { outlet: 'BusinessDay', title: 'How escrow and 5-layer verification are rebuilding trust in Nigerian rentals', date: 'Dec 2025' },
   { outlet: 'Nairametrics', title: 'Proptech in Nigeria: why verified listings matter', date: 'Nov 2025' },
 ];
@@ -21,7 +21,7 @@ export default function PressPage() {
           <SectionLabel>Press</SectionLabel>
           <h1 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white tracking-tight">Newsroom</h1>
           <p className="mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed">
-            The latest from PROPATI — boilerplate, press kit, and coverage. For media enquiries, reach{' '}
+            The latest from PropatiBox — boilerplate, press kit, and coverage. For media enquiries, reach{' '}
             <a href="mailto:press@propati.ng" className="text-emerald-400 hover:text-emerald-300">
               press@propati.ng
             </a>
@@ -38,10 +38,10 @@ export default function PressPage() {
               <div className="glass-card p-6 md:p-8">
                 <h2 className="text-lg font-bold text-white">Boilerplate</h2>
                 <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
-                  PROPATI is Nigeria&apos;s first verified property marketplace. Every listing is verified through a 5-layer process — document, identity, live
+                  PropatiBox is Nigeria&apos;s first verified property marketplace. Every listing is verified through a 5-layer process — document, identity, live
                   video, physical inspection, and admin certification — before it earns a certified badge. Payments are held in licensed escrow until
-                  handover is confirmed, and tenancy agreements are e-signed and stamped via Remita (FIRS). PROPATI serves tenants, landlords, agents, and
-                  estate managers from a single platform. Founded in Lagos, PROPATI is registered as PROPATI Technologies Ltd.
+                  handover is confirmed, and tenancy agreements are e-signed and stamped via Remita (FIRS). PropatiBox serves tenants, landlords, agents, and
+                  estate managers from a single platform. Founded in Lagos, PropatiBox is registered as PropatiBox Technologies Ltd.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Button asChild size="sm" variant="outline" className="border-white/15 text-white hover:bg-white/10">
@@ -67,7 +67,7 @@ export default function PressPage() {
                   <ImageIcon className="h-4 w-4 text-zinc-600" /> Brand usage
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-zinc-500 leading-relaxed list-disc list-inside">
-                  <li>Use PROPATI in all caps. Do not write &quot;Propati&quot; or &quot;Propatibox&quot;.</li>
+                  <li>Use PropatiBox in all caps. Do not write &quot;Propati&quot; or &quot;Propatibox&quot;.</li>
                   <li>Primary color is emerald (#10b981). Do not recolor the wordmark.</li>
                   <li>Minimum clear space around the logo is the height of the &quot;P&quot;.</li>
                 </ul>

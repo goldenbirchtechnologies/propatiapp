@@ -1,4 +1,4 @@
-# Notifications System - PROPATI Phase H
+# Notifications System - PropatiBox Phase H
 
 Complete notification center implementation with in-app notifications, real-time polling, and user preferences.
 

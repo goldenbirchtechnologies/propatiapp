@@ -1,5 +1,5 @@
 // ===========================================================================
-// PROPATI — WhatsApp Service (Twilio)
+// PropatiBox — WhatsApp Service (Twilio)
 // Phase H: WhatsApp notifications via Twilio API
 // ===========================================================================
 

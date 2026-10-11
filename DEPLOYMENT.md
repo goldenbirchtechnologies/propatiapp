@@ -1,4 +1,4 @@
-# PROPATI — Deployment Guide
+# PropatiBox — Deployment Guide
 
 ## Stack
 - **Frontend + API:** Vercel (Next.js 14)
@@ -137,12 +137,12 @@ CLOUDINARY_API_SECRET                = (your secret)
 PREMBLY_API_KEY
 PREMBLY_APP_ID
 TERMII_API_KEY
-TERMII_SENDER_ID                     = PROPATI
+TERMII_SENDER_ID                     = PropatiBox
 SMTP_HOST                            = smtp.gmail.com
 SMTP_PORT                            = 587
 SMTP_USER
 SMTP_PASS
-EMAIL_FROM                           = PROPATI <noreply@propati.ng>
+EMAIL_FROM                           = PropatiBox <noreply@propati.ng>
 REMITA_MERCHANT_ID
 REMITA_SERVICE_TYPE_ID               = 4430731
 REMITA_API_KEY
@@ -254,4 +254,4 @@ If a deploy breaks production:
 
 ---
 
-*PROPATI Technologies Ltd — propati.ng*
+*PropatiBox Technologies Ltd — propati.ng*

@@ -351,7 +351,7 @@ export default function ListingDetailClient({ listing: initialListing }: { listi
               <div className="glass-card p-4 space-y-3">
                 <div className="flex items-center gap-2.5 text-xs text-zinc-500">
                   <Shield size={13} className="text-emerald-400 flex-shrink-0" />
-                  Property documents verified by PROPATI
+                  Property documents verified by PropatiBox
                 </div>
                 <div className="flex items-center gap-2.5 text-xs text-zinc-500">
                   <CheckCircle size={13} className="text-emerald-400 flex-shrink-0" />

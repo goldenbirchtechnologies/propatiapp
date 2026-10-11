@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { resolveAuthUserId } from '@/lib/auth-bypass';
 
 export const metadata: Metadata = {
-  title: 'Verification Details — PROPATI',
+  title: 'Verification Details — PropatiBox',
 };
 
 export const dynamic = 'force-dynamic';

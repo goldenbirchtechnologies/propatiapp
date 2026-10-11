@@ -14,7 +14,7 @@ export async function GET() {
       listingType: 'FOR SALE',
       tier: 'Verified',
       image: '',
-      listingAgent: 'PROPATI Verified Agent',
+      listingAgent: 'PropatiBox Verified Agent',
       description: 'Premium penthouse with panoramic views.',
     },
     {
@@ -29,7 +29,7 @@ export async function GET() {
       listingType: 'FOR LEASE',
       tier: 'Verified',
       image: '',
-      listingAgent: 'PROPATI Verified Agent',
+      listingAgent: 'PropatiBox Verified Agent',
       description: 'Premium office space in the heart of VI.',
     },
     {
@@ -44,7 +44,7 @@ export async function GET() {
       listingType: 'FOR RENT',
       tier: 'Verified',
       image: '',
-      listingAgent: 'PROPATI Verified Agent',
+      listingAgent: 'PropatiBox Verified Agent',
       description: 'Beautiful duplex with garden.',
     },
   ];

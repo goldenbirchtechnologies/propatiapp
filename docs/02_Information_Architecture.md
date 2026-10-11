@@ -3,7 +3,7 @@
 ## 1. Site Structure
 
 ```
-PROPATI
+PropatiBox
 ├── Public
 │   ├── Landing
 │   ├── Listings (search)

@@ -1,4 +1,4 @@
-# PROPATI Design System — Concise Design Brief
+# PropatiBox Design System — Concise Design Brief
 
 ## 1. Color Palette
 - **Primary**: `#000f22` (deep black-navy) / **Primary Container**: `#0a2540` (deep navy)

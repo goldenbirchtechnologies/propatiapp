@@ -25,7 +25,7 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to your PROPATI account</CardDescription>
+          <CardDescription>Sign in to your PropatiBox account</CardDescription>
         </CardHeader>
         <CardContent>
           <FieldGroup>

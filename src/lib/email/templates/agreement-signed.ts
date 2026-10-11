@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Agreement Signed
+// PropatiBox — Email Template: Agreement Signed
 // ===========================================================================
 
 export interface AgreementSignedEmailData {
@@ -79,7 +79,7 @@ export function renderAgreementSignedEmail(
     }</a>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -114,7 +114,7 @@ The agreement is pending your signature. Please review and sign at your earliest
 ${fullySignedNow ? 'View Agreement' : 'Sign Agreement'}: ${appUrl}/agreements/${agreementId}
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

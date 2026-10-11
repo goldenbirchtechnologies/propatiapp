@@ -1,7 +1,7 @@
 # Full Site-Wide Vercel Dark UI Overhaul
 
 ## Goal
-Unify PROPATI into a single Vercel-inspired dark experience across public marketing surfaces and all role-based dashboards. No orange. White primary text. Green accent only. Consistent borders, surfaces, and typography.
+Unify PropatiBox into a single Vercel-inspired dark experience across public marketing surfaces and all role-based dashboards. No orange. White primary text. Green accent only. Consistent borders, surfaces, and typography.
 
 ## Canonical Design Tokens
 

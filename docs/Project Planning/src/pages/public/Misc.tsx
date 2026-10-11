@@ -87,7 +87,7 @@ export function PrivacyPolicy() {
             },
             {
               title: "4. Data Security",
-              body: "PROPATI employs industry-standard security measures including AES-256 encryption at rest, TLS 1.3 in transit, and multi-factor authentication for all accounts. We undergo regular third-party security audits.",
+              body: "PropatiBox employs industry-standard security measures including AES-256 encryption at rest, TLS 1.3 in transit, and multi-factor authentication for all accounts. We undergo regular third-party security audits.",
             },
             {
               title: "5. Your Rights (NDPR)",
@@ -99,7 +99,7 @@ export function PrivacyPolicy() {
             },
             {
               title: "7. Contact Us",
-              body: "For privacy-related inquiries, contact our Data Protection Officer at privacy@propati.ng or by post at PROPATI Technologies Ltd, 14 Bourdillon Road, Ikoyi, Lagos, Nigeria.",
+              body: "For privacy-related inquiries, contact our Data Protection Officer at privacy@propati.ng or by post at PropatiBox Technologies Ltd, 14 Bourdillon Road, Ikoyi, Lagos, Nigeria.",
             },
           ].map((section) => (
             <div key={section.title}>

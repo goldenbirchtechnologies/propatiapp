@@ -1,5 +1,5 @@
 // ===========================================================================
-// PROPATI — useNotifications Hook
+// PropatiBox — useNotifications Hook
 // React Query hooks for notifications
 // ===========================================================================
 

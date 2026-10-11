@@ -1,4 +1,4 @@
-# PROPATI — Claude Instructions
+# PropatiBox — Claude Instructions
 
 Nigeria's first verified property marketplace. Next.js 14 App Router + Prisma + Supabase + Clerk + Paystack.
 

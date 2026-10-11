@@ -26,7 +26,7 @@ const buildAgreementWhatsAppMessage = (agreement: {
       : 'Dates pending';
 
   return [
-    'PROPATI Agreement Update',
+    'PropatiBox Agreement Update',
     '',
     `Agreement #${agreement.id.slice(-8).toUpperCase()}`,
     `Property: ${agreement.listing.title}`,
@@ -37,7 +37,7 @@ const buildAgreementWhatsAppMessage = (agreement: {
     `Period: ${period}`,
     signed ? `Signatures: ${agreement.signatures.length} recorded` : 'Signatures: pending',
     '',
-    'Review and sign quickly on your PROPATI dashboard.',
+    'Review and sign quickly on your PropatiBox dashboard.',
     `Link: ${process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000'}/dashboard/${agreement.type === 'sale' ? 'agent' : 'tenant'}/agreements/${agreement.id}`,
   ]
     .filter(Boolean)

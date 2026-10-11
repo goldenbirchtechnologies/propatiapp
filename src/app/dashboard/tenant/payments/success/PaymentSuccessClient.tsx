@@ -215,7 +215,7 @@ export default function PaymentSuccessPage() {
           </div>
         </div>
         <p className="text-center text-body-sm text-zinc-600 dark:text-zinc-500 max-w-md">
-          PROPATI uses industry-leading security protocols to ensure your financial data is always
+          PropatiBox uses industry-leading security protocols to ensure your financial data is always
           protected. Need help?{' '}
           <a className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold underline decoration-accent underline-offset-4" href="#">
             Contact Support

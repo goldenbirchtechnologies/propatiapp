@@ -1,4 +1,4 @@
-# PROPATI — API Reference
+# PropatiBox — API Reference
 
 **Version:** 1.0  
 **Base URL:** `https://propati.ng/api` (production) · `http://localhost:3000/api` (dev)  
@@ -73,7 +73,7 @@ curl -H "Authorization: Bearer <clerk_jwt>" https://propati.ng/api/listings
 
 ## 2. Authentication
 
-Handled by Clerk. PROPATI does not implement custom auth endpoints. Role and profile management uses the `/api/users` endpoints below.
+Handled by Clerk. PropatiBox does not implement custom auth endpoints. Role and profile management uses the `/api/users` endpoints below.
 
 ### 2.1 Get Current User
 
@@ -468,7 +468,7 @@ Content-Type: multipart/form-data
 **Form Fields:**
 - `listingId` — string
 - `video` — File. MP4 or MOV. Max 100MB.
-- `qrCode` — string. The unique QR code value provided by PROPATI.
+- `qrCode` — string. The unique QR code value provided by PropatiBox.
 
 The video must show the landlord inside the property holding the QR code printout.
 
@@ -506,7 +506,7 @@ Roles: landlord
 }
 ```
 
-**Response 201:** An inspection is scheduled and assigned to a PROPATI agent.
+**Response 201:** An inspection is scheduled and assigned to a PropatiBox agent.
 
 ---
 
@@ -880,7 +880,7 @@ Roles: tenant
   "data": {
     "transactionId": "clx_txn1",
     "authorizationUrl": "https://checkout.paystack.com/xxxxx",
-    "reference": "PROPATI-1718700000-abc123",
+    "reference": "PropatiBox-1718700000-abc123",
     "amount": 850000,
     "platformFee": 85000,
     "totalCharged": 935000
@@ -905,7 +905,7 @@ Roles: Payer, payee, admin
 {
   "data": {
     "id": "clx_txn1",
-    "reference": "PROPATI-1718700000-abc123",
+    "reference": "PropatiBox-1718700000-abc123",
     "type": "rent",
     "status": "in_escrow",
     "amount": 850000,

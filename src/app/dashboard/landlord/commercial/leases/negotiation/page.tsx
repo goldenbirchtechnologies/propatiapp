@@ -38,7 +38,7 @@ export default async function CommercialLeaseNegotiationPage() {
         <section>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Lease Negotiation Workspace</h1>
           <p className="text-zinc-600 dark:text-zinc-500 mt-1">
-            PROPATI Commercial — Finalize commercial lease terms with tenants and agents.
+            PropatiBox Commercial — Finalize commercial lease terms with tenants and agents.
           </p>
         </section>
 

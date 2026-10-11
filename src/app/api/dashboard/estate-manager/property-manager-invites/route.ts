@@ -138,10 +138,10 @@ export async function POST(request: NextRequest) {
         try {
           await sendEmail({
             to: validated.email,
-            subject: `You've been invited back to ${activeOrg.name} on PROPATI`,
+            subject: `You've been invited back to ${activeOrg.name} on PropatiBox`,
             html: `<div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
               <h1 style="color: #1e3a5f;">You're Invited Back!</h1>
-              <p>${user.fullName} has invited you to rejoin <strong>${activeOrg.name}</strong> on PROPATI.</p>
+              <p>${user.fullName} has invited you to rejoin <strong>${activeOrg.name}</strong> on PropatiBox.</p>
               <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
             </div>`,
           });
@@ -174,17 +174,17 @@ export async function POST(request: NextRequest) {
     const acceptUrl = `${getAppUrl()}/orgs/${orgId}/invite/accept?token=${member.inviteToken}`;
     const inviteHtml = `<div style="font-family: Inter, system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
       <h1 style="color: #1e3a5f;">You're Invited!</h1>
-      <p>${user.fullName} has invited you to join <strong>${activeOrg.name}</strong> on PROPATI.</p>
+      <p>${user.fullName} has invited you to join <strong>${activeOrg.name}</strong> on PropatiBox.</p>
       <p>Click the button below to accept the invitation:</p>
       <a href="${acceptUrl}" style="display: inline-block; background: #1e3a5f; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">Accept Invitation</a>
       <p style="margin-top: 16px; color: #666;">If the button doesn't work, copy and paste this URL into your browser:<br/>${acceptUrl}</p>
     </div>`;
-    const inviteText = `You're invited!\n\n${user.fullName} has invited you to join ${activeOrg.name} on PROPATI.\n\nAccept your invitation by visiting:\n${acceptUrl}\n\nIf you did not expect this invitation, you can ignore this email.`;
+    const inviteText = `You're invited!\n\n${user.fullName} has invited you to join ${activeOrg.name} on PropatiBox.\n\nAccept your invitation by visiting:\n${acceptUrl}\n\nIf you did not expect this invitation, you can ignore this email.`;
 
     try {
       await sendEmail({
         to: validated.email,
-        subject: `Invitation to join ${activeOrg.name} on PROPATI`,
+        subject: `Invitation to join ${activeOrg.name} on PropatiBox`,
         html: inviteHtml,
         text: inviteText,
       });

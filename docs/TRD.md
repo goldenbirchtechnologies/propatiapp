@@ -1,4 +1,4 @@
-# PROPATI — Technical Requirements Document (TRD)
+# PropatiBox — Technical Requirements Document (TRD)
 
 **Version:** 2.0  
 **Status:** Production-Ready Specification  
@@ -31,7 +31,7 @@
 
 ### 1.1 Product Description
 
-PROPATI is Nigeria's first **verified property platform** — a unified marketplace combining:
+PropatiBox is Nigeria's first **verified property platform** — a unified marketplace combining:
 - **Consumer marketplace:** rent, buy, short-let, room share, commercial listings
 - **Property management:** rent collection, tenant screening, digital agreements, maintenance tracking
 - **B2B SaaS:** multi-tenant estate management for property companies
@@ -417,7 +417,7 @@ All migrations tracked in `prisma/migrations/`. Never edit a migration after it 
 
 ### 5.1 Clerk Integration
 
-PROPATI uses **Clerk** as the identity provider. Clerk handles:
+PropatiBox uses **Clerk** as the identity provider. Clerk handles:
 - Email/password signup and login
 - JWT generation and rotation (RS256 with JWKS endpoint)
 - Session management and token refresh
@@ -880,7 +880,7 @@ if (hash !== req.headers['x-paystack-signature']) {
 ### 8.5 Termii (Nigerian SMS)
 
 - **API base:** `https://api.ng.termii.com`
-- **Sender ID:** `PROPATI`
+- **Sender ID:** `PropatiBox`
 - **Use cases:** OTP delivery, rent reminders (T-7/3/1), urgent maintenance alerts
 - **Fallback:** Twilio WhatsApp for OTP if Termii fails
 - **Mock mode:** If `TERMII_API_KEY` unset → `console.log('[SMS MOCK]')`
@@ -1196,7 +1196,7 @@ PREMBLY_APP_ID=
 
 # ─── Termii (SMS) ─────────────────────────────────────────
 TERMII_API_KEY=
-TERMII_SENDER_ID=PROPATI
+TERMII_SENDER_ID=PropatiBox
 
 # ─── Twilio (WhatsApp OTP fallback) ───────────────────────
 TWILIO_ACCOUNT_SID=AC...
@@ -1285,7 +1285,7 @@ Designed but not yet built. Architecture decision: use **Supabase branching** (s
 
 ---
 
-*This TRD is the single source of truth for PROPATI technical implementation. It describes the **Next.js 14 App Router** stack. The previous Express/vanilla JS TRD has been superseded. Update this document when architecture decisions change.*
+*This TRD is the single source of truth for PropatiBox technical implementation. It describes the **Next.js 14 App Router** stack. The previous Express/vanilla JS TRD has been superseded. Update this document when architecture decisions change.*
 
 ## 16. OS Gap Assessment (Aligned with `docs/PROPTECH.md`)
 

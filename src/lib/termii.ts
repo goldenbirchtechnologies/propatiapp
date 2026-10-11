@@ -7,7 +7,7 @@ class TermiiClient {
 
   constructor() {
     this.apiKey = process.env.TERMII_API_KEY!;
-    this.senderId = process.env.TERMII_SENDER_ID || 'PROPATI';
+    this.senderId = process.env.TERMII_SENDER_ID || 'PropatiBox';
     this.client = axios.create({
       baseURL: 'https://api.ng.termii.com',
       headers: {

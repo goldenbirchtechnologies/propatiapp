@@ -1,6 +1,6 @@
-# PROPATI Notification Triggers
+# PropatiBox Notification Triggers
 
-This document describes when and how to send notifications throughout the PROPATI platform.
+This document describes when and how to send notifications throughout the PropatiBox platform.
 
 ## Overview
 
@@ -32,7 +32,7 @@ await notificationService.notify({
   },
   sms: {
     to: user.phone, // Format: 234XXXXXXXXXX
-    message: 'Your PROPATI property verification is approved!',
+    message: 'Your PropatiBox property verification is approved!',
   },
 });
 ```
@@ -52,7 +52,7 @@ import { renderWelcomeEmail } from '@/lib/email/templates';
 await notificationService.notify({
   userId: user.id,
   type: 'system',
-  title: 'Welcome to PROPATI',
+  title: 'Welcome to PropatiBox',
   message: `Welcome ${user.fullName}! Start exploring verified properties.`,
   actionUrl: '/dashboard',
   channels: ['inapp', 'email'],
@@ -119,7 +119,7 @@ await notificationService.notify({
   },
   sms: {
     to: owner.phone,
-    message: `PROPATI: Your property "${listing.title}" is now verified!`,
+    message: `PropatiBox: Your property "${listing.title}" is now verified!`,
   },
 });
 ```
@@ -255,7 +255,7 @@ await notificationService.notify({
   },
   sms: {
     to: payee.phone,
-    message: `PROPATI: Payment of ₦${(transaction.amount / 100).toLocaleString()} received!`,
+    message: `PropatiBox: Payment of ₦${(transaction.amount / 100).toLocaleString()} received!`,
   },
 });
 ```
@@ -309,7 +309,7 @@ for (const rent of upcomingRents) {
     },
     sms: {
       to: rent.agreement.tenant.phone,
-      message: `PROPATI: Rent of ₦${rent.amount.toLocaleString()} due in ${daysUntilDue} days`,
+      message: `PropatiBox: Rent of ₦${rent.amount.toLocaleString()} due in ${daysUntilDue} days`,
     },
   });
 }
@@ -347,7 +347,7 @@ await notificationService.notify({
   },
   sms: {
     to: owner.phone,
-    message: `PROPATI: Inspection scheduled for ${format(scheduledAt, 'MMM dd, h:mm a')}`,
+    message: `PropatiBox: Inspection scheduled for ${format(scheduledAt, 'MMM dd, h:mm a')}`,
   },
 });
 ```

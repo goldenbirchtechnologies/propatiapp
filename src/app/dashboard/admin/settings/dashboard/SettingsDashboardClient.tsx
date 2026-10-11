@@ -41,7 +41,7 @@ export default function SettingsDashboardClient() {
                 <input
                   className="w-full border border-zinc-200 dark:border-white/[0.08] rounded-lg px-md py-sm focus:border-zinc-200 dark:border-white/[0.08] focus:ring-1 focus:ring-primary transition-all"
                   type="text"
-                  defaultValue="PROPATI"
+                  defaultValue="PropatiBox"
                 />
               </div>
               <div className="group">

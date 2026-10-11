@@ -141,7 +141,7 @@ export default function TenantSupportPage() {
             </div>
             <div className="p-4 bg-white dark:bg-zinc-950/50/30 space-y-3 overflow-y-auto max-h-64">
               <div className="bg-white dark:bg-white dark:bg-zinc-900 p-3 rounded-xl text-sm max-w-[85%] border border-zinc-200 dark:border-white/[0.08]">
-                Hello! I&apos;m David from PROPATI Support. How can I assist you?
+                Hello! I&apos;m David from PropatiBox Support. How can I assist you?
               </div>
             </div>
             <div className="p-3 border-t border-zinc-200 dark:border-white/[0.08] flex gap-2">

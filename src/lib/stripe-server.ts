@@ -1,5 +1,5 @@
 /**
- * Server-side Stripe integration for PROPATI.
+ * Server-side Stripe integration for PropatiBox.
  *
  * Provides retry-safe helpers for Payment Intents, refunds, and webhook
  * handling. Must only be called from server components / route handlers /

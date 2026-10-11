@@ -1,8 +1,8 @@
-# PROPATI Notifications System — Phase H Backend
+# PropatiBox Notifications System — Phase H Backend
 
 ## Overview
 
-Complete backend implementation for PROPATI's multi-channel notification system:
+Complete backend implementation for PropatiBox's multi-channel notification system:
 - **In-App Notifications** (bell icon)
 - **Email Notifications** via SMTP (Nodemailer)
 - **SMS Notifications** via Termii API
@@ -118,11 +118,11 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_app_password
-EMAIL_FROM=PROPATI <noreply@propati.ng>
+EMAIL_FROM=PropatiBox <noreply@propati.ng>
 
 # SMS (Termii)
 TERMII_API_KEY=your_api_key
-TERMII_SENDER_ID=PROPATI
+TERMII_SENDER_ID=PropatiBox
 
 # WhatsApp (Twilio)
 TWILIO_ACCOUNT_SID=your_sid
@@ -154,7 +154,7 @@ await notificationService.create({
   userId: user.id,
   type: 'system',
   title: 'Welcome',
-  message: 'Welcome to PROPATI',
+  message: 'Welcome to PropatiBox',
   actionUrl: '/dashboard',
 });
 ```
@@ -178,7 +178,7 @@ await notificationService.notify({
   },
   sms: {
     to: user.phone, // Format: 234XXXXXXXXXX
-    message: 'Your PROPATI property verification is approved!',
+    message: 'Your PropatiBox property verification is approved!',
   },
 });
 ```
@@ -288,8 +288,8 @@ import { sendEmail } from '@/lib/email/email-service';
 await sendEmail({
   to: 'test@example.com',
   subject: 'Test Email',
-  html: '<p>Hello from PROPATI</p>',
-  text: 'Hello from PROPATI',
+  html: '<p>Hello from PropatiBox</p>',
+  text: 'Hello from PropatiBox',
 });
 
 // Without SMTP credentials, logs to console:
@@ -306,13 +306,13 @@ import { sendSMS } from '@/lib/sms/termii';
 
 await sendSMS({
   to: '2348012345678',
-  message: 'Test SMS from PROPATI',
+  message: 'Test SMS from PropatiBox',
 });
 
 // Without Termii API key, logs to console:
 // === SMS (MOCK MODE) ===
 // To: 2348012345678
-// Message: Test SMS from PROPATI
+// Message: Test SMS from PropatiBox
 ```
 
 ### Test WhatsApp (Mock Mode)
@@ -322,13 +322,13 @@ import { sendWhatsApp } from '@/lib/whatsapp/twilio';
 
 await sendWhatsApp({
   to: '+2348012345678',
-  message: 'Test WhatsApp from PROPATI',
+  message: 'Test WhatsApp from PropatiBox',
 });
 
 // Without Twilio credentials, logs to console:
 // === WHATSAPP (MOCK MODE) ===
 // To: +2348012345678
-// Message: Test WhatsApp from PROPATI
+// Message: Test WhatsApp from PropatiBox
 ```
 
 ---

@@ -1,6 +1,6 @@
 import { getAppUrl } from '@/lib/urls';
 // ===========================================================================
-// PROPATI — Email Template: Inspection Scheduled
+// PropatiBox — Email Template: Inspection Scheduled
 // ===========================================================================
 
 export interface InspectionScheduledEmailData {
@@ -81,7 +81,7 @@ export function renderInspectionScheduledEmail(
       <p>If you need to reschedule, please contact us at least 24 hours in advance.</p>
     </div>
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} PROPATI. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} PropatiBox. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -110,7 +110,7 @@ View Details: ${appUrl}/dashboard
 If you need to reschedule, please contact us at least 24 hours in advance.
 
 ---
-© ${new Date().getFullYear()} PROPATI. All rights reserved.
+© ${new Date().getFullYear()} PropatiBox. All rights reserved.
     `,
   };
 }

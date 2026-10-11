@@ -27,17 +27,17 @@ export default function CommissionLedgerPage() {
       <ErrorBoundary>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Commission ledger</h3></div>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Commission ledger</h3></div>
         <div className="p-6">
-          {loading && <p className="text-sm text-zinc-600 dark:text-zinc-500">Loading...</p>}
-          {!loading && items.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-500">No commissions yet.</p>}
+          {loading && <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Loading...</p>}
+          {!loading && items.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No commissions yet.</p>}
           <div className="space-y-4">
             {items.map((tx) => (
-              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-zinc-200 dark:border-white/[0.08]/60 bg-background p-3">
+              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60 bg-background p-3">
                 <div>
                   <p className="text-sm font-semibold">{String(tx.type ?? 'adjustment').toUpperCase()}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-500">{String(tx.description ?? '')}</p>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-500">{new Date(String(tx.createdAt)).toLocaleString()}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{String(tx.description ?? '')}</p>
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{new Date(String(tx.createdAt)).toLocaleString()}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold">{formatAmount(tx.amount)}</p>

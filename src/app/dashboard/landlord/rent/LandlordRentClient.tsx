@@ -74,12 +74,12 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
   function TransactionStatusBadge({ status }: { status: string }) {
     const config: Record<string, { class: string; label: string }> = {
       released: { class: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: 'Released' },
-      in_escrow: { class: 'bg-zinc-800 text-zinc-300 border-zinc-700', label: 'In Escrow' },
+      in_escrow: { class: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700', label: 'In Escrow' },
       pending: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Pending' },
       failed: { class: 'bg-red-500/10 text-red-400 border-red-500/20', label: 'Failed' },
       refunded: { class: 'bg-amber-500/10 text-amber-400 border-amber-500/20', label: 'Refunded' },
     };
-    const cfg = config[status] || { class: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
+    const cfg = config[status] || { class: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
     return <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${cfg.class}`}>{cfg.label}</span>;
   }
 
@@ -88,15 +88,15 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <div className="glass-card rounded-xl overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+            <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
-                <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 font-medium">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08]">
+              <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 {[0, 1, 2, 3, 4, 5, 6].map((j) => (
                   <td key={j} className="p-4">
                     <Skeleton className="h-4 w-full" />
@@ -152,7 +152,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       {/* Filters */}
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
-          <select className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '200px' }}>
+          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '200px' }}>
             <option value="all">All Status</option>
             <option value="released">Released</option>
             <option value="in_escrow">In Escrow</option>
@@ -160,7 +160,7 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
             <option value="failed">Failed</option>
             <option value="refunded">Refunded</option>
           </select>
-          <select className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }}>
+          <select className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }}>
             <option value="all">All Types</option>
             <option value="rent">Rent</option>
             <option value="caution">Caution Deposit</option>
@@ -168,8 +168,8 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
             <option value="short_let">Short Let</option>
             <option value="subscription">Subscription</option>
           </select>
-          <input type="date" className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
-          <input type="date" className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
+          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
+          <input type="date" className="bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50" style={{ maxWidth: '180px' }} />
         </div>
       </div>
 
@@ -177,39 +177,39 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
       <section>
         <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
           {transactions.length === 0 ? (
-            <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] text-center py-16">
-              <CurrencyIcon className="w-5 h-5 mx-auto text-zinc-600 dark:text-zinc-500 mb-2" />
-              <h3 className="text-zinc-900 dark:text-white">No transactions yet</h3>
-              <p className="text-zinc-600 dark:text-zinc-400">Rent payments will appear here once tenants start paying.</p>
+            <div className="glass-card rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-center py-16">
+              <CurrencyIcon className="w-5 h-5 mx-auto text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2" />
+              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white">No transactions yet</h3>
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent payments will appear here once tenants start paying.</p>
             </div>
           ) : (
-            <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+            <div className="glass-card rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+                    <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                       {['Date', 'Property', 'Tenant', 'Type', 'Amount', 'Status', 'Actions'].map((h) => (
-                        <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                        <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 font-medium">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => (
-                      <tr key={tx.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
-                        <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                      <tr key={tx.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                           {new Date(tx.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
                         <td className="p-4">
-                          <p className="text-zinc-900 dark:text-white text-sm">{tx.listing?.title || 'N/A'}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-500">{tx.listing?.area}</p>
+                          <p className="text-zinc-900 dark:text-zinc-900 dark:text-white text-sm">{tx.listing?.title || 'N/A'}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{tx.listing?.area}</p>
                         </td>
-                        <td className="p-4 text-sm text-zinc-900 dark:text-white">
+                        <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
                           {tx.agreements?.[0]?.tenant?.fullName || tx.payer?.fullName || 'Unknown'}
                         </td>
                         <td className="p-4">
-                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08] capitalize">{tx.type}</span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] capitalize">{tx.type}</span>
                         </td>
-                        <td className="p-4 text-sm text-zinc-900 dark:text-white font-medium">
+                        <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white font-medium">
                           ₦{Number(tx.amount).toLocaleString()}
                         </td>
                         <td className="p-4">
@@ -218,13 +218,13 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                         <td className="p-4">
                           <div className="flex items-center gap-2">
                             {tx.status === 'in_escrow' && (
-                              <button className="px-3 py-1.5 text-xs font-medium bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors">Release</button>
+                              <button className="px-3 py-1.5 text-xs font-medium bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white rounded-lg transition-colors">Release</button>
                             )}
                             <Link href={`/dashboard/landlord/rent/${tx.id}`} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors" title="View Details">
-                              <EyeIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+                              <EyeIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
                             </Link>
                             <Link href={`/dashboard/landlord/receipts/${tx.id}`} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors" title="Receipt">
-                              <FileIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
+                              <FileIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
                             </Link>
                           </div>
                         </td>
@@ -240,13 +240,13 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
 
       {/* Upcoming Rent Schedule */}
       <section>
-        <h2 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Upcoming Rent Schedule</h2>
-        <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+        <h2 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Upcoming Rent Schedule</h2>
+        <div className="glass-card rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 {['Property', 'Tenant', 'Amount', 'Due Date', 'Status'].map((h) => (
-                  <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-500 font-medium">{h}</th>
+                  <th key={h} className="text-left p-4 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 font-medium">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -256,11 +256,11 @@ export default function LandlordRentClient({ userId }: { userId: string }) {
                 { property: 'Greenview Estate Unit 3', tenant: 'Jane Smith', amount: 2200000, dueDate: '2026-07-05', status: 'upcoming' },
                 { property: 'Lekki Heights Penthouse', tenant: 'Mike Johnson', amount: 5000000, dueDate: '2026-06-30', status: 'overdue' },
               ].map((item, i) => (
-                <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08]">
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.property}</td>
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">{item.tenant}</td>
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">₦{item.amount.toLocaleString()}</td>
-                  <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">{item.property}</td>
+                  <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">{item.tenant}</td>
+                  <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">₦{item.amount.toLocaleString()}</td>
+                  <td className="p-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                     {new Date(item.dueDate).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </td>
                   <td className="p-4">

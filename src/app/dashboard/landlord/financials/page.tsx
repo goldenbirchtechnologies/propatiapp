@@ -260,10 +260,10 @@ export default function LandlordFinancialsPage() {
 
   const statusBadge = (variant: TransactionRow['statusBadgeVariant'], label: string) => {
     const map: Record<string, string> = {
-      default: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20',
-      secondary: 'bg-secondary text-secondary-foreground border-zinc-200 dark:border-white/[0.08]',
+      default: 'bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20',
+      secondary: 'bg-secondary text-secondary-foreground border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
       destructive: 'bg-red-500/10 text-red-500 border-red-500/20',
-      outline: 'bg-background text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]',
+      outline: 'bg-background text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     };
     return <Badge variant={variant} className={`capitalize border ${map[variant] || map.outline}`}>{label}</Badge>;
   };
@@ -273,53 +273,53 @@ export default function LandlordFinancialsPage() {
       <ErrorBoundary>
         <RentAndPaymentsHub tabs={tabs}>
           <TabsContent value="overview">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 bg-[#F8FAFC] dark:bg-[#09090b]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black">
               <div className="flex flex-col gap-5">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Financials Overview</h1>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Wallet, payouts, and transaction history</p>
+                    <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">Financials Overview</h1>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Wallet, payouts, and transaction history</p>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
+                    <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white shadow-lg shadow-emerald-600/20" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
                       <FileText className="w-3.5 h-3.5" /> Create Invoice
                     </Button>
-                    <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] text-zinc-300 hover:bg-zinc-50 dark:bg-[#18181b] hover:text-zinc-900 dark:text-white" onClick={() => setWithdrawModalOpen(true)} disabled={!wallet.bankAccount?.recipientCode}>
+                    <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:bg-[#18181b] hover:text-zinc-900 dark:text-zinc-900 dark:text-white" onClick={() => setWithdrawModalOpen(true)} disabled={!wallet.bankAccount?.recipientCode}>
                       <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
                     </Button>
-                    <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] text-zinc-300 hover:bg-zinc-50 dark:bg-[#18181b] hover:text-zinc-900 dark:text-white" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
+                    <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:bg-[#18181b] hover:text-zinc-900 dark:text-zinc-900 dark:text-white" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
                       <Plus className="w-3.5 h-3.5" /> Record Payment
                     </Button>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-white dark:bg-[#121214] border border-zinc-200 dark:border-[#27272a] rounded-xl p-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-white dark:bg-[#F8FAFC] dark:bg-black border border-zinc-200 dark:border-[#27272a] rounded-xl p-3">
                   <div className="flex items-center gap-2 flex-1">
                     <div className="relative flex-1">
                       <Input
                         type="date"
                         value={filters.from}
                         onChange={(e) => setFilters((s) => ({ ...s, from: e.target.value }))}
-                        className="h-9 text-xs bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-300 rounded-lg focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/30"
+                        className="h-9 text-xs bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-600 dark:text-zinc-400 rounded-lg focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/30"
                       />
                     </div>
-                    <span className="text-xs text-zinc-600 dark:text-zinc-500 shrink-0">—</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 shrink-0">—</span>
                     <div className="relative flex-1">
                       <Input
                         type="date"
                         value={filters.to}
                         onChange={(e) => setFilters((s) => ({ ...s, to: e.target.value }))}
-                        className="h-9 text-xs bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-300 rounded-lg focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/30"
+                        className="h-9 text-xs bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-600 dark:text-zinc-400 rounded-lg focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/30"
                       />
                     </div>
                   </div>
                   <Select value={filters.propertyId} onValueChange={(val) => setFilters((s) => ({ ...s, propertyId: val }))}>
-                    <SelectTrigger className="h-9 text-xs min-w-[200px] bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-300 rounded-lg">
+                    <SelectTrigger className="h-9 text-xs min-w-[200px] bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-[#27272a] text-zinc-600 dark:text-zinc-400 rounded-lg">
                       <SelectValue placeholder="All properties" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-[#121214] border-zinc-200 dark:border-[#27272a]">
+                    <SelectContent className="bg-white dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a]">
                       <SelectItem value="">All properties</SelectItem>
                       {properties.map((p) => (
-                        <SelectItem key={p.id} value={p.id} className="text-zinc-300 focus:bg-zinc-50 dark:bg-[#18181b] focus:text-zinc-900 dark:text-white">
+                        <SelectItem key={p.id} value={p.id} className="text-zinc-600 dark:text-zinc-400 focus:bg-zinc-50 dark:bg-[#18181b] focus:text-zinc-900 dark:text-zinc-900 dark:text-white">
                           {p.title}
                         </SelectItem>
                       ))}
@@ -357,91 +357,91 @@ export default function LandlordFinancialsPage() {
                         <Landmark className="w-4 h-4 text-amber-400" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-zinc-900 dark:text-white">Welcome — let&apos;s get your payouts ready</p>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Setup your payout bank and create your first invoice to start receiving rent.</p>
+                        <p className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Welcome — let&apos;s get your payouts ready</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Setup your payout bank and create your first invoice to start receiving rent.</p>
                         <div className="flex gap-2 mt-3">
-                          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => setBankModalOpen(true)}>Setup payout bank</Button>
-                          <Button size="sm" variant="outline" className="border-zinc-200 dark:border-[#27272a] bg-transparent text-zinc-300" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>View invoices</Button>
+                          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white" onClick={() => setBankModalOpen(true)}>Setup payout bank</Button>
+                          <Button size="sm" variant="outline" className="border-zinc-200 dark:border-[#27272a] bg-transparent text-zinc-600 dark:text-zinc-400" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>View invoices</Button>
                         </div>
                       </div>
                     </div>
                   )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
+                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-6">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-[#27272a] mb-4">
-                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total Income</h3>
+                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Total Income</h3>
                         <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
                           <Banknote className="w-3.5 h-3.5 text-emerald-400" />
                         </div>
                       </div>
-                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(metrics.totalIncome)}</div>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">Released transactions</p>
+                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">{formatNairaFull(metrics.totalIncome)}</div>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1.5">Released transactions</p>
                     </div>
-                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
+                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-6">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-[#27272a] mb-4">
-                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Pending / In Escrow</h3>
+                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Pending / In Escrow</h3>
                         <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
                           <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
                         </div>
                       </div>
-                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{metrics.pendingCount}</div>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">Awaiting confirmation</p>
+                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">{metrics.pendingCount}</div>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1.5">Awaiting confirmation</p>
                     </div>
-                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
+                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-6">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-[#27272a] mb-4">
-                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Transactions</h3>
+                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Transactions</h3>
                         <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-200 dark:border-[#27272a] flex items-center justify-center">
-                          <FileText className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+                          <FileText className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
                         </div>
                       </div>
-                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{metrics.transactionCount}</div>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">Recent total</p>
+                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">{metrics.transactionCount}</div>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1.5">Recent total</p>
                     </div>
-                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
+                    <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black p-6">
                       <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-[#27272a] mb-4">
-                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Available Balance</h3>
-                        <Wallet className="w-4 h-4 text-zinc-600 dark:text-zinc-500" />
+                        <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Available Balance</h3>
+                        <Wallet className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
                       </div>
-                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</div>
+                      <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</div>
                       {wallet.availableBalance === 0 && !wallet.bankAccount ? (
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">No funds yet. Setup your payout bank account to start receiving rent.</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">No funds yet. Setup your payout bank account to start receiving rent.</p>
                       ) : (
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">Pending clearing: {formatNairaFull(wallet.pendingClearing)}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1.5">Pending clearing: {formatNairaFull(wallet.pendingClearing)}</p>
                       )}
                       <div className="mt-4 flex flex-wrap gap-2">
                         {!wallet.bankAccount ? (
-                          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20" onClick={() => setBankModalOpen(true)}>
+                          <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white shadow-lg shadow-emerald-600/20" onClick={() => setBankModalOpen(true)}>
                             <Landmark className="w-3.5 h-3.5" /> Setup bank
                           </Button>
                         ) : (
-                          <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] text-zinc-300 hover:text-zinc-900 dark:text-white" onClick={() => setBankModalOpen(true)}>
+                          <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white" onClick={() => setBankModalOpen(true)}>
                             <ShieldCheck className="w-3.5 h-3.5" /> {wallet.bankAccount.accountName || 'Bank'}
                           </Button>
                         )}
-                        <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
+                        <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white disabled:opacity-40" onClick={() => setWithdrawModalOpen(true)} disabled={wallet.isLocked || !wallet.bankAccount?.recipientCode}>
                           <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
                         </Button>
                       </div>
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214]">
+                  <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black">
                     <div className="px-6 py-4 border-b border-zinc-200 dark:border-[#27272a]">
-                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Payout History</h3>
+                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Payout History</h3>
                     </div>
                     <div className="p-6">
                       {transactions.length === 0 && wallet.recentTransactions.length === 0 ? (
                         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] p-8 text-center">
                           <div className="w-12 h-12 rounded-xl bg-[#27272a] border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.06] flex items-center justify-center mx-auto mb-3">
-                            <Banknote className="w-6 h-6 text-zinc-500 dark:text-zinc-400" />
+                            <Banknote className="w-6 h-6 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
                           </div>
-                          <p className="text-sm font-medium text-zinc-900 dark:text-white">No payouts yet</p>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Withdrawals and wallet transactions will show here.</p>
+                          <p className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">No payouts yet</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Withdrawals and wallet transactions will show here.</p>
                           <div className="mt-4 flex items-center justify-center gap-2">
-                            <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
+                            <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white" onClick={() => (window.location.href = '/dashboard/landlord/financials/invoices')}>
                               <FileText className="w-3.5 h-3.5" /> Create Invoice
                             </Button>
-                            <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] text-zinc-300" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
+                            <Button size="sm" variant="outline" className="gap-2 border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black text-zinc-600 dark:text-zinc-400" onClick={() => toastHook({ title: 'Record Payment — coming soon' })}>
                               <Plus className="w-3.5 h-3.5" /> Record Payment
                             </Button>
                           </div>
@@ -449,7 +449,7 @@ export default function LandlordFinancialsPage() {
                       ) : (
                         <div className="overflow-x-auto">
                           <table className="w-full text-left text-sm">
-                            <thead className="text-zinc-600 dark:text-zinc-500 border-b">
+                            <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-b">
                               <tr>
                                 <th className="py-3 font-medium">Date</th>
                                 <th className="py-3 font-medium">Reference</th>
@@ -462,7 +462,7 @@ export default function LandlordFinancialsPage() {
                             <tbody>
                               {transactions.map((tx) => (
                                 <tr key={tx.id} className="border-b last:border-0">
-                                  <td className="py-3 text-zinc-600 dark:text-zinc-500">{tx.date}</td>
+                                  <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{tx.date}</td>
                                   <td className="py-3 font-mono text-xs">{tx.reference}</td>
                                   <td className="py-3">{tx.listing || tx.reference}</td>
                                   <td className="py-3 capitalize">{tx.type}</td>
@@ -473,7 +473,7 @@ export default function LandlordFinancialsPage() {
                               {transactions.length === 0 &&
                                 wallet.recentTransactions.map((tx) => (
                                   <tr key={`wt-${tx.id}`} className="border-b last:border-0">
-                                    <td className="py-3 text-zinc-600 dark:text-zinc-500">{tx.date}</td>
+                                    <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{tx.date}</td>
                                     <td className="py-3 font-mono text-xs">{tx.providerRef || tx.id}</td>
                                     <td className="py-3">{tx.description || tx.type}</td>
                                     <td className="py-3 capitalize">{tx.type.replace(/_/g, ' ')}</td>
@@ -538,11 +538,11 @@ export default function LandlordFinancialsPage() {
                     </SelectItem>
                   ))}
                   {!banksLoading && banks.length === 0 && (
-                    <div className="px-2 py-1.5 text-xs text-zinc-600 dark:text-zinc-500">No banks loaded — check PAYSTACK_SECRET_KEY</div>
+                    <div className="px-2 py-1.5 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No banks loaded — check PAYSTACK_SECRET_KEY</div>
                   )}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-zinc-600 dark:text-zinc-500">Choose your bank — no code needed</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Choose your bank — no code needed</p>
             </div>
             <Button variant="secondary" className="w-full gap-2" onClick={resolveAccount} disabled={resolving}>
               {resolving && <Loader2 className="w-4 h-4 animate-spin" />} Verify Account
@@ -571,8 +571,8 @@ export default function LandlordFinancialsPage() {
             <DialogDescription>Request a payout to your saved bank account via Paystack Transfers.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-500">
-              Available: <span className="font-semibold text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</span> · Min withdrawal: ₦{MIN_WITHDRAWAL.toLocaleString()}
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+              Available: <span className="font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</span> · Min withdrawal: ₦{MIN_WITHDRAWAL.toLocaleString()}
             </div>
             <div className="space-y-2">
               <Label>Amount (NGN)</Label>
@@ -583,8 +583,8 @@ export default function LandlordFinancialsPage() {
               <Input value={withdrawReason} onChange={(e) => setWithdrawReason(e.target.value)} />
             </div>
             {wallet.bankAccount && (
-              <div className="text-xs text-zinc-600 dark:text-zinc-500">
-                Payout to: <span className="font-semibold text-zinc-900 dark:text-white">{wallet.bankAccount.accountName || 'Saved account'} - {wallet.bankAccount.bankName || ''} ****{wallet.bankAccount.accountNumber?.slice(-4)}</span>
+              <div className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                Payout to: <span className="font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">{wallet.bankAccount.accountName || 'Saved account'} - {wallet.bankAccount.bankName || ''} ****{wallet.bankAccount.accountNumber?.slice(-4)}</span>
               </div>
             )}
           </div>
@@ -604,11 +604,11 @@ export default function LandlordFinancialsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] p-6 text-center">
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6 text-center">
       <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
         {title}
       </p>
-      <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">{description}</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">{description}</p>
     </div>
   );
 }

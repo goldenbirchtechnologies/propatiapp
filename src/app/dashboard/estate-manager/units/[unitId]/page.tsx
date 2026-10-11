@@ -257,8 +257,8 @@ export default function UnitDetailPage() {
           <TabsContent value="overview" className="space-y-6 mt-6">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
                     <Building2 className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Unit Information
                   </h3>
@@ -306,8 +306,8 @@ export default function UnitDetailPage() {
               </div>
 
               <div className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
                     <DollarSign className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Financial Details
                   </h3>
@@ -341,8 +341,8 @@ export default function UnitDetailPage() {
 
             {unit.currentTenant && (
               <div className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
                     <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                     Current Tenant
                   </h3>
@@ -386,8 +386,8 @@ export default function UnitDetailPage() {
           {/* Maintenance History */}
           <TabsContent value="maintenance" className="mt-6">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
                   <Wrench className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                   Maintenance History
                 </h3>
@@ -454,8 +454,8 @@ export default function UnitDetailPage() {
           {/* Tenant History */}
           <TabsContent value="tenants" className="mt-6">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
                   <Users className="h-5 w-5" style={{ color: 'var(--accent)' }} />
                   Tenant History
                 </h3>

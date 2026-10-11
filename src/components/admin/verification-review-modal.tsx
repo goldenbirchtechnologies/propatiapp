@@ -45,6 +45,7 @@ interface VerificationData {
   layer4InspectionReport?: string | null;
   layer4Status?: string | null;
   adminNotes?: string | null;
+  postalCode?: string | null;
 }
 
 interface VerificationReviewModalProps {
@@ -66,6 +67,8 @@ export function VerificationReviewModal({
   const [showApproveDialog, setShowApproveDialog] = useState(false);
   const [showRejectDialog, setShowRejectDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [nipostValidating, setNipostValidating] = useState(false);
+  const [nipostResult, setNipostResult] = useState<any>(null);
 
   if (!verification) return null;
 
@@ -77,6 +80,25 @@ export function VerificationReviewModal({
       onOpenChange(false);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleNipostValidate = async () => {
+    if (!verification.postalCode) {
+      return;
+    }
+    setNipostValidating(true);
+    setNipostResult(null);
+    try {
+      const res = await fetch(
+        `/api/nipost/validate?postalCode=${encodeURIComponent(verification.postalCode)}&state=${encodeURIComponent(verification.listing.state || '')}&address=${encodeURIComponent(verification.listing.address || '')}`
+      );
+      const data = await res.json();
+      setNipostResult(data);
+    } catch {
+      setNipostResult({ error: true, message: 'NIPOST validation failed' });
+    } finally {
+      setNipostValidating(false);
     }
   };
 
@@ -314,11 +336,74 @@ export function VerificationReviewModal({
 
                 <TabsContent value="layer5" className="space-y-4 mt-4">
                   <h4 className="font-medium" style={{ color: 'var(--text)' }}>
-                    Admin Final Review
+                    NIPOST Address Cross-reference
                   </h4>
-                  <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                    Final review and approval by PropatiBox admin team.
-                  </p>
+                  <div className="p-4 rounded-lg" style={{ background: 'var(--surface)' }}>
+                    {verification.postalCode ? (
+                      <>
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="text-sm" style={{ color: 'var(--muted)' }}>Postal Code:</span>
+                          <span style={{ color: 'var(--text)' }}>{verification.postalCode}</span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={handleNipostValidate}
+                            disabled={nipostValidating}
+                          >
+                            {nipostValidating ? 'Validating…' : 'Cross-reference'}
+                          </Button>
+                        </div>
+
+                        {nipostResult && (
+                          <div className={`mt-3 p-3 rounded-lg ${
+                            nipostResult.valid
+                              ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/40'
+                              : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/40'
+                          }`}>
+                            {nipostResult.valid ? (
+                              <>
+                                <div className="flex items-center gap-2">
+                                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                  <span className="font-medium text-green-800 dark:text-green-300">
+                                    Address verified via NIPOST
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 mt-2 text-sm">
+                                  <div>
+                                    <span style={{ color: 'var(--muted)' }}>State:</span>
+                                    <span style={{ color: 'var(--text)' }}> {nipostResult.state || 'N/A'}</span>
+                                  </div>
+                                  <div>
+                                    <span style={{ color: 'var(--muted)' }}>LGA:</span>
+                                    <span style={{ color: 'var(--text)' }}> {nipostResult.lga || 'N/A'}</span>
+                                  </div>
+                                  <div>
+                                    <span style={{ color: 'var(--muted)' }}>Locality:</span>
+                                    <span style={{ color: 'var(--text)' }}> {nipostResult.locality || 'N/A'}</span>
+                                  </div>
+                                  <div>
+                                    <span style={{ color: 'var(--muted)' }}>Confidence:</span>
+                                    <span style={{ color: 'var(--text)' }}> {nipostResult.confidence || 'N/A'}</span>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <div className="flex items-center gap-2">
+                                <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                                <span className="font-medium text-red-800 dark:text-red-300">
+                                  {nipostResult.message || 'Postal code could not be verified'}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                        No postal code provided for this property. NIPOST cross-reference is optional.
+                      </p>
+                    )}
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>

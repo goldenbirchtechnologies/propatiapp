@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-white dark:bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
+  draft: { class: 'bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
   paid: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
@@ -41,30 +41,30 @@ export default function TenantInvoicesClient() {
   return (
     <div className="space-y-6">
       <div>
-        <h4 className="font-heading text-zinc-900 dark:text-white">Invoices</h4>
-        <p className="text-sm text-zinc-600 dark:text-zinc-500">Your rent invoices and receipts.</p>
+        <h4 className="font-heading text-zinc-900 dark:text-zinc-900 dark:text-white">Invoices</h4>
+        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Your rent invoices and receipts.</p>
       </div>
 
       <div className="glass-card rounded-xl p-6">
         {loading ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-500">Loading invoices...</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Loading invoices...</p>
         ) : invoices.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-500">No invoices yet.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No invoices yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white dark:bg-zinc-950">
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Invoice</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Status</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Amount</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Due</th>
-                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-500 uppercase">Actions</th>
+                <tr className="bg-white dark:bg-white dark:bg-zinc-950">
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase">Invoice</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase">Status</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase">Amount</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase">Due</th>
+                  <th className="px-4 py-3 font-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.08]">
                 {invoices.map((invoice: any) => (
-                  <tr key={invoice.id} className="hover:bg-zinc-100 dark:hover:bg-zinc-900/60">
+                  <tr key={invoice.id} className="hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/60">
                     <td className="px-4 py-3 text-sm">{invoice.invoiceNumber}</td>
                     <td className="px-4 py-3 text-sm">
                       <Badge variant={invoice.status === 'paid' ? 'default' : invoice.status === 'overdue' ? 'destructive' : 'secondary'}>
@@ -72,7 +72,7 @@ export default function TenantInvoicesClient() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-sm">₦{Number(invoice.amount).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-500">{new Date(invoice.dueDate).toLocaleDateString('en-NG')}</td>
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{new Date(invoice.dueDate).toLocaleDateString('en-NG')}</td>
                     <td className="px-4 py-3 text-sm">
                       <Button variant="ghost" size="sm" onClick={() => downloadReceipt(invoice.id)}>Receipt</Button>
                     </td>

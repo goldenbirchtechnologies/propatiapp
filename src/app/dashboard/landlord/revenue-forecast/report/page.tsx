@@ -44,27 +44,27 @@ export default async function LandlordRevenueForecastReportPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Revenue Forecast Reports</h1>
-            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Archived financial projections derived from transaction history.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue Forecast Reports</h1>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Archived financial projections derived from transaction history.</p>
           </div>
           <div className="flex gap-3">
-            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 text-sm font-medium">
               Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
             </span>
           </div>
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Monthly Forecast Summary</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Monthly Forecast Summary</h3>
           </div>
           <div className="p-6">
             {monthlyData.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 py-6 text-center">No revenue reports available yet.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 py-6 text-center">No revenue reports available yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-500 border-b">
+                  <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-b">
                     <tr>
                       <th className="py-3 font-medium">Month</th>
                       <th className="py-3 font-medium">Transactions</th>

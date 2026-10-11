@@ -80,13 +80,13 @@ export default function RevenueSignatureClient({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm font-bold text-zinc-900 dark:text-white">Revenue Signature</h1>
-          <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>
+          <h1 className="font-headline-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue Signature</h1>
+          <p className="text-xs font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400', marginTop: 'mt-1' }}>
             {hasRealData ? `Monthly revenue summary for ${orgName || 'your organization'}` : 'Monthly revenue summary (no organization data available)'}
           </p>
         </div>
         {!hasRealData && (
-          <Badge className="bg-amber-500/10 text-zinc-300 border border-amber-500/20 px-3 py-1 text-[10px]">
+          <Badge className="bg-amber-500/10 text-zinc-600 dark:text-zinc-400 border border-amber-500/20 px-3 py-1 text-[10px]">
             Demo Mode
           </Badge>
         )}
@@ -124,69 +124,69 @@ export default function RevenueSignatureClient({
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Total Revenue</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Total Revenue</p>
           <p className="text-2xl font-bold text-[#10b981] font-mono">₦{(totalRevenue / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Service Charges</p>
-          <p className="text-2xl font-bold text-zinc-300 font-mono">₦{(totalServiceCharges / 1e6).toFixed(2)}M</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Service Charges</p>
+          <p className="text-2xl font-bold text-zinc-600 dark:text-zinc-400 font-mono">₦{(totalServiceCharges / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Rent Transactions</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-white font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent Transactions</p>
+          <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white font-mono">₦{(totalRent / 1e6).toFixed(2)}M</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Net Signature</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Net Signature</p>
           <p className={`text-2xl font-bold font-mono ${totalNet >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
             {totalNet >= 0 ? '+' : ''}₦{(totalNet / 1e6).toFixed(2)}M
           </p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Avg Transaction</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-white font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
-          <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">{transactionCount} transactions</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Avg Transaction</p>
+          <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white font-mono">₦{(avgTransactionAmount / 1000).toFixed(0)}K</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">{transactionCount} transactions</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">Pending Settlement</p>
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+          <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Pending Settlement</p>
           <p className="text-2xl font-bold text-red-500 font-mono">₦{(pendingSettlement / 1e6).toFixed(2)}M</p>
-          <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">Awaiting clearance</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Awaiting clearance</p>
         </div>
       </div>
 
       {/* Table */}
-      <div className="glass-card border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50">
-        <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-            <FileText className="w-4 h-4 text-zinc-300" />
+      <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-white dark:bg-zinc-950/50">
+        <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
+            <FileText className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
             Monthly Revenue Signature
           </h3>
         </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
-                <TableHead className="text-zinc-600 dark:text-zinc-500">Month</TableHead>
-                <TableHead className="text-right text-zinc-600 dark:text-zinc-500">Total Revenue</TableHead>
-                <TableHead className="text-right text-zinc-600 dark:text-zinc-500">Service Charges</TableHead>
-                <TableHead className="text-right text-zinc-600 dark:text-zinc-500">Rent Transactions</TableHead>
-                <TableHead className="text-right text-zinc-600 dark:text-zinc-500">Net</TableHead>
+              <TableRow className="border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
+                <TableHead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Month</TableHead>
+                <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Total Revenue</TableHead>
+                <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Service Charges</TableHead>
+                <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent Transactions</TableHead>
+                <TableHead className="text-right text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Net</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-zinc-600 dark:text-zinc-500 text-sm py-8">
+                  <TableCell colSpan={5} className="text-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm py-8">
                     No revenue data found for this year
                   </TableCell>
                 </TableRow>
               ) : (
                 filtered.map((m) => (
-                  <TableRow key={m.month} className="border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900est">
-                    <TableCell className="text-zinc-900 dark:text-white text-sm">{m.month}</TableCell>
+                  <TableRow key={m.month} className="border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900est">
+                    <TableCell className="text-zinc-900 dark:text-zinc-900 dark:text-white text-sm">{m.month}</TableCell>
                     <TableCell className="text-right text-[#10b981] font-mono text-sm">₦{m.totalRevenue.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-zinc-300 font-mono text-sm">₦{m.serviceCharges.toLocaleString()}</TableCell>
-                    <TableCell className="text-right text-zinc-900 dark:text-white font-mono text-sm">₦{m.rentTransactions.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-zinc-600 dark:text-zinc-400 font-mono text-sm">₦{m.serviceCharges.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-zinc-900 dark:text-zinc-900 dark:text-white font-mono text-sm">₦{m.rentTransactions.toLocaleString()}</TableCell>
                     <TableCell className={`text-right font-mono text-sm ${m.net >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
                       {m.net >= 0 ? '+' : ''}₦{m.net.toLocaleString()}
                     </TableCell>

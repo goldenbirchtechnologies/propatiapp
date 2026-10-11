@@ -79,12 +79,12 @@ function Step4InspectionClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Inspection Progress</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Inspection Progress</h3>
         </div>
         <div className="p-6">
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 mt-2">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-2">
             {props.inspection.l4Status === 'approved' ? 'Inspection completed and approved' : props.inspection.l4Status === 'pending' ? 'Inspection scheduled' : 'Schedule a physical inspection'}
           </p>
         </div>
@@ -107,12 +107,12 @@ function Step4InspectionClient(props: Props) {
               <p className="font-medium">Inspection completed successfully</p>
             </div>
             {props.inspection.l4Agent && (
-              <div className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
-                Inspected by <span className="font-medium text-zinc-900 dark:text-white">{props.inspection.l4Agent.fullName}</span> ({props.inspection.l4Agent.agentTier})
+              <div className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+                Inspected by <span className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">{props.inspection.l4Agent.fullName}</span> ({props.inspection.l4Agent.agentTier})
               </div>
             )}
             {props.inspection.l4CompletedAt && (
-              <div className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
+              <div className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
                 Completed on {new Date(props.inspection.l4CompletedAt).toLocaleDateString('en-NG')}
               </div>
             )}
@@ -126,21 +126,21 @@ function Step4InspectionClient(props: Props) {
               <p className="font-medium">Inspection scheduled</p>
             </div>
             {props.inspection.l4ScheduledAt && (
-              <div className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
+              <div className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
                 Scheduled for {new Date(props.inspection.l4ScheduledAt).toLocaleDateString('en-NG')} at {preferredTime}
               </div>
             )}
             {props.inspection.l4Agent && (
-              <div className="text-sm text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
-                Agent: <span className="font-medium text-zinc-900 dark:text-white">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
+              <div className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+                Agent: <span className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">{props.inspection.l4Agent.fullName}</span> - {props.inspection.l4Agent.phone}
               </div>
             )}
           </div>
         </div>
       ) : (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
               <Calendar className="h-5 w-5" />
               Schedule Inspection
             </h3>
@@ -161,7 +161,7 @@ function Step4InspectionClient(props: Props) {
               <select
                 value={preferredTime}
                 onChange={(e) => setPreferredTime(e.target.value as 'morning' | 'afternoon' | 'evening')}
-                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                 disabled={isReadOnly}
               >
                 <option value="morning">Morning</option>
@@ -175,7 +175,7 @@ function Step4InspectionClient(props: Props) {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Any special instructions for the agent..."
-                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm min-h-[80px]"
+                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm min-h-[80px]"
                 disabled={isReadOnly}
               />
             </div>

@@ -72,8 +72,8 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">New Agreement</h1>
-        <p className="text-zinc-600 dark:text-zinc-500 mt-1">Create a new agreement draft from a deal.</p>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">New Agreement</h1>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Create a new agreement draft from a deal.</p>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
@@ -120,7 +120,7 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
           <Label htmlFor="specialClauses">Special Clauses</Label>
           <textarea
             id="specialClauses"
-            className="w-full rounded-md border border-zinc-200 dark:border-white/[0.08] bg-background p-2 text-sm"
+            className="w-full rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-background p-2 text-sm"
             value={form.specialClauses}
             onChange={update('specialClauses')}
           />

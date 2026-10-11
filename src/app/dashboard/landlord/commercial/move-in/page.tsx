@@ -34,25 +34,25 @@ export default async function CommercialMoveInPage() {
 
       <div className="space-y-6">
         <section>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Move-In Coordination — Commercial</h1>
-          <p className="text-zinc-600 dark:text-zinc-500 mt-1">
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Move-In Coordination — Commercial</h1>
+          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">
             Welcoming new tenants for commercial grade-A serviced offices.
           </p>
         </section>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Upcoming Move-Ins</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Upcoming Move-Ins</h3>
           </div>
           <div className="p-6">
             {recentBookings.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 py-6 text-center">
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 py-6 text-center">
                 No commercial move-ins scheduled yet.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-500 border-b">
+                  <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-b">
                     <tr>
                       <th className="py-3 font-medium">Property</th>
                       <th className="py-3 font-medium">Tenant</th>
@@ -69,7 +69,7 @@ export default async function CommercialMoveInPage() {
                         <td className="py-3">{b.checkIn}</td>
                         <td className="py-3">{b.checkOut}</td>
                         <td className="py-3">
-                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                             {b.status}
                           </span>
                         </td>

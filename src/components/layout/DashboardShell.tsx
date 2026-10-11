@@ -605,19 +605,20 @@ export function DashboardShell({
           .sb-header-bar { justify-content: space-between; }
           .sb-user-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
           .sb-user-text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-          .sb-user-name { color: var(--text); font-weight: 600; font-size: 14px; line-height: 20px; }
-          .sb-user-role { color: var(--muted); font-size: 11px; line-height: 16px; text-transform: capitalize; }
+          .sb-user-name { color: var(--foreground, #0f172a); font-weight: 600; font-size: 14px; line-height: 20px; }
+          .sb-user-role { color: var(--muted-foreground, #64748b); font-size: 11px; line-height: 16px; text-transform: capitalize; }
           .sb-nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
-          .sb-nav-item { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 8px; color: #6B7280; background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
-          .dark .sb-nav-item { color: #a1a1aa; }
-          .sb-nav-item:hover { color: #0A0A0A; background: #F3F4F6; }
-          .dark .sb-nav-item:hover { color: #ffffff; background: rgba(255,255,255,0.04); }
+          .sb-nav-item { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 8px; color: #4B5563; background: transparent; border-left: 3px solid transparent; font-size: 14px; line-height: 20px; font-weight: 500; text-align: left; text-decoration: none; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; white-space: nowrap; }
+          .sb-nav-item .nav-label { color: inherit; }
+          .dark .sb-nav-item { color: #9CA3AF; }
+          .sb-nav-item:hover { color: #0f172a; background: #F1F5F9; }
+          .dark .sb-nav-item:hover { color: #ffffff; background: rgba(255,255,255,0.06); }
           .sb-nav-item.active, .sb-nav-item[aria-current='true'] { background: #ECFDF5; color: #059669; border-left-color: #10b981; }
-          .dark .sb-nav-item.active, .dark .sb-nav-item[aria-current='true'] { background: rgba(16,185,129,0.10); color: #34d399; border-left-color: #10b981; }
+          .dark .sb-nav-item.active, .dark .sb-nav-item[aria-current='true'] { background: rgba(16,185,129,0.15); color: #34d399; border-left-color: #10b981; }
           .sb-nav-item .icon-slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
           .sb-footer-bar { justify-content: center; }
-          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: flex-start; gap: 10px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--text); background: var(--surface-elevated); border: none; cursor: pointer; transition: background-color 0.15s ease; }
-          .sb-signout-btn:hover { background: var(--surface-elevated); }
+          .sb-signout-btn { display: inline-flex; width: 100%; align-items: center; justify-content: flex-start; gap: 10px; border-radius: 10px; padding: 8px 10px; font-size: 13px; line-height: 18px; color: var(--foreground, #0f172a); background: var(--muted, #f1f5f9); border: none; cursor: pointer; transition: background-color 0.15s ease; }
+          .sb-signout-btn:hover { background: var(--muted, #e2e8f0); }
         `}</style>
         <div className="sb-inner">
           <div className="sb-header-bar">
@@ -690,7 +691,7 @@ export function DashboardShell({
                                     ? <AppIcon name={child.label} className="lucide" size={18} />
                                     : <AppIcon name="help" className="lucide" size={18} />}
                                 </span>
-                                {!sidebarCollapsed && <span className="text-foreground" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{child.label}</span>}
+                                {!sidebarCollapsed && <span className="nav-label" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{child.label}</span>}
                               </Link>
                             </li>
                           );
@@ -733,7 +734,7 @@ export function DashboardShell({
                             ? <AppIcon name={navItem.label} className="lucide" size={18} />
                             : <AppIcon name="help" className="lucide" size={18} />}
                         </span>
-                        {!sidebarCollapsed && <span className="text-foreground" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{navItem.label}</span>}
+                        {!sidebarCollapsed && <span className="nav-label" style={{ marginLeft: 8, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap' }}>{navItem.label}</span>}
                       </Link>
                     )}
                   </li>
@@ -901,8 +902,7 @@ function CollapsibleNavItem({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          className={`transition-transform ${expanded ? 'rotate-180' : ''}`}
-          style={{ color: 'rgba(255,255,255,0.6)' }}
+          className={`transition-transform text-zinc-500 dark:text-zinc-400 ${expanded ? 'rotate-180' : ''}`}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
@@ -914,13 +914,14 @@ function CollapsibleNavItem({
               <Link
                 href={(child.href || '#') as any}
                 className="sb-nav-item"
-                style={{ padding: '7px 10px', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}
+                style={{ padding: '7px 10px', fontSize: '13px' }}
               >
                 <span className="icon-slot">
                   {child.icon
                     ? child.icon
                     : <AppIcon name={child.label} className="lucide" size={16} />}
                 </span>
+                <span className="nav-label">{child.label}</span>
               </Link>
             </li>
           ))}

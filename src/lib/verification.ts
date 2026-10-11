@@ -3,6 +3,7 @@ import { VerificationLayerStatus, VerificationOverallStatus, VerificationTier, I
 import { sendEmail, emailTemplates } from './email';
 import { getVerificationTierFromProgress } from './verification-helpers';
 import { notificationService } from './notification-service';
+import { validateAddress } from './nipost';
 
 export type VerificationLayer = 1 | 2 | 3 | 4 | 5;
 export type LayerAction = 'submit' | 'approve' | 'reject' | 'confirm' | 'schedule' | 'complete';
@@ -338,10 +339,45 @@ export class VerificationService {
   static async adminCertify(listingId: string, approve: boolean, reviewerId?: string) {
     const verification = await prisma.verification.findUnique({
       where: { listingId },
-      include: { listing: true, owner: true },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            address: true,
+            state: true,
+            area: true,
+            postalCode: true,
+            verificationTier: true,
+          },
+        },
+        owner: true,
+      },
     });
 
     if (!verification) throw new Error('Verification not found');
+
+    // Layer 5: NIPOST Address Cross-reference
+    let nipostValidation: {
+      valid: boolean;
+      matches: boolean;
+      confidence: 'high' | 'medium' | 'low';
+      state?: string;
+      lga?: string;
+    } | null = null;
+
+    if (verification.listing.postalCode) {
+      try {
+        nipostValidation = await validateAddress({
+          postalCode: verification.listing.postalCode,
+          state: verification.listing.state || undefined,
+          address: verification.listing.address || undefined,
+        });
+      } catch (nipostError) {
+        console.error('[NIPOST] Address validation failed during certification:', nipostError);
+        // Non-blocking — log but proceed with manual admin review
+      }
+    }
 
     if (approve) {
       const updated = await prisma.verification.update({
@@ -352,6 +388,13 @@ export class VerificationService {
           currentLayer: 5,
           reviewedBy: reviewerId,
           reviewedAt: new Date(),
+          // Store NIPOST cross-reference result
+          adminNotes: nipostValidation
+            ? `NIPOST address cross-reference: ${
+                nipostValidation.valid ? 'VALID' : 'INVALID'
+              } (${nipostValidation.confidence} confidence, state match: ${nipostValidation.matches ? 'YES' : 'NO'}). ` +
+              (verification.adminNotes ? verification.adminNotes : '')
+            : verification.adminNotes,
         },
       });
 

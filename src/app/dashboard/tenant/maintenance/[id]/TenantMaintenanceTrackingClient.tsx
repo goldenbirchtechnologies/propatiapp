@@ -40,18 +40,18 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
     <div className="space-y-6">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
-        <span className="font-mono text-zinc-500 dark:text-zinc-400">MAINTENANCE</span>
-        <svg className="w-4 h-4 text-zinc-500 dark:text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-        <span className="font-mono text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">#{requestId.toUpperCase()}</span>
+        <span className="font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">MAINTENANCE</span>
+        <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+        <span className="font-mono text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">#{requestId.toUpperCase()}</span>
       </nav>
 
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-zinc-900 dark:text-white">Kitchen Plumbing Repair</h1>
+          <h1 className="font-heading text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Kitchen Plumbing Repair</h1>
           <div className="flex items-center gap-2 mt-1">
             <span className="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-xs font-semibold">Urgent</span>
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">Submitted Oct 24, 2024</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Submitted Oct 24, 2024</span>
           </div>
         </div>
         <Button variant="outline" className="flex items-center gap-2">
@@ -61,8 +61,8 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
 
       {/* Lifecycle Tracker */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Request Lifecycle</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white font-heading text-lg">Request Lifecycle</h3>
         </div>
         <div className="p-6">
           <div className="relative">
@@ -72,12 +72,12 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
               {steps.map((step, i) => (
                 <div key={step.label} className="flex flex-col items-center text-center max-w-[120px]">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                    step.done ? 'bg-emerald-500 text-white shadow-none' : step.active ? 'bg-emerald-500 text-white ring-4 ring-primary/20 shadow-none' : 'bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400'
+                    step.done ? 'bg-emerald-500 text-zinc-900 dark:text-white shadow-none' : step.active ? 'bg-emerald-500 text-zinc-900 dark:text-white ring-4 ring-primary/20 shadow-none' : 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400'
                   }`}>
                     {step.done ? <CheckCircle2 className="w-5 h-5" /> : step.active ? <CalendarDays className="w-5 h-5" /> : <span className="w-5 h-5" />}
                   </div>
-                  <span className={`text-xs font-semibold ${step.active || step.done ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'}`}>{step.label}</span>
-                  <span className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-0.5">{step.time}</span>
+                  <span className={`text-xs font-semibold ${step.active || step.done ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400'}`}>{step.label}</span>
+                  <span className="text-[10px] text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-0.5">{step.time}</span>
                 </div>
               ))}
             </div>
@@ -93,18 +93,18 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <div className="glass-card">
             <div className="p-6 p-6">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-white">Technician</h3>
-                <span className="px-3 py-1 bg-teal-500 text-zinc-900 dark:text-white text-xs font-semibold rounded-full flex items-center gap-1">
+                <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Technician</h3>
+                <span className="px-3 py-1 bg-teal-500 text-zinc-900 dark:text-zinc-900 dark:text-white text-xs font-semibold rounded-full flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> VERIFIED
                 </span>
               </div>
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white dark:bg-white dark:bg-zinc-900">
-                  <svg className="w-full h-full text-zinc-500 dark:text-zinc-400 p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white dark:bg-white dark:bg-white dark:bg-zinc-900">
+                  <svg className="w-full h-full text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                 </div>
                 <div>
-                  <h4 className="text-zinc-900 dark:text-white text-zinc-900 dark:text-white">{technician.name}</h4>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">{technician.specialty} • {technician.rating}</p>
+                  <h4 className="text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">{technician.name}</h4>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{technician.specialty} • {technician.rating}</p>
                 </div>
               </div>
               <div className="flex gap-3">
@@ -113,7 +113,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   Message
                 </Button>
                 <Button variant="outline" size="icon" className="w-11 h-11">
-                  <Phone className="w-4 h-4 text-zinc-900 dark:text-white" />
+                  <Phone className="w-4 h-4 text-zinc-900 dark:text-zinc-900 dark:text-white" />
                 </Button>
               </div>
             </div>
@@ -122,28 +122,28 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           {/* Appointment Details */}
           <div className="glass-card">
             <div className="p-6 p-6">
-              <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-white mb-4">Appointment</h3>
-              <div className="bg-white dark:bg-white dark:bg-zinc-900 rounded-xl p-4 space-y-4">
+              <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white mb-4">Appointment</h3>
+              <div className="bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 rounded-xl p-4 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
-                    <CalendarDays className="w-5 h-5 text-zinc-900 dark:text-white" />
+                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
+                    <CalendarDays className="w-5 h-5 text-zinc-900 dark:text-zinc-900 dark:text-white" />
                   </div>
                   <div>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase">Scheduled Date</p>
-                    <p className="text-sm font-bold text-zinc-900 dark:text-white">Monday, Oct 28, 2024</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase">Scheduled Date</p>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Monday, Oct 28, 2024</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-zinc-900 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-zinc-900 dark:text-zinc-900 dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   </div>
                   <div>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase">Time Window</p>
-                    <p className="text-sm font-bold text-zinc-900 dark:text-white">10:00 AM - 12:00 PM</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase">Time Window</p>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">10:00 AM - 12:00 PM</p>
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-4 flex items-start gap-1">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-4 flex items-start gap-1">
                 <Eye className="w-4 h-4 mt-0.5" />
                 Technician will arrive within the first 30 mins of the window.
               </p>
@@ -156,39 +156,39 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <div className="glass-card h-full">
             <div className="p-6 p-6">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-white">Report Summary</h3>
-                <button className="text-sm text-zinc-900 dark:text-white underline">Edit Details</button>
+                <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Report Summary</h3>
+                <button className="text-sm text-zinc-900 dark:text-zinc-900 dark:text-white underline">Edit Details</button>
               </div>
               <div className="space-y-5">
                 <div>
-                  <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-1">Description</h5>
-                  <p className="text-sm text-zinc-900 dark:text-white leading-relaxed">
+                  <h5 className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase mb-1">Description</h5>
+                  <p className="text-sm text-zinc-900 dark:text-zinc-900 dark:text-white leading-relaxed">
                     Leaking pipe under the kitchen island sink. The leak started after running the dishwasher last night.
                     There is visible water damage to the wood base and a constant drip even when faucets are off.
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-1">Property</h5>
-                    <p className="text-sm font-bold text-zinc-900 dark:text-white">Azure Heights, Unit 402</p>
+                    <h5 className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase mb-1">Property</h5>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Azure Heights, Unit 402</p>
                   </div>
                   <div>
-                    <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-1">Location</h5>
-                    <p className="text-sm font-bold text-zinc-900 dark:text-white">Lagos, VI</p>
+                    <h5 className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase mb-1">Location</h5>
+                    <p className="text-sm font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Lagos, VI</p>
                   </div>
                 </div>
                 <div>
-                  <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-2">Attached Photos</h5>
+                  <h5 className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-mono uppercase mb-2">Attached Photos</h5>
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
-                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
+                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
                         { }
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}
-                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-white dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-100 dark:hover:bg-zinc-900/80 transition-all cursor-pointer">
-                      <Camera className="w-5 h-5 text-zinc-900 dark:text-white mb-1" />
-                      <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Add more</span>
+                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/80 transition-all cursor-pointer">
+                      <Camera className="w-5 h-5 text-zinc-900 dark:text-zinc-900 dark:text-white mb-1" />
+                      <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Add more</span>
                     </div>
                   </div>
                 </div>
@@ -201,11 +201,11 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
       {/* Reschedule CTA */}
       <div className="glass-card text-center">
         <div className="p-6 p-8">
-          <p className="text-zinc-900 dark:text-white font-heading font-semibold mb-1">Need to reschedule this visit?</p>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto mb-5">
+          <p className="text-zinc-900 dark:text-zinc-900 dark:text-white font-heading font-semibold mb-1">Need to reschedule this visit?</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 max-w-md mx-auto mb-5">
             You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
-          <Button variant="outline" className="border-2 border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
+          <Button variant="outline" className="border-2 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-zinc-900 dark:text-white transition-all">
             Reschedule Appointment
           </Button>
         </div>

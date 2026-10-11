@@ -78,15 +78,15 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Add some photos of your place</h2>
-      <p className="text-sm text-zinc-600 dark:text-zinc-500">You need at least 5 photos. The first photo will be your cover photo.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">You need at least 5 photos. The first photo will be your cover photo.</p>
 
       {!showUpload ? (
         <div className="flex items-center justify-between rounded-lg border p-4">
           <div className="flex items-center gap-3">
-            <ImageIcon className="size-5 text-zinc-600 dark:text-zinc-500" />
+            <ImageIcon className="size-5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
             <div>
               <p className="text-sm font-medium">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-500">{value.length < 5 ? `${5 - value.length} more needed` : 'Minimum met'}</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{value.length < 5 ? `${5 - value.length} more needed` : 'Minimum met'}</p>
             </div>
           </div>
           <button
@@ -105,12 +105,12 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
             onDragLeave={() => setDragOver(false)}
             onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
             className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition ${
-              dragOver ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
+              dragOver ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
             }`}
             onClick={openFilePicker}
           >
-            <ImageIcon className="size-10 text-zinc-600 dark:text-zinc-500" />
-            <p className="text-sm text-zinc-600 dark:text-zinc-500">Drag and drop photos here, or click to browse</p>
+            <ImageIcon className="size-10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Drag and drop photos here, or click to browse</p>
             <input
               ref={inputRef}
               type="file"
@@ -123,7 +123,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
 
           {uploading && (
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-500">
+              <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                 <span>Uploading...</span>
                 <span>{progress}%</span>
               </div>
@@ -162,7 +162,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
                       className="absolute bottom-1 right-1 bg-background/80 rounded-full size-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                       title="Set as cover"
                     >
-                      <Star className="size-3 text-zinc-600 dark:text-zinc-500" />
+                      <Star className="size-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
                     </button>
                   )}
                 </div>
@@ -171,7 +171,7 @@ export default function Step8Photos({ value = [], onChange }: Step8Props) {
           )}
 
           <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-600 dark:text-zinc-500">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{value.length} photo{value.length !== 1 ? 's' : ''} uploaded</span>
             <div className="flex items-center gap-2">
               {value.length < 5 && <Badge variant="outline" className="text-xs">{5 - value.length} more needed</Badge>}
               {value.length >= 5 && <Badge variant="default" className="text-xs">Minimum met</Badge>}

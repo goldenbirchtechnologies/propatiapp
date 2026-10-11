@@ -170,12 +170,12 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">My Profile</h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Manage your account settings and preferences</p>
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">My Profile</h1>
+        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Manage your account settings and preferences</p>
       </div>
 
       {/* Profile overview — single consolidated header */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
@@ -185,7 +185,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 size="xl"
                 className="ring-2 ring-emerald-500/30"
               />
-              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-white shadow-none">
+              <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-zinc-900 dark:text-white shadow-none">
                 <Camera className="h-3.5 w-3.5" />
                 <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
               </label>
@@ -195,9 +195,9 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                 <StatusBadge status={verificationComplete ? 'Verified' : 'Pending'} />
                 {user?.phoneVerified && <Badge variant="secondary">Phone verified</Badge>}
               </div>
-              <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">{user?.fullName || 'My profile'}</h1>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">{user?.email}</p>
-              <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">Keep your identity, security, and notification settings up to date.</p>
+              <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">{user?.fullName || 'My profile'}</h1>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{user?.email}</p>
+              <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Keep your identity, security, and notification settings up to date.</p>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 {missingActions.map((action) => (
                   <Button key={action} type="button" variant="outline" size="sm" className="h-8 gap-1.5 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
@@ -212,18 +212,18 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           <div className="md:min-w-[340px]">
             <div className="flex items-center justify-between text-sm">
               <Badge variant="secondary" className="text-xs font-semibold">{profileProgress}% complete</Badge>
-              <span className="text-xs text-zinc-600 dark:text-zinc-400">{profileCompleteSteps}/{totalSteps} steps</span>
+              <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{profileCompleteSteps}/{totalSteps} steps</span>
             </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white dark:bg-white dark:bg-zinc-900">
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white dark:bg-white dark:bg-white dark:bg-zinc-900">
               <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${profileProgress}%` }} />
             </div>
-            <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-zinc-400">{setupComplete ? 'Setup complete — all steps verified.' : profileProgress === 100 ? 'Profile complete — finish verification to unlock all features.' : `${totalSteps - profileCompleteSteps} step${totalSteps - profileCompleteSteps === 1 ? '' : 's'} remaining.`}</p>
+            <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{setupComplete ? 'Setup complete — all steps verified.' : profileProgress === 100 ? 'Profile complete — finish verification to unlock all features.' : `${totalSteps - profileCompleteSteps} step${totalSteps - profileCompleteSteps === 1 ? '' : 's'} remaining.`}</p>
           </div>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-200 dark:border-white/[0.08]">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Verification</TabsTrigger>
           <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Security</TabsTrigger>
@@ -233,8 +233,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
         <TabsContent value="personal" className="mt-6">
           <form onSubmit={handleProfileUpdate} className="space-y-6">
             <div className="glass-card outline-none">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Personal Information</h3>
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Personal Information</h3>
               </div>
               <div className="p-6 space-y-6">
                 <div className="flex items-center gap-4">
@@ -246,14 +246,14 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                         <AvatarFallback className="text-lg">{initials}</AvatarFallback>
                       )}
                     </Avatar>
-                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-white shadow">
+                    <label className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-emerald-500 text-zinc-900 dark:text-white shadow">
                       <Camera className="h-3 w-3" />
                       <input type="file" accept="image/*" onChange={handleAvatarUpload} disabled={isUploadingAvatar} className="sr-only" />
                     </label>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-zinc-900 dark:text-white">Profile photo</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">JPG or PNG, under 5MB</p>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Profile photo</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">JPG or PNG, under 5MB</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -269,7 +269,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                   <div className="space-y-1.5">
                     <Label htmlFor="email">Email Address</Label>
                     <Input id="email" value={profileData.email} disabled type="email" />
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400">Email cannot be changed here. Contact support if needed.</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Email cannot be changed here. Contact support if needed.</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -307,7 +307,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
                             {verifyPhoneMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify'}
                           </Button>
                         </div>
-                        <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">Enter the 6-digit code sent to your phone.</p>
+                        <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Enter the 6-digit code sent to your phone.</p>
                       </div>
                     )}
                   </div>
@@ -347,8 +347,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="security" className="mt-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Change Password</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Change Password</h3>
             </div>
             <div className="p-6 space-y-4">
               <form className="space-y-4 max-w-md">
@@ -372,8 +372,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           </div>
 
           <div className="glass-card mt-6">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Active Sessions</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Active Sessions</h3>
             </div>
             <div className="p-6">
               <div className="space-y-3">
@@ -390,8 +390,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="notifications" className="mt-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Notification Preferences</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Notification Preferences</h3>
             </div>
             <div className="p-6 space-y-6">
               {([
@@ -406,8 +406,8 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
               ] as const).map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex-1">
-                    <p className="font-medium text-zinc-900 dark:text-white">{item.label}</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                    <p className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">{item.label}</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{item.desc}</p>
                   </div>
                   <Switch
                     checked={userNotifications[item.id]}
@@ -425,17 +425,17 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-950')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950')}>
       <div className="flex items-center gap-3">
-        <div className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+        <div className="bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
           <Monitor className="h-5 w-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-zinc-900 dark:text-white">{device}</span>
+            <span className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">{device}</span>
             {current && <Badge variant="secondary" className="text-xs">Current</Badge>}
           </div>
-          <p className="text-xs text-zinc-600 dark:text-zinc-400">{browser} • {location}</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{browser} • {location}</p>
         </div>
       </div>
       {!current && (
@@ -455,9 +455,9 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
 
   return (
     <div className="glass-card glass-card rounded-xl">
-      <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] space-y-3">
+      <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Identity Verification</h3>
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Identity Verification</h3>
           {isVerified && (
             <StatusBadge status="Verified">
               <CheckCircle className="mr-1 h-4 w-4" /> Account Verified
@@ -472,18 +472,18 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
             </Badge>
           )}
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
           Complete a 1-minute automated verification check to verify your account securely.
         </p>
       </div>
       <div className="p-6">
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white">
             <ShieldCheck className="h-8 w-8" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-lg font-semibold text-zinc-900 dark:text-white">Instant Identity Check</h4>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">Verify your identity in seconds using our secure automated check.</p>
+            <h4 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Instant Identity Check</h4>
+            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Verify your identity in seconds using our secure automated check.</p>
           </div>
           {isUnverified && (
             <DojahWidgetClient
@@ -495,7 +495,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
             />
           )}
           {isReview && (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
               We&apos;re reviewing your check, usually takes 2–5 minutes.
             </p>
           )}

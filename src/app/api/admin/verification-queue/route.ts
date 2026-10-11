@@ -46,6 +46,8 @@ export async function GET(request: NextRequest) {
               title: true,
               address: true,
               area: true,
+              state: true,
+              postalCode: true,
               propertyType: true,
               listingType: true,
               status: true,
@@ -102,6 +104,8 @@ export async function GET(request: NextRequest) {
       listing: {
         ...v.listing,
         coverImage: v.listing.images[0]?.url || null,
+        state: v.listing.state,
+        postalCode: v.listing.postalCode,
       },
       owner: v.owner,
       currentLayer: v.currentLayer,

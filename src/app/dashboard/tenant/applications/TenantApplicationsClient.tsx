@@ -38,10 +38,10 @@ interface Application {
 
 const statusConfig: Record<ApplicationStatus, { label: string; className: string }> = {
   pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
-  under_review: { label: 'Under Review', className: 'bg-white dark:bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]' },
+  under_review: { label: 'Under Review', className: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
   accepted: { label: 'Accepted', className: 'bg-success/10 text-[#10b981] border-[#10b981]/20' },
   rejected: { label: 'Not Successful', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-white dark:bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
 };
 
 export default function TenantApplicationsClient({ applications: initial }: { applications: Application[] }) {
@@ -90,7 +90,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           My Applications
         </h1>
-        <p className="text-zinc-600 dark:text-zinc-500" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ marginTop: 'var(--space-vs)' }}>
           Track the status of your rental applications
         </p>
       </div>
@@ -106,16 +106,16 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
       {applications.length === 0 ? (
         <div className="glass-card">
           <div className="p-6 py-16 text-center">
-            <Building2 className="w-12 h-12 text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.4 }} />
-            <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">
+            <Building2 className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.4 }} />
+            <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-zinc-900 dark:text-white">
               No applications yet
             </h3>
-            <p className="text-zinc-600 dark:text-zinc-500" style={{ marginBottom: 'var(--space-lg)' }}>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ marginBottom: 'var(--space-lg)' }}>
               You haven't applied to any properties yet. Browse listings to get started.
             </p>
             <Link
               href="/dashboard/tenant/search"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors shadow-none mt-4"
+              className="inline-flex items-center justify-center px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white font-medium rounded-lg transition-colors shadow-none mt-4"
             >
               Browse Listings
             </Link>
@@ -147,13 +147,13 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div>
-                          <h3 className="text-zinc-900 dark:text-white truncate text-zinc-900 dark:text-white">
+                          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white truncate text-zinc-900 dark:text-zinc-900 dark:text-white">
                             {app.listing.title}
                           </h3>
-                          <p className="text-sm text-zinc-600 dark:text-zinc-500">
+                          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                             {app.listing.area}, {app.listing.state}
                           </p>
-                          <p className="text-sm font-medium mt-1 text-zinc-900 dark:text-white">
+                          <p className="text-sm font-medium mt-1 text-zinc-900 dark:text-zinc-900 dark:text-white">
                             ₦{Number(app.listing.price).toLocaleString()}
                             {app.listing.pricePeriod ? `/${app.listing.pricePeriod}` : ''}
                           </p>
@@ -165,7 +165,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                         </span>
                       </div>
 
-                      <div className="mt-3 text-xs text-zinc-600 dark:text-zinc-500">
+                      <div className="mt-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                         Applied {new Date(app.createdAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                         {' · '}Landlord: {app.landlord.fullName}
                       </div>
@@ -175,7 +175,7 @@ export default function TenantApplicationsClient({ applications: initial }: { ap
                           <span className="bg-accent/10 text-accent border-accent/20 rounded-md px-2 py-1 text-sm">
                             Landlord note:
                           </span>
-                          <p className="text-sm text-zinc-600 dark:text-zinc-500">{app.landlordNotes}</p>
+                          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{app.landlordNotes}</p>
                         </div>
                       )}
 

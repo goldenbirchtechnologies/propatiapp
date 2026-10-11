@@ -27,18 +27,18 @@ import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  low: { label: 'Low', className: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]' },
-  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-zinc-200 dark:border-white/[0.08]' },
-  high: { label: 'High', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' },
-  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' },
+  low: { label: 'Low', className: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  high: { label: 'High', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' },
-  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-zinc-200 dark:border-white/[0.08]' },
-  in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' },
-  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]' },
-  closed: { label: 'Closed', className: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]' },
+  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  closed: { label: 'Closed', className: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const statusTimeline = [
@@ -111,16 +111,16 @@ export default function MaintenanceDetailPage() {
                 <ArrowLeft className="h-4 w-4 mr-2" /> Back
               </Button>
               <div>
-                <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>
+                <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }}>
                   Maintenance Request
                 </h1>
               </div>
             </div>
             <div className="glass-card border-red-500/30 bg-red-500/5">
               <div className="p-6 flex flex-col items-center justify-center py-12 text-center">
-                <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
-                <p className="font-medium text-zinc-900 dark:text-white">Unable to load maintenance request</p>
-                <p className="text-sm mt-1 mb-4" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
+                <Wrench className="h-12 w-12 mb-4" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }} />
+                <p className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Unable to load maintenance request</p>
+                <p className="text-sm mt-1 mb-4" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
                   {error instanceof Error ? error.message : 'Request not found or access denied.'}
                 </p>
                 <div className="flex gap-3">
@@ -153,14 +153,14 @@ export default function MaintenanceDetailPage() {
         <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
           <ol className="flex items-center gap-2">
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Home</Link>
+              <Link href="/dashboard/estate-manager" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Home</Link>
             </li>
-            <li className="flex items-center gap-2 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>/</li>
+            <li className="flex items-center gap-2 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>/</li>
             <li className="flex items-center gap-2">
-              <Link href="/dashboard/estate-manager/maintenance" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Maintenance</Link>
+              <Link href="/dashboard/estate-manager/maintenance" className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Maintenance</Link>
             </li>
-            <li className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>/</li>
-            <li className="font-medium text-xs text-xs uppercase tracking-wider text-zinc-900 dark:text-white">{ticket.title}</li>
+            <li className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>/</li>
+            <li className="font-medium text-xs text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-900 dark:text-white">{ticket.title}</li>
           </ol>
         </nav>
 
@@ -168,10 +168,10 @@ export default function MaintenanceDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>
+              <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }}>
                 {ticket.title}
               </h1>
-              <p className="flex items-center gap-1 mt-1 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
+              <p className="flex items-center gap-1 mt-1 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
                 <MapPin className="h-4 w-4" />
                 {ticket.listing?.title || ticket.listing?.address || 'No location linked'}
               </p>
@@ -185,34 +185,34 @@ export default function MaintenanceDetailPage() {
 
         <div className="grid gap-6 md:grid-cols-2">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
-                <MessageSquare className="h-5 w-5 text-zinc-900 dark:text-white" /> Details
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+                <MessageSquare className="h-5 w-5 text-zinc-900 dark:text-zinc-900 dark:text-white" /> Details
               </h3>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Category</p>
-                <p className="font-medium capitalize text-sm text-zinc-900 dark:text-white">{ticket.category || '—'}</p>
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Category</p>
+                <p className="font-medium capitalize text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">{ticket.category || '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Description</p>
-                <p className="font-medium text-sm text-zinc-900 dark:text-white">
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Description</p>
+                <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
                   {ticket.description || 'No description provided.'}
                 </p>
               </div>
               <Separator />
               <div>
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Created</p>
-                <p className="font-medium flex items-center gap-2 text-sm text-zinc-900 dark:text-white">
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Created</p>
+                <p className="font-medium flex items-center gap-2 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
                   <Calendar className="h-4 w-4" />
                   {new Date(ticket.createdAt).toLocaleString()}
                 </p>
               </div>
               {ticket.resolvedAt && (
                 <div>
-                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Resolved</p>
-                  <p className="font-medium flex items-center gap-2 text-sm text-zinc-900 dark:text-white">
+                  <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Resolved</p>
+                  <p className="font-medium flex items-center gap-2 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
                     <CheckCircle2 className="h-4 w-4" />
                     {new Date(ticket.resolvedAt).toLocaleString()}
                   </p>
@@ -222,9 +222,9 @@ export default function MaintenanceDetailPage() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
-                <User className="h-5 w-5 text-zinc-900 dark:text-white" /> Assignee
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+                <User className="h-5 w-5 text-zinc-900 dark:text-zinc-900 dark:text-white" /> Assignee
               </h3>
             </div>
             <div className="p-6">
@@ -232,19 +232,19 @@ export default function MaintenanceDetailPage() {
                 <div className="flex items-center gap-4">
                   <div
                     className="h-12 w-12 rounded-full flex items-center justify-center text-lg font-bold"
-                    style={{ background: 'bg-surface', color: 'text-zinc-900 dark:text-white' }}
+                    style={{ background: 'bg-surface', color: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }}
                   >
                     {ticket.assignedToUser.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-medium text-zinc-900 dark:text-white">{ticket.assignedToUser.fullName}</p>
-                    <p className="text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{ticket.assignedToUser.email}</p>
+                    <p className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">{ticket.assignedToUser.fullName}</p>
+                    <p className="text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>{ticket.assignedToUser.email}</p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-500', opacity: 0.5 }} />
-                  <p className="text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unassigned</p>
+                  <User className="h-8 w-8 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400', opacity: 0.5 }} />
+                  <p className="text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Unassigned</p>
                 </div>
               )}
             </div>
@@ -252,9 +252,9 @@ export default function MaintenanceDetailPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
-              <Clock className="h-5 w-5 text-zinc-900 dark:text-white" /> Progress Timeline
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+              <Clock className="h-5 w-5 text-zinc-900 dark:text-zinc-900 dark:text-white" /> Progress Timeline
             </h3>
           </div>
           <div className="p-6">
@@ -268,25 +268,25 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'bg-zinc-900' : 'border-zinc-200 dark:border-white/[0.08]',
-                          color: isCompleted ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-500',
+                          background: isCompleted ? 'bg-white dark:bg-zinc-900' : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+                          color: isCompleted ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400',
                         }}
                       >
                         {step.icon}
                       </div>
                       {index < statusTimeline.length - 1 && (
-                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08]' }} />
+                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
                       )}
                     </div>
                     <div className="pb-8">
-                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-500' }}>{step.label}</p>
+                      <p className="font-medium text-sm" style={{ color: isCompleted ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>{step.label}</p>
                       {isCurrent && ticket.status === step.status && (
-                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
                           Current step — {new Date(ticket.createdAt).toLocaleString()}
                         </p>
                       )}
                       {isCompleted && !isCurrent && (
-                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
                           {new Date(ticket.updatedAt || ticket.createdAt).toLocaleString()}
                         </p>
                       )}

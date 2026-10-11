@@ -530,7 +530,9 @@ Roles: agent, admin
 
 ---
 
-### 4.10 Layer 5 — Grant Certified Badge
+### 4.10 Layer 5 — Admin Certification & NIPOST Address Cross-reference
+
+Layer 5 performs the final admin review, including an automated **NIPOST Postcode API** address cross-reference. When a listing has a `postalCode`, the system validates it against the official Nigerian postal database to confirm the address is genuine.
 
 ```
 POST /api/verification/layer5
@@ -542,11 +544,61 @@ Roles: admin
 ```json
 {
   "verificationId": "clx_ver1",
-  "notes": "All layers approved. Listing is certified."
+  "approved": true,
+  "nipostValidated": true,
+  "notes": "All layers approved. Listing is certified. NIPOST address cross-reference passed."
 }
 ```
 
-**Effect:** `overallStatus` → `certified`, `listing.verificationTier` → `certified`, owner notified.
+**Effect:** `overallStatus` → `certified`, `listing.verificationTier` → `certified`, owner notified. The NIPOST validation result is stored in `adminNotes` for audit purposes.
+
+---
+
+### 4.10a NIPOST Address Validation API
+
+```
+GET /api/nipost/validate
+Auth: Required
+Roles: landlord, admin, estate_manager
+```
+
+Validates a Nigerian postal code against the NIPOST Postcode API. When `NIPOST_API_KEY` is unset, the system falls back to mock data (same behavior as Resend, Remita, Prembly, Termii when their env vars are unset).
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `postalCode` | string | Yes | 6-digit Nigerian postal code |
+| `state` | string | No | State to cross-check against NIPOST records |
+| `address` | string | No | Full address for fuzzy cross-reference |
+
+**Response 200:**
+```json
+{
+  "valid": true,
+  "postalCode": "100001",
+  "state": "Lagos",
+  "lga": "Lagos Island",
+  "locality": "Victoria Island",
+  "confidence": "high"
+}
+```
+
+**Response 404:**
+```json
+{
+  "valid": false,
+  "message": "Postal code not found in NIPOST records"
+}
+```
+
+**Response 503:**
+```json
+{
+  "valid": false,
+  "message": "NIPOST service unavailable (mock fallback active)"
+}
+```
 
 ---
 

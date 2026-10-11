@@ -342,7 +342,7 @@ export default function UnitsPage() {
                   {filteredUnits.map((unit: unknown) => (
                     <TableRow
                       key={unit.id}
-                      className="cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900/30"
+                      className="cursor-pointer hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/30"
                       onClick={() => router.push(`/dashboard/estate-manager/units/${unit.id}`)}
                     >
                       <TableCell className="font-medium">

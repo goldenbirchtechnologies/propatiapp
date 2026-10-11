@@ -88,12 +88,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
   function RentTableSkeleton() {
     return (
-      <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
+      <div className="bg-white dark:bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+            <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               {['Tenant Name', 'Property Unit', 'Amount', 'Date', 'Status', 'Action'].map((h) => (
-                <th key={h} className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-500">
+                <th key={h} className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                   {h}
                 </th>
               ))}
@@ -101,7 +101,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           </thead>
           <tbody>
             {[0, 1, 2, 3].map((i) => (
-              <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08]">
+              <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <td className="p-4"><Skeleton className="h-4 w-40" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-32" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-24" /></td>
@@ -122,10 +122,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1
-            className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-3xl md:text-4xl text-zinc-900 dark:text-white">
+            className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-zinc-900 dark:text-white text-3xl md:text-4xl text-zinc-900 dark:text-zinc-900 dark:text-white">
             Rent Collection
           </h1>
-          <p className="mt-2 text-zinc-600 dark:text-zinc-500">
+          <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
             Manage property yields and track tenant payment compliance.
           </p>
         </div>
@@ -147,30 +147,30 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-xs font-medium uppercase tracking-widest text-on-primary/60 mb-2">
               Total Expected Revenue
             </p>
-            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-on-primary mb-4">₦14,250,000</p>
+            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-zinc-900 dark:text-white text-on-primary mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-[#10b981]-bright">
                 <AppIcon name="trending_up" className="lucide" />
                 <span className="text-xs font-medium">12% vs last month</span>
               </div>
-              <div className="bg-white dark:bg-zinc-950/50/10 px-3 py-1 rounded-full text-xs font-bold text-zinc-900 dark:text-white">
+              <div className="bg-white dark:bg-white dark:bg-zinc-950/50/10 px-3 py-1 rounded-full text-xs font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">
                 Fiscal Year 2024
               </div>
             </div>
           </div>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white dark:bg-zinc-950/50/10 rounded-full opacity-20" />
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white dark:bg-white dark:bg-zinc-950/50/10 rounded-full opacity-20" />
         </div>
 
         {/* Collected Funds */}
         <div className="glass-card border-t-4" style={{ borderTopColor: 'hsl(var(--tertiary))' }}>
           <div className="p-6 p-6">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mb-2">Collected Funds</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2">Collected Funds</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
             <div className="mt-4">
               <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
                 <div className="bg-success h-full w-[82%] rounded-full" />
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-2">82% of target reached</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-2">82% of target reached</p>
             </div>
           </div>
         </div>
@@ -178,10 +178,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         {/* Pending Arrears */}
         <div className="glass-card border-t-4 border-red-500">
           <div className="p-6 p-6">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-500 mb-2">Pending Arrears</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-red-500">₦2,450,000</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2">Pending Arrears</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-zinc-900 dark:text-white text-red-500">₦2,450,000</p>
             <div className="mt-4 flex items-center justify-between">
-              <span className="text-xs text-zinc-600 dark:text-zinc-500">14 Units Overdue</span>
+              <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">14 Units Overdue</span>
               <AppIcon name="warning" className="lucide" />
             </div>
           </div>
@@ -191,21 +191,21 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       {/* Recent Rent Payments Table */}
       <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
         {transactions.length === 0 ? (
-          <div className="glass-card bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
-            <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-500 opacity-50" />
-            <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No transactions yet</h3>
-            <p className="text-zinc-600 dark:text-zinc-500">Rent payments will appear here once tenants start paying.</p>
+          <div className="glass-card bg-white dark:bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
+            <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
+            <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white mb-2">No transactions yet</h3>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent payments will appear here once tenants start paying.</p>
           </div>
         ) : (
           <div className="glass-card overflow-hidden">
-            <div className="p-6 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
-              <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Recent Rent Payments</h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-500">Showing {Math.min(transactions.length, 8)} of {transactions.length} transactions</p>
+            <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+              <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Rent Payments</h3>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Showing {Math.min(transactions.length, 8)} of {transactions.length} transactions</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-muted/50 text-zinc-600 dark:text-zinc-500 text-xs uppercase tracking-wider">
+                  <tr className="bg-muted/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-xs uppercase tracking-wider">
                     <th className="px-6 py-4 text-left font-medium">Tenant Name</th>
                     <th className="px-6 py-4 text-left font-medium">Property Unit</th>
                     <th className="px-6 py-4 text-left font-medium">Amount</th>
@@ -224,18 +224,18 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                           </div>
                           <div>
                             <p className="text-sm font-medium">{tx.payer?.fullName || tx.agreements?.tenant?.fullName || 'Unknown'}</p>
-                            <p className="text-xs text-zinc-600 dark:text-zinc-500 opacity-70">{tx.type}</p>
+                            <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-70">{tx.type}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm">{tx.listing?.title || tx.listing?.area || '-'}</td>
                       <td className="px-6 py-4 text-sm font-medium font-mono">₦{Number(tx.amount).toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-500">{new Date(tx.createdAt).toLocaleDateString('en-NG')}</td>
+                      <td className="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{new Date(tx.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-6 py-4">
                         <RentStatusBadge status={tx.status} />
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <button className="lucide text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors" aria-label="More options">more_vert</button>
+                        <button className="lucide text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white transition-colors" aria-label="More options">more_vert</button>
                       </td>
                     </tr>
                   ))}
@@ -253,8 +253,8 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           <div className="p-6 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Revenue Distribution</h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-500">Monthly collection performance</p>
+                <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue Distribution</h4>
+                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Monthly collection performance</p>
               </div>
               <AppIcon name="info" className="lucide" />
             </div>
@@ -265,7 +265,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                     className="w-full bg-primary-container rounded-t-lg transition-all duration-700 hover:brightness-125"
                     style={{ height: `${val}%` }}
                   />
-                  <span className="text-xs text-zinc-600 dark:text-zinc-500">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i]}</span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i]}</span>
                 </div>
               ))}
             </div>
@@ -276,12 +276,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         <div className="glass-card relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <div className="p-6 p-6 relative z-10 flex flex-col justify-between h-full">
             <div>
-              <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white text-on-primary mb-2">Quick Verified Action</h4>
+              <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-on-primary mb-2">Quick Verified Action</h4>
               <p className="text-sm text-on-primary/80 mb-6">
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-white dark:bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center gap-3 bg-white dark:bg-white dark:bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
                     <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
@@ -290,7 +290,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 </div>
               </div>
             </div>
-            <Button className="mt-6 w-full bg-warning text-zinc-900 dark:text-white hover:bg-warning font-bold">
+            <Button className="mt-6 w-full bg-warning text-zinc-900 dark:text-zinc-900 dark:text-white hover:bg-warning font-bold">
               <Wallet className="h-4 w-4" />
               Request Instant Payout
             </Button>
@@ -309,7 +309,7 @@ function RentStatusBadge({ status }: { status: string }) {
     failed: { className: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
     refunded: { className: 'bg-warning/10 text-warning border-warning/30', label: 'Refunded' },
   };
-  const cfg = config[status] || { className: 'bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { className: 'bg-white dark:bg-white dark:bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
       {status === 'released' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}

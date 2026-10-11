@@ -88,18 +88,20 @@ Each layer can also transition to `rejected` if verification fails.
 - **Approved:** Progress to Layer 5, listing tier updates to `inspected`
 - **Rejected:** Property condition issues or access problems
 
-### Layer 5: Admin Certification
+### Layer 5: Admin Certification & NIPOST Address Cross-reference
 **Status:** `l5Status` (pending/approved/rejected)
 
 **Requirements:**
 - All layers 1-4 must be approved
+- NIPOST address cross-reference (when postalCode is provided)
 - Final admin review of complete verification package
 
 **Process:**
 1. System automatically notifies admins when Layer 4 completes
 2. Or owner manually submits via `/api/verification/[id]/submit`
-3. Admin performs final review via `/api/verification/layer5`
-4. Admin certifies or rejects
+3. Admin performs NIPOST address cross-reference via `/api/nipost/validate`
+4. Admin performs final review via `/api/verification/layer5`
+5. Admin certifies or rejects (NIPOST validation stored in `adminNotes`)
 
 **Outcome:**
 - **Approved:** Status becomes `certified`, listing tier updates to `certified`, property gets Certified badge
@@ -125,7 +127,7 @@ class VerificationService {
   static confirmLayer2(listingId, verified, reviewerId)
   static adminReviewLayer3(listingId, approve, reviewerId)
   static completeInspection(listingId, reportUrl, agentId)
-  static adminCertify(listingId, approve, reviewerId)
+  static adminCertify(listingId, approve, reviewerId, nipostValidated?)  // Layer 5: NIPOST address cross-reference
   
   // Management
   static createVerification(listingId, ownerId)

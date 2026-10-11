@@ -201,6 +201,13 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
   const [defaultService, setDefaultService] = useState('');
   const [unverifiedNotice, setUnverifiedNotice] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
+  const [postalCodeValidation, setPostalCodeValidation] = useState<{
+    valid: boolean;
+    state?: string;
+    lga?: string;
+    locality?: string;
+    confidence: 'high' | 'medium' | 'low';
+  } | null>(null);
 
   const form = useForm<ListingInput>({
     resolver: zodResolver(listingSchema),
@@ -297,6 +304,57 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
 
   const removeUnit = (id: string) => {
     setUnits((cur) => cur.filter((u) => u.id !== id));
+  };
+
+  const validatePostalCode = async () => {
+    const postalCode = form.getValues('postalCode');
+    const state = form.getValues('state');
+    const address = form.getValues('address');
+
+    if (!postalCode) {
+      toast({ title: 'Postal code required', description: 'Enter a postal code first.', variant: 'default' });
+      return;
+    }
+
+    toast({ title: 'Validating postal code…', description: 'Checking against NIPOST records...' });
+
+    try {
+      const res = await fetch(
+        `/api/nipost/validate?postalCode=${encodeURIComponent(postalCode)}&state=${encodeURIComponent(state || '')}&address=${encodeURIComponent(address || '')}`
+      );
+      const data = await res.json();
+
+      if (!res.ok || !data.valid) {
+        setPostalCodeValidation(null);
+        toast({
+          title: 'Postal code not recognized',
+          description: data.message || 'NIPOST does not recognize this postal code.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      setPostalCodeValidation({
+        valid: data.valid,
+        state: data.state,
+        lga: data.lga,
+        locality: data.locality,
+        confidence: data.confidence || 'medium',
+      });
+
+      toast({
+        title: 'Postal code verified',
+        description: `Matched: ${data.state || 'N/A'} • ${data.lga || 'N/A'} • ${data.locality || 'N/A'}`,
+        variant: 'default',
+      });
+    } catch {
+      setPostalCodeValidation(null);
+      toast({
+        title: 'Validation failed',
+        description: 'Could not reach NIPOST. Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const onSubmit = async (data: ListingInput) => {
@@ -502,8 +560,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Add property</h1>
-            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Create a new building and its units</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Add property</h1>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Create a new building and its units</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -511,11 +569,11 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             <BadgePercent className="h-4 w-4" />
             Refer & earn
           </Button>
-          <div className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 px-3 py-1.5">
+          <div className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 px-3 py-1.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-bold">
               ZX
             </div>
-            <span className="text-sm font-medium text-zinc-900 dark:text-white">ZX zero</span>
+            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">ZX zero</span>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -546,10 +604,10 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Basic Details */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Basic Details</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">General information about the building.</p>
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Basic Details</h2>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">General information about the building.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <FormField
@@ -624,10 +682,10 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Address */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Address</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Where is this property located?</p>
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Address</h2>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Where is this property located?</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <FormField
@@ -715,8 +773,32 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   <FormItem>
                     <FormLabel>Postal code (optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., 100001" {...field} />
+                      <div className="flex gap-2">
+                        <Input placeholder="e.g., 100001" {...field} />
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          onClick={validatePostalCode}
+                          className="whitespace-nowrap"
+                        >
+                          Validate
+                        </Button>
+                      </div>
                     </FormControl>
+                    {postalCodeValidation && (
+                      <div className="mt-2 flex items-start gap-2 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/40 p-3">
+                        <Check className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                        <div className="text-sm">
+                          <p className="font-medium text-green-800 dark:text-green-300">Verified via NIPOST</p>
+                          <p className="text-green-700 dark:text-green-400 mt-1">
+                            {postalCodeValidation.state} • {postalCodeValidation.lga}{' '}
+                            • {postalCodeValidation.locality}
+                          </p>
+                          <p className="text-green-600 dark:text-green-500">Confidence: {postalCodeValidation.confidence}</p>
+                        </div>
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -725,11 +807,11 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Units */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Units ({units.length})</h2>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Add address and details for each unit in this building.</p>
+                <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Units ({units.length})</h2>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Add address and details for each unit in this building.</p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Button type="button" variant="secondary" onClick={addUnit} className="gap-2">
@@ -739,12 +821,12 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             </div>
 
             {/* Quick Setup Toolbar */}
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4">
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-5 space-y-4">
               <div className="flex items-center gap-2">
                 <Settings2 className="h-4 w-4" />
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Quick setup</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Quick setup</h3>
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-500">Bulk-apply listing intent, price, and period to all units.</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Bulk-apply listing intent, price, and period to all units.</p>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Select value={quickListingType} onValueChange={(val) => setQuickListingType(val as ListingIntent)}>
                   <SelectTrigger>
@@ -794,10 +876,10 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
               {units.map((u) => (
                 <div
                   key={u.id}
-                  className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4"
+                  className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Unit {u.unitNumber}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Unit {u.unitNumber}</h3>
                     {units.length > 1 && (
                       <Button
                         type="button"
@@ -813,14 +895,14 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Unit Name / No</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Unit Name / No</label>
                       <Input
                         value={u.unitNumber}
                         onChange={(e) => updateUnit(u.id, { unitNumber: e.target.value })}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Bedrooms</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Bedrooms</label>
                       <Input
                         type="number"
                         min={0}
@@ -829,7 +911,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Bathrooms</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Bathrooms</label>
                       <Input
                         type="number"
                         min={0}
@@ -838,7 +920,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Size (M²)</label>
+                      <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Size (M²)</label>
                       <Input
                         type="number"
                         min={0}
@@ -854,7 +936,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   </div>
 
                   <div>
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Listing Intent</label>
+                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Listing Intent</label>
                     <div className="flex flex-wrap gap-3 mt-2">
                       {['For Rent', 'Short-Let', 'For Sale'].map((intent) => {
                         const value = intent.toLowerCase().replace(' ', '_') as ListingIntent;
@@ -875,8 +957,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                             className={[
                               'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
                               active
-                                ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
-                                : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
+                                ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white'
+                                : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-zinc-900 dark:text-white hover:bg-muted',
                             ].join(' ')}
                           >
                             {active && <Check className="h-4 w-4" />}
@@ -890,7 +972,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   {true && (
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">
+                        <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                           {u.listingType === 'short_let'
                             ? 'Nightly Rate (NGN)'
                             : u.listingType === 'sale'
@@ -906,7 +988,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       </div>
                       {u.listingType === 'rent' && (
                         <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Period</label>
+                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Period</label>
                           <Select value={u.pricePeriod} onValueChange={(val) => updateUnit(u.id, { pricePeriod: val })}>
                             <SelectTrigger>
                               <SelectValue />
@@ -923,7 +1005,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       )}
                       {u.listingType === 'short_let' && (
                         <div className="space-y-2">
-                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Min. Stay (nights)</label>
+                          <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Min. Stay (nights)</label>
                           <Input
                             type="number"
                             min={1}
@@ -940,7 +1022,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   )}
 
                   <div className="space-y-2">
-                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-500">Unit photos</label>
+                    <label className="text-xs font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Unit photos</label>
                     <DroppableArea
                       accept="image/jpeg,image/png,image/webp,image/heic"
                       maxSize={10 * 1024 * 1024}
@@ -960,9 +1042,9 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                       }
                       className="min-h-[120px]"
                     >
-                      <Upload className="h-5 w-5 mb-2 text-zinc-600 dark:text-zinc-500" />
-                      <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop unit photos here, or click to browse</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-500">These images belong to this unit only.</p>
+                      <Upload className="h-5 w-5 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+                      <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">Drop unit photos here, or click to browse</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">These images belong to this unit only.</p>
                     </DroppableArea>
                   </div>
                 </div>
@@ -970,8 +1052,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             </div>
 
             {/* Default Fees */}
-            <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-5 space-y-4">
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Default fees (applied when adding a tenant)</h3>
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-5 space-y-4">
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Default fees (applied when adding a tenant)</h3>
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   type="number"
@@ -993,16 +1075,16 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Photos & Video */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Photos & Video</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Photos & Video</h2>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">
                 Optional · helps listings stand out
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-3">
-                <label className="text-sm font-medium text-zinc-900 dark:text-white">Photos</label>
+                <label className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Photos</label>
                 <DroppableArea
                   accept="image/jpeg,image/png,image/webp,image/heic"
                   maxSize={10 * 1024 * 1024}
@@ -1012,13 +1094,13 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   onRemoveFile={(idx) => setPhotos((cur) => cur.filter((_, i) => i !== idx))}
                   className="min-h-[180px]"
                 >
-                  <Upload className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-500" />
-                  <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop images here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-500">JPEG, PNG, HEIC, or WebP up to 10MB</p>
+                  <Upload className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+                  <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">Drop images here, or click to browse</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">JPEG, PNG, HEIC, or WebP up to 10MB</p>
                 </DroppableArea>
               </div>
               <div className="space-y-3">
-                <label className="text-sm font-medium text-zinc-900 dark:text-white">Videos</label>
+                <label className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Videos</label>
                 <DroppableArea
                   accept="video/mp4,video/quicktime,video/webm"
                   maxSize={50 * 1024 * 1024}
@@ -1028,20 +1110,20 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                   onRemoveFile={(idx) => setVideos((cur) => cur.filter((_, i) => i !== idx))}
                   className="min-h-[180px]"
                 >
-                  <Film className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-500" />
-                  <p className="font-medium text-sm text-zinc-900 dark:text-white">Drop videos here, or click to browse</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-500">MP4, MOV, or WebM up to 50MB</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-500 mt-1">Short walk-around clips work best.</p>
+                  <Film className="h-6 w-6 mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+                  <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">Drop videos here, or click to browse</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">MP4, MOV, or WebM up to 50MB</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Short walk-around clips work best.</p>
                 </DroppableArea>
               </div>
             </div>
           </section>
 
           {/* Amenities */}
-          <section className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-5">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-6 md:p-8 space-y-5">
             <div>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Amenities</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-500 mt-1">Toggle features available in this building.</p>
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Amenities</h2>
+              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Toggle features available in this building.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {AMENITIES.map((a) => {
@@ -1054,8 +1136,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                     className={[
                       'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                       active
-                        ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
-                        : 'border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
+                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white'
+                        : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-zinc-900 dark:text-white hover:bg-muted',
                     ].join(' ')}
                   >
                     {active && <Check className="h-4 w-4" />}

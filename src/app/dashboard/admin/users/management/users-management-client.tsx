@@ -71,7 +71,7 @@ function UsersManagementClient({
         </span>
       );
     return (
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-600 dark:text-zinc-400 font-label-sm text-label-sm border border-zinc-200 dark:border-white/[0.08]">
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 font-label-sm text-label-sm border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
         Lvl 1
       </span>
     );
@@ -89,16 +89,16 @@ function UsersManagementClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
+            className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
           >
-            <div className="p-3 rounded-lg bg-emerald-500-container/5 text-white shrink-0">
+            <div className="p-3 rounded-lg bg-emerald-500-container/5 text-zinc-900 dark:text-white shrink-0">
               <AppIcon name={card.icon} className="lucide" size={28} />
             </div>
             <div>
-              <p className={`text-label-sm ${card.isError ? 'text-error' : 'text-zinc-600 dark:text-zinc-400'}`}>
+              <p className={`text-label-sm ${card.isError ? 'text-error' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'}`}>
                 {card.label}
               </p>
-              <h2 className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-zinc-900 dark:text-white'}`}>
+              <h2 className={`text-headline-md font-bold ${card.isError ? 'text-error' : 'text-zinc-900 dark:text-zinc-900 dark:text-white'}`}>
                 {card.value}
               </h2>
             </div>
@@ -107,18 +107,18 @@ function UsersManagementClient({
       </div>
 
       {/* Filters */}
-      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
-        <div className="p-lg border-b border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
+        <div className="p-lg border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative w-64">
-              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-zinc-600 dark:text-zinc-400" />
+              <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
               <input
                 type="text"
                 placeholder="Search name or email…"
-                className="w-full pl-9 pr-4 py-2 border border-zinc-200 dark:border-white/[0.08] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
+                className="w-full pl-9 pr-4 py-2 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
               />
             </div>
-            <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+            <select className="border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
               <option value="">All Roles</option>
               {['tenant', 'landlord', 'agent', 'admin', 'estate_manager'].map((r) => (
                 <option key={r} value={r} selected={roleFilter === r}>
@@ -127,7 +127,7 @@ function UsersManagementClient({
               ))}
             </select>
             <select
-              className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
+              className="border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
               defaultValue={statusFilter}
             >
               <option value="">All Statuses</option>
@@ -136,7 +136,7 @@ function UsersManagementClient({
               <option value="inactive">Inactive</option>
             </select>
           </div>
-          <span className="text-xs text-zinc-600 dark:text-zinc-400 whitespace-nowrap">
+          <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 whitespace-nowrap">
             Showing{' '}
             <span className="font-bold">
               {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
@@ -149,11 +149,11 @@ function UsersManagementClient({
         {/* Table */}
         <div className="overflow-x-auto flex-1">
           {users.length === 0 ? (
-            <p className="p-lg text-sm text-zinc-600 dark:text-zinc-400 text-center">No users match the current filters.</p>
+            <p className="p-lg text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-center">No users match the current filters.</p>
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08] sticky top-0">
+                <tr className="bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] sticky top-0">
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
@@ -166,20 +166,20 @@ function UsersManagementClient({
               </thead>
               <tbody className="divide-y divide-[#262626]/50">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-white dark:bg-zinc-900 transition-all duration-200">
+                  <tr key={u.id} className="hover:bg-white dark:bg-white dark:bg-zinc-900 transition-all duration-200">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-emerald-500-fixed-dim flex items-center justify-center __PHWHITE__ font-bold text-sm">
                           {initials(u.fullName)}
                         </div>
                         <div>
-                          <p className="font-bold text-zinc-900 dark:text-white">{u.fullName}</p>
-                          <p className="text-body-sm text-zinc-600 dark:text-zinc-400">{u.email}</p>
+                          <p className="font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{u.fullName}</p>
+                          <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{u.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-zinc-800 rounded-full text-label-sm text-zinc-600 dark:text-zinc-400 font-medium capitalize">
+                      <span className="px-3 py-1 bg-zinc-800 rounded-full text-label-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 font-medium capitalize">
                         {u.role.replace('_', ' ')}
                       </span>
                     </td>
@@ -195,7 +195,7 @@ function UsersManagementClient({
                           }`}
                         />
                         <span
-                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-400'}`}
+                          className={`font-label-sm ${u.isBanned ? 'text-error' : u.isActive ? 'text-[#10b981]' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'}`}
                         >
                           {u.isBanned ? 'Suspended' : u.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -204,7 +204,7 @@ function UsersManagementClient({
                     <td className="px-6 py-4">
                       <VerificationBadge user={u} />
                     </td>
-                    <td className="px-6 py-4 text-zinc-600 dark:text-zinc-400 text-body-sm">
+                    <td className="px-6 py-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-body-sm">
                       {u.createdAt.toLocaleDateString('en-NG', {
                         month: 'short',
                         day: 'numeric',
@@ -219,8 +219,8 @@ function UsersManagementClient({
         </div>
 
         {/* Pagination */}
-        <div className="px-6 py-3 border-t border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 flex items-center justify-between">
-          <p className="text-body-sm text-zinc-600 dark:text-zinc-400">
+        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 flex items-center justify-between">
+          <p className="text-body-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
             Showing{' '}
             <span className="font-bold">
               {(currentPage - 1) * PAGE_SIZE + 1} –{' '}
@@ -231,8 +231,8 @@ function UsersManagementClient({
           <div className="flex items-center gap-1">
             <a
               href={buildHref(currentPage - 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] transition-colors ${
-                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
+                currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white'
               }`}
             >
               <ChevronLeft className="!w-5 !h-5" />
@@ -249,8 +249,8 @@ function UsersManagementClient({
                   href={buildHref(pageNum)}
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
                     pageNum === currentPage
-                      ? 'bg-emerald-500 text-white shadow-none font-bold'
-                      : 'border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                      ? 'bg-emerald-500 text-zinc-900 dark:text-white shadow-none font-bold'
+                      : 'border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900'
                   }`}
                 >
                   {pageNum}
@@ -259,8 +259,8 @@ function UsersManagementClient({
             })}
             <a
               href={buildHref(currentPage + 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-white/[0.08] transition-colors ${
-                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
+                currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white'
               }`}
             >
               <ChevronRight className="!w-5 !h-5" />

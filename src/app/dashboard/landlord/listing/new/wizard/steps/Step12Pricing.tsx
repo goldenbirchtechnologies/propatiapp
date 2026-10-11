@@ -32,7 +32,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Set your base price</h2>
-      <p className="text-sm text-zinc-600 dark:text-zinc-500">This is your nightly base rate. You can adjust it for weekends later.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">This is your nightly base rate. You can adjust it for weekends later.</p>
       <div className="glass-card p-4 space-y-4">
         <div className="space-y-2">
           <Label htmlFor="currency">Currency</Label>
@@ -50,7 +50,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
         <div className="space-y-2">
           <Label htmlFor="base_price">Base price per night</Label>
           <div className="relative">
-            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-500" />
+            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
             <Input
               id="base_price"
               type="number"
@@ -76,7 +76,7 @@ export default function Step12Pricing({ value, onChange }: Step12Props) {
           value={weekend}
           onChange={(e) => { setWeekend(e.target.value); sync(); }}
         />
-        <p className="text-xs text-zinc-600 dark:text-zinc-500">Leave blank for no weekend adjustment.</p>
+        <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Leave blank for no weekend adjustment.</p>
       </div>
 
       <Button variant="outline" className="w-full gap-2">

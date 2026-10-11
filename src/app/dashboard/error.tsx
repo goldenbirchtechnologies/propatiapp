@@ -11,13 +11,13 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-black flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-white dark:bg-black flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center">
         <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
           <AlertTriangle size={28} className="text-red-400" />
         </div>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Something went wrong</h1>
-        <p className="text-zinc-600 dark:text-zinc-500 text-sm mb-6">
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mb-2">Something went wrong</h1>
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm mb-6">
           An error occurred while loading this page. Please try again or contact the administrator.
         </p>
 
@@ -28,14 +28,14 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <InteractiveHoverButton
             onClick={() => reset()}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-zinc-900 dark:text-white text-sm font-medium rounded-lg transition-colors"
           >
             <RefreshCw size={14} />
             Try again
           </InteractiveHoverButton>
           <Link
             href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-200 dark:border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 text-sm rounded-lg hover:text-zinc-900 dark:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
           >
             <Home size={14} />
             Back to Dashboard
@@ -45,8 +45,8 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
         {process.env.NODE_ENV === 'development' && (
           <div className="mt-8 text-left">
             <details className="text-xs">
-              <summary className="text-zinc-600 cursor-pointer hover:text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Debug info</summary>
-              <pre className="mt-2 p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg text-red-400 overflow-x-auto whitespace-pre-wrap">
+              <summary className="text-zinc-600 cursor-pointer hover:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Debug info</summary>
+              <pre className="mt-2 p-3 bg-white dark:bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-red-400 overflow-x-auto whitespace-pre-wrap">
                 {error.message}
                 {error.stack && `\n\n${error.stack}`}
               </pre>

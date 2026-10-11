@@ -69,7 +69,8 @@ export function getNextRequirements(verification: Verification): string[] {
     case 5:
       if (verification.l5Status === 'pending') {
         return [
-          'Admin is reviewing all verification layers',
+          'Admin reviewing all verification layers',
+          'NIPOST address cross-reference (postal code validation)',
           'Final certification will be granted upon approval',
           'Your property will receive the Certified badge',
         ];
@@ -92,7 +93,7 @@ export function getCurrentLayerDetails(verification: Verification) {
     'Identity Verification',
     'Video Verification',
     'Physical Inspection',
-    'Admin Certification',
+    'Admin Certification & NIPOST Address Cross-reference',
   ];
 
   const layerStatuses = [

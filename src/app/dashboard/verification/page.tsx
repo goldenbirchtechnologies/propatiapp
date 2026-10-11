@@ -71,7 +71,7 @@ export default async function VerificationHubPage() {
       <div className="p-6 space-y-6">
         <PageHeader title="Verification Center" />
         <div className="glass-card p-6 text-center">
-          <p className="text-zinc-500 dark:text-zinc-400">{verificationsError}</p>
+          <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{verificationsError}</p>
           <Link href="/dashboard/verification" className="mt-4 inline-block text-sm text-emerald-400 underline">
             Retry
           </Link>
@@ -100,13 +100,13 @@ export default async function VerificationHubPage() {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-lg font-semibold text-zinc-900 dark:text-white">{item.title}</p>
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-500">{item.description}</p>
+                  <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">{item.title}</p>
+                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{item.description}</p>
                 </div>
                 <span className="text-2xl">{item.icon}</span>
               </div>
               {existing && (
-                <div className="mt-4 flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-500">
+                <div className="mt-4 flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                   <span>Status: {existing.overallStatus.replace(/_/g, ' ')}</span>
                   <span>{new Date(existing.createdAt).toLocaleDateString('en-NG')}</span>
                 </div>

@@ -59,8 +59,8 @@ export default function UnitDetailPage() {
   if (!listing) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Home className="h-16 w-16 text-zinc-600 dark:text-zinc-500 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-500">Unit not found</p>
+        <Home className="h-16 w-16 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-4" />
+        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Unit not found</p>
         <Button asChild className="mt-4" variant="outline">
           <Link href="/dashboard/estate-manager/portfolio">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -100,7 +100,7 @@ export default function UnitDetailPage() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{listing.title}</h1>
-            <p className="text-zinc-600 dark:text-zinc-500 flex items-center gap-1">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 flex items-center gap-1">
               <MapPin className="h-4 w-4" />
               {listing.address}
             </p>
@@ -122,22 +122,22 @@ export default function UnitDetailPage() {
       {/* Unit Information */}
       <div className="grid gap-6 md:grid-cols-2">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Unit Information</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Unit Information</h3>
           </div>
           <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-600 dark:text-zinc-500">Property Type</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Property Type</span>
               <Badge variant="secondary">{listing.propertyType || 'N/A'}</Badge>
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-600 dark:text-zinc-500">Listing Type</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Listing Type</span>
               <Badge>{listing.listingType}</Badge>
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-600 dark:text-zinc-500">Status</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Status</span>
               <Badge
                 variant={
                   listing.status === 'active'
@@ -152,7 +152,7 @@ export default function UnitDetailPage() {
             </div>
             <Separator />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-zinc-600 dark:text-zinc-500">Occupancy</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Occupancy</span>
               <Badge variant={isOccupied ? 'success' : 'secondary'}>
                 {isOccupied ? 'Occupied' : 'Vacant'}
               </Badge>
@@ -160,15 +160,15 @@ export default function UnitDetailPage() {
             <Separator />
             <div className="grid grid-cols-3 gap-4 pt-2">
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Bedrooms</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Bedrooms</p>
                 <p className="text-lg font-semibold">{listing.bedrooms || 0}</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Bathrooms</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Bathrooms</p>
                 <p className="text-lg font-semibold">{listing.bathrooms || 0}</p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Parking</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Parking</p>
                 <p className="text-lg font-semibold">{listing.parkingSpaces || 0}</p>
               </div>
             </div>
@@ -177,8 +177,8 @@ export default function UnitDetailPage() {
 
         {/* Current Tenant */}
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
               <Users className="h-5 w-5" />
               Current Tenant
             </h3>
@@ -187,20 +187,20 @@ export default function UnitDetailPage() {
             {currentTenant ? (
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-500">Name</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Name</p>
                   <p className="font-medium">{currentTenant.fullName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-500">Email</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Email</p>
                   <p className="font-medium">{currentTenant.email}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-500">Phone</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Phone</p>
                   <p className="font-medium">{currentTenant.phone || '—'}</p>
                 </div>
                 {unit.leaseStartDate && (
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-500">Move-in Date</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Move-in Date</p>
                   <p className="font-medium">
                     {new Date(unit.leaseStartDate).toLocaleDateString('en-NG')}
                   </p>
@@ -212,8 +212,8 @@ export default function UnitDetailPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <Users className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-500 opacity-50" />
-                <p className="text-zinc-600 dark:text-zinc-500">No tenant assigned</p>
+                <Users className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
+                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No tenant assigned</p>
                 <Button variant="outline" className="mt-4">
                   Assign Tenant
                 </Button>
@@ -226,8 +226,8 @@ export default function UnitDetailPage() {
       {/* Lease Information */}
       {lease && (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
               <FileText className="h-5 w-5" />
               Lease Information
             </h3>
@@ -235,25 +235,25 @@ export default function UnitDetailPage() {
           <div className="p-6">
             <div className="grid gap-4 md:grid-cols-4">
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Start Date</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Start Date</p>
                 <p className="font-medium">
                   {new Date(lease.startDate).toLocaleDateString('en-NG')}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">End Date</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">End Date</p>
                 <p className="font-medium">
                   {new Date(lease.endDate).toLocaleDateString('en-NG')}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Rent Amount</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent Amount</p>
                 <p className="font-medium">
                   ₦{Number(lease.rentAmount || 0).toLocaleString()}/month
                 </p>
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500">Status</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Status</p>
                 <Badge variant="default">{lease.status}</Badge>
               </div>
             </div>
@@ -263,8 +263,8 @@ export default function UnitDetailPage() {
 
       {/* Maintenance History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
             <Wrench className="h-5 w-5" />
             Maintenance History
           </h3>
@@ -284,7 +284,7 @@ export default function UnitDetailPage() {
                 >
                   <div>
                     <p className="font-medium">{ticket.title}</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-500">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                       {ticket.category} • {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                     </p>
                   </div>
@@ -299,8 +299,8 @@ export default function UnitDetailPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Wrench className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-500 opacity-50" />
-              <p className="text-zinc-600 dark:text-zinc-500">No maintenance history</p>
+              <Wrench className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
+              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No maintenance history</p>
             </div>
           )}
         </div>
@@ -308,16 +308,16 @@ export default function UnitDetailPage() {
 
       {/* Payment History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
             Payment History
           </h3>
         </div>
         <div className="p-6">
           <div className="text-center py-8">
-            <DollarSign className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-500 opacity-50" />
-            <p className="text-zinc-600 dark:text-zinc-500">No payment history available</p>
+            <DollarSign className="h-12 w-12 mx-auto mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No payment history available</p>
           </div>
         </div>
       </div>

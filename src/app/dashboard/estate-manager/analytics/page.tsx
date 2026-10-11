@@ -154,8 +154,8 @@ export default async function EstateManagerAnalyticsPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Analytics</h1>
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500', marginTop: 'mt-1' }}>Portfolio performance and financial insights</p>
+            <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }}>Analytics</h1>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400', marginTop: 'mt-1' }}>Portfolio performance and financial insights</p>
           </div>
           <div className="flex items-center gap-3">
             <select className="inp-field" defaultValue="month" style={{ maxWidth: '180px' }}>
@@ -170,45 +170,45 @@ export default async function EstateManagerAnalyticsPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Portfolio Value</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{portfolioValue}</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Portfolio Value</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{portfolioValue}</p>
             <p className="text-xs text-[#10b981] mt-1">+4.2% vs last month</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Active Units</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{activeUnits}</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Active Units</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{activeUnits}</p>
             <p className="text-xs text-[#10b981] mt-1">{occupancyRate}% occupancy</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Monthly Collections</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Monthly Collections</p>
             <p className="text-2xl font-bold text-[#10b981]">{monthlyCollections}</p>
             <p className="text-xs text-[#10b981] mt-1">+7.1% vs last month</p>
           </div>
           <div className="glass-card p-4">
-            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Avg Rent / Unit</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{avgRent}</p>
-            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Gross rental yield</p>
+            <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Avg Rent / Unit</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{avgRent}</p>
+            <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Gross rental yield</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="glass-card p-6">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Collection Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-zinc-900 dark:text-white">Collection Trend</h3>
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
-                <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Monthly collection trend</p>
-                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Hook chart library here</p>
+                <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }} />
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Monthly collection trend</p>
+                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Hook chart library here</p>
               </div>
             </div>
           </div>
           <div className="glass-card p-6">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Occupancy Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-zinc-900 dark:text-white">Occupancy Trend</h3>
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
-                <TrendingUp className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Occupancy rate trend</p>
-                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Hook chart library here</p>
+                <TrendingUp className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }} />
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Occupancy rate trend</p>
+                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Hook chart library here</p>
               </div>
             </div>
           </div>
@@ -216,16 +216,16 @@ export default async function EstateManagerAnalyticsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="glass-card p-6">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Unit Distribution</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-zinc-900 dark:text-white">Unit Distribution</h3>
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
-                <PieChartIcon className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unit type breakdown</p>
-                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Hook chart library here</p>
+                <PieChartIcon className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }} />
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Unit type breakdown</p>
+                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Hook chart library here</p>
                 <div className="mt-3 flex flex-wrap justify-center gap-3">
                   {unitDistribution.map((u) => (
-                    <span key={u.label} className="inline-flex items-center gap-1 text-xs text-xs uppercase tracking-wider px-2 py-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                      <span className="w-2 h-2 rounded-full" style={{ background: 'text-zinc-900 dark:text-white' }} />
+                    <span key={u.label} className="inline-flex items-center gap-1 text-xs text-xs uppercase tracking-wider px-2 py-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white">
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }} />
                       {u.label}: {u.count}
                     </span>
                   ))}
@@ -234,37 +234,37 @@ export default async function EstateManagerAnalyticsPage() {
             </div>
           </div>
           <div className="glass-card p-6">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Revenue vs Expenses</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue vs Expenses</h3>
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
-                <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-500' }} />
-                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Revenue vs expenses chart</p>
-                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Hook chart library here</p>
+                <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }} />
+                <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Revenue vs expenses chart</p>
+                <p className="text-xs text-xs uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Hook chart library here</p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="glass-card overflow-hidden">
-          <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">Recent Transactions</h3>
+          <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Transactions</h3>
           </div>
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
-                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Unit</th>
-                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Tenant</th>
-                <th className="text-right p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Amount</th>
-                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>Date</th>
+              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Unit</th>
+                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Tenant</th>
+                <th className="text-right p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Amount</th>
+                <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Date</th>
               </tr>
             </thead>
             <tbody>
               {recentTransactions.map((r) => (
-                <tr key={r.id} className="border-b transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-white/[0.08]">
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">{r.unit}</td>
-                  <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-500' }}>{r.tenant}</td>
-                  <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-white">₦{r.amount.toLocaleString()}</td>
-                  <td className="p-4 text-sm text-zinc-900 dark:text-white">
+                <tr key={r.id} className="border-b transition-colors hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/30 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">{r.unit}</td>
+                  <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>{r.tenant}</td>
+                  <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-zinc-900 dark:text-white">₦{r.amount.toLocaleString()}</td>
+                  <td className="p-4 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
                     {new Date(r.date).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </td>
                 </tr>

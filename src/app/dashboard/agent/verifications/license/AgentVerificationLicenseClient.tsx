@@ -77,7 +77,7 @@ export default function AgentVerificationLicenseClient() {
         );
       case 'under-review':
         return (
-          <span className="px-3 py-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
+          <span className="px-3 py-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs font-bold">
             Under Review
           </span>
           );
@@ -94,17 +94,17 @@ export default function AgentVerificationLicenseClient() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl md:text-4xl font-bold">Professional License</h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-500 max-w-2xl">
+        <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 max-w-2xl">
           To ensure the integrity of our marketplace, all agents must provide valid regulatory documentation.
           Verified agents receive a &apos;Certified&apos; badge on all listings.
         </p>
       </div>
 
       {/* Header Status */}
-      <div className="glass-card bg-[#171717]/50 border border-zinc-200 dark:border-white/[0.08]">
+      <div className="glass-card bg-[#171717]/50 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
         <div className="p-6 p-4 flex flex-wrap items-center gap-6">
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
+            <span className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
               Current Status
             </span>
             <span className="flex items-center gap-2 font-bold">
@@ -114,7 +114,7 @@ export default function AgentVerificationLicenseClient() {
           </div>
           <div className="h-10 w-[1px] bg-border" />
           <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-500">
+            <span className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
               Last Update
             </span>
             <span className="font-bold">Oct 24, 2023</span>
@@ -126,12 +126,12 @@ export default function AgentVerificationLicenseClient() {
         {/* Form & Upload */}
         <div className="lg:col-span-8 space-y-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
+                <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
                   1
                 </span>
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">License Details</h3>
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">License Details</h3>
               </div>
             </div>
             <div className="p-6">
@@ -141,7 +141,7 @@ export default function AgentVerificationLicenseClient() {
                   <select
                     value={licenseType}
                     onChange={(e) => setLicenseType(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   >
                     {licenseTypes.map((lt) => (
                       <option key={lt}>{lt}</option>
@@ -153,7 +153,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={licenseNumber}
                     onChange={(e) => setLicenseNumber(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR/2023/8892"
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function AgentVerificationLicenseClient() {
                   <input
                     value={issuingAuthority}
                     onChange={(e) => setIssuingAuthority(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                     placeholder="e.g. EAR Council of Nigeria"
                   />
                 </div>
@@ -172,7 +172,7 @@ export default function AgentVerificationLicenseClient() {
                     type="date"
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] text-sm"
+                    className="w-full h-11 bg-background border border-input rounded-xl px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                   />
                 </div>
               </div>
@@ -180,12 +180,12 @@ export default function AgentVerificationLicenseClient() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
+                <span className="w-8 h-8 rounded-full bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center justify-center font-bold text-sm">
                   2
                 </span>
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">File Upload</h3>
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">File Upload</h3>
               </div>
             </div>
             <div className="p-6 space-y-4">
@@ -195,10 +195,10 @@ export default function AgentVerificationLicenseClient() {
               >
                 <input id="license-upload" type="file" accept=".pdf,.png,.jpg,.jpeg" className="absolute inset-0 opacity-0 cursor-pointer" />
                 <div className="w-16 h-16 rounded-full bg-[#10b981]/10 flex items-center justify-center mb-4">
-                  <FileUp className="h-8 w-8 text-zinc-900 dark:text-white" />
+                  <FileUp className="h-8 w-8 text-zinc-900 dark:text-zinc-900 dark:text-white" />
                 </div>
                 <p className="font-bold text-lg mb-1">Drag & drop your certificate</p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-500 text-center">
+                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-center">
                   Support for PDF, PNG, or JPEG. Maximum file size 5MB.
                 </p>
                 <Button variant="outline" className="mt-4">
@@ -218,11 +218,11 @@ export default function AgentVerificationLicenseClient() {
 
         {/* Guidance */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="glass-card bg-[#10b981] text-zinc-900 dark:text-white">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <div className="glass-card bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#10b981]" />
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-[#10b981]">Verification Tips</h3>
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-[#10b981]">Verification Tips</h3>
               </div>
             </div>
             <div className="p-6 space-y-4">
@@ -238,7 +238,7 @@ export default function AgentVerificationLicenseClient() {
                   </li>
                 ))}
               </ul>
-              <div className="p-3 bg-white dark:bg-zinc-950/50/10 rounded-xl border border-white/10">
+              <div className="p-3 bg-white dark:bg-white dark:bg-zinc-950/50/10 rounded-xl border border-white/10">
                 <p className="text-xs italic opacity-70">
                   Verification typically takes 24-48 business hours. You&apos;ll receive a push notification once approved.
                 </p>
@@ -247,8 +247,8 @@ export default function AgentVerificationLicenseClient() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Process Journey</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Process Journey</h3>
             </div>
             <div className="p-6">
               <div className="space-y-6 relative">
@@ -262,17 +262,17 @@ export default function AgentVerificationLicenseClient() {
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center ring-4 ring-background ${
                         step.status === 'done'
-                          ? 'bg-green-600 text-zinc-900 dark:text-white'
+                          ? 'bg-green-600 text-zinc-900 dark:text-zinc-900 dark:text-white'
                           : step.status === 'pending'
-                            ? 'bg-[#10b981] text-zinc-900 dark:text-white animate-pulse'
-                            : 'bg-[#171717] text-zinc-600 dark:text-zinc-500'
+                            ? 'bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white animate-pulse'
+                            : 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
                       }`}
                     >
                       <AppIcon name={step.status} className="lucide" />
                     </div>
                     <div>
                       <p className="text-sm font-bold">{step.label}</p>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-500">{step.sub}</p>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{step.sub}</p>
                     </div>
                   </div>
                 ))}
@@ -284,8 +284,8 @@ export default function AgentVerificationLicenseClient() {
 
       {/* Submission History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Submission History</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-lg">Submission History</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Export Log
           </Button>
@@ -293,7 +293,7 @@ export default function AgentVerificationLicenseClient() {
         <div className="p-6 overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-[#171717]/50 text-zinc-600 dark:text-zinc-500">
+              <tr className="bg-[#171717]/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">License Type</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Submitted</th>
                 <th className="px-4 py-3 text-xs uppercase tracking-wider">Reference ID</th>
@@ -307,12 +307,12 @@ export default function AgentVerificationLicenseClient() {
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded bg-[#10b981]/5 flex items-center justify-center">
-                        <FileText className="h-4 w-4 text-zinc-900 dark:text-white" />
+                        <FileText className="h-4 w-4 text-zinc-900 dark:text-zinc-900 dark:text-white" />
                       </div>
                       <span className="font-medium text-sm">{s.licenseType}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-zinc-600 dark:text-zinc-500">{s.submittedAt}</td>
+                  <td className="px-4 py-4 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{s.submittedAt}</td>
                   <td className="px-4 py-4 text-sm font-mono">{s.refId}</td>
                   <td className="px-4 py-4">{statusBadge(s.status)}</td>
                   <td className="px-4 py-4">
@@ -322,7 +322,7 @@ export default function AgentVerificationLicenseClient() {
                       className={cn(
                         s.status === 'rejected'
                           ? 'text-red-600 hover:underline'
-                          : 'text-zinc-900 dark:text-white'
+                          : 'text-zinc-900 dark:text-zinc-900 dark:text-white'
                       )}
                     >
                       {s.status === 'rejected' ? 'Fix & Re-upload' : <FileText className="h-4 w-4" />}

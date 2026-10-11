@@ -41,8 +41,8 @@ export default async function AdminRevenuePage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Revenue</h1>
-            <p className="text-zinc-600 dark:text-zinc-500 mt-1">Track and analyze platform revenue and fees.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue</h1>
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Track and analyze platform revenue and fees.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
             Export Data
@@ -50,56 +50,56 @@ export default async function AdminRevenuePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Total Revenue</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{formatCurrency(totalReleased)}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Total Revenue</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{formatCurrency(totalReleased)}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Platform Fees</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{formatCurrency(totalPlatformFees)}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Platform Fees</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{formatCurrency(totalPlatformFees)}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Agent Commissions</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{formatCurrency(totalAgentCommissions)}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Agent Commissions</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{formatCurrency(totalAgentCommissions)}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-500 text-sm">Volume</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{formatCurrency(totalVolume)}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Volume</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{formatCurrency(totalVolume)}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950  overflow-hidden">
-            <div className="px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Revenue by Type</h2>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
+            <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue by Type</h2>
             </div>
             <div className="p-6 space-y-3">
               {Object.entries(revenueByType).length === 0 ? (
-                <p className="text-zinc-600 dark:text-zinc-500">No revenue data yet.</p>
+                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No revenue data yet.</p>
               ) : (
                 Object.entries(revenueByType).map(([type, amount]) => (
                   <div key={type} className="flex items-center justify-between">
-                    <span className="text-zinc-900 dark:text-white capitalize">{type.replace(/_/g, ' ')}</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">{formatCurrency(amount)}</span>
+                    <span className="text-zinc-900 dark:text-zinc-900 dark:text-white capitalize">{type.replace(/_/g, ' ')}</span>
+                    <span className="font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">{formatCurrency(amount)}</span>
                   </div>
                 ))
               )}
             </div>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950  overflow-hidden">
-            <div className="px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08]">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Recent Released Payments</h2>
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
+            <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Released Payments</h2>
             </div>
             {recentRevenue.length === 0 ? (
               <div className="p-12 text-center">
-                <p className="text-zinc-600 dark:text-zinc-500">No revenue data yet.</p>
+                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No revenue data yet.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-500">
+                    <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
                       <th className="p-3 font-medium">Type</th>
                       <th className="p-3 font-medium">Amount</th>
                       <th className="p-3 font-medium">Date</th>
@@ -107,10 +107,10 @@ export default async function AdminRevenuePage() {
                   </thead>
                   <tbody>
                     {recentRevenue.map((tx) => (
-                      <tr key={tx.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-zinc-900/50">
-                        <td className="p-3 text-zinc-900 dark:text-white capitalize">{tx.type.replace(/_/g, ' ')}</td>
-                        <td className="p-3 text-zinc-900 dark:text-white">{formatCurrency(tx.payeeAmount || tx.amount)}</td>
-                        <td className="p-3 text-zinc-900 dark:text-white">{tx.paidAt ? new Date(tx.paidAt).toLocaleDateString('en-NG') : '—'}</td>
+                      <tr key={tx.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/50">
+                        <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white capitalize">{tx.type.replace(/_/g, ' ')}</td>
+                        <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{formatCurrency(tx.payeeAmount || tx.amount)}</td>
+                        <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{tx.paidAt ? new Date(tx.paidAt).toLocaleDateString('en-NG') : '—'}</td>
                       </tr>
                     ))}
                   </tbody>

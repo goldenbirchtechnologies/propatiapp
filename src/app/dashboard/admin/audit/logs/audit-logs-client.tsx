@@ -66,7 +66,7 @@ function AuditLogsClient({
           { label: 'Security Flags', value: String(stats.suspiciousCount), sub: 'High/critical actions', icon: 'gpp_maybe', danger: true },
           { label: 'Admin Actions (30d)', value: stats.adminActionCount.toLocaleString(), sub: `${adminUsers.length} active admins`, icon: 'admin_panel_settings' },
         ].map((m) => (
-          <div key={m.label} className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none">
+          <div key={m.label} className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">{m.label}</span>
               <AppIcon name={m.icon} className="lucide" size={20} />
@@ -82,13 +82,13 @@ function AuditLogsClient({
       </div>
 
       {/* Filter Bar */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-4 flex flex-wrap items-center gap-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-4 flex flex-wrap items-center gap-4">
         <span className="flex items-center gap-2 text-xs text-label-md __PHWHITE__ font-bold">
           <AppIcon name="filter_list" className="lucide" size={16} />
           Filters
         </span>
         <span className="h-6 w-px bg-outline-variant hidden sm:block" />
-        <select className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Administrators</option>
           {adminUsers.map((a) => (
             <option key={a.id} value={a.id}>
@@ -96,7 +96,7 @@ function AuditLogsClient({
             </option>
           ))}
         </select>
-        <select className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Action Types</option>
           <option value="approve">Approve</option>
           <option value="reject">Reject</option>
@@ -107,14 +107,14 @@ function AuditLogsClient({
       </div>
 
       {/* Audit Table */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
         {logs.length === 0 ? (
           <p className="p-lg text-sm text-zinc-500 dark:text-zinc-400 text-center">No audit logs recorded yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-white/[0.08]">
                   {['Timestamp', 'Administrator', 'Module', 'Action', 'Description', 'IP Address', 'Detail'].map(
                     (h) => (
                       <th
@@ -176,7 +176,7 @@ function AuditLogsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
             Showing {logs.length > 0 ? '1' : 0} to {logs.length} of {stats.todayCount.toLocaleString()} entries
           </p>

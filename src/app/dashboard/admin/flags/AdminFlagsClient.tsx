@@ -73,7 +73,7 @@ export default function AdminFlagsClient({
       </div>
 
       {!flags || flags.length === 0 ? (
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-12 text-center shadow-card">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-12 text-center shadow-card">
           <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-4">
             <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
@@ -83,11 +83,11 @@ export default function AdminFlagsClient({
           <p className="mt-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Flagged listings and reports will appear here for review.</p>
         </div>
       ) : (
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 shadow-card overflow-hidden">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 shadow-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   <th className="p-3 font-medium">Listing</th>
                   <th className="p-3 font-medium">Type</th>
                   <th className="p-3 font-medium">Reported By</th>
@@ -97,7 +97,7 @@ export default function AdminFlagsClient({
               </thead>
               <tbody>
                 {flags.map((flag) => (
-                  <tr key={flag.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
+                  <tr key={flag.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
                     <td className="p-3 text-zinc-900 dark:text-white">{flag.listing.title ?? '—'}</td>
                     <td className="p-3 text-zinc-900 dark:text-white capitalize">{flag.type}</td>
                     <td className="p-3 text-zinc-900 dark:text-white">{flag.flaggedByUser.fullName || flag.flaggedByUser.email || '—'}</td>

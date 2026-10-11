@@ -41,9 +41,9 @@ export default function ScenarioBuilderClient({ baseRevenue }: ScenarioBuilderCl
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none">
+        <div className="lg:col-span-2 card p-5 rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none">
           <h3 className="font-heading font-bold text-zinc-900 dark:text-white mb-4">Growth Trajectory (FY 24-26)</h3>
-          <div className="h-64 flex items-end gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] relative">
+          <div className="h-64 flex items-end gap-2 border-b border-zinc-200 dark:border-white/[0.08] relative">
             {[40, 65, 80, 95].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col gap-1 items-center">
                 <div className="w-full flex items-end gap-1">

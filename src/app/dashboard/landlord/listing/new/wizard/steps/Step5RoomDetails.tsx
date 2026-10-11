@@ -105,8 +105,8 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
               key={opt}
               className={`flex items-center gap-2 rounded-md border p-3 cursor-pointer transition ${
                 selected.includes(opt)
-                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5'
-                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                  ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5'
+                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
               }`}
             >
               <Checkbox
@@ -129,7 +129,7 @@ export default function Step5RoomDetails({ bedroomFurnishings = [], spaceImages 
           onDragLeave={() => setDragOver(false)}
           onDrop={(e) => { e.preventDefault(); setDragOver(false); processFiles(e.dataTransfer.files); }}
           className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition ${
-            dragOver ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
+            dragOver ? 'border-zinc-200 dark:border-white/[0.08] bg-primary/5' : 'border-muted-foreground/30'
           }`}
         >
           {images.length === 0 ? (

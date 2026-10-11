@@ -114,7 +114,7 @@ export default function AgentShortLetEarningsClient() {
             <p className="text-xs font-label-sm uppercase tracking-wider opacity-80">Available Revenue</p>
             <h2 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mt-2">₦12,450,000.00</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Button className="bg-zinc-900 text-zinc-900 dark:text-white hover:brightness-110">
+              <Button className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
               <Button variant="outline" className="border-white/20 text-zinc-900 dark:text-white hover:bg-zinc-900est/10">
@@ -129,7 +129,7 @@ export default function AgentShortLetEarningsClient() {
           <div className="p-6 p-6">
             <div className="flex justify-between items-start">
               <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy Rate</p>
-              <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded text-xs font-bold border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">+12%</span>
+              <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded text-xs font-bold border border-zinc-200 dark:border-white/[0.08]">+12%</span>
             </div>
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
@@ -156,8 +156,8 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Calendar + Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Revenue Forecast</h3>
               <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">May 2024 Bookings</p>
@@ -185,9 +185,9 @@ export default function AgentShortLetEarningsClient() {
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-[#171717] border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] opacity-40' : 'bg-zinc-950/50 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white cursor-pointer',
-                    d.active ? 'bg-[#10b981] text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : '',
-                    d.peak ? 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : ''
+                    d.disabled ? 'bg-[#171717] border-zinc-200 dark:border-white/[0.08] opacity-40' : 'bg-zinc-950/50 border-zinc-200 dark:border-white/[0.08] hover:border-white cursor-pointer',
+                    d.active ? 'bg-[#10b981] text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]' : '',
+                    d.peak ? 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
@@ -213,8 +213,8 @@ export default function AgentShortLetEarningsClient() {
           </div>
         </div>
 
-        <div className="glass-card flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Revenue Breakdown</h3>
           </div>
           <div className="p-6 space-y-6 flex-1">
@@ -234,13 +234,13 @@ export default function AgentShortLetEarningsClient() {
                 </div>
               </div>
             ))}
-            <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-white/[0.08]">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Net Revenue</p>
                   <p className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-[#10b981]">₦12,450,000</p>
                 </div>
-                <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-white/[0.08]">
                   VERIFIED
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Recent Completed Stays */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Recent Completed Stays</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Download Report

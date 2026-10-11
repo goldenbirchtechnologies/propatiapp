@@ -61,7 +61,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
 
       {/* Lifecycle Tracker */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Request Lifecycle</h3>
         </div>
         <div className="p-6">
@@ -99,7 +99,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                 </span>
               </div>
               <div className="flex items-center gap-4 mb-5">
-                <div className="w-16 h-16 rounded-xl overflow-hidden bg-zinc-900">
+                <div className="w-16 h-16 rounded-xl overflow-hidden bg-white dark:bg-zinc-900">
                   <svg className="w-full h-full text-zinc-500 dark:text-zinc-400 p-3" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                 </div>
                 <div>
@@ -123,7 +123,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <div className="glass-card">
             <div className="p-6 p-6">
               <h3 className="font-heading text-lg font-semibold text-zinc-900 dark:text-white mb-4">Appointment</h3>
-              <div className="bg-zinc-900 rounded-xl p-4 space-y-4">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl p-4 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                     <CalendarDays className="w-5 h-5 text-zinc-900 dark:text-white" />
@@ -181,12 +181,12 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
                   <h5 className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mb-2">Attached Photos</h5>
                   <div className="grid grid-cols-3 gap-3">
                     {photos.map((photo) => (
-                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
+                      <div key={photo.alt} className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08] hover:border-green-500 transition-all cursor-zoom-in group">
                         { }
                         <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                     ))}
-                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
+                    <div className="aspect-square rounded-xl bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900/80 transition-all cursor-pointer">
                       <Camera className="w-5 h-5 text-zinc-900 dark:text-white mb-1" />
                       <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Add more</span>
                     </div>
@@ -205,7 +205,7 @@ export default function TenantMaintenanceTrackingClient({ requestId }: { request
           <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto mb-5">
             You can change your appointment time up to 24 hours before the scheduled slot without unknown additional fees.
           </p>
-          <Button variant="outline" className="border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
+          <Button variant="outline" className="border-2 border-zinc-200 dark:border-white/[0.08] font-bold hover:bg-emerald-500 hover:text-white transition-all">
             Reschedule Appointment
           </Button>
         </div>

@@ -229,7 +229,7 @@ export default function MaintenancePage() {
       <div className="grid gap-4 md:grid-cols-4">
         {columns.map(({ status, label }) => (
           <div className="glass-card" key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-3">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-semibold flex items-center justify-between">
                 <AppIcon name={label} className="lucide" />
                 <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>

@@ -92,7 +92,7 @@ function WithdrawalsClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none"
+            className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none"
           >
             <div className="text-sm text-zinc-600 dark:text-zinc-400 font-medium mb-2">{card.label}</div>
             <div className="font-headline-md text-headline-md text-zinc-900 dark:text-white leading-tight">{card.value}</div>
@@ -102,8 +102,8 @@ function WithdrawalsClient({
       </div>
 
       {/* Transaction Feed */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
-        <div className="p-md border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-md bg-white dark:bg-white dark:bg-zinc-950">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
+        <div className="p-md border-b border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-md bg-white dark:bg-zinc-950">
           <h3 className="text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Recent Transactions</h3>
           <span className="text-xs text-zinc-600 dark:text-zinc-400">
             Showing {transactions.length} most recent
@@ -115,7 +115,7 @@ function WithdrawalsClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-zinc-900 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/[0.08]">
                   {['ID', 'Type', 'Amount', 'Fee', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}
@@ -175,7 +175,7 @@ function WithdrawalsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
             {transactions.length} records shown
           </p>

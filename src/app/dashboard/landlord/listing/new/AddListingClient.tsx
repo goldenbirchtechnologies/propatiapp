@@ -269,7 +269,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-12 text-center">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
             <Building2 className="w-8 h-8 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </div>
@@ -335,8 +335,8 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
 
       <div className="space-y-6 pb-20">
         {/* Listing Type — Zillow fork (Rent / Buy / Shortlet / Commercial / Share) */}
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-[#27272a] bg-white dark:bg-white dark:bg-[#121214] overflow-hidden">
-          <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b]/50">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-white dark:bg-white dark:bg-[#121214] overflow-hidden">
+          <div className="p-6 border-b border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b]/50">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">What are you listing?</h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Choose one — the rest of the form adapts (Zillow Rentals merged)</p>
           </div>
@@ -355,7 +355,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     key={t.id}
                     type="button"
                     onClick={() => form.setValue('listingType', t.id as any)}
-                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-zinc-200 dark:border-[#27272a] text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/30'}`}
+                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] text-zinc-700 dark:text-zinc-300 hover:border-emerald-500/30'}`}
                   >
                     <div className="text-sm font-semibold">{t.label}</div>
                     <div className={`text-xs ${active ? 'text-zinc-900 dark:text-white/80' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`}>{t.desc}</div>
@@ -412,7 +412,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
               </div>
             ) : (
-              <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b] p-4">
+              <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b] p-4">
                 <p className="text-sm font-medium __PHWHITE__">Sale listing</p>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">No unit selection needed — this will list the property itself. Fill in sale price and ownership docs below.</p>
               </div>

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 /**
- * Zillow-style footer with city/state recommendations for each use case.
+ * Zillow-style footer with city recommendations for each use case.
  * Clicking a city navigates to /listings with the location filtered
  * via the `q` query parameter (read by the Listings client).
  */
@@ -30,17 +30,19 @@ const rentalCities = [
   { label: 'Abeokuta', state: 'Ogun' },
 ];
 
-const mortgageStates = [
-  'Abia', 'Adamawa', 'Akwa-Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue',
-  'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu',
-  'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi',
-  'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
-  'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe',
-];
-
-const browseStates = [
-  'Lagos', 'Abuja', 'Rivers', 'Ogun', 'Oyo', 'Kano', 'Kaduna', 'Anambra',
-  'Delta', 'Edo', 'Enugu', 'Abia', 'Rivers', 'Cross River', 'Kano', 'Benue',
+const shortletCities = [
+  { label: 'Lagos', state: 'Lagos' },
+  { label: 'Victoria Island', state: 'Lagos' },
+  { label: 'Ikoyi', state: 'Lagos' },
+  { label: 'Lekki', state: 'Lagos' },
+  { label: 'Abuja', state: 'Abuja' },
+  { label: 'Port Harcourt', state: 'Rivers' },
+  { label: 'Ibadan', state: 'Oyo' },
+  { label: 'Calabar', state: 'Cross River' },
+  { label: 'Uyo', state: 'Akwa-Ibom' },
+  { label: 'Enugu', state: 'Enugu' },
+  { label: 'Benin City', state: 'Edo' },
+  { label: 'Ado-Ekiti', state: 'Ekiti' },
 ];
 
 export default function ZillowStyleFooter() {
@@ -103,40 +105,40 @@ export default function ZillowStyleFooter() {
             ))}
           </div>
 
-          {/* Browse Homes */}
+          {/* Shortlets */}
           <div className="col-span-2 md:col-span-1">
             <h4 className="font-semibold text-zinc-900 dark:text-white text-sm mb-3">
-              Browse Homes
+              Shortlets
             </h4>
-            {browseStates.slice(0, 8).map((state) => (
+            <Link
+              href="/listings"
+              className="block text-sm text-blue-600 hover:text-blue-700 hover:underline py-1"
+            >
+              All shortlets
+            </Link>
+            {shortletCities.map((c) => (
               <Link
-                key={state}
-                href={`/listings?q=${encodeURIComponent(state)}`}
+                key={c.label}
+                href={`/listings?q=${encodeURIComponent(c.state)}`}
                 className="block text-sm text-blue-600 hover:text-blue-700 hover:underline py-1"
               >
-                {state} homes
+                {c.label} shortlets
               </Link>
             ))}
           </div>
 
-          {/* Mortgage Rates */}
+          {/* Browse Homes */}
           <div>
             <h4 className="font-semibold text-zinc-900 dark:text-white text-sm mb-3">
-              Mortgage Rates
+              Browse Homes
             </h4>
-            <Link
-              href="/mortgage-rates"
-              className="block text-sm text-blue-600 hover:text-blue-700 hover:underline py-1"
-            >
-              Current mortgage rates
-            </Link>
-            {mortgageStates.slice(0, 8).map((state) => (
+            {shortletCities.slice(0, 8).map((c) => (
               <Link
-                key={state}
-                href={`/mortgage-rates?q=${encodeURIComponent(state)}`}
+                key={c.label}
+                href={`/listings?q=${encodeURIComponent(c.state)}`}
                 className="block text-sm text-blue-600 hover:text-blue-700 hover:underline py-1"
               >
-                {state} mortgage rates
+                {c.label} homes
               </Link>
             ))}
           </div>

@@ -159,7 +159,7 @@ export default function AdminDashboardClient({ userName, userAvatar }: { userNam
         description={`Platform overview · ${new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' })}`}
         actions={
           <div className="flex gap-2">
-            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-300 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
+            <a href="/dashboard/admin/reports" className="inline-flex items-center px-4 py-2 text-sm border border-zinc-200 dark:border-white/[0.08] text-zinc-300 rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors">
               Export Report
             </a>
             <a href="/dashboard/admin/settings" className="inline-flex items-center px-4 py-2 text-sm bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">

@@ -41,7 +41,7 @@ export default async function CommercialMoveInPage() {
         </section>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Upcoming Move-Ins</h3>
           </div>
           <div className="p-6">
@@ -69,7 +69,7 @@ export default async function CommercialMoveInPage() {
                         <td className="py-3">{b.checkIn}</td>
                         <td className="py-3">{b.checkOut}</td>
                         <td className="py-3">
-                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]">
                             {b.status}
                           </span>
                         </td>

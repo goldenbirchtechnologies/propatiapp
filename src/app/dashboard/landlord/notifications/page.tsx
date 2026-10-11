@@ -39,17 +39,17 @@ export default async function LandlordNotificationsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Unread</p>
             <p className="text-2xl font-bold mt-1">{unreadCount}</p>
             <p className="text-xs text-warning mt-1">Needs attention</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Requires Action</p>
             <p className="text-2xl font-bold mt-1">{actionCount}</p>
             <p className="text-xs text-red-500 mt-1">Open tickets</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">Total</p>
             <p className="text-2xl font-bold mt-1">{notifications.length}</p>
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">All time</p>
@@ -57,7 +57,7 @@ export default async function LandlordNotificationsPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">All Notifications</h3>
           </div>
           <div className="p-6">
@@ -68,7 +68,7 @@ export default async function LandlordNotificationsPage() {
                 {notifications.map((n) => (
                   <div
                     key={n.id}
-                    className={`p-4 rounded-xl border ${n.read ? 'bg-zinc-950/50 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-900 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}
+                    className={`p-4 rounded-xl border ${n.read ? 'bg-zinc-950/50 border-zinc-200 dark:border-white/[0.08]' : 'bg-zinc-900 border-zinc-200 dark:border-white/[0.08]'}`}
                   >
                     <div className="flex items-start justify-between">
                       <div>

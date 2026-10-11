@@ -169,7 +169,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         Expiry Date
                       </Label>
                       <div className="grid grid-cols-2 gap-3">
-                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm">
                           <option value="">MM</option>
                           {months.map((m) => (
                             <option key={m} value={m}>
@@ -177,7 +177,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                             </option>
                           ))}
                         </select>
-                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm">
+                        <select className="h-11 px-3 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm">
                           <option value="">YY</option>
                           {years.map((y) => (
                             <option key={y} value={y}>
@@ -230,7 +230,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <select
                       value={selectedBank}
                       onChange={(e) => setSelectedBank(e.target.value)}
-                      className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
+                      className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 appearance-none text-sm"
                     >
                       <option value="">Choose your bank</option>
                       {banks.map((b) => (
@@ -254,7 +254,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                         className="pr-10"
                       />
                       <div className={`absolute right-3 top-1/2 -translate-y-1/2 ${loadingAccount ? '' : 'hidden'}`}>
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-zinc-200 dark:border-white/[0.08] border-t-transparent"></div>
                       </div>
                     </div>
                   </div>
@@ -263,7 +263,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
                     <Label className="font-label-sm label-md text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                       Account Name
                     </Label>
-                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm">
+                    <div className="flex items-center gap-sm w-full h-11 px-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-sm">
                       <span className={accountName.includes('Fetching') ? 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' : 'text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold'}>
                         {accountName}
                       </span>
@@ -291,7 +291,7 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
 
         {/* Right: Security bento */}
         <div className="space-y-5">
-          <div className="glass-card bg-surface-variant border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="glass-card bg-surface-variant border-zinc-200 dark:border-white/[0.08]">
             <div className="p-6 p-6 flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4">
                 <Lock className="w-7 h-7 text-zinc-900 dark:text-white" />
@@ -300,8 +300,8 @@ export default function AddPaymentMethodClient({ methodType }: { methodType: str
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Your financial data is secured by 256-bit SSL encryption.</p>
             </div>
           </div>
-          <div className="glass-card bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center gap-4 p-5">
-            <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="glass-card bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-white/[0.08] flex items-center gap-4 p-5">
+            <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
               <Shield className="w-5 h-5 text-zinc-900 dark:text-white" />
             </div>
             <div>

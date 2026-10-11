@@ -82,8 +82,8 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
       case 'in_progress': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
       case 'resolved': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'closed': return 'bg-zinc-800 text-zinc-300 border-zinc-700';
-      case 'cancelled': return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]';
-      default: return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]';
+      case 'cancelled': return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
+      default: return 'bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]';
     }
   };
 
@@ -125,11 +125,11 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
               placeholder="Search requests..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
+              className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[160px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
+            <SelectTrigger className="w-[160px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -142,7 +142,7 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
             </SelectContent>
           </Select>
           <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-            <SelectTrigger className="w-[160px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
+            <SelectTrigger className="w-[160px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
               <SelectValue placeholder="Priority" />
             </SelectTrigger>
             <SelectContent>
@@ -179,7 +179,7 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
 
             return (
               <div className="glass-card" key={ticket.id} className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-3">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-2 flex-1">
                       {priorityIcon(ticket.priority)}
@@ -194,7 +194,7 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
                   </p>
                 </div>
                 <div className="p-6 space-y-3">
-                  <div className="aspect-video rounded-lg overflow-hidden bg-zinc-900">
+                  <div className="aspect-video rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
                     <img src={image} alt={ticket.title} className="w-full h-full object-cover" />
                   </div>
                   <p className="text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">{ticket.description}</p>
@@ -203,7 +203,7 @@ export default function TenantMaintenanceClient({ tickets }: Props) {
                     <span className="capitalize">{ticket.priority} priority</span>
                   </div>
                   <Link href={`/dashboard/tenant/maintenance/${ticket.id}`} className="block w-full">
-                    <Button variant="outline" size="sm" className="w-full border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
+                    <Button variant="outline" size="sm" className="w-full border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white">
                       View Details
                     </Button>
                   </Link>

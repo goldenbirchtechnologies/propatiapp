@@ -34,22 +34,22 @@ function StatCardSkeleton() {
       style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}
     >
       <div className="flex items-center gap-2 mb-2">
-        <div className="rounded" style={{ height: 14, width: 14, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
-        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 14, width: 14, background: 'border-zinc-200 dark:border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-200 dark:border-white/[0.08]' }} />
       </div>
-      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+      <div className="rounded mt-3" style={{ height: 28, width: '45%', background: 'border-zinc-200 dark:border-white/[0.08]' }} />
     </div>
   );
 }
 
 function RowSkeleton() {
   return (
-    <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
+    <tr className="border-b border-zinc-200 dark:border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '45%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '50%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-200 dark:border-white/[0.08]' }} /></td>
     </tr>
   );
 }
@@ -111,13 +111,13 @@ export default function EstateManagerTenantsPage() {
   const statusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge variant="default" className="bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Active</Badge>;
+        return <Badge variant="default" className="bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]">Active</Badge>;
       case 'pending':
-        return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
+        return <Badge variant="secondary" className="bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]">Pending</Badge>;
       case 'notice_period':
-        return <Badge variant="outline" className="bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">Notice Period</Badge>;
+        return <Badge variant="outline" className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">Notice Period</Badge>;
       default:
-        return <Badge variant="outline" className="bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">{status}</Badge>;
+        return <Badge variant="outline" className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">{status}</Badge>;
     }
   };
 

@@ -92,7 +92,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       </div>
 
       {showActions && (
-        <div className="glass-card rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60 bg-zinc-50 dark:bg-zinc-900 p-4">
+        <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08]/60 bg-zinc-50 dark:bg-zinc-900 p-4">
           <h3 className="text-sm font-semibold mb-3">Deal actions</h3>
           <div className="flex flex-wrap items-center gap-3">
             {isInEscrow && (
@@ -114,7 +114,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <div className="flex gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
         {(['overview', 'timeline', 'actions', 'documents'] as const).map((tab) => (
           <button
             key={tab}
@@ -133,7 +133,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="glass-card p-5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900">
+          <div className="glass-card p-5 border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-zinc-900 dark:text-white">Deal Details</h3>
             <div className="space-y-3">
               <DetailRow icon={<Home className="w-4 h-4" />} label="Property" value={deal.property} />
@@ -143,7 +143,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               <DetailRow icon={<Clock className="w-4 h-4" />} label="Last Contact" value={formatDate(deal.lastContact)} />
             </div>
           </div>
-          <div className="glass-card p-5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900">
+          <div className="glass-card p-5 border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
             <h3 className="font-headline-sm font-bold text-sm mb-4 text-zinc-900 dark:text-white">Status Overview</h3>
             <div className="space-y-3">
               <StatusBar label="Enquiries" active={deal.status === 'enquiries'} />
@@ -157,7 +157,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'timeline' && (
-        <div className="glass-card p-5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900">
+        <div className="glass-card p-5 border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
           <h3 className="font-headline-sm font-bold text-sm mb-6 text-zinc-900 dark:text-white">Deal Timeline</h3>
           <div className="space-y-0">
             {deal.timeline.map((item, idx) => (
@@ -207,8 +207,8 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
       )}
 
       {activeTab === 'documents' && (
-        <div className="glass-card overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900">
-          <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card overflow-hidden border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
+          <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="font-headline-sm font-bold text-sm text-zinc-900 dark:text-white">Documents</h3>
           </div>
           {deal.documents.length === 0 ? (
@@ -219,7 +219,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                   <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Name</th>
                   <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Type</th>
                   <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Size</th>
@@ -229,7 +229,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
               </thead>
               <tbody>
                 {deal.documents.map((doc) => (
-                  <tr key={doc.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-[#171717]/30">
+                  <tr key={doc.id} className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-[#171717]/30">
                     <td className="p-4 font-medium text-sm flex items-center gap-2 text-zinc-900 dark:text-white">
                       <FileText className="w-4 h-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
                       {doc.name}
@@ -238,7 +238,7 @@ export default function AgentDealDetailClient({ deal }: { deal: Deal }) {
                     <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{doc.size}</td>
                     <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{formatDate(doc.uploadedAt)}</td>
                     <td className="p-4 text-right">
-                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                      <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
                         <Download className="w-3 h-3" /> Download
                       </button>
                     </td>
@@ -278,7 +278,7 @@ function StatusBar({ label, active }: { label: string; active: boolean }) {
 
 function ActionCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
-    <Link href={href} className="glass-card p-5 flex items-start gap-4 transition-all hover:shadow-none group border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white no-underline">
+    <Link href={href} className="glass-card p-5 flex items-start gap-4 transition-all hover:shadow-none group border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white no-underline">
       <div className="p-3 rounded-xl bg-[#10b981]/10 text-zinc-900 dark:text-white">
         {icon}
       </div>

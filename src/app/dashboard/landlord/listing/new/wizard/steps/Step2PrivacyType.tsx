@@ -53,8 +53,8 @@ export default function Step2PrivacyType({ value, onChange }: Step2Props) {
               onClick={() => handleSelect(opt.value)}
               className={`relative cursor-pointer transition border-2 ${
                 isActive
-                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
-                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                  ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
+                  : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (

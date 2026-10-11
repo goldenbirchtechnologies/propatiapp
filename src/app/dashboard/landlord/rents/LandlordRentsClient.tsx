@@ -88,10 +88,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
   function RentTableSkeleton() {
     return (
-      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
+      <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
               {['Tenant Name', 'Property Unit', 'Amount', 'Date', 'Status', 'Action'].map((h) => (
                 <th key={h} className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   {h}
@@ -101,7 +101,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           </thead>
           <tbody>
             {[0, 1, 2, 3].map((i) => (
-              <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr key={i} className="border-b border-zinc-200 dark:border-white/[0.08]">
                 <td className="p-4"><Skeleton className="h-4 w-40" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-32" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-24" /></td>
@@ -191,14 +191,14 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       {/* Recent Rent Payments Table */}
       <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
         {transactions.length === 0 ? (
-          <div className="glass-card bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
             <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No transactions yet</h3>
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent payments will appear here once tenants start paying.</p>
           </div>
         ) : (
           <div className="glass-card overflow-hidden">
-            <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+            <div className="p-6 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
               <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Recent Rent Payments</h3>
               <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Showing {Math.min(transactions.length, 8)} of {transactions.length} transactions</p>
             </div>
@@ -281,7 +281,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center gap-3 bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-white/[0.08]">
                   <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
                     <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
@@ -309,7 +309,7 @@ function RentStatusBadge({ status }: { status: string }) {
     failed: { className: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
     refunded: { className: 'bg-warning/10 text-warning border-warning/30', label: 'Refunded' },
   };
-  const cfg = config[status] || { className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
       {status === 'released' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}

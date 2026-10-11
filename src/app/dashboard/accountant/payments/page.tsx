@@ -35,22 +35,22 @@ export default async function AccountantPaymentsPage() {
               </div>
 
               <div className="grid gap-5 md:grid-cols-3">
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
                   <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">Processed Volume</p>
                   <p className="text-3xl font-bold text-zinc-900 dark:text-white">₦{Number(totalVolume._sum?.amount ?? 0).toLocaleString()}</p>
                 </div>
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
                   <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">Pending Transactions</p>
                   <p className="text-3xl font-bold text-zinc-900 dark:text-white">{pendingCount}</p>
                 </div>
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6">
+                <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
                   <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium">Recent Transactions</p>
                   <p className="text-3xl font-bold text-zinc-900 dark:text-white">{recent.length}</p>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08]">
+                <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08]">
                   <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Recent Transactions</h2>
                 </div>
                 <div className="divide-y divide-border">
@@ -84,7 +84,7 @@ export default async function AccountantPaymentsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-10 text-center">
+    <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] p-10 text-center">
       <p className="text-base font-semibold" style={{ color: 'var(--text)' }}>{title}</p>
       <p className="text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-2">{description}</p>
     </div>

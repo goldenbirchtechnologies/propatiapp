@@ -51,7 +51,7 @@ export default function Step13Discounts({ value, onChange }: Step13Props) {
           const checked = flags[option.key];
           return (
             <div className="glass-card" key={option.key} className={`relative p-4 flex items-center justify-between gap-4 border-2 transition ${
-              checked ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
+              checked ? 'border-zinc-200 dark:border-white/[0.08] bg-zinc-900' : 'border-zinc-200 dark:border-white/[0.08]'
             }`}>
               <div className="flex-1">
                 <div className="flex items-center gap-2">

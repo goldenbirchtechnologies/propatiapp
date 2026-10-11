@@ -64,7 +64,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
+            className={viewMode === 'grid' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
             onClick={() => setViewMode('grid')}
           >
             <Home className="h-4 w-4" />
@@ -72,7 +72,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
             size="icon"
-            className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
+            className={viewMode === 'list' ? 'bg-emerald-500 hover:bg-emerald-600 text-white' : 'border-zinc-200 dark:border-white/[0.08] text-zinc-500 dark:text-zinc-400'}
             onClick={() => setViewMode('list')}
           >
             <Search className="h-4 w-4" />
@@ -87,7 +87,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
             placeholder="Search saved properties..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
+            className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
           />
         </div>
       </div>
@@ -155,7 +155,7 @@ export default function TenantSavedPropertiesClient({ initialSavedProperties }: 
                       <Maximize className="h-3.5 w-3.5" /> {property.area} sqm
                     </span>
                   </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
                     <Avatar
                       src={property.landlord?.avatarUrl || undefined}
                       name={property.landlord?.fullName || 'L'}

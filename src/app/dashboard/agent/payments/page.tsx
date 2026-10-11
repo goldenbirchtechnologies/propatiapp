@@ -44,7 +44,7 @@ export default async function AgentPaymentsPage() {
               </div>
 
               <div className="grid gap-6 md:grid-cols-3">
-                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
                   <div className="relative z-10">
                     <p className="mb-2 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Wallet Balance</p>
@@ -53,7 +53,7 @@ export default async function AgentPaymentsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
                   <div className="relative z-10">
                     <p className="mb-2 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Deposits</p>
@@ -62,7 +62,7 @@ export default async function AgentPaymentsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
+                <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-6 backdrop-blur">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] to-transparent opacity-50" />
                   <div className="relative z-10">
                     <p className="mb-2 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Withdrawals</p>
@@ -73,8 +73,8 @@ export default async function AgentPaymentsPage() {
                 </div>
               </div>
 
-              <section className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur backdrop-blur">
-                <div className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/30 px-6 py-5">
+              <section className="overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur backdrop-blur">
+                <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-900/30 px-6 py-5">
                   <h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-900 dark:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#10b981]">
                       <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
@@ -85,7 +85,7 @@ export default async function AgentPaymentsPage() {
                   </h3>
                 </div>
                 <div className="flex flex-col items-center justify-center p-12 text-center">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-900">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500">
                       <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
                       <path d="m3.3 7 8.7 5 8.7-5" />
@@ -114,7 +114,7 @@ export default async function AgentPaymentsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-10 text-center backdrop-blur">
+    <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-[rgba(23,23,23,0.4)] backdrop-blur p-10 text-center backdrop-blur">
       <p className="text-base font-semibold text-zinc-900 dark:text-white">{title}</p>
       <p className="mt-2 text-base text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{description}</p>
     </div>

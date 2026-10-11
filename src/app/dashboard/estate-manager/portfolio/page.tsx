@@ -114,7 +114,7 @@ export default function PortfolioPage() {
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3 animate-fadeIn">
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Total Units</h3>
             <Home className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </div>
@@ -124,7 +124,7 @@ export default function PortfolioPage() {
         </div>
 
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Occupied</h3>
             <Building2 className="h-4 w-4 text-emerald-500" />
           </div>
@@ -134,7 +134,7 @@ export default function PortfolioPage() {
         </div>
 
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Vacant</h3>
             <Building2 className="h-4 w-4 text-emerald-500" />
           </div>
@@ -184,7 +184,7 @@ export default function PortfolioPage() {
 
       {/* Units Table */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Units ({filteredListings.length})</h3>
         </div>
         <div className="p-6">

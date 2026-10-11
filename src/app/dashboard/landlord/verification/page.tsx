@@ -81,7 +81,7 @@ export default async function LandlordVerificationPage() {
               <VerificationCard key={listing.id} listing={listing} />
             ))}
             {listings.length === 0 && (
-              <div className="col-span-full bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-12 text-center">
+              <div className="col-span-full bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-12 text-center">
                 <BuildingIcon className="w-5 h-5" />
                 <h3 className="text-zinc-900 dark:text-white">No properties to verify</h3>
                 <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Add a property to start the verification process.</p>
@@ -103,13 +103,13 @@ export default async function LandlordVerificationPage() {
 
 function OverviewCard({ label, value, icon: Icon, trend, trendPositive = false }: { label: string; value: number; icon: React.ReactNode; trend?: string; trendPositive?: boolean }) {
   return (
-    <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6">
+    <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{label}</p>
           <p className="text-zinc-900 dark:text-white">{value}</p>
         </div>
-        <div className="bg-zinc-900 text-zinc-900 dark:text-white">
+        <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
           {Icon}
         </div>
       </div>
@@ -142,11 +142,11 @@ function VerificationCard({ listing }: { listing: unknown }) {
   const LAYER_ICONS = { l1Status: FileText, l2Status: UserCheck, l3Status: Video, l4Status: MapPin };
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
-    not_started: { class: 'bg-transparent text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
+    not_started: { class: 'bg-transparent text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
     in_progress: { class: 'bg-amber-500/15 text-amber-400 border-amber-500/20', label: 'In Review', icon: <LoaderIcon className="w-3 h-3 mr-1 animate-spin" /> },
     certified: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <XIcon className="w-3 h-3 mr-1" /> },
-    pending: { class: 'bg-transparent text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
+    pending: { class: 'bg-transparent text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Not Started', icon: null },
     approved: { class: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Verified', icon: <CheckIcon className="w-3 h-3 mr-1" /> },
   };
 
@@ -159,19 +159,19 @@ function VerificationCard({ listing }: { listing: unknown }) {
   const isCertified = overallStatus === 'certified';
 
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950">
       {isCertified ? (
         <div className="flex items-center gap-2 bg-emerald-500/15 px-4 py-2.5 text-sm font-medium text-emerald-400">
           <ShieldCheckIcon className="h-4 w-4 shrink-0" />
           Certified — this property is fully verified
         </div>
       ) : (
-        <div className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 px-4 py-3">
+        <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 px-4 py-3">
           <div className="mb-1.5 flex items-center justify-between text-xs">
             <span className="font-medium text-zinc-300">{approvedCount} of 4 Steps Completed</span>
             <span className="text-zinc-600 dark:text-zinc-400">{progress}%</span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-900">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white dark:bg-zinc-900">
             <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
           </div>
         </div>
@@ -204,10 +204,10 @@ function VerificationCard({ listing }: { listing: unknown }) {
           return (
             <div
               key={layer.key}
-              className="flex flex-col gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 p-3 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50 p-3 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${isApproved ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'}`}>
                   {isApproved ? <CheckIcon className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
                 </div>
                 <div className="min-w-0">
@@ -232,11 +232,11 @@ function VerificationCard({ listing }: { listing: unknown }) {
       </div>
 
       {/* Action Button */}
-      <div className="mt-4 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pt-4">
+      <div className="mt-4 border-t border-zinc-200 dark:border-white/[0.08] pt-4">
         {overallStatus === 'certified' ? (
           <Link
             href={`/dashboard/landlord/properties/${listing.id}`}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-zinc-800"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-900 dark:text-white hover:bg-zinc-800"
           >
             <BuildingIcon className="h-4 w-4" /> Manage Property
           </Link>

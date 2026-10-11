@@ -20,7 +20,7 @@ export default function TenantOverduePaymentNoticePage() {
     >
       <ErrorBoundary>
         <div className="space-y-6">
-          <section className="rounded-2xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6 shadow-none">
+          <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 p-6 shadow-none">
             <div className="flex items-center gap-3">
               <Badge variant="destructive" className="rounded-full">Notice</Badge>
               <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Overdue Payment Notice</h1>
@@ -30,7 +30,7 @@ export default function TenantOverduePaymentNoticePage() {
 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Overdue balance</h3>
               </div>
               <div className="p-6">
@@ -39,7 +39,7 @@ export default function TenantOverduePaymentNoticePage() {
               </div>
             </div>
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Due date</h3>
               </div>
               <div className="p-6">
@@ -48,7 +48,7 @@ export default function TenantOverduePaymentNoticePage() {
               </div>
             </div>
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Notice reference</h3>
               </div>
               <div className="p-6">
@@ -64,7 +64,7 @@ export default function TenantOverduePaymentNoticePage() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Next steps</h3>
             </div>
             <div className="p-6">

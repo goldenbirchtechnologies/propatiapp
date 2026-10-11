@@ -123,7 +123,7 @@ function Step1DocumentsClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Progress</h3>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
@@ -142,7 +142,7 @@ function Step1DocumentsClient(props: Props) {
           const hasDoc = (counts[type] || 0) > 0;
           return (
             <div className="glass-card" key={type} className={hasDoc ? 'border-success/30' : 'border-dashed'}>
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
                     <CheckCircle2 className="h-5 w-5 text-[#10b981]" />

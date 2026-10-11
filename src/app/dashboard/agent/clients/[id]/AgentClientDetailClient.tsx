@@ -58,7 +58,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <User className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Contact Details
@@ -76,7 +76,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
               </div>
             )}
             {client.profileBio && (
-              <div className="pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
                 <p className="text-xs font-medium mb-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   Notes
                 </p>
@@ -86,8 +86,8 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
           </div>
         </div>
 
-        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <Home className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Related Deals
@@ -103,7 +103,7 @@ export default function AgentClientDetailClient({ client }: { client: Client }) 
                 {client.deals.map((deal) => (
                   <div
                     key={deal.id}
-                    className="flex items-center justify-between p-3 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"
+                    className="flex items-center justify-between p-3 rounded-xl border border-zinc-200 dark:border-white/[0.08]"
                   >
                     <div>
                       <p className="text-sm font-medium text-zinc-900 dark:text-white">

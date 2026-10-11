@@ -41,9 +41,9 @@ interface AgentCommissionsClientProps {
 
 // ─── Status config ────────────────────────────────────────────────────────────
 const statusConfig: Record<CommissionStatus, { class: string; label: string }> = {
-  paid: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Paid' },
-  pending: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending' },
-  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
+  paid: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Paid' },
+  pending: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
 };
 
 // ─── Skeleton helpers ─────────────────────────────────────────────────────────
@@ -204,7 +204,7 @@ function FilterBar({
             className={cn(
               'px-3 py-1.5 rounded-md text-sm font-medium border transition-all',
               filter === f.value
-                ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50'
+                ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50'
                 : 'border-transparent hover:bg-[#171717]/50'
             )}
           >

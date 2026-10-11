@@ -193,9 +193,9 @@ export default function AgentDashboardClient({
               <Link
                 key={listing.id}
                 href={`/dashboard/agent/properties`}
-                className="group rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 overflow-hidden hover:border-zinc-700/80 transition-colors"
+                className="group rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 overflow-hidden hover:border-zinc-700/80 transition-colors"
               >
-                <div className="relative h-32 bg-zinc-900">
+                <div className="relative h-32 bg-white dark:bg-zinc-900">
                   {listing.coverImage ? (
                     <img src={listing.coverImage} alt={listing.title} className="h-full w-full object-cover" />
                   ) : (
@@ -237,28 +237,28 @@ export default function AgentDashboardClient({
           <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Quick Actions</h3>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Link href="/dashboard/agent/properties" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/properties" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <Building2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Properties</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/listings" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/listings" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Listings</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/messages" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/messages" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <MessageSquare className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Messages</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/payments" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/payments" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Payments</p>

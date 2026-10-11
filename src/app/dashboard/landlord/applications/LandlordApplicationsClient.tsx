@@ -112,9 +112,9 @@ const statusConfig: Record<string, { label: string; className: string }> = {
   accepted: { label: 'Accepted', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
   approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
   rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  cancelled: { label: 'Cancelled', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  canceled: { label: 'Canceled', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
+  cancelled: { label: 'Cancelled', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
+  canceled: { label: 'Canceled', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]' },
   submitted: { label: 'Submitted', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
 };
 
@@ -250,7 +250,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
       <div className="glass-card rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
           <select
-            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
+            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 200 }}
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as ApplicationStatus | 'all')}
@@ -263,7 +263,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <option value="withdrawn">Withdrawn</option>
           </select>
           <select
-            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
+            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 200 }}
             value={stageFilter}
             onChange={(e) => setStageFilter(e.target.value as ApplicationStage | 'all')}
@@ -276,7 +276,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
             <option value="rejected">Rejected</option>
           </select>
           <select
-            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
+            className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-zinc-200 outline-none focus:border-emerald-500/50"
             style={{ maxWidth: 260 }}
             value={listingFilter}
             onChange={(e) => setListingFilter(e.target.value)}
@@ -304,11 +304,11 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
           </div>
         </div>
       ) : (
-        <div className="glass-card rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+        <div className="glass-card rounded-xl border border-zinc-200 dark:border-white/[0.08] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                   {['Tenant', 'Listing', 'Stage', 'Status', 'Date', 'Actions'].map((h) => (
                     <th key={h} className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 font-medium uppercase tracking-wider">{h}</th>
                   ))}
@@ -318,7 +318,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                 {filtered.map((app) => {
                   const cfg = statusConfig[app.status] || {
                     label: app.status ? String(app.status).replace('_', ' ') : 'Unknown',
-                    className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+                    className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
                   };
                   const stage = app.stage || 'submitted';
                   const stageCfg = stageConfig[stage] || {
@@ -331,7 +331,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   const listingLocation = [app.listing?.area, app.listing?.state].filter(Boolean).join(', ');
 
                   return (
-                    <tr key={app.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
+                    <tr key={app.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <Avatar
@@ -427,7 +427,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                   </div>
 
                   {(selectedApp.tenant?.employmentStatus || selectedApp.tenant?.employerName || selectedApp.tenant?.yearlyIncome) && (
-                    <div className="p-3 rounded-lg space-y-1 text-sm border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                    <div className="p-3 rounded-lg space-y-1 text-sm border border-zinc-200 dark:border-white/[0.08]">
                       <p className="font-medium mb-2 text-zinc-900 dark:text-white">Employment</p>
                       {selectedApp.tenant?.employmentStatus && (
                         <p className="text-zinc-500 dark:text-zinc-400">
@@ -466,7 +466,7 @@ export default function LandlordApplicationsClient({ applications: initial }: { 
                         <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">No screening checks yet.</span>
                       )}
                       {Object.entries(selectedApp.screeningStatus || {}).map(([key, value]) => (
-                        <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
+                        <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
                           <span className="capitalize text-zinc-900 dark:text-white">{key.replace('_', ' ')}</span>
                           {screeningPill(value)}
                         </div>

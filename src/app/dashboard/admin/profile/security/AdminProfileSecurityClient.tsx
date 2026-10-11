@@ -8,7 +8,7 @@ export default function AdminProfileSecurityClient() {
       {/* Section 1: Profile Overview (Bento Style) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-lg">
         {/* Profile Card */}
-        <div className="lg:col-span-8 bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row gap-8 items-center md:items-start relative overflow-hidden">
+        <div className="lg:col-span-8 bg-white dark:bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row gap-8 items-center md:items-start relative overflow-hidden">
           {/* Subtle background decoration */}
           <div className="absolute -right-16 -top-16 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
           <div className="relative group">
@@ -39,7 +39,7 @@ export default function AdminProfileSecurityClient() {
               <button className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl font-medium text-body-sm hover:translate-y-[-2px] transition-all shadow-none">
                 Edit Profile
               </button>
-              <button className="px-6 py-2.5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-on-primary-container transition-all">
+              <button className="px-6 py-2.5 border border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white rounded-xl font-medium text-body-sm hover:bg-primary-container hover:text-on-primary-container transition-all">
                 Download Bio
               </button>
             </div>
@@ -80,7 +80,7 @@ export default function AdminProfileSecurityClient() {
       {/* Section 2 & 3: Forms & Security (Two Columns) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-gutter mb-lg">
         {/* Personal Information */}
-        <section className="bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <section className="bg-white dark:bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-white/[0.08]">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white">
               <AppIcon name="person" className="lucide" />
@@ -92,7 +92,7 @@ export default function AdminProfileSecurityClient() {
               <div className="col-span-2 md:col-span-1">
                 <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">FULL NAME</label>
                 <input
-                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
+                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="text"
                   defaultValue="Ade Ben-G."
                 />
@@ -100,7 +100,7 @@ export default function AdminProfileSecurityClient() {
               <div className="col-span-2 md:col-span-1">
                 <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">EMAIL ADDRESS</label>
                 <input
-                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
+                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="email"
                   defaultValue="ade.b@propati.ng"
                 />
@@ -110,14 +110,14 @@ export default function AdminProfileSecurityClient() {
               <div className="col-span-2 md:col-span-1">
                 <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">PHONE NUMBER</label>
                 <input
-                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
+                  className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none"
                   type="tel"
                   defaultValue="+234 812 345 6789"
                 />
               </div>
               <div className="col-span-2 md:col-span-1">
                 <label className="block text-label-md font-mono text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">OFFICE LOCATION</label>
-                <select className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none bg-zinc-950/50">
+                <select className="w-full h-11 px-4 rounded-lg border border-zinc-200 dark:border-white/[0.08] focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-white/[0.08] transition-all text-body-md outline-none bg-white dark:bg-zinc-950/50">
                   <option>Lagos HQ, Victoria Island</option>
                   <option>Abuja Hub, Garki</option>
                   <option>Port Harcourt Branch</option>
@@ -133,7 +133,7 @@ export default function AdminProfileSecurityClient() {
         </section>
 
         {/* Security & Authentication */}
-        <section className="bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col">
+        <section className="bg-white dark:bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-white/[0.08] flex flex-col">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white">
               <AppIcon name="security" className="lucide" />
@@ -142,7 +142,7 @@ export default function AdminProfileSecurityClient() {
           </div>
           <div className="space-y-6 flex-1">
             {/* Password Management */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08]/30">
               <div className="flex items-center gap-4">
                 <AppIcon name="lock_reset" className="lucide" />
                 <div>
@@ -156,7 +156,7 @@ export default function AdminProfileSecurityClient() {
             </div>
 
             {/* MFA Setup */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08]/30">
               <div className="flex items-center gap-4">
                 <AppIcon name="smartphone" className="lucide" />
                 <div>
@@ -170,7 +170,7 @@ export default function AdminProfileSecurityClient() {
             </div>
 
             {/* Active Sessions */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-zinc-950/50 border border-zinc-200 dark:border-white/[0.08]/30">
               <div className="flex items-center gap-4">
                 <AppIcon name="devices" className="lucide" />
                 <div>
@@ -187,7 +187,7 @@ export default function AdminProfileSecurityClient() {
       </div>
 
       {/* Section 4: Security Audit Log (Personal) */}
-      <div className="lg:col-span-5 bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <div className="lg:col-span-5 bg-white dark:bg-zinc-950/50 rounded-xl p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200 dark:border-white/[0.08]">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white">
             <AppIcon name="history_edu" className="lucide" />
@@ -216,13 +216,13 @@ export default function AdminProfileSecurityClient() {
             <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Oct 12, 2023 • MacBook Pro</p>
           </div>
         </div>
-        <button className="w-full mt-8 py-3 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl text-label-sm font-bold text-zinc-900 dark:text-white hover:bg-zinc-900 transition-all">
+        <button className="w-full mt-8 py-3 border border-zinc-200 dark:border-white/[0.08] rounded-xl text-label-sm font-bold text-zinc-900 dark:text-white hover:bg-zinc-900 transition-all">
           View Full Security Log
         </button>
       </div>
 
       {/* Sticky footer for mobile actions */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-zinc-950/50 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex gap-3 z-50">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-zinc-950/50 border-t border-zinc-200 dark:border-white/[0.08] flex gap-3 z-50">
         <button className="flex-1 py-3 bg-emerald-500 text-white rounded-xl font-bold shadow-none">Save All Changes</button>
         <button className="w-14 h-14 bg-zinc-800 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center">
           <AppIcon name="help" className="lucide" />

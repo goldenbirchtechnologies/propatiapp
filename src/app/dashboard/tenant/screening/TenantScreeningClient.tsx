@@ -15,7 +15,7 @@ type Screening = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  scheduled: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
+  scheduled: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
   completed: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Completed' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },
 };
@@ -41,7 +41,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
       </div>
 
       <div className="glass-card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
           {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-sm font-medium capitalize border transition-colors ${filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'hover:bg-muted/50'}`}>{f}</button>
           ))}
@@ -56,7 +56,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Landlord</th>
                 <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
                 <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
@@ -68,7 +68,7 @@ export default function TenantScreeningClient({ initialScreenings }: { initialSc
               {filtered.map((s) => {
                 const sc = statusConfig[s.status] || statusConfig.scheduled;
                 return (
-                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr key={s.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-white/[0.08]">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent/10 text-accent" style={{ flexShrink: 0 }}>

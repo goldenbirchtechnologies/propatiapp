@@ -70,7 +70,7 @@ export default function AutoPayConfigurationClient() {
       </div>
 
       {/* Master Toggle Card */}
-      <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <div className="glass-card border-zinc-200 dark:border-white/[0.08]">
         <div className="p-6 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-[#10b981] text-black flex items-center justify-center">
@@ -99,7 +99,7 @@ export default function AutoPayConfigurationClient() {
         <div className="lg:col-span-2 space-y-6">
           {/* Payment Method */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between pb-2">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between pb-2">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Payment Method</h3>
               <button className="text-zinc-900 dark:text-white font-label-sm label-md hover:underline flex items-center gap-xs">
                 <AppIcon name="add_circle" className="lucide" />
@@ -113,7 +113,7 @@ export default function AutoPayConfigurationClient() {
 
           {/* Automation Rules */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Automation Rules</h3>
             </div>
             <div className="p-6 space-y-6">
@@ -126,8 +126,8 @@ export default function AutoPayConfigurationClient() {
                       key={opt.label}
                       className={`p-3 rounded-lg text-body-sm font-semibold transition-all border ${
                         opt.active
-                          ? 'border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-zinc-900 dark:text-white'
-                          : 'border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white'
+                          ? 'border-2 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-zinc-900 dark:text-white'
+                          : 'border border-zinc-200 dark:border-white/[0.08] hover:border-white'
                       }`}
                     >
                       {opt.label}
@@ -152,7 +152,7 @@ export default function AutoPayConfigurationClient() {
                     type="text"
                     value={maxLimit}
                     onChange={(e) => setMaxLimit(e.target.value)}
-                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
+                    className="pl-10 pr-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg focus:ring-2 focus:ring-[#10b981] focus:border-[#10b981] font-label-sm text-zinc-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export default function AutoPayConfigurationClient() {
         <div className="space-y-6">
           {/* Category Toggles */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white font-heading text-lg">Active Categories</h3>
             </div>
             <div className="p-6 space-y-4">
@@ -212,7 +212,7 @@ export default function AutoPayConfigurationClient() {
             <Button className="w-full py-3 bg-primary text-zinc-900 dark:text-white rounded-xl font-bold hover:bg-primary-container transition-all active:scale-95">
               Save Configuration
             </Button>
-            <Button variant="outline" className="w-full py-3 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 rounded-xl font-bold hover:bg-surface-variant transition-all">
+            <Button variant="outline" className="w-full py-3 border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 rounded-xl font-bold hover:bg-surface-variant transition-all">
               Cancel
             </Button>
           </div>
@@ -220,7 +220,7 @@ export default function AutoPayConfigurationClient() {
       </div>
 
       {/* Info Footer */}
-      <footer className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row justify-between items-center gap-4">
+      <footer className="mt-6 pt-4 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <AppIcon name="lock" className="lucide" />

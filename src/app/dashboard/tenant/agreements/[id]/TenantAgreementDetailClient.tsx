@@ -56,14 +56,14 @@ const statusConfig: Record<
   string,
   { label: string; class: string }
 > = {
-  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { label: 'Pending Landlord', class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/30' },
+  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { label: 'Pending Landlord', class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/30' },
   pending_tenant: { label: 'Pending Your Signature', class: 'bg-warning/10 text-warning border-warning/20' },
   tenant_signed: { label: 'Tenant Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   landlord_signed: { label: 'Landlord Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   fully_signed: { label: 'Fully Signed', class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20' },
   terminated: { label: 'Terminated', class: 'bg-red-500/10 text-red-500 border-red-500/20' },
-  expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  expired: { label: 'Expired', class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-white/[0.08]' },
 };
 
 function fmtCurrency(value: number) {
@@ -110,7 +110,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <Home className="h-5 w-5" />
             {agreement.listing?.title || 'Agreement'}
@@ -119,7 +119,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
         <div className="p-6">
           <div className="grid md:grid-cols-2 gap-4">
             {coverImage && (
-              <div className="rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="rounded-xl overflow-hidden border border-zinc-200 dark:border-white/[0.08]">
                 <img src={coverImage.url} alt={agreement.listing?.title || ''} className="w-full h-48 object-cover" />
               </div>
             )}
@@ -165,7 +165,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <User className="h-5 w-5" />
             Parties
@@ -193,7 +193,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Signatures
@@ -204,7 +204,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
             {['landlord', 'tenant', 'agent'].map((role) => {
               const sig = agreement.signatures.find((s) => s.role === role);
               return (
-                <div key={role} className="flex items-center justify-between border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
+                <div key={role} className="flex items-center justify-between border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium capitalize text-zinc-900 dark:text-white">{role}</p>
                     {sig && (
@@ -219,7 +219,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
                       Signed
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                    <Badge variant="outline" className="border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                       <Clock className="h-3 w-3 mr-1" />
                       Pending
                     </Badge>
@@ -233,7 +233,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
 
       {agreement.transactions?.length > 0 && (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <DollarSign className="h-5 w-5" />
               Transactions
@@ -242,7 +242,7 @@ export default function TenantAgreementDetailClient({ agreement }: Props) {
           <div className="p-6">
             <div className="space-y-2">
               {agreement.transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
+                <div key={tx.id} className="flex items-center justify-between border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium text-zinc-900 dark:text-white capitalize">{tx.type}</p>
                     <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{new Date(tx.createdAt).toLocaleString('en-NG')}</p>

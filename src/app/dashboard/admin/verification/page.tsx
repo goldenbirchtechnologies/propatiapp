@@ -45,20 +45,20 @@ export default async function AdminVerificationPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm">Total</p>
             <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{totalVerifications.toLocaleString()}</p>
           </div>
           {byStatus.map((s) => (
-            <div key={s.overallStatus} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
+            <div key={s.overallStatus} className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6 ">
               <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-sm capitalize">{s.overallStatus.replace(/_/g, ' ')}</p>
               <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{s._count.overallStatus.toLocaleString()}</p>
             </div>
           ))}
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950  overflow-hidden">
-          <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950  overflow-hidden">
+          <div className="px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08]">
             <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Recent Verification Requests</h2>
           </div>
           {recentVerifications.length === 0 ? (
@@ -69,7 +69,7 @@ export default async function AdminVerificationPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                  <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Owner</th>
                     <th className="p-3 font-medium">Layer</th>
@@ -78,7 +78,7 @@ export default async function AdminVerificationPage() {
                 </thead>
                 <tbody>
                   {recentVerifications.map((ver) => (
-                    <tr key={ver.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
+                    <tr key={ver.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-900/50">
                       <td className="p-3 text-zinc-900 dark:text-white">{ver.listing?.title ?? '—'}</td>
                       <td className="p-3 text-zinc-900 dark:text-white">{ver.owner?.fullName ?? '—'}</td>
                       <td className="p-3 text-zinc-900 dark:text-white">{ver.currentLayer}</td>

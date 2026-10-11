@@ -84,7 +84,7 @@ function statusMeta(status: StatusCheckItem['status']) {
       return { badge: 'secondary' as const, label: 'Verified', text: 'text-emerald-400', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' };
     case 'pending':
     case 'in_progress':
-      return { badge: 'secondary' as const, label: 'Pending', text: 'text-zinc-300', className: 'bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' };
+      return { badge: 'secondary' as const, label: 'Pending', text: 'text-zinc-300', className: 'bg-zinc-800 text-zinc-300 border-zinc-200 dark:border-white/[0.08]' };
     case 'requires_review':
       return { badge: 'outline' as const, label: 'Needs Review', text: 'text-zinc-300', className: 'border-amber-500/30 text-zinc-300' };
     case 'rejected':
@@ -172,8 +172,8 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
       )}
 
       {!allVerified && (
-        <div className="glass-card border-slate-800 bg-zinc-900">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card border-slate-800 bg-white dark:bg-zinc-900">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Identity Checks</h3>
           </div>
           <div className="p-6">
@@ -208,8 +208,8 @@ export default function VerificationDojahPadClient({ _userId }: { _userId: strin
       )}
 
       {!allVerified && (
-        <div className="glass-card border-slate-800 bg-zinc-900">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card border-slate-800 bg-white dark:bg-zinc-900">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-slate-100">Complete Identity Check</h3>
           </div>
           <div className="p-6">

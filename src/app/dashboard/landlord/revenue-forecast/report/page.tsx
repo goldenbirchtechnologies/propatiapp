@@ -48,14 +48,14 @@ export default async function LandlordRevenueForecastReportPage() {
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Archived financial projections derived from transaction history.</p>
           </div>
           <div className="flex gap-3">
-            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 text-sm font-medium">
               Total: ₦{parseKoboToNaira(totalRevenue).toLocaleString()}
             </span>
           </div>
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Monthly Forecast Summary</h3>
           </div>
           <div className="p-6">

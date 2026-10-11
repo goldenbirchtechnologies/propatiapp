@@ -16,9 +16,9 @@ type Bill = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  paid: { class: 'bg-success/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Paid' },
-  pending: { class: 'bg-warning/10 text-warning border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending' },
-  overdue: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Overdue' },
+  paid: { class: 'bg-success/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]', label: 'Paid' },
+  pending: { class: 'bg-warning/10 text-warning border border-zinc-200 dark:border-white/[0.08]', label: 'Pending' },
+  overdue: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]', label: 'Overdue' },
 };
 
 export default function EstateManagerBillingClient({ initialBills }: { initialBills: Bill[] }) {
@@ -36,9 +36,9 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
       </div>
 
       <div className="glass-card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-white/[0.08]">
           {['all', 'paid', 'pending', 'overdue'].map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface' : 'border-transparent hover:bg-muted/50')}>{f}</button>
+            <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08] bg-surface' : 'border-transparent hover:bg-muted/50')}>{f}</button>
           ))}
         </div>
         {filtered.length === 0 ? (
@@ -48,7 +48,7 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Title</th>
                 <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Tenant</th>
                 <th className="text-right p-4 text-sm font-label-sm uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Amount</th>
@@ -61,7 +61,7 @@ export default function EstateManagerBillingClient({ initialBills }: { initialBi
               {filtered.map((b) => {
                 const sc = statusConfig[b.status] || statusConfig.pending;
                 return (
-                  <tr key={b.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr key={b.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-white/[0.08]">
                     <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">{b.title}</td>
                     <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{b.tenant}</td>
                     <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-white">₦{b.amount.toLocaleString()}</td>

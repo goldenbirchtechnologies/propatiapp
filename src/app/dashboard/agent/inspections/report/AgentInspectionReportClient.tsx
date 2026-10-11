@@ -82,9 +82,9 @@ export default function AgentInspectionReportClient() {
       </div>
 
       {/* Report Paper */}
-      <div className="bg-zinc-950/50 shadow-none border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
+      <div className="bg-white dark:bg-zinc-950/50 shadow-none border border-zinc-200 dark:border-white/[0.08] rounded-xl overflow-hidden max-w-5xl mx-auto print-area">
         {/* Report Header */}
-        <div className="bg-[#10b981] text-zinc-900 dark:text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="bg-[#10b981] text-zinc-900 dark:text-white p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 border-b-4 border-zinc-200 dark:border-white/[0.08]">
           <div className="space-y-2">
             <div className="flex items-center gap-2 opacity-80 mb-2">
               <Building2 className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default function AgentInspectionReportClient() {
         <div className="p-6 md:p-8 space-y-8">
           {/* Clearance Summary */}
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-[#171717]/50 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="lg:col-span-2 bg-[#171717]/50 p-6 rounded-xl flex flex-col md:flex-row items-center gap-6 border border-zinc-200 dark:border-white/[0.08]">
               <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-[#171717] rounded-xl flex items-center justify-center">
                 <Verified className="h-16 w-16 text-zinc-900 dark:text-white/40" />
               </div>
@@ -128,13 +128,13 @@ export default function AgentInspectionReportClient() {
                   <span className="bg-[#10b981] text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
                     Tier 2 Accredited
                   </span>
-                  <span className="bg-zinc-900 text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
+                  <span className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
                     Lagos State Compliant
                   </span>
                 </div>
               </div>
             </div>
-            <div className="bg-[#10b981] p-6 rounded-xl flex flex-col justify-center items-center text-zinc-900 dark:text-white text-center border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="bg-[#10b981] p-6 rounded-xl flex flex-col justify-center items-center text-zinc-900 dark:text-white text-center border border-zinc-200 dark:border-white/[0.08]">
               <p className="text-xs font-label-sm uppercase tracking-wider mb-1 opacity-80">Audit Score</p>
               <div className="text-headline-md font-black leading-none">
                 {score}<span className="text-zinc-900 dark:text-white text-zinc-300">%</span>
@@ -157,7 +157,7 @@ export default function AgentInspectionReportClient() {
                       <div className="p-2 bg-[#171717] rounded-xl">
                         <AppIcon name={cat.icon} className="lucide" />
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] text-[10px] font-label-sm uppercase tracking-wider border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] font-bold">
+                      <span className="px-3 py-1 rounded-full bg-[#10b981]/10 text-[#10b981] text-[10px] font-label-sm uppercase tracking-wider border border-zinc-200 dark:border-white/[0.08] font-bold">
                         VERIFIED
                       </span>
                     </div>
@@ -203,7 +203,7 @@ export default function AgentInspectionReportClient() {
           </section>
 
           {/* Inspector Remarks */}
-          <section className="bg-[#171717] p-6 border-l-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-r-xl">
+          <section className="bg-[#171717] p-6 border-l-4 border-zinc-200 dark:border-white/[0.08] rounded-r-xl">
             <h4 className="text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-white mb-2">
               Inspector&apos;s Professional Remarks
             </h4>
@@ -217,7 +217,7 @@ export default function AgentInspectionReportClient() {
           </section>
 
           {/* Footer / Sign-off */}
-          <footer className="pt-8 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row justify-between items-end gap-6">
+          <footer className="pt-8 border-t border-zinc-200 dark:border-white/[0.08] flex flex-col md:flex-row justify-between items-end gap-6">
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-[#171717] rounded-full flex items-center justify-center">
@@ -229,11 +229,11 @@ export default function AgentInspectionReportClient() {
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="px-3 py-1 bg-[#171717] rounded border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-3 py-1 bg-[#171717] rounded border border-zinc-200 dark:border-white/[0.08]">
                   <p className="text-[9px] font-label-sm uppercase tracking-wider opacity-60 mb-1">Time Logged</p>
                   <p className="text-xs font-mono">14:22:10 WAT</p>
                 </div>
-                <div className="px-3 py-1 bg-[#171717] rounded border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-3 py-1 bg-[#171717] rounded border border-zinc-200 dark:border-white/[0.08]">
                   <p className="text-[9px] font-label-sm uppercase tracking-wider opacity-60 mb-1">GPS Auth</p>
                   <p className="text-xs font-mono">6.5244° N, 3.3792° E</p>
                 </div>

@@ -138,7 +138,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
         <div className="grid gap-6">
           {/* Payment Type Selection */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Type</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Select the type of payment you want to make</p>
             </div>
@@ -159,7 +159,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
 
           {/* Agreement Selection */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Agreement</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                 Select the agreement this payment is for (optional for direct payments)
@@ -196,7 +196,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
 
           {/* Amount */}
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Amount</h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Enter the amount to pay (in Naira)</p>
             </div>
@@ -230,7 +230,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
           {/* Fee Breakdown */}
           {breakdown && (
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Breakdown</h3>
               </div>
               <div className="p-6">
@@ -259,7 +259,7 @@ export default function PaymentInitiationClient({ user }: PaymentInitiationClien
                   </div>
                 </div>
 
-                <div className="mt-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
+                <div className="mt-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08] rounded-lg p-3">
                   <div className="flex gap-2">
                     <AlertCircle className="h-5 w-5 text-zinc-900 dark:text-white flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-zinc-900 dark:text-white">

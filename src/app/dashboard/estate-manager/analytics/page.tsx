@@ -194,7 +194,7 @@ export default async function EstateManagerAnalyticsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="glass-card p-6">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Collection Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
                 <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Monthly collection trend</p>
@@ -204,7 +204,7 @@ export default async function EstateManagerAnalyticsPage() {
           </div>
           <div className="glass-card p-6">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Occupancy Trend</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
                 <TrendingUp className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Occupancy rate trend</p>
@@ -217,7 +217,7 @@ export default async function EstateManagerAnalyticsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="glass-card p-6">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Unit Distribution</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
                 <PieChartIcon className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unit type breakdown</p>
@@ -235,7 +235,7 @@ export default async function EstateManagerAnalyticsPage() {
           </div>
           <div className="glass-card p-6">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mb-4 text-zinc-900 dark:text-white">Revenue vs Expenses</h3>
-            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
+            <div className="h-64 flex items-center justify-center border border-zinc-200 dark:border-white/[0.08] border-dashed rounded-lg">
               <div className="text-center">
                 <BarChart3 className="w-12 h-12 mx-auto mb-2" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
                 <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Revenue vs expenses chart</p>
@@ -246,12 +246,12 @@ export default async function EstateManagerAnalyticsPage() {
         </div>
 
         <div className="glass-card overflow-hidden">
-          <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="p-4 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">Recent Transactions</h3>
           </div>
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Unit</th>
                 <th className="text-left p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Tenant</th>
                 <th className="text-right p-4 text-sm text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>Amount</th>
@@ -260,7 +260,7 @@ export default async function EstateManagerAnalyticsPage() {
             </thead>
             <tbody>
               {recentTransactions.map((r) => (
-                <tr key={r.id} className="border-b transition-colors hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr key={r.id} className="border-b transition-colors hover:bg-zinc-900/30 border-zinc-200 dark:border-white/[0.08]">
                   <td className="p-4 text-sm text-zinc-900 dark:text-white">{r.unit}</td>
                   <td className="p-4 text-sm" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>{r.tenant}</td>
                   <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-white">₦{r.amount.toLocaleString()}</td>

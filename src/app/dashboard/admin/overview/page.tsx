@@ -100,7 +100,7 @@ export default async function AdminOverviewPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Recent Users Table */}
             <div className="lg:col-span-2 glass-card overflow-hidden">
-              <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+              <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
                 <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Newest Users</h3>
                 <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last 5 signups</span>
               </div>

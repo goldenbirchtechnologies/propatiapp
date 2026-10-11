@@ -28,9 +28,9 @@ type DealItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-[#171717] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { color: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
+  draft: { color: 'bg-[#171717] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { color: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
   tenant_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Tenant Signed' },
   landlord_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Landlord Signed' },
   fully_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Fully Signed' },
@@ -40,7 +40,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: s };
 }
 
 const fmtCurrency = (v: number) =>
@@ -66,7 +66,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total</h3>
           </div>
           <div className="p-6">
@@ -74,7 +74,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">In Progress</h3>
           </div>
           <div className="p-6">
@@ -82,7 +82,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Active</h3>
           </div>
           <div className="p-6">
@@ -90,7 +90,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Est. Value</h3>
           </div>
           <div className="p-6">
@@ -123,7 +123,7 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
                 {initialDeals.map((d) => {
                   const st = sc(d.status);
                   return (
-                    <tr key={d.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
+                    <tr key={d.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
                       <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">
                         <div>
                           <p>{d.property}</p>

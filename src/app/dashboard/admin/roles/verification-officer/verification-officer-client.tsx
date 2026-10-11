@@ -59,7 +59,7 @@ function VerificationOfficerClient({
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none"
+            className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none"
           >
             <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${stat.color}`}>
               {stat.label}
@@ -70,8 +70,8 @@ function VerificationOfficerClient({
       </div>
 
       {/* Assigned Users */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
-        <div className="p-md border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between bg-white dark:bg-white dark:bg-zinc-950">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
+        <div className="p-md border-b border-zinc-200 dark:border-white/[0.08] flex items-center justify-between bg-white dark:bg-zinc-950">
           <h3 className="text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Assigned Users</h3>
           <span className="text-xs text-zinc-500 dark:text-zinc-400">
             {users.filter((u) => u.isActive && !u.isBanned).length} active
@@ -83,7 +83,7 @@ function VerificationOfficerClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-white/[0.08]">
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">User</th>
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Role</th>
                   <th className="px-6 py-3 text-xs text-label-sm uppercase tracking-wider">Status</th>

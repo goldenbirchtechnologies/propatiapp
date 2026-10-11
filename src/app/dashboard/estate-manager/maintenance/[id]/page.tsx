@@ -27,18 +27,18 @@ import { useOrganizations } from '@/hooks/useOrganizations';
 import { useOrganizationTicket } from '@/hooks/useOrganizationTickets';
 
 const priorityConfig: Record<string, { label: string; className: string }> = {
-  low: { label: 'Low', className: 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  high: { label: 'High', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  low: { label: 'Low', className: 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]' },
+  medium: { label: 'Medium', className: 'bg-info/10 text-info border border-zinc-200 dark:border-white/[0.08]' },
+  high: { label: 'High', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' },
+  urgent: { label: 'Urgent', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const statusConfig: Record<string, { label: string; className: string }> = {
-  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
-  closed: { label: 'Closed', className: 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  open: { label: 'Open', className: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-white/[0.08]' },
+  assigned: { label: 'Assigned', className: 'bg-info/10 text-info border border-zinc-200 dark:border-white/[0.08]' },
+  in_progress: { label: 'In Progress', className: 'bg-amber-500/10 text-amber-400 border border-zinc-200 dark:border-white/[0.08]' },
+  resolved: { label: 'Resolved', className: 'bg-emerald-500/10 text-[#10b981] border border-zinc-200 dark:border-white/[0.08]' },
+  closed: { label: 'Closed', className: 'bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const statusTimeline = [
@@ -185,7 +185,7 @@ export default function MaintenanceDetailPage() {
 
         <div className="grid gap-6 md:grid-cols-2">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
                 <MessageSquare className="h-5 w-5 text-zinc-900 dark:text-white" /> Details
               </h3>
@@ -222,7 +222,7 @@ export default function MaintenanceDetailPage() {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
                 <User className="h-5 w-5 text-zinc-900 dark:text-white" /> Assignee
               </h3>
@@ -252,7 +252,7 @@ export default function MaintenanceDetailPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2" className="text-zinc-900 dark:text-white">
               <Clock className="h-5 w-5 text-zinc-900 dark:text-white" /> Progress Timeline
             </h3>
@@ -268,14 +268,14 @@ export default function MaintenanceDetailPage() {
                       <div
                         className="h-10 w-10 rounded-full flex items-center justify-center"
                         style={{
-                          background: isCompleted ? 'bg-zinc-900' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+                          background: isCompleted ? 'bg-zinc-900' : 'border-zinc-200 dark:border-white/[0.08]',
                           color: isCompleted ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500',
                         }}
                       >
                         {step.icon}
                       </div>
                       {index < statusTimeline.length - 1 && (
-                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+                        <div className="w-0.5 h-12" style={{ background: isCompleted ? 'text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-white/[0.08]' }} />
                       )}
                     </div>
                     <div className="pb-8">

@@ -39,10 +39,10 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
           const margin = scenario.monthlyIncome > 0 ? ((net / scenario.monthlyIncome) * 100).toFixed(1) : '0.0';
           const isPositive = net >= 0;
           return (
-            <div className="glass-card" key={scenario.name} className="p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+            <div className="glass-card" key={scenario.name} className="p-4 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white text-sm">{scenario.name}</h3>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-white/[0.08]">
                   {scenario.occupancyRate.toFixed(0)}% Occ.
                 </span>
               </div>
@@ -61,7 +61,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
                   </div>
                   <p className="text-xl font-bold text-red-500 font-mono">₦{(scenario.monthlyExpenses / 1e6).toFixed(2)}M</p>
                 </div>
-                <div className="pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="pt-2 border-t border-zinc-200 dark:border-white/[0.08]">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Net Monthly</p>
                     <span className={`text-sm font-bold font-mono ${isPositive ? 'text-[#10b981]' : 'text-red-500'}`}>
@@ -79,12 +79,12 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
         })}
       </div>
 
-      <div className="glass-card p-6 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+      <div className="glass-card p-6 border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50">
         <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white mb-4">Scenario Comparison</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-2 text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Scenario</th>
                 <th className="text-right p-2 text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy</th>
                 <th className="text-right p-2 text-[10px] uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Income</th>
@@ -97,7 +97,7 @@ export default function ScenarioBuilderClient({ scenarios, hasRealData, orgName 
               {scenarios.map((scenario) => {
                 const net = scenario.monthlyIncome - scenario.monthlyExpenses;
                 return (
-                  <tr key={scenario.name} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
+                  <tr key={scenario.name} className="border-b border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
                     <td className="p-2 text-zinc-900 dark:text-white font-medium">{scenario.name}</td>
                     <td className="p-2 text-right text-zinc-300 font-mono">{scenario.occupancyRate.toFixed(1)}%</td>
                     <td className="p-2 text-right text-[#10b981] font-mono">₦{scenario.monthlyIncome.toLocaleString()}</td>

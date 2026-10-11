@@ -93,7 +93,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
       {/* Status Card */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Payment Status</h3>
@@ -119,7 +119,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
             {transaction.status !== 'pending' && transaction.status !== 'failed' && (
               <div className="flex items-start gap-3">
-                <div className="bg-zinc-900 rounded-full p-2 mt-1">
+                <div className="bg-white dark:bg-zinc-900 rounded-full p-2 mt-1">
                   <CheckCircle className="h-4 w-4 text-zinc-900 dark:text-white" />
                 </div>
                 <div className="flex-1">
@@ -166,7 +166,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
       {/* Amount Breakdown */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Amount Breakdown</h3>
         </div>
         <div className="p-6">
@@ -204,7 +204,7 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
       {/* Transaction Information */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Transaction Information</h3>
         </div>
         <div className="p-6 space-y-4">
@@ -251,12 +251,12 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
       {/* Property/Agreement Information */}
       {transaction.listing && (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Related Property</h3>
           </div>
           <div className="p-6">
             <div className="flex items-start gap-4">
-              <div className="bg-zinc-950/50 rounded-lg p-3">
+              <div className="bg-white dark:bg-zinc-950/50 rounded-lg p-3">
                 <Building className="h-6 w-6" />
               </div>
               <div className="flex-1">
@@ -277,8 +277,8 @@ export default function TransactionDetailClient({ transactionId, user }: Transac
 
       {/* Escrow Information */}
       {transaction.status === 'in_escrow' && (
-        <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="glass-card border-zinc-200 dark:border-white/[0.08] bg-zinc-900/50">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Escrow Protection</h3>
           </div>
           <div className="p-6">

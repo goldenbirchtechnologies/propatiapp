@@ -132,9 +132,9 @@ export default function AgreementDetailClient() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-zinc-950/50 rounded w-1/3"></div>
-          <div className="h-64 bg-zinc-950/50 rounded"></div>
-          <div className="h-48 bg-zinc-950/50 rounded"></div>
+          <div className="h-8 bg-white dark:bg-zinc-950/50 rounded w-1/3"></div>
+          <div className="h-64 bg-white dark:bg-zinc-950/50 rounded"></div>
+          <div className="h-48 bg-white dark:bg-zinc-950/50 rounded"></div>
         </div>
       </div>
     );
@@ -338,7 +338,7 @@ export default function AgreementDetailClient() {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <CheckCircle2 className="h-4 w-4 text-zinc-900 dark:text-white" />
               </div>
-              <div className="w-0.5 h-full bg-zinc-950/50"></div>
+              <div className="w-0.5 h-full bg-white dark:bg-zinc-950/50"></div>
             </div>
             <div className="flex-1 pb-8">
               <p className="font-medium">Agreement Created</p>
@@ -354,7 +354,7 @@ export default function AgreementDetailClient() {
                 <div className="w-8 h-8 rounded-full bg-success flex items-center justify-center">
                   <CheckCircle2 className="h-4 w-4 text-zinc-900 dark:text-white" />
                 </div>
-                <div className="w-0.5 h-full bg-zinc-950/50"></div>
+                <div className="w-0.5 h-full bg-white dark:bg-zinc-950/50"></div>
               </div>
               <div className="flex-1 pb-8">
                 <p className="font-medium">Signed by Landlord</p>

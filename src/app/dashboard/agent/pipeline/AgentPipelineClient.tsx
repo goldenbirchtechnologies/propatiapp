@@ -99,7 +99,7 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
   return (
     <div className="w-full max-w-full overflow-x-hidden">
       {/* Header */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-black/40 p-5">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-black/40 p-5">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-start gap-3">
             <div className="rounded-lg bg-emerald-500/10 p-2">
@@ -218,8 +218,8 @@ export default function AgentPipelineClient({ initialData }: { initialData: { st
 function PipelineColumn({ stage, deals, color, nextStageTitle, onMoveStage }: { stage: Stage; deals: Deal[]; color: string; nextStageTitle: string | null; onMoveStage: (dealId: string, fromStageId: string) => void }) {
   return (
     <div className="flex-shrink-0 w-80 flex flex-col" style={{ minWidth: '280px' }}>
-      <div className="glass-card h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-        <div className="px-4 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" style={{ background: `${color}15` }}>
+      <div className="glass-card h-full flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+        <div className="px-4 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" style={{ background: `${color}15` }}>
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white" style={{ color }}>{stage.title}</h3>
             <Badge variant="secondary" className="text-xs font-bold" style={{ background: color, color: 'white' }}>{deals.length}</Badge>
@@ -297,7 +297,7 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
         </div>
       </div>
 
-      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <div className="mt-2 pt-2 border-t flex items-center justify-between text-xs font-label-sm uppercase tracking-wider border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
         <span className="text-zinc-900 dark:text-white font-medium">₦{deal.value.toLocaleString('en-NG')}</span>
         <span>{formatAge(deal.createdAt)}</span>
       </div>
@@ -326,7 +326,7 @@ function DealCard({ deal, color, stageId, nextStageTitle, onMoveStage }: { deal:
               <span className="text-zinc-900 dark:text-white">{deal.lastContact}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <Button variant="ghost" size="sm" className="flex-1"><Phone className="w-3 h-3 mr-1" /> Call</Button>
             <Button variant="ghost" size="sm" className="flex-1"><Mail className="w-3 h-3 mr-1" /> Message</Button>
             <Button variant="ghost" size="sm" className="flex-1"><MapPin className="w-3 h-3 mr-1" /> View</Button>

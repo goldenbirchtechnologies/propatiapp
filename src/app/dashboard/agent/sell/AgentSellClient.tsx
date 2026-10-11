@@ -17,9 +17,9 @@ type AgreementItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
+  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-zinc-900 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
   tenant_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Tenant Signed' },
   landlord_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Landlord Signed' },
   fully_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Fully Signed' },
@@ -29,7 +29,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: s };
 }
 
 const fmtCurrency = (v: number) =>
@@ -55,7 +55,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Deals</h3>
           </div>
           <div className="p-6">
@@ -63,7 +63,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Value</h3>
           </div>
           <div className="p-6">
@@ -71,7 +71,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">In Progress</h3>
           </div>
           <div className="p-6">
@@ -79,7 +79,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Closed</h3>
           </div>
           <div className="p-6">
@@ -112,7 +112,7 @@ export default function AgentSellClient({ initialDeals }: { initialDeals: Agreem
                 {initialDeals.map((d) => {
                   const st = sc(d.status);
                   return (
-                    <tr key={d.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
+                    <tr key={d.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
                       <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">{d.property}</td>
                       <td className="p-4"><Badge variant="outline" className={st.color}>{st.label}</Badge></td>
                       <td className="p-4 text-sm text-right text-zinc-900 dark:text-white font-medium">{fmtCurrency(d.value)}</td>

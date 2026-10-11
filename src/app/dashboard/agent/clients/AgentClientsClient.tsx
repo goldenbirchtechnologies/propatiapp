@@ -132,19 +132,19 @@ function ClientRow({ client }: { client: Client }) {
   const typeConfig: Record<string, { icon: React.ReactNode; className: string }> = {
     Landlord: {
       icon: <Building2 className="h-3 w-3" />,
-      className: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      className: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     },
     Seller: {
       icon: <Building2 className="h-3 w-3" />,
-      className: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      className: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     },
     Buyer: {
       icon: <ShoppingBag className="h-3 w-3" />,
-      className: 'bg-blue-500/10 text-blue-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      className: 'bg-blue-500/10 text-blue-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     },
     Renter: {
       icon: <HomeIcon className="h-3 w-3" />,
-      className: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      className: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     },
   };
 
@@ -416,7 +416,7 @@ export default function AgentClientsClient({
               className={cn(
                 'px-3 py-1.5 rounded-md text-sm font-medium border transition-all capitalize',
                 filter === f
-                  ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50'
+                  ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50'
                   : 'border-transparent hover:bg-[#171717]/50'
               )}
             >

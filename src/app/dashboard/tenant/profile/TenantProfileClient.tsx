@@ -175,7 +175,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
         <div className="lg:col-span-2 space-y-6">
           {activeTab === 'personal' && (
             <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white" style={{ color: 'var(--text)' }}>Personal Details</h3>
               </div>
               <div className="p-6">
@@ -186,7 +186,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
 
           {activeTab === 'rental' && (
             <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white" style={{ color: 'var(--text)' }}>Rental Application Profile</h3>
               </div>
               <div className="p-6">
@@ -197,7 +197,7 @@ export default function TenantProfileClient({ initialUser }: TenantProfileClient
 
           {activeTab === 'guarantors' && (
             <div className="glass-card" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white" style={{ color: 'var(--text)' }}>Guarantors</h3>
               </div>
               <div className="p-6">

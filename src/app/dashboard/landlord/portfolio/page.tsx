@@ -35,15 +35,15 @@ export default async function LandlordPortfolioPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">Total Portfolio Value</p>
             <p className="text-2xl font-bold mt-2">₦{(totalValue / 1e6).toFixed(1)}M</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">Active Listings</p>
             <p className="text-2xl font-bold mt-2">{listings.length}</p>
           </div>
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-5 shadow-none">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">Avg. Listing Value</p>
             <p className="text-2xl font-bold mt-2">
               {listings.length > 0 ? `₦${((totalValue / listings.length) / 1e6).toFixed(1)}M` : '—'}
@@ -52,7 +52,7 @@ export default async function LandlordPortfolioPage() {
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Properties</h3>
           </div>
           <div className="p-6">
@@ -61,7 +61,7 @@ export default async function LandlordPortfolioPage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <tr>
                       <th className="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">Property</th>
                       <th className="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">Type</th>

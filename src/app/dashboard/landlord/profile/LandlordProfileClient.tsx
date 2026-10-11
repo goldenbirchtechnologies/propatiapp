@@ -175,7 +175,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       {/* Profile overview — single consolidated header */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950 p-6">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 p-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <div className="relative flex-shrink-0">
@@ -223,7 +223,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <TabsList variant="line" className="grid w-full grid-cols-4 bg-transparent border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <TabsTrigger value="personal" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Personal Info</TabsTrigger>
           <TabsTrigger value="verification" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Verification</TabsTrigger>
           <TabsTrigger value="security" className="border-b-2 border-transparent data-[state=active]:border-emerald-500 rounded-none">Security</TabsTrigger>
@@ -233,7 +233,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
         <TabsContent value="personal" className="mt-6">
           <form onSubmit={handleProfileUpdate} className="space-y-6">
             <div className="glass-card outline-none">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Personal Information</h3>
               </div>
               <div className="p-6 space-y-6">
@@ -347,7 +347,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="security" className="mt-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Change Password</h3>
             </div>
             <div className="p-6 space-y-4">
@@ -372,7 +372,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
           </div>
 
           <div className="glass-card mt-6">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Active Sessions</h3>
             </div>
             <div className="p-6">
@@ -390,7 +390,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
         <TabsContent value="notifications" className="mt-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Notification Preferences</h3>
             </div>
             <div className="p-6 space-y-6">
@@ -425,7 +425,7 @@ export default function LandlordProfileClient({ user: initialUser }: LandlordPro
 
 function SessionItem({ current = false, device = 'Current Device', browser, location }: { current?: boolean; device?: string; browser: string; location: string }) {
   return (
-    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950')}>
+    <div className={cn('flex items-center justify-between rounded-lg border p-3', current ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950')}>
       <div className="flex items-center gap-3">
         <div className="bg-zinc-900 text-zinc-600 dark:text-zinc-400">
           <Monitor className="h-5 w-5" />
@@ -455,7 +455,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
 
   return (
     <div className="glass-card glass-card rounded-xl">
-      <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] space-y-3">
+      <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-lg">Identity Verification</h3>
           {isVerified && (
@@ -478,7 +478,7 @@ function VerificationSimpleCard({ status, reload }: { status?: KycStatus | null;
       </div>
       <div className="p-6">
         <div className="flex flex-col items-center justify-center gap-5 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-900 text-zinc-900 dark:text-white">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
             <ShieldCheck className="h-8 w-8" />
           </div>
           <div className="space-y-1">

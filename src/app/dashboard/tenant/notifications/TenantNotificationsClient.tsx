@@ -57,7 +57,7 @@ const colorMap: Record<string, string> = {
   green: 'bg-success/10 text-[#10b981] border-[#10b981]/20',
   amber: 'bg-warning/10 text-warning border-warning/20',
   red: 'bg-red-500/10 text-red-500 border-red-500/20',
-  blue: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  blue: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
   slate: 'bg-slate-500/10 text-slate-700 border-slate-200',
 };
 

@@ -148,7 +148,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
   function StatusBadge({ status }: { status: VacancyStatus }) {
     const config: Record<VacancyStatus, string> = {
       open: 'bg-success/10 text-[#10b981] border-success/20',
-      filled: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20',
+      filled: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20',
       closed: 'bg-zinc-900/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-muted/50',
       draft: 'bg-warning/10 text-warning border-warning/20',
     };
@@ -158,10 +158,10 @@ export default function VacanciesClient({ userId }: { userId: string }) {
 
   function VacancyTableSkeleton() {
     return (
-      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <tr className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <th className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                 Property
               </th>
@@ -187,7 +187,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
           </thead>
           <tbody>
             {[0, 1, 2, 3, 4].map((i) => (
-              <tr key={i} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr key={i} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <td className="p-4">
                   <Skeleton className="h-5 w-48 mb-1" />
                   <Skeleton className="h-3 w-32" />
@@ -264,7 +264,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
       </div>
 
       {/* Filters */}
-      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4">
+      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4">
         <div className="flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
@@ -306,7 +306,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
         skeleton={<VacancyTableSkeleton />}
       >
         {filteredVacancies.length === 0 ? (
-          <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]-body text-center py-16">
+          <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]-body text-center py-16">
             <Search className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} />
             <h3 className="text-zinc-900 dark:text-white">
               No vacancies found
@@ -324,11 +324,11 @@ export default function VacanciesClient({ userId }: { userId: string }) {
             )}
           </div>
         ) : (
-          <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+          <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <th className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                       Property
                     </th>
@@ -354,7 +354,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                 </thead>
                 <tbody>
                   {filteredVacancies.map((vacancy) => (
-                    <tr key={vacancy.id} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                    <tr key={vacancy.id} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div
@@ -376,7 +376,7 @@ export default function VacanciesClient({ userId }: { userId: string }) {
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">{vacancy.type}</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">{vacancy.type}</span>
                       </td>
                       <td className="p-4">
                         <StatusBadge status={vacancy.status} />

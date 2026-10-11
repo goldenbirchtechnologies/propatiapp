@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Search, Home, Users, Building2, ShieldCheck, ArrowRight, CheckCircle2, Star } from 'lucide-react';
 import { SectionLabel, StarRating, InteractiveHoverButton } from '@/components/ui';
+import ZillowStyleFooter from '@/components/Footer/ZillowStyleFooter';
 import { cn } from '@/lib/utils';
 
 function usePublicStats() {
@@ -584,6 +585,8 @@ export default function HomePage() {
           </FadeIn>
         </div>
       </section>
+
+      <ZillowStyleFooter />
     </div>
   );
 }

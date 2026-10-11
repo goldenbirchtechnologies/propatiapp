@@ -511,7 +511,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             <BadgePercent className="h-4 w-4" />
             Refer & earn
           </Button>
-          <div className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 px-3 py-1.5">
+          <div className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 px-3 py-1.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-bold">
               ZX
             </div>
@@ -546,7 +546,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Basic Details */}
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Basic Details</h2>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">General information about the building.</p>
@@ -624,7 +624,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Address */}
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Address</h2>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Where is this property located?</p>
@@ -725,7 +725,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Units */}
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Units ({units.length})</h2>
@@ -739,7 +739,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             </div>
 
             {/* Quick Setup Toolbar */}
-            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4">
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4">
               <div className="flex items-center gap-2">
                 <Settings2 className="h-4 w-4" />
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Quick setup</h3>
@@ -794,7 +794,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
               {units.map((u) => (
                 <div
                   key={u.id}
-                  className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4"
+                  className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4"
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Unit {u.unitNumber}</h3>
@@ -875,8 +875,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                             className={[
                               'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
                               active
-                                ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 text-zinc-900 dark:text-white'
-                                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
+                                ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
+                                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
                             ].join(' ')}
                           >
                             {active && <Check className="h-4 w-4" />}
@@ -970,7 +970,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
             </div>
 
             {/* Default Fees */}
-            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4">
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-5 space-y-4">
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Default fees (applied when adding a tenant)</h3>
               <div className="grid grid-cols-2 gap-4">
                 <Input
@@ -993,7 +993,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Photos & Video */}
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-6">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Photos & Video</h2>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">
@@ -1038,7 +1038,7 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
           </section>
 
           {/* Amenities */}
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-5">
+          <section className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-6 md:p-8 space-y-5">
             <div>
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">Amenities</h2>
               <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Toggle features available in this building.</p>
@@ -1054,8 +1054,8 @@ type UploadFile = { file: File; progress: number; status: 'pending' | 'uploading
                     className={[
                       'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
                       active
-                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900 text-zinc-900 dark:text-white'
-                        : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
+                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white'
+                        : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 text-zinc-900 dark:text-white hover:bg-muted',
                     ].join(' ')}
                   >
                     {active && <Check className="h-4 w-4" />}

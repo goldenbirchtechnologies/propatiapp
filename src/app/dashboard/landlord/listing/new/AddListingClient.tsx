@@ -269,7 +269,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-12 text-center">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
             <Building2 className="w-8 h-8 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </div>

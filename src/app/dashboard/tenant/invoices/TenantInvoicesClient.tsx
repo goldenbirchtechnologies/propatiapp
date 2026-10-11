@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  sent: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
+  draft: { class: 'bg-zinc-950 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  sent: { class: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Sent' },
   paid: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Cancelled' },

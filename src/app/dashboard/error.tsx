@@ -35,7 +35,7 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
           </InteractiveHoverButton>
           <Link
             href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:text-zinc-900 dark:text-white hover:border-zinc-600 transition-colors"
           >
             <Home size={14} />
             Back to Dashboard
@@ -46,7 +46,7 @@ export default function DashboardError({ error, reset }: { error: Error & { dige
           <div className="mt-8 text-left">
             <details className="text-xs">
               <summary className="text-zinc-600 cursor-pointer hover:text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Debug info</summary>
-              <pre className="mt-2 p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-red-400 overflow-x-auto whitespace-pre-wrap">
+              <pre className="mt-2 p-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-red-400 overflow-x-auto whitespace-pre-wrap">
                 {error.message}
                 {error.stack && `\n\n${error.stack}`}
               </pre>

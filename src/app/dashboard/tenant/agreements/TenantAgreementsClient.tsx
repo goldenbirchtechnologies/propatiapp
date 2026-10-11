@@ -107,11 +107,11 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
               placeholder="Search agreements..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
+              className="pl-10 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
+            <SelectTrigger className="w-[180px] bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-900 dark:text-white">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -143,7 +143,7 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
 
             return (
               <div className="glass-card" key={agreement.id} className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
                       <div className="h-10 w-10 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
@@ -185,13 +185,13 @@ export default function TenantAgreementsClient({ agreements }: { agreements: Agr
                         <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Lease Progress</span>
                         <span className="text-zinc-900 dark:text-white">{lease.progress}% complete</span>
                       </div>
-                      <div className="h-2 w-full bg-zinc-900 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-zinc-50 dark:bg-zinc-900 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-500" style={{ width: `${lease.progress}%` }} />
                       </div>
                       <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{lease.daysLeft} days remaining</p>
                     </div>
                   )}
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <div className="flex items-center justify-between pt-2 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <Avatar
                       src={agreement.landlord?.avatarUrl || undefined}
                       name={agreement.landlord?.fullName || 'L'}

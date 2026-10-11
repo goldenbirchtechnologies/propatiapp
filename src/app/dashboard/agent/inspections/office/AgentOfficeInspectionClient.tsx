@@ -58,7 +58,7 @@ export default function AgentOfficeInspectionClient() {
     <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Agent" userAvatar={undefined}>
       <div className="space-y-8">
         <div>
-          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">Office Site Inspection</h1>
+          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">Office Site Inspection</h1>
           <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
             Schedule your physical premises verification to achieve{' '}
             <span className="text-zinc-300 font-bold">Tier 2 Verified</span> status.
@@ -86,7 +86,7 @@ export default function AgentOfficeInspectionClient() {
           {/* Left Column */}
           <div className="lg:col-span-7 space-y-6">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <div className="flex items-center gap-3">
                   <CalendarDays className="h-5 w-5 text-zinc-900 dark:text-white" />
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Select Preferred Date & Time</h3>
@@ -119,7 +119,7 @@ export default function AgentOfficeInspectionClient() {
                           className={cn(
                             'p-2 rounded-md transition-colors',
                             d.disabled ? 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 cursor-not-allowed' : 'hover:bg-[#171717] cursor-pointer',
-                            d.active ? 'bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold shadow-none' : ''
+                            d.active ? 'bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold shadow-none' : ''
                           )}
                         >
                           {d.date}
@@ -139,8 +139,8 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'morning'
-                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
-                            : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
+                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
+                            : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -156,8 +156,8 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'afternoon'
-                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
-                            : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
+                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
+                            : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -169,7 +169,7 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       </button>
                     </div>
-                    <div className="bg-[#171717] p-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-start gap-3">
+                    <div className="bg-[#171717] p-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-start gap-3">
                       <Info className="h-5 w-5 text-zinc-300 shrink-0 mt-0.5" />
                       <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                         Verification officers usually arrive within the first hour of the selected slot.
@@ -183,7 +183,7 @@ export default function AgentOfficeInspectionClient() {
             {/* Preparation Bento */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2 text-zinc-900 dark:text-white">
                     <AppIcon name="fact_check" className="lucide" />
                     Requirements
@@ -201,8 +201,8 @@ export default function AgentOfficeInspectionClient() {
                 </div>
               </div>
 
-              <div className="glass-card overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="glass-card overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white text-zinc-900 dark:text-white">What to Expect</h3>
                 </div>
                 <div className="p-6">
@@ -211,13 +211,13 @@ export default function AgentOfficeInspectionClient() {
                   </p>
                   <div className="space-y-4">
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         1
                       </div>
                       <p className="text-xs font-label-sm uppercase tracking-wider">Physical sighting of all original documentation.</p>
                     </div>
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         2
                       </div>
                       <p className="text-xs font-label-sm uppercase tracking-wider">Verification of office operational capacity and staff.</p>
@@ -230,7 +230,7 @@ export default function AgentOfficeInspectionClient() {
 
           {/* Right Column */}
           <aside className="lg:col-span-5 space-y-6">
-            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
               <div className="bg-[#10b981] px-6 py-4 flex justify-between items-center">
                 <h3 className="text-zinc-900 dark:text-white font-headline-sm font-bold">Inspection Summary</h3>
                 <span className="bg-zinc-900 text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
@@ -271,8 +271,8 @@ export default function AgentOfficeInspectionClient() {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                  <Button className="w-full py-4 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:shadow-none active:scale-95 transition-all">
+                <div className="pt-6 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <Button className="w-full py-4 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:shadow-none active:scale-95 transition-all">
                     Confirm Schedule
                   </Button>
                   <p className="text-center text-xs font-label-sm uppercase tracking-wider mt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
@@ -294,7 +294,7 @@ export default function AgentOfficeInspectionClient() {
               </div>
             </div>
 
-            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
               <div className="h-40 relative">
                 <div className="absolute inset-0 bg-[#171717]" />
                 <div className="absolute bottom-4 left-4 bg-zinc-950/50 px-3 py-1 rounded-full shadow-none flex items-center gap-2">

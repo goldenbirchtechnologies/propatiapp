@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SlidersHorizontal, Grid3X3, List, X, ChevronDown, Search } from 'lucide-react';
 import { PropertyCard } from '@/components/listings/PropertyCard';
 import { Button } from '@/components/ui/button';
@@ -16,12 +16,13 @@ const sortOptions = ['Newest First', 'Price: Low to High', 'Price: High to Low',
 
 export default function ListingsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [category, setCategory] = useState('All');
   const [bedrooms, setBedrooms] = useState('Any');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterOpen, setFilterOpen] = useState(false);
   const [sort, setSort] = useState('Newest First');
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(searchParams?.get('q') || '');
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [minPrice, setMinPrice] = useState('');

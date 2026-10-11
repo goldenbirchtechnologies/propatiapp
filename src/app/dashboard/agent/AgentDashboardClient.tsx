@@ -174,7 +174,7 @@ export default function AgentDashboardClient({
       <div className="glass-card p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Managed Properties</h3>
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Managed Properties</h3>
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">Properties assigned to you by landlords</p>
           </div>
           <Link href="/dashboard/agent/properties" className="text-xs text-emerald-400 flex items-center gap-1">
@@ -193,7 +193,7 @@ export default function AgentDashboardClient({
               <Link
                 key={listing.id}
                 href={`/dashboard/agent/properties`}
-                className="group rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 overflow-hidden hover:border-zinc-700/80 transition-colors"
+                className="group rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 overflow-hidden hover:border-zinc-700/80 transition-colors"
               >
                 <div className="relative h-32 bg-zinc-900">
                   {listing.coverImage ? (
@@ -234,31 +234,31 @@ export default function AgentDashboardClient({
       {/* Quick Actions */}
       <div className="glass-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Quick Actions</h3>
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Quick Actions</h3>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Link href="/dashboard/agent/properties" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/properties" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <Building2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Properties</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/listings" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/listings" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Listings</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/messages" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/messages" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <MessageSquare className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Messages</p>
             </div>
             <ArrowRight size={12} className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" />
           </Link>
-          <Link href="/dashboard/agent/payments" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
+          <Link href="/dashboard/agent/payments" className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3 hover:border-zinc-700/80 transition-colors">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="size-4 text-emerald-400" />
               <p className="text-sm text-zinc-900 dark:text-white">Payments</p>

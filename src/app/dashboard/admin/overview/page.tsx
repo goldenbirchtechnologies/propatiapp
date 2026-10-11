@@ -100,8 +100,8 @@ export default async function AdminOverviewPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Recent Users Table */}
             <div className="lg:col-span-2 glass-card overflow-hidden">
-              <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
-                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Newest Users</h3>
+              <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Newest Users</h3>
                 <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Last 5 signups</span>
               </div>
               {recentUsers.length === 0 ? (
@@ -114,7 +114,7 @@ export default async function AdminOverviewPage() {
             {/* Platform Health Sidebar */}
             <div className="space-y-4">
               <div className="glass-card p-5">
-                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-3">Platform Health</h3>
+                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-3">Platform Health</h3>
                 <div className="space-y-3">
                   {[
                     { label: 'Active Listings', value: `${activeListings.toLocaleString()} / ${totalListings.toLocaleString()}` },
@@ -130,7 +130,7 @@ export default async function AdminOverviewPage() {
                 </div>
               </div>
               <div className="glass-card p-5">
-                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-2">Trend Snapshot</h3>
+                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-2">Trend Snapshot</h3>
                 <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 leading-relaxed">
                   Revenue tracked to date includes{' '}
                   <span className="font-semibold text-zinc-900 dark:text-white">released</span> and{' '}

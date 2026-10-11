@@ -15,9 +15,9 @@ type Inspection = {
 };
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  scheduled: { class: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
-  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
-  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
+  scheduled: { class: 'bg-info/10 text-info border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Scheduled' },
+  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
 };
 
 export default function AgentInspectionsClient({ initialInspections }: { initialInspections: Inspection[] }) {
@@ -43,16 +43,16 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
         </div>
 
         <div className="glass-card overflow-hidden">
-          <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             {['all', 'scheduled', 'completed', 'cancelled'].map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
+              <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
             ))}
           </div>
           {filtered.length === 0 ? (
             <div className="card-body text-center py-16"><Phone className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500" style={{ opacity: 0.5 }} /><h3 className="font-headline-sm font-bold text-lg mb-2 text-zinc-900 dark:text-white">No inspections</h3><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Schedule your first inspection.</p></div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
-              <thead><tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <thead><tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property</th>
                 <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
                 <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
@@ -62,7 +62,7 @@ export default function AgentInspectionsClient({ initialInspections }: { initial
                 {filtered.map((i) => {
                   const sc = statusConfig[i.status] || statusConfig.scheduled;
                   return (
-                    <tr key={i.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-[#171717]/30">
+                    <tr key={i.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-[#171717]/30">
                       <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">{i.listing?.title || '—'}</td>
                       <td className="p-4 text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-white">{new Date(i.scheduledAt).toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                       <td className="p-4"><span className={cn('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border', sc.class)}>{sc.label}</span></td>

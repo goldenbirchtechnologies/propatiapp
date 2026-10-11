@@ -39,7 +39,7 @@ export default function TenantSupportPage() {
             Access 24/7 support, track your requests, and manage your tenancy with Nigeria&apos;s most trusted property platform.
           </p>
           <div className="relative max-w-xl mx-auto">
-            <div className="flex items-center bg-zinc-900 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
+            <div className="flex items-center bg-zinc-50 dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-2 focus-within:ring-2 focus-within:ring-primary transition-all">
               <Search className="w-5 h-5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 px-3" />
               <Input
                 placeholder="Search for payments, maintenance, lease terms..."
@@ -95,7 +95,7 @@ export default function TenantSupportPage() {
             {faqs.map((faq) => (
               <button
                 key={faq.q}
-                className="w-full p-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900 transition-colors cursor-pointer flex items-center justify-between group text-left"
+                className="w-full p-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-900 transition-colors cursor-pointer flex items-center justify-between group text-left"
               >
                 <div className="flex items-center gap-3">
                   <svg className="w-5 h-5 text-[#10b981]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
@@ -117,7 +117,7 @@ export default function TenantSupportPage() {
               For immediate safety concerns, flooding, or security breaches, please use our priority emergency line.
             </p>
             <div className="mt-auto">
-              <Button className="w-full bg-destructive text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90">
+              <Button className="w-full bg-destructive text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90">
                 <Phone className="w-4 h-4" /> Call Now
               </Button>
               <p className="text-center text-xs text-red-500/80 mt-3 font-mono">Available 24 hours a day, 7 days a week.</p>
@@ -129,7 +129,7 @@ export default function TenantSupportPage() {
       {/* Chat Widget */}
       <div className="fixed bottom-6 right-6 z-50">
         {chatOpen && (
-          <div className="mb-4 w-80 bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col overflow-hidden animate-in">
+          <div className="mb-4 w-80 bg-zinc-50 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-col overflow-hidden animate-in">
             <div className="bg-primary p-4 text-zinc-900 dark:text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
@@ -140,12 +140,12 @@ export default function TenantSupportPage() {
               </button>
             </div>
             <div className="p-4 bg-zinc-950/50/30 space-y-3 overflow-y-auto max-h-64">
-              <div className="bg-zinc-900 p-3 rounded-xl text-sm max-w-[85%] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="bg-zinc-900 p-3 rounded-xl text-sm max-w-[85%] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 Hello! I&apos;m David from PROPATI Support. How can I assist you?
               </div>
             </div>
-            <div className="p-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex gap-2">
-              <Input placeholder="Type a message..." className="bg-zinc-900 text-sm border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" />
+            <div className="p-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex gap-2">
+              <Input placeholder="Type a message..." className="bg-zinc-900 text-sm border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" />
               <Button size="icon" className="bg-primary text-zinc-900 dark:text-white rounded-lg">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
               </Button>

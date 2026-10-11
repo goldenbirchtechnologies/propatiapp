@@ -259,7 +259,7 @@ function SectionHeader({ title, subtitle, action }: { title: string; subtitle?: 
   return (
     <div className="flex items-center justify-between gap-3">
       <div>
-        <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
+        <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">{title}</h3>
         {subtitle && <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {action}
@@ -325,7 +325,7 @@ function PermissionModal({
         <div className="space-y-4">
           <div className="space-y-3">
             {Object.entries(PERMISSION_LABELS).map(([key, label]) => (
-              <div key={key} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+              <div key={key} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                 <div>
                   <p className="text-sm text-zinc-900 dark:text-white">{label}</p>
                   <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{key.replace(/_/g, ' ')}</p>
@@ -516,7 +516,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
       {/* Permission Banner */}
       {listing.assignments.length > 0 && (
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4 flex items-center justify-between">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={cn(
               "size-10 rounded-lg flex items-center justify-center",
@@ -557,7 +557,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList className="bg-zinc-900/60 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <TabsList className="bg-zinc-900/60 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="media">Media ({listing.images.length})</TabsTrigger>
               <TabsTrigger value="units">Units ({listing.units.length})</TabsTrigger>
@@ -568,7 +568,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader title="Description" />
                 <p className="text-sm text-zinc-300 leading-relaxed">
                   {listing.description || 'No description provided for this property.'}
@@ -583,7 +583,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Floor Level', value: listing.floorLevel ?? '—', icon: Building2 },
                     { label: 'Parking', value: String(listing.parkingSpaces), icon: Car },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                       <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">
                         <item.icon className="size-3.5" />
                         <span className="text-xs">{item.label}</span>
@@ -635,7 +635,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="media" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader
                   title="Gallery"
                   action={
@@ -654,7 +654,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {listing.images.map((img) => (
-                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] aspect-video bg-zinc-900">
+                      <div key={img.id} className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] aspect-video bg-zinc-900">
                         <img src={img.url} alt={listing.title} className="h-full w-full object-cover" />
                         {img.isCover && (
                           <Badge className="absolute top-2 left-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">
@@ -669,7 +669,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="units" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -716,7 +716,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                                 Listed
                               </span>
                             ) : (
-                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
+                              <span className="tag bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs px-2 py-1 rounded-full">
                                 Unlisted
                               </span>
                             )}
@@ -742,7 +742,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="inquiries" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -786,7 +786,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="bookings" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -823,7 +823,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-zinc-900/40">
@@ -866,7 +866,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
             </TabsContent>
 
             <TabsContent value="financials" className="space-y-4">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-4">
                 <SectionHeader title="Pricing" />
                 <div className="grid grid-cols-2 gap-3">
                   {[
@@ -875,7 +875,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
                     { label: 'Caution Deposit', value: listing.cautionDeposit > 0 ? formatCurrency(listing.cautionDeposit) : '—' },
                     { label: 'Service Charge', value: listing.serviceCharge > 0 ? formatCurrency(listing.serviceCharge) : '—' },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
+                    <div key={item.label} className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/60 p-3">
                       <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">{item.label}</p>
                       <p className="text-sm text-zinc-900 dark:text-white font-medium">{item.value}</p>
                     </div>
@@ -884,7 +884,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
               </div>
 
               {listing.invoices.length > 0 && (
-                <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
+                <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] overflow-hidden">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-zinc-900/40">
@@ -917,7 +917,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
         <div className="space-y-6">
           {/* Owner / Landlord */}
           {listing.owner && (
-            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Owner / Landlord" />
               <div className="flex items-center gap-3">
                 <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
@@ -943,7 +943,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Assigned Agent */}
           {listing.agent && (
-            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Assigned Agent" />
               <div className="flex items-center gap-3">
                 <div className="size-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-white text-sm font-medium">
@@ -958,7 +958,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
           )}
 
           {/* Lease Terms */}
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Lease Terms" />
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
@@ -981,7 +981,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
           </div>
 
           {/* Quick Actions */}
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
             <SectionHeader title="Quick Actions" />
             <div className="grid grid-cols-2 gap-2">
               <Button size="sm" className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white" onClick={() => setMessageOpen(true)}>
@@ -1003,7 +1003,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Recent Conversations */}
           {listing.conversations.length > 0 && (
-            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Recent Conversations" subtitle={formatRelativeDate(listing.conversations[0].lastMessageAt)} />
               <div className="space-y-3">
                 {listing.conversations.map((c) => (
@@ -1028,7 +1028,7 @@ export default function AgentListingDetailClient({ listing }: Props) {
 
           {/* Recent Documents */}
           {listing.documents.length > 0 && (
-            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#0d1117] p-5 space-y-3">
               <SectionHeader title="Documents" />
               <div className="space-y-2">
                 {listing.documents.map((d) => (

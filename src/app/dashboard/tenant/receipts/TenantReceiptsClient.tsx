@@ -41,7 +41,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
       </div>
 
       <div className="glass-card overflow-hidden">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           {['all', 'released', 'pending', 'failed'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-accent/10 text-accent border-accent/30' : 'border-transparent hover:bg-muted/50')}>{f === 'released' ? 'Paid' : f}</button>
           ))}
@@ -55,7 +55,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Reference</th>
                 <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Description</th>
                 <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Amount</th>
@@ -68,7 +68,7 @@ export default function TenantReceiptsClient({ initialReceipts }: { initialRecei
               {filtered.map((r) => {
                 const sc = statusConfig[r.status] || statusConfig.pending;
                 return (
-                  <tr key={r.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr key={r.id} className="border-b transition-colors hover:bg-muted/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <td className="p-4 font-mono text-sm text-zinc-900 dark:text-white">{r.ref.slice(-8).toUpperCase()}</td>
                     <td className="p-4 text-sm text-zinc-900 dark:text-white">{r.title}</td>
                     <td className="p-4 text-sm font-medium text-right text-zinc-900 dark:text-white">₦{r.amount.toLocaleString()}</td>

@@ -30,7 +30,7 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
           className={`flex items-center gap-3 ${s.num > currentStep ? 'opacity-40' : ''}`}
         >
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-            s.num === currentStep ? 'bg-primary text-zinc-900 dark:text-white' : s.num < currentStep ? 'bg-success text-zinc-900 dark:text-white' : 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
+            s.num === currentStep ? 'bg-primary text-zinc-900 dark:text-white' : s.num < currentStep ? 'bg-success text-zinc-900 dark:text-white' : 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
           }`}>
             {s.num < currentStep ? <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> : s.num}
           </div>
@@ -98,7 +98,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
+                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
                       >
                         <option value="">Select Category</option>
                         {categories.map((c) => (
@@ -118,8 +118,8 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                               urgency === u.toLowerCase()
                                 ? u === 'emergency'
                                   ? 'bg-destructive text-zinc-900 dark:text-white border-red-500'
-                                  : 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
-                                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
+                                  : 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
+                                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'
                             }`}
                           >
                             {u}
@@ -155,7 +155,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <Label className="font-bold text-zinc-900 dark:text-white text-sm">Upload Photos</Label>
-                    <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-zinc-900/30 transition-all cursor-pointer group">
+                    <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-zinc-900/30 transition-all cursor-pointer group">
                       <svg className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 group-hover:text-zinc-900 dark:text-white mb-3 transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18.75 21H5.25A2.25 2.25 0 013 18.75V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21z" /></svg>
                       <h4 className="font-bold text-zinc-900 dark:text-white mb-1">Drag and drop or click to upload</h4>
                       <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">High-resolution photos help our technicians diagnose the issue faster (Max 5 photos, 10MB each)</p>
@@ -169,7 +169,7 @@ export default function TenantMaintenanceRequestClient({ ticketId }: { ticketId?
                       <select
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
-                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
+                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50 appearance-none text-sm"
                       >
                         <option value="">Any Time</option>
                         {timeSlots.map((t) => (

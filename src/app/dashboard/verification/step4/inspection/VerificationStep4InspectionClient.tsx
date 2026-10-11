@@ -79,7 +79,7 @@ function Step4InspectionClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Inspection Progress</h3>
         </div>
         <div className="p-6">
@@ -139,7 +139,7 @@ function Step4InspectionClient(props: Props) {
         </div>
       ) : (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <Calendar className="h-5 w-5" />
               Schedule Inspection
@@ -161,7 +161,7 @@ function Step4InspectionClient(props: Props) {
               <select
                 value={preferredTime}
                 onChange={(e) => setPreferredTime(e.target.value as 'morning' | 'afternoon' | 'evening')}
-                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
+                className="w-full h-11 bg-background border border-input rounded-lg px-3 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm"
                 disabled={isReadOnly}
               >
                 <option value="morning">Morning</option>
@@ -175,7 +175,7 @@ function Step4InspectionClient(props: Props) {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Any special instructions for the agent..."
-                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm min-h-[80px]"
+                className="w-full bg-background border border-input rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-sm min-h-[80px]"
                 disabled={isReadOnly}
               />
             </div>

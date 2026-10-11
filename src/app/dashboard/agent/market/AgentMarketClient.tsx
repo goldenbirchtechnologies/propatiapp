@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 
 const listingStatusConfig: Record<string, { color: string; label: string }> = {
   active: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
-  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
   suspended: { color: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
-  deleted: { color: 'bg-destructive/5 text-red-500/60 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
+  deleted: { color: 'bg-destructive/5 text-red-500/60 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
 };
 
 type ListingItem = {
@@ -48,7 +48,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Active Listings</h3>
           </div>
           <div className="p-6">
@@ -56,7 +56,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Price</h3>
           </div>
           <div className="p-6">
@@ -64,7 +64,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Shown</h3>
           </div>
           <div className="p-6">
@@ -72,7 +72,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Property Types</h3>
           </div>
           <div className="p-6">
@@ -104,7 +104,7 @@ export default function AgentMarketClient({ initialListings }: { initialListings
                 {initialListings.map((l) => {
                   const sc = listingStatusConfig[l.status] || listingStatusConfig.draft;
                   return (
-                    <tr key={l.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
+                    <tr key={l.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-zinc-950/30 transition-colors">
                       <td className="p-4">
                         <p className="font-medium text-sm text-zinc-900 dark:text-white">{l.title}</p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{l.address}</p>

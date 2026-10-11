@@ -55,7 +55,7 @@ export default function AgentProfileClient({
       ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
       : user.agentTier === 'standard'
         ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20'
-        : 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]';
+        : 'bg-[#171717] text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]';
 
   const { data: kyc, reload } = useKycStatus();
 
@@ -67,16 +67,16 @@ export default function AgentProfileClient({
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <div className="flex items-center gap-4">
             {user.avatarUrl ? (
               <img
                 src={user.avatarUrl}
                 alt={user.fullName}
-                className="h-16 w-16 rounded-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"
+                className="h-16 w-16 rounded-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"
               />
             ) : (
-              <div className="h-16 w-16 rounded-full bg-[#10b981]/10 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-center">
+              <div className="h-16 w-16 rounded-full bg-[#10b981]/10 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-center">
                 <UserCircle className="h-8 w-8 text-[#10b981]" />
               </div>
             )}
@@ -94,7 +94,7 @@ export default function AgentProfileClient({
         </div>
         <div className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
                 <Mail className="h-4 w-4 text-[#10b981]" />
               </div>
@@ -103,7 +103,7 @@ export default function AgentProfileClient({
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5 truncate">{user.email}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
                 <Phone className="h-4 w-4 text-[#10b981]" />
               </div>
@@ -114,7 +114,7 @@ export default function AgentProfileClient({
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
                 <Shield className="h-4 w-4 text-[#10b981]" />
               </div>
@@ -123,7 +123,7 @@ export default function AgentProfileClient({
                 <p className="text-sm text-zinc-900 dark:text-white mt-0.5 capitalize">{user.role}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="p-2 rounded-full bg-[#10b981]/10 flex-shrink-0">
                 <Calendar className="h-4 w-4 text-[#10b981]" />
               </div>
@@ -135,7 +135,7 @@ export default function AgentProfileClient({
           </div>
 
           {user.profileBio && (
-            <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">Bio</p>
               <p className="text-sm text-zinc-900 dark:text-white">{user.profileBio}</p>
             </div>

@@ -120,7 +120,7 @@ export default function AgentAgreementNewClient({ dealId }: Props) {
           <Label htmlFor="specialClauses">Special Clauses</Label>
           <textarea
             id="specialClauses"
-            className="w-full rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-background p-2 text-sm"
+            className="w-full rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-background p-2 text-sm"
             value={form.specialClauses}
             onChange={update('specialClauses')}
           />

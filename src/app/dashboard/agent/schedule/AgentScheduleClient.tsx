@@ -23,17 +23,17 @@ const mockSchedule: ScheduleItem[] = [
 ];
 
 const statusConfig: Record<string, { class: string; label: string }> = {
-  upcoming: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Upcoming' },
-  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
-  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
+  upcoming: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Upcoming' },
+  completed: { class: 'bg-[#10b981]/10 text-[#10b981] border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Completed' },
+  cancelled: { class: 'bg-red-500/10 text-red-500 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Cancelled' },
 };
 
 function StatCardSkeleton() {
   return (
     <div className="glass-card p-4" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
       <div className="space-y-2">
-        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
-        <div className="rounded" style={{ height: 28, width: '40%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 11, width: '55%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+        <div className="rounded" style={{ height: 28, width: '40%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
       </div>
     </div>
   );
@@ -41,12 +41,12 @@ function StatCardSkeleton() {
 
 function ScheduleRowSkeleton() {
   return (
-    <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '30%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 14, width: '30%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
-      <td className="p-4"><div className="rounded" style={{ height: 22, width: 60, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', borderRadius: 999 }} /></td>
+    <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" style={{ animation: 'skel-pulse 1.6s ease-in-out infinite' }}>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '60%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '40%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '30%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 14, width: '30%', background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} /></td>
+      <td className="p-4"><div className="rounded" style={{ height: 22, width: 60, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', borderRadius: 999 }} /></td>
     </tr>
   );
 }
@@ -114,16 +114,16 @@ export default function AgentScheduleClient() {
               <StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton /><StatCardSkeleton />
             </div>
             <div className="glass-card overflow-hidden">
-              <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <div className="flex gap-2">
-                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
-                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
-                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
+                  <div className="rounded" style={{ height: 32, width: 80, background: 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' }} />
                 </div>
               </div>
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Event</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Time</th>
@@ -152,14 +152,14 @@ export default function AgentScheduleClient() {
               <div className="glass-card p-4"><p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Cancelled</p><p className="text-2xl font-bold text-zinc-900 dark:text-white">{cancelledCount}</p></div>
             </div>
             <div className="glass-card overflow-hidden">
-              <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 {(['all', 'inspection', 'meeting'] as const).map((f) => (
-                  <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
+                  <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50' : 'border-transparent hover:bg-[#171717]/50')}>{f}</button>
                 ))}
               </div>
               <table className="w-full divide-y divide-[#262626]">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                     <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Event</th>
                     <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Date</th>
                     <th className="text-left p-4 text-sm font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Time</th>
@@ -172,7 +172,7 @@ export default function AgentScheduleClient() {
                   {schedule.map((item) => {
                     const sc = statusConfig[item.status] || statusConfig.upcoming;
                     return (
-                      <tr key={item.id} className="border-b transition-colors hover:bg-[#171717]/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                      <tr key={item.id} className="border-b transition-colors hover:bg-[#171717]/30 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                         <td className="p-4">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-[#10b981]/10 text-zinc-900 dark:text-white flex items-center justify-center flex-shrink-0">

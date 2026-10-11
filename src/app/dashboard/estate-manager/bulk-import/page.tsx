@@ -22,7 +22,7 @@ export default function EstateManagerBulkImportPage() {
         <div className="lg:col-span-2 space-y-6">
           <div className="glass-card p-6">
             <h2 className="font-headline-sm font-bold mb-4 text-zinc-900 dark:text-white">Upload File</h2>
-            <div className="border-2 border-dashed rounded-xl p-10 text-center border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="border-2 border-dashed rounded-xl p-10 text-center border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }} />
               <p className="text-sm font-medium text-zinc-900 dark:text-white">Click to upload or drag and drop</p>
               <p className="text-xs font-label-sm uppercase tracking-wider mt-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500' }}>CSV, XLSX or XLS (max. 50MB)</p>

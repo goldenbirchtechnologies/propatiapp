@@ -315,7 +315,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   <th className="py-2 pr-4">Guest</th>
                   <th className="py-2 pr-4">Property / Unit</th>
                   <th className="py-2 pr-4">Dates</th>
@@ -327,7 +327,7 @@ export default function ShortLetClient({ initialBookings, listings }: ShortLetCl
               </thead>
               <tbody>
                 {filtered.map((req) => (
-                  <tr key={req.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60">
+                  <tr key={req.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60">
                     <td className="py-3 pr-4">
                       <div className="flex flex-col">
                         <span className="font-medium text-zinc-900 dark:text-white">{req.guestName}</span>

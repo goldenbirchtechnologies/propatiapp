@@ -137,7 +137,7 @@ export default function LandlordDashboardClient({
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-6">
           <div className="flex items-start justify-between gap-4 mb-5">
             <div>
-              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Get started with PROPATI</h3>
+              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Get started with PROPATI</h3>
               <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Complete these steps to start earning from your properties</p>
             </div>
             <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{completedSteps} of 3 completed</span>
@@ -179,7 +179,7 @@ export default function LandlordDashboardClient({
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Revenue Trend</h3>
+              <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Revenue Trend</h3>
               <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-0.5">Last 12 months · Monthly revenue</p>
             </div>
             <Link href="/dashboard/landlord/financials" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
@@ -204,7 +204,7 @@ export default function LandlordDashboardClient({
 
         {/* Actionable Insights — replaces nav-duplicate Quick Actions */}
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
-          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Actionable Insights</h3>
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Actionable Insights</h3>
           <div className="space-y-2">
             {openMaintenanceCount > 0 && (
               <Link href="/dashboard/landlord/maintenance" className="flex items-center gap-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/15 transition-colors">
@@ -258,7 +258,7 @@ export default function LandlordDashboardClient({
       {/* Portfolio health */}
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
-          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Portfolio Health</h3>
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4">Portfolio Health</h3>
           <div className="space-y-4">
             {portfolioHealthItems.map((item) => (
               <div key={item.label}>
@@ -275,7 +275,7 @@ export default function LandlordDashboardClient({
         {/* Recent tenants */}
         <div className="lg:col-span-2 rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Recent Tenants</h3>
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Recent Tenants</h3>
             <Link href="/dashboard/landlord/tenants" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
               All tenants <ArrowRight size={11} />
             </Link>
@@ -310,7 +310,7 @@ export default function LandlordDashboardClient({
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Alerts */}
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
-          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4 flex items-center gap-2">
+          <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm mb-4 flex items-center gap-2">
             <AlertTriangle size={14} className="text-amber-400" />
             Requires Attention
           </h3>
@@ -359,7 +359,7 @@ export default function LandlordDashboardClient({
         {/* Maintenance */}
         <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#121214] p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Open Maintenance</h3>
+            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-sm">Open Maintenance</h3>
             <Link href="/dashboard/landlord/maintenance" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
               View all <ArrowRight size={11} />
             </Link>

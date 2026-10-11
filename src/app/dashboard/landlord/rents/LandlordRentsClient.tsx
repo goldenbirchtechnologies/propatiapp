@@ -88,10 +88,10 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
 
   function RentTableSkeleton() {
     return (
-      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
+      <div className="bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden shadow-none hover:shadow-none transition-shadow">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               {['Tenant Name', 'Property Unit', 'Amount', 'Date', 'Status', 'Action'].map((h) => (
                 <th key={h} className="px-4 py-3 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
                   {h}
@@ -101,7 +101,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           </thead>
           <tbody>
             {[0, 1, 2, 3].map((i) => (
-              <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <tr key={i} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                 <td className="p-4"><Skeleton className="h-4 w-40" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-32" /></td>
                 <td className="p-4"><Skeleton className="h-4 w-24" /></td>
@@ -122,7 +122,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1
-            className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-3xl md:text-4xl text-zinc-900 dark:text-white">
+            className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-3xl md:text-4xl text-zinc-900 dark:text-white">
             Rent Collection
           </h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
@@ -147,7 +147,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
             <p className="text-xs font-medium uppercase tracking-widest text-on-primary/60 mb-2">
               Total Expected Revenue
             </p>
-            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-on-primary mb-4">₦14,250,000</p>
+            <p className="text-4xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-on-primary mb-4">₦14,250,000</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-[#10b981]-bright">
                 <AppIcon name="trending_up" className="lucide" />
@@ -165,7 +165,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         <div className="glass-card border-t-4" style={{ borderTopColor: 'hsl(var(--tertiary))' }}>
           <div className="p-6 p-6">
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">Collected Funds</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white" style={{ color: 'hsl(var(--tertiary))' }}>₦11,800,000</p>
             <div className="mt-4">
               <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
                 <div className="bg-success h-full w-[82%] rounded-full" />
@@ -179,7 +179,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         <div className="glass-card border-t-4 border-red-500">
           <div className="p-6 p-6">
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-2">Pending Arrears</p>
-            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-red-500">₦2,450,000</p>
+            <p className="text-2xl font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white text-red-500">₦2,450,000</p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">14 Units Overdue</span>
               <AppIcon name="warning" className="lucide" />
@@ -191,15 +191,15 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
       {/* Recent Rent Payments Table */}
       <DashboardSection loading={loading} error={error} onRetry={load} skeleton={<RentTableSkeleton />}>
         {transactions.length === 0 ? (
-          <div className="glass-card bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
+          <div className="glass-card bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-12 text-center shadow-none hover:shadow-none transition-shadow">
             <CurrencyIcon className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 opacity-50" />
             <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No transactions yet</h3>
             <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Rent payments will appear here once tenants start paying.</p>
           </div>
         ) : (
           <div className="glass-card overflow-hidden">
-            <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
-              <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Recent Rent Payments</h3>
+            <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+              <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Recent Rent Payments</h3>
               <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Showing {Math.min(transactions.length, 8)} of {transactions.length} transactions</p>
             </div>
             <div className="overflow-x-auto">
@@ -253,7 +253,7 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
           <div className="p-6 p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Revenue Distribution</h4>
+                <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white">Revenue Distribution</h4>
                 <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Monthly collection performance</p>
               </div>
               <AppIcon name="info" className="lucide" />
@@ -276,12 +276,12 @@ export default function LandlordRentsClient({ userId }: LandlordRentsClientProps
         <div className="glass-card relative overflow-hidden" style={{ background: 'hsl(var(--primary-dark))' }}>
           <div className="p-6 p-6 relative z-10 flex flex-col justify-between h-full">
             <div>
-              <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white text-on-primary mb-2">Quick Verified Action</h4>
+              <h4 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold text-zinc-900 dark:text-white text-on-primary mb-2">Quick Verified Action</h4>
               <p className="text-sm text-on-primary/80 mb-6">
                 You have ₦4,200,000 available for withdrawal to your verified corporate account. Transactions are settled within 15 minutes.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center gap-3 bg-zinc-950/50/10 p-3 rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <BadgeCheck className="h-5 w-5 text-on-primary" />
                   <div>
                     <p className="text-sm font-medium text-on-primary">Verified Bank Account</p>
@@ -309,7 +309,7 @@ function RentStatusBadge({ status }: { status: string }) {
     failed: { className: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Failed' },
     refunded: { className: 'bg-warning/10 text-warning border-warning/30', label: 'Refunded' },
   };
-  const cfg = config[status] || { className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
+  const cfg = config[status] || { className: 'bg-zinc-950/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: status };
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${cfg.className}`}>
       {status === 'released' && <span className="lucide text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>}

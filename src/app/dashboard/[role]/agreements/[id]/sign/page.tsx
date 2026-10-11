@@ -122,7 +122,7 @@ export default function SignAgreementPage() {
               <div
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   currentStep >= step
-                    ? 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
+                    ? 'bg-primary text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
                     : 'bg-background border-muted'
                 }`}
               >
@@ -156,7 +156,7 @@ export default function SignAgreementPage() {
 
           {loadingPreview ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"></div>
             </div>
           ) : (
             <div className="border rounded-lg p-6 max-h-[600px] overflow-y-auto bg-zinc-950/50">
@@ -237,7 +237,7 @@ export default function SignAgreementPage() {
               </div>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 mt-6">
+            <div className="bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg p-4 mt-6">
               <p className="text-sm text-zinc-900 dark:text-white">
                 <strong>Legal Notice:</strong> By proceeding, you acknowledge that this electronic
                 signature creates a legally binding contract. Your IP address, signature, and

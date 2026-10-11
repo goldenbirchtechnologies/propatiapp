@@ -67,8 +67,8 @@ export default function Step6RulesMaintenance({ house_rules: houseRules, unit_de
                 key={rule.value}
                 className={`flex items-center justify-between gap-2 rounded-md border p-3 cursor-pointer transition ${
                   checked
-                    ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5'
-                    : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                    ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-primary/5'
+                    : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
                 }`}
               >
                 <div className="flex items-center gap-2">

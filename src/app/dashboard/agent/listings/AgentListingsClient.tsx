@@ -7,9 +7,9 @@ import { Building2, Plus, Eye, Edit, Trash2, ShieldCheck, Shield } from 'lucide-
 
 const statusConfig: Record<string, { class: string; label: string }> = {
   active: { class: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Active' },
-  draft: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  draft: { class: 'bg-zinc-800 text-zinc-300 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
   suspended: { class: 'bg-red-500/10 text-red-500 border border-red-500/20', label: 'Suspended' },
-  deleted: { class: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
+  deleted: { class: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Deleted' },
 };
 
 type Listing = {
@@ -45,26 +45,26 @@ export default function AgentListingsClient({ initialListings }: { initialListin
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
           <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Total</p>
           <p className="font-headline-md text-headline-md text-zinc-900 dark:text-white">{initialListings.length}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
           <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Active</p>
           <p className="font-headline-md text-headline-md text-[#10b981]">{activeCount}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
           <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Verified</p>
           <p className="font-headline-md text-headline-md text-[#10b981]">{verifiedCount}</p>
         </div>
-        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
+        <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-4  hover:shadow-none transition-shadow">
           <p className="text-[10px] font-label-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Views</p>
           <p className="font-headline-md text-headline-md text-zinc-900 dark:text-white">{totalViews.toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden  hover:shadow-none transition-shadow">
-        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <div className="bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden  hover:shadow-none transition-shadow">
+        <div className="p-4 flex flex-wrap gap-2 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           {['all', 'active', 'draft', 'suspended'].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={cn('px-3 py-1.5 rounded-md text-sm font-medium border capitalize transition-colors', filter === f ? 'bg-[#10b981]/10 text-zinc-900 dark:text-white border-[#10b981]/20' : 'border-transparent hover:bg-zinc-800')}>{f === 'all' ? 'All' : statusConfig[f]?.label || f}</button>
           ))}
@@ -92,7 +92,7 @@ export default function AgentListingsClient({ initialListings }: { initialListin
               {filtered.map((l) => {
                 const sc = statusConfig[l.status] || statusConfig.draft;
                 return (
-                <tr key={l.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-950/30">
+                <tr key={l.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-950/30">
                   <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">{l.title}</td>
                   <td className="p-4 text-sm text-zinc-500 dark:text-zinc-400">{l.landlord}</td>
                   <td className="p-4 text-sm text-zinc-900 dark:text-white">{l.type}</td>

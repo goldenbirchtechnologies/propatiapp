@@ -123,8 +123,8 @@ function formatDate(date: Date | null) {
 function AgreementStatusBadge({ status }: { status: string }) {
   const config: Record<string, { class: string; label: string }> = {
     draft: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Draft' },
-    pending_landlord: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Landlord' },
-    pending_tenant: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Tenant' },
+    pending_landlord: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Landlord' },
+    pending_tenant: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Pending Tenant' },
     tenant_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Tenant Signed' },
     landlord_signed: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Landlord Signed' },
     fully_signed: { class: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20', label: 'Fully Signed' },
@@ -137,7 +137,7 @@ function AgreementStatusBadge({ status }: { status: string }) {
 
 const INVOICE_STATUS_CONFIG: Record<string, { class: string; label: string }> = {
   draft: { class: 'bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-muted/50', label: 'Draft' },
-  sent: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Sent' },
+  sent: { class: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'Sent' },
   paid: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Paid' },
   overdue: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Overdue' },
   cancelled: { class: 'bg-muted/30 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-muted/50', label: 'Cancelled' },
@@ -176,7 +176,7 @@ function KycSummary({ kyc }: { kyc: Kyc | null }) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="p-3 rounded-full bg-zinc-900 text-zinc-900 dark:text-white">
+      <div className="p-3 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
         <ShieldCheck className="w-6 h-6" />
       </div>
       <div>
@@ -242,7 +242,7 @@ export default function TenantProfileClient({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">Tenant Profile</h1>
+          <h1 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">Tenant Profile</h1>
           <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Overview, agreements, payments, maintenance, and KYC.</p>
         </div>
         <div className="flex gap-2">
@@ -356,7 +356,7 @@ export default function TenantProfileClient({
               ) : (
                 <div className="space-y-3">
                   {agreements.map((agr) => (
-                    <div key={agr.id} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-3">
+                    <div key={agr.id} className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-3">
                       <div>
                         <p className="text-sm font-medium text-zinc-900 dark:text-white">{agr.listing?.title || 'Unlinked Property'}</p>
                         <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
@@ -383,7 +383,7 @@ export default function TenantProfileClient({
 
         <TabsContent value="payments" className="space-y-4">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Financial Summary</h3>
                 <span className={`text-sm font-medium ${outstanding > 0 ? 'text-red-500' : 'text-[#10b981]'}`}>
@@ -398,7 +398,7 @@ export default function TenantProfileClient({
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                      <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                         <th className="px-4 py-3 text-left text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Invoice</th>
                         <th className="px-4 py-3 text-left text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Due</th>
                         <th className="px-4 py-3 text-right text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Amount</th>
@@ -407,7 +407,7 @@ export default function TenantProfileClient({
                     </thead>
                     <tbody>
                       {invoices.map((inv) => (
-                        <tr key={inv.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                        <tr key={inv.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                           <td className="px-4 py-3 font-mono text-xs text-zinc-900 dark:text-white">{inv.invoiceNumber}</td>
                           <td className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{formatDate(inv.dueDate)}</td>
                           <td className="px-4 py-3 text-right text-sm font-mono text-zinc-900 dark:text-white">{formatCurrency(inv.amount)}</td>
@@ -432,7 +432,7 @@ export default function TenantProfileClient({
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                      <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                         <th className="px-4 py-3 text-left text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Ticket</th>
                         <th className="px-4 py-3 text-left text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Category</th>
                         <th className="px-4 py-3 text-left text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Status</th>
@@ -441,7 +441,7 @@ export default function TenantProfileClient({
                     </thead>
                     <tbody>
                       {tickets.map((ticket) => (
-                        <tr key={ticket.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                        <tr key={ticket.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                           <td className="px-4 py-3 text-sm text-zinc-900 dark:text-white">{ticket.title}</td>
                           <td className="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{ticket.category.replace('_', ' ')}</td>
                           <td className="px-4 py-3"><TicketStatusBadge status={ticket.status} /></td>

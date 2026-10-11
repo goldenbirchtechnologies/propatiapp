@@ -101,7 +101,7 @@ const statusConfig: Record<ApplicationStatus, { label: string; className: string
   under_review: { label: 'Under Review', className: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
   accepted: { label: 'Accepted', className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
   rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-400 border-red-500/20' },
-  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
+  withdrawn: { label: 'Withdrawn', className: 'bg-zinc-900/50 text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' },
 };
 
 const stageConfig: Record<ApplicationStage, { label: string; className: string }> = {
@@ -217,7 +217,7 @@ export default function LandlordApplicationDetailClient({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Property Card */}
         <div className="glass-card lg:col-span-2 glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <Building2 className="w-5 h-5 text-emerald-400" />
               Property
@@ -277,7 +277,7 @@ export default function LandlordApplicationDetailClient({
 
         {/* Tenant Card */}
         <div className="glass-card glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-emerald-400" />
               Applicant
@@ -354,7 +354,7 @@ export default function LandlordApplicationDetailClient({
               <MessageSquare className="w-5 h-5 mt-0.5 text-emerald-400" />
               <div>
                 <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mb-1">Applicant Message</p>
-                <p className="text-sm p-3 rounded-lg bg-zinc-950 text-zinc-900 dark:text-white">{application.message}</p>
+                <p className="text-sm p-3 rounded-lg bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white">{application.message}</p>
               </div>
             </div>
           </div>
@@ -363,8 +363,8 @@ export default function LandlordApplicationDetailClient({
 
       {/* Tabs */}
       <div className="glass-card glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-          <div className="flex rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="flex rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] overflow-hidden">
             <button
               type="button"
               onClick={() => setDetailTab('applicant')}
@@ -398,7 +398,7 @@ export default function LandlordApplicationDetailClient({
                 )}
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(application.screeningStatus || {}).map(([key, value]) => (
-                    <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
+                    <div key={key} className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-full px-2 py-1 text-xs">
                       <span className="capitalize text-zinc-900 dark:text-white">{key.replace('_', ' ')}</span>
                       {screeningPill(value)}
                     </div>
@@ -452,7 +452,7 @@ export default function LandlordApplicationDetailClient({
               <div>
                 <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Notes (visible to the tenant)</label>
                 <Textarea
-                  className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
+                  className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
                   rows={3}
                   placeholder="Add a note visible to the tenant..."
                   value={notes}
@@ -518,7 +518,7 @@ export default function LandlordApplicationDetailClient({
                 <div>
                   <label className="text-sm font-medium block mb-1.5 text-zinc-900 dark:text-white">Rejection reason</label>
                   <Textarea
-                    className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
+                    className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] w-full resize-none focus:border-emerald-500/50"
                     rows={2}
                     placeholder="Reason for rejection..."
                     value={rejectionReason}
@@ -528,7 +528,7 @@ export default function LandlordApplicationDetailClient({
               )}
 
               {application.agreement && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-500/20">
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white border border-emerald-500/20">
                   <FileText className="w-4 h-4 text-emerald-400" />
                   <span className="text-sm text-zinc-900 dark:text-white">
                     Agreement {application.agreement.status} —{' '}

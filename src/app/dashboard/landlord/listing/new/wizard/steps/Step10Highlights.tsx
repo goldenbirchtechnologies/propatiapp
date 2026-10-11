@@ -53,8 +53,8 @@ export default function Step10Highlights({ highlights = [], onChange }: Step10Pr
               onClick={() => toggle(opt.value)}
               className={`relative cursor-pointer transition border-2 min-w-[140px] ${
                 isActive
-                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
-                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
+                  ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-900'
+                  : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40'
               }`}
             >
               {isActive && (

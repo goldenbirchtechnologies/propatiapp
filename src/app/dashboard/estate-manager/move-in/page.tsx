@@ -67,7 +67,7 @@ export default function EstateManagerMoveInPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Payment Status */}
-          <div className="lg:col-span-4 card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none flex flex-col justify-between">
+          <div className="lg:col-span-4 card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <h3 className="font-heading font-bold text-zinc-900 dark:text-white">Payment Status</h3>
@@ -99,7 +99,7 @@ export default function EstateManagerMoveInPage() {
           </div>
 
           {/* Key Handover Schedule */}
-          <div className="lg:col-span-8 card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none">
+          <div className="lg:col-span-8 card p-5 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-heading font-bold text-zinc-900 dark:text-white">Key Handover Schedule</h3>
               <span className="text-xs font-bold text-secondary bg-secondary-fixed/30 px-3 py-1 rounded-full">
@@ -108,12 +108,12 @@ export default function EstateManagerMoveInPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="flex flex-col gap-4">
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <div className="w-full h-full bg-surface-variant flex items-center justify-center text-zinc-500 dark:text-zinc-400 text-sm">
                     Property Image
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-surface rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="flex items-center gap-3 p-3 bg-surface rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <div className="p-2 bg-bg-secondary text-zinc-900 dark:text-white rounded-full">
                     <CalendarClock className="w-5 h-5" />
                   </div>
@@ -138,7 +138,7 @@ export default function EstateManagerMoveInPage() {
                   <span className="text-sm font-medium text-zinc-900 dark:text-white">Assign IT Representative for Biometric Access</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-center" />
+                  <div className="w-5 h-5 rounded-full border-2 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-center" />
                   <span className="text-sm text-zinc-500 dark:text-zinc-400">Final Inventory Signature</span>
                 </div>
                 <button className="w-full mt-4 py-2 border-2 border-secondary text-secondary rounded-lg font-bold hover:bg-secondary hover:text-zinc-900 dark:text-white transition-all">
@@ -150,8 +150,8 @@ export default function EstateManagerMoveInPage() {
         </div>
 
         {/* Utility & HVAC Onboarding */}
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
-          <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
+          <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="font-heading font-bold text-zinc-900 dark:text-white">Utility &amp; HVAC Onboarding</h3>
           </div>
           <div className="p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -160,7 +160,7 @@ export default function EstateManagerMoveInPage() {
               { icon: 'ac_unit', label: 'HVAC System', status: 'TESTING REQUIRED', color: 'text-secondary', isBuiltIn: true },
               { icon: Wifi, label: 'Fibre Optic', status: 'READY', color: 'text-tertiary' },
             ].map((item, idx) => (
-              <div key={idx} className="p-5 bg-surface border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl text-center hover:border-bg-secondary transition-colors">
+              <div key={idx} className="p-5 bg-surface border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl text-center hover:border-bg-secondary transition-colors">
                 <span className={` text-3xl ${item.color} mb-3`} style={item.isBuiltIn ? { fontVariationSettings: "'FILL' 1" } : undefined}>
                   {item.label === 'HVAC System' ? 'ac_unit' : item.label === 'Electrical' ? 'bolt' : 'wifi'}
                 </span>
@@ -169,7 +169,7 @@ export default function EstateManagerMoveInPage() {
               </div>
             ))}
           </div>
-          <div className="p-4 bg-zinc-900 rounded-lg flex items-center gap-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg flex items-center gap-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <Info className="w-5 h-5 text-zinc-500 dark:text-zinc-400 shrink-0" />
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Temperature controls for Suite 402 can be managed via the{' '}
@@ -190,7 +190,7 @@ export default function EstateManagerMoveInPage() {
             ].map((contact, idx) => (
               <div key={idx} className="flex items-center justify-between p-3 bg-emerald-500/40 rounded-lg border border-white/10">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">
+                  <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">
                     {contact.name[0]}
                   </div>
                   <div>

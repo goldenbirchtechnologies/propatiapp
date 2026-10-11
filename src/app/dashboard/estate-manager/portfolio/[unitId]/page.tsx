@@ -122,7 +122,7 @@ export default function UnitDetailPage() {
       {/* Unit Information */}
       <div className="grid gap-6 md:grid-cols-2">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Unit Information</h3>
           </div>
           <div className="p-6 space-y-4">
@@ -177,7 +177,7 @@ export default function UnitDetailPage() {
 
         {/* Current Tenant */}
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <Users className="h-5 w-5" />
               Current Tenant
@@ -226,7 +226,7 @@ export default function UnitDetailPage() {
       {/* Lease Information */}
       {lease && (
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
               <FileText className="h-5 w-5" />
               Lease Information
@@ -263,7 +263,7 @@ export default function UnitDetailPage() {
 
       {/* Maintenance History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <Wrench className="h-5 w-5" />
             Maintenance History
@@ -308,7 +308,7 @@ export default function UnitDetailPage() {
 
       {/* Payment History */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
             Payment History

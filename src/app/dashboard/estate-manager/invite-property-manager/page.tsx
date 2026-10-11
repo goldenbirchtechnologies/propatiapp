@@ -181,8 +181,8 @@ export default function InvitePropertyManagerPage() {
                     className={cn(
                       'text-left rounded-xl border p-4 transition-all',
                       isSelected
-                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
-                        : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
+                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
+                        : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-900est'
                     )}
                   >
                     <div className="flex items-start gap-3">
@@ -190,7 +190,7 @@ export default function InvitePropertyManagerPage() {
                         {isSelected ? (
                           <CheckCircle2 className="h-4 w-4 text-zinc-900 dark:text-white" />
                         ) : (
-                          <div className="h-4 w-4 rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" />
+                          <div className="h-4 w-4 rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" />
                         )}
                       </div>
                       <div className="space-y-1">

@@ -42,18 +42,18 @@ const statusLabel: Record<string, string> = {
 };
 
 const priorityColors: Record<string, string> = {
-  low: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
-  medium: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  low: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  medium: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
   high: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
   urgent: 'bg-red-500/10 text-red-500 border-red-500/20',
 };
 
 const statusColors: Record<string, string> = {
-  open: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
-  assigned: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
-  in_progress: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  open: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  assigned: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  in_progress: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
   resolved: 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20',
-  closed: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  closed: 'bg-zinc-900 text-zinc-300 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
 };
 
 export default function PortfolioAnalyticsClient({
@@ -91,7 +91,7 @@ export default function PortfolioAnalyticsClient({
 
       {/* KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <Building2 className="w-4 h-4 text-zinc-300" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Total Units</p>
@@ -99,7 +99,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-zinc-900 dark:text-white font-mono">{totalUnits}</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{occupancyRate.toFixed(1)}% occupancy</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Occupancy Rate</p>
@@ -107,7 +107,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-[#10b981] font-mono">{occupancyRate.toFixed(1)}%</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{Object.values(unitsByStatus).reduce((a, b) => a + b, 0) || totalUnits} total units</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Billed Service Charges</p>
@@ -115,7 +115,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-[#10b981] font-mono">₦{(billedServiceCharges / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">{collectionRate}% collected</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-zinc-300" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Collected Service Charges</p>
@@ -123,7 +123,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-zinc-300 font-mono">₦{(collectedServiceCharges / 1e6).toFixed(2)}M</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">of ₦{(billedServiceCharges / 1e6).toFixed(2)}M billed</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-[#10b981]" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Rent</p>
@@ -131,7 +131,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-[#10b981] font-mono">₦{Math.round(avgRent / 1000)}K</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Occupied units</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <Receipt className="w-4 h-4 text-zinc-300" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Service Charge</p>
@@ -139,7 +139,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-zinc-300 font-mono">₦{Math.round(avgServiceCharge / 1000)}K</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Per unit avg</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <Wallet className="w-4 h-4 text-zinc-300" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Avg Caution Deposit</p>
@@ -147,7 +147,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-zinc-300 font-mono">₦{Math.round(avgCautionDeposit / 1000)}K</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Per unit avg</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="w-4 h-4 text-red-500" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Expired Leases</p>
@@ -155,7 +155,7 @@ export default function PortfolioAnalyticsClient({
           <p className="text-2xl font-bold text-red-500 font-mono">{expiredLeases}</p>
           <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 mt-1">Past end date</p>
         </div>
-        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="glass-card p-4 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
           <div className="flex items-center gap-2 mb-2">
             <LayoutList className="w-4 h-4 text-zinc-900 dark:text-white" />
             <p className="text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Listings Linked</p>
@@ -167,8 +167,8 @@ export default function PortfolioAnalyticsClient({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Units by Status */}
-        <div className="glass-card p-6 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-0 mb-4">
+        <div className="glass-card p-6 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-0 mb-4">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white flex items-center gap-2">
               <Building2 className="w-4 h-4 text-zinc-300" />
               Units by Status
@@ -192,8 +192,8 @@ export default function PortfolioAnalyticsClient({
         </div>
 
         {/* Service Charge Collection */}
-        <div className="glass-card p-6 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-0 mb-4">
+        <div className="glass-card p-6 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-0 mb-4">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white flex items-center gap-2">
               <Receipt className="w-4 h-4 text-[#10b981]" />
               Service Charge Collection
@@ -219,8 +219,8 @@ export default function PortfolioAnalyticsClient({
       </div>
 
       {/* Top Maintenance Issues */}
-      <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
-        <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <div className="glass-card border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950/50">
+        <div className="p-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
           <h3 className="font-headline-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
             <Wrench className="w-4 h-4 text-zinc-300" />
             Top Maintenance Issues
@@ -229,7 +229,7 @@ export default function PortfolioAnalyticsClient({
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
+              <TableRow className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-transparent">
                 <TableHead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Title</TableHead>
                 <TableHead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Category</TableHead>
                 <TableHead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">Priority</TableHead>
@@ -246,16 +246,16 @@ export default function PortfolioAnalyticsClient({
                 </TableRow>
               ) : (
                 topMaintenanceIssues.map((issue) => (
-                  <TableRow key={issue.id} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
+                  <TableRow key={issue.id} className="border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors hover:bg-zinc-900est">
                     <TableCell className="text-zinc-900 dark:text-white text-sm">{issue.title}</TableCell>
                     <TableCell className="text-zinc-300 text-sm capitalize">{issue.category}</TableCell>
                     <TableCell className="text-sm">
-                      <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] border ${priorityColors[issue.priority] || 'bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}>
+                      <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] border ${priorityColors[issue.priority] || 'bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}>
                         {issue.priority}
                       </span>
                     </TableCell>
                     <TableCell className="text-sm">
-                      <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] border ${statusColors[issue.status] || 'bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}>
+                      <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] border ${statusColors[issue.status] || 'bg-zinc-900/10 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500 border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'}`}>
                         {issue.status.replace('_', ' ')}
                       </span>
                     </TableCell>

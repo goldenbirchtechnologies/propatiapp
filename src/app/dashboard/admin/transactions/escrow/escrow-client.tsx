@@ -90,7 +90,7 @@ function EscrowClient({
             className={`rounded-xl border shadow-none p-lg ${
               card.danger
                 ? 'border-error/20 bg-error/5'
-                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface'
+                : 'border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface'
             }`}
           >
             <div
@@ -109,8 +109,8 @@ function EscrowClient({
       </div>
 
       {/* Escrowed Transactions */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
-        <div className="p-md border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between bg-white dark:bg-white dark:bg-zinc-950">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
+        <div className="p-md border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between bg-white dark:bg-white dark:bg-zinc-950">
           <h3 className="text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Active Escrow Transactions</h3>
           <span className="text-xs text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">
             {escrowed.length} records
@@ -122,7 +122,7 @@ function EscrowClient({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-zinc-900 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-zinc-900 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   {['ID', 'Type', 'Amount', 'Payer', 'Payee', 'Status', 'Date'].map((h) => (
                     <th
                       key={h}

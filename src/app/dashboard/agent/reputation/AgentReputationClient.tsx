@@ -22,7 +22,7 @@ export default function AgentReputationClient({ initialReviews }: { initialRevie
 
       <div className="glass-card p-6">
         <div className="flex items-center gap-4">
-          <div className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">{avgRating.toFixed(1)}</div>
+          <div className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-zinc-900 dark:text-white">{avgRating.toFixed(1)}</div>
           <div className="flex gap-1">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-6 h-6 ${i < Math.round(avgRating) ? 'fill-neutral-300 text-zinc-300' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-500'}`} />)}</div>
           <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">{initialReviews.length} reviews</span>
         </div>

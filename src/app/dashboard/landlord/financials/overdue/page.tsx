@@ -90,14 +90,14 @@ export default async function LandlordOverduePaymentsPage() {
             </div>
           </div>
         ) : (
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
-            <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
+            <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
               <h3 className="font-heading font-bold">Overdue Accounts</h3>
               <span className="text-sm text-zinc-500 dark:text-zinc-400">{rows.length} Accounts</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
                   <tr>
                     <th className="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">Reference</th>
                     <th className="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">Type</th>

@@ -260,10 +260,10 @@ export default function LandlordFinancialsPage() {
 
   const statusBadge = (variant: TransactionRow['statusBadgeVariant'], label: string) => {
     const map: Record<string, string> = {
-      default: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20',
-      secondary: 'bg-secondary text-secondary-foreground border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      default: 'bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20',
+      secondary: 'bg-secondary text-secondary-foreground border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
       destructive: 'bg-red-500/10 text-red-500 border-red-500/20',
-      outline: 'bg-background text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+      outline: 'bg-background text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
     };
     return <Badge variant={variant} className={`capitalize border ${map[variant] || map.outline}`}>{label}</Badge>;
   };
@@ -571,7 +571,7 @@ export default function LandlordFinancialsPage() {
             <DialogDescription>Request a payout to your saved bank account via Paystack Transfers.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+            <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-muted/5 p-3 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
               Available: <span className="font-semibold text-zinc-900 dark:text-white">{formatNairaFull(wallet.availableBalance)}</span> · Min withdrawal: ₦{MIN_WITHDRAWAL.toLocaleString()}
             </div>
             <div className="space-y-2">
@@ -604,7 +604,7 @@ export default function LandlordFinancialsPage() {
 
 function PlaceholderTab({ title, description }: { title: string; description: string }) {
   return (
-    <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6 text-center">
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6 text-center">
       <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>
         {title}
       </p>

@@ -71,7 +71,7 @@ function UsersManagementClient({
         </span>
       );
     return (
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-600 dark:text-zinc-400 font-label-sm text-label-sm border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-outline-variant/30 text-zinc-600 dark:text-zinc-400 font-label-sm text-label-sm border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
         Lvl 1
       </span>
     );
@@ -89,7 +89,7 @@ function UsersManagementClient({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
+            className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-md shadow-none flex items-center gap-4"
           >
             <div className="p-3 rounded-lg bg-emerald-500-container/5 text-white shrink-0">
               <AppIcon name={card.icon} className="lucide" size={28} />
@@ -107,18 +107,18 @@ function UsersManagementClient({
       </div>
 
       {/* Filters */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
-        <div className="p-lg border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden flex flex-col">
+        <div className="p-lg border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative w-64">
               <Search className="absolute inset-y-0 left-0 pl-3 h-4 w-4 text-zinc-600 dark:text-zinc-400" />
               <input
                 type="text"
                 placeholder="Search name or email…"
-                className="w-full pl-9 pr-4 py-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
+                className="w-full pl-9 pr-4 py-2 border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg text-body-sm focus:ring-2 focus:ring-primary/10 outline-none"
               />
             </div>
-            <select className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+            <select className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
               <option value="">All Roles</option>
               {['tenant', 'landlord', 'agent', 'admin', 'estate_manager'].map((r) => (
                 <option key={r} value={r} selected={roleFilter === r}>
@@ -127,7 +127,7 @@ function UsersManagementClient({
               ))}
             </select>
             <select
-              className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
+              className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-4 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none"
               defaultValue={statusFilter}
             >
               <option value="">All Statuses</option>
@@ -153,7 +153,7 @@ function UsersManagementClient({
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] sticky top-0">
+                <tr className="bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] sticky top-0">
                   {['User', 'Role', 'Status', 'Verification', 'Joined Date'].map((h) => (
                     <th
                       key={h}
@@ -219,7 +219,7 @@ function UsersManagementClient({
         </div>
 
         {/* Pagination */}
-        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-950 flex items-center justify-between">
+        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950 flex items-center justify-between">
           <p className="text-body-sm text-zinc-600 dark:text-zinc-400">
             Showing{' '}
             <span className="font-bold">
@@ -231,7 +231,7 @@ function UsersManagementClient({
           <div className="flex items-center gap-1">
             <a
               href={buildHref(currentPage - 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
                 currentPage <= 1 ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-zinc-900 dark:text-white'
               }`}
             >
@@ -250,7 +250,7 @@ function UsersManagementClient({
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs text-label-md transition-colors ${
                     pageNum === currentPage
                       ? 'bg-emerald-500 text-white shadow-none font-bold'
-                      : 'border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-900'
+                      : 'border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-400 hover:bg-zinc-900'
                   }`}
                 >
                   {pageNum}
@@ -259,7 +259,7 @@ function UsersManagementClient({
             })}
             <a
               href={buildHref(currentPage + 1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
+              className={`w-10 h-10 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] transition-colors ${
                 currentPage >= totalPages ? 'opacity-30 pointer-events-none' : 'hover:bg-zinc-900 text-zinc-900 dark:text-white'
               }`}
             >

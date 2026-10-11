@@ -45,7 +45,7 @@ export default function BookingCard({ listing }: Props) {
           : '/ Month';
 
   return (
-    <div className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-none bg-zinc-900 space-y-6">
+    <div className="border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-2xl p-6 shadow-none bg-zinc-50 dark:bg-zinc-900 space-y-6">
       {listing.availableFrom && (
         <div className="bg-zinc-900 text-zinc-900 dark:text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2">
           <Info className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default function BookingCard({ listing }: Props) {
         <select
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
-          className="w-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-zinc-950/50 text-zinc-900 dark:text-white"
+          className="w-full border border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-zinc-950/50 text-zinc-900 dark:text-white"
         >
           <option value="1">1 Month</option>
           <option value="3">3 Months</option>
@@ -86,7 +86,7 @@ export default function BookingCard({ listing }: Props) {
         </select>
       </div>
 
-      <div className="space-y-3 text-sm border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
+      <div className="space-y-3 text-sm border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-500">
         <div className="flex justify-between">
           <span>Rent ({duration} mo)</span>
           <span className="font-medium text-zinc-900 dark:text-white">{formatCurrency(totalRent)}</span>
@@ -100,7 +100,7 @@ export default function BookingCard({ listing }: Props) {
           <span className="font-medium text-zinc-900 dark:text-white">{formatCurrency(cautionDeposit)}</span>
         </div>
 
-        <div className="border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pt-3 flex justify-between items-center">
+        <div className="border-t border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pt-3 flex justify-between items-center">
           <span className="font-bold text-base text-zinc-900 dark:text-white">Total</span>
           <span className="font-extrabold text-xl text-zinc-900 dark:text-white">
             {formatCurrency(grandTotal)}

@@ -47,8 +47,8 @@ export default function AcceptInviteClient({ invites, email }: Props) {
 
   if (pending.length === 0) {
     return (
-      <Card className="p-6 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+      <Card className="p-6 border border-zinc-200 dark:border-white/[0.08]">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
           You don&apos;t have any pending invites. You can still use all agent features and be assigned directly by landlords.
         </p>
       </Card>
@@ -58,7 +58,7 @@ export default function AcceptInviteClient({ invites, email }: Props) {
   return (
     <div className="space-y-4">
       {pending.map((invite) => (
-        <Card key={invite.id} className="p-6 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <Card key={invite.id} className="p-6 border border-zinc-200 dark:border-white/[0.08]">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2 min-w-0 flex-1">
               <div className="flex items-center gap-2 min-w-0">
@@ -67,7 +67,7 @@ export default function AcceptInviteClient({ invites, email }: Props) {
                   Invitation from {invite.sender?.fullName || 'a landlord'}
                 </p>
               </div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
                 {invite.sender?.fullName || 'A landlord'} invited you to manage their listings. Accepting will add you as their agent.
               </p>
               <div className="flex flex-wrap gap-2">

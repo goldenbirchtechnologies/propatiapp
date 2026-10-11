@@ -64,7 +64,7 @@ export default function ImageGallery({ images }: Props) {
             </div>
           </>
         ) : (
-          <div className="md:col-span-3 flex items-center justify-center bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <div className="md:col-span-3 flex items-center justify-center bg-zinc-50 dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
             No images available
           </div>
         )}
@@ -98,7 +98,7 @@ export default function ImageGallery({ images }: Props) {
               <ChevronLeft className="w-4 h-4" />
               Prev
             </button>
-            <span className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">
               {activeIndex + 1} / {images.length}
             </span>
             <button

@@ -29,42 +29,42 @@ export default async function LandlordWithdrawalsPage() {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Withdrawals &amp; Fund Management</h1>
-            <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Manage your payouts and fund transfers.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Withdrawals &amp; Fund Management</h1>
+            <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Manage your payouts and fund transfers.</p>
           </div>
         </div>
 
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
-          <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
+          <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08]">
             <h3 className="font-heading font-bold">Recent Withdrawals</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-white/[0.08]">
                 <tr>
-                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Reference</th>
-                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Date</th>
-                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Type</th>
-                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Amount</th>
-                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Status</th>
+                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Reference</th>
+                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Date</th>
+                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Type</th>
+                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Amount</th>
+                  <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {payouts.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-5 py-8 text-center text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+                    <td colSpan={5} className="px-5 py-8 text-center text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
                       No withdrawals yet.
                     </td>
                   </tr>
                 ) : (
                   payouts.map((w) => (
-                    <tr key={w.id} className="hover:bg-white dark:bg-white dark:bg-zinc-900 transition-colors">
-                      <td className="px-5 py-4 text-sm font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{w.reference || w.id}</td>
+                    <tr key={w.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
+                      <td className="px-5 py-4 text-sm font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{w.reference || w.id}</td>
                       <td className="px-5 py-4 text-sm">{new Date(w.createdAt).toLocaleDateString('en-NG')}</td>
                       <td className="px-5 py-4 text-sm"><span className="capitalize">{w.type.replace('_', ' ')}</span></td>
                       <td className="px-5 py-4 text-sm font-medium">₦{new Intl.NumberFormat('en-NG').format(Number(w.amount) / 100)}</td>
                       <td className="px-5 py-4">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${w.status === 'released' ? 'bg-success/10 text-[#10b981] border border-success/20' : w.status === 'pending' ? 'bg-warning/10 text-warning border border-warning/20' : 'bg-white dark:bg-zinc-900/30 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400'}`}>
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${w.status === 'released' ? 'bg-success/10 text-[#10b981] border border-success/20' : w.status === 'pending' ? 'bg-warning/10 text-warning border border-warning/20' : 'bg-white dark:bg-zinc-900/30 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400'}`}>
                           {w.status}
                         </span>
                       </td>

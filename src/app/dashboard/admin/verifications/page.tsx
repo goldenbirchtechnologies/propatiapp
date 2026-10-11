@@ -35,8 +35,8 @@ export default async function AdminVerificationsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Verifications</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Manage platform-wide user verifications.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Verifications</h1>
+            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Manage platform-wide user verifications.</p>
           </div>
           <button className="px-4 py-2 bg-green-600 text-on-success rounded-lg hover:bg-green-700">
             New Batch
@@ -44,37 +44,37 @@ export default async function AdminVerificationsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Total</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{totalVerifications.toLocaleString()}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Total</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{totalVerifications.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Not Started</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{pendingCount.toLocaleString()}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Not Started</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{pendingCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">In Progress</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">In Progress</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{inProgressCount.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Certified</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Certified</p>
             <p className="text-2xl font-bold text-emerald-500 mt-2">{certifiedCount.toLocaleString()}</p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
-          <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Verifications</h2>
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
+          <div className="px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Recent Verifications</h2>
           </div>
           {recentVerifications.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No verifications yet.</p>
+              <p className="text-zinc-600 dark:text-zinc-400">No verifications yet.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                  <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-400">
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Owner</th>
                     <th className="p-3 font-medium">Layer</th>
@@ -83,12 +83,12 @@ export default async function AdminVerificationsPage() {
                 </thead>
                 <tbody>
                   {recentVerifications.map((ver) => (
-                    <tr key={ver.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/50">
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{ver.listing?.title ?? '—'}</td>
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{ver.owner?.fullName ?? '—'}</td>
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{ver.currentLayer}</td>
+                    <tr key={ver.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/50">
+                      <td className="p-3 text-zinc-900 dark:text-white">{ver.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-zinc-900 dark:text-white">{ver.owner?.fullName ?? '—'}</td>
+                      <td className="p-3 text-zinc-900 dark:text-white">{ver.currentLayer}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
                           {ver.overallStatus.replace(/_/g, ' ')}
                         </span>
                       </td>

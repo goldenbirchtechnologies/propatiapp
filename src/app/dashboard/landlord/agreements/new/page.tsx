@@ -167,7 +167,7 @@ export default function NewAgreementPage() {
     <div className="container max-w-4xl mx-auto py-8 px-4">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Create New Agreement</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+        <p className="text-zinc-600 dark:text-zinc-400">
           Create a rental agreement and invite your tenant to sign.
         </p>
       </div>
@@ -196,7 +196,7 @@ export default function NewAgreementPage() {
                         ? 'bg-emerald-500 text-zinc-900 dark:text-white border-emerald-500'
                         : isActive
                         ? 'bg-white text-emerald-600 border-white'
-                        : 'bg-zinc-800 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-700'
+                        : 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-700'
                     )}
                   >
                     {isCompleted ? (
@@ -208,8 +208,8 @@ export default function NewAgreementPage() {
                   <span className={cn(
                     'text-xs mt-2 text-center',
                     isCompleted ? 'text-emerald-400 font-medium' :
-                    isActive ? 'text-zinc-900 dark:text-zinc-900 dark:text-white font-medium' :
-                    'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
+                    isActive ? 'text-zinc-900 dark:text-white font-medium' :
+                    'text-zinc-600 dark:text-zinc-400'
                   )}>
                     {step.label}
                   </span>
@@ -265,7 +265,7 @@ export default function NewAgreementPage() {
                 {errors.tenantId && (
                   <p className="text-sm text-red-500 mt-1">{errors.tenantId.message}</p>
                 )}
-                <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                   The tenant will receive an invitation to review and sign the agreement.
                 </p>
               </div>
@@ -327,7 +327,7 @@ export default function NewAgreementPage() {
 
             {calculateLeaseDuration() && (
               <div className="bg-accent/10 p-4 rounded-lg">
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">
+                <p className="text-sm font-medium text-zinc-900 dark:text-white">
                   Lease Duration: {calculateLeaseDuration()} months
                 </p>
               </div>
@@ -408,26 +408,26 @@ export default function NewAgreementPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Listing</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Listing</p>
                   <p className="font-medium">{watchedValues.listingId || 'Not selected'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Tenant</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Tenant</p>
                   <p className="font-medium">{watchedValues.tenantId || 'Not specified'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Agreement Type</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Agreement Type</p>
                   <p className="font-medium capitalize">{watchedValues.type?.replace('_', ' ')}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Payment Schedule</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Payment Schedule</p>
                   <p className="font-medium capitalize">{watchedValues.rentPeriod}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Start Date</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Start Date</p>
                   <p className="font-medium">
                     {watchedValues.startDate
                       ? format(new Date(watchedValues.startDate), 'MMM dd, yyyy')
@@ -435,7 +435,7 @@ export default function NewAgreementPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">End Date</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">End Date</p>
                   <p className="font-medium">
                     {watchedValues.endDate
                       ? format(new Date(watchedValues.endDate), 'MMM dd, yyyy')
@@ -443,13 +443,13 @@ export default function NewAgreementPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent Amount</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Rent Amount</p>
                   <p className="font-medium">
                     {watchedValues.rentAmount ? formatCurrency(watchedValues.rentAmount) : 'Not set'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Duration</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Duration</p>
                   <p className="font-medium">{calculateLeaseDuration() ?? '—'} {calculateLeaseDuration() !== null ? calculateLeaseDuration() === 1 ? 'month' : 'months' : ''}</p>
                 </div>
               </div>
@@ -458,13 +458,13 @@ export default function NewAgreementPage() {
                 <div className="grid grid-cols-2 gap-4 pb-4 border-b">
                   {watchedValues.cautionDeposit && (
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Caution Deposit</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Caution Deposit</p>
                       <p className="font-medium">{formatCurrency(watchedValues.cautionDeposit)}</p>
                     </div>
                   )}
                   {watchedValues.serviceCharge && (
                     <div>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Service Charge</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Service Charge</p>
                       <p className="font-medium">{formatCurrency(watchedValues.serviceCharge)}</p>
                     </div>
                   )}
@@ -479,7 +479,7 @@ export default function NewAgreementPage() {
                     <div className="space-y-2">
                       {calculateRentSchedule().map((entry, index) => (
                         <div key={index} className="flex justify-between text-sm">
-                          <span className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{entry.date}</span>
+                          <span className="text-zinc-600 dark:text-zinc-400">{entry.date}</span>
                           <span className="font-medium">{formatCurrency(entry.amount)}</span>
                         </div>
                       ))}
@@ -490,7 +490,7 @@ export default function NewAgreementPage() {
 
               {watchedValues && (watchedValues as unknown).terms && (
                 <div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2">Additional Terms</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Additional Terms</p>
                   <div className="bg-muted/30 rounded-lg p-4">
                     <p className="text-sm whitespace-pre-wrap">{(watchedValues as unknown).terms}</p>
                   </div>

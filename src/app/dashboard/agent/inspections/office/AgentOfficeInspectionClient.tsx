@@ -58,8 +58,8 @@ export default function AgentOfficeInspectionClient() {
     <DashboardShell navigation={AGENT_NAVIGATION} userRole="agent" userName="Agent" userAvatar={undefined}>
       <div className="space-y-8">
         <div>
-          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">Office Site Inspection</h1>
-          <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <h1 className="text-zinc-900 dark:text-white font-bold">Office Site Inspection</h1>
+          <p className="mt-2 text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Schedule your physical premises verification to achieve{' '}
             <span className="text-zinc-600 dark:text-zinc-400 font-bold">Tier 2 Verified</span> status.
           </p>
@@ -72,9 +72,9 @@ export default function AgentOfficeInspectionClient() {
               <span className="text-xs font-label-sm uppercase tracking-wider flex items-center gap-1 text-[#10b981]">
                 <CheckCircle className="h-3 w-3" /> Submitted
               </span>
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-zinc-900 dark:text-white">Scheduled</span>
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Visit</span>
-              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Report</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-900 dark:text-white">Scheduled</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Visit</span>
+              <span className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Report</span>
             </div>
             <div className="relative h-2 bg-[#171717] rounded-full overflow-hidden">
               <div className="absolute h-full w-[45%] bg-gradient-to-r from-[#10b981] to-[#262626]" />
@@ -86,10 +86,10 @@ export default function AgentOfficeInspectionClient() {
           {/* Left Column */}
           <div className="lg:col-span-7 space-y-6">
             <div className="glass-card">
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
                 <div className="flex items-center gap-3">
-                  <CalendarDays className="h-5 w-5 text-zinc-900 dark:text-zinc-900 dark:text-white" />
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">Select Preferred Date & Time</h3>
+                  <CalendarDays className="h-5 w-5 text-zinc-900 dark:text-white" />
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Select Preferred Date & Time</h3>
                 </div>
               </div>
               <div className="p-6">
@@ -107,7 +107,7 @@ export default function AgentOfficeInspectionClient() {
                         </Button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-7 text-center text-xs font-label-sm uppercase tracking-wider mb-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <div className="grid grid-cols-7 text-center text-xs font-label-sm uppercase tracking-wider mb-2 text-zinc-600 dark:text-zinc-400">
                       <AppIcon name="M" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="W" className="lucide" /><AppIcon name="T" className="lucide" /><AppIcon name="F" className="lucide" /><AppIcon name="S" className="lucide" /><AppIcon name="S" className="lucide" />
                     </div>
                     <div className="grid grid-cols-7 gap-1 text-center text-sm">
@@ -118,8 +118,8 @@ export default function AgentOfficeInspectionClient() {
                           onClick={() => d.disabled ? undefined : setSelectedDate(d.date)}
                           className={cn(
                             'p-2 rounded-md transition-colors',
-                            d.disabled ? 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 cursor-not-allowed' : 'hover:bg-[#171717] cursor-pointer',
-                            d.active ? 'bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold shadow-none' : ''
+                            d.disabled ? 'text-zinc-600 dark:text-zinc-400 cursor-not-allowed' : 'hover:bg-[#171717] cursor-pointer',
+                            d.active ? 'bg-[#10b981] text-zinc-900 dark:text-white font-bold shadow-none' : ''
                           )}
                         >
                           {d.date}
@@ -130,7 +130,7 @@ export default function AgentOfficeInspectionClient() {
 
                   {/* Time Slots */}
                   <div className="space-y-4">
-                    <label className="text-xs font-label-sm uppercase tracking-wider font-bold block text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <label className="text-xs font-label-sm uppercase tracking-wider font-bold block text-zinc-600 dark:text-zinc-400">
                       Select Time Slot
                     </label>
                     <div className="space-y-3">
@@ -139,8 +139,8 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'morning'
-                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
-                            : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
+                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-white font-bold'
+                            : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -156,8 +156,8 @@ export default function AgentOfficeInspectionClient() {
                         className={cn(
                           'w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all',
                           selectedSlot === 'afternoon'
-                            ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold'
-                            : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
+                            ? 'border-zinc-200 dark:border-white/[0.08] bg-[#10b981]/10 text-zinc-900 dark:text-white font-bold'
+                            : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/50 text-zinc-600 dark:text-zinc-400'
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -169,9 +169,9 @@ export default function AgentOfficeInspectionClient() {
                         )}
                       </button>
                     </div>
-                    <div className="bg-[#171717] p-4 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-start gap-3">
+                    <div className="bg-[#171717] p-4 rounded-xl border border-zinc-200 dark:border-white/[0.08] flex items-start gap-3">
                       <Info className="h-5 w-5 text-zinc-600 dark:text-zinc-400 shrink-0 mt-0.5" />
-                      <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                      <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                         Verification officers usually arrive within the first hour of the selected slot.
                       </p>
                     </div>
@@ -183,8 +183,8 @@ export default function AgentOfficeInspectionClient() {
             {/* Preparation Bento */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="glass-card">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2 text-zinc-900 dark:text-zinc-900 dark:text-white">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2 text-zinc-900 dark:text-white">
                     <AppIcon name="fact_check" className="lucide" />
                     Requirements
                   </h3>
@@ -201,23 +201,23 @@ export default function AgentOfficeInspectionClient() {
                 </div>
               </div>
 
-              <div className="glass-card overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-                <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">What to Expect</h3>
+              <div className="glass-card overflow-hidden relative bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+                <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white text-zinc-900 dark:text-white">What to Expect</h3>
                 </div>
                 <div className="p-6">
-                  <p className="text-xs font-label-sm uppercase tracking-wider mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                  <p className="text-xs font-label-sm uppercase tracking-wider mb-4 text-zinc-600 dark:text-zinc-400">
                     The 30-minute walkthrough includes:
                   </p>
                   <div className="space-y-4">
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         1
                       </div>
                       <p className="text-xs font-label-sm uppercase tracking-wider">Physical sighting of all original documentation.</p>
                     </div>
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
+                      <div className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white flex items-center justify-center font-bold shrink-0 text-sm">
                         2
                       </div>
                       <p className="text-xs font-label-sm uppercase tracking-wider">Verification of office operational capacity and staff.</p>
@@ -230,52 +230,52 @@ export default function AgentOfficeInspectionClient() {
 
           {/* Right Column */}
           <aside className="lg:col-span-5 space-y-6">
-            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
               <div className="bg-[#10b981] px-6 py-4 flex justify-between items-center">
-                <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white font-headline-sm font-bold">Inspection Summary</h3>
-                <span className="bg-white dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
+                <h3 className="text-zinc-900 dark:text-white font-headline-sm font-bold">Inspection Summary</h3>
+                <span className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-3 py-1 rounded-full text-xs font-label-sm uppercase tracking-wider font-bold">
                   Tier 2
                 </span>
               </div>
               <div className="p-6 p-6 space-y-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-white dark:bg-white dark:bg-zinc-950/50 rounded ">
+                    <div className="p-2 bg-white dark:bg-zinc-950/50 rounded ">
                       <AppIcon name="calendar_month" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Date</p>
+                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-400">Date</p>
                       <p className="font-headline-sm font-bold">Wednesday, Oct 9th, 2024</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-white dark:bg-white dark:bg-zinc-950/50 rounded ">
+                    <div className="p-2 bg-white dark:bg-zinc-950/50 rounded ">
                       <AppIcon name="schedule" className="lucide" />
                     </div>
                     <div>
-                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Time Window</p>
+                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-400">Time Window</p>
                       <p className="font-headline-sm font-bold">09:00 AM - 12:00 PM</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 p-3 bg-[#171717] rounded-xl">
-                    <div className="p-2 bg-white dark:bg-white dark:bg-zinc-950/50 rounded ">
+                    <div className="p-2 bg-white dark:bg-zinc-950/50 rounded ">
                       <AppIcon name="location_on" className="lucide" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Inspection Address</p>
+                      <p className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-600 dark:text-zinc-400">Inspection Address</p>
                       <p className="font-headline-sm font-bold leading-tight">Plot 102, Adeola Odeku St, Victoria Island, Lagos, Nigeria.</p>
-                      <button className="text-zinc-900 dark:text-zinc-900 dark:text-white text-xs font-label-sm uppercase tracking-wider font-bold underline mt-2 hover:text-zinc-900 dark:text-zinc-900 dark:text-white/80">
+                      <button className="text-zinc-900 dark:text-white text-xs font-label-sm uppercase tracking-wider font-bold underline mt-2 hover:text-zinc-900 dark:text-white/80">
                         Change Address
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                  <Button className="w-full py-4 text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold hover:shadow-none active:scale-95 transition-all">
+                <div className="pt-6 border-t border-zinc-200 dark:border-white/[0.08]">
+                  <Button className="w-full py-4 text-zinc-900 dark:text-white font-bold hover:shadow-none active:scale-95 transition-all">
                     Confirm Schedule
                   </Button>
-                  <p className="text-center text-xs font-label-sm uppercase tracking-wider mt-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                  <p className="text-center text-xs font-label-sm uppercase tracking-wider mt-4 text-zinc-600 dark:text-zinc-400">
                     By confirming, you agree to our Verification Terms.
                   </p>
                 </div>
@@ -294,12 +294,12 @@ export default function AgentOfficeInspectionClient() {
               </div>
             </div>
 
-            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
+            <div className="glass-card overflow-hidden bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
               <div className="h-40 relative">
                 <div className="absolute inset-0 bg-[#171717]" />
-                <div className="absolute bottom-4 left-4 bg-white dark:bg-white dark:bg-zinc-950/50 px-3 py-1 rounded-full shadow-none flex items-center gap-2">
+                <div className="absolute bottom-4 left-4 bg-white dark:bg-zinc-950/50 px-3 py-1 rounded-full shadow-none flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                  <span className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Agent HQ Location</span>
+                  <span className="text-xs font-label-sm uppercase tracking-wider font-bold text-zinc-900 dark:text-white">Agent HQ Location</span>
                 </div>
               </div>
             </div>

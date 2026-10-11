@@ -25,24 +25,24 @@ export default function ManagedCollectionsPage() {
       <ErrorBoundary>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Managed collections</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Managed collections</h3>
         </div>
         <div className="p-6">
-          {loading && <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Loading...</p>}
-          {!loading && items.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No pending managed collections.</p>}
+          {loading && <p className="text-sm text-zinc-600 dark:text-zinc-400">Loading...</p>}
+          {!loading && items.length === 0 && <p className="text-sm text-zinc-600 dark:text-zinc-400">No pending managed collections.</p>}
           <div className="space-y-4">
             {items.map((tx) => (
-              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/60 bg-background p-3">
+              <div key={String(tx.id)} className="flex items-center justify-between rounded-xl border border-zinc-200 dark:border-white/[0.08]/60 bg-background p-3">
                 <div>
                   <p className="text-sm font-semibold">{String(tx.listing?.title || tx.reference)}</p>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Tenant: {String(tx.payer?.fullName || tx.payerId)} • Landlord: {String(tx.payee?.fullName || tx.payeeId)}</p>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">{new Date(String(tx.createdAt)).toLocaleString()}</p>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Tenant: {String(tx.payer?.fullName || tx.payerId)} • Landlord: {String(tx.payee?.fullName || tx.payeeId)}</p>
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">{new Date(String(tx.createdAt)).toLocaleString()}</p>
                 </div>
                 <div className="text-right flex items-center gap-3">
                   <div>
                     <p className="text-sm font-bold">{formatAmount(tx.payeeAmount || tx.amount)}</p>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Payee amount</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">Payee amount</p>
                   </div>
                   <Button size="sm" variant="outline" onClick={() => { window.location.href = `/dashboard/estate-manager/disbursements?landlordId=${tx.payeeId}&amount=${Number(tx.payeeAmount || tx.amount) / 100}&reference=${tx.reference}`; }}>Disburse</Button>
                 </div>

@@ -21,7 +21,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Name your listing</h2>
-      <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Create a catchy title that describes your place. Keep it short and sweet.</p>
+      <p className="text-sm text-zinc-600 dark:text-zinc-400">Create a catchy title that describes your place. Keep it short and sweet.</p>
       <div className="glass-card p-4 space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="title" className="text-sm font-medium flex items-center gap-2">
@@ -29,7 +29,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
           </Label>
           <span
             className={`text-xs font-medium ${
-              remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-yellow-600' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
+              remaining < 0 ? 'text-red-500' : remaining < 10 ? 'text-yellow-600' : 'text-zinc-600 dark:text-zinc-400'
             }`}
           >
             {value.length} / 50
@@ -49,7 +49,7 @@ export default function Step9Title({ title, onChange }: Step9Props) {
           className="resize-none"
         />
         <div className="flex justify-between">
-          <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Catchy names get more views</span>
+          <span className="text-xs text-zinc-600 dark:text-zinc-400">Catchy names get more views</span>
           <Badge variant={remaining < 10 ? 'outline' : 'secondary'} className="text-xs">
             {remaining} characters left
           </Badge>

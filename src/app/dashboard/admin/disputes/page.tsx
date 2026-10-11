@@ -23,7 +23,7 @@ export default async function AdminDisputesPage() {
 
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Disputes</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Resolve transaction disputes.</p>
+        <p className="text-zinc-600 dark:text-zinc-400">Resolve transaction disputes.</p>
         {disputes.length === 0 ? (
           <p>No open disputes.</p>
         ) : (

@@ -296,7 +296,7 @@ export default function WizardShell({ onComplete }: Props) {
         <main className="flex-1 overflow-y-auto px-6 pt-4 pb-28">
           <div className="glass-card p-6 sm:p-8 max-w-3xl mx-auto">
             <div className="mb-6">
-              <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-2">
+              <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 mb-2">
                 Step {currentStep + 1} of {STEPS.length}
                 <Separator orientation="vertical" className="h-3" />
                 {STEPS[currentStep].title}

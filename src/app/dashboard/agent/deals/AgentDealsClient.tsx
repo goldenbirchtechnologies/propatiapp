@@ -28,9 +28,9 @@ type DealItem = {
 };
 
 const statusConfig: Record<string, { color: string; label: string }> = {
-  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
-  pending_landlord: { color: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
-  pending_tenant: { color: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
+  draft: { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: 'Draft' },
+  pending_landlord: { color: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Landlord' },
+  pending_tenant: { color: 'bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: 'Pending Tenant' },
   tenant_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Tenant Signed' },
   landlord_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Landlord Signed' },
   fully_signed: { color: 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20', label: 'Fully Signed' },
@@ -40,7 +40,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 };
 
 function sc(s: string) {
-  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]', label: s };
+  return statusConfig[s] || { color: 'bg-[#171717] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]', label: s };
 }
 
 const fmtCurrency = (v: number) =>
@@ -60,41 +60,41 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-900 dark:text-white">Active Deals</h1>
-        <p className="text-base text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">All agreements currently in progress</p>
+        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">Active Deals</h1>
+        <p className="text-base text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">All agreements currently in progress</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Total</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Total</h3>
           </div>
           <div className="p-6">
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{stats.total}</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stats.total}</p>
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">In Progress</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">In Progress</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-zinc-600 dark:text-zinc-400">{stats.pending}</p>
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Active</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Active</h3>
           </div>
           <div className="p-6">
             <p className="text-2xl font-bold text-[#10b981]">{stats.active}</p>
           </div>
         </div>
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Est. Value</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Est. Value</h3>
           </div>
           <div className="p-6">
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">{fmtCurrency(stats.totalValue)}</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">{fmtCurrency(stats.totalValue)}</p>
           </div>
         </div>
       </div>
@@ -103,39 +103,39 @@ export default function AgentDealsClient({ initialDeals }: { initialDeals: DealI
         <div className="p-6 p-0">
           {initialDeals.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
-              <FileCheck className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
-              <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white mb-2">No active deals</h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Agreements will appear here once drafted or signed.</p>
+              <FileCheck className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 opacity-50" />
+              <h3 className="font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white mb-2">No active deals</h3>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Agreements will appear here once drafted or signed.</p>
             </div>
           ) : (
             <table className="w-full divide-y divide-[#262626]">
               <thead>
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Property</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Status</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Tenant</th>
-                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Rent</th>
-                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Deposit</th>
-                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Details</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Property</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Status</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Tenant</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Rent</th>
+                  <th className="text-left p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Deposit</th>
+                  <th className="text-right p-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Details</th>
                 </tr>
               </thead>
               <tbody>
                 {initialDeals.map((d) => {
                   const st = sc(d.status);
                   return (
-                    <tr key={d.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:bg-white dark:bg-zinc-950/30 transition-colors">
-                      <td className="p-4 font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
+                    <tr key={d.id} className="border-b border-zinc-200 dark:border-white/[0.08] hover:bg-white dark:bg-zinc-950/30 transition-colors">
+                      <td className="p-4 font-medium text-sm text-zinc-900 dark:text-white">
                         <div>
                           <p>{d.property}</p>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Landlord: {d.landlord}</p>
+                          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Landlord: {d.landlord}</p>
                         </div>
                       </td>
                       <td className="p-4"><Badge variant="outline" className={st.color}>{st.label}</Badge></td>
-                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{d.tenant}</td>
-                      <td className="p-4 text-sm text-right text-zinc-900 dark:text-zinc-900 dark:text-white font-medium">{fmtCurrency(d.rentAmount)}</td>
-                      <td className="p-4 text-sm text-right text-zinc-900 dark:text-zinc-900 dark:text-white">{fmtCurrency(d.cautionDeposit)}</td>
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{d.tenant}</td>
+                      <td className="p-4 text-sm text-right text-zinc-900 dark:text-white font-medium">{fmtCurrency(d.rentAmount)}</td>
+                      <td className="p-4 text-sm text-right text-zinc-900 dark:text-white">{fmtCurrency(d.cautionDeposit)}</td>
                       <td className="p-4 text-right">
-                        <Link href={`/dashboard/agent/deals/${d.id}`} className="inline-flex items-center gap-1 text-sm text-zinc-900 dark:text-zinc-900 dark:text-white hover:underline">
+                        <Link href={`/dashboard/agent/deals/${d.id}`} className="inline-flex items-center gap-1 text-sm text-zinc-900 dark:text-white hover:underline">
                           View <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                       </td>

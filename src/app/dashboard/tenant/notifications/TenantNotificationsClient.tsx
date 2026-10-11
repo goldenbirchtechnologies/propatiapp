@@ -57,7 +57,7 @@ const colorMap: Record<string, string> = {
   green: 'bg-success/10 text-[#10b981] border-[#10b981]/20',
   amber: 'bg-warning/10 text-warning border-warning/20',
   red: 'bg-red-500/10 text-red-500 border-red-500/20',
-  blue: 'bg-white dark:bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]',
+  blue: 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]',
   slate: 'bg-slate-500/10 text-slate-700 border-slate-200',
 };
 
@@ -95,11 +95,11 @@ const SkeletonRow = () => (
 function EmptyState({ filter }: { filter: string }) {
   return (
     <div className="glass-card p-12 text-center">
-      <Bell className="w-12 h-12 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.4 }} />
-      <h3 className="font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-zinc-900 dark:text-white">
+      <Bell className="w-12 h-12 text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.4 }} />
+      <h3 className="font-headline-sm text-zinc-900 dark:text-white mb-2 text-zinc-900 dark:text-white">
         {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
       </h3>
-      <p  className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+      <p  className="text-zinc-600 dark:text-zinc-400">
         {filter === 'unread' ? "You're all caught up!" : 'You will see alerts here when there is activity on your account.'}
       </p>
     </div>
@@ -146,14 +146,14 @@ function NotificationRow({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
-            <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">
+            <p className="font-medium text-sm text-zinc-900 dark:text-white">
               {notification.title}
             </p>
-            <span className="text-xs flex-shrink-0 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <span className="text-xs flex-shrink-0 text-zinc-600 dark:text-zinc-400">
               {timeStr}
             </span>
           </div>
-          <p className="text-sm line-clamp-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm line-clamp-2 text-zinc-600 dark:text-zinc-400">
             {notification.body}
           </p>
 
@@ -292,7 +292,7 @@ export default function TenantNotificationsClient() {
             </button>
           ))}
         </div>
-        <span className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+        <span className="text-xs text-zinc-600 dark:text-zinc-400">
           {total} notification{total !== 1 ? 's' : ''} total
         </span>
       </div>
@@ -329,7 +329,7 @@ function PageHeader() {
         <h1 className="font-heading font-semibold" style={{ fontSize: 'var(--text-page-title)' }}>
           Notifications
         </h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ marginTop: 'var(--space-vs)' }}>
+        <p className="text-zinc-600 dark:text-zinc-400" style={{ marginTop: 'var(--space-vs)' }}>
           Stay updated with your rental activity
         </p>
       </div>

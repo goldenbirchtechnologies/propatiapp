@@ -40,8 +40,8 @@ export default function EstateManagerProfilePage() {
     <ProfileShell navigation={ESTATE_MANAGER_NAVIGATION} userRole="estate_manager" userName={form.fullName}>
       <div className="space-y-6">
         <div>
-          <h1 className="font-display font-bold text-2xl text-[var(--text-zinc-900 dark:text-zinc-900 dark:text-white)]">My Profile</h1>
-          <p className="text-sm text-[var(--text-zinc-600 dark:text-zinc-600 dark:text-zinc-400)] mt-1">Manage estate management account settings</p>
+          <h1 className="font-display font-bold text-2xl text-[var(--text-zinc-900 dark:text-white)]">My Profile</h1>
+          <p className="text-sm text-[var(--text-zinc-600 dark:text-zinc-400)] mt-1">Manage estate management account settings</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

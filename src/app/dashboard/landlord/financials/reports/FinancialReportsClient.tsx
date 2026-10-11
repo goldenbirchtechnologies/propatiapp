@@ -91,15 +91,15 @@ export default function FinancialReportsClient({ userId }: { userId: string }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Financial Reports</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">
+          <p className="text-zinc-600 dark:text-zinc-400 mt-1">
             Export accountant-ready P&amp;L, balance sheet, and cash-flow reports.
           </p>
         </div>
       </div>
 
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Generate Report
           </h3>

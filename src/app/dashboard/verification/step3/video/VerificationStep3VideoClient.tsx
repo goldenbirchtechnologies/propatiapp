@@ -74,12 +74,12 @@ function Step3VideoClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Verification Progress</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Verification Progress</h3>
         </div>
         <div className="p-6">
           <Progress value={progress} className="h-3" />
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-2">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 mt-2">
             {props.l3Status === 'approved' ? 'Video verified successfully' : props.l3Status === 'pending' ? 'Waiting for admin review' : 'Record and upload a video walkthrough'}
           </p>
         </div>
@@ -109,11 +109,11 @@ function Step3VideoClient(props: Props) {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Upload Video</h3>
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Upload Video</h3>
             </div>
             <div className="p-6 space-y-4">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
                 Record a video walking through the property. Show all rooms and display the QR code at the start.
               </p>
               <label className="flex flex-col items-center justify-center border-2 border-dashed border-input rounded-xl p-8 cursor-pointer hover:border-white hover:bg-muted/30 transition-all">
@@ -125,16 +125,16 @@ function Step3VideoClient(props: Props) {
                   onChange={handleUpload}
                 />
                 {uploading ? (
-                  <Loader2 className="h-8 w-8 animate-spin text-zinc-900 dark:text-zinc-900 dark:text-white" />
+                  <Loader2 className="h-8 w-8 animate-spin text-zinc-900 dark:text-white" />
                 ) : (
                   <>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-zinc-900 dark:text-zinc-900 dark:text-white mb-3">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-zinc-900 dark:text-white mb-3">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                       <polyline points="17 8 12 3 7 8" />
                       <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
                     <p className="font-bold mb-1">Click to upload video</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 text-center">MP4, MOV, or WebM. Max 100MB.</p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400 text-center">MP4, MOV, or WebM. Max 100MB.</p>
                   </>
                 )}
               </label>
@@ -145,22 +145,22 @@ function Step3VideoClient(props: Props) {
           </div>
 
           <div className="glass-card">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white flex items-center gap-2">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
                 <QrCode className="h-5 w-5" />
                 QR Code
               </h3>
             </div>
             <div className="p-6 space-y-4">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">
                 Show this QR code at the start of your video. It verifies the timestamp and authenticity.
               </p>
-              <div className="flex justify-center p-4 bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 rounded-lg">
+              <div className="flex justify-center p-4 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-lg">
                 {qrCode ? (
                   <img src={qrCode} alt="Verification QR Code" className="h-48 w-48" />
                 ) : (
                   <div className="h-48 w-48 flex items-center justify-center bg-muted rounded-lg">
-                    <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">QR code will appear here after upload</span>
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 dark:text-zinc-400">QR code will appear here after upload</span>
                   </div>
                 )}
               </div>

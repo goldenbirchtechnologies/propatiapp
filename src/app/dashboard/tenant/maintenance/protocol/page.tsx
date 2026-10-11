@@ -22,9 +22,9 @@ export default function refinedemergencyprotocolpropatimaintenancePage() {
       <ErrorBoundary>
 
       <div className="space-y-6">
-        <section className="rounded-2xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Refined Emergency Protocol Maintenance</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">PropatiBox - New Maintenance Request PropatiBox Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
+        <section className="rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-zinc-50 dark:bg-white dark:bg-zinc-900 p-6 shadow-none">
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Refined Emergency Protocol Maintenance</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-1">PropatiBox - New Maintenance Request PropatiBox Dashboard Properties Maintenance Financials notifications settings verified PR...</p>
         </section>
         <div className="flex flex-wrap gap-2">
           <Button variant="default">Low</Button>
@@ -35,7 +35,7 @@ export default function refinedemergencyprotocolpropatimaintenancePage() {
         </div>
         <div className="glass-card">
           <div className="p-6 pt-6">
-            <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <ul className="list-disc pl-5 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
               <li>Provide the details of your issue and we'll connect you with a certified technician from our verified network.</li>
               <li>For life-threatening emergencies, fire, or severe flooding, please call the local emergency services immediately before filing a report.</li>
               <li>Critical Issue</li>
@@ -49,7 +49,7 @@ export default function refinedemergencyprotocolpropatimaintenancePage() {
         </div>
         <div className="glass-card">
           <div className="p-6 pt-6">
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">This page was ported from the reference design: <strong>refined_emergency_protocol_propati_maintenance.html</strong></p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">This page was ported from the reference design: <strong>refined_emergency_protocol_propati_maintenance.html</strong></p>
           </div>
         </div>
       </div>

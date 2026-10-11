@@ -74,8 +74,8 @@ export default function MaintenancePage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No organization found</p>
+        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-400 mb-4" />
+        <p className="text-zinc-600 dark:text-zinc-400">No organization found</p>
       </div>
     );
   }
@@ -135,8 +135,8 @@ export default function MaintenancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-zinc-900 dark:text-white' }}>Maintenance Tickets</h1>
-          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>Track and manage maintenance requests</p>
+          <h1 className="text-zinc-900 dark:text-white font-bold" style={{ fontSize: 'text-zinc-900 dark:text-white', color: 'text-zinc-900 dark:text-white' }}>Maintenance Tickets</h1>
+          <p className="text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>Track and manage maintenance requests</p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
@@ -217,7 +217,7 @@ export default function MaintenancePage() {
                 <SelectItem value="unassigned">Unassigned</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex-1 text-xs text-xs uppercase tracking-wider flex items-center" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
+            <div className="flex-1 text-xs text-xs uppercase tracking-wider flex items-center" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>
               <Filter className="h-4 w-4 mr-2" />
               {filteredTickets.length} tickets
             </div>
@@ -229,8 +229,8 @@ export default function MaintenancePage() {
       <div className="grid gap-4 md:grid-cols-4">
         {columns.map(({ status, label }) => (
           <div className="glass-card" key={status} className="bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 animate-fadeIn">
-            <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-3">
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-sm font-semibold flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-3">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-semibold flex items-center justify-between">
                 <AppIcon name={label} className="lucide" />
                 <Badge variant="secondary">{ticketsByStatus[status].length}</Badge>
               </h3>
@@ -238,7 +238,7 @@ export default function MaintenancePage() {
             <div className="p-6 space-y-3">
               {ticketsByStatus[status].length > 0 ? (
                 ticketsByStatus[status].map((ticket: unknown) => (
-                  <div className="glass-card" key={ticket.id} className="bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900">
+                  <div className="glass-card" key={ticket.id} className="bg-zinc-50 dark:bg-white dark:bg-zinc-900">
                     <div className="p-6 p-4 space-y-2">
                       <div className="flex items-start justify-between">
                         <h4 className="font-medium text-sm line-clamp-2">{ticket.title}</h4>
@@ -247,23 +247,23 @@ export default function MaintenancePage() {
                         </Badge>
                       </div>
                       {ticket.listing && (
-                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>
                           <Building2 className="h-3 w-3" /> {ticket.listing.title}
                         </p>
                       )}
                       {ticket.assignedToUser && (
-                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
+                        <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>
                           <User className="h-3 w-3" /> {ticket.assignedToUser.fullName}
                         </p>
                       )}
-                      <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
+                      <p className="text-xs text-xs uppercase tracking-wider flex items-center gap-1" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>
                         <Calendar className="h-3 w-3" /> {new Date(ticket.createdAt).toLocaleDateString('en-NG')}
                       </p>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-8 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' }}>
+                <div className="text-center py-8 text-xs text-xs uppercase tracking-wider" style={{ color: 'text-zinc-600 dark:text-zinc-400' }}>
                   No tickets
                 </div>
               )}

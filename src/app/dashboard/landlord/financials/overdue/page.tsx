@@ -78,43 +78,43 @@ export default async function LandlordOverduePaymentsPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Overdue Payment Notices</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Track and manage overdue rent and service charge payments.</p>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Overdue Payment Notices</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Track and manage overdue rent and service charge payments.</p>
         </div>
 
         {rows.length === 0 ? (
           <div className="glass-card">
             <div className="p-6 p-8 text-center">
               <p className="text-[#10b981] font-medium">No overdue payments</p>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">All rent schedules and invoices are up to date.</p>
             </div>
           </div>
         ) : (
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
-            <div className="p-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
+          <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] shadow-none overflow-hidden">
+            <div className="p-5 border-b border-zinc-200 dark:border-white/[0.08] flex justify-between items-center">
               <h3 className="font-heading font-bold">Overdue Accounts</h3>
-              <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{rows.length} Accounts</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{rows.length} Accounts</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <thead className="bg-zinc-800 border-b border-zinc-200 dark:border-white/[0.08]">
                   <tr>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Reference</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Type</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Tenant</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Unit</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Overdue Amount</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Days Overdue</th>
-                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Notice Sent</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Reference</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Type</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Tenant</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Unit</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Overdue Amount</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Days Overdue</th>
+                    <th className="px-5 py-4 text-sm font-medium text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Notice Sent</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#262626]">
                   {rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-white dark:bg-white dark:bg-zinc-900 transition-colors">
-                      <td className="px-5 py-4 text-sm font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{row.id}</td>
+                    <tr key={row.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
+                      <td className="px-5 py-4 text-sm font-mono text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{row.id}</td>
                       <td className="px-5 py-4 text-sm"><Badge variant="outline">{row.type}</Badge></td>
                       <td className="px-5 py-4 text-sm font-medium">{row.tenant}</td>
-                      <td className="px-5 py-4 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{row.unit}</td>
+                      <td className="px-5 py-4 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{row.unit}</td>
                       <td className="px-5 py-4 text-sm font-medium text-red-500">₦{row.amount.toLocaleString()}</td>
                       <td className="px-5 py-4 text-sm text-red-500 font-bold">{row.days} days</td>
                       <td className="px-5 py-4">

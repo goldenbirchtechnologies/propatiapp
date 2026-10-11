@@ -42,23 +42,23 @@ export default async function LandlordAgreementPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white tracking-tight">Lease Agreements</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">View and manage lease agreements for your properties.</p>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Lease Agreements</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-1">View and manage lease agreements for your properties.</p>
         </div>
 
         <div className="glass-card">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">All Agreements</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">All Agreements</h3>
           </div>
           <div className="p-6">
             {agreements.length === 0 ? (
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 py-6 text-center">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 py-6 text-center">
                 No agreements yet. Agreements will appear here once tenants accept applications.
               </p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-b">
+                  <thead className="text-zinc-600 dark:text-zinc-400 border-b">
                     <tr>
                       <th className="py-3 font-medium">Property</th>
                       <th className="py-3 font-medium">Tenant</th>
@@ -77,11 +77,11 @@ export default async function LandlordAgreementPage() {
                         <td className="py-3 font-mono">
                           {agr.rentAmount ? `₦${Number(agr.rentAmount).toLocaleString()}` : '—'}
                         </td>
-                        <td className="py-3 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                        <td className="py-3 text-zinc-600 dark:text-zinc-400">
                           {agr.startDate ? new Date(agr.startDate).toLocaleDateString('en-NG') : '—'} → {agr.endDate ? new Date(agr.endDate).toLocaleDateString('en-NG') : '—'}
                         </td>
                         <td className="py-3">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeVariant[agr.status] || 'bg-muted text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'}`}>
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeVariant[agr.status] || 'bg-muted text-zinc-600 dark:text-zinc-400'}`}>
                             {agr.status.replace('_', ' ')}
                           </span>
                         </td>

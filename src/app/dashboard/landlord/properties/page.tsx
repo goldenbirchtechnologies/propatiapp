@@ -119,7 +119,7 @@ export default async function LandlordPropertiesPage() {
       >
         <div className="rounded-lg border border-red-500/30 bg-destructive/5 p-6 text-center" role="alert">
           <p className="text-red-500 font-medium mb-1">Unable to load properties</p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Something went wrong while fetching your properties. Please try again later.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">Something went wrong while fetching your properties. Please try again later.</p>
           {process.env.NODE_ENV !== 'production' && (
             <pre className="mt-4 text-left text-xs text-red-500 bg-red-500/10 p-3 rounded overflow-auto">
               {message}

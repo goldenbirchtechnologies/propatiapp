@@ -34,7 +34,7 @@ function DisbursementsForm() {
       <ErrorBoundary>
 
       <div className="glass-card max-w-xl">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Disburse to landlord</h3></div>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]"><h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Disburse to landlord</h3></div>
         <div className="p-6">
           <form onSubmit={submit} className="space-y-4">
             <Field><FieldLabel>Listing reference / Agreement ID</FieldLabel><Input value={listingRef} onChange={e=>setListingRef(e.target.value)} required /></Field>
@@ -52,7 +52,7 @@ function DisbursementsForm() {
 
 export default function DisbursementsPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Loading…</div>}>
+    <Suspense fallback={<div className="p-6 text-sm text-zinc-600 dark:text-zinc-400">Loading…</div>}>
       <DisbursementsForm />
     </Suspense>
   );

@@ -121,7 +121,7 @@ export function NipostAddressWidget({
 
   // Not valid or no result yet
   return (
-    <Card className="p-6 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+    <Card className="p-6 border-zinc-200 dark:border-white/[0.08]">
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
           <MapPin className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />

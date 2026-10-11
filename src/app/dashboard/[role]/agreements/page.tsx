@@ -70,7 +70,7 @@ export default function AgreementsPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">Agreements</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <p className="text-zinc-600 dark:text-zinc-400">
             {role === 'landlord'
               ? 'Manage your rental agreements and track signatures'
               : 'View and sign your rental agreements'}
@@ -107,9 +107,9 @@ export default function AgreementsPage() {
           ) : filteredAgreements.length === 0 ? (
             <div className="glass-card p-12">
               <div className="text-center">
-                <FileText className="h-12 w-12 mx-auto text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-4" />
+                <FileText className="h-12 w-12 mx-auto text-zinc-600 dark:text-zinc-400 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">No agreements found</h3>
-                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-6">
+                <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                   {role === 'landlord'
                     ? 'Create your first agreement to get started'
                     : 'No agreements available at this time'}
@@ -140,7 +140,7 @@ export default function AgreementsPage() {
                         <h3 className="font-semibold truncate">
                           {agreement.listing?.title || 'Property'}
                         </h3>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 truncate">
+                        <p className="text-sm text-zinc-600 dark:text-zinc-400 truncate">
                           {agreement.listing?.address}
                         </p>
                       </div>
@@ -153,7 +153,7 @@ export default function AgreementsPage() {
 
                     {/* Other Party */}
                     <div>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400">
                         {role === 'landlord' ? 'Tenant' : 'Landlord'}
                       </p>
                       <p className="font-medium">
@@ -165,20 +165,20 @@ export default function AgreementsPage() {
 
                     {/* Rent Amount */}
                     <div>
-                      <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent Amount</p>
-                      <p className="text-lg font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400">Rent Amount</p>
+                      <p className="text-lg font-bold text-zinc-900 dark:text-white">
                         {formatCurrency(agreement.rentAmount || 0)}
-                        <span className="text-sm font-normal text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                        <span className="text-sm font-normal text-zinc-600 dark:text-zinc-400">
                           /{agreement.rentPeriod || 'month'}
                         </span>
                       </p>
                     </div>
 
                     {/* Dates */}
-                    <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-400">
                       <div>
                         <p>Start</p>
-                        <p className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">
+                        <p className="font-medium text-zinc-900 dark:text-white">
                           {agreement.startDate
                             ? format(new Date(agreement.startDate), 'MMM dd, yyyy')
                             : 'TBD'}
@@ -186,7 +186,7 @@ export default function AgreementsPage() {
                       </div>
                       <div>
                         <p>End</p>
-                        <p className="font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">
+                        <p className="font-medium text-zinc-900 dark:text-white">
                           {agreement.endDate
                             ? format(new Date(agreement.endDate), 'MMM dd, yyyy')
                             : 'TBD'}

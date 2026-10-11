@@ -39,7 +39,7 @@ function AuditLogsClient({
     if (lower.includes('blocked') || lower.includes('ban') || lower.includes('suspend'))
       return 'text-error';
     if (lower.includes('approve') || lower.includes('verify')) return 'text-[#10b981]';
-    return 'text-zinc-900 dark:text-zinc-900 dark:text-white';
+    return 'text-zinc-900 dark:text-white';
   };
 
   const dotColor = (action: string) => {
@@ -53,8 +53,8 @@ function AuditLogsClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-zinc-900 dark:text-white tracking-tight">System Audit Logs</h1>
-        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-body-md mt-1">
+        <h1 className="font-headline-lg text-headline-lg text-zinc-900 dark:text-white tracking-tight">System Audit Logs</h1>
+        <p className="text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 font-body-md mt-1">
           Comprehensive immutable records of all administrative and system-level activities.
         </p>
       </div>
@@ -66,29 +66,29 @@ function AuditLogsClient({
           { label: 'Security Flags', value: String(stats.suspiciousCount), sub: 'High/critical actions', icon: 'gpp_maybe', danger: true },
           { label: 'Admin Actions (30d)', value: stats.adminActionCount.toLocaleString(), sub: `${adminUsers.length} active admins`, icon: 'admin_panel_settings' },
         ].map((m) => (
-          <div key={m.label} className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none">
+          <div key={m.label} className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-lg shadow-none">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 font-medium">{m.label}</span>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 font-medium">{m.label}</span>
               <AppIcon name={m.icon} className="lucide" size={20} />
             </div>
             <div
-              className={`font-headline-lg text-headline-lg ${m.danger ? 'text-error' : 'text-zinc-900 dark:text-zinc-900 dark:text-white'}`}
+              className={`font-headline-lg text-headline-lg ${m.danger ? 'text-error' : 'text-zinc-900 dark:text-white'}`}
             >
               {m.value}
             </div>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">{m.sub}</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">{m.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Filter Bar */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface p-4 flex flex-wrap items-center gap-4">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface p-4 flex flex-wrap items-center gap-4">
         <span className="flex items-center gap-2 text-xs text-label-md __PHWHITE__ font-bold">
           <AppIcon name="filter_list" className="lucide" size={16} />
           Filters
         </span>
         <span className="h-6 w-px bg-outline-variant hidden sm:block" />
-        <select className="border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Administrators</option>
           {adminUsers.map((a) => (
             <option key={a.id} value={a.id}>
@@ -96,7 +96,7 @@ function AuditLogsClient({
             </option>
           ))}
         </select>
-        <select className="border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
+        <select className="border border-zinc-200 dark:border-white/[0.08] rounded-lg px-3 py-2 text-body-sm bg-surface focus:ring-2 focus:ring-primary/10 outline-none">
           <option value="">All Action Types</option>
           <option value="approve">Approve</option>
           <option value="reject">Reject</option>
@@ -107,19 +107,19 @@ function AuditLogsClient({
       </div>
 
       {/* Audit Table */}
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
+      <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-surface shadow-none overflow-hidden">
         {logs.length === 0 ? (
-          <p className="p-lg text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 text-center">No audit logs recorded yet.</p>
+          <p className="p-lg text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 text-center">No audit logs recorded yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-white dark:bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <tr className="bg-white dark:bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-white/[0.08]">
                   {['Timestamp', 'Administrator', 'Module', 'Action', 'Description', 'IP Address', 'Detail'].map(
                     (h) => (
                       <th
                         key={h}
-                        className="px-md py-3 text-xs text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 uppercase tracking-wider"
+                        className="px-md py-3 text-xs text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 uppercase tracking-wider"
                       >
                         {h}
                       </th>
@@ -129,23 +129,23 @@ function AuditLogsClient({
               </thead>
               <tbody className="divide-y divide-[#262626]">
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-white dark:bg-white dark:bg-zinc-900 transition-colors">
+                  <tr key={log.id} className="hover:bg-white dark:bg-zinc-900 transition-colors">
                     <td className="px-md py-3 whitespace-nowrap">
-                      <p className="text-xs text-label-md text-zinc-900 dark:text-zinc-900 dark:text-white">{formatDate(log.timestamp)}</p>
-                      <p className="font-label-sm text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{formatTime(log.timestamp)}</p>
+                      <p className="text-xs text-label-md text-zinc-900 dark:text-white">{formatDate(log.timestamp)}</p>
+                      <p className="font-label-sm text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{formatTime(log.timestamp)}</p>
                     </td>
                     <td className="px-md py-3 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-500-container flex items-center justify-center text-[14px] text-on-primary-container font-bold shrink-0">
                           {initials(log.admin?.fullName || 'System')}
                         </div>
-                        <span className="text-xs text-label-md text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-semibold">
+                        <span className="text-xs text-label-md text-zinc-900 dark:text-white font-semibold">
                           {log.admin?.fullName || 'System'}
                         </span>
                       </div>
                     </td>
                     <td className="px-md py-3 whitespace-nowrap">
-                      <span className="inline-block px-2 py-1 rounded bg-zinc-800 text-zinc-900 dark:text-zinc-900 dark:text-white text-xs uppercase font-bold">
+                      <span className="inline-block px-2 py-1 rounded bg-zinc-800 text-zinc-900 dark:text-white text-xs uppercase font-bold">
                         {log.targetType}
                       </span>
                     </td>
@@ -158,13 +158,13 @@ function AuditLogsClient({
                       </div>
                     </td>
                     <td className="px-md py-3">
-                      <p className="text-body-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 max-w-xs truncate">
+                      <p className="text-body-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 max-w-xs truncate">
                         {typeof log.details === 'object' && log.details !== null
                           ? JSON.stringify(log.details).slice(0, 120)
                           : String(log.details ?? '')}
                       </p>
                     </td>
-                    <td className="px-md py-3 whitespace-nowrap font-label-sm text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+                    <td className="px-md py-3 whitespace-nowrap font-label-sm text-label-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
                       {log.ipAddress || '—'}
                     </td>
                     <td className="px-md py-3 text-center">
@@ -176,11 +176,11 @@ function AuditLogsClient({
             </table>
           </div>
         )}
-        <div className="px-6 py-3 border-t border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
-          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+        <div className="px-6 py-3 border-t border-zinc-200 dark:border-white/[0.08] flex items-center justify-between">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
             Showing {logs.length > 0 ? '1' : 0} to {logs.length} of {stats.todayCount.toLocaleString()} entries
           </p>
-          <span className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Latest {logs.length} records fetched</span>
+          <span className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Latest {logs.length} records fetched</span>
         </div>
       </div>
     </div>

@@ -35,40 +35,40 @@ export default async function AdminPaymentsPage() {
 
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Payments</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Monitor escrow, rent, and agreement payments across the platform.</p>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Payments</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-1">Monitor escrow, rent, and agreement payments across the platform.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Total Transactions</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">{totalTransactions.toLocaleString()}</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Total Transactions</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">{totalTransactions.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Pending</p>
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Pending</p>
             <p className="text-2xl font-bold text-amber-600 mt-2">{pendingTxns.toLocaleString()}</p>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">Recent Volume</p>
-            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mt-2">
+          <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950 p-6 ">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm">Recent Volume</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white mt-2">
               {formatCurrency(Number(recentTransactions.reduce((sum, t) => sum + Number(t.amount), 0)))}
             </p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
-          <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Transactions</h2>
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950  overflow-hidden">
+          <div className="px-6 py-4 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Recent Transactions</h2>
           </div>
           {recentTransactions.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No payment data yet.</p>
+              <p className="text-zinc-600 dark:text-zinc-400">No payment data yet.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                  <tr className="border-b border-zinc-200 dark:border-white/[0.08] text-left text-zinc-600 dark:text-zinc-400">
                     <th className="p-3 font-medium">Reference</th>
                     <th className="p-3 font-medium">Listing</th>
                     <th className="p-3 font-medium">Payer</th>
@@ -79,14 +79,14 @@ export default async function AdminPaymentsPage() {
                 </thead>
                 <tbody>
                   {recentTransactions.map((tx) => (
-                    <tr key={tx.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/50">
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white font-mono text-xs">{tx.reference ?? tx.id}</td>
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{tx.listing?.title ?? '—'}</td>
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{tx.payer?.fullName ?? '—'}</td>
-                      <td className="p-3 text-zinc-900 dark:text-zinc-900 dark:text-white">{tx.payee?.fullName ?? '—'}</td>
+                    <tr key={tx.id} className="border-b border-zinc-200 dark:border-white/[0.08] last:border-0 hover:bg-zinc-100 dark:hover:bg-white dark:bg-zinc-900/50">
+                      <td className="p-3 text-zinc-900 dark:text-white font-mono text-xs">{tx.reference ?? tx.id}</td>
+                      <td className="p-3 text-zinc-900 dark:text-white">{tx.listing?.title ?? '—'}</td>
+                      <td className="p-3 text-zinc-900 dark:text-white">{tx.payer?.fullName ?? '—'}</td>
+                      <td className="p-3 text-zinc-900 dark:text-white">{tx.payee?.fullName ?? '—'}</td>
                       <td className="p-3 text-right">{formatCurrency(Number(tx.amount))}</td>
                       <td className="p-3">
-                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white">
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white">
                           {tx.status.replace(/_/g, ' ')}
                         </span>
                       </td>

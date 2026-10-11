@@ -54,8 +54,8 @@ export default async function LandlordLeasesPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">Leases</h1>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Leases</h1>
+            <p className="text-zinc-600 dark:text-zinc-400 mt-1">Overview of lease agreements, expiry dates, and tenant details.</p>
           </div>
           <Link
             href="/dashboard/landlord/agreements/new"
@@ -71,29 +71,29 @@ export default async function LandlordLeasesPage() {
           <StatCard label="Expired / Terminated" value={String(stats.expired)} trend="Needs attention" />
         </div>
 
-        <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 shadow-none">
+        <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 shadow-none">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Property</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Tenant</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Status</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Start Date</th>
-                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">End Date</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Rent</th>
+                <tr className="border-b border-zinc-200 dark:border-white/[0.08]">
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Property</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Tenant</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Status</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">Start Date</th>
+                  <th className="px-4 py-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">End Date</th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-zinc-600 dark:text-zinc-400">Rent</th>
                 </tr>
               </thead>
               <tbody>
                 {leases.map((lease) => (
-                  <tr key={lease.id} className="border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                  <tr key={lease.id} className="border-b border-zinc-200 dark:border-white/[0.08]">
                     <td className="px-4 py-3 font-medium">{lease.listing.title}</td>
                     <td className="px-4 py-3">{lease.tenant.fullName}</td>
                     <td className="px-4 py-3">{statusBadge(lease.status)}</td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
                       {lease.startDate ? new Date(lease.startDate).toLocaleDateString('en-NG') : '—'}
                     </td>
-                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
                       {lease.endDate ? new Date(lease.endDate).toLocaleDateString('en-NG') : '—'}
                     </td>
                     <td className="px-4 py-3 text-right font-mono">
@@ -105,8 +105,8 @@ export default async function LandlordLeasesPage() {
             </table>
             {leases.length === 0 && (
               <div className="p-12 text-center">
-                <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No lease agreements yet.</p>
-                <Link href="/dashboard/landlord/agreements/new" className="text-sm text-zinc-900 dark:text-zinc-900 dark:text-white mt-2 inline-block hover:underline">
+                <p className="text-zinc-600 dark:text-zinc-400">No lease agreements yet.</p>
+                <Link href="/dashboard/landlord/agreements/new" className="text-sm text-zinc-900 dark:text-white mt-2 inline-block hover:underline">
                   Create your first agreement
                 </Link>
               </div>

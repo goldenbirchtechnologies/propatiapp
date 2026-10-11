@@ -77,8 +77,8 @@ export default function PortfolioPage() {
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-4" />
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No organization found</p>
+        <Building2 className="h-16 w-16 text-zinc-600 dark:text-zinc-400 mb-4" />
+        <p className="text-zinc-600 dark:text-zinc-400">No organization found</p>
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function PortfolioPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Portfolio</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <p className="text-zinc-600 dark:text-zinc-400">
             Manage all properties under {org.name}
           </p>
         </div>
@@ -114,9 +114,9 @@ export default function PortfolioPage() {
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3 animate-fadeIn">
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-sm font-medium">Total Units</h3>
-            <Home className="h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Total Units</h3>
+            <Home className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
           </div>
           <div className="p-6">
             <div className="text-2xl font-bold">{totalUnits}</div>
@@ -124,8 +124,8 @@ export default function PortfolioPage() {
         </div>
 
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-sm font-medium">Occupied</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Occupied</h3>
             <Building2 className="h-4 w-4 text-emerald-500" />
           </div>
           <div className="p-6">
@@ -134,8 +134,8 @@ export default function PortfolioPage() {
         </div>
 
         <div className="glass-card bg-gradient-to-br from-primary/10 via-primary/20 to-primary/30 hover:shadow-xl transition-shadow duration-200 animate-fadeIn">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-sm font-medium">Vacant</h3>
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-sm font-medium">Vacant</h3>
             <Building2 className="h-4 w-4 text-emerald-500" />
           </div>
           <div className="p-6">
@@ -149,7 +149,7 @@ export default function PortfolioPage() {
         <div className="p-6 pt-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-600 dark:text-zinc-400" />
               <Input
                 placeholder="Search by title or address..."
                 value={searchQuery}
@@ -184,8 +184,8 @@ export default function PortfolioPage() {
 
       {/* Units Table */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Units ({filteredListings.length})</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Units ({filteredListings.length})</h3>
         </div>
         <div className="p-6">
           {filteredListings.length > 0 ? (
@@ -209,7 +209,7 @@ export default function PortfolioPage() {
                       <TableCell>
                         <div>
                           <p className="font-medium">{listing.title}</p>
-                          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                          <p className="text-sm text-zinc-600 dark:text-zinc-400">
                             {listing.address}
                           </p>
                         </div>
@@ -272,8 +272,8 @@ export default function PortfolioPage() {
             </Table>
           ) : (
             <div className="text-center py-12">
-              <Home className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 opacity-50" />
-              <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">No units found</p>
+              <Home className="h-12 w-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-400 opacity-50" />
+              <p className="text-zinc-600 dark:text-zinc-400">No units found</p>
               <Button asChild className="mt-4" variant="outline">
                 <Link href={`/dashboard/landlord/properties/new`}>
                   <Plus className="mr-2 h-4 w-4" />

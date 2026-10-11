@@ -264,17 +264,17 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">List to Marketplace</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-2">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">List to Marketplace</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-2">
             Create a live marketplace listing from a vacant unit in your properties.
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-white dark:bg-zinc-950/50 p-12 text-center">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-zinc-950/50 p-12 text-center">
           <div className="mx-auto w-16 h-16 rounded-full bg-muted/40 flex items-center justify-center mb-4">
-            <Building2 className="w-8 h-8 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+            <Building2 className="w-8 h-8 text-zinc-600 dark:text-zinc-400" />
           </div>
-          <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mb-2">No Vacant Units Available</h3>
-          <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mb-6 max-w-md mx-auto">
+          <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">No Vacant Units Available</h3>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 max-w-md mx-auto">
             To publish a listing to the marketplace, you need at least one vacant unit in your property portfolio.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -291,7 +291,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               </Link>
             </Button>
           </div>
-          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-3">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-3">
             You can also add a unit to an existing property from your properties list.
           </p>
         </div>
@@ -316,8 +316,8 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white">List to Marketplace</h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-2">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">List to Marketplace</h1>
+        <p className="text-zinc-600 dark:text-zinc-400 mt-2">
           Create a live marketplace listing from a vacant unit in your properties.
         </p>
       </div>
@@ -335,10 +335,10 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
 
       <div className="space-y-6 pb-20">
         {/* Listing Type — Zillow fork (Rent / Buy / Shortlet / Commercial / Share) */}
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-white dark:bg-white dark:bg-[#F8FAFC] dark:bg-black overflow-hidden">
-          <div className="p-6 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b]/50">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">What are you listing?</h2>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Choose one — the rest of the form adapts (Zillow Rentals merged)</p>
+        <div className="rounded-xl border border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-white dark:bg-white dark:bg-[#F8FAFC] dark:bg-black overflow-hidden">
+          <div className="p-6 border-b border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b]/50">
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">What are you listing?</h2>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Choose one — the rest of the form adapts (Zillow Rentals merged)</p>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -355,10 +355,10 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     key={t.id}
                     type="button"
                     onClick={() => form.setValue('listingType', t.id as any)}
-                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-zinc-900 dark:text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] text-zinc-700 dark:text-zinc-600 dark:text-zinc-400 hover:border-emerald-500/30'}`}
+                    className={`p-3 rounded-xl border text-left transition-all ${active ? 'bg-emerald-600 border-emerald-600 text-zinc-900 dark:text-white shadow-md' : 'bg-white dark:bg-zinc-50 dark:bg-[#18181b] border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] text-zinc-700 dark:text-zinc-400 hover:border-emerald-500/30'}`}
                   >
                     <div className="text-sm font-semibold">{t.label}</div>
-                    <div className={`text-xs ${active ? 'text-zinc-900 dark:text-zinc-900 dark:text-white/80' : 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'}`}>{t.desc}</div>
+                    <div className={`text-xs ${active ? 'text-zinc-900 dark:text-white/80' : 'text-zinc-600 dark:text-zinc-400'}`}>{t.desc}</div>
                   </button>
                 );
               })}
@@ -374,8 +374,8 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 <Building2 className="w-4 h-4 text-emerald-400" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Property Source</h2>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">{form.watch('listingType') === 'sale' ? 'Sale — no unit required (uses property directly)' : 'Select a vacant unit — required to publish'}</p>
+                <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Property Source</h2>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{form.watch('listingType') === 'sale' ? 'Sale — no unit required (uses property directly)' : 'Select a vacant unit — required to publish'}</p>
               </div>
               {needsUnit && !selectedUnitId && <span className="ml-auto text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1">Required</span>}
               {selectedUnitId && <span className="ml-auto flex items-center gap-1 text-xs font-medium text-emerald-400"><CheckCircle2 className="w-3.5 h-3.5" /> Selected</span>}
@@ -384,12 +384,12 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
           <div className="p-6 space-y-4">
             {needsUnit ? (
               <div>
-                <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1.5">Vacant Unit <span className="text-red-400">*</span></label>
+                <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1.5">Vacant Unit <span className="text-red-400">*</span></label>
                 <Select value={selectedUnitId} onValueChange={(value) => {
                   setSelectedUnitId(value);
                   setClientErrors([]);
                 }}>
-                  <SelectTrigger className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white rounded-lg h-11">
+                  <SelectTrigger className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white rounded-lg h-11">
                     <SelectValue placeholder="Select a vacant unit from your properties" />
                   </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a]">
@@ -398,9 +398,9 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                       if (!units.length) return null;
                       return (
                         <div key={listing.id}>
-                          <p className="px-2 py-1 text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">{listing.title.length > 40 ? `${listing.title.slice(0, 40)}…` : listing.title}</p>
+                          <p className="px-2 py-1 text-xs text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">{listing.title.length > 40 ? `${listing.title.slice(0, 40)}…` : listing.title}</p>
                           {units.map((unit) => (
-                            <SelectItem key={unit.id} value={unit.id} className="text-zinc-600 dark:text-zinc-400 focus:bg-zinc-50 dark:bg-[#18181b] focus:text-zinc-900 dark:text-zinc-900 dark:text-white">
+                            <SelectItem key={unit.id} value={unit.id} className="text-zinc-600 dark:text-zinc-400 focus:bg-zinc-50 dark:bg-[#18181b] focus:text-zinc-900 dark:text-white">
                               Unit {unit.unitNumber} {unit.buildingName ? `• ${unit.buildingName}` : ''} — {unit.bedrooms ?? 0}bd/{unit.bathrooms ?? 0}ba
                             </SelectItem>
                           ))}
@@ -409,26 +409,26 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     })}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1.5">Choose a unit to auto-populate listing details. Remaining fields will unlock after selection.</p>
               </div>
             ) : (
-              <div className="rounded-lg border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b] p-4">
+              <div className="rounded-lg border border-zinc-200 dark:border-white/[0.08] dark:border-[#27272a] bg-zinc-50 dark:bg-zinc-50 dark:bg-[#18181b] p-4">
                 <p className="text-sm font-medium __PHWHITE__">Sale listing</p>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">No unit selection needed — this will list the property itself. Fill in sale price and ownership docs below.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">No unit selection needed — this will list the property itself. Fill in sale price and ownership docs below.</p>
               </div>
             )}
             {autoFilledSource && (
               <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3">
                 <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Auto-filled from</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Auto-filled from</span>
                 <Badge variant="secondary" className="text-xs border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black text-zinc-600 dark:text-zinc-400">{autoFilledSource}</Badge>
-                <Button type="button" variant="ghost" size="sm" className="ml-auto h-7 gap-1 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white" onClick={() => { setAutoFilledSource(null); setSelectedUnitId(''); }}>
+                <Button type="button" variant="ghost" size="sm" className="ml-auto h-7 gap-1 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white" onClick={() => { setAutoFilledSource(null); setSelectedUnitId(''); }}>
                   <Pencil className="h-3 w-3" /> Change
                 </Button>
               </div>
             )}
             {verificationStatus && verificationStatus !== 'certified' ? (
-              <Button type="button" variant="outline" size="sm" className="border-zinc-200 dark:border-[#27272a] bg-transparent text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white" onClick={() => router.push('/dashboard/verification?type=property')}>
+              <Button type="button" variant="outline" size="sm" className="border-zinc-200 dark:border-[#27272a] bg-transparent text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white" onClick={() => router.push('/dashboard/verification?type=property')}>
                 <ShieldCheck className="mr-2 h-4 w-4" /> Verify property for better visibility
               </Button>
             ) : null}
@@ -440,11 +440,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
           <div className="p-6 border-b border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]/50">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-zinc-200 dark:border-[#27272a] flex items-center justify-center shrink-0">
-                <ImageIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
+                <ImageIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Media</h2>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Drag & drop photos • First image is the cover</p>
+                <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">Media</h2>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Drag & drop photos • First image is the cover</p>
               </div>
             </div>
           </div>
@@ -462,10 +462,10 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               className="rounded-xl border-2 border-dashed border-zinc-200 dark:border-[#27272a] bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black p-8 text-center hover:border-emerald-500/30 hover:bg-white dark:bg-[#F8FAFC] dark:bg-black transition-colors"
             >
               <div className="w-12 h-12 rounded-xl bg-zinc-50 dark:bg-[#18181b] border border-zinc-200 dark:border-[#27272a] flex items-center justify-center mx-auto mb-3">
-                <Upload className="w-6 h-6 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+                <Upload className="w-6 h-6 text-zinc-600 dark:text-zinc-400" />
               </div>
-              <p className="text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white">Drag & drop images here</p>
-              <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">or click to browse • PNG, JPG up to 10MB • Up to 10 photos</p>
+              <p className="text-sm font-medium text-zinc-900 dark:text-white">Drag & drop images here</p>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">or click to browse • PNG, JPG up to 10MB • Up to 10 photos</p>
               <label className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white px-4 py-2 text-sm font-medium cursor-pointer">
                 <Plus className="w-4 h-4" /> Browse files
                 <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
@@ -500,7 +500,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                   >
                     <img src={img.url} alt={`Listing ${idx + 1}`} className="w-full h-full object-cover" />
                     {idx === 0 && (
-                      <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-amber-500 text-zinc-900 dark:text-zinc-900 dark:text-white px-2 py-0.5 text-xs font-medium">
+                      <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-amber-500 text-zinc-900 dark:text-white px-2 py-0.5 text-xs font-medium">
                         <Star className="w-3 h-3" /> Cover
                       </span>
                     )}
@@ -512,7 +512,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                 ))}
               </div>
             )}
-            {listingImages.length > 0 && <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-2">Drag to reorder • First image is used as the featured cover photo</p>}
+            {listingImages.length > 0 && <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2">Drag to reorder • First image is used as the featured cover photo</p>}
           </div>
         </div>
 
@@ -533,11 +533,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
               <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black overflow-hidden">
                 <div className="p-6 border-b border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]/50 flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-zinc-200 dark:border-[#27272a] flex items-center justify-center shrink-0">
-                    <Store className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
+                    <Store className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Basic Information</h3>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Title and listing category</p>
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Basic Information</h3>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Title and listing category</p>
                   </div>
                 </div>
                 <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -548,7 +548,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     <FormItem className="md:col-span-2">
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} className="placeholder:text-zinc-900 dark:text-zinc-900 dark:text-white/40" />
+                        <Input placeholder="e.g., Modern 3-Bed Apartment in Lekki" {...field} className="placeholder:text-zinc-900 dark:text-white/40" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -611,48 +611,48 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black overflow-hidden">
               <div className="p-6 border-b border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]/50 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-zinc-200 dark:border-[#27272a] flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
+                  <MapPin className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Location & Pricing</h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Where it is and what it costs</p>
+                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Location & Pricing</h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Where it is and what it costs</p>
                 </div>
               </div>
               <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1.5">Address</label>
-                  <Input placeholder="Full street address" {...form.register('address')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 rounded-lg" />
+                  <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1.5">Address</label>
+                  <Input placeholder="Full street address" {...form.register('address')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-400 rounded-lg" />
                   {form.formState.errors.address && <p className="text-xs text-red-500 mt-1">{form.formState.errors.address.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1.5">Area</label>
-                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 rounded-lg" />
+                  <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1.5">Area</label>
+                  <Input placeholder="e.g., Lekki Phase 1" {...form.register('area')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-400 rounded-lg" />
                   {form.formState.errors.area && <p className="text-xs text-red-500 mt-1">{form.formState.errors.area.message}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1.5">State</label>
-                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 rounded-lg" />
+                  <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1.5">State</label>
+                  <Input placeholder="e.g., Lagos" {...form.register('state')} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-400 rounded-lg" />
                   {form.formState.errors.state && <p className="text-xs text-red-500 mt-1">{form.formState.errors.state.message}</p>}
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1.5">
+                  <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1.5">
                     Price {form.watch('listingType') === 'short_let' ? '(per night)' : form.watch('listingType') === 'sale' ? '(total price)' : '(per month)'}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div className="relative sm:col-span-2">
-                      <span className="absolute inset-y-0 left-3 flex items-center text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 text-sm">₦</span>
+                      <span className="absolute inset-y-0 left-3 flex items-center text-zinc-600 dark:text-zinc-400 text-sm">₦</span>
                       <Input
                         type="number"
                         placeholder={form.watch('listingType') === 'short_let' ? 'e.g., 25,000' : '500,000'}
-                        className="pl-8 bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 rounded-lg"
+                        className="pl-8 bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-400 rounded-lg"
                         {...form.register('price', { valueAsNumber: true })}
                       />
                       {form.formState.errors.price && <p className="text-xs text-red-500 mt-1">{form.formState.errors.price.message}</p>}
                     </div>
                     <Select value={form.watch('pricePeriod')} onValueChange={(value) => form.setValue('pricePeriod', value as ListingInput['pricePeriod'])}>
-                      <SelectTrigger className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white rounded-lg">
+                      <SelectTrigger className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white rounded-lg">
                         <SelectValue placeholder={form.watch('listingType') === 'short_let' ? 'Per Night' : 'Per Month'} />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a]">
@@ -672,7 +672,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     </Select>
                   </div>
                   {form.watch('listingType') === 'short_let' && (
-                    <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">Short-let pricing is typically set per night. Use Total only for fixed-stay packages.</p>
                   )}
                 </div>
               </div>
@@ -682,11 +682,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
             <div className="rounded-xl border border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black overflow-hidden">
               <div className="p-6 border-b border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b]/50 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-zinc-800 border border-zinc-200 dark:border-[#27272a] flex items-center justify-center shrink-0">
-                  <Megaphone className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
+                  <Megaphone className="w-4 h-4 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Marketing Details</h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">Make your listing stand out</p>
+                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">Marketing Details</h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">Make your listing stand out</p>
                 </div>
               </div>
               <div className="p-6">
@@ -697,7 +697,7 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
                     <FormItem>
                       <FormLabel className="text-zinc-600 dark:text-zinc-400">Description</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe the property, highlights, neighborhood, access…" {...field} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 rounded-lg min-h-[120px]" />
+                        <Textarea rows={5} placeholder="Describe the property, highlights, neighborhood, access…" {...field} className="bg-[#F8FAFC] dark:bg-[#F8FAFC] dark:bg-black border-zinc-200 dark:border-[#27272a] text-zinc-900 dark:text-white placeholder:text-zinc-600 dark:text-zinc-400 rounded-lg min-h-[120px]" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -713,11 +713,11 @@ export default function AddListingClient({ listings, vacantUnits }: Props) {
       {/* Sticky action bar */}
       <div className="fixed bottom-0 left-0 right-0 lg:left-[260px] border-t border-zinc-200 dark:border-[#27272a] bg-white dark:bg-[#F8FAFC] dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white dark:bg-[#F8FAFC] dark:bg-black/80 p-4 z-20">
         <div className="max-w-7xl mx-auto flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-xs text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 hidden sm:block">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 hidden sm:block">
             {needsUnit && !selectedUnitId ? 'Select a vacant unit to publish' : `${listingImages.length} photo${listingImages.length === 1 ? '' : 's'} • Ready to publish`}
           </p>
           <div className="flex items-center gap-2 justify-end">
-            <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white rounded-lg">
+            <Button type="button" variant="outline" onClick={() => router.back()} className="border-zinc-200 dark:border-[#27272a] bg-zinc-50 dark:bg-[#18181b] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white rounded-lg">
               <ArrowLeft className="mr-2 h-4 w-4" /> Cancel
             </Button>
             <Button type="button" onClick={handleSubmitClick} disabled={submitting || (needsUnit && (!selectedUnitId || safeVacantUnits.length === 0))} className="bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white shadow-lg shadow-emerald-600/20 rounded-lg disabled:opacity-40">

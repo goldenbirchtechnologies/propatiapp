@@ -31,7 +31,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
   const statusColors: Record<string, { class: string; label: string; icon: React.ReactNode }> = {
     not_started: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Not Started', icon: <Clock className="w-3 h-3 mr-1" /> },
-    in_progress: { class: 'bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
+    in_progress: { class: 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20', label: 'In Progress', icon: <Clock className="w-3 h-3 mr-1" /> },
     certified: { class: 'bg-success/10 text-[#10b981] border-success/20', label: 'Verified ✓', icon: <CheckCircle className="w-3 h-3 mr-1" /> },
     rejected: { class: 'bg-red-500/10 text-red-500 border-red-500/20', label: 'Rejected', icon: <Clock className="w-3 h-3 mr-1" /> },
     pending: { class: 'bg-warning/10 text-warning border-warning/20', label: 'Pending Review', icon: <Clock className="w-3 h-3 mr-1" /> },
@@ -41,22 +41,22 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-bold font-headline-sm text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">
+        <h1 className="font-heading font-bold font-headline-sm text-zinc-900 dark:text-white text-zinc-900 dark:text-white">
           Verifications
         </h1>
-        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+        <p className="text-zinc-600 dark:text-zinc-400">
           Track 5-layer property verification and tier status.
         </p>
       </div>
 
       <DashboardSection loading={false} error={null}>
         {initialVerifications.length === 0 ? (
-          <div className="bg-white dark:bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]-body text-center py-16">
-            <Shield className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.5 }} />
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+          <div className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08]-body text-center py-16">
+            <Shield className="w-16 h-16 mx-auto mb-4 text-zinc-600 dark:text-zinc-400" style={{ opacity: 0.5 }} />
+            <h3 className="text-zinc-900 dark:text-white">
               No verifications
             </h3>
-            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <p className="text-zinc-600 dark:text-zinc-400">
               Start a verification for your listings to earn the Certified badge.
             </p>
             <Link href="/dashboard/landlord/properties/new" className="btn btn-primary mt-4">
@@ -76,19 +76,19 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
               const progress = Math.round((approvedCount / 5) * 100);
 
               return (
-                <div key={v.id} className="bg-white dark:bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] p-6">
+                <div key={v.id} className="bg-white dark:bg-zinc-950/50 rounded-xl border border-zinc-200 dark:border-white/[0.08] p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className="bg-white dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white"
+                        className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white"
                       >
                         <BuildingIcon className="w-6 h-6" />
                       </div>
                       <div>
-                        <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+                        <h3 className="text-zinc-900 dark:text-white">
                           {v.listing?.title || 'Unknown'}
                         </h3>
-                        <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                        <p className="text-zinc-600 dark:text-zinc-400">
                           {v.listing?.address}
                         </p>
                       </div>
@@ -101,7 +101,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
 
                   {/* Progress */}
                   <div className="mb-4">
-                    <div className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <div className="text-zinc-600 dark:text-zinc-400">
                       <AppIcon name="Progress" className="lucide" />
                       <AppIcon name="{progress}%" className="lucide" />
                     </div>
@@ -125,29 +125,29 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                         <div
                           key={layer.key}
                           className={`flex items-center gap-3 p-3 rounded-lg ${
-                            isCurrent ? 'bg-white dark:bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : 'border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-transparent'
+                            isCurrent ? 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.08]' : 'border border-zinc-200 dark:border-white/[0.08] bg-transparent'
                           } ${
                             isApproved
                               ? 'bg-[#10b981]/10 text-[#10b981]'
                               : isCurrent
-                                ? 'bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white'
-                                : 'bg-outline-variant text-zinc-600 dark:text-zinc-600 dark:text-zinc-400'
+                                ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white'
+                                : 'bg-outline-variant text-zinc-600 dark:text-zinc-400'
                           }`}
                         >
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${
                             isApproved
                               ? 'bg-[#10b981]/10 text-[#10b981] border-[#10b981]/20'
                               : isCurrent
-                                ? 'bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]/20'
-                                : 'bg-outline-variant text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]'
+                                ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]/20'
+                                : 'bg-outline-variant text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/[0.08]'
                           }`}>
                             {isApproved ? <CheckCircle className="w-4 h-4" /> : <AppIcon name={index + 1} className="lucide" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-zinc-900 dark:text-zinc-900 dark:text-white">
+                            <p className="text-zinc-900 dark:text-white">
                               {layer.label}
                             </p>
-                            <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                            <p className="text-zinc-600 dark:text-zinc-400">
                               {layer.desc}
                             </p>
                           </div>
@@ -161,7 +161,7 @@ export default function LandlordVerifyClient({ initialVerifications }: { initial
                   </div>
 
                   {/* Actions */}
-                  <div className="border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex items-center gap-2">
+                  <div className="border-zinc-200 dark:border-white/[0.08] flex items-center gap-2">
                     <Link
                       href={`/dashboard/landlord/properties/${v.listingId}`}
                       className="btn btn-secondary w-full justify-center"

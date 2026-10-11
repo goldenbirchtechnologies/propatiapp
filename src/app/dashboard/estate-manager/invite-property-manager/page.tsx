@@ -106,13 +106,13 @@ export default function InvitePropertyManagerPage() {
         <div className="space-y-1">
           <Link
             href="/dashboard/estate-manager/team"
-            className="inline-flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-zinc-900 dark:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors"
           >
             <ArrowLeft className="size-4" />
             Back
           </Link>
-          <h1 className="font-heading text-headline-lg text-zinc-900 dark:text-zinc-900 dark:text-white">Invite property manager</h1>
-          <p className="text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">They'll get an email to accept the invite</p>
+          <h1 className="font-heading text-headline-lg text-zinc-900 dark:text-white">Invite property manager</h1>
+          <p className="text-zinc-600 dark:text-zinc-400">They'll get an email to accept the invite</p>
         </div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
@@ -154,7 +154,7 @@ export default function InvitePropertyManagerPage() {
               className="max-w-xl dark:bg-zinc-800/60 dark:placeholder:text-gray-400"
               required
             />
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               If they don't have an account, they'll be prompted to create one when they accept.
             </p>
           </div>
@@ -164,8 +164,8 @@ export default function InvitePropertyManagerPage() {
         <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-4">
             <div className="space-y-1">
-              <h2 className="font-label-sm uppercase tracking-wide text-zinc-900 dark:text-zinc-900 dark:text-white">Permissions</h2>
-              <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+              <h2 className="font-label-sm uppercase tracking-wide text-zinc-900 dark:text-white">Permissions</h2>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 Pick what this property manager can do. You can change this later.
               </p>
             </div>
@@ -181,21 +181,21 @@ export default function InvitePropertyManagerPage() {
                     className={cn(
                       'text-left rounded-xl border p-4 transition-all',
                       isSelected
-                        ? 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
-                        : 'border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-100 dark:hover:bg-zinc-900est'
+                        ? 'border-zinc-200 dark:border-white/[0.08] bg-emerald-500/5 shadow-none shadow-emerald-500/10'
+                        : 'border-zinc-200 dark:border-white/[0.08] hover:border-white/40 hover:bg-zinc-100 dark:hover:bg-zinc-900est'
                     )}
                   >
                     <div className="flex items-start gap-3">
                       <div className="mt-0.5">
                         {isSelected ? (
-                          <CheckCircle2 className="h-4 w-4 text-zinc-900 dark:text-zinc-900 dark:text-white" />
+                          <CheckCircle2 className="h-4 w-4 text-zinc-900 dark:text-white" />
                         ) : (
-                          <div className="h-4 w-4 rounded-md border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]" />
+                          <div className="h-4 w-4 rounded-md border border-zinc-200 dark:border-white/[0.08]" />
                         )}
                       </div>
                       <div className="space-y-1">
-                        <p className="font-medium text-sm text-zinc-900 dark:text-zinc-900 dark:text-white">{permission.label}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                        <p className="font-medium text-sm text-zinc-900 dark:text-white">{permission.label}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 leading-relaxed">
                           {permission.description}
                         </p>
                       </div>
@@ -210,12 +210,12 @@ export default function InvitePropertyManagerPage() {
         {/* Scope */}
         <div className="glass-card p-6 border-0 ring-1 ring-foreground/5">
           <div className="space-y-2">
-            <h2 className="font-label-sm uppercase tracking-wide text-zinc-900 dark:text-zinc-900 dark:text-white">Scope</h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <h2 className="font-label-sm uppercase tracking-wide text-zinc-900 dark:text-white">Scope</h2>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Leave empty to apply to all current and future properties. Add a property first to scope the property manager.
             </p>
             <div className="max-w-xl">
-              <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-900 dark:text-white mb-1">Property</label>
+              <label className="block text-sm font-medium text-zinc-900 dark:text-white mb-1">Property</label>
               <select
                 value={selectedListingId}
                 onChange={(e) => setSelectedListingId(e.target.value)}
@@ -228,9 +228,9 @@ export default function InvitePropertyManagerPage() {
                   </option>
                 ))}
               </select>
-              {listingsLoading && <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">Loading properties...</p>}
+              {listingsLoading && <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">Loading properties...</p>}
               {!listingsLoading && !(listingsData?.data || []).length && (
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">No properties found.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">No properties found.</p>
               )}
             </div>
           </div>

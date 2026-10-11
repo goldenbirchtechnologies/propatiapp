@@ -146,7 +146,7 @@ export default function Step3Location({ value, onChange }: Step3Props) {
         <div className="p-4 space-y-4 border-t">
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-600 dark:text-zinc-400" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

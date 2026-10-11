@@ -15,7 +15,7 @@ type Props = {
 function VerificationBadge({ verification }: { verification: Props['verification'] }) {
   if (!verification) {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+      <span className="inline-flex items-center gap-1 rounded-full bg-zinc-50 dark:bg-white dark:bg-zinc-900 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
         Not Started
       </span>
     );
@@ -24,13 +24,13 @@ function VerificationBadge({ verification }: { verification: Props['verification
   switch (verification.overallStatus) {
     case 'not_started':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           Not Started
         </span>
       );
     case 'in_progress':
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-bold text-zinc-900 dark:text-white border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-zinc-900 dark:text-white dark:border-emerald-500/30">
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs font-bold text-zinc-900 dark:text-white border border-emerald-500/20 dark:bg-emerald-500/20 dark:text-white dark:border-emerald-500/30">
           <svg
             width="10"
             height="10"
@@ -60,7 +60,7 @@ function VerificationBadge({ verification }: { verification: Props['verification
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+        <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/[0.08]">
           {verification.overallStatus}
         </span>
       );
@@ -80,8 +80,8 @@ export default function PropertyHeader({
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold text-zinc-900 dark:text-zinc-900 dark:text-white tracking-tight">{title}</h1>
-          <p className="flex items-center gap-1 mt-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+          <h1 className="text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">{title}</h1>
+          <p className="flex items-center gap-1 mt-1 text-zinc-600 dark:text-zinc-400">
             <MapPin className="h-4 w-4" />
             {location}
           </p>

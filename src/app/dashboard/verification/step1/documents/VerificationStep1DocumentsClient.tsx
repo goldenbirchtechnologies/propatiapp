@@ -123,10 +123,10 @@ function Step1DocumentsClient(props: Props) {
   return (
     <div className="space-y-6">
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">Progress</h3>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Progress</h3>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mt-1">
               {REQUIRED_DOCS.length} document categories required
             </p>
           </div>
@@ -142,23 +142,23 @@ function Step1DocumentsClient(props: Props) {
           const hasDoc = (counts[type] || 0) > 0;
           return (
             <div className="glass-card" key={type} className={hasDoc ? 'border-success/30' : 'border-dashed'}>
-              <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-2">
                   {hasDoc ? (
                     <CheckCircle2 className="h-5 w-5 text-[#10b981]" />
                   ) : (
-                    <AlertCircle className="h-5 w-5 text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400" />
+                    <AlertCircle className="h-5 w-5 text-zinc-600 dark:text-zinc-400 dark:text-zinc-400" />
                   )}
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-base">{docLabels[type]}</h3>
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-base">{docLabels[type]}</h3>
                 </div>
                 <Badge variant={hasDoc ? 'default' : 'outline'}>{hasDoc ? 'Uploaded' : 'Required'}</Badge>
               </div>
               <div className="p-6">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mb-3">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 mb-3">
                   {hasDoc ? 'Document uploaded and ready for review' : 'Please upload this document to continue'}
                 </p>
                 {!isReadOnly && (
-                  <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-zinc-900 dark:text-zinc-900 dark:text-white cursor-pointer hover:opacity-90 transition">
+                  <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-zinc-900 dark:text-white cursor-pointer hover:opacity-90 transition">
                     <Upload className="h-4 w-4" />
                     <span className="text-sm font-medium">{uploading ? 'Uploading...' : 'Upload'}</span>
                     <input
@@ -177,7 +177,7 @@ function Step1DocumentsClient(props: Props) {
       </div>
 
       <div className="flex justify-between items-center pt-4 border-t">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">
           {currentStatusLabel(props.currentStatus)}
         </p>
         <Button

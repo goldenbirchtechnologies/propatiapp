@@ -103,51 +103,51 @@ export default function AgentShortLetEarningsClient() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold">Short-let Revenue</h1>
-        <p className="mt-2 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Track earnings, occupancy, and payouts.</p>
+        <h1 className="text-zinc-900 dark:text-white font-bold">Short-let Revenue</h1>
+        <p className="mt-2 text-[10px] font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Track earnings, occupancy, and payouts.</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="glass-card md:col-span-2 bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white relative overflow-hidden">
+        <div className="glass-card md:col-span-2 bg-[#10b981] text-zinc-900 dark:text-white relative overflow-hidden">
           <div className="p-6 p-6 relative z-10">
             <p className="text-xs font-label-sm uppercase tracking-wider opacity-80">Available Revenue</p>
-            <h2 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mt-2">₦12,450,000.00</h2>
+            <h2 className="text-zinc-900 dark:text-white font-bold mt-2">₦12,450,000.00</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Button className="bg-white dark:bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white hover:brightness-110">
+              <Button className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white hover:brightness-110">
                 <Wallet className="h-4 w-4 mr-2" /> Withdraw Earnings
               </Button>
-              <Button variant="outline" className="border-white/20 text-zinc-900 dark:text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900est/10">
+              <Button variant="outline" className="border-white/20 text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900est/10">
                 History
               </Button>
             </div>
           </div>
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 opacity-10 rounded-full blur-3xl" />
+          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-zinc-50 dark:bg-white dark:bg-zinc-900 opacity-10 rounded-full blur-3xl" />
         </div>
 
         <div className="glass-card">
           <div className="p-6 p-6">
             <div className="flex justify-between items-start">
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Occupancy Rate</p>
-              <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded text-xs font-bold border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">+12%</span>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Occupancy Rate</p>
+              <span className="bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded text-xs font-bold border border-zinc-200 dark:border-white/[0.08]">+12%</span>
             </div>
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mt-2">{occupancy}%</h3>
+            <h3 className="text-zinc-900 dark:text-white font-bold mt-2">{occupancy}%</h3>
             <Progress value={occupancy} className="mt-4 h-2" />
-            <p className="text-xs font-label-sm uppercase tracking-wider mt-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Average across 14 properties</p>
+            <p className="text-xs font-label-sm uppercase tracking-wider mt-2 text-zinc-600 dark:text-zinc-400">Average across 14 properties</p>
           </div>
         </div>
 
         <div className="glass-card">
           <div className="p-6 p-6">
-            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Next Payout</p>
-            <h3 className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold mt-2">{nextPayout}</h3>
+            <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Next Payout</p>
+            <h3 className="text-zinc-900 dark:text-white font-bold mt-2">{nextPayout}</h3>
             <div className="flex items-center gap-3 mt-4">
-              <div className="p-2 bg-zinc-50 dark:bg-white dark:bg-white dark:bg-zinc-900 rounded-xl">
+              <div className="p-2 bg-zinc-50 dark:bg-white dark:bg-zinc-900 rounded-xl">
                 <TrendingUp className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
               </div>
               <div>
                 <p className="text-sm font-bold">₦{nextPayoutAmount.toLocaleString()}</p>
-                <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Estimated amount</p>
+                <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Estimated amount</p>
               </div>
             </div>
           </div>
@@ -156,11 +156,11 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Calendar + Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+        <div className="glass-card lg:col-span-2 bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue Forecast</h3>
-              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">May 2024 Bookings</p>
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Revenue Forecast</h3>
+              <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">May 2024 Bookings</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" className="h-8 w-8">
@@ -173,27 +173,27 @@ export default function AgentShortLetEarningsClient() {
           </div>
           <div className="p-6">
             <div className="min-w-[600px] grid grid-cols-7 gap-2">
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">MON</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">TUE</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">WED</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">THU</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">FRI</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">SAT</div>
-              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">SUN</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">MON</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">TUE</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">WED</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">THU</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">FRI</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">SAT</div>
+              <div className="text-center text-xs font-label-sm uppercase tracking-wider py-2 text-zinc-600 dark:text-zinc-400">SUN</div>
               {calendarDays.map((d) => (
                 <div
                   key={d.date}
                   className={cn(
                     'h-24 p-2 rounded-xl border flex flex-col justify-between transition-colors',
-                    d.disabled ? 'bg-[#171717] border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] opacity-40' : 'bg-white dark:bg-white dark:bg-zinc-950/50 border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] hover:border-white cursor-pointer',
-                    d.active ? 'bg-[#10b981] text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : '',
-                    d.peak ? 'bg-white dark:bg-white dark:bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-900 dark:text-white border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]' : ''
+                    d.disabled ? 'bg-[#171717] border-zinc-200 dark:border-white/[0.08] opacity-40' : 'bg-white dark:bg-zinc-950/50 border-zinc-200 dark:border-white/[0.08] hover:border-white cursor-pointer',
+                    d.active ? 'bg-[#10b981] text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]' : '',
+                    d.peak ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border-zinc-200 dark:border-white/[0.08]' : ''
                   )}
                 >
                   <span className="text-xs">{d.date}</span>
                   {d.revenue && (
                     <div>
-                      <span className={cn('text-[10px] font-label-sm uppercase tracking-wider', d.active || d.peak ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : 'text-[#10b981]')}>
+                      <span className={cn('text-[10px] font-label-sm uppercase tracking-wider', d.active || d.peak ? 'text-zinc-900 dark:text-white' : 'text-[#10b981]')}>
                         ₦{(d.revenue / 1000).toFixed(0)}k
                       </span>
                       {(d.active || d.peak) && (
@@ -202,7 +202,7 @@ export default function AgentShortLetEarningsClient() {
                     </div>
                   )}
                   {d.blocked && (
-                    <div className="flex items-center gap-1 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+                    <div className="flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
                       <Wrench className="h-3 w-3" />
                       <span className="text-[10px] font-label-sm uppercase tracking-wider">Blocked</span>
                     </div>
@@ -213,15 +213,15 @@ export default function AgentShortLetEarningsClient() {
           </div>
         </div>
 
-        <div className="glass-card flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] rounded-xl">
-          <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">Revenue Breakdown</h3>
+        <div className="glass-card flex flex-col bg-[rgba(23,23,23,0.4)] backdrop-blur border border-zinc-200 dark:border-white/[0.08] rounded-xl">
+          <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08]">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Revenue Breakdown</h3>
           </div>
           <div className="p-6 space-y-6 flex-1">
             {breakdown.map((item) => (
               <div key={item.label} className="space-y-2">
                 <div className="flex justify-between text-sm font-mono">
-                  <span className={cn('text-xs font-label-sm uppercase tracking-wider', item.value.startsWith('-') ? 'text-zinc-600 dark:text-zinc-600 dark:text-zinc-400' : '')}>
+                  <span className={cn('text-xs font-label-sm uppercase tracking-wider', item.value.startsWith('-') ? 'text-zinc-600 dark:text-zinc-400' : '')}>
                     {item.label}
                   </span>
                   <span className={cn('text-xs font-label-sm uppercase tracking-wider', item.value.startsWith('-') ? 'text-red-500' : '')}>{item.value}</span>
@@ -234,13 +234,13 @@ export default function AgentShortLetEarningsClient() {
                 </div>
               </div>
             ))}
-            <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+            <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-white/[0.08]">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Net Revenue</p>
-                  <p className="text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-zinc-900 dark:text-white font-bold text-[#10b981]">₦12,450,000</p>
+                  <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Net Revenue</p>
+                  <p className="text-zinc-900 dark:text-white font-bold text-[#10b981]">₦12,450,000</p>
                 </div>
-                <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+                <div className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-xs font-bold border border-zinc-200 dark:border-white/[0.08]">
                   VERIFIED
                 </div>
               </div>
@@ -251,15 +251,15 @@ export default function AgentShortLetEarningsClient() {
 
       {/* Recent Completed Stays */}
       <div className="glass-card">
-        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white text-zinc-900 dark:text-zinc-900 dark:text-white">Recent Completed Stays</h3>
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-white/[0.08] pb-4 flex flex-row items-center justify-between">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white text-zinc-900 dark:text-white">Recent Completed Stays</h3>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" /> Download Report
           </Button>
         </div>
         <div className="p-6 overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#171717]/50 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">
+            <thead className="bg-[#171717]/50 text-zinc-600 dark:text-zinc-400">
               <tr>
                 <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Property & Guest</th>
                 <th className="px-4 py-3 text-xs font-label-sm uppercase tracking-wider">Stay Dates</th>
@@ -275,17 +275,17 @@ export default function AgentShortLetEarningsClient() {
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[#171717] flex items-center justify-center shrink-0">
-                        <CalendarDays className="h-5 w-5 text-zinc-600 dark:text-zinc-600 dark:text-zinc-400" />
+                        <CalendarDays className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
                       </div>
                       <div>
                         <p className="text-sm font-bold">{stay.property}</p>
-                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">Guest: {stay.guest}</p>
+                        <p className="text-xs font-label-sm uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Guest: {stay.guest}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-xs font-label-sm uppercase tracking-wider">
                     {stay.dates}
-                    <span className="text-xs font-label-sm uppercase tracking-wider block text-zinc-600 dark:text-zinc-600 dark:text-zinc-400">({stay.nights} nights)</span>
+                    <span className="text-xs font-label-sm uppercase tracking-wider block text-zinc-600 dark:text-zinc-400">({stay.nights} nights)</span>
                   </td>
                   <td className="px-4 py-4 text-sm font-mono">₦{stay.gross.toLocaleString()}</td>
                   <td className="px-4 py-4 text-sm font-label-sm uppercase tracking-wider text-red-500">-₦{stay.serviceFee.toLocaleString()}</td>

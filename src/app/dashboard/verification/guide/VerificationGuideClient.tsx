@@ -26,7 +26,7 @@ const STEPS_BY_TYPE: Record<string, { layer: number; label: string; desc: string
     { layer: 2, label: 'Identity', desc: 'Verify your identity via NIN/BVN. We cross-check with your submitted documents.', icon: Fingerprint, href: '/dashboard/verification/step2/identity' },
     { layer: 3, label: 'Video Walkthrough', desc: 'Record a clear video of the property. Include the QR code at the start.', icon: Video, href: '/dashboard/verification/step3/video' },
     { layer: 4, label: 'Physical Inspection', desc: 'Schedule an agent to physically inspect the property.', icon: ClipboardCheck, href: '/dashboard/verification/step4/inspection' },
-    { layer: 5, label: 'Certification', desc: 'Final admin review. Approved listings receive the Certified badge.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
+    { layer: 5, label: 'Certification', desc: 'Final admin review with NIPOST address cross-reference. Approved listings receive the Certified badge.', icon: ShieldCheck, href: '/dashboard/verification/checklist' },
   ],
   identity: [
     { layer: 1, label: 'Identity Check', desc: 'Complete identity verification via Dojah. This covers NIN/BVN and liveness checks.', icon: Fingerprint, href: '/dashboard/verification/dojah-kyc' },

@@ -35,7 +35,7 @@ export default async function VerificationChecklistPage({
 
   const listing = await prisma.listing.findUnique({
     where: { id: listingId },
-    select: { id: true, title: true, address: true, ownerId: true, verificationTier: true },
+    select: { id: true, title: true, address: true, ownerId: true, verificationTier: true, postalCode: true, state: true, area: true },
   });
 
   if (!listing) {
@@ -93,6 +93,8 @@ export default async function VerificationChecklistPage({
             listingId={listingId}
             verificationId={verification?.id || null}
             title={listing.title}
+            listingPostalCode={listing.postalCode || undefined}
+            listingState={listing.state || undefined}
             currentLayer={verification?.currentLayer || 1}
             overallStatus={verification?.overallStatus || 'not_started'}
             layers={[

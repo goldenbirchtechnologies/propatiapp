@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import { NipostAddressWidget } from '@/components/verification/nipost-address-widget';
 
 type Layer = {
   label: string;
@@ -16,6 +17,8 @@ type Props = {
   listingId: string;
   verificationId: string | null;
   title: string;
+  listingPostalCode?: string;
+  listingState?: string;
   currentLayer: number;
   overallStatus: string;
   layers: Layer[];
@@ -103,6 +106,25 @@ function VerificationChecklistClient(props: Props) {
           </div>
         </div>
       )}
+
+      {/* NIPOST Address Validation Widget */}
+      <div className="glass-card">
+        <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-200 dark:border-white/[0.08]">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-900 dark:text-white">
+            NIPOST Address Validation
+          </h3>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 dark:text-zinc-600 dark:text-zinc-400 mt-1">
+            Cross-reference your property address with the Nigerian Postal Service database.
+          </p>
+        </div>
+        <div className="p-6">
+          <NipostAddressWidget
+            listingId={props.listingId}
+            postalCode={props.listingPostalCode}
+            state={props.listingState}
+          />
+        </div>
+      </div>
 
       <div className="flex justify-end">
         {props.overallStatus === 'certified' ? (
